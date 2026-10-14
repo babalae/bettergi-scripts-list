@@ -4,7 +4,6 @@
   "use strict";
   const T=root.TCG,copy=x=>JSON.parse(JSON.stringify(x));
   const legacyChoose=T.choose;
-  const skillAction=a=>a.type==="skill" || a.type==="card" && ["talent","penance","wedge"].includes(a.id);
   function cardSkill(a,s){
     if(a.type==="skill")return a;
     if(a.type!=="card")return null; // Burning a combat card is not casting it.
@@ -91,36 +90,51 @@
       return next && T.payment(next.remaining,T.skillCost(who,"Q",m,s),T.team[who].element);
     });
   }
-  function damageEstimate(s,m,who,skill){
-    const enemies=s.enemies||[],target=enemies.find(e=>e.active===true && T.alive(e));
-    const infused=who===2&&m.keqingInfusedRound+(m.penance?2:1)>=m.round;
-    let direct=skill==="NA"?2:who===0?(skill==="E"?0:3):skill==="E"?3:who===1?2:4;
-    const elemental=skill!=="NA"&&!(who===0&&skill==="E") || infused;
-    if(direct>0 && m.weapons[who])direct++; // Weapons also buff physical NA, not Raiden E's zero direct hit.
-    if(who===2&&elemental&&m.penance&&infused)direct++;
-    if(skill==="Q" && m.eyeRound+2>=m.round)direct++;
-    const element=T.team[who].element;
-    const aura=target?.auraKnown===true?target.aura:[];
-    let reaction=false,consumed=null,piercing=0,uncertainReaction=false;
-    if(elemental && element==="Electro") {
+  function hitEstimate(base,element,aura,quicken){
+    let direct=base,consumed=null,piercing=0,reaction=false,uncertainReaction=false;
+    if(element==="Electro") {
       if(aura.includes("Pyro")){direct+=2;consumed="Pyro";uncertainReaction=true;}
       else if(aura.includes("Cryo")||aura.includes("Hydro")){
         direct++;piercing=1;consumed=aura.includes("Cryo")?"Cryo":"Hydro";
       } else if(aura.includes("Dendro")){direct++;consumed="Dendro";reaction=true;}
-    } else if(elemental && element==="Dendro") {
+    } else if(element==="Dendro") {
       if(aura.includes("Electro")){direct++;consumed="Electro";reaction=true;}
       else if(aura.includes("Pyro")||aura.includes("Hydro")){
         direct++;consumed=aura.includes("Pyro")?"Pyro":"Hydro";uncertainReaction=true;
       }
     }
-    if(elemental && s.quicken?.known && s.quicken.charges>0)direct++;
-    const perStandby=(who===2&&skill==="Q"?3:0)+piercing;
-    const splash=perStandby*enemies.filter(e=>T.alive(e)&&e!==target).length;
-    return {direct,splash,perStandby,reaction,elemental,element,consumed,uncertainReaction,target};
+    const field=quicken?copy(quicken):null;
+    if(element && field?.known && field.charges>0){direct++;field.charges--;}
+    const auraAfter=!element?aura.slice():consumed?aura.filter(e=>e!==consumed):[...new Set([...aura,element])];
+    return {direct,consumed,piercing,reaction,uncertainReaction,auraAfter,
+      quickenAfter:reaction?{known:true,charges:2}:field};
   }
-  function knownDefeats(s,m,who,skill) {
+  function damageEstimate(s,m,who,skill,equips=false){
+    const enemies=s.enemies||[],target=enemies.find(e=>e.active===true && T.alive(e));
+    const infused=who===2&&m.keqingInfusedRound+(m.penance?2:1)>=m.round;
+    let direct=skill==="NA"?2:who===0?(skill==="E"?0:3):skill==="E"?3:who===1?2:4;
+    const elemental=!!T.skillElement(m,who,skill);
+    if(direct>0 && m.weapons[who])direct++; // Weapons also buff physical NA, not Raiden E's zero direct hit.
+    if(who===2&&elemental&&m.penance&&infused)direct++;
+    if(skill==="Q" && m.eyeRound+2>=m.round)direct++;
+    const element=T.team[who].element;
+    const aura=target?.auraKnown===true&&Array.isArray(target.aura)?target.aura:[],
+      hit=hitEstimate(direct,elemental?element:null,aura,s.quicken),
+      sproutTriggered=T.sproutAvailable(m,who,skill,equips) && T.dendroReaction(s,m,who,skill)===true;
+    // Sprout resolves AFTER the skill. Never attach it to an already defeated
+    // target or invent the opponent's forced replacement choice.
+    const extra=sproutTriggered && target && target.hp>hit.direct?
+      hitEstimate(1,"Dendro",hit.auraAfter,hit.quickenAfter):null;
+    const perStandby=(who===2&&skill==="Q"?3:0)+hit.piercing;
+    const splash=perStandby*enemies.filter(e=>T.alive(e)&&e!==target).length;
+    return {direct:hit.direct+(extra?.direct||0),skillDirect:hit.direct,sproutDamage:extra?.direct||0,
+      sproutTriggered,splash,perStandby,reaction:hit.reaction,elemental,element,consumed:hit.consumed,
+      uncertainReaction:hit.uncertainReaction || extra?.uncertainReaction===true,target,
+      auraAfter:extra?.auraAfter||hit.auraAfter,quickenAfter:extra?.quickenAfter||hit.quickenAfter};
+  }
+  function knownDefeats(s,m,who,skill,equips=false) {
     if(T.enemyCount(s)===null)return 0;
-    const d=damageEstimate(s,m,who,skill);if(!d.target)return 0;
+    const d=damageEstimate(s,m,who,skill,equips);if(!d.target)return 0;
     return (d.target.hp<=d.direct?1:0)+(d.splash?s.enemies.filter(e=>e!==d.target&&T.alive(e)&&e.hp<=d.perStandby).length:0);
   }
   function projected(s,m,a){
@@ -175,7 +189,7 @@
     const cast=cardSkill(a,s);
     if(cast){
       combat=true;const who=cast.who,skill=cast.skill;next.active=who;
-      const d=damageEstimate(s,m,who,skill);
+      const d=damageEstimate(s,m,who,skill,a.type==="card"&&a.id==="talent");
       // Credit HP actually removed, not overkill. Unknown enemy replies and
       // replacement choices end this branch instead of inventing a new target.
       benefit+=(d.target?Math.min(d.target.hp,d.direct):d.direct*.5)*.95;
@@ -190,15 +204,14 @@
           next.enemies[i].hp=Math.max(0,next.enemies[i].hp-d.perStandby);next.enemies[i].dead=next.enemies[i].hp===0;
         }
         if(d.elemental) {
-          if(d.consumed)target.aura=(target.aura||[]).filter(e=>e!==d.consumed);
-          else if(target.auraKnown===true)target.aura=[...new Set([...target.aura,d.element])];
-          else {target.aura=[d.element];target.auraKnown=false;}
+          target.aura=d.auraAfter;
+          if(target.auraKnown!==true)target.auraKnown=false;
         }
       }
       const finished=T.enemyCount(next)===0;
       if(d.uncertainReaction)leaf=true;
       if(m.artifactKinds[who]==="gambler") {
-        const triggers=Math.min(T.gamblerRemaining(m,who),knownDefeats(s,m,who,skill));
+        const triggers=Math.min(T.gamblerRemaining(m,who),knownDefeats(s,m,who,skill,a.type==="card"&&a.id==="talent"));
         next.dice.Omni=Math.min(16-T.total(next.dice)+(next.dice.Omni||0),(next.dice.Omni||0)+2*triggers);
       }
       if(who===0 && skill==="E")benefit+=m.eyeRound+2<m.round?3.8:.4;
@@ -219,8 +232,7 @@
         else if(next.hand.length<10)next.hand.push({index:next.hand.length,id:"wedge",name:T.byId.wedge.name,supported:true});
       }
       if(s.characters[who].hp<=3)benefit-=1.4; // no invented enemy damage or certain survival.
-      if(d.elemental&&next.quicken?.known&&next.quicken.charges>0)next.quicken.charges--;
-      if(d.reaction)next.quicken={known:true,charges:2};
+      if(d.quickenAfter)next.quicken=d.quickenAfter;
     }
     T.commit(mem,a,s,next);
     if(a.type!=="probe")mem.costEvidence=null; // one-board evidence never predicts future reductions.
@@ -314,7 +326,8 @@
         const child=advance(node,a,baseline);if(!child)continue;expanded++;
         const signature=T.boardKey(child.state)+JSON.stringify([child.memory.freeSwitch,child.memory.fastSwitch,
           child.memory.thundergrassSupport,child.memory.artifactKinds,child.memory.gamblerUsed,child.memory.exileUsedRound,
-          child.memory.weapons,child.memory.penance,child.memory.food]);
+          child.memory.weapons,child.memory.penance,child.memory.food,child.memory.talent,
+          child.memory.sproutRound,child.memory.sproutUsedRound,child.memory.sproutUncertainRound]);
         if(!seen.has(signature)||seen.get(signature).value<child.value)seen.set(signature,child);
         if((child.casts>0||child.path[0].type==="card") && preparationUsed(child.path) && betterPlan(child,best))best=child;
       }

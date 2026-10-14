@@ -110,6 +110,7 @@
       food: [false, false, false], normalDiscount: [0, 0, 0],
       freeSwitch: false, fastSwitch: false, artifacts: [false, false, false],
       weapons: [false, false, false], talent: false, uncertainActions: [], defeated: [false,false,false], thundergrassSupport:null,
+      sproutRound:-1,sproutUsedRound:-1,sproutUncertainRound:-1,
       artifactKinds:[null,null,null],exileUsedRound:[-1,-1,-1],gamblerUsed:[0,0,0],
       enemyAliveCount:null,enemyLastActive:null,penance:false,legendUsed:false,
       immuneUntil:[-1,-1,-1],defeatRound:-1,lostUsedRound:-1,blessingUsed:0,costEvidence:null,probeKeys:[] };
@@ -241,6 +242,41 @@
     if (s.active !== who || !alive(s.characters[who]) || s.characters[who].frozen !== false) return false;
     if (action.skill === "Q" && (!known(s.characters[who].energy) || s.characters[who].energy < team[who].maxEnergy)) return false;
     return !!payment(s.dice, skillCost(who, action.skill, m,s), team[who].element);
+  }
+  function skillElement(m,who,skill) {
+    if(skill==="NA")return who===2 && m.keqingInfusedRound+(m.penance?2:1)>=m.round?"Electro":null;
+    return who===0 && skill==="E"?null:team[who].element;
+  }
+  // null means the observed aura cannot settle whether this skill reacts.
+  function dendroReaction(s,m,who,skill) {
+    const element=skillElement(m,who,skill);if(!element)return false;
+    const target=s.enemies?.find(e=>e.active===true && alive(e));
+    if(target?.auraKnown!==true || !Array.isArray(target.aura))return null;
+    const aura=target.aura;
+    if(element==="Electro")return !aura.some(e=>["Pyro","Cryo","Hydro"].includes(e)) && aura.includes("Dendro");
+    return element==="Dendro" && aura.some(e=>["Electro","Pyro","Hydro"].includes(e));
+  }
+  function sproutAvailable(m,who,skill,equips=false) {
+    return (m.talent || equips) && (m.sproutRound===m.round || who===1 && skill==="E") &&
+      m.sproutUsedRound!==m.round && m.sproutUncertainRound!==m.round;
+  }
+  function sproutCast(action) {
+    if(action.type==="skill")return action;
+    if(action.type!=="card")return null;
+    return action.id==="talent"?{who:1,skill:"E"}:
+      ["wedge","penance"].includes(action.id)?{who:2,skill:"E"}:null;
+  }
+  function commitSprout(m,action,before) {
+    const cast=sproutCast(action);if(!cast)return;
+    const equips=action.type==="card" && action.id==="talent",
+      available=sproutAvailable(m,cast.who,cast.skill,equips);
+    // Equipment persists; Sprout and its creation guard last only this round.
+    // Repeated E never restores a used or outcome-unknown trigger.
+    if((m.talent || equips) && cast.who===1 && cast.skill==="E")m.sproutRound=m.round;
+    if(!available)return;
+    const reaction=dendroReaction(before,m,cast.who,cast.skill);
+    if(reaction===true)m.sproutUsedRound=m.round;
+    else if(reaction===null)m.sproutUncertainRound=m.round;
   }
   function intent(s, m) {
     const cs = s.characters;
@@ -628,8 +664,12 @@
     if (!m.uncertainActions) m.uncertainActions = [];
     if (!m.uncertainActions.includes(key)) m.uncertainActions.push(key);
     if (action.type === "card" && byId[action.id]?.type === "food") m.food[action.target] = true;
+    const cast=sproutCast(action);
+    if(cast && sproutAvailable(m,cast.who,cast.skill,action.type==="card"&&action.id==="talent") &&
+        skillElement(m,cast.who,cast.skill))m.sproutUncertainRound=m.round;
   }
   function commit(m, action, before, after=null) {
+    commitSprout(m,action,before);
     // Board layouts shrink after defeats. Count only complete known enemy
     // observations, and attribute a forced-card cast to its actual wearer.
     if(m.enemyAliveCount===null || m.enemyAliveCount===undefined)m.enemyAliveCount=enemyCount(before);
@@ -720,7 +760,10 @@
   }
   function openingContext() { return {}; }
   function openingPlan(cards, original) {
-    const useful=new Set(["woven","voltage","draw","stars","talent","thundergrass","gambler","tassel","raven","sword"]);
+    // This fixed Electro/Dendro team auto-plays the mother blessing from hand
+    // or pile. Mulligan it to keep an ordinary opening card instead of losing
+    // that card slot when the blessing enters the support zone.
+    const useful=new Set(["woven","voltage","draw","stars","talent","gambler","tassel","raven","sword"]);
     const seen=new Set();
     const replace=cards.map(c=>!useful.has(c.id) || (["weapon","artifact","talent","support"].includes(byId[c.id]?.type) && seen.has(c.id)) || !seen.add(c.id));
     return {keep:cards.filter((c,i)=>!replace[i]),replace,duplicateWeapons:[]};
@@ -728,11 +771,11 @@
   root.TCG = { openingContext, openingPlan, team, cards, byId, norm, identify, observedCard, handCardKnown, characterName, total, size, payment, rerollPlan,
     openingSetting, known, alive, freshMemory, nextRound, OpeningFlow, freshActionBoard, skillCost, skillLegal, cardLegal, cardInputError, intent, survivorIntent, followupReachable, switchPreparationReachable, replacement, noteBoard, tuningPlan, legalState, choose, verify, commit, emptyHandEffect, diceOrder,
     indexedHand, handPlan, verifyResynchronized, actionKey, rejectAction, deferUncertain, removalEffect, blessingChoice,boardKey,burnableHand,
-    actionRerollGoal,rerollCounter,enemyCount,gamblerRemaining };
+    actionRerollGoal,rerollCounter,enemyCount,gamblerRemaining,skillElement,dendroReaction,sproutAvailable };
 })(globalThis);
 
-globalThis.TCG.version = "1.0.1";
-globalThis.TCG.sharedVersion = "1.1.1";
+globalThis.TCG.version = "1.1.8";
+globalThis.TCG.sharedVersion = "1.3.2";
 globalThis.TCG.defaultStrategy = "default";
 (function (T) {
   const strategies = new Map();

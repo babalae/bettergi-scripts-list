@@ -19,6 +19,27 @@
   "stableScore": 0.9999,
   "entries": [
     {
+      "id": "calx",
+      "name": "白垩之术",
+      "views": [
+        {
+          "name": "native-61a1bf4b4c-f0",
+          "patches": [
+            "assets/opening/calx-live-61a1bf4b4c-f0-0.png",
+            "assets/opening/calx-live-61a1bf4b4c-f0-1.png"
+          ]
+        },
+        {
+          "name": "native-61a1bf4b4c-f1",
+          "patches": [
+            "assets/opening/calx-live-61a1bf4b4c-f1-0.png",
+            "assets/opening/calx-live-61a1bf4b4c-f1-1.png"
+          ]
+        }
+      ],
+      "scoreFloor": 0.9
+    },
+    {
       "id": "companion",
       "name": "最好的伙伴！",
       "patches": [
@@ -40,6 +61,14 @@
       "patches": [
         "assets/opening/edict-native-0.png",
         "assets/opening/edict-native-1.png"
+      ]
+    },
+    {
+      "id": "exile",
+      "name": "流放者头冠",
+      "patches": [
+        "assets/opening/exile-sampler-20261013-0.png",
+        "assets/opening/exile-sampler-20261013-1.png"
       ]
     },
     {
@@ -83,12 +112,98 @@
       ]
     },
     {
+      "id": "penance",
+      "name": "抵天雷罚",
+      "views": [
+        {
+          "name": "native-d2e526eed6-f0",
+          "patches": [
+            "assets/opening/penance-live-d2e526eed6-f0-0.png",
+            "assets/opening/penance-live-d2e526eed6-f0-1.png"
+          ]
+        },
+        {
+          "name": "native-d2e526eed6-f1",
+          "patches": [
+            "assets/opening/penance-live-d2e526eed6-f1-0.png",
+            "assets/opening/penance-live-d2e526eed6-f1-1.png"
+          ]
+        }
+      ],
+      "scoreFloor": 0.9,
+      "animated": true
+    },
+    {
       "id": "shift",
       "name": "换班时间",
       "patches": [
         "assets/opening/shift-original-0.png",
         "assets/opening/shift-original-1.png"
       ]
+    },
+    {
+      "id": "smoked",
+      "name": "北地烟熏鸡",
+      "views": [
+        {
+          "name": "native-af36c13628-f0",
+          "patches": [
+            "assets/opening/smoked-live-af36c13628-f0-0.png",
+            "assets/opening/smoked-live-af36c13628-f0-1.png"
+          ]
+        },
+        {
+          "name": "native-af36c13628-f1",
+          "patches": [
+            "assets/opening/smoked-live-af36c13628-f1-0.png",
+            "assets/opening/smoked-live-af36c13628-f1-1.png"
+          ]
+        }
+      ],
+      "scoreFloor": 0.87,
+      "animated": true
+    },
+    {
+      "id": "stars",
+      "name": "星天之兆",
+      "views": [
+        {
+          "name": "native-3123c4864d-f0",
+          "patches": [
+            "assets/opening/stars-live-3123c4864d-f0-0.png",
+            "assets/opening/stars-live-3123c4864d-f0-1.png"
+          ]
+        },
+        {
+          "name": "native-3123c4864d-f1",
+          "patches": [
+            "assets/opening/stars-live-3123c4864d-f1-0.png",
+            "assets/opening/stars-live-3123c4864d-f1-1.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "talent",
+      "name": "飞叶迴斜",
+      "views": [
+        {
+          "name": "native-2c298cebc8-f0",
+          "patches": [
+            "assets/opening/talent-live-2c298cebc8-f0-0.png",
+            "assets/opening/talent-live-2c298cebc8-f0-1.png"
+          ]
+        },
+        {
+          "name": "native-2c298cebc8-f1",
+          "patches": [
+            "assets/opening/talent-live-2c298cebc8-f1-0.png",
+            "assets/opening/talent-live-2c298cebc8-f1-1.png"
+          ]
+        }
+      ],
+      "scoreFloor": 0.92,
+      "animated": true
     },
     {
       "id": "toss",
@@ -104,6 +219,14 @@
       "patches": [
         "assets/opening/voltage-native-0.png",
         "assets/opening/voltage-native-1.png"
+      ]
+    },
+    {
+      "id": "woven",
+      "name": "元素共鸣：交织之雷",
+      "patches": [
+        "assets/opening/woven-sampler-20261013-0.png",
+        "assets/opening/woven-sampler-20261013-1.png"
       ]
     }
   ]
