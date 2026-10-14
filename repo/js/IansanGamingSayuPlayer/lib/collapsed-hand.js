@@ -11,9 +11,23 @@
     }
     // BetterGI FindMulti need not expose correlation values: use the central
     // native row, not an off-row art peak. Entire row, not an equal-spaced subset.
-    const firstExpected=CENTER-(groups.length-1)*STEP/2;
+    // Interior artwork can match the edge template. Choose the complete native
+    // grid, not the number of raw peaks; never accept a subset hiding outer edges.
+    const candidates=[];
+    for(let n=1;n<=10;n++){
+      const first=CENTER-(n-1)*STEP/2;
+      // The existing locator allows up to4px whole-row drift plus5px local
+      // jitter. Candidate collection must not narrow that accepted envelope;
+      // the median-row checks below still enforce each bound separately.
+      const selected=Array.from({length:n},(_,i)=>groups.filter(g=>g.some(m=>Math.abs(m.x-first-i*STEP)<=9)));
+      if(selected.some(g=>g.length!==1)||new Set(selected.map(g=>g[0])).size!==n)continue;
+      if(groups.some(g=>g.every(m=>m.x<first-9||m.x>first+(n-1)*STEP+9)))continue;
+      candidates.push(selected.map(g=>g[0]));
+    }
+    if(candidates.length!==1)return {status:groups.length?"unknown":"unavailable",reason:groups.length?"incomplete-or-moved-row":"no-visible-cost-row",count:null,slots:[]};
+    const selected=candidates[0],firstExpected=CENTER-(selected.length-1)*STEP/2;
     const distance=(m,i)=>Math.abs(m.x-firstExpected-i*STEP)+Math.abs(m.y-983);
-    const marks=groups.map((g,i)=>g.slice().sort((a,b)=>distance(a,i)-distance(b,i)||Math.abs(a.y-983)-Math.abs(b.y-983))[0]);
+    const marks=selected.map((g,i)=>g.slice().sort((a,b)=>distance(a,i)-distance(b,i)||Math.abs(a.y-983)-Math.abs(b.y-983))[0]);
     const n=marks.length;
     if(!n)return {status:"unavailable",reason:"no-visible-cost-row",count:null,slots:[]};
     if(n>10)return {status:"unknown",reason:"extra-markers",count:null,slots:[]};
@@ -32,25 +46,42 @@
     if(width!==1920||height!==1080)return {status:"unavailable",reason:"capture-size",count:null,slots:[]};
     return locateRow(matches);
   }
+  function scoreFloor(entry,bank) {
+    if(entry&&entry.scoreFloor!==undefined)return entry.scoreFloor;
+    return bank.scoreFloor;
+  }
   function identify(layout,bank,score) {
     if(layout.status!=="readable")return layout;
+    const views=bank.entries.flatMap(entry=>(entry.views??[{name:"original",patches:entry.patches}]).map(view=>({
+      id:entry.id,name:view.name??"original",scoreFloor:scoreFloor(entry,bank),titleCandidates:entry.titleCandidates,
+      patches:Array.isArray(view.patches)&&view.patches.length===bank.patches.length
+        ?Array.from(view.patches,file=>typeof file==="string"?file:null):[]
+    })));
     return {...layout,slots:layout.slots.map(slot=>{
       // A view owns a complete pair. Never splice the best individual patches
       // of different views; runner-up is another identity, not the same card.
       const identities=new Map();
-      for(const entry of bank.entries){
-        for(const view of entry.views??[{name:"original",patches:entry.patches}]){
-          const scores=Array.isArray(view.patches)&&view.patches.length===bank.patches.length
-            ?bank.patches.map((patch,k)=>typeof view.patches[k]==="string"?score(slot,patch,view.patches[k]):NaN):[];
-          const rank={id:entry.id,view:view.name??"original",scores,
+      for(const view of views){
+          const scores=view.patches.map((file,k)=>file===null?NaN:score(slot,bank.patches[k],file));
+          const rank={id:view.id,view:view.name,scores,scoreFloor:view.scoreFloor,titleCandidates:view.titleCandidates,
             score:scores.length===bank.patches.length&&scores.length>0&&scores.every(Number.isFinite)?Math.min(...scores):-1};
-          if(!identities.has(entry.id)||rank.score>identities.get(entry.id).score)identities.set(entry.id,rank);
-        }
+          if(!identities.has(view.id)||rank.score>identities.get(view.id).score)identities.set(view.id,rank);
       }
       const ranks=[...identities.values()].sort((a,b)=>b.score-a.score);
       const best=ranks[0],gap=best&&ranks[1]?best.score-ranks[1].score:0;
-      const id=best&&best.score>=bank.scoreFloor&&gap>=bank.runnerUpGap?best.id:null;
-      return {...slot,id,score:best?.score??-1,gap,view:best?.view??null,
+      const floor=scoreFloor(best,bank);
+      const accepted=best&&best.score>=floor&&gap>=bank.runnerUpGap;
+      const titleCandidates=accepted?best.titleCandidates:null;
+      const id=accepted&&!titleCandidates?best.id:null;
+      let rejectionReason=null;
+      if(!id){
+        if(titleCandidates)rejectionReason="variant-title";
+        else if(!best)rejectionReason="no-candidate";
+        else if(best.score<floor)rejectionReason="score-floor";
+        else rejectionReason="runner-up-gap";
+      }
+      return {...slot,id,rejectionReason,score:best?.score??-1,gap,view:best?.view??null,
+        ...(titleCandidates?{titleCandidates}:{}),
         candidate:best?.id??null,patchScores:best?.scores??[],
         runnerUp:ranks[1]?{id:ranks[1].id,score:ranks[1].score}:null};
     })};
@@ -58,12 +89,7 @@
   function readCollapsedHand(frame,bank) {
     return identify(locate(frame.width,frame.height,frame.matches()),bank,frame.score);
   }
-  function stable(a,b) {
-    if(a.status!=="readable"||b.status!=="readable"||a.count!==b.count)return null;
-    if(a.slots.some((s,i)=>Math.abs(s.marker.x-b.slots[i].marker.x)>2||Math.abs(s.marker.y-b.slots[i].marker.y)>2))return null;
-    return {...b,slots:b.slots.map((s,i)=>({...s,id:s.id&&s.id===a.slots[i].id?s.id:null})),stableReads:2};
-  }
-  const api={ROI,locate,locateRow,identify,readCollapsedHand,stable};
+  const api={ROI,locate,locateRow,identify,readCollapsedHand};
   root.TCGCollapsedHand=api;
   if(typeof module!=="undefined"&&module.exports)module.exports=api;
 })(globalThis);

@@ -7,19 +7,18 @@
   const INPUT_REFRESHES = ["TCG_OBSERVATION_INTERRUPTED", "TCG_HAND_REFRESH", "TCG_STATE_REFRESH"];
   const BUDGET_FIELDS = [
     "expectedDice",
-    "zeroDiceAllowed",
     "emptyHandProven",
-    "gamblerMayAddDice",
     "gamblerBudget",
   ];
 
   const OPENING_DEFAULT = "优先装备与启动牌";
   function playerOptions(settings = {}) {
   const supplied=settings||{};
-  const options={enemyCount:3,maxMinutes:Number(supplied.maxMinutes||15),
+  const defaultMinutes=TCG.defaultMaxMinutes||15;
+  const options={enemyCount:3,maxMinutes:Number(supplied.maxMinutes||defaultMinutes),
     mulligan:TCG.openingSetting(supplied.mulligan),
     actionEntry:supplied.actionEntry||"禁止从行动页启动"};
-  if(![10,15,20].includes(options.maxMinutes)||
+  if(![10,15,20,defaultMinutes].includes(options.maxMinutes)||
     !["全部保留","优先装备与启动牌"].includes(options.mulligan)||
     !["禁止从行动页启动","确认新开局未行动"].includes(options.actionEntry))throw new Error("设置值无效");
   return options;
@@ -236,7 +235,9 @@
     }
 
     checkStalled(message) {
-      if (Date.now() - this.lastProgress > 60000) throw new Error(message);
+      if (Date.now() >= this.deadline) throw new Error("达到单局时间上限，仍有未恢复的状态");
+      if (Date.now() - this.lastProgress > 60000)
+        this.notice("recovery:" + message, "[等待恢复] " + message.replace(/超时（60秒）/, "暂未读清") + "，继续核对，不重复输入。");
     }
 
     async defer(error, codes, event, message) {
@@ -316,7 +317,14 @@
     async replacement() {
       const host = this.host,
         memory = this.memory;
+      this.readyState = null;
       try {
+        if (host.forcedPickSession) {
+          const after = await host.pick(host.forcedPickSession.target, false);
+          if (after) T.noteBoard(memory, after);
+          this.progress();
+          return;
+        }
         const board = host.board();
         T.noteBoard(memory, board);
         const wanted = T.replacement(board, memory);
@@ -394,7 +402,7 @@
         await sleep(300);
       } catch (error) {
         this.readyState = null;
-        await this.defer(error, BOARD_RETRIES, "observation-deferred", "牌桌识别超时（60秒）");
+        await this.defer(error, [...BOARD_RETRIES, "TCG_HAND_RETRY"], "observation-deferred", "牌桌识别超时（60秒）");
       }
       return null;
     }
@@ -414,8 +422,9 @@
       const host = this.host;
       this.readyState = null;
       Object.assign(host, previousBudget);
-      const after = await host.observe(true, { mode: "full" });
-      if (tune) {
+      if (error.code === "TCG_INPUT_REJECTED") T.rejectAction(this.memory, action);
+      const after = await this.awaitObservation({ mode: "full" });
+      if (tune && error.code === "TCG_TUNE_UNCONFIRMED") {
         if (T.verifyResynchronized(action, state, after, false)) {
           T.commit(this.memory, action, state, after);
           host.trace("confirmed", { action, after, memory: this.memory, source: "tuning-recovery" });
@@ -426,8 +435,9 @@
           log.warn("[调整] 调和结果未能确认，按实际牌面继续，不重复烧牌。");
         }
       } else {
-        T.rejectAction(this.memory, action);
-        this.notice("input-rejected", "[调整] 当前行动未被游戏接受，重新同步后换一种选择。");
+        this.notice("input-rejected", tune
+          ? "[调和] 当前牌未被游戏接受，改用其他牌或行动。"
+          : "[调整] 当前行动未被游戏接受，重新同步后换一种选择。");
         host.trace("native-input-rejected", { action, reason: error.message });
       }
       if (T.legalState(after)) {
@@ -439,35 +449,48 @@
       this.progress();
       return true;
     }
+    async awaitConfirmation(action, before, memory = this.memory) {
+      while (Date.now() < this.deadline) {
+        try { return await this.host.confirm(action, before, memory); }
+        catch (e) {
+          if (!["TCG_CONFIRMATION_RETRY", "TCG_BOARD_RETRY", "TCG_DICE_RETRY", "TCG_HAND_RETRY"].includes(e.code)) throw e;
+          this.notice("pending:" + T.actionKey(action), "[等待恢复] 动作已经提交，继续核对结果，不重复输入。");
+          this.host.trace("confirmation-pending", { action, code: e.code, missing: e.missing, reason: e.message });
+          await sleep(400);
+        }
+      }
+      throw new Error("达到单局时间上限，待确认动作未能安全恢复");
+    }
+    async awaitObservation(plan) {
+      while (Date.now() < this.deadline) {
+        try { return await this.host.observe(true, plan); }
+        catch (e) {
+          await this.defer(e, [...BOARD_RETRIES, "TCG_HAND_RETRY"], "recovery-read-deferred", "牌桌重新同步超时（60秒）");
+        }
+      }
+      throw new Error("达到单局时间上限，实际牌面仍未读清");
+    }
 
     async recoverBeforeConfirmation(error, action, state, previousBudget) {
       const host = this.host;
       this.readyState = null;
       if (await this.recoverRejectedInput(error, action, state, previousBudget)) return;
       if (!INPUT_REFRESHES.includes(error.code)) throw error;
-      if (error.code === "TCG_HAND_REFRESH")
-        this.notice("hand-refresh", "[调整] 手牌发生变化，重新同步后继续。");
-      else if (error.code === "TCG_STATE_REFRESH")
-        this.notice("state-refresh", "[调整] 牌面发生变化，按当前局势重新选择行动。");
       Object.assign(host, previousBudget);
-      host.trace("execution-deferred", {
-        action,
-        phase: error.phase?.phase,
-        turn: error.phase?.turn,
-        code: error.code,
-        reason: String(error.message || error),
-      });
-      // These codes are raised by pre-input guards, before drag/confirmation.
+      host.trace("execution-deferred", { action, phase: error.phase?.phase, turn: error.phase?.turn,
+        code: error.code, reason: String(error.message || error) });
       if (error.code !== "TCG_OBSERVATION_INTERRUPTED") {
-        const plan =
-          error.code === "TCG_HAND_REFRESH"
-            ? { mode: "full" }
-            : { mode: "unchanged", hand: state.hand };
-        const refreshed = await host.observe(true, plan);
-        if (refreshed.phase === "board" && refreshed.turn === "user") {
-          host.adoptObservedState(refreshed, "before-input-resync");
-          this.readyState = refreshed;
-        }
+        this.notice("resync", "[调整] 牌面发生变化，重新同步后继续。");
+          let refreshed;
+          try { refreshed = await host.observe(true, error.code === "TCG_HAND_REFRESH"
+            ? { mode: "full" } : { mode: "unchanged", hand: state.hand });
+          } catch (e) {
+            await this.defer(e, [...BOARD_RETRIES, "TCG_HAND_RETRY"], "execution-resync-deferred", "牌桌重新同步超时（60秒）");
+            return;
+          }
+          if (refreshed.phase === "board" && refreshed.turn === "user" && T.legalState(refreshed)) {
+            host.adoptObservedState(refreshed, "before-input-resync"); this.readyState = refreshed;
+          }
       }
       await sleep(300);
     }
@@ -502,7 +525,7 @@
         return;
       }
       const inputFinished = Date.now();
-      const after = await host.confirm(action, state, memory);
+      const after = await this.awaitConfirmation(action, state, memory);
       host.trace("action-timing", {
         action: T.actionKey(action),
         planningMs,
@@ -570,7 +593,6 @@
           throw new Error("行动页启动需要选择“确认新开局未行动”");
         const board = await host.admitFreshActionBoard();
         host.expectedDice = T.total(board.dice);
-        host.zeroDiceAllowed = false;
         this.actionEntryHandPending = true;
         this.finishOpening();
       }
@@ -606,8 +628,9 @@
             this.reportResult(p);
             return;
           }
-          if (p.phase === "opening") await this.opening();
-          else if (p.phase === "choice") await this.choice();
+          if (this.host.forcedPickSession) await this.replacement();
+          else if (this.host.choiceSession || p.phase === "choice") await this.choice();
+          else if (p.phase === "opening") await this.opening();
           else if (p.phase === "pick") await this.pick();
           else if (p.phase === "roll") await this.roll();
           else if (p.turn === "user") await this.act();

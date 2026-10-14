@@ -169,6 +169,7 @@
       talent: false,
       legendUsed: false,
       openingDraws: 0,
+      openingRevel: false,
       garden: false,
       lyre: 0,
       boar: 0,
@@ -590,6 +591,7 @@
       m.firstCard = false;
       if (m.round === 1 && m.used.every((n) => n === 0) && ["sing", "draw", "revel"].includes(a.id))
         m.openingDraws = (m.openingDraws || 0) + 1;
+      if (m.round === 1 && m.used.every((n) => n === 0) && a.id === "revel") m.openingRevel = true;
       if (c.type === "weapon" || c.type === "artifact") {
         if (m.boar > 0 && (c.type === "weapon" ? m.weapons[target] : m.artifacts[target])) m.boar--;
         let n = Math.max(
@@ -878,7 +880,8 @@
       return true;
     if (id === "house") return ids.some((x) => ["wolf", "moon", "gilded"].includes(x));
     if (id === "lyre") return ids.some((x) => ["troupe", "gilded"].includes(x));
-    if (id === "sing" || id === "revel") return ids.includes("sing") && ids.includes("revel");
+    if (id === "sing" || id === "revel") return true;
+    if (["gambler", "gilded"].includes(id)) return ids.includes("revel");
     return false;
   }
   function openingPlan(hand, original, context = {}) {
@@ -1013,8 +1016,8 @@
   };
 })(globalThis);
 
-globalThis.TCG.version = "1.0.1";
-globalThis.TCG.sharedVersion = "1.1.1";
+globalThis.TCG.version = "1.1.8";
+globalThis.TCG.sharedVersion = "1.3.2";
 globalThis.TCG.defaultStrategy = "default";
 (function (T) {
   const strategies = new Map();

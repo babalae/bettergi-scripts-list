@@ -11,10 +11,15 @@
     nodes: 1800,
     equipment: 450,
     funding: 450,
+    boundary: 120,
   });
   const INPUT_EFFORT = Object.freeze({ end: 0, card: 0.1, tune: 0.08, switch: 0.12, skill: 0.035 });
+  // Compare combat resolutions, not input depth. Sayu E occupies two slots
+  // (initial hit + prepared hit); fast equipment/tuning occupies none.
+  const PAYOFF_WINDOW = 3;
   // The played card leaves the hand before two draws enter (maximum ten).
   const drawBenefit = (count) => 0.325 * Math.max(0, Math.min(2, 11 - count));
+  const openingDrawLimit = (m) => m.singCharges > 0 ? 3 : 2;
 
   function uniqueGoals(goals) {
     const seen = new Set();
@@ -142,15 +147,97 @@
       i !== s.active && T.alive(c) && !c.frozen &&
       c.hp >= current.hp + 3 && c.hp > pressure ? [i] : []);
   }
-  function exposureRisk(s, m) {
+  function exposureRisk(s, m, prior = 0) {
     if (!T.enemyCount(s) || !coverTargets(s, m).length) return 0;
-    const who = s.active, hp = s.characters[who].hp, pressure = pressureEstimate(m),
+    const who = s.active, pressure = pressureEstimate(m),
+      hp = s.characters[who].hp - prior * pressure,
       risk = Math.max(0, Math.min(1, (pressure + 2 - hp) / 2)),
       value = 2.5 + (m.weaponKinds[who] === "wolf" ? 3 : m.weapons[who] ? 1 : 0) +
         (who === 2 && m.talent ? 1 : 0) + (who === 0 && m.nightsoulEstimate > 0 ? 1.5 : 0);
     // Preserve equipped output/support when a healthy cover exists. With no
     // cover, the guide's sacrifice/last-character relay remains available.
     return risk * value;
+  }
+  function preparedReliability(s, m, prior = 0) {
+    // One opponent reply precedes the prepared hit. This allowance is only
+    // a scoring heuristic; never write imagined damage into observed HP.
+    const reserve = s.characters[s.active].hp - (prior + 1) * pressureEstimate(m);
+    return reserve > pressureEstimate(m) ? 0.65 : reserve > 0 ? 0.35 : 0.15;
+  }
+  const DAMAGE_VALUE = 0.7, DEFEAT_VALUE = 1.8, DIE_VALUE = 0.18;
+  const enemyHealth = s => (s.enemies || []).filter(T.alive).reduce((n, e) => n + e.hp, 0);
+  function summonValue(s, m) {
+    if (!m.sayuSummon || !T.enemyCount(s)) return 0;
+    const injured = s.characters.flatMap((c, i) => T.alive(c) ? [{
+      missing: Math.max(0, T.team[i].maxHp + (m.extraMaxHp[i] || 0) - c.hp),
+      // A threatened active role may not reach the end phase. A healthy
+      // injured teammate still benefits; no hypothetical switch is required.
+      confidence: i === s.active && c.hp <= pressureEstimate(m) ? 0.25 : 1,
+    }] : []).sort((a, b) => b.missing - a.missing);
+    let value = 0;
+    const shadow = copy(s);
+    for (let i = 0; i < m.sayuSummon; i++) {
+      if (!T.enemyCount(shadow)) break;
+      const target = injured[0], heal = Math.min(2, target?.missing || 0);
+      // First end phase and next round are different horizons. Neither can
+      // prove an immediate kill/heal/refund or sustain a current continuation.
+      // Only the first phase can use the currently known aura. Later opponent
+      // actions may change it; don't multiply today's swirl by both usages.
+      const r = reaction("Anemo", i === 0 && enemy(shadow)?.auraKnown ? enemy(shadow).aura : []),
+        hit = applyDamage(shadow, { direct: 1 + r.bonus,
+          reaction: r, element: "Anemo", elemental: true });
+      value += (hit.dealt * DAMAGE_VALUE + hit.kills * DEFEAT_VALUE +
+        heal * (target?.confidence || 0) * 0.65) * (i === 0 ? 0.55 : 0.3);
+      if (target) target.missing -= heal;
+      injured.sort((a, b) => b.missing - a.missing);
+    }
+    return value;
+  }
+  function summonBenefit(s, m) {
+    // Replacing one existing usage adds the later phase, not another first heal.
+    return summonValue(s, { ...m, sayuSummon: 2 }) - summonValue(s, m);
+  }
+  function effectValue(s, m, exposures = [0, 0, 0]) {
+    const hp = enemyHealth(s), support = s.characters[0];
+    if (!hp) return 0;
+    // Kinetic: +2 for two usages. Night points extend these usages, but are
+    // hidden estimates, so only a quarter of their potential is banked.
+    const night = T.alive(support) ? (m.nightsoulEstimate || 0) * 0.25 : 0,
+      kinetic = Math.min(hp, 2 * (m.kineticEstimate + (m.kineticEstimate ? night : 0))) *
+        DAMAGE_VALUE * 0.55;
+    let readyBurst = 0;
+    if (m.weaponKinds[0] === "moon" && m.used[1] + m.used[2] === 0 &&
+        T.alive(support) && !support.frozen && support.energy === 2 && !m.iansanBurst) {
+      const reserve = support.hp - exposures[0] * pressureEstimate(m),
+        confidence = reserve > pressureEstimate(m) ? 0.55 : reserve > 0 ? 0.25 : 0,
+        activation = 3 * DIE_VALUE + 0.15 + INPUT_EFFORT.skill +
+          (s.active === 0 ? 0 : T.size(T.switchCost(m)) * DIE_VALUE + 0.15 + INPUT_EFFORT.switch);
+      // Ready energy unlocks a future Q. Value only its guaranteed two +2
+      // usages, less its activation cost; future dice are NOT made available.
+      readyBurst = Math.max(0, Math.min(hp, 4) * DAMAGE_VALUE - activation) * confidence;
+    }
+    return kinetic + readyBurst + summonValue(s, m);
+  }
+  function outputProtectionValue(s, m, who = s.active) {
+    const local = { ...m, kineticEstimate: 0 }, e = damageEstimate(s, local, who, "E"),
+      second = e.prepared || damageEstimate(s, local, who, "NA").direct;
+    return Math.min(enemyHealth(s), e.direct + second) * DAMAGE_VALUE +
+      (who === 2 && m.talent ? 0.65 : 0);
+  }
+  function roundBoundaryRisk(s, m) {
+    if (!T.enemyCount(s) || activeOutputReachable(s, m)) return 0;
+    const c = s.characters[s.active], pressure = pressureEstimate(m),
+      reserve = c.hp - 2 * pressure,
+      risk = Math.max(0, Math.min(1, (pressure + 2 - reserve) / 2));
+    // End phase + next opener, not a claimed damage amount. Existing equipment
+    // determines how much output is at stake; no simulated HP is published.
+    return risk * outputProtectionValue(s, m) * 0.35;
+  }
+  function endCoverTargets(s, m) {
+    if (!T.payment(s.dice, T.switchCost(m)) ||
+        activeOutputReachable(s, m) || roundBoundaryRisk(s, m) === 0) return [];
+    return s.characters.flatMap((c, i) => i !== s.active && T.alive(c) && !c.frozen &&
+      c.hp > s.characters[s.active].hp && c.hp > pressureEstimate(m) ? [i] : []);
   }
   function followupReachable(s, m, g) {
     if (!g || !T.alive(s.characters[g.who]) || s.characters[g.who].frozen ||
@@ -266,6 +353,8 @@
     const weapon = m.weapons[who] ? (wolf && e?.hp <= 6 ? 3 : 1) : 0,
       skillBonus = who === 1 && skill === "E" && m.manchai > 0 ? 1 : 0,
       buff = m.kineticEstimate > 0 ? 2 : 0,
+      preparedBuff = m.kineticEstimate > 1 ||
+        (m.kineticEstimate > 0 && m.nightsoulEstimate > 0) ? 2 : 0,
       soup = m.soupDamage[who] > 0 ? 1 : 0;
     const direct = base + weapon + skillBonus + buff + soup + r.bonus;
     const preparedElement = r.spread || "Anemo";
@@ -273,7 +362,7 @@
       who === 2 && skill === "E"
         ? 2 +
           (m.weapons[who] ? (wolf && e?.hp - direct <= 6 ? 3 : 1) : 0) +
-          buff +
+          preparedBuff +
           (m.soupDamage[who] > 1 ? 1 : 0)
         : 0;
     const splash =
@@ -286,6 +375,7 @@
       soup,
       direct,
       prepared,
+      preparedBuff,
       preparedElement,
       splash,
       swirl: !!r.spread,
@@ -421,7 +511,8 @@
       wanted = intent(s, m),
       carry = outputRole(s, m),
       n = T.total(s.dice);
-    const covers = coverTargets(s, m).filter((target) => retreatNeeded(s, m, target));
+    const covers = coverTargets(s, m).filter((target) => retreatNeeded(s, m, target))
+      .concat(endCoverTargets(s, m));
     const add = (x) => {
       if (!m.uncertainActions.includes(T.actionKey(x))) out.push(x);
     };
@@ -479,7 +570,7 @@
           ["sing", "draw", "revel"].includes(h.id) &&
           m.round === 1 &&
           m.used.every((n) => n === 0) &&
-          (m.openingDraws || 0) >= 2
+          (m.openingRevel || (m.openingDraws || 0) >= openingDrawLimit(m))
         )
           continue;
         if (h.id === "revel" && s.hand.length > 8)
@@ -529,6 +620,10 @@
     if (!pay) return null;
     next.dice = pay.remaining;
     let benefit = 0,
+      prepared = 0,
+      deferred = 0,
+      boundary = null,
+      unknownDraw = false,
       combat = false,
       leaf = false;
     if (a.type === "end") {
@@ -558,6 +653,8 @@
       next.active = a.target;
       combat = !m.fastSwitch;
       benefit = -0.15 + (retreatNeeded(s, m, a.target) ? 0.8 : 0);
+      if (endCoverTargets(s, m).includes(a.target))
+        benefit += Math.max(0, roundBoundaryRisk(s, m) - roundBoundaryRisk(next, mem));
       benefit += passiveHealing(s, m, a) * 0.65;
       if (a.target === 1 && m.gamingReturn) {
         const d = damageEstimate(next, m, 1, "P");
@@ -582,7 +679,6 @@
       ) {
         next.dice.Omni = (next.dice.Omni || 0) + 1;
       }
-      if (a.id === "garden") benefit = 0; // reward only a realised subsequent discount
       if (a.id === "lyre") {
         const returned = T.byId[m.artifactKinds[a.target]];
         next.hand.push({
@@ -591,12 +687,7 @@
           name: returned.name,
           supported: true,
         });
-        benefit = 0;
       }
-      if (a.id === "boar") benefit = 0;
-      if (a.id === "house") benefit = 0;
-      if (a.id === "opera") benefit = 0; // unknown opponent equipment is not a guaranteed return
-      if (a.id === "shift" || a.id === "fast") benefit = 0;
       if (a.id === "companion") next.dice.Omni = (next.dice.Omni || 0) + 2;
       if (a.id === "lost") {
         next.dice.Omni = (next.dice.Omni || 0) + 1;
@@ -650,7 +741,6 @@
         n = T.enemyCount(s),
         carry = outputRole(s, m);
       combat = true;
-      let delayed = 0;
       const healing = who === 2 && skill === "E" ? passiveHealing(s, m, a) : 0;
       const { dealt, kills } = applyDamage(next, d);
       if (d.prepared) {
@@ -658,13 +748,13 @@
           r = reaction(d.preparedElement, future?.auraKnown ? future.aura : []);
         // Opponent gets an action between hits. No instant prepared kill,
         // Gambler refund or subsequent free manual E in this projected node.
-        const reliability = next.characters[2].hp <= pressureEstimate(m) ? 0.35 : 0.65;
-        delayed =
-          (future ? Math.min(future.hp, d.prepared + r.bonus) : d.prepared * 0.5) *
-          reliability *
-          0.7;
-        if (d.preparedElement === "Anemo" && r.spread)
-          delayed += Math.max(0, T.enemyCount(next) - 1) * reliability * 0.7;
+        const shadow = copy(next),
+          weapon = m.weapons[who] ? (m.weaponKinds[who] === "wolf" && future?.hp <= 6 ? 3 : 1) : 0,
+          direct = 2 + weapon + d.preparedBuff + (m.soupDamage[who] > 1 ? 1 : 0) + r.bonus,
+          hit = future ? applyDamage(shadow, { direct, reaction: r,
+            element: d.preparedElement, elemental: true }) : { dealt: 0, kills: 0 };
+        prepared = hit.dealt * DAMAGE_VALUE + hit.kills * DEFEAT_VALUE;
+        boundary = { kind: "prepared", state: shadow };
         leaf = true;
       }
       if (kills && m.artifactKinds[who] === "gambler")
@@ -672,7 +762,6 @@
       benefit =
         dealt * 0.7 +
         kills * 1.8 +
-        delayed +
         healing * 0.65 +
         (who === carry && skill === "E" ? 0.4 : 0);
       if (a.id === "talent") benefit += m.talent ? 0.25 : 1.1;
@@ -682,25 +771,14 @@
       ) {
         // Unknown draw identities must not become future playable cards.
         leaf = true;
+        unknownDraw = true;
         benefit += 0.6;
       }
       if (who === 0 && skill === "E" && m.used[0] === 0) benefit += 2;
-      if (who === 0 && skill === "Q" && !m.iansanBurst)
-        benefit +=
-          (next.enemies || []).filter(T.alive).reduce((n, x) => n + x.hp, 0) > 6 ? 2.2 : 0.6;
+      // Iansan Q is valued through the remaining Kinetic effect ledger, not
+      // an entry bonus counted again when the subsequent skills deal damage.
       if (who === 1 && skill === "Q" && m.manchai === 0) benefit += 2;
-      if (who === 2 && skill === "Q") {
-        const missing = Math.max(
-          0,
-          ...s.characters.map((c, i) =>
-            T.alive(c) ? T.team[i].maxHp + (m.extraMaxHp[i] || 0) - c.hp : 0,
-          ),
-        );
-        // Two end phases, no immediate heal. Replacing an existing summon
-        // only gains the missing usages, not a second concurrent summon.
-        const uses = Math.max(0, 2 - m.sayuSummon);
-        benefit += Math.min(2 * uses, missing) * 0.55 + uses * 0.4;
-      }
+      if (who === 2 && skill === "Q") deferred = summonBenefit(s, m);
       if (who === 2 && skill === "E" && original?.auraKnown && original.aura.length === 0 && n >= 3)
         benefit -= 0.9;
       next.characters[who].energy =
@@ -720,7 +798,9 @@
     T.commit(mem, a, s, next, { projected: true });
     // Combat gives the opponent an opportunity; delayed Q healing cannot
     // cancel exposure now. Do not write imagined damage into character HP.
-    if (combat) benefit -= exposureRisk(next, mem);
+    const payoff = { immediate: benefit, prepared, deferred };
+    benefit += prepared * preparedReliability(s, m) * 0.91 + deferred;
+    if (combat && T.enemyCount(next) > 0) benefit -= exposureRisk(next, mem);
     // A threatened frontline may not get the next input. Keep its immediate
     // payoff in the comparison, but do not finance it with a later retreat,
     // return or delayed heal that assumes it survived the opponent's reply.
@@ -728,7 +808,10 @@
         next.characters[next.active].hp <= pressureEstimate(mem)) leaf = true;
     if (T.total(next.dice) > 16) return null;
     if (T.enemyCount(s) > 0 && T.enemyCount(next) === 0) leaf = true;
-    return { state: next, memory: mem, benefit, combat, leaf };
+    if (!boundary && unknownDraw && T.enemyCount(next) > 0 &&
+        !(exposureRisk(next, mem) > 0 && next.characters[next.active].hp <= pressureEstimate(mem)))
+      boundary = { kind: "unknown-draw", state: next };
+    return { state: next, memory: mem, benefit, combat, leaf, payoff, boundary };
   }
   function terminalFinisher(s, m) {
     if (!T.legalState(s) || !(T.enemyCount(s) > 0)) return null;
@@ -754,7 +837,7 @@
     );
     return hits[0] || null;
   }
-  function evaluation(s, m) {
+  function evaluation(s, m, exposures) {
     // Exposure is charged at the combat opportunity in simulate, not again
     // as an endpoint rebate for switching to a healthy role.
     let value = T.total(s.dice) * 0.18;
@@ -762,7 +845,7 @@
       if (T.alive(s.characters[i])) value += s.characters[i].energy * 0.18;
     if (m.garden) value += 0.05;
     if (m.lyre) value += 0.05;
-    return value;
+    return value + effectValue(s, m, exposures);
   }
   function fundedSkill(s, m, g, step) {
     if (
@@ -914,63 +997,46 @@
       !T.alive(s.characters[0]) ||
       s.characters[0].frozen ||
       s.characters[0].hp < 8 ||
-      (m.openingDraws || 0) >= 2
+      m.openingRevel || (m.openingDraws || 0) >= openingDrawLimit(m)
     )
       return null;
     const sing = s.hand.find((h) => h.id === "sing"),
+      draw = s.hand.find((h) => h.id === "draw"),
       revel = s.hand.find((h) => h.id === "revel");
     const entering = !!sing && m.singCharges === 0 && (m.openingDraws || 0) === 0,
-      continuing = m.singCharges === 2 && (m.openingDraws || 0) === 1;
-    if (
-      !revel ||
-      (!entering && !continuing) ||
-      (entering && s.hand.length > 7) ||
-      (continuing && s.hand.length > 8)
-    )
-      return null;
+      continuing = m.singCharges === 2 && [1, 2].includes(m.openingDraws);
+    if (!entering && !continuing) return null;
     const counts = s.hand.reduce((r, h) => {
         const type = T.byId[h.id]?.type;
         if (type) r[type] = (r[type] || 0) + 1;
         return r;
       }, {}),
-      floor = (counts.weapon >= 2 ? 1 : 0) + (counts.artifact >= 2 ? 1 : 0);
-    if (!floor) return null;
-    let local = copy(s),
-      mem = copy(m),
-      first = null;
-    if (entering) {
-      first = { type: "card", id: "sing", index: sing.index, target: null };
-      if (!T.cardLegal(local, first, mem) || mem.uncertainActions.includes(T.actionKey(first)))
-        return null;
-      const p = simulate(local, mem, first);
-      local = p.state;
-      mem = p.memory;
+      floor = (counts.weapon >= 2 ? 1 : 0) + (counts.artifact >= 2 ? 1 : 0),
+      gear = (counts.weapon || 0) + (counts.artifact || 0),
+      candidates = entering ? [sing] : [
+        ...(m.openingDraws === 1 && draw ? [draw] : []),
+        ...(revel && gear >= 2 ? [revel] : []),
+      ];
+    for (const h of candidates) {
+      if (!h || s.hand.length > (h.id === "sing" ? 7 : 9)) continue;
+      const a = { type: "card", id: h.id, index: h.index, target: null };
+      if (!T.cardLegal(s, a, m) || m.uncertainActions.includes(T.actionKey(a))) continue;
+      const p = simulate(s, m, a);
+      // Only this ONE draw is chosen. Pay first, then reserve a known-funded
+      // Iansan E. Never borrow identities/refunds from its unknown new cards.
+      if (!p || !fundedSkill(p.state, p.memory, { who: 0, skill: "E" }, simulate)) continue;
+      return {
+        ...a, route: "欢唱轴",
+        reason: h.id === "sing"
+          ? "先欢唱过牌并保留已知启动预算，不要求狂欢或装备对提前齐全；抽到什么再重算"
+          : h.id === "draw"
+            ? "欢唱后先用现有运筹铺垫，仍保留战技预算；不猜抽牌和狂欢返骰"
+            : "至少两张实际装备允许狂欢搏上限；只用已知返骰下界保留战技预算，随后转输出",
+        search: { nodes: 0, value: 0, sequence: [a],
+          knownRefundFloor: h.id === "revel" ? floor : 0, unknownDraws: true },
+      };
     }
-    const a = {
-      type: "card",
-      id: "revel",
-      index: local.hand.findIndex((h) => h.id === "revel"),
-      target: null,
-    };
-    if (!T.cardLegal(local, a, mem) || mem.uncertainActions.includes(T.actionKey(a))) return null;
-    const p = simulate(local, mem, a);
-    // Budget-only lower bound: existing cards/refund must still pay an E.
-    // Do not add unknown drawn cards or return a sequence across either draw.
-    if (!fundedSkill(p.state, p.memory, { who: 0, skill: "E" }, simulate)) return null;
-    return {
-      ...(first || a),
-      route: "欢唱轴",
-      reason: entering
-        ? "五张可见牌已有欢唱、狂欢及同类装备对；仅按已知返骰下界保留启动预算，抽牌后重算"
-        : "欢唱已确认，实际新手牌仍可先付狂欢并保留启动预算；只接续一次，不猜新抽牌",
-      search: {
-        nodes: 0,
-        value: 0,
-        sequence: [first || a],
-        knownRefundFloor: floor,
-        unknownDraws: true,
-      },
-    };
+    return null;
   }
   function plan(s, m, options = {}) {
     const direct = terminalFinisher(s, m);
@@ -988,12 +1054,15 @@
       width = options.width || SEARCH_LIMITS.width,
       maxNodes = SEARCH_LIMITS.nodes;
     let frontier = [{ state: s, memory: m, path: [], score: 0, combat: 0,
-        relay: pendingRelay(s, m), exposures: [0, 0, 0] }],
+        relay: pendingRelay(s, m), exposures: [0, 0, 0], risk: 0 }],
       best = null,
       expanded = 0,
       completionNodes = 0,
-      equipmentNodes = 0;
+      equipmentNodes = 0,
+      boundaryNodes = 0;
+    const boundaryCache = new Map();
     const start = evaluation(s, m), objective = battleObjective(s, m),
+      window = PAYOFF_WINDOW,
       seen = new Map();
     const effort = (path) =>
       path.reduce((total, action) => total + (INPUT_EFFORT[action.type] ?? 0.035), 0);
@@ -1011,11 +1080,11 @@
     };
     const valueOf = (node) =>
       node.score +
-      evaluation(node.state, node.memory) -
+      evaluation(node.state, node.memory, node.exposures) -
       start -
       0.15 * node.combat -
       effort(node.path) -
-      outputDelay(node.path) -
+      outputDelay(node.path) + (node.boundaryValue || 0) -
       0.02 *
         Math.max(
           0,
@@ -1028,7 +1097,7 @@
       // Keep unfinished relay prefixes in the beam, but never select them as
       // payoff. Bare NA must actually reach E/Q, finish a target, add damage,
       // or unlock output that the former active role could not afford.
-      if (node.idleRelay || node.unsurvivable || (!terminal && node.fragileContinuation) ||
+      if (node.combat > window || node.idleRelay || node.unsurvivable || (!terminal && node.fragileContinuation) ||
           (node.relay && !node.relay.cover)) return -Infinity;
       const supportActions = node.path.filter((a) => a.type === "skill" && a.who === 0).length;
       if (
@@ -1051,7 +1120,13 @@
               (node.combat < best.combat ||
                 (node.combat === best.combat &&
                   effort(node.path) < effort(best.sequence))));
-        else better = value > best.value;
+        else {
+          // A negligible heuristic gain cannot justify another threatened
+          // combat opportunity. This margin applies to any action type.
+          const close = Math.abs(value - best.value) <= 0.1 && node.combat !== best.combat &&
+            (node.risk > 0 || best.risk > 0);
+          better = close ? node.combat < best.combat : value > best.value;
+        }
       }
       if ((terminal || value > 0) && better)
         best = {
@@ -1060,6 +1135,9 @@
           value,
           terminal,
           combat: node.combat,
+          risk: node.risk || 0,
+          window,
+          boundaryPayoff: node.boundaryPayoff || null,
         };
       return value;
     };
@@ -1070,7 +1148,10 @@
       if (a.type === "switch")
         relay = a.target === 1 && node.memory.gamingReturn ? null : {
           target: a.target,
-          cover: retreatNeeded(node.state, node.memory, a.target),
+          // Replan end cover on the exhausted observed board. Do not fund a
+          // speculative cover now by spending cards before available damage.
+          cover: retreatNeeded(node.state, node.memory, a.target) ||
+            (!activeOutputReachable(s, m) && endCoverTargets(node.state, node.memory).includes(a.target)),
           allowNA: !activeOutputReachable(node.state, node.memory),
         };
       const who = a.type === "skill" ? a.who : a.type === "card" && a.id === "talent" ? 2 : null;
@@ -1102,18 +1183,35 @@
       // Count opponent opportunities across the ENTIRE proposed chain, not
       // just support skills. These are risk allowances, never observed HP.
       // In particular, a paid switch also spends one exposure before its task.
-      if (p.combat && T.enemyCount(p.state) > 0) exposures[p.state.active]++;
+      const prepared = p.payoff?.prepared > 0 && node.combat + 1 < window;
+      if (p.combat && T.enemyCount(p.state) > 0)
+        exposures[p.state.active] += prepared ? 2 : 1;
       // Do not reward empty preparations for merely making room for a random
       // draw. Useful refunds/damage still count, and a fresh real state can
       // reassess its new capacity after those actions actually happen.
-      const benefit = a.type === "card" && a.id === "draw"
-        ? Math.min(p.benefit, drawBenefit(s.hand.length)) : p.benefit;
-      return {
+      let benefit = p.payoff?.immediate ?? p.benefit;
+      if (a.type === "card" && a.id === "draw") benefit = Math.min(benefit, drawBenefit(s.hand.length));
+      if (prepared) {
+        const confidence = preparedReliability(node.state, node.memory, node.exposures[node.state.active]);
+        // The conditional hit can consume the enemy health/defeat that an
+        // outstanding summon also values. Share that health on the shadow
+        // board instead of banking both outcomes for the same target.
+        const effects = effectValue(p.boundary.state, p.memory, exposures) -
+          effectValue(p.state, p.memory, exposures);
+        benefit += (p.payoff.prepared + effects) * confidence * 0.91;
+      }
+      // Outstanding Q/summon effects are credited once in endpoint evaluation.
+      // Their realised damage removes the corresponding potential value.
+      const risk = p.combat && T.enemyCount(p.state) > 0
+        ? exposureRisk(p.state, p.memory, node.exposures[p.state.active]) : 0;
+      benefit -= risk;
+      const child = {
         state: p.state,
         memory: p.memory,
         path: node.path.concat(a),
         score: node.score + benefit * 0.91 ** node.combat,
-        combat: node.combat + (p.combat ? 1 : 0),
+        combat: node.combat + (p.combat ? 1 : 0) + (prepared ? 1 : 0),
+        risk: (node.risk || 0) + risk,
         relay,
         idleRelay,
         exposures,
@@ -1121,7 +1219,51 @@
         fragileContinuation: node.fragileContinuation ||
           (p.combat && guarded && allowance <= pressureEstimate(node.memory)),
       };
+      if (p.boundary && child.combat < window) valueBoundary(child, p.boundary);
+      return child;
     };
+    function valueBoundary(node, boundary) {
+      // Value-only continuation, never an executable sequence across a draw or
+      // automatic skill. Only existing cards/dice can pay; no delayed refunds.
+      const local = copy(boundary.state), mem = copy(node.memory),
+        prior = Math.max(0, node.exposures[local.active] - 1),
+        confidence = preparedReliability(local, mem, prior),
+        slots = window - node.combat;
+      for (const e of local.enemies || []) e.auraKnown = false;
+      const base = evaluation(local, mem, node.exposures);
+      const key = T.boardKey(local) + JSON.stringify(mem) +
+        JSON.stringify([node.exposures, slots, boundary.kind]);
+      if (boundaryCache.has(key)) {
+        node.boundaryPayoff = boundaryCache.get(key);
+        node.boundaryValue = node.boundaryPayoff.value;
+        return;
+      }
+      let bestValue = 0, sequence = [];
+      for (const skill of ["NA", "E", "Q"]) {
+        const p = fundedSkill(local, mem, { who: local.active, skill }, (s, m, a) => {
+          if (boundaryNodes >= SEARCH_LIMITS.boundary || expanded >= maxNodes) return null;
+          boundaryNodes++; expanded++;
+          return simulate(s, m, a);
+        });
+        if (!p) continue;
+        let benefit = 0;
+        for (let i = 0; i < p.path.length; i++) {
+          const q = p.parts[i], before = i ? p.parts[i-1].memory : mem;
+          benefit += (q.payoff?.immediate ?? q.benefit) - INPUT_EFFORT[p.path[i].type];
+          if (q.combat) benefit -= 0.15 + exposureRisk(q.state, q.memory, node.exposures[local.active]);
+          if (slots > 1 && q.payoff?.prepared) benefit += q.payoff.prepared *
+            preparedReliability(local, before, node.exposures[local.active]) * 0.91;
+        }
+        const exposures = node.exposures.slice(); exposures[local.active]++;
+        const value = (benefit + evaluation(p.state, p.memory, exposures) - base) *
+          confidence * 0.91 ** node.combat;
+        if (value > bestValue) { bestValue = value; sequence = p.path; }
+      }
+      node.boundaryValue = bestValue;
+      node.boundaryPayoff = { kind: boundary.kind, confidence, slots, value: bestValue,
+        knownOnly: true, sequence };
+      boundaryCache.set(key, node.boundaryPayoff);
+    }
     const equipmentStep = (local, mem, a) => {
       if (equipmentNodes >= SEARCH_LIMITS.equipment || expanded >= maxNodes) return null;
       equipmentNodes++;
@@ -1129,6 +1271,7 @@
       return simulate(local, mem, a);
     };
     function equipmentPayoff(node, equippedTarget) {
+      if (node.combat >= window) return;
       const who = node.state.active,
         carry = outputRole(node.state, node.memory),
         goals = [
@@ -1144,7 +1287,7 @@
         let paid = node;
         for (let i = 0; i < p.path.length; i++) paid = append(paid, p.path[i], p.parts[i]);
         consider(paid);
-        if (p.parts[p.parts.length - 1].leaf) continue;
+        if (p.parts[p.parts.length - 1].leaf || paid.combat >= window) continue;
         // Iansan's setup may fund a carry relay or the legal EAQ burst.
         for (const follow of [
           { who: carry, skill: "E" },
@@ -1157,7 +1300,7 @@
           for (let i = 0; i < q.path.length; i++) done = append(done, q.path[i], q.parts[i]);
           consider(done);
           if (
-            !q.parts[q.parts.length - 1].leaf &&
+            done.combat < window && !q.parts[q.parts.length - 1].leaf &&
             done.state.active === 0 &&
             T.skillLegal(done.state, { who: 0, skill: "Q" }, done.memory) &&
             !done.memory.uncertainActions.includes("skill:0:Q")
@@ -1175,7 +1318,7 @@
     function equipmentBundles(seed) {
       const visited = new Set();
       function visit(node, level) {
-        if (equipmentNodes >= SEARCH_LIMITS.equipment) return;
+        if (node.combat >= window || equipmentNodes >= SEARCH_LIMITS.equipment) return;
         const key = T.boardKey(node.state) + JSON.stringify(node.memory) +
           JSON.stringify([node.relay, node.exposures]) + level;
         if (visited.has(key)) return;
@@ -1221,6 +1364,7 @@
     equipmentBundles(frontier[0]);
     const completionCache = new Map();
     function complete(node) {
+      if (node.combat >= window) return valueOf(node);
       const cacheKey = T.boardKey(node.state) + JSON.stringify(node.memory);
       let completions = completionCache.get(cacheKey);
       if (!completions) {
@@ -1256,13 +1400,14 @@
     }
     // Close switch/tune/gear prefixes to a real skill BEFORE ranking the beam.
     // Five primitive levels remain bounded; completion can add <=5 legal
-    // inputs, and shares the SAME 1800 node budget (450 equipment/450 funding).
+    // inputs, and shares the SAME 1800 node budget. Value-only leaf work has
+    // its own small cap; it cannot starve the equipment/funded relay quotas.
     complete(frontier[0]);
     for (let d = 0; d < depth && frontier.length; d++) {
       const next = [];
       for (const node of frontier)
         for (const a of enumerate(node.state, node.memory)) {
-          if (node.path.length >= depth) continue;
+          if (node.path.length >= depth || node.combat >= window) continue;
           if (
             a.type === "switch" &&
             node.path[node.path.length - 1]?.type === "switch" &&
@@ -1282,7 +1427,7 @@
           // Resource/discount by itself is not an action payoff. Random draw is
           // a labelled leaf, not a licence to invent future cards.
           if (p.combat || (p.leaf && a.type !== "end") || p.benefit > 0) consider(child);
-          if (!p.leaf) {
+          if (!p.leaf && child.combat < window) {
             // The same board can arrive with a completed or still-unpaid
             // relay. Do not let one prefix prune the other's task status.
             const key = T.boardKey(p.state) + JSON.stringify(p.memory) +
@@ -1343,7 +1488,8 @@
       prepared = setup ? replaySequence(s, m, [setup, ...p.sequence]) : null,
       sequence = prepared ? prepared.path : p.sequence,
       a = sequence[0] || p.action,
-      retreat = a.type === "switch" && retreatNeeded(s, m, a.target),
+      endCover = a.type === "switch" && endCoverTargets(s, m).includes(a.target),
+      retreat = a.type === "switch" && (retreatNeeded(s, m, a.target) || endCover),
       objective = battleObjective(s, m),
       followup = a.type === "switch" ? sequence.slice(1).find((x) =>
         x.type === "skill" || x.type === "switch" || (x.type === "card" && x.id === "talent")) : null,
@@ -1367,9 +1513,12 @@
       route: m.route,
       reason: prepared
         ? "同一已选装备先兑现可验证的零费减费；全段索引和支付已重算"
-        : m.relayTask ? "优先兑现已确认交接的输出任务；后续仍按真实牌面重算"
+        : endCover ? "本回合已无可支付输出，回合末交接保护站场输出位；下轮按真实骰子重算"
+          : m.relayTask ? "优先兑现已确认交接的输出任务；后续仍按真实牌面重算"
           : "按展开、交接、持续输出目标规划；伤害与承伤风险为估计",
       search: { nodes: p.expanded, value: p.value, terminal: !!p.terminal, sequence,
+        payoffWindow: p.window || PAYOFF_WINDOW,
+        ...(p.boundaryPayoff ? { boundaryPayoff: p.boundaryPayoff } : {}),
         objective, ...(relayTask ? { relayTask } : {}),
         ...(retreat ? { retreat: true, pressureEstimate: pressureEstimate(m) } : {}) },
     };
@@ -1471,6 +1620,13 @@
     advanceBattleTask,
     pressureEstimate,
     exposureRisk,
+    preparedReliability,
+    summonBenefit,
+    summonValue,
+    effectValue,
+    outputProtectionValue,
+    roundBoundaryRisk,
+    endCoverTargets,
     retreatNeeded,
     openingCharacter,
     followupReachable,
