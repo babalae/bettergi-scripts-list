@@ -39,6 +39,8 @@ issues:
             - bug
           titlePrefixes:
             - "[bug]"
+          formSignatures:
+            - 我已搜索现有 Issue
         requiredSections:
           - id: scope
             aliases:
@@ -80,6 +82,8 @@ issues:
             - feature
           titlePrefixes:
             - "[feature]"
+          formSignatures:
+            - 我已搜索现有 Issue
         requiredSections:
           - id: scope
             aliases:
@@ -114,6 +118,8 @@ issues:
             - question
           titlePrefixes:
             - "[question]"
+          formSignatures:
+            - 我已搜索现有 Issue
         requiredSections:
           - id: scope
             aliases:
@@ -138,6 +144,8 @@ issues:
             - suggestion
           titlePrefixes:
             - "[suggestion]"
+          formSignatures:
+            - 我已搜索现有 Issue
         requiredSections:
           - id: suggestion
             aliases:
@@ -158,6 +166,8 @@ issues:
           titlePrefixes:
             - "[feedback]"
             - "[normal]"
+          formSignatures:
+            - 我已搜索现有 Issue
         requiredSections:
           - id: description
             aliases:
