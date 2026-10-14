@@ -1,0 +1,960 @@
+{
+  "schemaVersion": 1,
+  "patches": [
+    [
+      34,
+      48,
+      46,
+      22
+    ],
+    [
+      34,
+      74,
+      46,
+      22
+    ]
+  ],
+  "scoreFloor": 0.95,
+  "runnerUpGap": 0.2,
+  "entries": [
+    {
+      "id": "calx",
+      "name": "白垩之术",
+      "views": [
+        {
+          "name": "native",
+          "patches": [
+            "assets/hand/calx-native-0.png",
+            "assets/hand/calx-native-1.png"
+          ]
+        },
+        {
+          "name": "native-417bc1cff2-f0",
+          "patches": [
+            "assets/hand/calx-live-417bc1cff2-f0-0.png",
+            "assets/hand/calx-live-417bc1cff2-f0-1.png"
+          ]
+        },
+        {
+          "name": "native-417bc1cff2-f1",
+          "patches": [
+            "assets/hand/calx-live-417bc1cff2-f1-0.png",
+            "assets/hand/calx-live-417bc1cff2-f1-1.png"
+          ]
+        }
+      ],
+      "scoreFloor": 0.93
+    },
+    {
+      "id": "draw",
+      "name": "运筹帷幄",
+      "views": [
+        {
+          "name": "original",
+          "patches": [
+            "assets/hand/draw-original-0.png",
+            "assets/hand/draw-original-1.png"
+          ]
+        },
+        {
+          "name": "half-left",
+          "patches": [
+            "assets/hand/draw-half-left-0.png",
+            "assets/hand/draw-half-left-1.png"
+          ]
+        },
+        {
+          "name": "half-right",
+          "patches": [
+            "assets/hand/draw-half-right-0.png",
+            "assets/hand/draw-half-right-1.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gambler",
+      "name": "赌徒的耳环",
+      "views": [
+        {
+          "name": "original",
+          "patches": [
+            "assets/hand/gambler-original-0.png",
+            "assets/hand/gambler-original-1.png"
+          ]
+        }
+      ],
+      "scoreFloor": 0.94
+    },
+    {
+      "id": "shift",
+      "name": "换班时间",
+      "views": [
+        {
+          "name": "original",
+          "patches": [
+            "assets/hand/shift-original-0.png",
+            "assets/hand/shift-original-1.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fruit",
+      "name": "盈满之实",
+      "views": [
+        {
+          "name": "native-8c692ed44b-0",
+          "patches": [
+            "assets/hand/fruit-moon-8c692ed44b-f0-0.png",
+            "assets/hand/fruit-moon-8c692ed44b-f0-1.png"
+          ]
+        },
+        {
+          "name": "native-8c692ed44b-1",
+          "patches": [
+            "assets/hand/fruit-moon-8c692ed44b-f1-0.png",
+            "assets/hand/fruit-moon-8c692ed44b-f1-1.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "canopy",
+      "name": "「悬木人」",
+      "views": [
+        {
+          "name": "native-87cb08992d-0",
+          "patches": [
+            "assets/hand/canopy-moon-87cb08992d-f0-0.png",
+            "assets/hand/canopy-moon-87cb08992d-f0-1.png"
+          ]
+        },
+        {
+          "name": "native-87cb08992d-1",
+          "patches": [
+            "assets/hand/canopy-moon-87cb08992d-f1-0.png",
+            "assets/hand/canopy-moon-87cb08992d-f1-1.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sand",
+      "name": "「沙中遗事」",
+      "views": [
+        {
+          "name": "native-b31b22a271-0",
+          "patches": [
+            "assets/hand/sand-moon-b31b22a271-f0-0.png",
+            "assets/hand/sand-moon-b31b22a271-f0-1.png"
+          ]
+        },
+        {
+          "name": "native-b31b22a271-1",
+          "patches": [
+            "assets/hand/sand-moon-b31b22a271-f1-0.png",
+            "assets/hand/sand-moon-b31b22a271-f1-1.png"
+          ]
+        }
+      ],
+      "scoreFloor": 0.92
+    },
+    {
+      "id": "research",
+      "name": "科研的动力",
+      "views": [
+        {
+          "name": "native-672279c3ca-0",
+          "patches": [
+            "assets/hand/research-moon-672279c3ca-f0-0.png",
+            "assets/hand/research-moon-672279c3ca-f0-1.png"
+          ]
+        },
+        {
+          "name": "native-672279c3ca-1",
+          "patches": [
+            "assets/hand/research-moon-672279c3ca-f1-0.png",
+            "assets/hand/research-moon-672279c3ca-f1-1.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "woven",
+      "name": "元素共鸣：交织之草",
+      "views": [
+        {
+          "name": "native-3263c4bfee-0",
+          "patches": [
+            "assets/hand/woven-moon-3263c4bfee-f0-0.png",
+            "assets/hand/woven-moon-3263c4bfee-f0-1.png"
+          ]
+        },
+        {
+          "name": "native-3263c4bfee-1",
+          "patches": [
+            "assets/hand/woven-moon-3263c4bfee-f1-0.png",
+            "assets/hand/woven-moon-3263c4bfee-f1-1.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "upgrade",
+      "name": "天才的改造法",
+      "views": [
+        {
+          "name": "native-abf67121f8-0",
+          "patches": [
+            "assets/hand/upgrade-moon-abf67121f8-f0-0.png",
+            "assets/hand/upgrade-moon-abf67121f8-f0-1.png"
+          ]
+        },
+        {
+          "name": "native-abf67121f8-1",
+          "patches": [
+            "assets/hand/upgrade-moon-abf67121f8-f1-0.png",
+            "assets/hand/upgrade-moon-abf67121f8-f1-1.png"
+          ]
+        },
+        {
+          "name": "native-423d82b72b-0",
+          "patches": [
+            "assets/hand/upgrade-moon-423d82b72b-f0-0.png",
+            "assets/hand/upgrade-moon-423d82b72b-f0-1.png"
+          ]
+        },
+        {
+          "name": "native-423d82b72b-1",
+          "patches": [
+            "assets/hand/upgrade-moon-423d82b72b-f1-0.png",
+            "assets/hand/upgrade-moon-423d82b72b-f1-1.png"
+          ]
+        },
+        {
+          "name": "native-32d2dd5923-0",
+          "patches": [
+            "assets/hand/upgrade-moon-32d2dd5923-f0-0.png",
+            "assets/hand/upgrade-moon-32d2dd5923-f0-1.png"
+          ]
+        },
+        {
+          "name": "native-32d2dd5923-1",
+          "patches": [
+            "assets/hand/upgrade-moon-32d2dd5923-f1-0.png",
+            "assets/hand/upgrade-moon-32d2dd5923-f1-1.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gleam",
+      "name": "月兆·满辉",
+      "views": [
+        {
+          "name": "native-118e362e34-0",
+          "patches": [
+            "assets/hand/gleam-moon-118e362e34-f0-0.png",
+            "assets/hand/gleam-moon-118e362e34-f0-1.png"
+          ]
+        },
+        {
+          "name": "native-118e362e34-1",
+          "patches": [
+            "assets/hand/gleam-moon-118e362e34-f1-0.png",
+            "assets/hand/gleam-moon-118e362e34-f1-1.png"
+          ]
+        }
+      ],
+      "scoreFloor": 0.91
+    },
+    {
+      "id": "cleaning",
+      "name": "清扫时间",
+      "views": [
+        {
+          "name": "native-477c1b2d39-0",
+          "patches": [
+            "assets/hand/cleaning-moon-477c1b2d39-f0-0.png",
+            "assets/hand/cleaning-moon-477c1b2d39-f0-1.png"
+          ]
+        },
+        {
+          "name": "native-477c1b2d39-1",
+          "patches": [
+            "assets/hand/cleaning-moon-477c1b2d39-f1-0.png",
+            "assets/hand/cleaning-moon-477c1b2d39-f1-1.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "adventure",
+      "name": "水仙十字大冒险",
+      "views": [
+        {
+          "name": "native-fe1b16e601-0",
+          "patches": [
+            "assets/hand/adventure-moon-fe1b16e601-f0-0.png",
+            "assets/hand/adventure-moon-fe1b16e601-f0-1.png"
+          ]
+        },
+        {
+          "name": "native-fe1b16e601-1",
+          "patches": [
+            "assets/hand/adventure-moon-fe1b16e601-f1-0.png",
+            "assets/hand/adventure-moon-fe1b16e601-f1-1.png"
+          ]
+        }
+      ],
+      "scoreFloor": 0.9
+    },
+    {
+      "id": "seedbox",
+      "name": "化种匣",
+      "views": [
+        {
+          "name": "native-27c0a19dcf-0",
+          "patches": [
+            "assets/hand/seedbox-moon-27c0a19dcf-f0-0.png",
+            "assets/hand/seedbox-moon-27c0a19dcf-f0-1.png"
+          ]
+        },
+        {
+          "name": "native-27c0a19dcf-1",
+          "patches": [
+            "assets/hand/seedbox-moon-27c0a19dcf-f1-0.png",
+            "assets/hand/seedbox-moon-27c0a19dcf-f1-1.png"
+          ]
+        }
+      ],
+      "scoreFloor": 0.91
+    },
+    {
+      "id": "meditation",
+      "name": "困困冥想术",
+      "views": [
+        {
+          "name": "native-c790382632-0",
+          "patches": [
+            "assets/hand/meditation-moon-c790382632-f0-0.png",
+            "assets/hand/meditation-moon-c790382632-f0-1.png"
+          ]
+        },
+        {
+          "name": "native-c790382632-1",
+          "patches": [
+            "assets/hand/meditation-moon-c790382632-f1-0.png",
+            "assets/hand/meditation-moon-c790382632-f1-1.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fan",
+      "name": "红羽团扇",
+      "views": [
+        {
+          "name": "native-739794e06c-0",
+          "patches": [
+            "assets/hand/fan-moon-739794e06c-f0-0.png",
+            "assets/hand/fan-moon-739794e06c-f0-1.png"
+          ]
+        },
+        {
+          "name": "native-739794e06c-1",
+          "patches": [
+            "assets/hand/fan-moon-739794e06c-f1-0.png",
+            "assets/hand/fan-moon-739794e06c-f1-1.png"
+          ]
+        }
+      ],
+      "scoreFloor": 0.93
+    },
+    {
+      "id": "seed",
+      "name": "诳言之核",
+      "views": [
+        {
+          "name": "native-2246e0f209-0",
+          "patches": [
+            "assets/hand/seed-moon-2246e0f209-f0-0.png",
+            "assets/hand/seed-moon-2246e0f209-f0-1.png"
+          ]
+        },
+        {
+          "name": "native-2246e0f209-1",
+          "patches": [
+            "assets/hand/seed-moon-2246e0f209-f1-0.png",
+            "assets/hand/seed-moon-2246e0f209-f1-1.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nre",
+      "name": "便携营养袋",
+      "views": [
+        {
+          "name": "native-ed5d7cb698-0",
+          "patches": [
+            "assets/hand/nre-moon-ed5d7cb698-f0-0.png",
+            "assets/hand/nre-moon-ed5d7cb698-f0-1.png"
+          ]
+        },
+        {
+          "name": "native-ed5d7cb698-1",
+          "patches": [
+            "assets/hand/nre-moon-ed5d7cb698-f1-0.png",
+            "assets/hand/nre-moon-ed5d7cb698-f1-1.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "razor",
+      "name": "藏锋何处",
+      "views": [
+        {
+          "name": "native-ab0665df0c-0",
+          "patches": [
+            "assets/hand/razor-moon-ab0665df0c-f0-0.png",
+            "assets/hand/razor-moon-ab0665df0c-f0-1.png"
+          ]
+        },
+        {
+          "name": "native-ab0665df0c-1",
+          "patches": [
+            "assets/hand/razor-moon-ab0665df0c-f1-0.png",
+            "assets/hand/razor-moon-ab0665df0c-f1-1.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kusava",
+      "name": "苦舍桓",
+      "views": [
+        {
+          "name": "native-3303cdbc2f-0",
+          "patches": [
+            "assets/hand/kusava-moon-3303cdbc2f-f0-0.png",
+            "assets/hand/kusava-moon-3303cdbc2f-f0-1.png"
+          ]
+        },
+        {
+          "name": "native-3303cdbc2f-1",
+          "patches": [
+            "assets/hand/kusava-moon-3303cdbc2f-f1-0.png",
+            "assets/hand/kusava-moon-3303cdbc2f-f1-1.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sashimi",
+      "name": "刺身拼盘",
+      "views": [
+        {
+          "name": "native-c4108645d9-0",
+          "patches": [
+            "assets/hand/sashimi-moon-c4108645d9-f0-0.png",
+            "assets/hand/sashimi-moon-c4108645d9-f0-1.png"
+          ]
+        },
+        {
+          "name": "native-c4108645d9-1",
+          "patches": [
+            "assets/hand/sashimi-moon-c4108645d9-f1-0.png",
+            "assets/hand/sashimi-moon-c4108645d9-f1-1.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "countdown3",
+      "name": "幻戏倒计时：3",
+      "views": [
+        {
+          "name": "native-d81982f3da-0",
+          "patches": [
+            "assets/hand/countdown3-moon-d81982f3da-f0-0.png",
+            "assets/hand/countdown3-moon-d81982f3da-f0-1.png"
+          ]
+        },
+        {
+          "name": "native-d81982f3da-1",
+          "patches": [
+            "assets/hand/countdown3-moon-d81982f3da-f1-0.png",
+            "assets/hand/countdown3-moon-d81982f3da-f1-1.png"
+          ]
+        }
+      ],
+      "titleCandidates": [
+        "countdown3",
+        "countdown2",
+        "countdown1",
+        "show"
+      ]
+    },
+    {
+      "id": "seelie",
+      "name": "寻宝仙灵",
+      "views": [
+        {
+          "name": "runtime-510abbf30f",
+          "patches": [
+            "assets/hand/seelie-runtime-510abbf30f-0.png",
+            "assets/hand/seelie-runtime-510abbf30f-1.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lens",
+      "name": "留念镜",
+      "views": [
+        {
+          "name": "runtime-510abbf30f",
+          "patches": [
+            "assets/hand/lens-runtime-510abbf30f-0.png",
+            "assets/hand/lens-runtime-510abbf30f-1.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "overgrow",
+      "name": "绽放祝佑·蔓生",
+      "views": [
+        {
+          "name": "runtime-42f3304b5c",
+          "patches": [
+            "assets/hand/overgrow-runtime-42f3304b5c-0.png",
+            "assets/hand/overgrow-runtime-42f3304b5c-1.png"
+          ]
+        }
+      ]
+    }
+  ],
+  "expanded": {
+    "scoreFloor": 0.95,
+    "runnerUpGap": 0.2,
+    "patches": [
+      [
+        34,
+        65,
+        32,
+        26
+      ],
+      [
+        34,
+        103,
+        32,
+        26
+      ]
+    ],
+    "entries": [
+      {
+        "id": "calx",
+        "name": "白垩之术",
+        "views": [
+          {
+            "name": "fdb127fc1ef0",
+            "patches": [
+              "assets/expanded/calx-fdb127fc1ef0-0.png",
+              "assets/expanded/calx-fdb127fc1ef0-1.png"
+            ]
+          },
+          {
+            "name": "b20e61ce17a2",
+            "patches": [
+              "assets/expanded/calx-b20e61ce17a2-0.png",
+              "assets/expanded/calx-b20e61ce17a2-1.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "canopy",
+        "name": "「悬木人」",
+        "views": [
+          {
+            "name": "dee8f3b7f6b6",
+            "patches": [
+              "assets/expanded/canopy-dee8f3b7f6b6-0.png",
+              "assets/expanded/canopy-dee8f3b7f6b6-1.png"
+            ]
+          },
+          {
+            "name": "6ad9b0a7b9aa",
+            "patches": [
+              "assets/expanded/canopy-6ad9b0a7b9aa-0.png",
+              "assets/expanded/canopy-6ad9b0a7b9aa-1.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "sand",
+        "name": "「沙中遗事」",
+        "views": [
+          {
+            "name": "977a264019a2",
+            "patches": [
+              "assets/expanded/sand-977a264019a2-0.png",
+              "assets/expanded/sand-977a264019a2-1.png"
+            ]
+          },
+          {
+            "name": "db6f2846f98a",
+            "patches": [
+              "assets/expanded/sand-db6f2846f98a-0.png",
+              "assets/expanded/sand-db6f2846f98a-1.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "research",
+        "name": "科研的动力",
+        "views": [
+          {
+            "name": "8bc7ebb0683b",
+            "patches": [
+              "assets/expanded/research-8bc7ebb0683b-0.png",
+              "assets/expanded/research-8bc7ebb0683b-1.png"
+            ]
+          },
+          {
+            "name": "68095a73e1e3",
+            "patches": [
+              "assets/expanded/research-68095a73e1e3-0.png",
+              "assets/expanded/research-68095a73e1e3-1.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "woven",
+        "name": "元素共鸣：交织之草",
+        "views": [
+          {
+            "name": "03eaef42e207",
+            "patches": [
+              "assets/expanded/woven-03eaef42e207-0.png",
+              "assets/expanded/woven-03eaef42e207-1.png"
+            ]
+          },
+          {
+            "name": "6d7ab90eb37e",
+            "patches": [
+              "assets/expanded/woven-6d7ab90eb37e-0.png",
+              "assets/expanded/woven-6d7ab90eb37e-1.png"
+            ]
+          },
+          {
+            "name": "runtime-099a91db70",
+            "patches": [
+              "assets/expanded/woven-runtime-099a91db70-0.png",
+              "assets/expanded/woven-runtime-099a91db70-1.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "upgrade",
+        "name": "天才的改造法",
+        "views": [
+          {
+            "name": "ebd63eaaf8a2",
+            "patches": [
+              "assets/expanded/upgrade-ebd63eaaf8a2-0.png",
+              "assets/expanded/upgrade-ebd63eaaf8a2-1.png"
+            ]
+          },
+          {
+            "name": "b16e1659b37e",
+            "patches": [
+              "assets/expanded/upgrade-b16e1659b37e-0.png",
+              "assets/expanded/upgrade-b16e1659b37e-1.png"
+            ]
+          },
+          {
+            "name": "runtime-9a672f0dd0",
+            "patches": [
+              "assets/expanded/upgrade-runtime-9a672f0dd0-0.png",
+              "assets/expanded/upgrade-runtime-9a672f0dd0-1.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "gleam",
+        "name": "月兆·满辉",
+        "views": [
+          {
+            "name": "76cfa59566d4",
+            "patches": [
+              "assets/expanded/gleam-76cfa59566d4-0.png",
+              "assets/expanded/gleam-76cfa59566d4-1.png"
+            ]
+          },
+          {
+            "name": "b6d445408ec8",
+            "patches": [
+              "assets/expanded/gleam-b6d445408ec8-0.png",
+              "assets/expanded/gleam-b6d445408ec8-1.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "cleaning",
+        "name": "清扫时间",
+        "views": [
+          {
+            "name": "99707c1308c3",
+            "patches": [
+              "assets/expanded/cleaning-99707c1308c3-0.png",
+              "assets/expanded/cleaning-99707c1308c3-1.png"
+            ]
+          },
+          {
+            "name": "eedd26c64d28",
+            "patches": [
+              "assets/expanded/cleaning-eedd26c64d28-0.png",
+              "assets/expanded/cleaning-eedd26c64d28-1.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "adventure",
+        "name": "水仙十字大冒险",
+        "views": [
+          {
+            "name": "d2271e1412b6",
+            "patches": [
+              "assets/expanded/adventure-d2271e1412b6-0.png",
+              "assets/expanded/adventure-d2271e1412b6-1.png"
+            ]
+          },
+          {
+            "name": "50df5744397d",
+            "patches": [
+              "assets/expanded/adventure-50df5744397d-0.png",
+              "assets/expanded/adventure-50df5744397d-1.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "seedbox",
+        "name": "化种匣",
+        "views": [
+          {
+            "name": "39873918644d",
+            "patches": [
+              "assets/expanded/seedbox-39873918644d-0.png",
+              "assets/expanded/seedbox-39873918644d-1.png"
+            ]
+          },
+          {
+            "name": "b59eaeb62930",
+            "patches": [
+              "assets/expanded/seedbox-b59eaeb62930-0.png",
+              "assets/expanded/seedbox-b59eaeb62930-1.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "meditation",
+        "name": "困困冥想术",
+        "views": [
+          {
+            "name": "ff178d4c9b39",
+            "patches": [
+              "assets/expanded/meditation-ff178d4c9b39-0.png",
+              "assets/expanded/meditation-ff178d4c9b39-1.png"
+            ]
+          },
+          {
+            "name": "faca41113990",
+            "patches": [
+              "assets/expanded/meditation-faca41113990-0.png",
+              "assets/expanded/meditation-faca41113990-1.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "razor",
+        "name": "藏锋何处",
+        "views": [
+          {
+            "name": "017b02406936",
+            "patches": [
+              "assets/expanded/razor-017b02406936-0.png",
+              "assets/expanded/razor-017b02406936-1.png"
+            ]
+          },
+          {
+            "name": "dbf4d9d79a4e",
+            "patches": [
+              "assets/expanded/razor-dbf4d9d79a4e-0.png",
+              "assets/expanded/razor-dbf4d9d79a4e-1.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "kusava",
+        "name": "苦舍桓",
+        "views": [
+          {
+            "name": "ca5bb37ae708",
+            "patches": [
+              "assets/expanded/kusava-ca5bb37ae708-0.png",
+              "assets/expanded/kusava-ca5bb37ae708-1.png"
+            ]
+          },
+          {
+            "name": "dde5412e7135",
+            "patches": [
+              "assets/expanded/kusava-dde5412e7135-0.png",
+              "assets/expanded/kusava-dde5412e7135-1.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "sashimi",
+        "name": "刺身拼盘",
+        "views": [
+          {
+            "name": "e2520eb47794",
+            "patches": [
+              "assets/expanded/sashimi-e2520eb47794-0.png",
+              "assets/expanded/sashimi-e2520eb47794-1.png"
+            ]
+          },
+          {
+            "name": "4f1cb35bc93e",
+            "patches": [
+              "assets/expanded/sashimi-4f1cb35bc93e-0.png",
+              "assets/expanded/sashimi-4f1cb35bc93e-1.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "countdown3",
+        "name": "幻戏倒计时：3",
+        "views": [
+          {
+            "name": "0d3712f781fc",
+            "patches": [
+              "assets/expanded/countdown3-0d3712f781fc-0.png",
+              "assets/expanded/countdown3-0d3712f781fc-1.png"
+            ]
+          },
+          {
+            "name": "54664236c07b",
+            "patches": [
+              "assets/expanded/countdown3-54664236c07b-0.png",
+              "assets/expanded/countdown3-54664236c07b-1.png"
+            ]
+          }
+        ],
+        "titleCandidates": [
+          "countdown3",
+          "countdown2",
+          "countdown1",
+          "show"
+        ]
+      },
+      {
+        "id": "seed",
+        "name": "诳言之核",
+        "views": [
+          {
+            "name": "runtime-099a91db70",
+            "patches": [
+              "assets/expanded/seed-runtime-099a91db70-0.png",
+              "assets/expanded/seed-runtime-099a91db70-1.png"
+            ]
+          },
+          {
+            "name": "runtime-6a2bc3bb85",
+            "patches": [
+              "assets/expanded/seed-runtime-6a2bc3bb85-0.png",
+              "assets/expanded/seed-runtime-6a2bc3bb85-1.png"
+            ]
+          },
+          {
+            "name": "runtime-9a672f0dd0",
+            "patches": [
+              "assets/expanded/seed-runtime-9a672f0dd0-0.png",
+              "assets/expanded/seed-runtime-9a672f0dd0-1.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "draw",
+        "name": "运筹帷幄",
+        "views": [
+          {
+            "name": "runtime-099a91db70",
+            "patches": [
+              "assets/expanded/draw-runtime-099a91db70-0.png",
+              "assets/expanded/draw-runtime-099a91db70-1.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "overgrow",
+        "name": "绽放祝佑·蔓生",
+        "views": [
+          {
+            "name": "runtime-6a2bc3bb85",
+            "patches": [
+              "assets/expanded/overgrow-runtime-6a2bc3bb85-0.png",
+              "assets/expanded/overgrow-runtime-6a2bc3bb85-1.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "tepetli",
+        "name": "嵴锋龙",
+        "views": [
+          {
+            "name": "runtime-9a672f0dd0",
+            "patches": [
+              "assets/expanded/tepetli-runtime-9a672f0dd0-0.png",
+              "assets/expanded/tepetli-runtime-9a672f0dd0-1.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "gambler",
+        "name": "赌徒的耳环",
+        "views": [
+          {
+            "name": "runtime-9a672f0dd0",
+            "patches": [
+              "assets/expanded/gambler-runtime-9a672f0dd0-0.png",
+              "assets/expanded/gambler-runtime-9a672f0dd0-1.png"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
