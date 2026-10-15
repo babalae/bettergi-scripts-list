@@ -106,7 +106,7 @@
   const alive = (c) => !!c && c.dead === false && known(c.hp) && c.hp > 0;
   function freshMemory() {
     return { round: 0, raidenBurst: false, colleiBurst: false, used: [0, 0, 0],
-      eyeRound: -10, dendroRound: -10, keqingInfusedRound: -10,
+      eyeRound: -10, dendroRound: -10, keqingInfusion: null, resolve:0,
       food: [false, false, false], normalDiscount: [0, 0, 0],
       freeSwitch: false, fastSwitch: false, artifacts: [false, false, false],
       weapons: [false, false, false], talent: false, uncertainActions: [], defeated: [false,false,false], thundergrassSupport:null,
@@ -216,7 +216,7 @@
   }
   function boardKey(s) {
     return JSON.stringify([s.active,diceOrder.map(e=>s.dice?.[e]||0),s.characters,
-      (s.hand||[]).map(h=>h.id),s.enemies,s.quicken||null,s.supportCounts||null]);
+      (s.hand||[]).map(h=>h.id),s.enemies,s.quicken||null,s.supportCounts||null,s.eye||null,s.dendroCore||null]);
   }
   function skillCost(who, skill, m, s=null) {
     const base=skill === "Q" ? { element:team[who].element,n:who===2?4:3 } :
@@ -243,8 +243,16 @@
     if (action.skill === "Q" && (!known(s.characters[who].energy) || s.characters[who].energy < team[who].maxEnergy)) return false;
     return !!payment(s.dice, skillCost(who, action.skill, m,s), team[who].element);
   }
+  function activeKeqingInfusion(m) {
+    const status=m.keqingInfusion;
+    return status && status.createdRound<=m.round && m.round<=status.untilRound ? status : null;
+  }
+  function createKeqingInfusion(m) {
+    m.keqingInfusion={kind:m.penance?"enhanced":"normal",createdRound:m.round,
+      untilRound:m.round+(m.penance?2:1)};
+  }
   function skillElement(m,who,skill) {
-    if(skill==="NA")return who===2 && m.keqingInfusedRound+(m.penance?2:1)>=m.round?"Electro":null;
+    if(skill==="NA")return who===2 && activeKeqingInfusion(m)?"Electro":null;
     return who===0 && skill==="E"?null:team[who].element;
   }
   // null means the observed aura cannot settle whether this skill reacts.
@@ -301,7 +309,7 @@
           payment(s.dice, { element: "Dendro", n: 3, any: s.active === 1 || m.freeSwitch ? 0 : 1 }, "Dendro")) {
         return { type: "skill", who: 1, skill: cs[1].energy === 2 ? "Q" : "E" };
       }
-      return { type: "skill", who: 2, skill: cs[2].energy === 3 ? "Q" : m.keqingInfusedRound + (m.penance?2:1) >= m.round ? "NA" : "E" };
+      return { type: "skill", who: 2, skill: cs[2].energy === 3 ? "Q" : activeKeqingInfusion(m) ? "NA" : "E" };
     }
     const who = cs.findIndex(c => alive(c) && c.frozen === false);
     return who < 0 ? null : { type: "skill", who, skill: cs[who].energy === team[who].maxEnergy ? "Q" : "E" };
@@ -509,7 +517,7 @@
         if (c.id === "hashbrown" && active.hp <= 7 && remaining >= reserve) offer(action, 85, "有后续行动预算时治疗两点");
         if (c.id === "sweet" && active.hp <= 8) offer(action, active.hp <= 3 ? 97 : 70, "零费治疗；遵守每人每轮一次料理");
         if (c.id === "smoked" && !wantSwitch && skill === "NA" && diceCount >= 2) offer(action, 91, "即将普攻，先减一无色骰");
-        if (c.id === "mint" && !wantSwitch && skill === "NA" && a === 2 && m.keqingInfusedRound + 1 >= m.round && remaining >= 4) offer(action, 80, "预计连续两次附魔普攻，薄荷卷才划算");
+        if (c.id === "mint" && !wantSwitch && skill === "NA" && a === 2 && activeKeqingInfusion(m) && remaining >= 4) offer(action, 80, "预计连续两次附魔普攻，薄荷卷才划算");
       }
       if (c.id === "gambler" && a === 2 && gamblerRemaining(m,a)>0 && !wantSwitch && !m.artifacts[a] &&
           remaining >= reserve && s.enemies.some(e => alive(e) && e.hp <= 4)) {
@@ -528,7 +536,7 @@
         if(a!==2)offer({ ...action, target: 2 },83,"雷楔返场并放战技/附魔，不另付普通切换骰");
         else if(wanted.skill!=="Q")offer({type:"skill",who:2,skill:"E"},83,"刻晴已出战，直接战技消耗雷楔获得附魔，省去出牌操作");
       }
-      if (c.id === "draw" && s.hand.length <= 8 &&
+      if (c.id === "draw" && s.hand.length <= 9 &&
           (remaining >= reserve || (s.hand.length <= 2 && diceCount < reserve))) offer(action, 62, "有预算或缺乏可行动资源时过牌");
     }
     if (wanted) {
@@ -664,6 +672,7 @@
     if (!m.uncertainActions) m.uncertainActions = [];
     if (!m.uncertainActions.includes(key)) m.uncertainActions.push(key);
     if (action.type === "card" && byId[action.id]?.type === "food") m.food[action.target] = true;
+    if(action.type==="skill"&&action.skill==="Q")m.resolve=null;
     const cast=sproutCast(action);
     if(cast && sproutAvailable(m,cast.who,cast.skill,action.type==="card"&&action.id==="talent") &&
         skillElement(m,cast.who,cast.skill))m.sproutUncertainRound=m.round;
@@ -679,12 +688,13 @@
     if (action.type === "switch") { m.freeSwitch = false; m.fastSwitch = false; }
     if (action.type === "skill") {
       const who = action.who;
+      if(action.skill==="Q")m.resolve=who===0?0:known(m.resolve)?Math.min(3,m.resolve+1):null;
       m.used[who]++;
       if (who === 0 && action.skill === "Q") m.raidenBurst = true;
       if (who === 0 && action.skill === "E") m.eyeRound = m.round;
       if (who === 1 && action.skill === "Q") { m.colleiBurst = true; m.dendroRound = m.round; }
       if (who === 1 && action.skill === "E") m.dendroRound = m.round;
-      if (who === 2 && action.skill === "E" && before.hand.some(h => h.id === "wedge")) m.keqingInfusedRound = m.round;
+      if (who === 2 && action.skill === "E" && before.hand.some(h => h.id === "wedge")) createKeqingInfusion(m);
       if (action.skill === "NA" && m.normalDiscount[who] > 0) m.normalDiscount[who]--;
       if(action.skill==="Q" && m.artifactKinds?.[who]==="exile")m.exileUsedRound[who]=m.round;
       const base=action.skill==="Q"?(who===2?4:3):action.skill==="E"?3:null;
@@ -703,12 +713,12 @@
     }
     if (byId[action.id].type === "weapon") m.weapons[action.target] = true;
     if (action.id === "talent") { m.talent = true; m.dendroRound = m.round; m.used[a]++; }
-    if(action.id==="penance"){m.penance=true;m.used[2]++;if(before.hand.some(h=>h.id==="wedge"))m.keqingInfusedRound=m.round;}
+    if(action.id==="penance"){m.penance=true;m.used[2]++;if(before.hand.some(h=>h.id==="wedge"))createKeqingInfusion(m);}
     if(action.id==="edict"){m.legendUsed=true;m.immuneUntil[action.target]=m.round+1;}
     if(action.id==="lost")m.lostUsedRound=m.round;
     if (byId[action.id].type === "support") m.thundergrassSupport=action.id;
     // A forced switch from a card is not the manual switch action that consumes these discounts.
-    if (action.id === "wedge") { m.keqingInfusedRound = m.round; m.used[2]++; }
+    if (action.id === "wedge") { createKeqingInfusion(m); m.used[2]++; }
   }
   function removalEffect(action, before, after) {
     // Independent native effect, not projected card consumption. Only common
@@ -771,11 +781,11 @@
   root.TCG = { openingContext, openingPlan, team, cards, byId, norm, identify, observedCard, handCardKnown, characterName, total, size, payment, rerollPlan,
     openingSetting, known, alive, freshMemory, nextRound, OpeningFlow, freshActionBoard, skillCost, skillLegal, cardLegal, cardInputError, intent, survivorIntent, followupReachable, switchPreparationReachable, replacement, noteBoard, tuningPlan, legalState, choose, verify, commit, emptyHandEffect, diceOrder,
     indexedHand, handPlan, verifyResynchronized, actionKey, rejectAction, deferUncertain, removalEffect, blessingChoice,boardKey,burnableHand,
-    actionRerollGoal,rerollCounter,enemyCount,gamblerRemaining,skillElement,dendroReaction,sproutAvailable };
+    actionRerollGoal,rerollCounter,enemyCount,gamblerRemaining,skillElement,dendroReaction,sproutAvailable,activeKeqingInfusion };
 })(globalThis);
 
-globalThis.TCG.version = "1.1.8";
-globalThis.TCG.sharedVersion = "1.3.2";
+globalThis.TCG.version = "1.2.9";
+globalThis.TCG.sharedVersion = "1.4.7";
 globalThis.TCG.defaultStrategy = "default";
 (function (T) {
   const strategies = new Map();

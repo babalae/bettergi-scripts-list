@@ -75,9 +75,12 @@
         row.some((m, i) => i > 0 && m.x - row[i - 1].x < 75) ||
         Math.max(...row.map((m) => m.y)) - Math.min(...row.map((m) => m.y)) > 35 ||
         // An inner artwork subrow cannot conceal outer markers above it.
-        // Lower art peaks do not add cards; competing complete rows still reject.
+        // A same-frame measured count bounds the final card by its native rim,
+        // not by its left cost corner: artwork inside that card is not a new slot.
+        // Without independent count keep the stricter outer-marker conflict.
         marks.some((m) => m.y <= Math.max(...row.map((r) => r.y)) &&
-          (m.x < row[0].x - 32 || m.x > row[n - 1].x + 32))
+          (m.x < row[0].x - 32 || m.x > (measuredCount === null
+            ? row[n - 1].x + 32 : handX[n][n - 1] + 95)))
       )
         continue;
       layouts.set(JSON.stringify(row.map((m) => [m.x, m.y])), {
@@ -184,7 +187,8 @@
   }
   function boardDifferences(before, after) {
     const fields={active:s=>s.active,dice:s=>TCG.diceOrder.map(e=>s.dice?.[e]||0),
-      own:s=>s.characters,enemy:s=>s.enemies,quicken:s=>s.quicken||null,support:s=>s.supportCounts||null};
+      own:s=>s.characters,enemy:s=>s.enemies,quicken:s=>s.quicken||null,support:s=>s.supportCounts||null,
+      eye:s=>s.eye||null,dendroCore:s=>s.dendroCore||null};
     return Object.entries(fields).filter(([,read])=>JSON.stringify(read(before))!==JSON.stringify(read(after))).map(([name])=>name);
   }
   class BetterGIHost {
@@ -194,7 +198,6 @@
       this.roCache = new Map();
       // BetterGI LimitedFile accepts .log but rejects .jsonl. Contents remain one JSON object per line.
       this.path = "logs/run-" + new Date().toISOString().replace(/[:.]/g, "-") + ".log";
-      this.snapshotNumber = 0;
       this.emptyHandProven = false;
       this.expectedDice = null;
       this.gamblerBudget = null;
@@ -212,7 +215,7 @@
       this.pendingChoiceCard = null;
       this.lastObservedState = null;
       this.tossSession = null;
-      this.previewEvidence = new Set();
+      this.diagnosticKeys = new Set();
       this.frameMemo = null;
       this.metrics = {frames:0,captureMs:0,frameWorkMs:0,ocrCalls:0,ocrMs:0,memoHits:0};
       this.inputRevision = 0;
@@ -418,7 +421,7 @@
     }
     phase() {
       const p=this.frame(f=>this.phaseIn(f));
-      if(p.phase!=="board"||p.turn!=="user") { this.boardReady=false; this.lastObservedAt=0; }
+      if(p.phase!=="board"||p.turn!=="user") { this.boardReady=false; this.lastObservedAt=0; this.preparedHandInput=null; }
       return p;
     }
     async admitFreshActionBoard() {
@@ -916,7 +919,7 @@
         key = "";
         await sleep(1000);
       }
-      this.captureEvidence("action-reroll-layout");
+      this.trace("action-reroll-layout", { reason: lastError });
       const error = new Error("战中重投等待超时：" + lastError);
       error.code = "TCG_DICE_RETRY";
       throw error;
@@ -1092,12 +1095,14 @@
       if (enemy) {
         // Positive aura matches only. Missing templates do NOT prove no aura.
         const aura = readAura && !dead ? this.auraIn(f, hpX, loweredValid ? 212 : 170) : [];
+        const frozen=!dead&&this.has(f,"state/StateFreeze",[stateX,stateY,167,382],0.9);
         return {
           hp,
           dead: dead ? true : hp === null ? null : false,
           active: !dead && loweredValid && !conflict,
           aura,
           auraKnown: aura.length > 0 && aura.length <= 2,
+          frozen: frozen?true:null,
         };
       }
       const cx = [812, 1022, 1233][who];
@@ -1320,6 +1325,59 @@
         throw error;
       }
     }
+    titleIn(f, roi, kind = "card", names = null) {
+      const native = this.ocr(f, roi);
+      const identify = text => names ? names.some(name => TCG.norm(name) === TCG.norm(text)) :
+        kind === "character" ? TCG.characterName(text) >= 0 : !!TCG.identify(text);
+      const card = kind === "card" ? TCG.identify(native) : null;
+      if (card && TCG.norm(native) !== TCG.norm(card.name)) {
+        this.trace("title-exact-alias", { native, canonical:card.name, id:card.id, additionalInputs:0 });
+        return card.name;
+      }
+      if (identify(native) || !native) return native;
+      const enlarged = this.numericAt(f, roi, 3);
+      if (identify(enlarged)) {
+        this.trace("title-pixel-recovery", { roi, kind, native, enlarged, scale:3, additionalInputs:0 });
+        return enlarged;
+      }
+      const key = "unknown-title:" + TCG.norm(native);
+      if (kind !== "character" && !this.diagnosticKeys.has(key)) {
+        this.diagnosticKeys.add(key);
+        this.trace("unresolved-title", { kind, roi, native, enlarged });
+      }
+      return native;
+    }
+    async inspectHandCard(action, x) {
+      const raw = await this.titleAt(x, 945, false, false, "card", null, true);
+      if (!raw) {
+        // No title is not a conflicting identity. No action was submitted;
+        // restore the view and retry this slot through the state owner.
+        this.requireHandObservation(this.phase(), "missing-input-title");
+        await this.reset();
+        const error = new Error("目标手牌标题暂未读到，保留身份后重试目标槽");
+        error.code = "TCG_STATE_REFRESH";
+        throw error;
+      }
+      if (TCG.observedCard(raw, action.index)?.id !== action.id)
+        await this.refreshHandBeforeInput("目标手牌卡名校验失败，重新核对手牌");
+    }
+    takePreparedHandInput(action, before) {
+      const prepared = this.preparedHandInput;
+      this.preparedHandInput = null;
+      const inspecting = action.type === "probe" && action.scope === "card";
+      if (!prepared || !(inspecting || action.type === "card" || action.type === "tune") ||
+          !inspecting && (prepared.id !== action.id || prepared.index !== action.index) ||
+          prepared.revision !== this.inputRevision || Date.now() - prepared.at > 5000 ||
+          prepared.beforeKey !== TCG.boardKey(before)) return null;
+      const count = this.frame(f => {
+        this.requireHandObservation(this.phaseIn(f), "after-card-inspection");
+        return this.nativeHandCountIn(f);
+      });
+      if (count !== null && count !== before.hand.length) return null;
+      this.trace("hand-input-inspection-reused", { id:action.id, index:action.index,
+        viewOnly:inspecting, additionalInputs:0 });
+      return inspecting ? { ...prepared, viewOnly:true } : prepared;
+    }
     async titleAt(
       x,
       y,
@@ -1346,42 +1404,7 @@
       for (let attempt = 0; attempt < 6; attempt++) {
         const raw = this.frame((f) => {
           if (watchPhase) this.requireHandObservation(this.phaseIn(f), "title-sampling");
-          const title = (() => {
-          const native = this.ocr(f, roi);
-          const nativeCard = kind === "card" ? TCG.identify(native) : null;
-          if (nativeCard && TCG.norm(native) !== TCG.norm(nativeCard.name)) {
-            this.trace("title-exact-alias", {
-              native,
-              canonical: nativeCard.name,
-              id: nativeCard.id,
-              additionalInputs: 0,
-            });
-            return nativeCard.name;
-          }
-          const identified =
-            kind === "character" ? TCG.characterName(native) >= 0 : !!TCG.identify(native);
-          if (identified || !native) return native;
-          const enlarged = this.numericAt(f, roi, 3);
-          const recovered =
-            kind === "character" ? TCG.characterName(enlarged) >= 0 : !!TCG.identify(enlarged);
-          if (recovered) {
-            this.trace("title-pixel-recovery", {
-              roi,
-              kind,
-              native,
-              enlarged,
-              scale: 3,
-              additionalInputs: 0,
-            });
-            return enlarged;
-          }
-          const proofKey = "unknown-title:" + TCG.norm(native);
-          if (kind === "card" && !this.previewEvidence.has(proofKey)) {
-            this.previewEvidence.add(proofKey);
-            this.captureEvidence("unresolved-title");
-          }
-          return native;
-          })();
+          const title = this.titleIn(f, roi, kind);
           // Use the already captured stable title frame for optional deck facts.
           // Normal decks have no facts reader and perform no additional OCR.
           if (!opening && kind === "card" && previousKey === "title:" + TCG.norm(title)) {
@@ -1437,36 +1460,31 @@
       this.trace("hand-cache-updated", { reason, count: this.handCache.length });
     }
     handCostMarkersIn(f, roi) {
-      return ["hand_cost_neutral", "hand_cost_element", "hand_cost_dendro"]
+      return ["hand_cost_neutral", "hand_cost_element", "hand_cost_dendro", "hand_cost_electro", "hand_cost_matching"]
         .flatMap(asset => this.matches(f, asset, roi, .9, false));
+    }
+    handCostLayoutIn(f, nativeCount = null) {
+      return this.memoFrame(f, "costLayout:" + nativeCount, () => {
+        const measured = nativeCount ?? (this.handFanReady ? this.memoFrame(f, "hand/rim-count", () =>
+          handLayoutCount(this.matches(f, "hand_rim", [500, 900, 1260, 135], 0.85, false).map(r => r.x))) : null);
+        return costMarkerLayout(this.handCostMarkersIn(f, [450, 750, 1310, 200]), measured);
+      });
+    }
+    handPriceIn(f, marker) {
+      const cost = number(this.numericAt(f, [Math.round(marker.x + 12), Math.round(marker.y - 5), 36, 42], 4));
+      return cost !== null ? { cost, reads: 1 } : {
+        cost: number(this.numericAt(f, [Math.round(marker.x), Math.round(marker.y - 30), 60, 90], 4)), reads: 2,
+      };
     }
     costHandIn(f, nativeCount = null) {
       return this.memoFrame(f, "costHand:" + nativeCount, () => {
         const roi = [450, 750, 1310, 200];
-        const matches = this.handCostMarkersIn(f, roi),
-          // Bind low-card geometry to independent same-frame native edges.
-          // Fan count hints and folded identity count are not measurements.
-          measuredCount = nativeCount ?? (this.handFanReady ? this.memoFrame(f, "hand/rim-count", () =>
-            handLayoutCount(this.matches(f, "hand_rim", [500, 900, 1260, 135], 0.85, false).map((r) => r.x))) : null),
-          layout = costMarkerLayout(matches, measuredCount);
+        const matches = this.handCostMarkersIn(f, roi), layout = this.handCostLayoutIn(f, nativeCount);
         const unresolved = (reason, detail = {}) => {
           const key = "hand-cost-unresolved:" + reason;
-          if (!this.previewEvidence.has(key)) {
-            this.previewEvidence.add(key);
-            const data = { reason, matches, layout, measuredCount, ...detail };
-            // Preserve the actual failed frame, not a later settled screenshot.
-            // At most one per failure kind per run; no normal-flow screenshots.
-            if (typeof file.writeImageSync === "function" && (f.srcMat || f.SrcMat))
-              try {
-                data.screenshotPath = this.path.replace(
-                  /\.log$/,
-                  "-cost-unresolved-" + this.snapshotNumber++ + ".png",
-                );
-                file.writeImageSync(data.screenshotPath, f.srcMat ?? f.SrcMat);
-              } catch (e) {
-                data.snapshotError = String(e.message || e);
-              }
-            this.trace("hand-cost-unresolved", data);
+          if (!this.diagnosticKeys.has(key)) {
+            this.diagnosticKeys.add(key);
+            this.trace("hand-cost-unresolved", { reason, matches, layout, nativeCount, ...detail });
           }
           return null;
         };
@@ -1490,7 +1508,12 @@
             if(value!==null)numbers.push({...found[0],value});
             continue;
           }
-          // Only missing locations: at most three local crops on the SAME frame.
+          // The tight crop also reads zeroes that a broad OCR row drops.
+          // Use the same numeric ROI as selected/folded prices before wider rows.
+          const digit=number(this.numericAt(f,[Math.round(m.x+12),Math.round(m.y-5),36,42],4));
+          localRecoveryCalls++;
+          if(digit!==null){numbers.push({value:digit,x:m.x+28,y:m.y+15});continue;}
+          // Only missing locations: at most three wider crops on the SAME frame.
           // No clicks, title expansion, guessed values, or unbounded ROI search.
           let recovered = false;
           for (const [dx, dy, w, h] of [
@@ -1530,9 +1553,9 @@
         .filter(m => Math.abs(m.x + 103 - x) <= 32).sort((a,b) => a.y - b.y);
       if (!marks.length) return null;
       const m = marks[0];
-      let cost = number(this.numericAt(f, [Math.round(m.x + 12), Math.round(m.y - 5), 36, 42], 4));
-      if (cost === null) {
-        cost = number(this.numericAt(f, [Math.round(m.x), Math.round(m.y - 30), 60, 90], 4));
+      const read = this.handPriceIn(f, m);
+      let cost = read.cost;
+      if (read.reads > 1) {
         this.trace("selected-cost-retry", { point:x, cost, additionalInputs:0 });
       }
       if (cost === null) {
@@ -1546,10 +1569,21 @@
       if (cost === null) this.trace("selected-cost-unread", { point:x, marker:m });
       return cost;
     }
-    handSample(f) {
+    handSample(f, priceIndex = null) {
       this.lastCostSample = null;
       const count = this.handCountIn(f);
-      return { count, cost: this.lastCostSample, source: this.lastHandCountSource };
+      let cost = this.lastCostSample;
+      // Quantity/positions need corners, not every digit. Only the impending
+      // target gets a price proof on these same preselection frames.
+      if (count > 0 && this.handFanReady) {
+        const layout = this.handCostLayoutIn(f, count);
+        if (layout) {
+          cost = { ...costHandSample(layout, []), revision: this.inputRevision, at: Date.now() };
+          if (priceIndex !== null && priceIndex < count)
+            cost.costs[priceIndex] = this.handPriceIn(f, layout.markers[priceIndex]).cost;
+        }
+      }
+      return { count, cost, source: this.lastHandCountSource };
     }
     foldedHandCostsIn(f, layout) {
       // The same native digits (including green prices), on an already bound
@@ -1606,7 +1640,7 @@
         revision: this.inputRevision,
         at: q.at,
       };
-      this.trace("hand-cost-proof", {
+      this.trace(this.handPositionProof.costs.some(TCG.known)?"hand-cost-proof":"hand-position-proof", {
         count,
         points: q.points,
         costs: this.handPositionProof.costs,
@@ -1648,24 +1682,31 @@
         return n;
       }
       if (!this.handFanReady) return null;
-      const cost = this.costHandIn(f);
-      if (cost) {
-        this.lastHandCountSource = "full-cost-layout";
-        this.lastCostSample = { ...cost, revision: this.inputRevision, at: Date.now() };
-        return cost.count;
+      const layout = this.handCostLayoutIn(f);
+      if (layout) {
+        // An unbound row still checks outer numeric evidence. No per-slot
+        // digit recovery is needed just to establish quantity/positions.
+        const y=Math.floor(Math.max(750,Math.min(840,Math.min(...layout.markers.map(m=>m.y))-40))),
+          numbers=layout.measuredCount===null?costDigitRows(this.enlargedOcrRows(f,[470,y,1290,110],3)):[],
+          sample=costHandSample(layout,numbers);
+        if(sample){
+          this.lastHandCountSource = "full-cost-layout";
+          this.lastCostSample = { ...sample, revision: this.inputRevision, at: Date.now() };
+          return layout.count;
+        }
       }
       // Grayscale rim gradient: usable-card gold glow must not change count.
-      const layout = this.memoFrame(f, "hand/rim-count", () => handLayoutCount(
+      const rimCount = this.memoFrame(f, "hand/rim-count", () => handLayoutCount(
         this.matches(f, "hand_rim", [500, 900, 1260, 135], 0.85, false).map((r) => r.x),
       ));
-      if (layout !== null) this.lastHandCountSource = "full-rim-layout";
-      return layout;
+      if (rimCount !== null) this.lastHandCountSource = "full-rim-layout";
+      return rimCount;
     }
     recordHandLayout(count) {
       const key = "hand-layout:" + count;
-      if (count >= 1 && count <= 4 && !this.previewEvidence.has(key)) {
+      if (count >= 1 && count <= 4 && !this.diagnosticKeys.has(key)) {
         this.trace("hand-layout", { count });
-        this.previewEvidence.add(key);
+        this.diagnosticKeys.add(key);
       }
     }
     async handCount(expected = null) {
@@ -1760,7 +1801,7 @@
       this.trace("hand-scan", { count: n, expected, reusedCount: !!evidence });
       await this.fillHandArtwork?.(hand, scan);
       await this.readHandTitles(hand, points, scan);
-      const observed = this.finishHandObservation ? this.finishHandObservation(hand) : hand;
+      const observed = this.finishHandObservation ? this.finishHandObservation(hand, scan) : hand;
       this.requireHandObservation(this.phase(), "before-hand-reset");
       await this.reset();
       this.handCountHint = null;
@@ -1783,6 +1824,9 @@
             return TCG.indexedHand(observed.hand);
           }
         }
+        scan.retainedHand = plan.retainedHand;
+        scan.retainedVariantFamilies = plan.retainedVariantFamilies;
+        scan.settling = true;
         this.invalidateHand("generated-drawn-or-replaced-card");
         const hand = await this.readHand(plan.expectedCount ?? null, null, scan);
         if (session) session.handObservation = { hand: TCG.indexedHand(hand), revision: this.inputRevision };
@@ -1900,7 +1944,7 @@
           continue;
         }
         const key = JSON.stringify([last.phase, last.turn, last.active, last.characters, last.dice,
-          last.enemies, last.quicken || null, last.supportCounts || null]);
+          last.enemies, last.quicken || null, last.supportCounts || null,last.eye||null,last.dendroCore||null]);
         if (!issues.length) {
           if (key === previous) stableReads++;
           else { stableReads = 1; stableSince = Date.now(); }
@@ -2099,6 +2143,8 @@
           last.enemies,
           last.supportCounts,
           last.quicken || null,
+          last.eye || null,
+          last.dendroCore || null,
         ]);
         if (TCG.legalState(state) && TCG.enemyCount(state) !== null && key === previousKey) {
           return this.finishObservation(state, pendingAction, handRead);
@@ -2648,6 +2694,7 @@
     async execute(action, before, memory) {
       this.consumptionReceipt = null;
       this.pendingHandEvidence = null;
+      this.currentAction = action;
       try {
         return await this.executeInput(action, before, memory);
       } catch (e) {
@@ -2662,18 +2709,20 @@
         this.boardReady = false;
         await this.reset();
         throw e;
+      } finally {
+        this.currentAction = null;
       }
     }
     
-    async inputHand(action,before,memory) {
-      const sourceCount=await this.prepareHandInput(before.hand.length);
+    async inputHand(action,before,memory,prepared=null) {
+      const sourceCount=prepared?prepared.sourceCount:await this.prepareHandInput(before.hand.length,
+        action.type==="card"&&this.checkCardInput?action.index:null);
       const current = before.hand;
       const h = current.find(c => c.index === action.index);
       if (!h || h.id !== action.id) throw new Error("执行前重新核对卡名失败");
       if(!this.handFanReady)await this.expand();
-      const x = this.handPoints(current.length)[action.index];
-      const title = TCG.observedCard(await this.titleAt(x, 945, false, false, "card", null, true),action.index);
-      if (title?.id !== action.id) await this.refreshHandBeforeInput("拖牌前最后一次卡名校验失败");
+      const x = prepared?prepared.x:this.handPoints(current.length)[action.index];
+      if (!prepared) await this.inspectHandCard(action, x);
       await this.checkCardInput?.(action,before,x,memory);
       if(this.phase().turn!=="user")throw new Error("拖牌前回合已改变");
       const targeted = action.type === "card" && action.target !== null;
@@ -2726,7 +2775,7 @@
       await this.clickButton("回合结束", [0, 0, 384, 1080]);
       if (this.phase().turn === "user") await this.clickButton("回合结束", [0, 0, 384, 1080]);
     }
-    async prepareHandInput(expected) {
+    async prepareHandInput(expected, priceIndex = null) {
       this.requireHandObservation(this.phase(), "before-target-expand");
       // execute already normalized and verified the board; do not blank-click
       // a second time simply to raise the fan.
@@ -2735,9 +2784,9 @@
       // visible anomalies without the redundant 1–4-card boundary/title loop.
       let samples;
       try {
-        samples = [this.frame((f) => this.handSample(f))];
+        samples = [this.frame((f) => this.handSample(f, priceIndex))];
         await sleep(120);
-        samples.push(this.frame((f) => this.handSample(f)));
+        samples.push(this.frame((f) => this.handSample(f, priceIndex)));
       } catch (e) {
         if (e.code !== "TCG_HAND_RETRY") throw e;
         await this.refreshHandBeforeInput("执行前手牌数量证据冲突");
@@ -2808,7 +2857,8 @@
           const receipt = this.choiceReceipt;
           if (!(session.plan?.mode === "remove" && receipt?.origin === session.key &&
               receipt.exited === true && ["payment", "target"].includes(receipt.kind)))
-            session.plan = { mode: "full", action, before, expectedCount: this.handCountHint };
+            session.plan = { mode: "full", action, before, expectedCount: this.handCountHint,
+              retainedHand: session.plan?.retainedHand,retainedVariantFamilies:session.plan?.retainedVariantFamilies };
           continue;
         }
         if (action.type === "card" && action.id === "toss" && (this.tossSession || p.phase === "roll")) {
@@ -2902,11 +2952,10 @@
         try { after = this.board(); }
         catch (e) { if (["TCG_BOARD_RETRY", "TCG_DICE_RETRY"].includes(e.code)) return false; throw e; }
         const caster = after.characters?.[action.who], oldCaster = before.characters?.[action.who];
-        const paid = TCG.total(after.dice) > 0 && TCG.total(after.dice) < TCG.total(before.dice);
+        const paid = after.diceKnown===true&&before.diceKnown===true&&TCG.total(after.dice) < TCG.total(before.dice);
         const charged = TCG.alive(caster) && Number.isInteger(caster.energy) &&
           Number.isInteger(oldCaster?.energy) && caster.energy > oldCaster.energy;
-        if (after.phase !== "pick" || this.inputRevision !== revision || !(paid || charged) ||
-            !TCG.verify(action, before, after, false)) return false;
+        if (after.phase !== "pick" || this.inputRevision !== revision || !(paid || charged)) return false;
         const key = JSON.stringify([after.phase, after.characters, after.dice, after.enemies]);
         if (i === 1) return key === previous;
         previous = key;
@@ -2925,43 +2974,10 @@
       this.consumptionReceipt=null;this.pendingHandEvidence=null;
       this.acceptHand(state.hand, reason);
     }
-    captureEvidence(label, frame = null) {
-      let saved = null;
+    reportStop(reason) {
+      // Preserve the original stop even if its final log write fails.
       try {
-        const save = (f) => {
-          saved = this.path.replace(/\.log$/, "-" + label + "-" + this.snapshotNumber++ + ".png");
-          if (file.writeImageSync(saved, f.srcMat ?? f.SrcMat) === false)
-            throw new Error("证据截图写入失败");
-        };
-        if (frame) save(frame); else this.frame(save);
-      } catch (e) {
-        this.trace("evidence-capture-failed", { label, reason: String(e.message || e) });
-        return;
-      }
-      this.trace("evidence-captured", { label, path: saved });
-      return saved;
-    }
-    snapshot(reason) {
-      const data = { reason, capture: null, screenshotPath: null };
-      try {
-        // Diagnostic capture is raw and must work even when gameplay ROIs cannot.
-        const f = captureGameRegion();
-        try {
-          data.capture = captureSize(f);
-          const path = this.path.replace(/\.log$/, "-stop-" + this.snapshotNumber++ + ".png");
-          if (file.writeImageSync(path, f.srcMat ?? f.SrcMat) === false)
-            throw new Error("截图文件写入失败：" + path);
-          data.screenshotPath = path;
-        } finally {
-          f.dispose();
-        }
-      } catch (e) {
-        data.snapshotError = String(e.message || e);
-        log.warn("诊断截图保存失败：" + data.snapshotError);
-      }
-      // A screenshot failure must not erase the original reason from the run log.
-      try {
-        this.trace("stop", data);
+        this.trace("stop", { reason });
       } catch (e) {
         log.warn("停止日志保存失败：" + e.message);
       }
@@ -3042,7 +3058,7 @@
           // Native 0.3.8 run: choice detail is in the left panel, unlike the
           // ordinary hand detail at x=311. Require that exact selected title
           // and the unique bottom confirm button, not a second card click.
-          const preview=this.frame(f=>({title:TCG.identify(this.ocr(f,[45,115,360,50]))?.id,
+          const preview=this.frame(f=>({title:TCG.identify(this.titleIn(f,[45,115,360,50]))?.id,
             buttons:this.matches(f,"core/确定",[500,800,920,240])}));
           const matched=preview.title===this.choiceSession.id && preview.buttons.length===1;
           const current=matched?JSON.stringify(preview):"";stable=matched?(current===key?stable+1:1):0;key=current;
@@ -3145,7 +3161,8 @@
           if(attempt<5)await sleep(250);
         }
         if(type==="food")throw new Error("料理选人后未识别到唯一中央确定");
-        this.captureEvidence("targeted-card-"+action.id);throw new Error("目标卡牌选人后确认页未核实");
+        this.trace("targeted-card-unresolved",{id:action.id,target:action.target,reason:"目标卡牌选人后确认页未核实"});
+        throw new Error("目标卡牌选人后确认页未核实");
       }
       // Native 星天之兆 opens a payment page with a CENTER button. Its detail
       // panel is gone and the right skill buttons are not the confirmation.

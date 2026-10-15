@@ -52,7 +52,7 @@
         (!m.thundergrassSupport || m.thundergrassSupport==="thundergrass"))add(action);
       else if(def.type==="food" && !m.food[a] && !c.frozen){
         if(["sweet","hashbrown"].includes(h.id) && c.hp<T.team[a].maxHp || h.id==="lotus" && c.hp<=5 ||
-          h.id==="smoked" && m.normalDiscount[a]===0 || h.id==="mint" && a===2 && m.keqingInfusedRound+1>=m.round)
+          h.id==="smoked" && m.normalDiscount[a]===0 || h.id==="mint" && a===2 && T.activeKeqingInfusion(m))
           add({...action,target:a});
       } else if(h.id==="exile"){
         if(m.artifactKinds[a]!=="exile" && !c.frozen && exileSetup(s,m))add({...action,target:a});
@@ -65,7 +65,7 @@
       else if(h.id==="talent" && a===1 && !m.talent && !c.frozen)add({...action,target:1});
       else if(h.id==="penance" && a===2 && !m.penance && !c.frozen)add({...action,target:2});
       else if(h.id==="wedge" && T.alive(s.characters[2]) && !s.characters[2].frozen && a!==2)add({...action,target:2});
-      else if(h.id==="draw" && s.hand.length<=8)add(action);
+      else if(h.id==="draw" && s.hand.length<=9)add(action);
       else if(h.id==="toss" && n>0){
         const goal=T.actionRerollGoal(s,m);
         if(goal && goal.bad>0 && goal.needed>0 && !goal.payable)add(action);
@@ -111,15 +111,17 @@
   }
   function damageEstimate(s,m,who,skill,equips=false){
     const enemies=s.enemies||[],target=enemies.find(e=>e.active===true && T.alive(e));
-    const infused=who===2&&m.keqingInfusedRound+(m.penance?2:1)>=m.round;
+    const infusion=who===2?T.activeKeqingInfusion(m):null;
     let direct=skill==="NA"?2:who===0?(skill==="E"?0:3):skill==="E"?3:who===1?2:4;
     const elemental=!!T.skillElement(m,who,skill);
     if(direct>0 && m.weapons[who])direct++; // Weapons also buff physical NA, not Raiden E's zero direct hit.
-    if(who===2&&elemental&&m.penance&&infused)direct++;
-    if(skill==="Q" && m.eyeRound+2>=m.round)direct++;
+    if(who===2&&elemental&&infusion?.kind==="enhanced")direct++;
+    if(skill==="Q"&&s.eye?.known===true&&s.eye.charges>0)direct++;
+    if(skill==="Q"&&who===0&&T.known(m.resolve))direct+=m.resolve;
     const element=T.team[who].element;
     const aura=target?.auraKnown===true&&Array.isArray(target.aura)?target.aura:[],
-      hit=hitEstimate(direct,elemental?element:null,aura,s.quicken),
+      core=elemental&&element==="Electro"&&s.dendroCore?.known===true&&s.dendroCore.charges>0,
+      hit=hitEstimate(direct+(core?2:0),elemental?element:null,aura,s.quicken),
       sproutTriggered=T.sproutAvailable(m,who,skill,equips) && T.dendroReaction(s,m,who,skill)===true;
     // Sprout resolves AFTER the skill. Never attach it to an already defeated
     // target or invent the opponent's forced replacement choice.
@@ -130,7 +132,7 @@
     return {direct:hit.direct+(extra?.direct||0),skillDirect:hit.direct,sproutDamage:extra?.direct||0,
       sproutTriggered,splash,perStandby,reaction:hit.reaction,elemental,element,consumed:hit.consumed,
       uncertainReaction:hit.uncertainReaction || extra?.uncertainReaction===true,target,
-      auraAfter:extra?.auraAfter||hit.auraAfter,quickenAfter:extra?.quickenAfter||hit.quickenAfter};
+      auraAfter:extra?.auraAfter||hit.auraAfter,quickenAfter:extra?.quickenAfter||hit.quickenAfter,coreConsumed:core};
   }
   function knownDefeats(s,m,who,skill,equips=false) {
     if(T.enemyCount(s)===null)return 0;
@@ -233,6 +235,7 @@
       }
       if(s.characters[who].hp<=3)benefit-=1.4; // no invented enemy damage or certain survival.
       if(d.quickenAfter)next.quicken=d.quickenAfter;
+      if(d.coreConsumed)next.dendroCore={known:true,charges:0};
     }
     T.commit(mem,a,s,next);
     if(a.type!=="probe")mem.costEvidence=null; // one-board evidence never predicts future reductions.
@@ -315,6 +318,20 @@
       const child=advance(node,{type:"skill",...goal},baseline);expanded++;if(!child)continue;
       if(preparationUsed(child.path)&&betterPlan(child,best))best=child;
       if(!child.leaf&&child.path.length<depth)frontier.push(child);
+      // Retain the whole Q -> actual switch -> teammate Q prefix before beam
+      // pruning. Same rule projection/value and the SAME 1500-node budget.
+      if(who===0&&skill==="Q"&&!child.leaf)for(const target of [1,2]){
+        if(child.path.length+2>depth||expanded>=budget)break;
+        const change={type:"switch",target},burst={type:"skill",who:target,skill:"Q"};
+        if((child.memory.uncertainActions||[]).some(k=>[T.actionKey(change),T.actionKey(burst)].includes(k))||
+          !T.alive(child.state.characters[target])||child.state.characters[target].frozen)continue;
+        const handoff=advance(child,change,baseline);expanded++;if(!handoff)continue;
+        if(!T.skillLegal(handoff.state,burst,handoff.memory))continue;
+        if(expanded>=budget)break;
+        const done=advance(handoff,burst,baseline);expanded++;if(!done)continue;
+        if(preparationUsed(done.path)&&betterPlan(done,best))best=done;
+        if(!done.leaf&&done.path.length<depth)frontier.push(done);
+      }
     }
     search: for(let step=0;step<depth;step++){
       const next=[],seen=new Map();
@@ -326,7 +343,7 @@
         const child=advance(node,a,baseline);if(!child)continue;expanded++;
         const signature=T.boardKey(child.state)+JSON.stringify([child.memory.freeSwitch,child.memory.fastSwitch,
           child.memory.thundergrassSupport,child.memory.artifactKinds,child.memory.gamblerUsed,child.memory.exileUsedRound,
-          child.memory.weapons,child.memory.penance,child.memory.food,child.memory.talent,
+          child.memory.weapons,child.memory.penance,child.memory.keqingInfusion,child.memory.resolve,child.memory.food,child.memory.talent,
           child.memory.sproutRound,child.memory.sproutUsedRound,child.memory.sproutUncertainRound]);
         if(!seen.has(signature)||seen.get(signature).value<child.value)seen.set(signature,child);
         if((child.casts>0||child.path[0].type==="card") && preparationUsed(child.path) && betterPlan(child,best))best=child;
