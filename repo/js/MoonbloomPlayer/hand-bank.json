@@ -375,6 +375,7 @@
     {
       "id": "seed",
       "name": "诳言之核",
+      "scoreFloor": 0.9,
       "views": [
         {
           "name": "native-2246e0f209-0",
@@ -388,6 +389,13 @@
           "patches": [
             "assets/hand/seed-moon-2246e0f209-f1-0.png",
             "assets/hand/seed-moon-2246e0f209-f1-1.png"
+          ]
+        },
+        {
+          "name": "runtime-3da617c525",
+          "patches": [
+            "assets/hand/seed-runtime-3da617c525-0.png",
+            "assets/hand/seed-runtime-3da617c525-1.png"
           ]
         }
       ]
@@ -536,6 +544,91 @@
           ]
         }
       ]
+    },
+    {
+      "id": "lumen",
+      "name": "流明石触媒",
+      "views": [
+        {
+          "name": "runtime-ffd81b4c8e",
+          "patches": [
+            "assets/hand/lumen-runtime-ffd81b4c8e-0.png",
+            "assets/hand/lumen-runtime-ffd81b4c8e-1.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "transformer",
+      "name": "参量质变仪",
+      "views": [
+        {
+          "name": "runtime-d95e69d8ec",
+          "patches": [
+            "assets/hand/transformer-runtime-d95e69d8ec-0.png",
+            "assets/hand/transformer-runtime-d95e69d8ec-1.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ray",
+      "name": "异色猎刀鳐",
+      "views": [
+        {
+          "name": "runtime-48854c0964",
+          "patches": [
+            "assets/hand/ray-runtime-48854c0964-0.png",
+            "assets/hand/ray-runtime-48854c0964-1.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "yumka",
+      "name": "匿叶龙",
+      "views": [
+        {
+          "name": "runtime-c4fb60d01b",
+          "patches": [
+            "assets/hand/yumka-runtime-c4fb60d01b-0.png",
+            "assets/hand/yumka-runtime-c4fb60d01b-1.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "boat",
+      "name": "浪船",
+      "views": [
+        {
+          "name": "runtime-f4a2509150",
+          "patches": [
+            "assets/hand/boat-runtime-f4a2509150-0.png",
+            "assets/hand/boat-runtime-f4a2509150-1.png"
+          ]
+        },
+        {
+          "name": "runtime-e3a3a0e40c",
+          "patches": [
+            "assets/hand/boat-runtime-e3a3a0e40c-0.png",
+            "assets/hand/boat-runtime-e3a3a0e40c-1.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tepetli",
+      "name": "嵴锋龙",
+      "views": [
+        {
+          "name": "runtime-a27a31ef1c",
+          "patches": [
+            "assets/hand/tepetli-runtime-a27a31ef1c-0.png",
+            "assets/hand/tepetli-runtime-a27a31ef1c-1.png"
+          ]
+        }
+      ]
     }
   ],
   "expanded": {
@@ -572,6 +665,13 @@
             "patches": [
               "assets/expanded/calx-b20e61ce17a2-0.png",
               "assets/expanded/calx-b20e61ce17a2-1.png"
+            ]
+          },
+          {
+            "name": "runtime-e04467c737",
+            "patches": [
+              "assets/expanded/calx-runtime-e04467c737-0.png",
+              "assets/expanded/calx-runtime-e04467c737-1.png"
             ]
           }
         ]
@@ -951,6 +1051,72 @@
             "patches": [
               "assets/expanded/gambler-runtime-9a672f0dd0-0.png",
               "assets/expanded/gambler-runtime-9a672f0dd0-1.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "lumen",
+        "name": "流明石触媒",
+        "views": [
+          {
+            "name": "runtime-ee827a280f",
+            "patches": [
+              "assets/expanded/lumen-runtime-ee827a280f-0.png",
+              "assets/expanded/lumen-runtime-ee827a280f-1.png"
+            ]
+          },
+          {
+            "name": "runtime-e04467c737",
+            "patches": [
+              "assets/expanded/lumen-runtime-e04467c737-0.png",
+              "assets/expanded/lumen-runtime-e04467c737-1.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "transformer",
+        "name": "参量质变仪",
+        "views": [
+          {
+            "name": "runtime-9723ab4ad5",
+            "patches": [
+              "assets/expanded/transformer-runtime-9723ab4ad5-0.png",
+              "assets/expanded/transformer-runtime-9723ab4ad5-1.png"
+            ]
+          },
+          {
+            "name": "runtime-e04467c737",
+            "patches": [
+              "assets/expanded/transformer-runtime-e04467c737-0.png",
+              "assets/expanded/transformer-runtime-e04467c737-1.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "ray",
+        "name": "异色猎刀鳐",
+        "views": [
+          {
+            "name": "runtime-36aff8a700",
+            "patches": [
+              "assets/expanded/ray-runtime-36aff8a700-0.png",
+              "assets/expanded/ray-runtime-36aff8a700-1.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "yumka",
+        "name": "匿叶龙",
+        "views": [
+          {
+            "name": "runtime-35f6324f45",
+            "patches": [
+              "assets/expanded/yumka-runtime-35f6324f45-0.png",
+              "assets/expanded/yumka-runtime-35f6324f45-1.png"
             ]
           }
         ]

@@ -90,18 +90,16 @@
           const [dx,dy,w,h]=p;
           return score(this,env,f,slot.marker.x+dx,slot.marker.y+dy,w,h,filename,2);
           });
-          // First native rejection of this row only; reuse the classifier frame.
-          // No sampler loop, second capture, or extra card-selection input.
+          // Report native rejection once per row; external diagnostics own images.
           const missing=read.slots.filter(s=>!s.id&&!s.titleCandidates);
-          if(read.status!=="readable"&&!this.previewEvidence.has("hand-layout-miss")){
-            this.previewEvidence.add("hand-layout-miss");
-            this.trace("hand-layout-miss",{reason:read.reason,path:this.captureEvidence("hand-layout-miss",f),inputs:0});
+          if(read.status!=="readable"&&!this.diagnosticKeys.has("hand-layout-miss")){
+            this.diagnosticKeys.add("hand-layout-miss");
+            this.trace("hand-layout-miss",{reason:read.reason,inputs:0});
           }
           const key="hand-art-miss:"+JSON.stringify(read.slots.map(s=>s.id||s.candidate||null));
-          if(missing.length&&!this.previewEvidence.has(key)){
-            this.previewEvidence.add(key);
-            const path=this.captureEvidence("hand-art-miss",f);
-            this.trace("hand-art-miss",{path,count:read.count,slots:read.slots,inputs:0});
+          if(missing.length&&!this.diagnosticKeys.has(key)){
+            this.diagnosticKeys.add(key);
+            this.trace("hand-art-miss",{count:read.count,slots:read.slots,inputs:0});
           }
           return read;
         });
@@ -109,10 +107,9 @@
       readSelectedCardFacts(f,card,x){
         super.readSelectedCardFacts?.(f,card,x);
         const key="hand-unlisted:"+card.id;
-        if(!bank.entries.some(e=>e.id===card.id)&&!this.previewEvidence.has(key)){
-          this.previewEvidence.add(key);
-          const path=this.captureEvidence("hand-unlisted-"+card.id,f);
-          this.trace("hand-unlisted",{id:card.id,name:card.name,point:[x,945],path,inputs:0});
+        if(!bank.entries.some(e=>e.id===card.id)&&!this.diagnosticKeys.has(key)){
+          this.diagnosticKeys.add(key);
+          this.trace("hand-unlisted",{id:card.id,name:card.name,point:[x,945],inputs:0});
         }
       }
       expandedHandIn(f,count){
@@ -127,10 +124,9 @@
         const read=C.identify({status:"readable",count,slots:layout.markers.map((marker,index)=>({index,marker}))},
           bank.expanded,(slot,p,filename)=>score(this,env,f,Math.round(slot.marker.x)+p[0],
             Math.round(slot.marker.y)+p[1],p[2],p[3],filename,2));
-        if(read.slots.every(s=>!s.id)&&!this.previewEvidence.has("expanded-art-miss")){
-          this.previewEvidence.add("expanded-art-miss");
-          this.trace("expanded-art-miss",{count,slots:read.slots,
-            path:this.captureEvidence("expanded-art-miss",f),inputs:0});
+        if(read.slots.every(s=>!s.id)&&!this.diagnosticKeys.has("expanded-art-miss")){
+          this.diagnosticKeys.add("expanded-art-miss");
+          this.trace("expanded-art-miss",{count,slots:read.slots,inputs:0});
         }
         return read;
       }
@@ -143,10 +139,51 @@
           if(slot.id)cards[slot.index]=T.observedCard(T.byId[slot.id].name,slot.index);
           else if(slot.titleCandidates)scan.titleCandidates[slot.index]=slot.titleCandidates;
         }
+        this.fillHandVariants(cards,read.slots,scan.retainedHand,scan.retainedVariantFamilies);
         this.trace("expanded-hand-artwork",{count:cards.length,known:cards.filter(Boolean).length,
           unknown:cards.flatMap((c,i)=>c?[]:[i]),inputs:0});
       }
-      async folded(mode){
+      fillHandVariants(cards,slots,retainedHand,retainedFamilies=[]){
+        // The deck owns variant rules; this layer only intersects a rule proof
+        // with the observed artwork family. Prices never identify a variant.
+        const proof=T.handVariantProof?.(this.memory,this.confirmationSession?.plan?.action);
+        if(proof)for(const slot of slots)if(!cards[slot.index]&&slot.titleCandidates){
+          const possible=slot.titleCandidates.filter(id=>proof.ids.includes(id));
+          if(possible.length===1&&slot.titleCandidates.every(id=>proof.family.includes(id))){
+            cards[slot.index]=T.observedCard(T.byId[possible[0]].name,slot.index);
+            this.trace("hand-variant-inferred",{id:possible[0],index:slot.index,proof:proof.source,inputs:0});
+          }
+        }
+        // Only an explicit rule guarantee can retain old identities across a
+        // full sync. Artwork must classify all members of the current family.
+        // Equal counts and one old identity resolve membership without guessing
+        // order, a printed stage, a current price or a newly drawn family card.
+        if(!retainedHand)return;
+        const complete=slots.every(s=>s.id||s.titleCandidates);
+        const done=new Set();
+        for(const slot of slots)if(!slot.id&&slot.titleCandidates){
+          const family=slot.titleCandidates,key=family.slice().sort().join("/");
+          if(done.has(key))continue;done.add(key);
+          // A rule-proven no-new-member action (e.g. kernel generation) keeps
+          // the family count exact even if an unrelated card needs a title.
+          const unchangedFamily=retainedFamilies.some(ids=>ids.length===family.length&&ids.every(id=>family.includes(id)));
+          if(!complete&&!unchangedFamily)continue;
+          const prior=retainedHand.filter(c=>family.includes(c.id)),ids=new Set(prior.map(c=>c.id));
+          const current=slots.filter(s=>s.id?family.includes(s.id):
+            s.titleCandidates?.length===family.length&&s.titleCandidates.every(id=>family.includes(id)));
+          if(ids.size!==1||prior.length!==current.length)continue;
+          const id=prior[0].id;
+          if(current.some(s=>s.id&&s.id!==id))continue;
+          const indices=[];
+          for(const s of current)if(!cards[s.index]){
+            cards[s.index]=T.observedCard(T.byId[id].name,s.index);indices.push(s.index);
+          }
+          if(indices.length)this.trace("hand-variants-reused",{id,indices,
+            proof:unchangedFamily?"rule-proven-unchanged-family-and-native-family-count":
+              "retained-native-identities-and-complete-current-family-count",inputs:0});
+        }
+      }
+      async folded(mode,settling=false){
         if(this.handFanReady||this.handNeedsReset)return null;
         const started=Date.now(),revision=this.inputRevision;
         const sample=()=>this.frame(f=>{
@@ -174,8 +211,15 @@
           }
           unavailableReason="second-frame-unavailable";
           await env.sleep(120);
-          const b=sample();if(b?.read.status==="raised"){
-            read={...b.read,nativeCount:b.nativeCount,stableReads:2};return read;
+          let b=sample(),reads=2;
+          // A known draw/generation can outlast the board animation. Wait only
+          // for missing/moving geometry, without input or mandatory extra reads
+          // on a complete row. A phase/input change ends the wait immediately.
+          while(settling&&b&&b.read.status!=="readable"&&b.read.status!=="raised"&&reads<6){
+            await env.sleep(240);b=sample();reads++;
+          }
+          if(b?.read.status==="raised"){
+            read={...b.read,nativeCount:b.nativeCount,stableReads:reads};return read;
           }
           if(b?.read.status!=="readable"){
             unavailableReason="second-frame-"+(b?.read.reason||"unavailable");return null;
@@ -183,7 +227,23 @@
           // Supplement a conflict with the latest observation, not cached facts
           // or an obligatory agreement with the incomplete first capture.
           read={...b.read,nativeCount:b.nativeCount,
-            countConflict:b.nativeCount!==null&&b.nativeCount!==b.read.count,stableReads:2};
+            countConflict:b.nativeCount!==null&&b.nativeCount!==b.read.count,stableReads:reads};
+          // No input occurred between these captures. Keep a first-frame
+          // identity only when the same slot still ranks that identity first
+          // and only its animated score fell below the floor. A moved row,
+          // count conflict or positive identity change uses the latest frame.
+          const sameRow=reads===2&&a.read.status==="readable"&&a.read.count===read.count&&
+            (a.nativeCount===null||a.nativeCount===read.count)&&!read.countConflict&&
+            read.slots.every((s,i)=>{
+              const old=a.read.slots[i];
+              return Math.abs(s.marker.x-old.marker.x)<=2&&Math.abs(s.marker.y-old.marker.y)<=2&&
+                !(s.id&&old.id&&s.id!==old.id);
+            });
+          if(sameRow)read.slots=read.slots.map((s,i)=>{
+            const old=a.read.slots[i];
+            return !s.id&&old.id&&s.candidate===old.id&&s.rejectionReason==="score-floor"
+              ?{...old,marker:s.marker,identityFrame:1}:s;
+          });
           return read;
         }finally{
           // Best-effort diagnostics must not replace an OCR/cancellation error.
@@ -214,12 +274,12 @@
             }
             await this.reset();
           }
-          let read=await this.folded("board");
+          let read=await this.folded("board",scan.settling===true);
           if(read?.status==="raised"){
             this.requireHandObservation(this.phase(),"raised-hand-before-folded-read");
             if(read.nativeCount!==null)evidence={count:read.nativeCount};
             await this.reset();
-            read=await this.folded("board");
+            read=await this.folded("board",scan.settling===true);
           }
           const cards=read?.slots.map(s=>s.id?T.observedCard(T.byId[s.id].name,s.index):null);
           if(!read||read.status==="raised"||read.countConflict||(evidence&&evidence.count!==read.count))
@@ -236,6 +296,12 @@
           }
           count??=read.count;
           if(count!==read.count)return hand=await super.readHand(null,{count},scan);
+          // Kept opening cards are already observed identities. Before the
+          // first action/read, reuse that evidence through the same complete
+          // family/count checks; never infer a countdown stage from its price.
+          const retained=scan.retainedHand??(this.handScanSerial===0&&!this.currentAction&&read.count===5
+            ?this.openingCards:null);
+          this.fillHandVariants(cards,read.slots,retained,scan.retainedVariantFamilies);
           scan.cards=cards;
           this.handScanSerial++;
           if(cards.every(Boolean)){
@@ -251,7 +317,7 @@
             await this.fillHandArtwork(cards,scan);
             await this.readHandTitles(cards,points,scan);
           }
-          hand=this.finishHandObservation?this.finishHandObservation(cards):cards;
+          hand=this.finishHandObservation?this.finishHandObservation(cards,scan):cards;
           if(this.handFanReady||this.handNeedsReset){
             this.requireHandObservation(this.phase(),"before-hand-reset");
             await this.reset();

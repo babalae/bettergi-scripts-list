@@ -361,7 +361,7 @@
         throw new Error("达到单局时间或动作上限");
       } catch (e) {
         const reason = String(e.message || e);
-        this.host.snapshot(reason);
+        this.host.reportStop(reason);
         log.error("牌手停止：" + reason);
         throw e;
       } finally {
@@ -370,6 +370,7 @@
     }
     reportResult(p){log.info(p.result==="win"?"对局胜利":"对局失败");}
     planOpening(stage){const target=T.role("菈乌玛");this.memory.openingTarget=target;
+      if(this.memory.round===0)this.memory.countdownStock={countdown3:2};
       this.host.trace("opening-character-plan",{target,stage:stage||"initial-pick",source:"configured-team-order"});return {target};}
     async act(){
       const state=await this.observe();if(!state)return;

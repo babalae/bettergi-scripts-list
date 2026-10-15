@@ -86,6 +86,7 @@
   const {roster:team,cards,techniques}=root.TCGMoonCatalog;
   const byId=Object.fromEntries(cards.map(c=>[c.id,c]));
   const initialNames=new Set(cards.filter(c=>c.copies>0).map(c=>c.name));
+  const countdownFamily=["countdown3","countdown2","countdown1","show"];
   const norm = (t) =>
     String(t || "")
       .replace(/[\s:：·!！。，,（）()「」『』【】\[\]“”"‘’']/g, "")
@@ -127,6 +128,45 @@
     if(!Array.isArray(es) || !es.length || !es.every(e=>e.dead===true || alive(e)))return null;
     return es.filter(alive).length;
   }
+  function elementReaction(element,aura=[],lunar=false) {
+  const pair=(a,b)=>(element===a&&aura.includes(b))||(element===b&&aura.includes(a));
+  const result=(name,bonus,consumed,extra={})=>({name,bonus,consumed,...extra});
+  if(element==="Anemo"){
+    const spread=["Cryo","Hydro","Pyro","Electro"].find(e=>aura.includes(e));
+    if(spread)return result("swirl",0,spread,{spread});
+  }
+  if(pair("Hydro","Cryo"))return result("freeze",1,element==="Hydro"?"Cryo":"Hydro",{freeze:true});
+  if(pair("Pyro","Hydro")||pair("Pyro","Cryo"))return result(pair("Pyro","Hydro")?"vaporize":"melt",2,
+    element==="Pyro"?(aura.includes("Hydro")?"Hydro":"Cryo"):"Pyro");
+  if(pair("Electro","Pyro"))return result("overload",2,element==="Electro"?"Pyro":"Electro",{forceSwitch:true});
+  if(pair("Electro","Hydro")||pair("Electro","Cryo")){
+    const water=pair("Electro","Hydro");
+    return result(water?(lunar?"lunar-charged":"charged"):"superconduct",1,
+      element==="Electro"?(water?"Hydro":"Cryo"):"Electro",water&&lunar?{lunar:true,futureUnknown:true}:{piercing:1});
+  }
+  if(pair("Dendro","Hydro"))return result(lunar?"lunar-bloom":"bloom",1,element==="Dendro"?"Hydro":"Dendro",
+    lunar?{lunar:true}:{futureUnknown:true});
+  if(pair("Dendro","Pyro")||pair("Dendro","Electro"))return result("dendro",1,
+    element==="Dendro"?(aura.includes("Pyro")?"Pyro":"Electro"):"Dendro",{futureUnknown:true});
+  return {name:null,bonus:0};
+}
+  function damageAgainst(target,amount,element,piercing=false) {
+  if(!target)return {direct:amount,shieldSpent:0,guaranteed:null};
+  const immune=!piercing&&target.immuneElements?.includes(element),
+    shieldSpent=!piercing&&!immune&&known(target.shield)?Math.min(target.shield,amount):0,
+    direct=immune?0:Math.max(0,amount-shieldSpent);
+  return {direct,shieldSpent,guaranteed:target.defenseKnown===true?direct:null};
+}
+  function enemyDamageEvidence(before,after) {
+  const beforeCount=enemyCount(before),afterCount=enemyCount(after),
+    defeats=beforeCount!==null&&afterCount!==null?Math.max(0,beforeCount-afterCount):null;
+  const matched=before.enemies.flatMap((e,i)=>{
+    const next=e.identity?after.enemies.find(x=>x.identity===e.identity):
+      beforeCount!==null&&afterCount!==null&&before.enemies.length===after.enemies.length?after.enemies[i]:null;
+    return alive(e)&&next&&(next.dead===true||known(next.hp)&&next.hp<e.hp)?[i]:[];
+  });
+  return {any:defeats>0||matched.length>0,defeats,matched};
+}
   function realAction(a){return a.cardAction||a;}
   function actionKey(action){
     const a=realAction(action);return a.type+":"+(a.id||(["skill","probe"].includes(a.type)?a.who+":"+a.skill+(a.technique?":"+a.technique:""):a.target));
@@ -194,11 +234,32 @@
     return c&&a?.source==="native"&&known(a.reduction)&&known(a.increase)?
       Math.max(0,size(c.cost)-a.reduction+a.increase):null;
   }
+  function attachedCostAtLeast(h,n) {
+    const exact=attachedCost(h);if(exact!==null)return exact>=n;
+    const c=byId[h.id],a=h.attachments;
+    if(!c||a?.source!=="native")return null;
+    // Nonnegative attachment counters give bounds without mistaking a final
+    // discounted price for the cost used by research/canopy triggers.
+    if(known(a.increase)&&size(c.cost)+a.increase<n)return false;
+    if(known(a.reduction)&&Math.max(0,size(c.cost)-a.reduction)>=n)return true;
+    return null;
+  }
   const hasReduction=h=>h.attachments?.reduction>0||h.attachments?.reductionPresent===true;
   // Failed inspection is bound to the card/hand observation, not unrelated HP,
   // dice or the active role. A changed price/attachment/hand can be inspected again.
-  function cardProbeKey(s,h){return JSON.stringify([s.hand.map(c=>c.id),h.index,h.id,currentCost(h),h.attachments]);}
-  function cardFactsKnown(h){return currentCost(h)!==null&&h.attachments?.source==="native"&&typeof h.attachments.empowered==="boolean";}
+  function cardProbeKey(s,h,requirement="payment"){
+    return JSON.stringify([s.hand.map(c=>c.id),h.index,h.id,currentCost(h),h.attachments,requirement]);
+  }
+  function cardFactsKnown(h,requirement="payment"){
+    const a=h.attachments;
+    if(requirement==="tuning")return a?.source==="native"&&
+      typeof a.empowered==="boolean"&&typeof a.noTuning==="boolean";
+    if(currentCost(h)===null||a?.source!=="native"||typeof a.empowered!=="boolean")return false;
+    if(requirement==="attachment-cost")return known(a.reduction)&&known(a.increase);
+    if(requirement==="attachment-kinds")return ["empowered","noTuning","effectless"].every(k=>typeof a[k]==="boolean")&&
+      (known(a.reduction)||a.reductionPresent===true)&&(known(a.increase)||a.increasePresent===true);
+    return true;
+  }
   function payment(dice,cost,preserve="Dendro") {
     if(!cost)return null;
     const list=Object.entries(dice).flatMap(([element,n])=>Array(n).fill(element)),selected=[];
@@ -254,7 +315,9 @@
     return null;
   }
   function cardInputError(s,a,m) {
-    return cardContextError(s,a,m)||(!payment(s.dice,cardCost(s,a,m),team[s.active].element)?"当前费用未知或无法合法支付":null);
+    const context=cardContextError(s,a,m);if(context)return context;
+    if(m.probeKeys.includes(cardProbeKey(s,s.hand[a.index])))return "该槽费用检视失败，等待相关手牌事实变化";
+    return !payment(s.dice,cardCost(s,a,m),team[s.active].element)?"当前费用未知或无法合法支付":null;
   }
   const cardLegal = (s,a,m) => a.type==="card" && cardInputError(s,a,m)===null;
   function skillCost(who,skill,m,s) {
@@ -298,13 +361,26 @@
       lunarMinimum:fact(0,"confirmed-action"),enhancedUsed:false,passiveUsed:false,overgrowUsed:false,
       sashimi:[false,false,false],frost:null,ripple:null,paleHymn:null,domain:null,branch:null,
       adventureMap:null,
-      enemyAliveCount:null,lastActive:null,handTop:null,axis:"reaction",kernelProduced:fact(0,"unknown")};
+      enemyAliveCount:null,lastActive:null,handTop:null,countdownStock:null,axis:"reaction",kernelProduced:fact(0,"unknown")};
+  }
+  function handVariantProof(m,pending) {
+    if(!m?.countdownStock||m.supports.includes("kusava"))return null;
+    const a=pending&&realAction(pending),ids=Object.keys(m.countdownStock).filter(id=>m.countdownStock[id]>0);
+    // Pending disposal/foreign-card theft has not been confirmed. Do not infer
+    // from the inventory that existed before that input.
+    if(a?.type==="tune"&&countdownFamily.includes(a.id)||a?.type==="skill"&&["qucu","yumka"].includes(a.technique))return null;
+    return {family:countdownFamily,ids,source:"initial-deck-minus-confirmed-use-plus-confirmed-discard-successor"};
   }
   function nextRound(m) {
+    m.handTop=null; // Round draw consumes the known top; it may also burn at ten cards.
     m.round++;m.food=[false,false,false];m.sashimi=[false,false,false];m.uncertainActions=[];m.probeKeys=[];
     m.costEvidence=null;m.weaponDiscount=0;m.seedboxUsed=false;m.lensUsed=false;
     m.lumenCards=0;m.lumenUsed=false;m.fanUsed=false;m.foodDrawUsed=false;
-    m.enhancedUsed=false;m.passiveUsed=false;m.overgrowUsed=false;m.kernelProduced= fact(0,"unknown");
+    m.enhancedUsed=false;m.passiveUsed=false;m.overgrowUsed=false;m.kernelProduced=fact(0,"confirmed-round");
+    if(m.frost||m.ripple){
+      if(m.paleHymn)m.paleHymn.value=null;
+      if(m.domain)m.domain.value=null;
+    }
     // These two battle statuses act once at each round end. Recasting refreshes
     // their two uses; an old cast must not suppress setup for the whole duel.
     if(m.frost&&--m.frost.value.uses<=0)m.frost=null;
@@ -319,24 +395,60 @@
     return enemy.aura.includes(element==="Dendro"?"Hydro":"Dendro");
   }
   function damageEstimate(s,m,who,skill,kernel=false) {
-    if(skill==="T") {
-      const id=m.techniques[who]?.id,target=s.enemies.find(e=>e.active===true&&alive(e));
-      let direct=techniques[id]?.damage||0;
-      if(target?.immuneElements?.includes("Physical"))direct=0;
-      if(known(target?.shield))direct=Math.max(0,direct-target.shield);
-      return {direct,element:"Physical",target,reacts:false,enhancedReady:false};
-    }
-    const name=team[who].name,element=team[who].element;
-    let direct=kernel?4:skill==="Q"?(name==="奈芙尔"?4+Math.min(2,seeds(s).length):name==="哥伦比娅"?3:0):1;
-    if(direct>0 && m.weapons[who]==="fruit")direct++;
-    if(direct>0 && (skill==="NA" || kernel) && m.sashimi[who])direct++;
-    const target=s.enemies.find(e=>e.active===true&&alive(e)),reacts=direct>0?reaction(s,element):false;
-    if(reacts===true)direct++;
-    // Extra random placement/reaction chains never enter the damage lower bound.
-    if(target?.immuneElements?.includes(element))direct=0;
-    if(known(target?.shield))direct=Math.max(0,direct-target.shield);
-    return {direct,element,target,reacts,enhancedReady:name==="哥伦比娅" && skill==="NA" &&
-      m.lunarMinimum.value>=3 && !m.enhancedUsed && s.hand.some(hasReduction)};
+    const target=s.enemies.find(e=>e.active===true&&alive(e)),name=team[who].name,
+      element=skill==="T"?"Physical":team[who].element,
+      base=skill==="T"?techniques[m.techniques[who]?.id]?.damage||0:kernel?4:
+        skill==="Q"?(name==="奈芙尔"?4+Math.min(2,seeds(s).length):name==="哥伦比娅"?3:0):1;
+    const state=target?JSON.parse(JSON.stringify(target)):null,events=[],queue=[],
+      columbina=role("哥伦比娅"),normal=skill==="NA"||kernel;
+    let direct=0,lunarReactions=0,paleUsed=0,domainUsed=0,
+      passive=m.passiveUsed,overgrow=m.overgrowUsed,enhancedReady=false,
+      hymn=known(m.paleHymn?.value)?m.paleHymn.value:0,
+      domain=name==="哥伦比娅"&&skill==="Q"?3:known(m.domain?.value)?m.domain.value:0,
+      unknownReaction=!!state&&state.auraKnown!==true&&element!=="Physical",replacementRequired=false;
+    if(base)queue.push({base,element,owner:skill==="T"?null:who,normal,source:kernel?"kernel":"skill"});
+    const drain=()=>{
+      while(queue.length){
+        const hit=queue.shift();
+        if(state&&state.hp<=0){replacementRequired=enemyCount(s)>1;break;}
+        const r=state?.auraKnown===true?elementReaction(hit.element,state.aura,true):{name:null,bonus:0},
+          weapon=hit.owner!==null&&m.weapons[hit.owner]==="fruit"?1:0,
+          food=hit.normal&&m.sashimi[hit.owner]?1:0,
+          shatter=state?.frozen===true&&["Pyro","Physical"].includes(hit.element)?2:0;
+        let raw=hit.base+weapon+food+r.bonus+shatter;
+        if(r.name==="lunar-bloom"&&hymn>0){raw++;hymn--;paleUsed++;}
+        if(r.lunar&&domain>0){if(r.name==="lunar-charged")raw+=2;domain--;domainUsed++;}
+        const damage=damageAgainst(state,raw,hit.element);
+        direct+=damage.direct;
+        events.push({...hit,reaction:r.name,direct:damage.direct,lunar:r.lunar===true});
+        if(state){
+          state.hp=Math.max(0,state.hp-damage.direct);
+          if(known(state.shield))state.shield-=damage.shieldSpent;
+          if(shatter)state.frozen=false;if(r.freeze)state.frozen=true;
+          if(r.consumed)state.aura=state.aura.filter(a=>a!==r.consumed);
+          else if(state.auraKnown&&!["Physical","Anemo","Geo"].includes(hit.element))state.aura=[...new Set([...state.aura,hit.element])];
+        }
+        if(r.lunar){
+          lunarReactions++;
+          if(passive===false&&alive(s.characters[columbina])){
+            passive=true;queue.push({base:1,element:r.name==="lunar-bloom"?"Dendro":"Electro",owner:columbina,normal:false,source:"passive"});
+          }
+        }
+        if(r.name&&m.supports.includes("overgrow")&&overgrow===false){
+          overgrow=true;queue.push({base:1,element:"Hydro",owner:null,normal:false,source:"overgrow"});
+        }
+        if(r.futureUnknown)unknownReaction=true;
+      }
+    };
+    drain();
+    enhancedReady=name==="哥伦比娅"&&skill==="NA"&&m.enhancedUsed===false&&state?.hp>0&&
+      m.lunarMinimum.value+lunarReactions>=3&&s.hand.some(hasReduction);
+    if(enhancedReady){queue.push({base:1,element:"Dendro",owner:who,normal:true,source:"enhanced"});drain();}
+    const first=events[0],reacts=unknownReaction&&!lunarReactions?null:lunarReactions>0,
+      guaranteedDirect=target?.defenseKnown===true&&!unknownReaction?direct:null;
+    return {direct,guaranteedDirect,element,target,targetAfter:state,reacts,enhancedReady,events,lunarReactions,paleUsed,domainUsed,
+      passiveUsed:passive,overgrowUsed:overgrow,unknownReaction,replacementRequired,
+      firstReaction:first?.reaction||null};
   }
   function cardTriggers(h,m) {
     const c=byId[h.id],n=attachedCost(h);
@@ -346,15 +458,18 @@
     return {known:true,canopy:triggered,research:n>=3&&m.researchRemaining>0,
       total:triggered.length+(n>=3&&m.researchRemaining>0?1:0),colors:"random-basic"};
   }
-  function attachmentKinds(s) {
-    if(s.hand.some(h=>h.attachments?.source!=="native"))return null;
+  function knownAttachmentKinds(hand) {
     const kinds=new Set();
-    for(const h of s.hand) {
+    for(const h of hand) {
       const a=h.attachments;
+      if(a?.source!=="native")continue;
       if(hasReduction(h))kinds.add("reduction");if(a.increase>0||a.increasePresent)kinds.add("increase");
       if(a.empowered)kinds.add("empowered");if(a.noTuning)kinds.add("noTuning");if(a.effectless)kinds.add("effectless");
     }
     return Math.min(2,kinds.size);
+  }
+  function attachmentKinds(s) {
+    return s.hand.some(h=>h.attachments?.source!=="native")?null:knownAttachmentKinds(s.hand);
   }
   function openingSetting() {return "优先装备与启动牌";}
   function openingContext() {return {};}
@@ -383,35 +498,53 @@
   }
   const intent = (s,m) => ({target:survivorIntent(s,m)});
   function noteBoard(m,s) {
+    if(m.countdownStock&&Array.isArray(s.hand)&&s.hand.some(h=>countdownFamily.includes(h.id)&&!m.countdownStock[h.id]))
+      m.countdownStock=null; // Native contradiction wins; foreign/unobserved effects require local titles.
     if(Array.isArray(s.characters))m.defeated=s.characters.map(c=>c.dead===true);
     const count=enemyCount(s);if(count!==null)m.enemyAliveCount=count;
     if(known(s.active))m.lastActive=s.active;
   }
   function rejectAction(m,a) {const key=actionKey(a);if(!m.uncertainActions.includes(key))m.uncertainActions.push(key);m.costEvidence=null;}
-  const deferUncertain = rejectAction;
+  function deferUncertain(m,a){rejectAction(m,a);if(countdownFamily.includes(a.id)||a.type==="skill"&&["qucu","yumka"].includes(a.technique))m.countdownStock=null;}
+  function combatHandPlan(s,m,who,skill,kernelIndex=null) {
+      const kernel=kernelIndex!==null,name=team[who].name,hit=damageEstimate(s,m,who,skill,kernel),
+        bloomPossible=hit.unknownReaction||hit.events.some(e=>e.reaction==="lunar-bloom"),
+        reductionPossible=h=>h.attachments?.source!=="native"||hasReduction(h),
+        generates=bloomPossible&&alive(s.characters[role("奈芙尔")])&&s.hand.length-(kernel?1:0)<10&&seeds(s).length-(kernel?1:0)<3&&
+          (m.kernelProduced.source==="unknown"||m.kernelProduced.value<2),
+        topdecks=name==="哥伦比娅"&&skill==="NA"&&m.enhancedUsed!==true&&s.hand.some(reductionPossible),
+        draws=m.supports.includes("seelie")&&m.seelieRemaining<=1||
+          kernel&&m.supports.includes("lumen")&&!m.lumenUsed&&m.lumenCards===2;
+      const hand=indexedHand(s.hand).map(h=>{
+        const modified=bloomPossible&&(currentCost(h)===null||currentCost(h)>0)||
+          name==="菈乌玛"&&(skill==="Q"&&(currentCost(h)===null||currentCost(h)>0)||skill==="E"&&reductionPossible(h))||
+          name==="奈芙尔"&&skill==="E"&&h.id==="seed";
+        return modified?{...h,currentCost:null,costSource:"changed-attachment",attachments:{source:"unknown",empowered:null},canTune:false}:h;
+      });
+      if(generates||topdecks||draws)return {mode:"full",expectedCount:null,
+        ...(!topdecks?{retainedHand:indexedHand(hand.filter((_,i)=>i!==kernelIndex)),
+          ...(!draws?{retainedVariantFamilies:[countdownFamily]}:{})}:{})};
+      return {mode:"unchanged",hand};
+  }
+  const seedDiscountKnown=(h,m)=>attachedCost(h)!==null&&known(m.sleepy)&&
+    currentCost(h)===Math.max(0,attachedCost(h)-m.sleepy);
   function handPlan(a,s,m) {
     a=realAction(a);
     if(a.type==="switch" || a.type==="probe")return {mode:"unchanged",hand:indexedHand(s.hand)};
     if(a.type==="tune")return {mode:"remove",hand:indexedHand(s.hand.filter((_,i)=>i!==a.index))};
     if(a.type==="skill") {
-      if(a.skill==="T")return techniques[a.technique].hand?{mode:"full",expectedCount:null}:
+      if(a.skill==="T")return techniques[a.technique].hand?{mode:"full",expectedCount:null,
+        ...(["yumka","tepetli","rawr","blubber"].includes(a.technique)?{retainedHand:indexedHand(s.hand)}:{})}:
         {mode:"unchanged",hand:indexedHand(s.hand)};
-      const name=team[a.who].name,hit=damageEstimate(s,m,a.who,a.skill),
-        bloomPossible=hit.reacts!==false,
-        reductionPossible=h=>h.attachments?.source!=="native"||hasReduction(h),
-        generates=bloomPossible&&alive(s.characters[role("奈芙尔")])&&s.hand.length<10&&seeds(s).length<3,
-        topdecks=name==="哥伦比娅"&&a.skill==="NA"&&!m.enhancedUsed&&s.hand.some(reductionPossible),
-        draws=m.supports.includes("seelie")&&m.seelieRemaining<=1;
-      // Unknown reaction/counter facts cannot prove that generation or random
-      // top-deck is absent. Price-only effects never erase card identities.
-      if(generates||topdecks||draws)return {mode:"full",expectedCount:null};
-      const hand=indexedHand(s.hand).map(h=>{
-        const modified=bloomPossible&&(currentCost(h)===null||currentCost(h)>0)||
-          name==="菈乌玛"&&(a.skill==="Q"&&(currentCost(h)===null||currentCost(h)>0)||a.skill==="E"&&reductionPossible(h))||
-          name==="奈芙尔"&&a.skill==="E"&&h.id==="seed";
-        return modified?{...h,currentCost:null,costSource:"changed-attachment",attachments:{source:"unknown",empowered:null},canTune:false}:h;
-      });
-      return {mode:"unchanged",hand};
+      return combatHandPlan(s,m,a.who,a.skill);
+    }
+    if(a.type==="card"&&a.id==="seed"){
+      const p=combatHandPlan(s,m,s.active,"NA",a.index);
+      if(p.mode==="full")return p;
+      const uncertain=!seedDiscountKnown(s.hand[a.index],m),
+        hand=indexedHand(p.hand.filter((_,i)=>i!==a.index)).map(h=>nonInitial(h)&&(m.sleepy>0||uncertain)?
+        {...h,currentCost:null,costSource:"changed-temporary-discount"}:h);
+      return {mode:"remove",hand};
     }
     if(a.type==="card"&&m&&!(m.supports.includes("lumen")&&!m.lumenUsed&&m.lumenCards===2)) {
       const c=byId[a.id];
@@ -420,7 +553,7 @@
       const identityStable=["dice","switch","energy","status","artifact","support","food","technique","heal-dice"].includes(c.type)||a.id==="gleam";
       if(identityStable&&a.id!=="nre"&&!(c.type==="food"&&m.supports.includes("nre")&&!m.foodDrawUsed)) {
         const hand=indexedHand(s.hand.filter((_,i)=>i!==a.index)).map(h=>{
-          const other=byId[h.id];
+          const other=byId[h.id]||h;
           if(a.id==="gleam"&&(currentCost(h)===null||currentCost(h)>0))
             return {...h,currentCost:null,costSource:"changed-attachment",attachments:{source:"unknown",empowered:null},canTune:false};
           const discountChanged=nonInitial(c)&&m.sleepy>0&&nonInitial(other)||
@@ -434,11 +567,16 @@
       }
     }
     // Reactions, top-deck and generated cards can change identities without changing count.
-    return {mode:"full",expectedCount:null};
+    const c=a.type==="card"?byId[a.id]:null;
+    return {mode:"full",expectedCount:null,
+      ...(c&&!["legend","branch","adventure","choice-option","unimplemented"].includes(c.type)?
+        {retainedHand:indexedHand(s.hand.filter((_,i)=>i!==a.index)),
+          ...(["upgrade","meditation"].includes(c.id)&&
+            !(m.supports.includes("lumen")&&!m.lumenUsed&&m.lumenCards===2)
+            ?{retainedVariantFamilies:[countdownFamily]}:{})}:{})};
   }
   function damaged(before,after) {
-    return Array.isArray(after.enemies) && before.enemies.some((e,i)=>alive(e) &&
-      (after.enemies[i]?.dead===true || known(after.enemies[i]?.hp)&&after.enemies[i].hp<e.hp));
+    return Array.isArray(after.enemies)&&enemyDamageEvidence(before,after).any;
   }
   function verify(a,b,s,transition=false) {
     a=realAction(a);
@@ -465,11 +603,52 @@
       byId[a.id].type==="draw" && s.hand.length>b.hand.length;
   }
   const verifyResynchronized = verify;
+  function commitCombatEffects(m,hit,b,s,who,skill) {
+    const observed=damaged(b,s);
+    if(observed)m.lunarMinimum.value+=hit.lunarReactions;
+    m.passiveUsed=hit.passiveUsed;m.overgrowUsed=hit.overgrowUsed;
+    if(hit.unknownReaction){
+      if(m.passiveUsed===false)m.passiveUsed=null;
+      if(m.supports.includes("overgrow")&&m.overgrowUsed===false)m.overgrowUsed=null;
+      if(m.paleHymn)m.paleHymn.value=null;
+      if(m.domain)m.domain.value=null;
+    }
+    for(const [key,used]of [["paleHymn",hit.paleUsed],["domain",hit.domainUsed]])
+      if(known(m[key]?.value))m[key].value=Math.max(0,m[key].value-used);
+    if(team[who].name==="哥伦比娅"&&skill==="NA"){
+      // A lower bound below three cannot prove the native passive was locked.
+      // An available reduced card may already have been returned by this NA.
+      m.enhancedUsed=hit.enhancedReady?true:m.enhancedUsed===false&&b.hand.some(h=>
+        h.attachments?.source!=="native"||hasReduction(h))?null:m.enhancedUsed;
+      if(hit.enhancedReady)m.handTop=fact(null,"unknown");
+    }
+    const created=Math.max(0,seeds(s).length-seeds(b).length+(skill==="kernel"?1:0));
+    if(created){
+      m.kernelProduced.value=Math.min(2,m.kernelProduced.value+created);
+      m.kernelProduced.source="confirmed-hand-count";
+    }
+  }
   function commit(m,a,b,s) {
     m.costEvidence=null;
-    // Card consumption/replacement can put an identical new card in the old slot.
-    // Ordinary skills/switches do not by themselves justify re-inspecting it.
-    if(a.type==="card"||a.type==="tune")m.probeKeys=[];
+    if(a.type==="card"&&["draw","weapon","return","adventure","legend"].includes(byId[a.id]?.type))m.handTop=null;
+    if(m.countdownStock&&["card","tune"].includes(a.type)&&countdownFamily.includes(a.id)){
+      if(!m.countdownStock[a.id])m.countdownStock=null;
+      else {
+        m.countdownStock[a.id]--;
+        // Playing is not discarding. Tuning advances the printed stage, never
+        // the current discounted price; the successor is in the DECK, not hand.
+        if(a.type==="tune"){
+          const next=countdownFamily[countdownFamily.indexOf(a.id)+1];
+          if(next){m.countdownStock[next]=(m.countdownStock[next]||0)+1;m.handTop=fact(next,"confirmed-discard");}
+        }
+      }
+    }
+    if(a.type==="skill"&&["qucu","yumka"].includes(a.technique))m.countdownStock=null;
+    const handEffect=a.type==="skill"?handPlan(a,b,m):null;
+    // Failed probes belong to these hand facts, not to unrelated HP or dice.
+    // A later reaction can change hidden attachments at an unchanged count.
+    if(a.type==="card"||a.type==="tune"||handEffect&&
+      (handEffect.mode==="full"||handEffect.hand.some((h,i)=>h.currentCost!==b.hand[i].currentCost)))m.probeKeys=[];
     if((a.type==="skill"&&a.skill!=="T"||a.type==="card"&&a.id==="seed")&&m.supports.includes("seelie")){
       if(--m.seelieRemaining<=0){m.supports=m.supports.filter(id=>id!=="seelie");m.seelieRemaining=0;}
     }
@@ -480,7 +659,7 @@
       if(m.supports.includes("fan")&&!m.fanUsed){m.fanUsed=true;m.fanSwitch=true;m.fastSwitch=true;}
     }
     if(a.type==="switch")return;
-    if(a.type==="tune") {if(a.id.startsWith("countdown"))m.handTop=fact("countdown-successor","confirmed-action");return;}
+    if(a.type==="tune")return;
     if(a.type==="skill") {
       if(a.skill==="T") {
         if(--m.techniques[a.who].uses===0)m.techniques[a.who]=null;
@@ -498,9 +677,7 @@
       if(name==="菈乌玛"&&a.skill==="Q")m.paleHymn=fact(3,"confirmed-action");
       if(name==="哥伦比娅"&&a.skill==="E")m.ripple=fact(2,"confirmed-action");
       if(name==="哥伦比娅"&&a.skill==="Q")m.domain=fact(3,"confirmed-action");
-      // Only a proven reaction of the confirmed hit advances the conservative unlock lower bound.
-      if(estimate.reacts===true && damaged(b,s))m.lunarMinimum.value++;
-      if(enhanced) {m.enhancedUsed=true;m.handTop=fact(null,"unknown");}
+      commitCombatEffects(m,estimate,b,s,a.who,a.skill);
       return;
     }
     if(a.type!=="card")return;
@@ -529,7 +706,7 @@
       if(m.lumenCards===3&&!m.lumenUsed){m.lumenUsed=true;if(--m.lumenRemaining===0)m.supports=m.supports.filter(id=>id!=="lumen");}
     }
     if(c.id==="lumen"){m.lumenRemaining=3;m.lumenCards=0;m.lumenUsed=false;}
-    if(c.id==="seed" && damageEstimate(b,m,b.active,"NA",true).reacts===true && damaged(b,s))m.lunarMinimum.value++;
+    if(c.id==="seed")commitCombatEffects(m,damageEstimate(b,m,b.active,"NA",true),b,s,b.active,"kernel");
     if(c.type==="support" && attachedCost(h)>=2 && m.seedboxRemaining>0 && !m.seedboxUsed && c.id!=="seedbox") {
       m.seedboxRemaining--;m.seedboxUsed=true;if(m.seedboxRemaining===0)m.supports=m.supports.filter(id=>id!=="seedbox");
     }
@@ -559,20 +736,62 @@
   }
   const combatAction = a => a.type==="card"&&a.id==="seed";
   const gamblerRemaining = (m,who) => Math.max(0,3-m.gamblerUsed[who]);
+  // Restricted resource projection, never a native observation. Both route and
+  // ordinary candidates use the same cost, hand-impact and commit rules.
+  function projectResources(s,m,a) {
+    const cost=a.type==="skill"?skillCost(a.who,a.skill,m,s):a.type==="card"?cardCost(s,a,m):
+      a.type==="switch"?{any:m.freeSwitch||m.fanSwitch?0:1}:null;
+    if(a.type==="card"&&!["seed","calx","woven","shift","sashimi"].includes(a.id)||
+       a.type==="skill"&&a.skill==="T"||m.uncertainActions.includes(actionKey(a)))return null;
+    if(a.type==="skill"&&!skillLegal(s,a,m)||a.type==="card"&&!cardLegal(s,a,m)||
+       a.type==="switch"&&(a.target===s.active||!alive(s.characters[a.target])||s.characters[a.target].frozen))return null;
+    const pay=payment(s.dice,cost,team[a.type==="switch"?a.target:s.active].element);
+    if(!pay)return null;
+    const next=JSON.parse(JSON.stringify(s)),mem=JSON.parse(JSON.stringify(m)),impact=handPlan(a,s,m),
+      combat=a.type==="skill"||a.id==="seed",who=a.who??s.active,
+      hit=combat?damageEstimate(s,m,who,a.skill||"NA",a.id==="seed"):null;
+    next.dice=pay.remaining;
+    if(a.type==="switch")next.active=a.target;
+    if(a.type==="card"){
+      next.hand=indexedHand(next.hand.filter((_,i)=>i!==a.index));
+      if(a.id==="woven")next.dice.Dendro=Math.min(16-total(next.dice)+(next.dice.Dendro||0),(next.dice.Dendro||0)+1);
+      if(a.id==="calx")for(let i=0;i<3;i++)if(i!==s.active&&alive(next.characters[i])&&next.characters[i].energy>0){
+        next.characters[i].energy--;next.characters[s.active].energy=Math.min(team[s.active].maxEnergy,next.characters[s.active].energy+1);
+      }
+      if(nonInitial(byId[a.id])&&m.sleepy>0)for(const h of next.hand)if(nonInitial(h)){
+        const attached=attachedCost(h);
+        h.currentCost=attached===null?null:currentCost(h)+Math.min(m.sleepy,attached);h.costSource="private-discount-consumption";
+      }
+    }
+    if(combat){
+      if(hit.target)next.enemies[s.enemies.indexOf(hit.target)]=hit.targetAfter;
+      if(hit.targetAfter?.hp===0){hit.targetAfter.dead=true;hit.targetAfter.active=false;}
+      if(a.type==="skill")next.characters[who].energy=a.skill==="Q"?0:Math.min(team[who].maxEnergy,next.characters[who].energy+1);
+      // Any random reduction/creation/top-deck remains an observation boundary.
+      if(impact.mode!=="full")next.hand=impact.mode==="remove"?next.hand:
+        indexedHand(impact.hand);
+    }
+    const triggers=a.type==="card"?cardTriggers(s.hand[a.index],m):null;
+    commit(mem,a,s,next);
+    return {state:next,memory:mem,cost,paid:size(cost),hit,combat,
+      boundary:impact.mode==="full"?"hand-change":a.id==="seed"&&!seedDiscountKnown(s.hand[a.index],m)?"temporary-discount-unknown":
+        hit?.unknownReaction?"reaction":hit?.replacementRequired?"replacement":
+        triggers&&(m.canopyPoints.length||m.researchRemaining!==0)&&(!triggers.known||triggers.total>0)?"random-refund":null};
+  }
   root.TCG={team,cards,techniques,byId,initialNames,norm,identify,observedCard,handCardKnown,characterName,role,
     diceOrder,total,size,known,alive,enemyCount,bag,indexedHand,removedOne,boardKey,actionKey,fact,payment,
     cardCost,cardInputCost,cardContextError,cardInputError,cardLegal,skillCost,skillLegal,legalState,freshMemory,nextRound,
-    seeds,nonInitial,currentCost,attachedCost,cardFactsKnown,cardProbeKey,hasReduction,realAction,cardTriggers,attachmentKinds,reaction,damageEstimate,openingSetting,openingContext,
+    seeds,nonInitial,currentCost,attachedCost,attachedCostAtLeast,cardFactsKnown,cardProbeKey,hasReduction,realAction,cardTriggers,attachmentKinds,knownAttachmentKinds,reaction,damageEstimate,openingSetting,openingContext,
     openingPlan,rerollPlan,rerollCounter,OpeningFlow,freshActionBoard,replacement,survivorIntent,intent,noteBoard,
-    rejectAction,deferUncertain,handPlan,verify,verifyResynchronized,commit,removalEffect,emptyHandEffect,
-    nativeCardScope,combatAction,gamblerRemaining,
+    rejectAction,deferUncertain,handPlan,handVariantProof,verify,verifyResynchronized,commit,removalEffect,emptyHandEffect,
+    nativeCardScope,combatAction,gamblerRemaining,elementReaction,damageAgainst,enemyDamageEvidence,projectResources,
     defaultMaxMinutes:45,targetedCardTypes:["technique","heal-dice"],
-    targetedCardBanners:{technique:["请选择一个角色装备特技","请选择一个角色","对所选角色生效"],
+    targetedCardBanners:{technique:["请选择要装备特技的角色","请选择一个角色装备特技","请选择一个角色","对所选角色生效"],
       "heal-dice":["请选择一个角色","对所选角色生效"]}};
 })(globalThis);
 
-globalThis.TCG.version = "1.1.1";
-globalThis.TCG.sharedVersion = "1.3.2";
+globalThis.TCG.version = "1.2.7";
+globalThis.TCG.sharedVersion = "1.4.7";
 globalThis.TCG.defaultStrategy = "default";
 (function (T) {
   const strategies = new Map();
