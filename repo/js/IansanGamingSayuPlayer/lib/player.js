@@ -642,7 +642,7 @@
         throw new Error("达到单局时间或动作上限");
       } catch (e) {
         const reason = String(e.message || e);
-        this.host.snapshot(reason);
+        this.host.reportStop(reason);
         log.error("牌手停止：" + reason);
         throw e;
       } finally {

@@ -4,6 +4,15 @@
   "use strict";
   const T = root.TCG,
     copy = (x) => JSON.parse(JSON.stringify(x));
+  function freeSwitchPreparation(s,m,action,switchCost,costOf) {
+  if(action.type!=="switch"||T.size(switchCost)===0)return null;
+  for(const h of s.hand)if(h.id==="shift"){
+    const a={type:"card",id:h.id,index:h.index,target:null},cost=costOf(a);
+    if(cost!==null&&T.size(cost)===0&&!m.uncertainActions.includes(T.actionKey(a))&&T.cardLegal(s,a,m))
+      return a;
+  }
+  return null;
+}
   const enemy = (s) => (s.enemies || []).find((e) => T.alive(e) && e.active === true);
   const SEARCH_LIMITS = Object.freeze({
     depth: 5,
@@ -43,6 +52,13 @@
     return "接力轴";
   }
   function outputRole(s, m) {
+    // Enemy count is an opening prior, not a reason to abandon a funded
+    // equipped incumbent or ignore an already-earned native return.
+    if(m.gamingReturn&&T.alive(s.characters[1])&&!s.characters[1].frozen&&
+      T.payment(s.dice,T.switchCost(m),"Pyro"))return 1;
+    if([1,2].includes(s.active)&&!s.characters[s.active].frozen&&
+      (m.weapons[s.active]||s.active===2&&m.talent||s.characters[s.active].energy===T.team[s.active].maxEnergy)&&
+      ["E","Q","NA"].some(skill=>T.skillLegal(s,{who:s.active,skill},m)))return s.active;
     const n = T.enemyCount(s);
     if (n !== null && n <= 2 && T.alive(s.characters[1]) && !s.characters[1].frozen) return 1;
     if (T.alive(s.characters[2]) && !s.characters[2].frozen) return 2;
@@ -307,38 +323,7 @@
     return { card: cards[0], needed, goal: g };
   }
   function reaction(element, aura = []) {
-    const pair = (a, b) =>
-      (element === a && aura.includes(b)) || (element === b && aura.includes(a));
-    const swirled =
-      element === "Anemo"
-        ? ["Cryo", "Hydro", "Pyro", "Electro"].find((e) => aura.includes(e))
-        : null;
-    if (swirled) return { name: "swirl", bonus: 0, spread: swirled, consumed: swirled };
-    if (pair("Pyro", "Hydro") || pair("Pyro", "Cryo"))
-      return {
-        name: pair("Pyro", "Hydro") ? "vaporize" : "melt",
-        bonus: 2,
-        consumed: element === "Pyro" ? (aura.includes("Hydro") ? "Hydro" : "Cryo") : "Pyro",
-      };
-    if (pair("Electro", "Pyro"))
-      return {
-        name: "overload",
-        bonus: 2,
-        consumed: element === "Electro" ? "Pyro" : "Electro",
-        forceSwitch: true,
-      };
-    if (pair("Electro", "Hydro") || pair("Electro", "Cryo"))
-      return {
-        name: pair("Electro", "Hydro") ? "charged" : "superconduct",
-        bonus: 1,
-        piercing: 1,
-        consumed: element === "Electro" ? (aura.includes("Hydro") ? "Hydro" : "Cryo") : "Electro",
-      };
-    if (pair("Hydro", "Cryo"))
-      return { name: "freeze", bonus: 1, consumed: element === "Hydro" ? "Cryo" : "Hydro" };
-    if (aura.includes("Dendro") && ["Pyro", "Hydro", "Electro"].includes(element))
-      return { name: "dendro", bonus: 1, consumed: "Dendro", futureUnknown: true };
-    return { name: null, bonus: 0 };
+    return T.elementReaction(element,aura);
   }
   function damageEstimate(s, m, who, skill) {
     const e = enemy(s),
@@ -356,7 +341,9 @@
       preparedBuff = m.kineticEstimate > 1 ||
         (m.kineticEstimate > 0 && m.nightsoulEstimate > 0) ? 2 : 0,
       soup = m.soupDamage[who] > 0 ? 1 : 0;
-    const direct = base + weapon + skillBonus + buff + soup + r.bonus;
+    const shatter=e?.frozen===true&&["Pyro","Physical"].includes(element)?2:0,
+      rawDirect=base+weapon+skillBonus+buff+soup+r.bonus+shatter,
+      direct=T.damageAgainst(e,rawDirect,element).direct;
     const preparedElement = r.spread || "Anemo";
     const prepared =
       who === 2 && skill === "E"
@@ -374,6 +361,7 @@
       buff,
       soup,
       direct,
+      rawDirect,
       prepared,
       preparedBuff,
       preparedElement,
@@ -389,36 +377,33 @@
   function applyDamage(next, d) {
     const e = enemy(next);
     if (!e) return { dealt: d.direct * 0.5, kills: 0 };
-    let dealt = Math.min(e.hp, d.direct);
-    e.hp = Math.max(0, e.hp - d.direct);
-    const backgrounds = next.enemies.filter((x) => x !== e && T.alive(x));
-    for (const x of backgrounds) {
-      if (d.reaction.piercing) {
-        dealt += Math.min(x.hp, 1);
-        x.hp = Math.max(0, x.hp - 1);
+    const targets=next.enemies.filter(T.alive),backgrounds=targets.filter(x=>x!==e);
+    let dealt=0,complete=true;
+    const hit=(x,amount,element,piercing=false)=>{
+      const damage=T.damageAgainst(x,amount,element,piercing);
+      dealt+=Math.min(x.hp,damage.direct);x.hp=Math.max(0,x.hp-damage.direct);
+      if(T.known(x.shield))x.shield-=damage.shieldSpent;
+    };
+    const update=(x,element,r)=>{
+      if(element==="Physical"){
+        if(x.frozen===true)x.frozen=false;
+        return;
       }
-      if (d.reaction.spread) {
-        const r = reaction(d.reaction.spread, x.auraKnown ? x.aura : []),
-          hit = 1 + r.bonus;
-        dealt += Math.min(x.hp, hit);
-        x.hp = Math.max(0, x.hp - hit);
-        // A background secondary reaction can affect other cards. Stop the
-        // branch rather than pretend it is a full recursive reaction engine.
-        if (r.name) x.auraKnown = false;
-        else {
-          x.aura = [d.reaction.spread];
-          x.auraKnown = true;
-        }
-      }
-    }
-    if (d.elemental) {
-      if (d.reaction.consumed) {
-        e.aura = (e.aura || []).filter((x) => x !== d.reaction.consumed);
-        e.auraKnown = true;
-      } else if (d.element !== "Anemo" && e.auraKnown) {
-        e.aura = [d.element];
-        e.auraKnown = true;
-      }
+      if(x.frozen===true&&element==="Pyro")x.frozen=false;
+      if(r.freeze)x.frozen=true;
+      if(x.auraKnown!==true){complete=false;return;}
+      if(r.consumed)x.aura=x.aura.filter(a=>a!==r.consumed);
+      else if(!["Anemo","Geo"].includes(element))x.aura=[...new Set([...x.aura,element])];
+      if(r.futureUnknown)complete=false;
+    };
+    hit(e,d.rawDirect??d.direct,d.element);update(e,d.element,d.reaction);
+    if(d.reaction.piercing)for(const x of backgrounds)hit(x,1,"Physical",true);
+    if(d.reaction.spread)for(const x of backgrounds){
+      const element=d.reaction.spread,r=reaction(element,x.auraKnown?x.aura:[]),
+        shatter=x.frozen===true&&element==="Pyro"?2:0;
+      hit(x,1+r.bonus+shatter,element);update(x,element,r);
+      if(r.piercing)for(const other of targets)if(other!==x)hit(other,1,"Physical",true);
+      // Secondary overload affects only its background target, not the active.
     }
     let kills = 0;
     for (const x of next.enemies)
@@ -427,7 +412,12 @@
         kills++;
       }
     const currentIndex = next.enemies.indexOf(e);
-    if (e.dead || d.reaction.forceSwitch) {
+    const survivors=next.enemies.filter(T.alive),replacementRequired=e.dead&&survivors.length>1;
+    if (replacementRequired) {
+      next.enemies.forEach(x=>{x.active=false;});complete=false;
+    } else if(e.dead&&survivors.length===1){
+      next.enemies.forEach(x=>{x.active=x===survivors[0];});
+    } else if (d.reaction.forceSwitch) {
       const survivor = next.enemies
         .slice(currentIndex + 1)
         .concat(next.enemies.slice(0, currentIndex + 1))
@@ -437,7 +427,7 @@
         survivor.active = true;
       }
     }
-    return { dealt, kills };
+    return { dealt, kills, complete, replacementRequired };
   }
   function passiveHealing(s, m, a) {
     const potential = T.passiveHealingEstimate(s, m, a);
@@ -474,7 +464,6 @@
         T.weaponCompatible(id, target) &&
         m.weaponKinds[target] !== id &&
         s.characters[target].hp >= 4 &&
-        (target === 0 || target === carry) &&
         !(id === "moon" && (m.weapons[0] ||
           (!battleObjective(s, m).developSupport && carry !== 0)))
       );
@@ -482,8 +471,8 @@
     if (def?.type !== "artifact") return false;
     if (m.artifactKinds[target] === id && id !== "gilded") return false;
     if (id === "troupe" && target === s.active && m.artifacts[target]) return false;
-    if (id === "gambler" && (target !== s.active || !enemy(s) || enemy(s).hp > 8)) return false;
-    if ((id === "heart" && target !== s.active) || (id === "gilded" && target !== carry))
+    if (id === "gambler" && (target !== s.active || !enemy(s))) return false;
+    if (id === "heart" && target !== s.active)
       return false;
     return true;
   }
@@ -504,6 +493,16 @@
       }
     return false;
   }
+  function switchTargets(s, m) {
+    const covers = coverTargets(s, m).filter(target => retreatNeeded(s, m, target))
+      .concat(endCoverTargets(s, m));
+    return s.characters.flatMap((c, target) =>
+      target !== s.active && T.alive(c) && !c.frozen &&
+      !m.uncertainActions.includes(T.actionKey({type:"switch",target})) &&
+      T.payment(s.dice,T.switchCost(m),T.team[target].element) &&
+      (["E","Q","NA"].some(skill => followupReachable(s,m,{who:target,skill})) ||
+        target===1 && m.gamingReturn || covers.includes(target)) ? [target] : []);
+  }
   function enumerate(s, m) {
     const out = [],
       a = s.active,
@@ -511,23 +510,12 @@
       wanted = intent(s, m),
       carry = outputRole(s, m),
       n = T.total(s.dice);
-    const covers = coverTargets(s, m).filter((target) => retreatNeeded(s, m, target))
-      .concat(endCoverTargets(s, m));
     const add = (x) => {
       if (!m.uncertainActions.includes(T.actionKey(x))) out.push(x);
     };
     for (const skill of ["E", "Q", "NA"])
       if (T.skillLegal(s, { who: a, skill }, m)) add({ type: "skill", who: a, skill });
-    for (let target = 0; target < 3; target++)
-      if (
-        target !== a &&
-        T.alive(s.characters[target]) &&
-        !s.characters[target].frozen &&
-        T.payment(s.dice, T.switchCost(m), T.team[target].element) &&
-        (["E", "Q", "NA"].some((skill) => followupReachable(s, m, { who: target, skill })) ||
-          (target === 1 && m.gamingReturn) || covers.includes(target))
-      )
-        add({ type: "switch", target });
+    for (const target of switchTargets(s,m)) add({type:"switch",target});
     for (const h of s.hand) {
       const def = T.byId[h.id];
       if (!def) continue;
@@ -563,7 +551,10 @@
         )
           continue;
         if (h.id === "garden" && (m.garden || !setupEquipmentReachable(s, m, "garden"))) continue;
-        if (h.id === "shift" && (m.freeSwitch || !out.some((y) => y.type === "switch"))) continue;
+        if (h.id === "shift") {
+          const afterCard={...s,hand:T.indexedHand(s.hand.filter(y=>y.index!==h.index))};
+          if(m.freeSwitch || !switchTargets(afterCard,{...m,freeSwitch:true}).length)continue;
+        }
         if (h.id === "fast" && (m.fastSwitch || !out.some((y) => y.type === "switch"))) continue;
         if (h.id === "sing" && (m.singCharges > 0 || n < 6 || s.hand.length > 7)) continue;
         if (
@@ -660,6 +651,8 @@
         const d = damageEstimate(next, m, 1, "P");
         const hit = applyDamage(next, d);
         benefit += hit.dealt * 0.7 + hit.kills * 1.8;
+        if(hit.kills&&m.artifactKinds[1]==="gambler")
+          next.dice.Omni=(next.dice.Omni||0)+2*Math.min(hit.kills,T.gamblerRemaining(m,1));
         next.characters[1].energy = Math.min(3, next.characters[1].energy + 1);
         leaf = true; // Native automatic plunge owns the next combat timing.
       }
@@ -742,8 +735,9 @@
         carry = outputRole(s, m);
       combat = true;
       const healing = who === 2 && skill === "E" ? passiveHealing(s, m, a) : 0;
-      const { dealt, kills } = applyDamage(next, d);
-      if (d.prepared) {
+      const hit=applyDamage(next,d),{dealt,kills}=hit;
+      if(!hit.complete)leaf=true;
+      if (d.prepared && !hit.replacementRequired) {
         const future = enemy(next),
           r = reaction(d.preparedElement, future?.auraKnown ? future.aura : []);
         // Opponent gets an action between hits. No instant prepared kill,
@@ -765,10 +759,8 @@
         healing * 0.65 +
         (who === carry && skill === "E" ? 0.4 : 0);
       if (a.id === "talent") benefit += m.talent ? 0.25 : 1.1;
-      if (
-        (d.swirl && (m.talent || a.id === "talent")) ||
-        (m.artifactKinds[who] === "gilded" && (d.swirl || d.overload))
-      ) {
+      const draws=T.reactionDraws(m,s,who,skill,a.id==="talent");
+      if (draws.talent || draws.gilded) {
         // Unknown draw identities must not become future playable cards.
         leaf = true;
         unknownDraw = true;
@@ -1487,8 +1479,12 @@
       setup = p.terminal ? null : discountPreparation(s, m, p.action),
       prepared = setup ? replaySequence(s, m, [setup, ...p.sequence]) : null,
       sequence = prepared ? prepared.path : p.sequence,
-      a = sequence[0] || p.action,
-      endCover = a.type === "switch" && endCoverTargets(s, m).includes(a.target),
+      a = sequence[0] || p.action;
+    const preparation=!p.terminal&&freeSwitchPreparation(s,m,a,T.switchCost(m),x=>T.cardCost(x.id,x.target,m,s));
+    if(preparation)return {...preparation,route:m.route,
+      reason:"已选付费切换，先用已知零费换班；确认后重算",
+      search:{nodes:p.expanded,value:p.value,terminal:false,sequence:[preparation]}};
+    const endCover = a.type === "switch" && endCoverTargets(s, m).includes(a.target),
       retreat = a.type === "switch" && (retreatNeeded(s, m, a.target) || endCover),
       objective = battleObjective(s, m),
       followup = a.type === "switch" ? sequence.slice(1).find((x) =>

@@ -146,7 +146,7 @@
   }
   function boardKey(s) {
     return JSON.stringify([s.active,diceOrder.map(e=>s.dice?.[e]||0),s.characters,
-      (s.hand||[]).map(h=>h.id),s.enemies,s.quicken||null,s.supportCounts||null]);
+      (s.hand||[]).map(h=>h.id),s.enemies,s.quicken||null,s.supportCounts||null,s.eye||null,s.dendroCore||null]);
   }
   function actionKey(action) {
     return action.type + ":" + (action.id || (["skill","probe"].includes(action.type) ? action.who + ":" + action.skill : action.target));
@@ -167,6 +167,8 @@
       troupe: [0, 0, 0],
       moonRound: [-1, -1, -1],
       talent: false,
+      talentDrawUsed: false,
+      gildedDrawUsed: [0,0,0],
       legendUsed: false,
       openingDraws: 0,
       openingRevel: false,
@@ -222,6 +224,7 @@
     m.uncertainActions = [];
     m.costEvidence = null;
     m.probeKeys = [];
+    m.talentDrawUsed=false;m.gildedDrawUsed=[0,0,0];
     m.relayTask = null;
     m.nightsoulPassive = 0;
     if (m.sayuSummon > 0) m.sayuSummon--;
@@ -402,6 +405,43 @@
     if(!Array.isArray(es) || !es.length || !es.every(e=>e.dead===true || alive(e)))return null;
     return es.filter(alive).length;
   }
+  function elementReaction(element,aura=[],lunar=false) {
+  const pair=(a,b)=>(element===a&&aura.includes(b))||(element===b&&aura.includes(a));
+  const result=(name,bonus,consumed,extra={})=>({name,bonus,consumed,...extra});
+  if(element==="Anemo"){
+    const spread=["Cryo","Hydro","Pyro","Electro"].find(e=>aura.includes(e));
+    if(spread)return result("swirl",0,spread,{spread});
+  }
+  if(pair("Hydro","Cryo"))return result("freeze",1,element==="Hydro"?"Cryo":"Hydro",{freeze:true});
+  if(pair("Pyro","Hydro")||pair("Pyro","Cryo"))return result(pair("Pyro","Hydro")?"vaporize":"melt",2,
+    element==="Pyro"?(aura.includes("Hydro")?"Hydro":"Cryo"):"Pyro");
+  if(pair("Electro","Pyro"))return result("overload",2,element==="Electro"?"Pyro":"Electro",{forceSwitch:true});
+  if(pair("Electro","Hydro")||pair("Electro","Cryo")){
+    const water=pair("Electro","Hydro");
+    return result(water?(lunar?"lunar-charged":"charged"):"superconduct",1,
+      element==="Electro"?(water?"Hydro":"Cryo"):"Electro",water&&lunar?{lunar:true,futureUnknown:true}:{piercing:1});
+  }
+  if(pair("Dendro","Hydro"))return result(lunar?"lunar-bloom":"bloom",1,element==="Dendro"?"Hydro":"Dendro",
+    lunar?{lunar:true}:{futureUnknown:true});
+  if(pair("Dendro","Pyro")||pair("Dendro","Electro"))return result("dendro",1,
+    element==="Dendro"?(aura.includes("Pyro")?"Pyro":"Electro"):"Dendro",{futureUnknown:true});
+  return {name:null,bonus:0};
+}
+  function damageAgainst(target,amount,element,piercing=false) {
+  if(!target)return {direct:amount,shieldSpent:0,guaranteed:null};
+  const immune=!piercing&&target.immuneElements?.includes(element),
+    shieldSpent=!piercing&&!immune&&known(target.shield)?Math.min(target.shield,amount):0,
+    direct=immune?0:Math.max(0,amount-shieldSpent);
+  return {direct,shieldSpent,guaranteed:target.defenseKnown===true?direct:null};
+}
+  function reactionDraws(m,s,who,skill,equippingTalent=false) {
+    const target=s.enemies.find(e=>e.active&&alive(e));
+    if(target?.auraKnown!==true)return {talent:0,gilded:0,known:false};
+    const reaction=elementReaction(skill==="NA"?"Physical":team[who].element,target.aura);
+    return {talent:who===2&&reaction.name==="swirl"&&(m.talent||equippingTalent)&&m.talentDrawUsed===false?2:0,
+      gilded:reaction.name&&m.artifactKinds[who]==="gilded"&&known(m.gildedDrawUsed[who])&&m.gildedDrawUsed[who]<2?1:0,
+      known:true};
+  }
   const gamblerRemaining = (m, who) => Math.max(0, 3 - (m.gamblerUsed[who] || 0));
   function noteBoard(m, s) {
     if (!Array.isArray(s?.characters)) return;
@@ -513,6 +553,16 @@
     // playing it and must not advance Sayu's skill/passive/buff accounting.
     const target = a.target,
       who = a.type === "skill" ? a.who : a.type === "card" && a.id === "talent" ? 2 : null;
+    const damageOwner=who!==null?who:a.type==="switch"&&target===1&&m.gamingReturn?1:null;
+    if(damageOwner!==null){
+      const draws=reactionDraws(m,b,damageOwner,a.skill||"P",a.id==="talent");
+      if(draws.talent)m.talentDrawUsed=true;
+      if(draws.gilded)m.gildedDrawUsed[damageOwner]++;
+      if(!draws.known){
+        if(damageOwner===2&&m.talent)m.talentDrawUsed=null;
+        if(m.artifactKinds[damageOwner]==="gilded")m.gildedDrawUsed[damageOwner]=null;
+      }
+    }
     if (!options.projected && typeof root.TCG.advanceBattleTask === "function")
       root.TCG.advanceBattleTask(m, a, b, after);
     function passiveEstimate() {
@@ -541,6 +591,7 @@
       switchedEstimate();
       if (target === 1 && m.gamingReturn) {
         hitEstimate();
+        m.soupDamage[1] = Math.max(0, m.soupDamage[1] - 1);
         m.gamingReturn = false;
       }
     }
@@ -616,6 +667,7 @@
           m.troupe[target] = 0;
           // A new equipment instance receives its own usage pool.
           if (a.id === "gambler") m.gamblerUsed[target] = 0;
+          m.gildedDrawUsed[target]=0;
         }
       }
       if (a.id === "talent") m.talent = true;
@@ -996,6 +1048,9 @@
     cardRefund,
     weaponCompatible,
     enemyCount,
+    elementReaction,
+    damageAgainst,
+    reactionDraws,
     gamblerRemaining,
     noteBoard,
     commit,
@@ -1016,8 +1071,8 @@
   };
 })(globalThis);
 
-globalThis.TCG.version = "1.1.8";
-globalThis.TCG.sharedVersion = "1.3.2";
+globalThis.TCG.version = "1.2.8";
+globalThis.TCG.sharedVersion = "1.4.7";
 globalThis.TCG.defaultStrategy = "default";
 (function (T) {
   const strategies = new Map();
