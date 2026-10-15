@@ -40,7 +40,10 @@ issues:
           titlePrefixes:
             - "[bug]"
           formSignatures:
-            - 我已搜索现有 Issue
+            - 我已搜索现有 Issue，确认没有相同问题
+            - 我已阅读相关脚本的 README 或使用说明
+            - 我已确认问题来自脚本或脚本仓库
+            - 我已移除日志、截图中的 UID、路径等隐私信息
         requiredSections:
           - id: scope
             aliases:
@@ -84,6 +87,9 @@ issues:
             - "[feature]"
           formSignatures:
             - 我已搜索现有 Issue
+            - 我已确认当前脚本或仓库尚无等价能力
+            - 该需求不仅是个人操作习惯
+            - 我理解需求可能受兼容性和维护成本限制
         requiredSections:
           - id: scope
             aliases:
@@ -120,6 +126,7 @@ issues:
             - "[question]"
           formSignatures:
             - 我已搜索现有 Issue
+            - 我已阅读相关脚本 README 和 BetterGI 文档
         requiredSections:
           - id: scope
             aliases:
@@ -144,8 +151,6 @@ issues:
             - suggestion
           titlePrefixes:
             - "[suggestion]"
-          formSignatures:
-            - 我已搜索现有 Issue
         requiredSections:
           - id: suggestion
             aliases:
@@ -166,8 +171,6 @@ issues:
           titlePrefixes:
             - "[feedback]"
             - "[normal]"
-          formSignatures:
-            - 我已搜索现有 Issue
         requiredSections:
           - id: description
             aliases:
