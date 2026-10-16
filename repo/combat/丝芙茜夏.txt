@@ -1,0 +1,19 @@
+//作者：星自动
+// 配队：丝柯克 / 芙宁娜 / 茜特菈莉 / 夏洛蒂
+// 打法：奶盾保生存，辅助释放技能后丝柯克站场输出，可用于锄地。
+// 作者实测反馈：急冻树、实验性场力发生装置战斗正常。
+// 参考：火山的《万能战斗策略（萌新推荐）》。
+// 思路：芙宁娜、茜特菈莉、夏洛蒂依次施放战技并尝试释放爆发，再由丝柯克开战技站场普攻。
+// 丝柯克普攻分为 3、3、3、2 秒四段，各段结束后通过 check 检查战斗是否结束。
+
+// 芙宁娜：战技 + 尝试释放爆发
+芙宁娜 e,attack(0.3),check,wait(0.3),keypress(q),wait(0.1),keypress(q),wait(0.1),keypress(q),ready,check,wait(0.3)
+
+// 茜特菈莉：开盾 + 尝试释放爆发
+茜特菈莉 e,attack(0.3),check,wait(0.3),keypress(q),wait(0.1),keypress(q),wait(0.1),keypress(q),ready,check,wait(0.3)
+
+// 夏洛蒂：战技 + 尝试释放爆发治疗
+夏洛蒂 e,attack(0.3),check,wait(0.3),keypress(q),wait(0.1),keypress(q),wait(0.1),keypress(q),ready,check,wait(0.3)
+
+// 丝柯克：战技后站场普攻
+丝柯克 e,wait(0.2),attack(3),check,attack(3),check,attack(3),check,attack(2),check,wait(0.3)
