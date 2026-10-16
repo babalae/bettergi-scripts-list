@@ -784,8 +784,8 @@
     actionRerollGoal,rerollCounter,enemyCount,gamblerRemaining,skillElement,dendroReaction,sproutAvailable,activeKeqingInfusion };
 })(globalThis);
 
-globalThis.TCG.version = "1.2.9";
-globalThis.TCG.sharedVersion = "1.4.7";
+globalThis.TCG.version = "1.2.11";
+globalThis.TCG.sharedVersion = "1.4.9";
 globalThis.TCG.defaultStrategy = "default";
 (function (T) {
   const strategies = new Map();
