@@ -391,20 +391,43 @@
       this.progress();
     }
 
-    async observeTurn() {
+    async observe() {
+      const host = this.host,
+        start = Date.now(),
+        metrics = host.metricSnapshot?.(),
+        reused = !!this.readyState;
+      let state;
       try {
-        const state = this.readyState || (await this.host.observe());
-        if (this.readyState)
-          this.host.trace("decision-state-reused", { handCount: state.hand.length });
+        state = this.readyState || (await host.observe());
+      } catch (e) {
         this.readyState = null;
-        if (state.phase === "board" && state.turn === "user") { this.admitActionHand(state); return state; }
-        this.host.trace("decision-deferred", { phase: state.phase, turn: state.turn });
-        await sleep(300);
-      } catch (error) {
-        this.readyState = null;
-        await this.defer(error, [...BOARD_RETRIES, "TCG_HAND_RETRY"], "observation-deferred", "牌桌识别超时（60秒）");
+        await this.defer(e, [...BOARD_RETRIES, "TCG_HAND_RETRY"], "observation-deferred", "牌桌识别超时（60秒）");
+        return null;
       }
-      return null;
+      if (this.readyState)
+        host.trace("decision-state-reused", { handCount: this.readyState.hand.length });
+      host.trace("observation-timing", {
+        ms: Date.now() - start,
+        reused,
+        handRead: state.handRead,
+        recognition: host.metricDelta?.(metrics),
+      });
+      this.readyState = null;
+      if (state.phase !== "board" || state.turn !== "user") {
+        host.trace("decision-deferred", { phase: state.phase, turn: state.turn });
+        await sleep(300);
+        return null;
+      }
+      this.admitActionHand(state);
+      if (!this.openingFlow.complete) this.finishOpening();
+      T.noteBoard(this.memory, state);
+      host.trace("state", { round: this.memory.round, state, memory: this.memory });
+      return state;
+    }
+    async execute(action, state) {
+      const budget = Object.fromEntries(BUDGET_FIELDS.map(key => [key, this.host[key]]));
+      try { return { sent: true, result: await this.host.execute(action, state, this.memory) }; }
+      catch (e) { await this.recoverBeforeConfirmation(e, action, state, budget); return { sent: false }; }
     }
 
     rejectUnchangedTune(action, before, after) {
@@ -455,7 +478,8 @@
         catch (e) {
           if (!["TCG_CONFIRMATION_RETRY", "TCG_BOARD_RETRY", "TCG_DICE_RETRY", "TCG_HAND_RETRY"].includes(e.code)) throw e;
           this.notice("pending:" + T.actionKey(action), "[等待恢复] 动作已经提交，继续核对结果，不重复输入。");
-          this.host.trace("confirmation-pending", { action, code: e.code, missing: e.missing, reason: e.message });
+          this.host.trace("confirmation-pending", { action, code: e.code, missing: e.missing,
+            phase: e.phase?.phase, turn: e.phase?.turn, elapsedMs: e.elapsedMs, reason: e.message });
           await sleep(400);
         }
       }
@@ -495,65 +519,6 @@
       await sleep(300);
     }
 
-    async playTurn() {
-      const state = await this.observeTurn();
-      if (!state) return;
-      if (!this.openingFlow.complete) this.finishOpening();
-      const host = this.host,
-        memory = this.memory;
-      T.noteBoard(memory, state);
-      host.trace("state", { round: memory.round, state, memory });
-      const started = Date.now(),
-        metricsBefore = host.metricSnapshot?.();
-      const action = T.choose(state, memory),
-        planningMs = Date.now() - started;
-      host.trace("decision", action);
-      if (action.type === "stop") throw new Error(action.reason);
-      const commentary = actionCommentary(action, state, memory);
-      const previousBudget = Object.fromEntries(BUDGET_FIELDS.map((key) => [key, host[key]]));
-      let execution;
-      try {
-        execution = await host.execute(action, state, memory);
-      } catch (error) {
-        await this.recoverBeforeConfirmation(error, action, state, previousBudget);
-        return;
-      }
-      log.info(`[第${memory.round}回合] ${commentary}`);
-      if (action.type === "probe" && execution?.probed) {
-        this.readyState = execution;
-        this.progress();
-        return;
-      }
-      const inputFinished = Date.now();
-      const after = await this.awaitConfirmation(action, state, memory);
-      host.trace("action-timing", {
-        action: T.actionKey(action),
-        planningMs,
-        inputMs: inputFinished - started - planningMs,
-        settlementMs: Date.now() - inputFinished,
-        totalMs: Date.now() - started,
-        recognition: host.metricDelta?.(metricsBefore),
-        confirmed: !!after.confirmed,
-        scope: "actual-runtime-not-offline-estimate",
-      });
-      if (after.confirmed) {
-        T.commit(memory, action, state, after);
-        host.selectedSoup = null;
-        host.trace("confirmed", { action, after, memory });
-      } else if (after.handRead === "full" && this.rejectUnchangedTune(action, state, after)) {
-        // Full post-action resync proves a failed input, not an unknown effect.
-        // The rejected name is bounded by the finite hand and reset next round.
-      } else {
-        T.deferUncertain(memory, action);
-        host.trace("action-uncertain", { action, after, memory });
-        log.warn("[调整] 动作效果尚未确认，按实际牌面继续，不重复输入。");
-      }
-      T.noteBoard(memory, after);
-      if (after.phase === "board" && after.turn === "user" && T.legalState(after))
-        this.readyState = after;
-      this.actions++;
-      this.progress();
-    }
 
     reportResult(p) { log.info((p.result === "win" ? "[结束] 对局胜利" : "[结束] 对局失败") + "，共进行" + this.memory.round + "个回合。"); }
     admitActionHand(state) {
@@ -598,29 +563,52 @@
       }
       return true;
     }
-    async act() { return this.playTurn(); }
-    async step(phase) {
-      if (phase.phase !== "board" || phase.turn !== "user") this.readyState = null;
-      switch (phase.phase) {
-        case "opening":
-          return this.opening();
-        case "choice":
-          return this.choice();
-        case "pick":
-          return this.pick();
-        case "roll":
-          return this.roll();
-        default:
-          if (phase.turn === "user") return this.playTurn();
-          this.checkStalled("对局等待超时（60秒）");
-          await sleep(500);
+    async act() {
+      const state = await this.observe();
+      if (!state) return;
+      const host = this.host, memory = this.memory, started = Date.now(),
+        metrics = host.metricSnapshot?.(), action = T.choose(state, memory),
+        planningMs = Date.now() - started;
+      host.trace("decision", action);
+      if (action.type === "stop") throw new Error(action.reason);
+      const execution = await this.execute(action, state);
+      if (!execution.sent) return;
+      log.info("[第" + memory.round + "回合] " + actionCommentary(action, state, memory));
+      if (action.type === "probe" && execution.result?.probed) {
+        this.readyState = execution.result; this.progress(); return;
       }
+      const inputFinished = Date.now(), after = await this.awaitConfirmation(action, state, memory);
+      host.trace("action-timing", { action: T.actionKey(action), planningMs,
+        inputMs: inputFinished - started - planningMs, settlementMs: Date.now() - inputFinished,
+        totalMs: Date.now() - started, recognition: host.metricDelta?.(metrics),
+        confirmed: !!after.confirmed, scope: "actual-runtime-not-offline-estimate" });
+      if (after.confirmed) {
+        T.commit(memory, action, state, after);
+        host.trace("confirmed", { action, after, memory });
+      } else if (!(after.handRead === "full" && this.rejectUnchangedTune(action, state, after))) {
+        T.deferUncertain(memory, action);
+        host.trace("action-uncertain", { action, after, memory });
+        log.warn("动作效果未确认，已重新同步，不重复输入。");
+      }
+      T.noteBoard(memory, after);
+      if (after.confirmed && action.type === "card" && T.byId[action.id]?.type === "draw" &&
+          Array.isArray(after.hand) && after.hand.length <= state.hand.length) {
+        // Consumption can precede card insertion (native draw 3 -> 2). Do not
+        // plan from that partial hand. Read once afresh, without guessing deck
+        // size/draw outcome, waiting for a predicted count, or replaying the card.
+        host.invalidateHand("consumed-draw-needs-fresh-hand");
+        this.readyState = null;
+        host.trace("draw-hand-refresh-required", { id: action.id, beforeCount: state.hand.length,
+          observedCount: after.hand.length, consumptionConfirmed: true, effectsComplete: false });
+      } else if (after.phase === "board" && after.turn === "user" && T.legalState(after)) this.readyState = after;
+      this.actions++; this.progress();
     }
 
     async run() {
       try {
         if (await this.enter() === false) return;
         while (Date.now() < this.deadline && this.actions < 180) {
+          const sampledAt = Date.now();
           const p = this.host.phase();
           if (p.phase !== "board" || p.turn !== "user") this.readyState = null;
           if (p.result) {
@@ -636,7 +624,8 @@
           else if (p.turn === "user") await this.act();
           else {
             this.checkStalled("对局等待超时（60秒）");
-            await sleep(500);
+            const remaining = 500 - (Date.now() - sampledAt);
+            if (remaining > 0) await sleep(remaining);
           }
         }
         throw new Error("达到单局时间或动作上限");

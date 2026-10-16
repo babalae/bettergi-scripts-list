@@ -771,6 +771,11 @@
     for (const h of hand || []) out[h.id] = (out[h.id] || 0) + 1;
     return out;
   }
+  function cardCountDecreased(before, after, id) {
+    // Unrelated hand growth or sent input cannot prove this card was consumed.
+    return Array.isArray(before) && Array.isArray(after) &&
+      (bag(before)[id] || 0) > (bag(after)[id] || 0);
+  }
   function removedOne(before, after, id) {
     const b = bag(before), a = bag(after);
     return before.length === after.length + 1 && Object.keys({ ...b, ...a }).every(k => (b[k] || 0) - (a[k] || 0) === (k === id ? 1 : 0));
@@ -821,7 +826,7 @@
     if (a.type !== "card" || !byId[a.id] || !after.hand) return false;
     const consumed = (bag(b.hand)[a.id] || 0) > (bag(after.hand)[a.id] || 0);
     if (["draw", "revel", "sing"].includes(a.id))
-      return consumed && after.hand.length === Math.min(10, b.hand.length + 1);
+      return cardCountDecreased(b.hand, after.hand, a.id) && after.hand.length === Math.min(10, b.hand.length + 1);
     if (a.id === "lyre") return consumed && after.hand.length === b.hand.length;
     if (a.id === "talent")
       return (
@@ -1071,8 +1076,8 @@
   };
 })(globalThis);
 
-globalThis.TCG.version = "1.2.10";
-globalThis.TCG.sharedVersion = "1.4.9";
+globalThis.TCG.version = "1.2.17";
+globalThis.TCG.sharedVersion = "1.4.16";
 globalThis.TCG.defaultStrategy = "default";
 (function (T) {
   const strategies = new Map();

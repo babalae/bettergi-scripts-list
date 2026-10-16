@@ -201,6 +201,7 @@
         });
         let read=null,unavailableReason="first-frame-unavailable";
         try{
+          let sampledAt=Date.now();
           const a=sample();if(!a)return null;
           if(a.read.status==="raised"){
             read={...a.read,nativeCount:a.nativeCount,stableReads:1};return read;
@@ -210,13 +211,17 @@
             return read;
           }
           unavailableReason="second-frame-unavailable";
-          await env.sleep(120);
+          const remaining=120-(Date.now()-sampledAt);
+          if(remaining>0)await env.sleep(remaining);
+          sampledAt=Date.now();
           let b=sample(),reads=2;
           // A known draw/generation can outlast the board animation. Wait only
           // for missing/moving geometry, without input or mandatory extra reads
           // on a complete row. A phase/input change ends the wait immediately.
           while(settling&&b&&b.read.status!=="readable"&&b.read.status!=="raised"&&reads<6){
-            await env.sleep(240);b=sample();reads++;
+            const remaining=240-(Date.now()-sampledAt);
+            if(remaining>0)await env.sleep(remaining);
+            sampledAt=Date.now();b=sample();reads++;
           }
           if(b?.read.status==="raised"){
             read={...b.read,nativeCount:b.nativeCount,stableReads:reads};return read;
