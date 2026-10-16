@@ -875,8 +875,8 @@
       "heal-dice":["请选择一个角色","对所选角色生效"],heal:["请选择一个角色","对所选角色生效"]}};
 })(globalThis);
 
-globalThis.TCG.version = "1.2.19";
-globalThis.TCG.sharedVersion = "1.4.16";
+globalThis.TCG.version = "1.3.0";
+globalThis.TCG.sharedVersion = "1.5.0";
 globalThis.TCG.defaultStrategy = "default";
 (function (T) {
   const strategies = new Map();
