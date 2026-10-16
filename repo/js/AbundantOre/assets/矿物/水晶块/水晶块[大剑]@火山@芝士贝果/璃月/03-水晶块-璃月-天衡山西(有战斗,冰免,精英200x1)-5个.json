@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1790432279009,
+    "last_modified_time": 1791756942035,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "03-水晶块-璃月-天衡山西(有战斗,冰免,精英200x1)-5个",
@@ -46,8 +46,8 @@
       "y": -681.48
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": ";伊涅芙 e;玛薇卡 e;芙宁娜 e;爱可菲 e;莉奈娅 e;哥伦比娅 e; ;",
       "id": 4,
       "move_mode": "walk",
       "type": "path",
@@ -56,7 +56,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.3),keypress(VK_SPACE),wait(1.5),keypress(VK_SPACE)",
+      "action_params": "wait(0.3),keypress(VK_SPACE),wait(0.8),attack(0.3)",
       "id": 5,
       "move_mode": "fly",
       "type": "path",
@@ -76,28 +76,28 @@
       "action": "",
       "action_params": "",
       "id": 7,
-      "move_mode": "dash",
+      "move_mode": "jump",
       "type": "path",
-      "x": 879,
-      "y": -660
-    },
-    {
-      "action": "mining",
-      "action_params": "",
-      "id": 8,
-      "move_mode": "dash",
-      "type": "target",
-      "x": 873.16,
-      "y": -670.3
+      "x": 893.1563,
+      "y": -650.8887
     },
     {
       "action": "",
       "action_params": "",
-      "id": 9,
+      "id": 8,
       "move_mode": "dash",
       "type": "path",
       "x": 898.8711,
       "y": -645.9844
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 900.34,
+      "y": -645.43
     },
     {
       "action": "mining",
@@ -114,17 +114,35 @@
       "id": 11,
       "move_mode": "walk",
       "type": "target",
-      "x": 900.34,
-      "y": -645.43
+      "x": 898.34,
+      "y": -647.6
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 893.1563,
+      "y": -650.8887
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 879,
+      "y": -660
     },
     {
       "action": "mining",
       "action_params": "",
-      "id": 12,
-      "move_mode": "walk",
+      "id": 14,
+      "move_mode": "dash",
       "type": "target",
-      "x": 898.34,
-      "y": -647.6
+      "x": 873.16,
+      "y": -670.3
     }
   ]
 }

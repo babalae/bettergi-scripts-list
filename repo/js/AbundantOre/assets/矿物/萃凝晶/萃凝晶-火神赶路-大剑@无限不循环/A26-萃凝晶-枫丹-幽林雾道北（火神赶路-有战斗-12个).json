@@ -6,10 +6,10 @@
         "name": "无限不循环"
       }
     ],
-    "bgi_version": "0.45.0",
+    "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758397302680,
+    "last_modified_time": 1792005889720,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "A26-萃凝晶-枫丹-幽林雾道北（火神赶路-有战斗-12个)",
@@ -393,21 +393,21 @@
     },
     {
       "action": "combat_script",
-      "action_params": "玛薇卡 w(0.17),e(hold),keydown(VK_W),wait(4.5),keyup(VK_W),wait(0.5),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
+      "action_params": "玛薇卡 w(0.2),e(hold),keydown(VK_W),wait(4),keyup(VK_W),wait(0.5),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
       "id": 42,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "orientation",
-      "x": 3520.0732,
-      "y": 3573.0288
+      "x": 3518.5811,
+      "y": 3575.4512
     },
     {
       "action": "",
       "action_params": "",
       "id": 43,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
-      "x": 3520.0732,
-      "y": 3573.0288
+      "x": 3518.5811,
+      "y": 3575.4512
     },
     {
       "action": "mining",
@@ -438,7 +438,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": " 玛薇卡 w(0.15),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.2),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.2),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
+      "action_params": " 玛薇卡 w(0.2),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.2),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.2),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
       "id": 47,
       "move_mode": "walk",
       "type": "orientation",
