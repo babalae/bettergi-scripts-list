@@ -2690,9 +2690,11 @@
       const phase = this.phaseIn(f);
       // A real target page owns a different input. Do not OCR its payment
       // control until the target owner has selected the character.
-      const targeted = phase.phase === "unknown" && phase.turn === "none" &&
-        targetedBanners.includes(TCG.norm(banner));
-      return { banner, phase, ...(!targeted ? { targets: this.cardPaymentControlsIn(f) } : {}) };
+      const paymentPhase = phase.phase === "unknown" && phase.turn === "none";
+      const targeted = paymentPhase && targetedBanners.includes(TCG.norm(banner));
+      // Callers can reuse entry controls only in this phase. Other entries
+      // still take their original fresh payment frames; no unused OCR here.
+      return { banner, phase, ...(paymentPhase && !targeted ? { targets: this.cardPaymentControlsIn(f) } : {}) };
     }
     cardChoicePreviewIn(f, kind, phase = this.phaseIn(f)) {
       return {
@@ -2864,12 +2866,14 @@
       const selected = prepared && !prepared.viewOnly;
       if (prepared?.viewOnly && !this.handFanReady) await this.requireUnchangedBoard(before);
       const priceIndex = action.type==="card"&&this.checkCardInput?action.index:null;
-      let sourceCount=selected?prepared.sourceCount:await this.prepareHandInput(before.hand.length,priceIndex);
+      // Non-selected inputs always enter inspectHandCard below. Its fresh
+      // pre-click phase owns the boundary; quantity reads stay independent.
+      let sourceCount=selected?prepared.sourceCount:await this.prepareHandInput(before.hand.length,priceIndex,false,true);
       if (prepared?.viewOnly && !sourceCount) {
         // No title/drag has been sent for this target. Unknown new quantity
         // cannot authorize bypassing the ordinary complete-board preflight.
         await this.requireUnchangedBoard(before);
-        sourceCount=await this.prepareHandInput(before.hand.length,priceIndex);
+        sourceCount=await this.prepareHandInput(before.hand.length,priceIndex,false,true);
       }
       const x = selected?prepared.x:this.handPoints(current.length)[action.index];
       if (!selected) await this.inspectHandCard(action, x);
@@ -2939,7 +2943,7 @@
       await this.clickButton("回合结束", [0, 0, 384, 1080]);
       if (this.phase().turn === "user") await this.clickButton("回合结束", [0, 0, 384, 1080]);
     }
-    async prepareHandInput(expected, priceIndex = null, requireReusableCount = false) {
+    async prepareHandInput(expected, priceIndex = null, requireReusableCount = false, deferToTitle = false) {
       this.requireHandObservation(this.phase(), "before-target-expand");
       // execute already normalized and verified the board; do not blank-click
       // a second time simply to raise the fan.
@@ -2985,7 +2989,11 @@
         await this.refreshHandBeforeInput("执行前手牌数量证据冲突");
       }
       const reads = samples.map((s) => s.count), sources = samples.map((s) => s.source);
-      this.requireHandObservation(this.phase(), "before-target-title");
+      // Ordinary input immediately enters inspectHandCard, whose titleAt
+      // takes a fresh phase before the title click. Keep that later guard,
+      // rather than capturing two adjacent phase-only frames with no input
+      // between them. Price-only probes/standalone callers keep this guard.
+      if (deferToTitle !== true) this.requireHandObservation(this.phase(), "before-target-title");
       requireRevision();
       this.trace("hand-input-check", {
         expected, reads, sources, boundaryProbe: false,
@@ -3047,6 +3055,9 @@
       };
       const combat = ["skill", "switch", "end"].includes(action.type) ||
         action.type === "card" && ["talent", "wedge", "penance"].includes(action.id);
+      // The existing combat flag also owns switch/end recovery. This new
+      // refresh policy is only for casts, not ordinary fast/manual switches.
+      const effectAction = combat && !["switch", "end"].includes(action.type);
       while (Date.now() < deadline) {
         sampledAt = Date.now();
         const p = this.phase();
@@ -3123,7 +3134,13 @@
           }
           if (verified && budgetMatches) {
             this.acceptHand(after.hand, "confirmed-" + (session.plan?.mode || "full"));
-            return { ...after, ...this.confirmationExtras?.(), confirmed: true };
+            // Resource/consumption proof can precede the combat's visible
+            // effects. Keep that cast confirmed (never resend it), but do not
+            // hand this early snapshot straight to the next planner. A new
+            // full observation is required when no enemy turn was observed;
+            // it must not wait for predicted damage or exclude zero damage.
+            return { ...after, ...this.confirmationExtras?.(), confirmed: true,
+              freshObservationRequired: effectAction && !session.transition };
           }
           if (!budgetMatches && !await this.observedResourceProof(after)) {
             this.trace("budget-reconciliation-wait", { action, expectedDice: this.expectedDice,
@@ -3147,7 +3164,8 @@
           const confirmed = TCG.verifyResynchronized(action, before, after, session.transition);
           this.adoptObservedState(after, "post-action-resync");
           this.trace("state-resynced", { action, confirmed, after });
-          return { ...after, ...this.confirmationExtras?.(), confirmed, resynchronized: true };
+          return { ...after, ...this.confirmationExtras?.(), confirmed, resynchronized: true,
+            freshObservationRequired: confirmed && effectAction && !session.transition };
         }
         if (p.phase === "roll" && combat) return { ...p, confirmed: session.transition };
         await waitForSample(450);

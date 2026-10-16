@@ -571,6 +571,9 @@
         planningMs = Date.now() - started;
       host.trace("decision", action);
       if (action.type === "stop") throw new Error(action.reason);
+      // Use the deck's pre-action identity/order contract, not the card's
+      // display category. Weapons, food and other cards can also insert cards.
+      const handChangingCard = action.type === "card" && T.handPlan(action, state, memory).mode === "full";
       const execution = await this.execute(action, state);
       if (!execution.sent) return;
       log.info("[第" + memory.round + "回合] " + actionCommentary(action, state, memory));
@@ -591,15 +594,26 @@
         log.warn("动作效果未确认，已重新同步，不重复输入。");
       }
       T.noteBoard(memory, after);
-      if (after.confirmed && action.type === "card" && T.byId[action.id]?.type === "draw" &&
-          Array.isArray(after.hand) && after.hand.length <= state.hand.length) {
+      const refreshHand = after.confirmed && handChangingCard &&
+        Array.isArray(after.hand) && after.hand.length <= state.hand.length;
+      if (refreshHand) {
         // Consumption can precede card insertion (native draw 3 -> 2). Do not
-        // plan from that partial hand. Read once afresh, without guessing deck
-        // size/draw outcome, waiting for a predicted count, or replaying the card.
-        host.invalidateHand("consumed-draw-needs-fresh-hand");
-        this.readyState = null;
+        // plan from that partial hand. This also covers non-draw categories
+        // declared full by handPlan. No predicted count or replayed input.
+        host.invalidateHand("consumed-hand-changing-card-needs-fresh-hand");
+        host.emptyHandProven = false;
         host.trace("draw-hand-refresh-required", { id: action.id, beforeCount: state.hand.length,
-          observedCount: after.hand.length, consumptionConfirmed: true, effectsComplete: false });
+          observedCount: after.hand.length, handPlanMode: "full", consumptionConfirmed: true, effectsComplete: false });
+      }
+      if (refreshHand || after.confirmed && after.freshObservationRequired) {
+        // A new observe(), not a blanket sleep or a model-damage predicate.
+        // Drop the recent-board shortcut too; unchanged hand identity may stay.
+        this.readyState = null;
+        host.boardReady = false; host.lastObservedAt = 0; host.lastObservedRevision = -1;
+        host.preparedHandInput = null;
+        host.trace("post-confirmation-refresh-required", { action, handRefresh: refreshHand,
+          combatWithoutObservedTransition: after.freshObservationRequired === true,
+          consumptionConfirmed: after.confirmed, effectsComplete: false });
       } else if (after.phase === "board" && after.turn === "user" && T.legalState(after)) this.readyState = after;
       this.actions++; this.progress();
     }

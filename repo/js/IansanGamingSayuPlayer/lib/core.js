@@ -1076,8 +1076,8 @@
   };
 })(globalThis);
 
-globalThis.TCG.version = "1.2.17";
-globalThis.TCG.sharedVersion = "1.4.16";
+globalThis.TCG.version = "1.3.0";
+globalThis.TCG.sharedVersion = "1.5.0";
 globalThis.TCG.defaultStrategy = "default";
 (function (T) {
   const strategies = new Map();
