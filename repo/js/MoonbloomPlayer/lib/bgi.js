@@ -814,6 +814,16 @@
         }
         const p = page.phase;
         if (session.sent > 0 && p.phase !== "roll") session.transitioned = true;
+        if (p.phase === "board" && p.turn === "user" && session.sent < 2) {
+          const observed = await this.settledBoard(true);
+          if (observed.phase === "board" && observed.turn === "user") {
+            this.tossSession = null;
+            this.trace("action-reroll-resolved", { count, confirmations:session.sent,
+              wanted:session.wanted, recovery:"complete-native-board", unresolved:true });
+            return { confirmations:session.sent, inputConfirmations:session.sent, unresolved:true };
+          }
+          stable = 0; key = ""; await sleep(300); continue;
+        }
         if (p.result || (p.phase === "board" && p.turn === "user" && session.sent >= 2)) {
           const current = JSON.stringify([p.phase, p.turn, p.result]);
           stable = current === key ? stable + 1 : 1;
@@ -1597,6 +1607,11 @@
       });
       return {costs,source:"native-folded-cost-markers"};
     }
+    handEmpowermentIn(f, markers) {
+      // A covered/missing badge is unknown, never proof of no empowerment.
+      return markers.map(m => this.matches(f, "hand_empowered",
+        [Math.round(m.x + 68), Math.round(m.y - 12), 68, 66], .92, true).length ? true : null);
+    }
     publishHandPositions(samples, count) {
       this.handPositionProof = null;
       if (samples.length < 2 || !this.handFanReady) return;
@@ -2047,17 +2062,19 @@
             hand=this.refreshHandFacts(hand);
           if (this.pendingChoiceCard) {
             const { id, oldCount } = this.pendingChoiceCard;
-            if (oldCount !== 10 && !hand.some((c) => c.id === id)) {
-              handScan.cards = null;
-              this.invalidateHand("selected-generated-card-not-yet-observed");
-              const error = new Error("挑选结果尚未在实际手牌中出现");
-              error.code = "TCG_HAND_RETRY";
-              throw error;
-            }
+            // Cached identities cannot prove that generation failed. Read the
+            // current hand once, then accept its negative evidence too rather
+            // than retrying until a predicted card appears.
+            if (oldCount !== 10 && !hand.some(c => c.id === id) && this.handScanSerial === scanBefore)
+              hand = await this.observedHand({ mode:"full", expectedCount:null }, handScan);
+            const present = hand.some(c => c.id === id), overflowPossible = oldCount === 10,
+              unresolved = !present && !overflowPossible;
+            if (this.choiceReceipt)
+              this.choiceReceipt = { ...this.choiceReceipt, generatedPresent:present, overflowPossible, unresolved };
             this.trace("choice-card-verified", {
               id,
               count: hand.length,
-              overflowPossible: oldCount === 10,
+              present, overflowPossible, unresolved,
             });
             this.pendingChoiceCard = null;
           }
@@ -2500,6 +2517,14 @@
               return this.board(false, true);
             return last;
           }
+        } else if(last.phase==="board"&&last.turn==="user"&&last.active!==target) {
+          const observed=await this.settledBoard(true,last);
+          if(observed.phase==="board"&&observed.turn==="user"&&observed.active!==target){
+            this.trace("forced-pick-handoff",{target,actualActive:observed.active,
+              confirmationInputs:confirmed?1:0,proof:"complete-native-board-overrides-planned-target"});
+            this.forcedPickSession=null;return observed;
+          }
+          stable=0;key="";selectionStable=0;
         } else if(["settlement","choice","roll"].includes(last.phase)) {
           // End-phase damage can require a replacement BEFORE remaining summons,
           // a blessing choice, and next-round dice. Hand off the stable native
@@ -3029,7 +3054,7 @@
       {...action,type:"skill",who:before.active,skill:"NA",cardAction:action}:action;
   }
   class MoonHost extends Base{
-    constructor(options){super(options);this.choiceReceipt=null;this.pendingGeneratedChoice=null;this.choiceDetails=[];
+    constructor(options){super(options);this.choiceReceipt=null;this.choiceDetails=[];
       this.cardDetails=new Map();this.feeSample=null;this.factPoints=[];}
     async prepareHandObservation(count){
       this.cardDetails.clear();this.feeSample=null;
@@ -3039,29 +3064,33 @@
           this.requireHandObservation(this.phaseIn(f),"folded-card-costs");
           const layout=this.collapsedLayoutIn(f);
           if(layout.status!=="readable"||layout.count!==count)return null;
-          return this.foldedHandCostsIn(f,layout);
+          return {...this.foldedHandCostsIn(f,layout),empowered:this.handEmpowermentIn(f,layout.slots.map(s=>s.marker))};
         });
         return;
       }
-      if(count>0)this.feeSample=this.handPositionProof?.revision===this.inputRevision&&
-        this.handPositionProof.count===count&&this.handPositionProof.costs.some(Number.isInteger)&&
-        Date.now()-this.handPositionProof.at<=5000?
-        this.handPositionProof:this.frame(f=>{
+      if(count>0)this.feeSample=this.frame(f=>{
         this.requireHandObservation(this.phaseIn(f),"current-card-costs");
-        return this.costHandIn(f,count);
+        const sample=this.handPositionProof?.revision===this.inputRevision&&
+          this.handPositionProof.count===count&&this.handPositionProof.costs.some(Number.isInteger)&&
+          Date.now()-this.handPositionProof.at<=5000?this.handPositionProof:this.costHandIn(f,count),
+          layout=this.handCostLayoutIn(f,count);
+        return sample&&{...sample,empowered:layout?this.handEmpowermentIn(f,layout.markers):[]};
       });
     }
     finishHandObservation(hand,scan={}){
       return hand.map(h=>{
         const current=this.cardWithFacts(h,this.factPoints[h.index]);
-        if(current.attachments.source==="native")return current;
+        if(this.cardDetails.get(this.factPoints[h.index])?.attachments.source==="native")return current;
         const prior=(scan.retainedHand||[]).filter(c=>c.id===h.id);
         // Same-name duplicates may carry different attachments. Only a unique
         // retained card, or identical facts for every copy, proves this slot.
         if(!prior.length||prior.length!==hand.filter(c=>c.id===h.id).length||
-          prior.some(c=>c.currentCost!==current.currentCost||c.attachments?.source!=="native"||
+          prior.some(c=>c.currentCost!==null&&current.currentCost!==null&&c.currentCost!==current.currentCost||c.attachments?.source!=="native"||
             JSON.stringify(c.attachments)!==JSON.stringify(prior[0].attachments)))return current;
-        return {...current,attachments:prior[0].attachments,canTune:prior[0].canTune};
+        const attachments={...prior[0].attachments,
+          ...(current.attachments.empowered===true?{empowered:true}:{})};
+        return {...current,attachments,canTune:typeof attachments.empowered==="boolean"&&attachments.noTuning===false&&
+          !["branch","choice-option"].includes(T.byId[h.id].type)&&h.id!=="bloom"};
       });
     }
     refreshHandFacts(hand){
@@ -3070,11 +3099,13 @@
         this.requireHandObservation(this.phaseIn(f),"changed-card-costs");
         const layout=this.collapsedLayoutIn(f);
         if(layout.status!=="readable"||layout.count!==hand.length)return hand;
-        const sample=this.foldedHandCostsIn(f,layout),changed=[];
+        const sample=this.foldedHandCostsIn(f,layout),empowered=this.handEmpowermentIn(f,layout.slots.map(s=>s.marker)),changed=[];
         const current=hand.map(h=>{
-          if(T.currentCost(h)!==null||!Number.isInteger(sample.costs[h.index]))return h;
-          changed.push(h.index);
-          return {...h,currentCost:sample.costs[h.index],costSource:sample.source};
+          const price=T.currentCost(h)===null&&Number.isInteger(sample.costs[h.index]),badge=empowered[h.index]===true&&h.attachments?.empowered!==true;
+          if(!price&&!badge)return h;
+          changed.push(h.index);return {...h,
+            ...(price?{currentCost:sample.costs[h.index],costSource:sample.source}:{}),
+            ...(badge?{attachments:{...h.attachments,source:"native",empowered:true}}:{})};
         });
         if(changed.length)this.trace("hand-costs-refreshed",{indices:changed,source:sample.source,inputs:0});
         return current;
@@ -3082,19 +3113,22 @@
     }
     cardWithFacts(h,x){
       const detail=this.cardDetails.get(x),selected=detail?.id===h.id;
-      const cost=selected?detail.cost:this.feeSample?.costs[h.index]??null;
+      const cost=selected?detail.cost:this.feeSample?.costs?.[h.index]??null;
+      const attachments=selected?detail.attachments:{source:"unknown",empowered:null},
+        badge=!selected&&this.feeSample?.empowered?.[h.index]===true;
       return {...h,currentCost:cost,costSource:cost===null?"unknown":selected?"native-selected-card-cost":this.feeSample?.source||"native-expanded-cost-markers",
-        attachments:selected?detail.attachments:{source:"unknown",empowered:null},canTune:selected&&detail.canTune};
+        attachments:badge?{...attachments,source:"native",empowered:true}:attachments,canTune:selected&&detail.canTune};
     }
     readSelectedCardFacts(f,card,x){
       const cost=this.selectedCardCostIn(f,x),a=this.currentAction,
         prior=a?.id===card.id?this.handCache?.[a.index]:null,
         retain=prior?.id===card.id&&Math.abs(this.handPoints(this.handCache.length)[a.index]-x)<=8&&
-          prior.currentCost===cost&&T.cardFactsKnown(prior,a.requirement),
+          prior.currentCost===cost&&T.cardFactsKnown(prior,a.type==="tune"?"tuning":a.requirement),
         attachments=retain?prior.attachments:attachmentFacts(
           this.ocrRows(f,[270,165,510,700]),cost,card,this.ocrRows(f,[680,100,355,620]));
       this.cardDetails.set(x,{id:card.id,cost,attachments,
-        canTune:attachments.source==="native"&&!attachments.noTuning&&!["branch","choice-option"].includes(card.type)&&card.id!=="bloom"});
+        canTune:attachments.source==="native"&&typeof attachments.empowered==="boolean"&&attachments.noTuning===false&&
+          !["branch","choice-option"].includes(card.type)&&card.id!=="bloom"});
     }
     async checkCardInput(a,before,x,memory){
       if(a.type!=="card"&&a.type!=="tune")return;
@@ -3123,10 +3157,26 @@
         attachedCost:T.attachedCost(observed),printedCost:T.size(T.byId[a.id].cost),attachments:observed.attachments});
     }
     async probeCard(a,before,memory,prepared=null){
-      const sourceCount=prepared?prepared.sourceCount:await this.prepareHandInput(before.hand.length,a.index),points=this.handPoints(before.hand.length);
+      const markerOnly=a.requirement==="empowerment-row",
+        sourceCount=prepared&&(!prepared.viewOnly||markerOnly)?prepared.sourceCount:
+          await this.prepareHandInput(before.hand.length,markerOnly?null:a.index),points=this.handPoints(before.hand.length);
       const after={...before,hand:before.hand.slice(),probed:true,confirmed:false};
+      if(markerOnly){
+        await this.prepareHandObservation(before.hand.length);
+        after.hand=this.finishHandObservation(after.hand,{retainedHand:before.hand});
+        for(const key of [a.key,T.cardProbeKey(after,after.hand[a.index],a.requirement)])
+          if(!memory.probeKeys.includes(key))memory.probeKeys.push(key);
+        this.acceptHand(after.hand,"hand-attachment-markers");
+        this.trace("hand-attachment-markers",{empowered:after.hand.filter(h=>h.attachments?.empowered===true).map(h=>h.index),
+          count:after.hand.length,detailInputs:0});
+        await this.reset();await this.requireUnchangedBoard(before);
+        this.trace("card-probe-completed",{reads:0,markerRow:true,fanRetained:false});
+        return after;
+      }
       let request=a,observed,x,inspected=false,reads=0;
       do {
+        // Reuse the fan, not the previous slot's preselection price proof.
+        if(reads)await this.prepareHandInput(before.hand.length,request.index);
         x=points[request.index];
         const prior=after.hand[request.index],cost=this.handPositionProof?.costs[request.index];
         if(Number.isInteger(cost)&&T.cardFactsKnown({...prior,currentCost:cost},request.requirement)){
@@ -3188,12 +3238,24 @@
       for(let attempt=0;attempt<24;attempt++){
         last=this.phase();const session=this.choiceSession;
         if(session&&!session.origin)session.origin=this.confirmationSession?.key||null;
+        // A submitted drag or inspection can return to the board without a
+        // target/confirmation ever appearing. Keep its owner until the actual
+        // board AND hand are read; the shared confirmation then verifies the
+        // effect instead of waiting forever or submitting the card again.
+        let reconciled=false;
+        const unconfirmedPage=session&&!session.confirmed&&["target","payment","inspect"].includes(session.kind);
+        if(unconfirmedPage&&last.phase==="board"&&last.turn==="user"){
+          last=await this.observe(true,{mode:"full"});
+          if(last.phase!=="board"||last.turn!=="user"||!T.legalState(last)){stable=0;key="";continue;}
+          reconciled=true;
+        }
         if(session?.kind==="payment"&&session.confirmed&&last.phase==="choice"){
           // Payment is finished; the same pending action now owns the native choice.
           // Do not require an intermediate board frame or resend the payment.
           this.choiceSession=null;stable=0;key="";continue;
         }
-        if(session?.kind==="inspect"){
+        const handoff=unconfirmedPage&&(last.turn==="enemy"||["pick","roll","settlement","result"].includes(last.phase));
+        if(session?.kind==="inspect"&&!reconciled&&!handoff){
           const title=last.phase==="choice"?this.frame(f=>this.titleIn(f,[45,115,360,50])):"",card=T.identify(title);
           if(title!==session.title){session.title=title;this.trace("choice-title-observed",{title,id:card?.id||null,point:session.option.point});}
           const sameSlot=last.options?.some(o=>o.title===session.option.title&&Math.abs(o.point[0]-session.option.point[0])<=8);
@@ -3208,21 +3270,25 @@
           }
           if(attempt<23)await sleep(250);continue;
         }
-        const exited=session&&(session.selected||session.confirmed)&&["board","pick","roll","settlement","result"].includes(last.phase)&&
+        const exited=session&&(session.selected||session.confirmed||reconciled||handoff)&&["board","pick","roll","settlement","result"].includes(last.phase)&&
           (last.phase!=="board"||["user","enemy"].includes(last.turn));
         if(exited){
           const next=JSON.stringify([last.phase,last.turn,last.result]);stable=next===key?stable+1:1;key=next;
-          if(stable>=2){
+          if(stable>=2||reconciled){
             this.choiceSession=null;this.choiceDetails=[];this.choiceReceipt={origin:session.origin,id:session.id,kind:session.kind,exited:true};
-            if(["bloom","meditation"].includes(session.kind))this.pendingGeneratedChoice={id:session.id,oldCount:session.oldCount};
+            if((reconciled||handoff)&&session.kind==="inspect")this.choiceReceipt.unresolved=true;
+            if(["bloom","meditation"].includes(session.kind))this.pendingChoiceCard={id:session.id,oldCount:session.oldCount};
             if(session.kind==="bloom")memory.bloomResolved=true;
             if(session.kind==="sand")memory.branch=T.fact(session.id,"native-choice-exit");
             if(session.kind==="adventure"){
               if(memory.adventureMap)memory.supports=memory.supports.filter(id=>id!==memory.adventureMap);
               memory.adventureMap=session.id;memory.supports.push(session.id);
             }
-            this.invalidateHand("moon-choice-result");this.handFanReady=false;this.handNeedsReset=true;this.boardReady=false;this.emptyHandProven=false;
-            this.trace("choice-resolved",{...this.choiceReceipt,confirmationInputs:session.confirmed?1:0});return last;
+            if(!reconciled){
+              this.invalidateHand("moon-choice-result");this.handFanReady=false;this.handNeedsReset=true;this.boardReady=false;this.emptyHandProven=false;
+            }
+            this.trace("choice-resolved",{...this.choiceReceipt,confirmationInputs:session.confirmed?1:0,
+              ...(reconciled||handoff?{recovery:reconciled?"complete-native-board-and-hand":"native-phase-handoff",replayedAction:false}:{})});return last;
           }
         }else if(session?.kind==="payment"){
           const preview=this.frame(f=>({banner:T.norm(this.ocr(f,[740,510,450,65])),
@@ -3292,12 +3358,7 @@
     }
     async observe(...args){
       const state=await super.observe(...args);
-      if(this.pendingGeneratedChoice&&Array.isArray(state.hand)){
-        const id=this.pendingGeneratedChoice.id,present=state.hand.some(h=>h.id===id),overflowPossible=this.pendingGeneratedChoice.oldCount===10;
-        if(!present&&!overflowPossible){const e=Error("选择结果尚未出现在实际手牌中");e.code="TCG_HAND_RETRY";throw e;}
-        this.choiceReceipt={...this.choiceReceipt,generatedPresent:present,overflowPossible};this.pendingGeneratedChoice=null;
-        this.trace("choice-card-verified",{id,present,overflowPossible});
-      }
+      // The shared observer records generation after its board snapshot.
       return {...state,choiceReceipt:this.choiceReceipt};
     }
     async cardConfirm(a,before){

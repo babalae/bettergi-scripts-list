@@ -370,7 +370,7 @@
     }
     reportResult(p){log.info(p.result==="win"?"对局胜利":"对局失败");}
     planOpening(stage){const target=T.role("菈乌玛");this.memory.openingTarget=target;
-      if(this.memory.round===0)this.memory.countdownStock={countdown3:2};
+      if(this.memory.round===0){this.memory.countdownStock={countdown3:2};this.memory.kernelLedger={created:0,unspent:0};}
       this.host.trace("opening-character-plan",{target,stage:stage||"initial-pick",source:"configured-team-order"});return {target};}
     async act(){
       const state=await this.observe();if(!state)return;

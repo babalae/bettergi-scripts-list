@@ -58,7 +58,7 @@
     ["tower","自体自身之塔",{},"choice-option",0],
     ["tonatiuh","天蛇船",{},"choice-option",0],
     ["chasm","层岩巨渊",{},"choice-option",0],
-    ["reforge","重铸圣剑",{},"unimplemented",0]
+    ["reforge","重铸圣剑",{any:4},"heal",0]
   ].map(([id,name,cost,type,copies])=>({id,name,cost,type,copies}));
   // Names/costs are independently transcribed card rules, not game-state facts.
   // Unsupported target/prepare pages are excluded from active skill candidates.
@@ -91,7 +91,8 @@
     String(t || "")
       .replace(/[\s:：·!！。，,（）()「」『』【】\[\]“”"‘’']/g, "")
       .replace(/迴/g, "回");
-  const cardTitleAliases = {"幻戏倒计时3":"幻戏倒计时：3","幻戏倒计时2":"幻戏倒计时：2","幻戏倒计时1":"幻戏倒计时：1","逛言之核":"诳言之核","锋龙":"嵴锋龙","异色猎刀":"异色猎刀鳐"};
+  // Native choice frame 2026-10-15 17:28:31 confirms 暝视龙; both OCR paths read 视龙.
+  const cardTitleAliases = {"幻戏倒计时3":"幻戏倒计时：3","幻戏倒计时2":"幻戏倒计时：2","幻戏倒计时1":"幻戏倒计时：1","逛言之核":"诳言之核","锋龙":"嵴锋龙","异色猎刀":"异色猎刀鳐","视龙":"暝视龙"};
   const characterAliases = {"拉乌玛":"菈乌玛","乌玛":"菈乌玛"};
   function identify(text) {
   const title = norm(text);
@@ -229,14 +230,20 @@
   const seeds = s => (s.hand||[]).filter(h=>h.id==="seed");
   const nonInitial = card => !initialNames.has(card.name);
   const currentCost = h => known(h?.currentCost) ? h.currentCost : null;
+  const attachmentSource = h => ["native","private-rules"].includes(h.attachments?.source);
+  const characterTarget = c => ["weapon","artifact","food","return","technique","heal-dice","heal"].includes(c.type);
+  const lensTarget = c => ["weapon","artifact"].includes(c.type)||c.id==="canopy";
   function attachedCost(h) {
     const c=byId[h.id],a=h.attachments;
-    return c&&a?.source==="native"&&known(a.reduction)&&known(a.increase)?
+    return c&&attachmentSource(h)&&known(a.reduction)&&known(a.increase)?
       Math.max(0,size(c.cost)-a.reduction+a.increase):null;
   }
   function attachedCostAtLeast(h,n) {
     const exact=attachedCost(h);if(exact!==null)return exact>=n;
     const c=byId[h.id],a=h.attachments;
+    // Temporary discounts only reduce payment. A native payment >= n proves
+    // the trigger threshold without needing the exact attachment layer count.
+    if(currentCost(h)!==null&&currentCost(h)>=n)return true;
     if(!c||a?.source!=="native")return null;
     // Nonnegative attachment counters give bounds without mistaking a final
     // discounted price for the cost used by research/canopy triggers.
@@ -248,17 +255,18 @@
   // Failed inspection is bound to the card/hand observation, not unrelated HP,
   // dice or the active role. A changed price/attachment/hand can be inspected again.
   function cardProbeKey(s,h,requirement="payment"){
-    return JSON.stringify([s.hand.map(c=>c.id),h.index,h.id,currentCost(h),h.attachments,requirement]);
+    return JSON.stringify([requirement==="empowerment-row"?
+      s.hand.map(c=>[c.id,currentCost(c),c.attachments]):s.hand.map(c=>c.id),
+      h.index,h.id,currentCost(h),h.attachments,requirement]);
   }
   function cardFactsKnown(h,requirement="payment"){
     const a=h.attachments;
-    if(requirement==="tuning")return a?.source==="native"&&
-      typeof a.empowered==="boolean"&&typeof a.noTuning==="boolean";
-    if(currentCost(h)===null||a?.source!=="native"||typeof a.empowered!=="boolean")return false;
+    if(a?.source!=="native")return false;
+    if(requirement==="tuning")return typeof a.empowered==="boolean"&&typeof a.noTuning==="boolean";
     if(requirement==="attachment-cost")return known(a.reduction)&&known(a.increase);
     if(requirement==="attachment-kinds")return ["empowered","noTuning","effectless"].every(k=>typeof a[k]==="boolean")&&
       (known(a.reduction)||a.reductionPresent===true)&&(known(a.increase)||a.increasePresent===true);
-    return true;
+    return currentCost(h)!==null&&typeof a.empowered==="boolean";
   }
   function payment(dice,cost,preserve="Dendro") {
     if(!cost)return null;
@@ -302,7 +310,7 @@
     if(["branch","choice-option","unimplemented"].includes(c.type) || a.id==="bloom")return "自动母牌或未支持的分支不能作为普通手牌打出";
     if(h.attachments?.effectless===true)return "卡牌已无效化";
     if(c.type==="kernel" && (s.active!==role("奈芙尔") || s.characters[s.active].frozen!==false))return "核需要可行动的奈芙尔出战";
-    if(["weapon","artifact","food","return","technique","heal-dice"].includes(c.type)) {
+    if(characterTarget(c)) {
       if(!alive(s.characters[a.target]))return "目标未核实存活";
       if(c.type==="food" && m.food[a.target])return "目标本轮已食用料理";
       if(c.type==="return" && !m.weapons[a.target])return "目标没有已确认武器";
@@ -358,8 +366,8 @@
       sleepy:0,weaponDiscount:0,supports:[],canopyPoints:[],researchRemaining:0,played:[],
       seedboxRemaining:0,seedboxUsed:false,lensRemaining:0,lensUsed:false,seelieRemaining:0,
       lumenRemaining:0,lumenCards:0,lumenUsed:false,fanUsed:false,fanSwitch:false,foodDrawUsed:false,
-      lunarMinimum:fact(0,"confirmed-action"),enhancedUsed:false,passiveUsed:false,overgrowUsed:false,
-      sashimi:[false,false,false],frost:null,ripple:null,paleHymn:null,domain:null,branch:null,
+      lunarMinimum:fact(0,"confirmed-action"),kernelLedger:null,enhancedUsed:false,passiveUsed:false,overgrowUsed:false,
+      sashimi:[false,false,false],holyBlade:[false,false,false],frost:null,ripple:null,paleHymn:null,domain:null,branch:null,
       adventureMap:null,
       enemyAliveCount:null,lastActive:null,handTop:null,countdownStock:null,axis:"reaction",kernelProduced:fact(0,"unknown")};
   }
@@ -405,12 +413,13 @@
       passive=m.passiveUsed,overgrow=m.overgrowUsed,enhancedReady=false,
       hymn=known(m.paleHymn?.value)?m.paleHymn.value:0,
       domain=name==="哥伦比娅"&&skill==="Q"?3:known(m.domain?.value)?m.domain.value:0,
-      unknownReaction=!!state&&state.auraKnown!==true&&element!=="Physical",replacementRequired=false;
+      unknownReaction=!!state&&state.auraKnown!==true&&element!=="Physical",replacementRequired=false,
+      handReactionUnknown=unknownReaction;
     if(base)queue.push({base,element,owner:skill==="T"?null:who,normal,source:kernel?"kernel":"skill"});
     const drain=()=>{
       while(queue.length){
         const hit=queue.shift();
-        if(state&&state.hp<=0){replacementRequired=enemyCount(s)>1;break;}
+        if(state&&state.hp<=0){replacementRequired=enemyCount(s)>1;handReactionUnknown ||= replacementRequired;break;}
         const r=state?.auraKnown===true?elementReaction(hit.element,state.aura,true):{name:null,bonus:0},
           weapon=hit.owner!==null&&m.weapons[hit.owner]==="fruit"?1:0,
           food=hit.normal&&m.sashimi[hit.owner]?1:0,
@@ -444,19 +453,27 @@
     enhancedReady=name==="哥伦比娅"&&skill==="NA"&&m.enhancedUsed===false&&state?.hp>0&&
       m.lunarMinimum.value+lunarReactions>=3&&s.hand.some(hasReduction);
     if(enhancedReady){queue.push({base:1,element:"Dendro",owner:who,normal:true,source:"enhanced"});drain();}
+    // Ordinary NA is charged when the pre-action dice count is even. A kernel
+    // invokes a hidden skill after card payment; do not assume that parity here.
+    if(skill==="NA"&&!kernel&&m.holyBlade?.[who]&&total(s.dice)%2===0){
+      queue.push({base:5,element:team[who].element,owner:null,normal:false,source:"holy-blade"});drain();
+    }
     const first=events[0],reacts=unknownReaction&&!lunarReactions?null:lunarReactions>0,
       guaranteedDirect=target?.defenseKnown===true&&!unknownReaction?direct:null;
     return {direct,guaranteedDirect,element,target,targetAfter:state,reacts,enhancedReady,events,lunarReactions,paleUsed,domainUsed,
-      passiveUsed:passive,overgrowUsed:overgrow,unknownReaction,replacementRequired,
+      passiveUsed:passive,overgrowUsed:overgrow,unknownReaction,handReactionUnknown,replacementRequired,
       firstReaction:first?.reaction||null};
   }
   function cardTriggers(h,m) {
-    const c=byId[h.id],n=attachedCost(h);
-    if(!c || n===null || m.canopyPoints.some(p=>p===null) || m.researchRemaining===null)
-      return {known:false,canopy:[],research:false,total:null,colors:"unknown"};
-    const triggered=m.canopyPoints.map((point,index)=>nonInitial(c)&&n>=point?index:-1).filter(i=>i>=0);
-    return {known:true,canopy:triggered,research:n>=3&&m.researchRemaining>0,
-      total:triggered.length+(n>=3&&m.researchRemaining>0?1:0),colors:"random-basic"};
+    const c=byId[h.id],canopyChecks=m.canopyPoints.map(point=>!c||!nonInitial(c)?false:
+      point===null?null:attachedCostAtLeast(h,point)),threshold=attachedCostAtLeast(h,3),
+      researchCheck=m.researchRemaining===0||threshold===false?false:
+        m.researchRemaining===null?null:threshold,
+      certain=canopyChecks.every(x=>x!==null)&&researchCheck!==null,
+      canopy=canopyChecks.map((yes,i)=>yes===true?i:-1).filter(i=>i>=0);
+    return {known:certain,canopy,research:researchCheck===true,
+      total:certain?canopy.length+(researchCheck?1:0):null,colors:certain?"random-basic":"unknown",
+      ...(!certain?{canopyChecks,researchCheck}:{})};
   }
   function knownAttachmentKinds(hand) {
     const kinds=new Set();
@@ -469,7 +486,8 @@
     return Math.min(2,kinds.size);
   }
   function attachmentKinds(s) {
-    return s.hand.some(h=>h.attachments?.source!=="native")?null:knownAttachmentKinds(s.hand);
+    const n=knownAttachmentKinds(s.hand);
+    return n===2||s.hand.every(h=>cardFactsKnown(h,"attachment-kinds"))?n:null;
   }
   function openingSetting() {return "优先装备与启动牌";}
   function openingContext() {return {};}
@@ -498,18 +516,37 @@
   }
   const intent = (s,m) => ({target:survivorIntent(s,m)});
   function noteBoard(m,s) {
+    if(m.adventureMap==="chasm")m.kernelLedger=null; // Random foreign events break the original-deck provenance.
     if(m.countdownStock&&Array.isArray(s.hand)&&s.hand.some(h=>countdownFamily.includes(h.id)&&!m.countdownStock[h.id]))
       m.countdownStock=null; // Native contradiction wins; foreign/unobserved effects require local titles.
     if(Array.isArray(s.characters))m.defeated=s.characters.map(c=>c.dead===true);
-    const count=enemyCount(s);if(count!==null)m.enemyAliveCount=count;
+    // The original thirty contain no kernels. Track a conservative stock over
+    // hand AND pile, so drawing a returned kernel cannot count as a new reaction.
+    if(m.kernelLedger&&Array.isArray(s.hand)){
+      const fresh=Math.max(0,seeds(s).length-m.kernelLedger.unspent);
+      m.kernelLedger.created+=fresh;m.kernelLedger.unspent+=fresh;
+      if(m.kernelLedger.created>m.lunarMinimum.value)
+        m.lunarMinimum=fact(m.kernelLedger.created,"confirmed-kernel-stock-lower-bound");
+    }
+    const count=enemyCount(s);
+    if(count!==null){
+      if(m.enemyAliveCount!==null&&count<m.enemyAliveCount)
+        m.gamblerUsed=m.gamblerUsed.map((n,i)=>m.artifactKinds[i]==="gambler"?null:n);
+      m.enemyAliveCount=count;
+    }
     if(known(s.active))m.lastActive=s.active;
   }
   function rejectAction(m,a) {const key=actionKey(a);if(!m.uncertainActions.includes(key))m.uncertainActions.push(key);m.costEvidence=null;}
-  function deferUncertain(m,a){rejectAction(m,a);if(countdownFamily.includes(a.id)||a.type==="skill"&&["qucu","yumka"].includes(a.technique))m.countdownStock=null;}
+  function deferUncertain(m,a){rejectAction(m,a);if(countdownFamily.includes(a.id)||a.type==="skill"&&["qucu","yumka"].includes(a.technique))m.countdownStock=null;
+    if(a.id==="seed"||a.type==="skill"&&a.technique==="yumka")m.kernelLedger=null;}
+  function changedReduction(h){
+    const {reductionPresent,increasePresent,...attachments}=h.attachments||{source:"unknown",empowered:null};
+    return {...h,currentCost:null,costSource:"changed-attachment",attachments:{...attachments,reduction:null,increase:null}};
+  }
   function combatHandPlan(s,m,who,skill,kernelIndex=null) {
       const kernel=kernelIndex!==null,name=team[who].name,hit=damageEstimate(s,m,who,skill,kernel),
-        bloomPossible=hit.unknownReaction||hit.events.some(e=>e.reaction==="lunar-bloom"),
-        reductionPossible=h=>h.attachments?.source!=="native"||hasReduction(h),
+        bloomPossible=hit.handReactionUnknown||hit.events.some(e=>e.reaction==="lunar-bloom"),
+        reductionPossible=h=>!known(h.attachments?.reduction)||hasReduction(h),
         generates=bloomPossible&&alive(s.characters[role("奈芙尔")])&&s.hand.length-(kernel?1:0)<10&&seeds(s).length-(kernel?1:0)<3&&
           (m.kernelProduced.source==="unknown"||m.kernelProduced.value<2),
         topdecks=name==="哥伦比娅"&&skill==="NA"&&m.enhancedUsed!==true&&s.hand.some(reductionPossible),
@@ -519,7 +556,7 @@
         const modified=bloomPossible&&(currentCost(h)===null||currentCost(h)>0)||
           name==="菈乌玛"&&(skill==="Q"&&(currentCost(h)===null||currentCost(h)>0)||skill==="E"&&reductionPossible(h))||
           name==="奈芙尔"&&skill==="E"&&h.id==="seed";
-        return modified?{...h,currentCost:null,costSource:"changed-attachment",attachments:{source:"unknown",empowered:null},canTune:false}:h;
+        return modified?changedReduction(h):h;
       });
       if(generates||topdecks||draws)return {mode:"full",expectedCount:null,
         ...(!topdecks?{retainedHand:indexedHand(hand.filter((_,i)=>i!==kernelIndex)),
@@ -550,12 +587,12 @@
       const c=byId[a.id];
       // Drawing, generated cards, return/top-deck, choices and combat can change
       // order. Price-only effects cannot: invalidate their facts, not identity.
-      const identityStable=["dice","switch","energy","status","artifact","support","food","technique","heal-dice"].includes(c.type)||a.id==="gleam";
+      const identityStable=["dice","switch","energy","status","artifact","support","food","technique","heal-dice","heal"].includes(c.type)||a.id==="gleam";
       if(identityStable&&a.id!=="nre"&&!(c.type==="food"&&m.supports.includes("nre")&&!m.foodDrawUsed)) {
         const hand=indexedHand(s.hand.filter((_,i)=>i!==a.index)).map(h=>{
           const other=byId[h.id]||h;
           if(a.id==="gleam"&&(currentCost(h)===null||currentCost(h)>0))
-            return {...h,currentCost:null,costSource:"changed-attachment",attachments:{source:"unknown",empowered:null},canTune:false};
+            return changedReduction(h);
           const discountChanged=nonInitial(c)&&m.sleepy>0&&nonInitial(other)||
             a.id==="seedbox"&&other.type==="support"||a.id==="lens"&&["weapon","artifact","support"].includes(other.type)||
             c.type==="support"&&m.seedboxRemaining>0&&!m.seedboxUsed&&other.type==="support"||
@@ -570,7 +607,8 @@
     const c=a.type==="card"?byId[a.id]:null;
     return {mode:"full",expectedCount:null,
       ...(c&&!["legend","branch","adventure","choice-option","unimplemented"].includes(c.type)?
-        {retainedHand:indexedHand(s.hand.filter((_,i)=>i!==a.index)),
+        {retainedHand:indexedHand(s.hand.filter((_,i)=>i!==a.index)).map(h=>a.id==="upgrade"&&h.attachments?.empowered!==true?
+            {...h,attachments:{...h.attachments,empowered:null},canTune:false}:h),
           ...(["upgrade","meditation"].includes(c.id)&&
             !(m.supports.includes("lumen")&&!m.lumenUsed&&m.lumenCards===2)
             ?{retainedVariantFamilies:[countdownFamily]}:{})}:{})};
@@ -597,8 +635,11 @@
       (s.dice[a.element]||0)===(b.dice[a.element]||0)+1;
     if(a.type!=="card")return false;
     if(a.id==="seed" && (transition || damaged(b,s)))return true;
-    if(s.choiceReceipt?.origin===actionKey(a)+"/"+boardKey(b) && s.choiceReceipt.exited &&
-      ["meditation","sand","adventure"].includes(s.choiceReceipt.kind))return true;
+    const receipt=s.choiceReceipt;
+    if(receipt?.origin===actionKey(a)+"/"+boardKey(b)){
+      if(receipt.unresolved)return false;
+      if(receipt.exited&&["meditation","sand","adventure"].includes(receipt.kind))return true;
+    }
     return (bag(b.hand)[a.id]||0)>(bag(s.hand)[a.id]||0) ||
       byId[a.id].type==="draw" && s.hand.length>b.hand.length;
   }
@@ -630,6 +671,14 @@
   }
   function commit(m,a,b,s) {
     m.costEvidence=null;
+    if(m.kernelLedger&&["card","tune"].includes(a.type)&&a.id==="seed")
+      m.kernelLedger.unspent=Math.max(0,m.kernelLedger.unspent-1);
+    if(a.type==="skill"&&a.technique==="yumka")m.kernelLedger=null;
+    if((a.type==="skill"||a.id==="seed")&&Array.isArray(s.enemies)&&m.artifactKinds[b.active]==="gambler"&&known(m.gamblerUsed[b.active])){
+      const defeats=enemyDamageEvidence(b,s).defeats;
+      if(defeats>0)m.gamblerUsed[b.active]=Math.min(3,m.gamblerUsed[b.active]+defeats);
+    }
+    const count=enemyCount(s);if(count!==null)m.enemyAliveCount=count;
     if(a.type==="card"&&["draw","weapon","return","adventure","legend"].includes(byId[a.id]?.type))m.handTop=null;
     if(m.countdownStock&&["card","tune"].includes(a.type)&&countdownFamily.includes(a.id)){
       if(!m.countdownStock[a.id])m.countdownStock=null;
@@ -673,7 +722,8 @@
       // These skills can modify an unread attachment without changing card count.
       if(estimate.reacts===true||enhanced||name==="菈乌玛"&&["E","Q"].includes(a.skill)||
         name==="奈芙尔"&&a.skill==="E")m.probeKeys=[];
-      if(name==="菈乌玛"&&a.skill==="E")m.frost=fact({uses:2,damage:null},"confirmed-action");
+      if(name==="菈乌玛"&&a.skill==="E")m.frost=fact({uses:2,damage:b.hand.some(hasReduction)?2:
+        !estimate.unknownReaction&&!estimate.reacts&&b.hand.every(attachmentSource)?1:null},"confirmed-action");
       if(name==="菈乌玛"&&a.skill==="Q")m.paleHymn=fact(3,"confirmed-action");
       if(name==="哥伦比娅"&&a.skill==="E")m.ripple=fact(2,"confirmed-action");
       if(name==="哥伦比娅"&&a.skill==="Q")m.domain=fact(3,"confirmed-action");
@@ -682,9 +732,12 @@
     }
     if(a.type!=="card")return;
     const c=byId[a.id],h=b.hand[a.index],trigger=cardTriggers(h,m);
-    if(trigger.known) {for(const i of trigger.canopy)m.canopyPoints[i]++;if(trigger.research)m.researchRemaining--;}
-    else {if(nonInitial(c))m.canopyPoints=m.canopyPoints.map(()=>null);
-      if(m.researchRemaining>0)m.researchRemaining=null;}
+    for(const i of trigger.canopy)m.canopyPoints[i]++;
+    if(trigger.research)m.researchRemaining--;
+    if(!trigger.known){
+      m.canopyPoints=m.canopyPoints.map((point,i)=>trigger.canopyChecks[i]===null?null:point);
+      if(trigger.researchCheck===null&&m.researchRemaining>0)m.researchRemaining=null;
+    }
     if(nonInitial(c))m.sleepy=0;
     if(c.type==="weapon") {m.weapons[a.target]=a.id;m.weaponDiscount=0;}
     if(c.type==="technique") {m.techniques[a.target]={id:c.id,uses:2};m.techniqueDiscount=0;}
@@ -697,6 +750,7 @@
     if(c.id==="shift")m.freeSwitch=true;
     if(c.id==="sand")m.legendUsed=true;
     if(c.id==="razor") {m.weapons[a.target]=null;m.weaponDiscount=2;}
+    if(c.id==="reforge")m.holyBlade[a.target]=true;
     if(c.id==="seedbox")m.seedboxRemaining=2;
     if(c.id==="lens")m.lensRemaining=2;
     if(c.id==="seelie")m.seelieRemaining=3;
@@ -710,7 +764,7 @@
     if(c.type==="support" && attachedCost(h)>=2 && m.seedboxRemaining>0 && !m.seedboxUsed && c.id!=="seedbox") {
       m.seedboxRemaining--;m.seedboxUsed=true;if(m.seedboxRemaining===0)m.supports=m.supports.filter(id=>id!=="seedbox");
     }
-    if(["weapon","artifact"].includes(c.type)&&m.played.includes(c.name)&&m.lensRemaining>0&&!m.lensUsed) {
+    if(lensTarget(c)&&m.played.includes(c.name)&&m.lensRemaining>0&&!m.lensUsed) {
       m.lensRemaining--;m.lensUsed=true;if(m.lensRemaining===0)m.supports=m.supports.filter(id=>id!=="lens");
     }
     if(!m.played.includes(c.name))m.played.push(c.name);
@@ -735,14 +789,22 @@
       named);
   }
   const combatAction = a => a.type==="card"&&a.id==="seed";
-  const gamblerRemaining = (m,who) => Math.max(0,3-m.gamblerUsed[who]);
+  const gamblerRemaining = (m,who) => known(m.gamblerUsed[who])?Math.max(0,3-m.gamblerUsed[who]):0;
+  function temporaryDiscount(h,m) {
+    const c=byId[h.id],n=attachedCost(h);
+    if(!c)return null;
+    if(c.type==="support"&&m.seedboxRemaining>0&&!m.seedboxUsed&&n===null)return null;
+    return (nonInitial(c)?m.sleepy:0)+(c.type==="weapon"?m.weaponDiscount:0)+
+      (c.type==="technique"?m.techniqueDiscount:0)+
+      (c.type==="support"&&m.seedboxRemaining>0&&!m.seedboxUsed&&n>=2?1:0)+
+      (lensTarget(c)&&m.lensRemaining>0&&!m.lensUsed&&m.played.includes(c.name)?2:0);
+  }
   // Restricted resource projection, never a native observation. Both route and
   // ordinary candidates use the same cost, hand-impact and commit rules.
   function projectResources(s,m,a) {
     const cost=a.type==="skill"?skillCost(a.who,a.skill,m,s):a.type==="card"?cardCost(s,a,m):
       a.type==="switch"?{any:m.freeSwitch||m.fanSwitch?0:1}:null;
-    if(a.type==="card"&&!["seed","calx","woven","shift","sashimi"].includes(a.id)||
-       a.type==="skill"&&a.skill==="T"||m.uncertainActions.includes(actionKey(a)))return null;
+    if(m.uncertainActions.includes(actionKey(a)))return null;
     if(a.type==="skill"&&!skillLegal(s,a,m)||a.type==="card"&&!cardLegal(s,a,m)||
        a.type==="switch"&&(a.target===s.active||!alive(s.characters[a.target])||s.characters[a.target].frozen))return null;
     const pay=payment(s.dice,cost,team[a.type==="switch"?a.target:s.active].element);
@@ -758,40 +820,58 @@
       if(a.id==="calx")for(let i=0;i<3;i++)if(i!==s.active&&alive(next.characters[i])&&next.characters[i].energy>0){
         next.characters[i].energy--;next.characters[s.active].energy=Math.min(team[s.active].maxEnergy,next.characters[s.active].energy+1);
       }
-      if(nonInitial(byId[a.id])&&m.sleepy>0)for(const h of next.hand)if(nonInitial(h)){
-        const attached=attachedCost(h);
-        h.currentCost=attached===null?null:currentCost(h)+Math.min(m.sleepy,attached);h.costSource="private-discount-consumption";
-      }
+      if(["countdown3","countdown2","countdown1","show"].includes(a.id))next.dice={Omni:total(next.dice)};
+      if(["toy","reforge"].includes(a.id))next.characters[a.target].hp=
+        Math.min(team[a.target].maxHp,next.characters[a.target].hp+(a.id==="toy"?2:12));
     }
     if(combat){
       if(hit.target)next.enemies[s.enemies.indexOf(hit.target)]=hit.targetAfter;
       if(hit.targetAfter?.hp===0){hit.targetAfter.dead=true;hit.targetAfter.active=false;}
-      if(a.type==="skill")next.characters[who].energy=a.skill==="Q"?0:Math.min(team[who].maxEnergy,next.characters[who].energy+1);
+      if(a.type==="skill"&&a.skill!=="T")next.characters[who].energy=a.skill==="Q"?0:Math.min(team[who].maxEnergy,next.characters[who].energy+1);
       // Any random reduction/creation/top-deck remains an observation boundary.
       if(impact.mode!=="full")next.hand=impact.mode==="remove"?next.hand:
         indexedHand(impact.hand);
     }
     const triggers=a.type==="card"?cardTriggers(s.hand[a.index],m):null;
     commit(mem,a,s,next);
+    // Carry only deterministic changes of already observed cards. Random draws,
+    // choices, reduction targets and returned colours stop the prefix below.
+    next.hand=next.hand.map(h=>{
+      const old=s.hand.find(c=>c.index===(a.type==="card"&&h.index>=a.index?h.index+1:h.index));
+      if(!old)return h;
+      const before=temporaryDiscount(old,m),after=temporaryDiscount(old,mem),n=attachedCost(old),
+        kernelReduction=a.type==="skill"&&a.who===role("奈芙尔")&&a.skill==="E"&&old.id==="seed"&&!hit.unknownReaction&&!hit.reacts;
+      if(before===after&&!kernelReduction)return h;
+      const quote=currentCost(old),reduction=kernelReduction?1:0;
+      if(quote===null||before===null||after===null||n!==null&&quote!==Math.max(0,n-before))return {...h,currentCost:null};
+      const price=n!==null?Math.max(0,n-reduction-after):quote>0||after>=before?
+        Math.max(0,quote+before-after-reduction):null;
+      return {...h,currentCost:price,costSource:"private-rules",
+        ...(kernelReduction&&n!==null?{attachments:{...old.attachments,source:"private-rules",reduction:old.attachments.reduction+1}}:{})};
+    });
+    const randomDice=a.id==="cleaning"?knownAttachmentKinds(next.hand):a.id==="toy"?2:0;
     return {state:next,memory:mem,cost,paid:size(cost),hit,combat,
+      refund:triggers?.total===null?randomDice:randomDice+(triggers?.total||0),
       boundary:impact.mode==="full"?"hand-change":a.id==="seed"&&!seedDiscountKnown(s.hand[a.index],m)?"temporary-discount-unknown":
         hit?.unknownReaction?"reaction":hit?.replacementRequired?"replacement":
+        ["gleam","overgrow","amrita"].includes(a.id)&&impact.hand?.some(h=>h.currentCost===null)?"attachment-change":
+        randomDice>0?"random-refund":
         triggers&&(m.canopyPoints.length||m.researchRemaining!==0)&&(!triggers.known||triggers.total>0)?"random-refund":null};
   }
   root.TCG={team,cards,techniques,byId,initialNames,norm,identify,observedCard,handCardKnown,characterName,role,
     diceOrder,total,size,known,alive,enemyCount,bag,indexedHand,removedOne,boardKey,actionKey,fact,payment,
     cardCost,cardInputCost,cardContextError,cardInputError,cardLegal,skillCost,skillLegal,legalState,freshMemory,nextRound,
-    seeds,nonInitial,currentCost,attachedCost,attachedCostAtLeast,cardFactsKnown,cardProbeKey,hasReduction,realAction,cardTriggers,attachmentKinds,knownAttachmentKinds,reaction,damageEstimate,openingSetting,openingContext,
+    seeds,nonInitial,currentCost,attachedCost,attachedCostAtLeast,cardFactsKnown,cardProbeKey,hasReduction,realAction,characterTarget,cardTriggers,attachmentKinds,knownAttachmentKinds,reaction,damageEstimate,openingSetting,openingContext,
     openingPlan,rerollPlan,rerollCounter,OpeningFlow,freshActionBoard,replacement,survivorIntent,intent,noteBoard,
     rejectAction,deferUncertain,handPlan,handVariantProof,verify,verifyResynchronized,commit,removalEffect,emptyHandEffect,
-    nativeCardScope,combatAction,gamblerRemaining,elementReaction,damageAgainst,enemyDamageEvidence,projectResources,
-    defaultMaxMinutes:45,targetedCardTypes:["technique","heal-dice"],
+    nativeCardScope,combatAction,gamblerRemaining,elementReaction,damageAgainst,enemyDamageEvidence,projectResources,temporaryDiscount,
+    defaultMaxMinutes:45,targetedCardTypes:["technique","heal-dice","heal"],
     targetedCardBanners:{technique:["请选择要装备特技的角色","请选择一个角色装备特技","请选择一个角色","对所选角色生效"],
-      "heal-dice":["请选择一个角色","对所选角色生效"]}};
+      "heal-dice":["请选择一个角色","对所选角色生效"],heal:["请选择一个角色","对所选角色生效"]}};
 })(globalThis);
 
-globalThis.TCG.version = "1.2.7";
-globalThis.TCG.sharedVersion = "1.4.7";
+globalThis.TCG.version = "1.2.12";
+globalThis.TCG.sharedVersion = "1.4.9";
 globalThis.TCG.defaultStrategy = "default";
 (function (T) {
   const strategies = new Map();
