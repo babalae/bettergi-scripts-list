@@ -1,0 +1,45 @@
+[
+  {
+    "name": "trounce",
+    "type": "select",
+    "label": "征讨领域",
+    "options": [
+      "北风的狼王",
+      "深入风龙废墟",
+      "进入「黄金屋」",
+      "「伏龙树」之底",
+      "鸣神岛·天守",
+      "梦想乐土之殁",
+      "净琉璃工坊",
+      "肇始之乡",
+      "异界余影",
+      "零落丘墟",
+      "碑碣的记录",   
+      "待解「弈局」",
+      "赝月的研究所",
+      "万有涅槃缚境",
+    ]
+  },
+  {
+    "name": "partyName",
+    "type": "input-text",
+    "label": "队伍名称"
+  },
+  {
+    "name": "strategyName",
+    "type": "input-text",
+    "label": "战斗策略"
+  },
+  {
+    "name": "time",
+    "type": "input-text",
+    "label": "单轮战斗超时（秒）",
+    "default": "180"
+  },
+  {
+    "name": "maxRetries",
+    "type": "input-text",
+    "label": "（战斗失败）重试次数",
+    "default": "3"
+  }
+]
