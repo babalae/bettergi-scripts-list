@@ -177,6 +177,11 @@
     for (const h of hand || []) out[h.id] = (out[h.id] || 0) + 1;
     return out;
   }
+  function cardCountDecreased(before, after, id) {
+    // Unrelated hand growth or sent input cannot prove this card was consumed.
+    return Array.isArray(before) && Array.isArray(after) &&
+      (bag(before)[id] || 0) > (bag(after)[id] || 0);
+  }
   function indexedHand(hand) {
     if (!Array.isArray(hand) || !hand.every(handCardKnown)) throw new Error("手牌缓存身份不完整");
     return hand.map((h, index) => ({ ...h, index }));
@@ -640,8 +645,8 @@
       if(receipt.unresolved)return false;
       if(receipt.exited&&["meditation","sand","adventure"].includes(receipt.kind))return true;
     }
-    return (bag(b.hand)[a.id]||0)>(bag(s.hand)[a.id]||0) ||
-      byId[a.id].type==="draw" && s.hand.length>b.hand.length;
+    if(byId[a.id].type==="draw")return cardCountDecreased(b.hand,s.hand,a.id);
+    return (bag(b.hand)[a.id]||0)>(bag(s.hand)[a.id]||0);
   }
   const verifyResynchronized = verify;
   function commitCombatEffects(m,hit,b,s,who,skill) {
@@ -870,8 +875,8 @@
       "heal-dice":["请选择一个角色","对所选角色生效"],heal:["请选择一个角色","对所选角色生效"]}};
 })(globalThis);
 
-globalThis.TCG.version = "1.2.12";
-globalThis.TCG.sharedVersion = "1.4.9";
+globalThis.TCG.version = "1.2.19";
+globalThis.TCG.sharedVersion = "1.4.16";
 globalThis.TCG.defaultStrategy = "default";
 (function (T) {
   const strategies = new Map();

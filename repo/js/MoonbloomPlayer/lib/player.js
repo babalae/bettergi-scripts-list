@@ -298,7 +298,8 @@
         catch (e) {
           if (!["TCG_CONFIRMATION_RETRY", "TCG_BOARD_RETRY", "TCG_DICE_RETRY", "TCG_HAND_RETRY"].includes(e.code)) throw e;
           this.notice("pending:" + T.actionKey(action), "[等待恢复] 动作已经提交，继续核对结果，不重复输入。");
-          this.host.trace("confirmation-pending", { action, code: e.code, missing: e.missing, reason: e.message });
+          this.host.trace("confirmation-pending", { action, code: e.code, missing: e.missing,
+            phase: e.phase?.phase, turn: e.phase?.turn, elapsedMs: e.elapsedMs, reason: e.message });
           await sleep(400);
         }
       }
@@ -340,6 +341,7 @@
       try {
         if (await this.enter() === false) return;
         while (Date.now() < this.deadline && this.actions < 180) {
+          const sampledAt = Date.now();
           const p = this.host.phase();
           if (p.phase !== "board" || p.turn !== "user") this.readyState = null;
           if (p.result) {
@@ -355,7 +357,8 @@
           else if (p.turn === "user") await this.act();
           else {
             this.checkStalled("对局等待超时（60秒）");
-            await sleep(500);
+            const remaining = 500 - (Date.now() - sampledAt);
+            if (remaining > 0) await sleep(remaining);
           }
         }
         throw new Error("达到单局时间或动作上限");
@@ -372,26 +375,79 @@
     planOpening(stage){const target=T.role("菈乌玛");this.memory.openingTarget=target;
       if(this.memory.round===0){this.memory.countdownStock={countdown3:2};this.memory.kernelLedger={created:0,unspent:0};}
       this.host.trace("opening-character-plan",{target,stage:stage||"initial-pick",source:"configured-team-order"});return {target};}
-    async act(){
-      const state=await this.observe();if(!state)return;
-      const a=T.choose(state,this.memory);this.host.trace("decision",a);if(a.type==="stop")throw Error(a.reason);
-      const execution=await this.execute(a,state);if(!execution.sent)return;
-      if(a.type==="probe"&&execution.result?.probed){this.readyState=execution.result;this.progress();return;}
-      log.info("[第"+this.memory.round+"回合] "+comment(a));
-      const after=await this.awaitConfirmation(a,state,this.memory);
-      if(after.confirmed){T.commit(this.memory,a,state,after);this.host.trace("confirmed",{action:a,after,memory:this.memory});}
-      else{T.deferUncertain(this.memory,a);this.host.trace("action-uncertain",{action:a,after});}
-      T.noteBoard(this.memory,after);
-      if(after.phase==="board"&&after.turn==="user"&&T.legalState(after))this.readyState=after;
-      this.actions++;this.progress();
+    async act() {
+      const state = await this.observe();
+      if (!state) return;
+      const host = this.host, memory = this.memory, started = Date.now(),
+        metrics = host.metricSnapshot?.(), action = T.choose(state, memory),
+        planningMs = Date.now() - started;
+      host.trace("decision", action);
+      if (action.type === "stop") throw new Error(action.reason);
+      const execution = await this.execute(action, state);
+      if (!execution.sent) return;
+      log.info("[第" + memory.round + "回合] " + actionCommentary(action, state, memory));
+      if (action.type === "probe" && execution.result?.probed) {
+        this.readyState = execution.result; this.progress(); return;
+      }
+      const inputFinished = Date.now(), after = await this.awaitConfirmation(action, state, memory);
+      host.trace("action-timing", { action: T.actionKey(action), planningMs,
+        inputMs: inputFinished - started - planningMs, settlementMs: Date.now() - inputFinished,
+        totalMs: Date.now() - started, recognition: host.metricDelta?.(metrics),
+        confirmed: !!after.confirmed, scope: "actual-runtime-not-offline-estimate" });
+      if (after.confirmed) {
+        T.commit(memory, action, state, after);
+        host.trace("confirmed", { action, after, memory });
+      } else if (!(after.handRead === "full" && this.rejectUnchangedTune(action, state, after))) {
+        T.deferUncertain(memory, action);
+        host.trace("action-uncertain", { action, after, memory });
+        log.warn("动作效果未确认，已重新同步，不重复输入。");
+      }
+      T.noteBoard(memory, after);
+      if (after.confirmed && action.type === "card" && T.byId[action.id]?.type === "draw" &&
+          Array.isArray(after.hand) && after.hand.length <= state.hand.length) {
+        // Consumption can precede card insertion (native draw 3 -> 2). Do not
+        // plan from that partial hand. Read once afresh, without guessing deck
+        // size/draw outcome, waiting for a predicted count, or replaying the card.
+        host.invalidateHand("consumed-draw-needs-fresh-hand");
+        this.readyState = null;
+        host.trace("draw-hand-refresh-required", { id: action.id, beforeCount: state.hand.length,
+          observedCount: after.hand.length, consumptionConfirmed: true, effectsComplete: false });
+      } else if (after.phase === "board" && after.turn === "user" && T.legalState(after)) this.readyState = after;
+      this.actions++; this.progress();
     }
   }
-  function comment(a){
-    if(a.type==="skill")return T.team[a.who].name+"使用"+(a.skill==="T"?"特技「"+T.techniques[a.technique].name+"」":{NA:"普攻",E:"战技",Q:"爆发"}[a.skill])+"。";
-    if(a.type==="switch")return "切换"+T.team[a.target].name+"。";
-    if(a.type==="card")return "使用「"+T.byId[a.id].name+"」。";
-    if(a.type==="tune")return "调和「"+(T.byId[a.id]?.name||a.id)+"」。";
-    return "结束回合。";
+  const axisNames={burst:"爆发兑现",fallback:"低组件保底",reaction:"补反应铺垫",relay:"少女接力",sustain:"持续输出",cleanup:"残局收尾"};
+  const skillNames={NA:"普攻",E:"战技",Q:"爆发",T:"特技"};
+  function plannedActionLabel(key){
+    const [type,id,name,technique]=key.split(":");
+    if(type==="skill")return T.team[Number(id)].name+(name==="T"?"的「"+T.techniques[technique].name+"」":skillNames[name]);
+    if(type==="switch")return "切换"+T.team[Number(id)].name;
+    if(type==="card")return "使用「"+T.byId[id].name+"」";
+    return "调和「"+T.byId[id].name+"」";
   }
-  root.TCGPlayer={Player,playerOptions,actionCommentary:comment};
+  function actionCommentary(a,s,m){
+    const prefix="【"+axisNames[a.axis||T.axis(s,m)]+"】";
+    let text;
+    if(a.type==="probe")text=a.scope==="card"?"仅核实「"+T.byId[a.id].name+"」所需的手牌信息，补齐后重新决策，不提交出牌":
+      "核实"+T.team[a.who].name+"的"+skillNames[a.skill]+"费用，再决定后续行动";
+    else if(a.type==="skill"){
+      const hit=T.damageEstimate(s,m,a.who,a.skill);
+      text=T.team[a.who].name+"准备使用"+(a.skill==="T"?"特技「"+T.techniques[a.technique].name+"」":skillNames[a.skill]);
+      if(hit.direct>0)text+="，模型预计本次直伤"+hit.direct+"点，实际以结算为准";
+      else text+="，优先为后续反应与资源转换铺垫";
+    }else if(a.type==="switch")text="准备切换"+T.team[a.target].name+"接手，交接出战位置后按实际牌面重算";
+    else if(a.type==="tune")text="调和「"+T.byId[a.id].name+"」"+(a.funding?"，为"+plannedActionLabel(a.funding.goal)+"筹集有效骰":"，将无效骰转换为当前角色所需元素");
+    else if(a.type==="card"){
+      const c=T.byId[a.id],purpose={weapon:"准备武器与后续输出",artifact:"准备后续资源收益",support:"铺设后续资源转换",legend:"按当前资源选择生成牌",
+        attachment:"调整手牌附着与费用，生效后重算",switch:"准备免费切换",draw:"补充手牌，按实际抽牌结果重算",energy:"转移充能，为爆发创造条件",
+        return:"回收武器并重新利用减费",choice:"按当前可支付性选择生成牌",adventure:"准备后续回合资源",dice:"补充可用骰子，颜色以实际结果为准",
+        status:"准备后续行动的资源收益",food:"准备当前增益或续航",kernel:"兑现核的幻戏攻击，不按普通技能记充能",branch:"处理祝佑分支效果",
+        technique:"装备特技，再按实际资源决定是否使用","heal-dice":"兼顾续航与骰子资源",heal:"恢复生命，保留后续接力"}[c.type];
+      text="准备使用「"+c.name+"」"+(T.characterTarget(c)?"，目标"+T.team[a.target].name:"")+"，"+purpose;
+    }else text="当前没有可支付且有收益的动作，结束回合";
+    if(a.planning?.sequence.length>1)text+="；预计后续："+a.planning.sequence.slice(1,4).map(plannedActionLabel).join(" → ")+"（每步确认后重算）";
+    if(a.planning?.terminal)text+="；当前估算有收尾机会，并非已确认获胜";
+    return prefix+text+"。";
+  }
+  root.TCGPlayer={Player,playerOptions,actionCommentary};
 })(globalThis);
