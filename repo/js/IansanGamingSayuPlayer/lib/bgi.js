@@ -814,6 +814,16 @@
         }
         const p = page.phase;
         if (session.sent > 0 && p.phase !== "roll") session.transitioned = true;
+        if (p.phase === "board" && p.turn === "user" && session.sent < 2) {
+          const observed = await this.settledBoard(true);
+          if (observed.phase === "board" && observed.turn === "user") {
+            this.tossSession = null;
+            this.trace("action-reroll-resolved", { count, confirmations:session.sent,
+              wanted:session.wanted, recovery:"complete-native-board", unresolved:true });
+            return { confirmations:session.sent, inputConfirmations:session.sent, unresolved:true };
+          }
+          stable = 0; key = ""; await sleep(300); continue;
+        }
         if (p.result || (p.phase === "board" && p.turn === "user" && session.sent >= 2)) {
           const current = JSON.stringify([p.phase, p.turn, p.result]);
           stable = current === key ? stable + 1 : 1;
@@ -1597,6 +1607,11 @@
       });
       return {costs,source:"native-folded-cost-markers"};
     }
+    handEmpowermentIn(f, markers) {
+      // A covered/missing badge is unknown, never proof of no empowerment.
+      return markers.map(m => this.matches(f, "hand_empowered",
+        [Math.round(m.x + 68), Math.round(m.y - 12), 68, 66], .92, true).length ? true : null);
+    }
     publishHandPositions(samples, count) {
       this.handPositionProof = null;
       if (samples.length < 2 || !this.handFanReady) return;
@@ -2047,17 +2062,19 @@
             hand=this.refreshHandFacts(hand);
           if (this.pendingChoiceCard) {
             const { id, oldCount } = this.pendingChoiceCard;
-            if (oldCount !== 10 && !hand.some((c) => c.id === id)) {
-              handScan.cards = null;
-              this.invalidateHand("selected-generated-card-not-yet-observed");
-              const error = new Error("挑选结果尚未在实际手牌中出现");
-              error.code = "TCG_HAND_RETRY";
-              throw error;
-            }
+            // Cached identities cannot prove that generation failed. Read the
+            // current hand once, then accept its negative evidence too rather
+            // than retrying until a predicted card appears.
+            if (oldCount !== 10 && !hand.some(c => c.id === id) && this.handScanSerial === scanBefore)
+              hand = await this.observedHand({ mode:"full", expectedCount:null }, handScan);
+            const present = hand.some(c => c.id === id), overflowPossible = oldCount === 10,
+              unresolved = !present && !overflowPossible;
+            if (this.choiceReceipt)
+              this.choiceReceipt = { ...this.choiceReceipt, generatedPresent:present, overflowPossible, unresolved };
             this.trace("choice-card-verified", {
               id,
               count: hand.length,
-              overflowPossible: oldCount === 10,
+              present, overflowPossible, unresolved,
             });
             this.pendingChoiceCard = null;
           }
@@ -2500,6 +2517,14 @@
               return this.board(false, true);
             return last;
           }
+        } else if(last.phase==="board"&&last.turn==="user"&&last.active!==target) {
+          const observed=await this.settledBoard(true,last);
+          if(observed.phase==="board"&&observed.turn==="user"&&observed.active!==target){
+            this.trace("forced-pick-handoff",{target,actualActive:observed.active,
+              confirmationInputs:confirmed?1:0,proof:"complete-native-board-overrides-planned-target"});
+            this.forcedPickSession=null;return observed;
+          }
+          stable=0;key="";selectionStable=0;
         } else if(["settlement","choice","roll"].includes(last.phase)) {
           // End-phase damage can require a replacement BEFORE remaining summons,
           // a blessing choice, and next-round dice. Hand off the stable native
