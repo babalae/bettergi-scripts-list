@@ -31,9 +31,10 @@
       if(!clean(f))return null;
       return rank(bank,(x,p,file)=>score(host,env,f,x+p[0],p[1],p[2],p[3],file,3));
     });
-    const first=sample();if(!first)return null;
+    const sampledAt=Date.now(),first=sample();if(!first)return null;
     if(first.every(slot=>slot.id))return first.map(slot=>slot.id);
-    await env.sleep(120);
+    const remaining=120-(Date.now()-sampledAt);
+    if(remaining>0)await env.sleep(remaining);
     const second=sample();return second?second.map(slot=>slot.id):null;
   }
   async function opening(host,T,sleep,ids){

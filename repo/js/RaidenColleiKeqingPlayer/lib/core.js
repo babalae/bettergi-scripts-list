@@ -574,6 +574,11 @@
     for (const h of hand || []) out[h.id] = (out[h.id] || 0) + 1;
     return out;
   }
+  function cardCountDecreased(before, after, id) {
+    // Unrelated hand growth or sent input cannot prove this card was consumed.
+    return Array.isArray(before) && Array.isArray(after) &&
+      (bag(before)[id] || 0) > (bag(after)[id] || 0);
+  }
   function removedOne(before, after, id) {
     const b = bag(before), a = bag(after);
     return before.length === after.length + 1 && Object.keys({ ...b, ...a }).every(k => (b[k] || 0) - (a[k] || 0) === (k === id ? 1 : 0));
@@ -620,7 +625,8 @@
     if (action.type === "card") {
       if (!byId[action.id]) return false;
       if (!after.hand) return false;
-      if (action.id === "draw") return after.hand.length === Math.min(10, before.hand.length + 1);
+      if (action.id === "draw") return cardCountDecreased(before.hand, after.hand, action.id) &&
+        after.hand.length === Math.min(10, before.hand.length + 1);
       // Combat cards may generate/discard another card: require the selected card's count drop,
       // and a real combat effect, rather than assuming a drag succeeded.
       if (["talent","wedge","penance"].includes(action.id)) {
@@ -784,8 +790,8 @@
     actionRerollGoal,rerollCounter,enemyCount,gamblerRemaining,skillElement,dendroReaction,sproutAvailable,activeKeqingInfusion };
 })(globalThis);
 
-globalThis.TCG.version = "1.2.11";
-globalThis.TCG.sharedVersion = "1.4.9";
+globalThis.TCG.version = "1.2.18";
+globalThis.TCG.sharedVersion = "1.4.16";
 globalThis.TCG.defaultStrategy = "default";
 (function (T) {
   const strategies = new Map();
