@@ -1,0 +1,120 @@
+{
+    "info": {
+        "name": "璃月-禽肉-琼玑野瑶光滩北-4个-下落2肉4",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.0",
+        "description": "地区: 璃月\n类型: 禽肉\n详细位置: 琼玑野瑶光滩北\n数目: 4\n附加信息: 2禽肉鸟共4只\n注意: 使用前请将游戏时间调到白天，跑图位建议使用绮良良或埃洛伊",
+        "bgi_version": "0.43.1"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "x": -255.03,
+            "y": 630.05,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "teleport"
+        },
+        {
+            "id": 2,
+            "x": -261.9,
+            "y": 628.08,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 3,
+            "x": -264.15,
+            "y": 619.02,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 4,
+            "x": -282.64,
+            "y": 573.3,
+            "action": "combat_script",
+            "move_mode": "fly",
+            "action_params": "keypress(space),wait(2),attack(0.1)",
+            "type": "target"
+        },
+        {
+            "id": 5,
+            "x": -282.24,
+            "y": 575.93,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 6,
+            "x": -282.29,
+            "y": 574.02,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 7,
+            "x": -284.55,
+            "y": 572.09,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 8,
+            "x": -284.97,
+            "y": 574.08,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 9,
+            "x": -255.36,
+            "y": 500.31,
+            "action": "stop_flying",
+            "move_mode": "fly",
+            "action_params": "",
+            "type": "target"
+        },
+        {
+            "id": 10,
+            "x": -255.33,
+            "y": 500.3,
+            "action": "pick_around",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "target"
+        },
+        {
+            "id": 11,
+            "x": -252.04,
+            "y": 501.51,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 12,
+            "x": -256.28,
+            "y": 495.39,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        }
+    ]
+}

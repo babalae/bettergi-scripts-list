@@ -1,0 +1,112 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "2个螃蟹；3个泡泡桔；1个久雨莲；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762497812686,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E20-2-枫丹食材-研究院区-中央实验室遗址南【螃蟹】",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3846.9424,
+      "y": 4652.8555
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3848.2871,
+      "y": 4661.6274
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3838.417,
+      "y": 4688.5005
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3844.3223,
+      "y": 4696.6382
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.4)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3849.7559,
+      "y": 4703.8486
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3853.25,
+      "y": 4709.0132
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3872.876,
+      "y": 4731.8013
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3868.0664,
+      "y": 4739.1436
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3857.0625,
+      "y": 4742.3129
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3856.5001,
+      "y": 4747.249
+    }
+  ]
+}

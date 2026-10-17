@@ -1,0 +1,99 @@
+{
+  "info": {
+    "name": "26-水晶块-璃月-巨渊之口-4个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.52.0",
+    "authors": [
+      {
+        "name": "火山",
+        "links": "https://github.com/RRRR623"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1917.89,
+      "y": -760.86,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 1917.42,
+      "y": -759.95,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 1901.25,
+      "y": -747.46,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "1500"
+    },
+    {
+      "id": 4,
+      "x": 1903.93,
+      "y": -746.07,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 1905.29,
+      "y": -743.13,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 1903.32,
+      "y": -741.52,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 1905.12,
+      "y": -740.59,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 1906.9,
+      "y": -739.37,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 1906.41,
+      "y": -736.37,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    }
+  ]
+}

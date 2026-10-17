@@ -1,0 +1,53 @@
+{
+  "info": {
+    "name": "03-鬼兜虫-神里屋敷-1个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4578.76,
+      "y": -2577.72,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -4584.24,
+      "y": -2523.72,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -4614.52,
+      "y": -2482.83,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "2000"
+    },
+    {
+      "id": 4,
+      "x": -4610.57,
+      "y": -2481.96,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

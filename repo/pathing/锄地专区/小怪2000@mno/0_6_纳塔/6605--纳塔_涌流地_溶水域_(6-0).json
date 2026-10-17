@@ -1,0 +1,116 @@
+{
+  "info": {
+    "name": "6605--纳塔_涌流地_溶水域_(6-0)",
+    "type": "collect",
+    "author": "Demo&汐&mno",
+    "version": "1.1",
+    "description": "  路线信息：该路线预计用时118.43秒，包含4387只小怪，预计收入177916.5摩拉，包含以下怪物：6只鳍游龙。",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "Demo"
+      },
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      },
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 8940.33,
+      "y": -2306.53,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 8931.87,
+      "y": -2315,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 8902.13,
+      "y": -2344.24,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 8890.87,
+      "y": -2327.31,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 8871.5,
+      "y": -2325.75,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 8840.37,
+      "y": -2331.49,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 8830.79,
+      "y": -2319.07,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 8789.5,
+      "y": -2318.13,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 8745.22,
+      "y": -2327.96,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 8745.22,
+      "y": -2327.96,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.1)",
+      "type": "orientation"
+    }
+  ]
+}

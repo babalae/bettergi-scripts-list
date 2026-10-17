@@ -1,0 +1,192 @@
+{
+  "info": {
+    "name": "16-神秘的肉-浮罗囿-6个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "Sabersunny",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.52.0",
+    "tags": [],
+    "last_modified_time": 1753529688911,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 6344.357,
+      "y": 744.4974,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 6314.1631,
+      "y": 716.4238,
+      "action": "up_down_grab_leaf",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 3,
+      "x": 6322.8242,
+      "y": 679.3765,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 6339.6172,
+      "y": 683.8501,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 6352.8433,
+      "y": 697.6626,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 6360.4004,
+      "y": 741.6909,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 6383.772,
+      "y": 754.7202,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "雷电将军 attack",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 6389.6064,
+      "y": 763.9868,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "雷电将军 e",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 6389.6064,
+      "y": 763.9868,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "枫原万叶 e(hold),attack,wait(0.5),e(hold),attack",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 6387.2617,
+      "y": 767.0317,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 6393.041,
+      "y": 765.9233,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 6399.2158,
+      "y": 765.5166,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 6432.1562,
+      "y": 761.2925,
+      "action": "up_down_grab_leaf",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 14,
+      "x": 6432.1562,
+      "y": 761.2925,
+      "action": "stop_flying",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 15,
+      "x": 6432.1562,
+      "y": 761.2925,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "雷电将军 e",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 6432.1562,
+      "y": 761.2925,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "枫原万叶 e(hold),attack,wait(0.5),e(hold),attack",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 6432.1982,
+      "y": 764.8794,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": 6435.9287,
+      "y": 763.5581,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": 6432.2031,
+      "y": 761.9438,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

@@ -1,0 +1,401 @@
+{
+  "info": {
+    "name": "17-神秘的肉-铁穆山上-9个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "Sabersunny",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.52.0",
+    "tags": [],
+    "last_modified_time": 1753531714898,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 5942.7002,
+      "y": 618.4463,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 5958.9185,
+      "y": 614.7266,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 5959.8662,
+      "y": 587.1841,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 5960.2627,
+      "y": 544.4053,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 5964.7388,
+      "y": 523.1216,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 5966.5303,
+      "y": 506.8848,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 5943.7441,
+      "y": 498.8716,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 5908.5635,
+      "y": 500.4736,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 5902.6279,
+      "y": 450.2358,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 5879.2954,
+      "y": 419.8989,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 5842.1084,
+      "y": 408.8848,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 5833.6914,
+      "y": 361.9839,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "雷电将军 e",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 5824.9775,
+      "y": 373.311,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "雷电将军 attack"
+    },
+    {
+      "id": 14,
+      "x": 5828.8237,
+      "y": 378.5029,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "枫原万叶 attack"
+    },
+    {
+      "id": 15,
+      "x": 5830.3633,
+      "y": 370.4053,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "枫原万叶 e(hold),attack,wait(0.5),e(hold),attack"
+    },
+    {
+      "id": 16,
+      "x": 5831.9751,
+      "y": 375.313,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 17,
+      "x": 5833.5312,
+      "y": 371.8799,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 18,
+      "x": 5832.7236,
+      "y": 365.4351,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 19,
+      "x": 5836.9863,
+      "y": 363.209,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": 5835.8545,
+      "y": 354.2773,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 21,
+      "x": 5833.0791,
+      "y": 339.0996,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 22,
+      "x": 5831.1157,
+      "y": 334.9468,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 23,
+      "x": 5833.4077,
+      "y": 316.3359,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "雷电将军 attack",
+      "type": "path"
+    },
+    {
+      "id": 24,
+      "x": 5838.8638,
+      "y": 298.665,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "雷电将军 attack"
+    },
+    {
+      "id": 25,
+      "x": 5831.4248,
+      "y": 299.707,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "雷电将军 e"
+    },
+    {
+      "id": 26,
+      "x": 5830.9282,
+      "y": 307.1372,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "枫原万叶 attack"
+    },
+    {
+      "id": 27,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5831.8712,
+      "y": 310.6357,
+      "action_params": "枫原万叶 e(hold),attack,wait(0.5),e(hold),attack"
+    },
+    {
+      "id": 28,
+      "x": 5832.6309,
+      "y": 300.811,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 29,
+      "x": 5836.188,
+      "y": 303.0991,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 30,
+      "x": 5835.1748,
+      "y": 316.5303,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 31,
+      "x": 6045.5352,
+      "y": 335.2393,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 32,
+      "x": 6041.4199,
+      "y": 329.9629,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "雷电将军 attack",
+      "type": "path"
+    },
+    {
+      "id": 33,
+      "x": 6055.1689,
+      "y": 340.8315,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "雷电将军 attack"
+    },
+    {
+      "id": 34,
+      "x": 6050.8506,
+      "y": 335.728,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "雷电将军 attack"
+    },
+    {
+      "id": 35,
+      "x": 6035.4932,
+      "y": 324.0732,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "雷电将军 attack"
+    },
+    {
+      "id": 36,
+      "x": 6038.1484,
+      "y": 331.9722,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "雷电将军 attack",
+      "type": "path"
+    },
+    {
+      "id": 37,
+      "x": 6050.1416,
+      "y": 326.7363,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "雷电将军 attack",
+      "locked": false
+    },
+    {
+      "id": 38,
+      "x": 6046.2388,
+      "y": 334.293,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "雷电将军 e",
+      "locked": false
+    },
+    {
+      "id": 39,
+      "x": 6046.2388,
+      "y": 334.293,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "枫原万叶 e(hold),attack,wait(0.5),e(hold),attack"
+    },
+    {
+      "id": 40,
+      "x": 6045.1406,
+      "y": 332.2021,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 41,
+      "x": 6048.9312,
+      "y": 333.2368,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 42,
+      "x": 6046.9326,
+      "y": 335.082,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

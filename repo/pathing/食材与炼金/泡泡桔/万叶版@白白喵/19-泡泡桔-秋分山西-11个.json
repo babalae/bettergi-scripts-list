@@ -1,0 +1,210 @@
+{
+  "info": {
+    "name": "19-泡泡桔-秋分山西-11个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "白白喵",
+        "links": "https://github.com/taotao568685"
+      }
+    ],
+    "version": "1.0",
+    "description": "带万叶摘泡泡桔",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1754661921340,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4147.0791,
+      "y": 2606.5344,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4132.25,
+      "y": 2745.9364,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4131.4805,
+      "y": 2738.6587,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.3);枫原万叶 wait(0.1),e(hold),attack,wait(2)"
+    },
+    {
+      "id": 4,
+      "x": 4375.7051,
+      "y": 2280.8782,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 4379.2305,
+      "y": 2349.2078,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 4397.6206,
+      "y": 2370.8247,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 4418.7549,
+      "y": 2444.8713,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 4421.4536,
+      "y": 2450.4136,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.4)"
+    },
+    {
+      "id": 9,
+      "x": 4425.7446,
+      "y": 2441.1123,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 4424.4766,
+      "y": 2436.2014,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 4428.7197,
+      "y": 2438.5481,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 4423.9033,
+      "y": 2445.5457,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 4414.1523,
+      "y": 2475.2856,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": 4418.9443,
+      "y": 2501.55,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 15,
+      "x": 4421.7607,
+      "y": 2526.1455,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 16,
+      "x": 4415.5801,
+      "y": 2529.2197,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 17,
+      "x": 4415.1938,
+      "y": 2533.3701,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 18,
+      "x": 4409.9092,
+      "y": 2528.3916,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 19,
+      "x": 4369.8398,
+      "y": 2513.2422,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 20,
+      "x": 4355.1367,
+      "y": 2478.5537,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 21,
+      "x": 4351.0391,
+      "y": 2470.1392,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "枫原万叶 wait(0.1),e(hold),attack,wait(2)"
+    }
+  ]
+}

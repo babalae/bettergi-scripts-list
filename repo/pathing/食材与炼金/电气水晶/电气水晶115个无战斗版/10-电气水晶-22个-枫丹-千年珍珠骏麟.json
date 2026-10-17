@@ -1,0 +1,583 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/aqing11520",
+        "name": "今天下雨w"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "非常建议：班尼特+盾位。原因：班尼特元素战技冷却快，并且电气水晶具有攻击性。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1756101511348,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "10-电气水晶-22个-枫丹-千年珍珠骏麟",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4851.8252,
+      "y": 4802.1543
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4835.0293,
+      "y": 4801.9268
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4815.8555,
+      "y": 4783.0054
+    },
+    {
+      "action": "pyro_collect",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4808.0371,
+      "y": 4777.9336
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4851.8252,
+      "y": 4802.1543
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4835.4248,
+      "y": 4802.6079
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4823.5215,
+      "y": 4813.2505
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4813.4453,
+      "y": 4823.5425
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4807.5898,
+      "y": 4829.9175
+    },
+    {
+      "action": "pyro_collect",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4803.1426,
+      "y": 4836.2075
+    },
+    {
+      "action": "pyro_collect",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4802.9766,
+      "y": 4838.9961
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4800.0068,
+      "y": 4836.4785
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4793.1484,
+      "y": 4840.46
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4787.791,
+      "y": 4839.126
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4779.5781,
+      "y": 4845.6045
+    },
+    {
+      "action": "pyro_collect",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4771.3047,
+      "y": 4854.2354
+    },
+    {
+      "action": "pyro_collect",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4760.4355,
+      "y": 4841.166
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4760.5039,
+      "y": 4845.1128
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4741.541,
+      "y": 4842.0244
+    },
+    {
+      "action": "pyro_collect",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4729.3867,
+      "y": 4836.8472
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4731.0322,
+      "y": 4828.6509
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 22,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4722.1152,
+      "y": 4823.9463
+    },
+    {
+      "action": "pyro_collect",
+      "action_params": "",
+      "id": 23,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4713.5801,
+      "y": 4825.8613
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 24,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4712.3652,
+      "y": 4828.5728
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 25,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4699.6211,
+      "y": 4821.7764
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 26,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4687.4609,
+      "y": 4805.0542
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 27,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4684.4375,
+      "y": 4800.1963
+    },
+    {
+      "action": "pyro_collect",
+      "action_params": "",
+      "id": 28,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4679.8574,
+      "y": 4790.4346
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 29,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4679.4893,
+      "y": 4782.1689
+    },
+    {
+      "action": "pyro_collect",
+      "action_params": "",
+      "id": 30,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4682.3389,
+      "y": 4769.4492
+    },
+    {
+      "action": "pyro_collect",
+      "action_params": "",
+      "id": 31,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4687.5645,
+      "y": 4764.2437
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 32,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4686.0508,
+      "y": 4768.875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 33,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4710.2207,
+      "y": 4774.2495
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 34,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4720.0342,
+      "y": 4794.3091
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 35,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4735.1201,
+      "y": 4802.3984
+    },
+    {
+      "action": "pyro_collect",
+      "action_params": "",
+      "id": 36,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4744.041,
+      "y": 4796.084
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 37,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4743.6875,
+      "y": 4812.7021
+    },
+    {
+      "action": "pyro_collect",
+      "action_params": "",
+      "id": 38,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4736.8164,
+      "y": 4822.8828
+    },
+    {
+      "action": "pyro_collect",
+      "action_params": "",
+      "id": 39,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4743.9531,
+      "y": 4825.9854
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 40,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4743.6875,
+      "y": 4812.7021
+    },
+    {
+      "action": "pyro_collect",
+      "action_params": "",
+      "id": 41,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4754.4199,
+      "y": 4818.8501
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 42,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4762.3506,
+      "y": 4819.8159
+    },
+    {
+      "action": "pyro_collect",
+      "action_params": "",
+      "id": 43,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4765.9297,
+      "y": 4825.2959
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 44,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4777.0625,
+      "y": 4819.4365
+    },
+    {
+      "action": "pyro_collect",
+      "action_params": "",
+      "id": 45,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4793.0273,
+      "y": 4811.0332
+    },
+    {
+      "action": "pyro_collect",
+      "action_params": "",
+      "id": 46,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4802.4238,
+      "y": 4813.2456
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 47,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4799.6699,
+      "y": 4809.6641
+    },
+    {
+      "action": "pyro_collect",
+      "action_params": "",
+      "id": 48,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4795.168,
+      "y": 4790.6777
+    },
+    {
+      "action": "pyro_collect",
+      "action_params": "",
+      "id": 49,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4789.7168,
+      "y": 4788.6357
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 50,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4793.8291,
+      "y": 4782.5171
+    },
+    {
+      "action": "pyro_collect",
+      "action_params": "",
+      "id": 51,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4783.373,
+      "y": 4767.6416
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 52,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4786.6699,
+      "y": 4763.7925
+    },
+    {
+      "action": "pyro_collect",
+      "action_params": "",
+      "id": 53,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4779.0645,
+      "y": 4752.311
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 54,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4775.5244,
+      "y": 4758.5264
+    },
+    {
+      "action": "pyro_collect",
+      "action_params": "",
+      "id": 55,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4773.5557,
+      "y": 4755.1436
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 56,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4764.7012,
+      "y": 4757.9897
+    },
+    {
+      "action": "pyro_collect",
+      "action_params": "",
+      "id": 57,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4759.3047,
+      "y": 4749.1865
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 58,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4773.5176,
+      "y": 4760.3647
+    },
+    {
+      "action": "pyro_collect",
+      "action_params": "",
+      "id": 59,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4774.7607,
+      "y": 4753.2378
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 60,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4773.0996,
+      "y": 4757.3159
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1.0)",
+      "id": 61,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4779.4395,
+      "y": 4751.2397
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 62,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4851.8252,
+      "y": 4802.1543
+    }
+  ]
+}

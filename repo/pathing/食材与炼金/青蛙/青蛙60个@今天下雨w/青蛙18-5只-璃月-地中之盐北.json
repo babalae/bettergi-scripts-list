@@ -1,0 +1,211 @@
+{
+  "info": {
+    "name": "青蛙18-5只-璃月-地中之盐北",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "今天下雨w",
+        "links": "https://github.com/aqing11520"
+      }
+    ],
+    "version": "1.0",
+    "description": "需要防惊扰天赋：瑶瑶/蓝砚/早柚，任选其一；生存位不是很建议放技能。",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1755052035346,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -312.4297,
+      "y": 1477.9043,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -308.8809,
+      "y": 1478.0732,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -265.2383,
+      "y": 1570.9429,
+      "type": "path",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "wait(2.0)"
+    },
+    {
+      "id": 4,
+      "x": -255.3164,
+      "y": 1574.0938,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "1500"
+    },
+    {
+      "id": 5,
+      "x": -255.748,
+      "y": 1594.1084,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -261.1484,
+      "y": 1601.1377,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -274.2793,
+      "y": 1604.9248,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -276.7383,
+      "y": 1600.2954,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": -267.4082,
+      "y": 1600.0557,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": -268.5645,
+      "y": 1590.9282,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": -261.6582,
+      "y": 1583.8535,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": -240.4473,
+      "y": 1540.812,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": -205.6016,
+      "y": 1532.064,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": -146.8438,
+      "y": 1555.2236,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 15,
+      "x": -141.0586,
+      "y": 1546.8198,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 16,
+      "x": -149.6074,
+      "y": 1566.2988,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 17,
+      "x": -143.9414,
+      "y": 1570.1323,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 18,
+      "x": -132.832,
+      "y": 1556.7202,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 19,
+      "x": -139.1367,
+      "y": 1553.0264,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 20,
+      "x": -144.707,
+      "y": 1556.873,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 21,
+      "x": -137.6797,
+      "y": 1560.625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1.0)"
+    }
+  ]
+}

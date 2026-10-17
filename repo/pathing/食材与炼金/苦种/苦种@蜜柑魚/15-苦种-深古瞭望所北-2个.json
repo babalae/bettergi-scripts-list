@@ -1,0 +1,94 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777100280257,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "15-苦种-深古瞭望所北-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8175.7812,
+      "y": -1871.4883
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 8181.3857,
+      "y": -1851.2256
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8200.8984,
+      "y": -1796.9043
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "2500",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8152.9785,
+      "y": -1770.916
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8159.7969,
+      "y": -1777.6953
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8165.5002,
+      "y": -1778.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8169.9785,
+      "y": -1778.7881
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.25)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8169.7246,
+      "y": -1781.8525
+    }
+  ]
+}

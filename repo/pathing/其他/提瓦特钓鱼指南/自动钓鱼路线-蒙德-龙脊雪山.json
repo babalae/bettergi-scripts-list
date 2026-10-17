@@ -1,0 +1,80 @@
+{
+  "info": {
+    "name": "自动钓鱼路线-蒙德-龙脊雪山",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.43.0",
+    "authors": [
+      {
+        "name": "鸿羽er",
+        "links": "https://github.com/evildoer12138"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -704.55,
+      "y": 922.58,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -674.4,
+      "y": 960.55,
+      "move_mode": "fly",
+      "type": "path",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -644.25,
+      "y": 998.51,
+      "move_mode": "fly",
+      "type": "path",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -607.87,
+      "y": 1007.63,
+      "move_mode": "climb",
+      "type": "path",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -607.25,
+      "y": 1001.13,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -606.81,
+      "y": 996.94,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "moveby(0,400)",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": -604.74,
+      "y": 977.05,
+      "action": "fishing",
+      "move_mode": "walk",
+      "action_params": "moveby(0,400)",
+      "type": "orientation"
+    }
+  ]
+}

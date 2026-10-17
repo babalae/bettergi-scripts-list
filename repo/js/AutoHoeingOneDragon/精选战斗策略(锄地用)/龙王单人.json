@@ -1,0 +1,71 @@
+{
+  "info": {
+    "name": "龙王单人",
+    "author": "mno",
+    "description": "zako，zako",
+    "config": {},
+    "preActions": []
+  },
+  "actions": [
+    {
+      "name": "检查战斗结束",
+      "character": "",
+      "action": "check",
+      "condition": {
+        "expression": "since>1 && t>1.5"
+      },
+      "ensureCast": false,
+      "index": 20
+    },
+    {
+      "name": "龙王-喷水",
+      "character": "那维莱特",
+      "action": "click(middle),wait(0.05),keydown(VK_LBUTTON),wait(0.25),keyup(VK_LBUTTON),wait(0.15),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),keydown(VK_LBUTTON),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,2300),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,-1100),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,-1100),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,-1100),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,-1100),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,2300),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,2300),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,-1100),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,-1100),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,-1100),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,-1100),wait(0.05),click(middle),j,wait(0.05),keyup(VK_LBUTTON),wait(0.4)",
+      "condition": {
+        "expression": "count(31, t-15, t) + count(100, t-15, t) * 2 - count(30, t-15, t)>0"
+      },
+      "ensureCast": false,
+      "index": 30
+    },
+    {
+      "name": "龙王-e",
+      "character": "那维莱特",
+      "action": "e,e",
+      "condition": {
+        "expression": "e-ready && since>15"
+      },
+      "ensureCast": true,
+      "index": 31
+    },
+    {
+      "name": "龙王-q",
+      "character": "那维莱特",
+      "action": "q,wait(0.1),ready",
+      "condition": {
+        "expression": "q-ready && since>18"
+      },
+      "ensureCast": false,
+      "index": 100
+    },
+    {
+      "name": "龙王蓄力喷水",
+      "character": "那维莱特",
+      "action": "click(middle),wait(0.05),keydown(VK_LBUTTON),wait(4),keyup(VK_LBUTTON),wait(0.15),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),keydown(VK_LBUTTON),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,2300),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,-1100),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,-1100),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,-1100),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,-1100),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,2300),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,2300),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,-1100),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,-1100),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,-1100),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,0),wait(0.05),moveby(1800,-1100),wait(0.05),click(middle),j,wait(0.05),keyup(VK_LBUTTON),wait(0.4)",
+      "condition": {
+        "expression": ""
+      },
+      "ensureCast": false,
+      "index": 101
+    },
+    {
+      "name": "等待",
+      "character": "",
+      "action": "wait(0.2)",
+      "condition": {
+        "expression": ""
+      },
+      "ensureCast": false,
+      "index": 999
+    }
+  ]
+}

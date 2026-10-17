@@ -1,0 +1,75 @@
+{
+  "info": {
+    "name": "F03-纳塔-万火之瓯-圣火竞技场西-2个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.54.0",
+    "tags": [],
+    "last_modified_time": 1752177522909,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9394.81,
+      "y": -1808.02,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 9396.03,
+      "y": -1833.37,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 9388.95,
+      "y": -1849.5,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 9387.48,
+      "y": -1854.43,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "combat_script",
+      "action_params": "attack(0.2)"
+    },
+    {
+      "id": 5,
+      "x": 9381.41,
+      "y": -1854.29,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "combat_script",
+      "action_params": "attack(0.2)"
+    },
+    {
+      "id": 6,
+      "x": 9378.55,
+      "y": -1853.62,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+    }
+  ]
+}

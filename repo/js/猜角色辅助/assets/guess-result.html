@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: transparent;
+    }
+
+    body {
+      color: #f8fafc;
+    }
+
+    #panel {
+      position: fixed;
+      left: 50%;
+      top: 64%;
+      width: min(760px, calc(100vw - 96px));
+      max-height: min(380px, 44vh);
+      padding: 14px 16px 16px;
+      transform: translate(-50%, -50%);
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      background: rgba(15, 23, 42, var(--panel-bg-opacity, 0.78));
+      box-shadow: 0 18px 54px rgba(0, 0, 0, 0.28);
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      transition: opacity 160ms ease;
+    }
+
+    #panel.visible {
+      opacity: 1;
+    }
+
+    #panel.compact {
+      top: 62%;
+      width: min(920px, calc(100vw - 72px));
+      max-height: min(500px, 58vh);
+      padding: 10px 12px 12px;
+    }
+
+    #panel.dense {
+      top: 62%;
+      width: min(1040px, calc(100vw - 56px));
+      max-height: min(520px, 58vh);
+      padding: 10px 12px 12px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 10px;
+      padding-bottom: 9px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .title {
+      overflow: hidden;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.25;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .count {
+      flex: 0 0 auto;
+      min-width: 42px;
+      padding: 3px 9px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      border-radius: 999px;
+      color: #cbd5e1;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .content {
+      max-height: calc(min(380px, 44vh) - 56px);
+      overflow: hidden;
+    }
+
+    #panel.compact .content {
+      max-height: calc(min(500px, 58vh) - 46px);
+    }
+
+    #panel.dense .content {
+      max-height: calc(min(520px, 58vh) - 46px);
+    }
+
+    .list {
+      display: grid;
+      gap: 8px;
+    }
+
+    #panel.compact .list {
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 5px;
+    }
+
+    .item {
+      min-width: 0;
+      padding: 9px 10px;
+      border: 1px solid rgba(148, 163, 184, 0.24);
+      border-radius: 6px;
+      background: rgba(15, 23, 42, var(--item-bg-opacity, 0.5));
+    }
+
+    #panel.compact .item {
+      padding: 5px 7px;
+    }
+
+    .name {
+      overflow: hidden;
+      color: var(--element-color, #facc15);
+      font-size: 20px;
+      font-weight: 800;
+      line-height: 1.3;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    #panel.compact .name {
+      font-size: 16px;
+      line-height: 1.2;
+    }
+
+    .brief {
+      margin-top: 4px;
+      overflow: hidden;
+      color: #e2e8f0;
+      font-size: 15px;
+      line-height: 1.35;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    #panel.compact .brief {
+      margin-top: 1px;
+      font-size: 12.5px;
+      line-height: 1.15;
+    }
+
+    .details {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px 12px;
+      margin-top: 7px;
+    }
+
+    .field {
+      min-width: 0;
+      font-size: 15px;
+      line-height: 1.35;
+    }
+
+    .key {
+      color: #94a3b8;
+    }
+
+    .value {
+      color: #f8fafc;
+      word-break: break-word;
+    }
+
+    .element-field .key,
+    .element-field .value,
+    .element-part {
+      color: var(--element-color, #f8fafc);
+    }
+
+    .region-field .key,
+    .region-field .value,
+    .region-part {
+      color: var(--region-color, #f8fafc);
+    }
+
+    .names {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      overflow: hidden;
+    }
+
+    #panel.dense .names {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(72px, 1fr));
+      gap: 5px;
+    }
+
+    .chip {
+      max-width: 160px;
+      padding: 5px 9px;
+      overflow: hidden;
+      border: 1px solid rgba(250, 204, 21, 0.42);
+      border-radius: 999px;
+      background: rgba(250, 204, 21, 0.12);
+      color: var(--element-color, #fef9c3);
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.2;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    #panel.dense .chip {
+      max-width: none;
+      padding: 3px 6px;
+      border-radius: 5px;
+      font-size: 14px;
+      line-height: 1.15;
+      text-align: center;
+    }
+
+    .easter {
+      margin-top: 10px;
+      color: #fb7185;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    #panel.dense .easter {
+      margin-top: 7px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <section id="panel">
+    <div class="header">
+      <div class="title" id="title">猜角色辅助</div>
+      <div class="count" id="count">0</div>
+    </div>
+    <div class="content" id="content"></div>
+  </section>
+
+  <script>
+    const panel = document.getElementById("panel");
+    const title = document.getElementById("title");
+    const count = document.getElementById("count");
+    const content = document.getElementById("content");
+
+    function clearResult() {
+      panel.classList.remove("visible");
+      panel.classList.remove("compact");
+      panel.classList.remove("dense");
+      content.innerHTML = "";
+      count.textContent = "0";
+    }
+
+    function text(value) {
+      return value === undefined || value === null ? "" : String(value);
+    }
+
+    function appendText(node, value) {
+      node.appendChild(document.createTextNode(text(value)));
+    }
+
+    function clampNumber(value, defaultValue, minValue, maxValue) {
+      const parsed = Number(value);
+      if (!Number.isFinite(parsed)) {
+        return defaultValue;
+      }
+      return Math.min(maxValue, Math.max(minValue, parsed));
+    }
+
+    function applyMaskSettings(data) {
+      const panelOpacity = clampNumber(data && data.backgroundOpacity, 0.78, 0, 1);
+      const itemOpacity = Math.min(1, Math.max(0, panelOpacity * 0.64));
+      panel.style.setProperty("--panel-bg-opacity", String(panelOpacity));
+      panel.style.setProperty("--item-bg-opacity", String(itemOpacity));
+    }
+
+    const ELEMENT_COLORS = {
+      "\u706b": "#ff6b4a",
+      "\u6c34": "#4aa8ff",
+      "\u98ce": "#63e6be",
+      "\u96f7": "#b877ff",
+      "\u8349": "#8ccf4d",
+      "\u51b0": "#7dd3fc",
+      "\u5ca9": "#d9a857"
+    };
+
+    const REGION_COLORS = {
+      "\u8499\u5fb7": "#18d9aa",
+      "\u7483\u6708": "#ff9f00",
+      "\u7a3b\u59bb": "#c86cff",
+      "\u987b\u5f25": "#8bdc12",
+      "\u67ab\u4e39": "#16d9ff",
+      "\u7eb3\u5854": "#ff3f1f",
+      "\u81f3\u51ac": "#62eaff",
+      "\u5176\u4ed6": "#9aa3ad",
+      "\u632a\u5fb7\u5361\u83b1": "#62eaff"
+    };
+
+    function matchElement(value) {
+      const textValue = text(value);
+      const elements = Object.keys(ELEMENT_COLORS);
+      for (let i = 0; i < elements.length; i++) {
+        if (textValue.indexOf(elements[i]) >= 0) {
+          return elements[i];
+        }
+      }
+      return "";
+    }
+
+    function matchRegion(value) {
+      const textValue = text(value);
+      const regions = Object.keys(REGION_COLORS);
+      for (let i = 0; i < regions.length; i++) {
+        if (textValue.indexOf(regions[i]) >= 0) {
+          return regions[i];
+        }
+      }
+      return "";
+    }
+
+    function getMatchElement(match) {
+      const details = match.details || [];
+      for (let i = 0; i < details.length; i++) {
+        const field = details[i];
+        if (text(field.key).indexOf("\u5143\u7d20") >= 0) {
+          const element = matchElement(field.value);
+          if (element) {
+            return element;
+          }
+        }
+      }
+
+      const brief = match.brief || [];
+      for (let i = 0; i < brief.length; i++) {
+        const element = matchElement(brief[i]);
+        if (element) {
+          return element;
+        }
+      }
+      return "";
+    }
+
+    function getMatchElementColor(match) {
+      const element = getMatchElement(match);
+      return element ? ELEMENT_COLORS[element] : "";
+    }
+
+    function getMatchRegion(match) {
+      const details = match.details || [];
+      for (let i = 0; i < details.length; i++) {
+        const field = details[i];
+        if (text(field.key).indexOf("\u56fd\u5bb6") >= 0) {
+          const region = matchRegion(field.value);
+          if (region) {
+            return region;
+          }
+        }
+      }
+
+      const brief = match.brief || [];
+      for (let i = 0; i < brief.length; i++) {
+        const region = matchRegion(brief[i]);
+        if (region) {
+          return region;
+        }
+      }
+      return "";
+    }
+
+    function getMatchRegionColor(match) {
+      const region = getMatchRegion(match);
+      return region ? REGION_COLORS[region] : "";
+    }
+
+    function applyElementColor(node, match) {
+      const color = getMatchElementColor(match);
+      if (color) {
+        node.style.setProperty("--element-color", color);
+      }
+    }
+
+    function applyRegionColor(node, match) {
+      const color = getMatchRegionColor(match);
+      if (color) {
+        node.style.setProperty("--region-color", color);
+      }
+    }
+
+    function createNameChip(match) {
+      const chip = document.createElement("div");
+      chip.className = "chip";
+      applyElementColor(chip, match);
+      appendText(chip, match.name);
+      return chip;
+    }
+
+    function createBriefItem(match) {
+      const item = document.createElement("div");
+      item.className = "item";
+
+      const name = document.createElement("div");
+      name.className = "name";
+      applyElementColor(name, match);
+      appendText(name, match.name);
+      item.appendChild(name);
+
+      const brief = document.createElement("div");
+      brief.className = "brief";
+      const briefParts = match.brief || [];
+      briefParts.forEach((part, index) => {
+        if (index > 0) {
+          appendText(brief, ",");
+        }
+        const span = document.createElement("span");
+        appendText(span, part);
+        if (matchElement(part)) {
+          span.className = "element-part";
+          span.style.setProperty("--element-color", getMatchElementColor(match));
+        } else if (matchRegion(part)) {
+          span.className = "region-part";
+          span.style.setProperty("--region-color", getMatchRegionColor(match));
+        }
+        brief.appendChild(span);
+      });
+      item.appendChild(brief);
+
+      return item;
+    }
+
+    function createFullItem(match) {
+      const item = document.createElement("div");
+      item.className = "item";
+
+      const name = document.createElement("div");
+      name.className = "name";
+      applyElementColor(name, match);
+      appendText(name, match.name);
+      item.appendChild(name);
+
+      const details = document.createElement("div");
+      details.className = "details";
+      const fields = match.details || [];
+      fields.forEach((field) => {
+        if (field.key === "角色名") {
+          return;
+        }
+        const row = document.createElement("div");
+        row.className = "field";
+        const isElementField = text(field.key).indexOf("\u5143\u7d20") >= 0;
+        const isRegionField = text(field.key).indexOf("\u56fd\u5bb6") >= 0;
+        if (isElementField) {
+          row.className += " element-field";
+          row.style.setProperty("--element-color", getMatchElementColor(match));
+        } else if (isRegionField) {
+          row.className += " region-field";
+          row.style.setProperty("--region-color", getMatchRegionColor(match));
+        }
+
+        const key = document.createElement("span");
+        key.className = "key";
+        appendText(key, field.key + "：");
+        row.appendChild(key);
+
+        const value = document.createElement("span");
+        value.className = "value";
+        appendText(value, field.value);
+        row.appendChild(value);
+
+        details.appendChild(row);
+      });
+      item.appendChild(details);
+      return item;
+    }
+
+    function renderResult(data) {
+      const matches = Array.isArray(data.matches) ? data.matches : [];
+      applyMaskSettings(data);
+      if (matches.length === 0) {
+        clearResult();
+        return;
+      }
+
+      title.textContent = "命中角色";
+      count.textContent = String(data.count || matches.length);
+      content.innerHTML = "";
+      panel.classList.remove("compact");
+      panel.classList.remove("dense");
+
+      const displayMode = data.mode === "brief" && matches.length > 20 ? "name" : data.mode;
+      if (displayMode === "name" && matches.length > 20) {
+        panel.classList.add("dense");
+      } else if (displayMode === "brief" && matches.length >= 5) {
+        panel.classList.add("compact");
+      }
+
+      if (displayMode === "name") {
+        const names = document.createElement("div");
+        names.className = "names";
+        matches.forEach((match) => names.appendChild(createNameChip(match)));
+        content.appendChild(names);
+      } else {
+        const list = document.createElement("div");
+        list.className = "list";
+        matches.forEach((match) => {
+          list.appendChild(displayMode === "full" ? createFullItem(match) : createBriefItem(match));
+        });
+        content.appendChild(list);
+      }
+
+      if (data.easterEgg) {
+        const easter = document.createElement("div");
+        easter.className = "easter";
+        appendText(easter, data.easterEgg);
+        content.appendChild(easter);
+      }
+
+      panel.classList.add("visible");
+    }
+
+    window.htmlMask.onMessage = function(msg) {
+      if (!msg || msg.url === "/guess-character/clear") {
+        clearResult();
+        return;
+      }
+      if (msg.url === "/guess-character/result") {
+        renderResult(msg.data || {});
+      }
+    };
+  </script>
+</body>
+</html>

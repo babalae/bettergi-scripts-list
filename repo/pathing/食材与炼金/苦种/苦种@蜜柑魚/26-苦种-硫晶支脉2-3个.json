@@ -1,0 +1,103 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777186901975,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "26-苦种-硫晶支脉2-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8400.9043,
+      "y": -1221.1211
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 8396.9082,
+      "y": -1232.0117
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 8362.4971,
+      "y": -1283.874
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),attack(0.1),wait(0.3)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8364.5273,
+      "y": -1303.5244
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8359.5107,
+      "y": -1346.1836
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8334.5088,
+      "y": -1326.1113
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8296.7646,
+      "y": -1314.4844
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8293.0371,
+      "y": -1313.2061
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.345)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8294.4609,
+      "y": -1321.5625
+    }
+  ]
+}

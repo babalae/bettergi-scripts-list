@@ -1,0 +1,135 @@
+{
+  "info": {
+    "name": "06-水晶块-沉玉谷-暝垣山-5个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.52.0",
+    "authors": [
+      {
+        "name": "火山",
+        "links": "https://github.com/RRRR623"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2615.0,
+      "y": 2050.91,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 2612.02,
+      "y": 2056.95,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 2606.09,
+      "y": 2068.5,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "500"
+    },
+    {
+      "id": 4,
+      "x": 2610.62,
+      "y": 2064.2,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 2617.75,
+      "y": 2067.36,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 2620.16,
+      "y": 2064.4,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 2621.28,
+      "y": 2062.09,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 2625.08,
+      "y": 2062.5,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 2615.0,
+      "y": 2050.85,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 2625.03,
+      "y": 2054.72,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 2796.94,
+      "y": 2114.83,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "2200"
+    },
+    {
+      "id": 12,
+      "x": 2802.66,
+      "y": 2112.17,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 2803.44,
+      "y": 2106.49,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "4个鸟蛋；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762494077207,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E05-2-枫丹食材-苍晶区-厄里那斯南【高效】",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4955.1904,
+      "y": 2760.394
+    },
+    {
+      "action": "combat_script",
+      "action_params": "j,wait(1),j,wait(1.8)",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 4899.6852,
+      "y": 2557.7312
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(5)",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 4912.1709,
+      "y": 2556.4435
+    }
+  ]
+}

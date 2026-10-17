@@ -1,0 +1,168 @@
+{
+  "info": {
+    "name": "沉玉谷_玄文兽05",
+    "type": "collect",
+    "version": "1.0",
+    "description": "改进下落攻击掉血问题，增加一个点位",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "XS",
+        "links": "https://github.com/xwsqy6"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1904.51,
+      "y": 1196.95,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1863.95,
+      "y": 1192.68,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "wait(0.5),keypress(VK_SPACE),wait(3.1),click",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 1861.19,
+      "y": 1189.77,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 2066.22,
+      "y": 1484.47,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 5,
+      "x": 2035.76,
+      "y": 1525.62,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 2034.72,
+      "y": 1544.38,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 2053.8,
+      "y": 1799.57,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 8,
+      "x": 2056.9,
+      "y": 1767.86,
+      "action": "fight",
+      "move_mode": "fly",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": 2002.18,
+      "y": 2080.88,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 10,
+      "x": 1977.66,
+      "y": 2114.3,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 1975.5,
+      "y": 2139.22,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 1957.38,
+      "y": 2146.29,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 2616.22,
+      "y": 2049.84,
+      "type": "teleport",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": 2618.89,
+      "y": 2036.07,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 15,
+      "x": 2623.33,
+      "y": 2014.73,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 16,
+      "x": 2625.58,
+      "y": 1996.74,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 17,
+      "x": 2627.69,
+      "y": 1981.9,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 18,
+      "x": 2643.05,
+      "y": 1954.11,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

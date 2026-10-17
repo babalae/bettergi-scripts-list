@@ -1,0 +1,184 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1791430734334,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "02-水晶块-至冬-彩冰镇东-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 6540.9043,
+      "y": 8671.8613
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6545.1602,
+      "y": 8673.3711
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 6534.5938,
+      "y": 8683.3594
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 6517.5039,
+      "y": 8679.6387
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6490.8896,
+      "y": 8641.2295
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6489.2598,
+      "y": 8655.8252
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6510.752,
+      "y": 8695.6504
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6457.3457,
+      "y": 8705.1846
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 6435.3076,
+      "y": 8707.0059
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6402.9795,
+      "y": 8706.7988
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6339.7422,
+      "y": 8739.8213
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6337.8213,
+      "y": 8739.5723
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6339.8223,
+      "y": 8742.0313
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6336.9619,
+      "y": 8742.9238
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6335.0654,
+      "y": 8743.7822
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6336.2598,
+      "y": 8745.291
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.5)",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 6334.6348,
+      "y": 8744.3125
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6334.6348,
+      "y": 8744.3125
+    }
+  ]
+}

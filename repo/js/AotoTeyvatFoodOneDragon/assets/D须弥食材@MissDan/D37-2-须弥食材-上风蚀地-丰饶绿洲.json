@@ -1,0 +1,85 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "4个鸟蛋；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762453437685,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "D37-2-须弥食材-上风蚀地-丰饶绿洲",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4795.8311,
+      "y": -2576.0352
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4785.5039,
+      "y": -2602.7754
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 3,
+      "move_mode": "run",
+      "type": "target",
+      "x": 4672.5488,
+      "y": -2647.4258
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4679.1162,
+      "y": -2587.127
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4678.2881,
+      "y": -2571.1396
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4642.0684,
+      "y": -2510.8594
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4643.0684,
+      "y": -2511.8594
+    }
+  ]
+}

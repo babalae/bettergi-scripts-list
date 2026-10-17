@@ -1,0 +1,60 @@
+{
+  "info": {
+    "name": "塔尼特露营地",
+    "type": "collect",
+    "version": "1.0",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "baixi",
+        "links": "https://github.com/baixi232310"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 5063.82,
+      "y": -1587.74,
+      "type": "teleport",
+      "move_mode": "walk"
+    },
+    {
+      "id": 2,
+      "x": 5077.17,
+      "y": -1503.36,
+      "type": "path",
+      "move_mode": "fly"
+    },
+    {
+      "id": 3,
+      "x": 5079.81,
+      "y": -1490.07,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "id": 4,
+      "x": 5044.11,
+      "y": -1479.99,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    },
+    {
+      "id": 5,
+      "x": 5015.77,
+      "y": -1433.4,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "id": 6,
+      "x": 5012.46,
+      "y": -1413.1,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}

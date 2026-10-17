@@ -1,0 +1,77 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/non-repeating001",
+        "name": "无限不循环"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758051737752,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B40-萃凝晶-纳塔-花羽会4（2个）",
+    "tags": [
+      "双手剑"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9548.28,
+      "y": -1116.56
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9553.4014,
+      "y": -1110.6382
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "2000",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9601.3018,
+      "y": -1147.9644
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(1.0),keypress(t),wait(0.2),keypress(t),wait(2.0),keypress(t),keydown(VK_E),wait(0.5),keyup(VK_E)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9595.5527,
+      "y": -1151.7061
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(1.0)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9591.5352,
+      "y": -1152.165
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(1.0)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9597.7559,
+      "y": -1154.0049
+    }
+  ]
+}

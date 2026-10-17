@@ -1,0 +1,237 @@
+{
+  "info": {
+    "name": "01-小灯草-苍风高地-18个-树莓-6个-松果-4个-嘟嘟莲-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "小灯草性价比路线，要求队伍（草神-琴团长），琴可换但不建议法器角色",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "彩虹QQ人",
+        "links": "https://github.com/KRdingsan"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -521.62,
+      "y": 2181.38,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -525.67,
+      "y": 2171.54,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -532.22,
+      "y": 2162.18,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -539.07,
+      "y": 2162.34,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": -542.07,
+      "y": 2165.34,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 6,
+      "x": -521.57,
+      "y": 2181.32,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 7,
+      "x": -499.73,
+      "y": 2192.22,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -488.15,
+      "y": 2195.39,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -483.16,
+      "y": 2196.34,
+      "action": "nahida_collect",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -474.25,
+      "y": 2208.72,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -386.33,
+      "y": 2297.67,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport",
+      "locked": false
+    },
+    {
+      "id": 12,
+      "x": -386.33,
+      "y": 2297.67,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 13,
+      "x": -356.8,
+      "y": 2308.08,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": -350.59,
+      "y": 2306.99,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": -316.31,
+      "y": 2296.74,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": -316.31,
+      "y": 2307.76,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": -440.03,
+      "y": 2580.64,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 18,
+      "x": -455.46,
+      "y": 2640.42,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": -442.03,
+      "y": 2658.36,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 20,
+      "x": -441.03,
+      "y": 2662.36,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 21,
+      "x": -201.09,
+      "y": 1861.91,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport",
+      "locked": false
+    },
+    {
+      "id": 22,
+      "x": -201.09,
+      "y": 1852.91,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 23,
+      "x": -146.39,
+      "y": 1873.89,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 24,
+      "x": -122.42,
+      "y": 1870.91,
+      "action": "nahida_collect",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

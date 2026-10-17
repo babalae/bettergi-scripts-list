@@ -1,0 +1,94 @@
+{
+  "info": {
+    "name": "18-泡泡桔-莫尔泰区-6个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "白白喵",
+        "links": "https://github.com/taotao568685"
+      }
+    ],
+    "version": "1.0",
+    "description": "带万叶摘泡泡桔",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1754621690487,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3563.4219,
+      "y": 3018.6704,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 3598.2266,
+      "y": 3049.3386,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 3605.1113,
+      "y": 3056.1362,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    },
+    {
+      "id": 4,
+      "x": 3463.6221,
+      "y": 2286.553,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 3450.2793,
+      "y": 2293.2012,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 3428.6191,
+      "y": 2301.9324,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 3338.8652,
+      "y": 2329.4138,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 3338.8652,
+      "y": 2329.4138,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(2)"
+    }
+  ]
+}

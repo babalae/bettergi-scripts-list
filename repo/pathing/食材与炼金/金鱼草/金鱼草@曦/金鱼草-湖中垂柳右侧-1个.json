@@ -1,0 +1,73 @@
+{
+  "info": {
+    "name": "金鱼草-湖中垂柳右侧-1个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "由于地下小地图不可用少1个",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "曦",
+        "links": "https://github.com/cx05121"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3032.72,
+      "y": 3732.34,
+      "action": "",
+      "move_mode": "fly",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3020.96,
+      "y": 3734.63,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 2915.44,
+      "y": 3816.35,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 2894.4,
+      "y": 3834.06,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 2854.23,
+      "y": 3815.26,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 2840.94,
+      "y": 3807.92,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 2827.57,
+      "y": 3767.95,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "target"
+    }
+  ]
+}

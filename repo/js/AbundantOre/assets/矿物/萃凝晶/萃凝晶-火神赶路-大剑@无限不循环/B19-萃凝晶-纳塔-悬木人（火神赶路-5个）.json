@@ -1,0 +1,186 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/non-repeating001",
+        "name": "无限不循环"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758051668590,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B19-萃凝晶-纳塔-悬木人（火神赶路-5个）",
+    "tags": [
+      "双手剑"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8660.76,
+      "y": -2220.57
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8651.8027,
+      "y": -2182.6201
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8653.5352,
+      "y": -2182.625
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8653.5352,
+      "y": -2182.625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8653.5352,
+      "y": -2182.625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8647.3438,
+      "y": -2191.918
+    },
+    {
+      "action": "combat_script",
+      "action_params": " 玛薇卡 w(0.1),e(hold),keydown(VK_W),dash(2.2),keyup(VK_W),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 8600.0752,
+      "y": -2185.5811
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8600.0752,
+      "y": -2185.5811
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t),wait(1.5),keydown(q),wait(1.5),keyup(q)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8597.125,
+      "y": -2186.9639
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8595.7705,
+      "y": -2191.875
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8594.9639,
+      "y": -2190.7363
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8594.9639,
+      "y": -2190.7363
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8596.127,
+      "y": -2187.79
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8594.6289,
+      "y": -2187.6406
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8594.6289,
+      "y": -2187.6406
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8594.9219,
+      "y": -2186.1641
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8592.1641,
+      "y": -2188.1104
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8592.1641,
+      "y": -2188.1104
+    }
+  ]
+}

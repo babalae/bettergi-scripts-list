@@ -1,0 +1,253 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1791432934765,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "02-虹滴晶-至冬-凝露镇北-13个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7677.4453,
+      "y": 7726.7148
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 7684.7646,
+      "y": 7743.3911
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7708.4393,
+      "y": 7866.6875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "玛薇卡 w(0.2),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.4),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.2),wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.2),wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.2),wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.2),wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.2),e; ;",
+      "id": 4,
+      "move_mode": "dash",
+      "point_ext_params": {
+        "description": "",
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized",
+            "pathTooFar"
+          ]
+        },
+        "monster_tag": ""
+      },
+      "type": "orientation",
+      "x": 7755.0176,
+      "y": 8104.4561
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "point_ext_params": {
+        "description": "",
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized",
+            "pathTooFar"
+          ]
+        },
+        "monster_tag": ""
+      },
+      "type": "path",
+      "x": 7755.0176,
+      "y": 8104.4561
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7753.5449,
+      "y": 8109.626
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7749.7939,
+      "y": 8107.1572
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7750.002,
+      "y": 8109.2378
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7748.8408,
+      "y": 8114.2158
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7749.4697,
+      "y": 8111.999
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.5)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7751.9297,
+      "y": 8112.708
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7751.9297,
+      "y": 8112.708
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7746.9453,
+      "y": 8107.3994
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7746.7861,
+      "y": 8108.6172
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7741.1426,
+      "y": 8113.4883
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7750.6973,
+      "y": 8126.7676
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7753.5371,
+      "y": 8131.4009
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7750.4766,
+      "y": 8130.6494
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7739.9785,
+      "y": 8134.5474
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7742.9414,
+      "y": 8134.9683
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 7748.583,
+      "y": 8132.1406
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 22,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7746.8262,
+      "y": 8135.8633
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 23,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7744.9893,
+      "y": 8138.5381
+    }
+  ]
+}

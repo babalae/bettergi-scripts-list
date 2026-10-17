@@ -1,0 +1,71 @@
+﻿{
+  "info": {
+    "name": "连芳",
+    "type": "collect",
+    "authors": [],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1755459619043,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2358.486328125,
+      "y": 2414.624267578125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 2358.1201171875,
+      "y": 2399.650146484375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 2330.078125,
+      "y": 2355.36328125,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 2337.689453125,
+      "y": 2334.9716796875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "1500"
+    },
+    {
+      "id": 5,
+      "x": 2344.7685546875,
+      "y": 2326.4501953125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 2341.19140625,
+      "y": 2328.188720703125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

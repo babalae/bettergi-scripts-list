@@ -1,0 +1,112 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1785954419860,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "22-堇瓜-八酝岛-蛇骨矿洞东-6个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2405.4805,
+      "y": -3912.6367
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2442.916,
+      "y": -3910.5527
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "3000",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -2531.9844,
+      "y": -3952.5996
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 e(wait);万叶 e(wait,hold),attack(0.2);迪希雅 w(0.001);wait(2)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2540.6973,
+      "y": -3955.3311
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2519.5,
+      "y": -3957.4678
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2513.4414,
+      "y": -3978.1533
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2484.5176,
+      "y": -3988.7119
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2470.5254,
+      "y": -4014.1416
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2458.416,
+      "y": -4042.3652
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 e(wait);万叶 e(wait,hold),attack(0.2);迪希雅 w(0.001);wait(2.5)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2459.0566,
+      "y": -4070.8311
+    }
+  ]
+}

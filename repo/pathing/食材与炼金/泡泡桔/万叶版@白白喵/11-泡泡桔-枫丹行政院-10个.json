@@ -1,0 +1,174 @@
+{
+  "info": {
+    "name": "11-泡泡桔-枫丹行政院-10个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "白白喵",
+        "links": "https://github.com/taotao568685"
+      }
+    ],
+    "version": "1.0",
+    "description": "万叶摘泡泡桔，需要带万叶",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1754584563787,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4144.1836,
+      "y": 4423.8496,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4162.0693,
+      "y": 4430.3125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4179.9023,
+      "y": 4421.8628,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4240.0723,
+      "y": 4426.4023,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 4278.5742,
+      "y": 4433.8447,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 4291.7412,
+      "y": 4421.7876,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 4310.5259,
+      "y": 4413.7842,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 4322.5063,
+      "y": 4422.4028,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 4326.3242,
+      "y": 4425.3672,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "枫原万叶 wait(0.1),e(hold),attack,wait(2)"
+    },
+    {
+      "id": 10,
+      "x": 4340.1025,
+      "y": 4408.8369,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 4354.7773,
+      "y": 4385.3965,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 4359.0806,
+      "y": 4350.6709,
+      "type": "path",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    },
+    {
+      "id": 13,
+      "x": 4353.5586,
+      "y": 4334.7129,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": 4344.2744,
+      "y": 4338.7002,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "枫原万叶 wait(0.1),e(hold),attack,wait(2)"
+    },
+    {
+      "id": 15,
+      "x": 4329.7344,
+      "y": 4344.5747,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 16,
+      "x": 4312.6797,
+      "y": 4322.0674,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 17,
+      "x": 4290.2686,
+      "y": 4291.3438,
+      "type": "path",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "枫原万叶 wait(0.5),e(hold),attack,wait(3)"
+    }
+  ]
+}

@@ -1,0 +1,130 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/RRRR623",
+        "name": "火山"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1790432279009,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "03-水晶块-璃月-天衡山西(有战斗,冰免,精英200x1)-5个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.1"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 828.23,
+      "y": -583.37
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(VK_SPACE),wait(4),keypress(VK_SPACE)",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 889.63,
+      "y": -694.58
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 882.17,
+      "y": -681.48
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 879.88,
+      "y": -668.72
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3),keypress(VK_SPACE),wait(1.5),keypress(VK_SPACE)",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 882.19,
+      "y": -650.5
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 893.1563,
+      "y": -650.8887
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 879,
+      "y": -660
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 873.16,
+      "y": -670.3
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 898.8711,
+      "y": -645.9844
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 902,
+      "y": -644.12
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 900.34,
+      "y": -645.43
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 898.34,
+      "y": -647.6
+    }
+  ]
+}

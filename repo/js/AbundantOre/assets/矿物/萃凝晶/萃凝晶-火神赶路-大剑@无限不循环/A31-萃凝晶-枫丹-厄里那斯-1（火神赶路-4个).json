@@ -1,0 +1,215 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/non-repeating001",
+        "name": "无限不循环"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757184554076,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A31-萃凝晶-枫丹-厄里那斯-1（火神赶路-4个)",
+    "tags": [
+      "双手剑",
+      "火神赶路",
+      "有战斗"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4749.7158,
+      "y": 2636.5593
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4748.4443,
+      "y": 2674.4482
+    },
+    {
+      "action": "combat_script",
+      "action_params": "玛薇卡 w(0.1),e(hold),keydown(VK_W),dash(3.2),keyup(VK_W),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4680.7324,
+      "y": 2694.2527
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4680.7324,
+      "y": 2694.2527
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4690.2314,
+      "y": 2716.165
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4693.5522,
+      "y": 2720.6489
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4693.5522,
+      "y": 2720.6489
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4686.4258,
+      "y": 2723.1169
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4687.2251,
+      "y": 2724.8625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4687.2251,
+      "y": 2724.8625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4685.0234,
+      "y": 2726.9705
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 4689.3291,
+      "y": 2733.022
+    },
+    {
+      "action": "combat_script",
+      "action_params": "玛薇卡 w(0.15),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.7),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.7),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4628.4751,
+      "y": 2797.5928
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4628.4751,
+      "y": 2797.5928
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4630.2637,
+      "y": 2801.3279
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4630.2637,
+      "y": 2801.3279
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4625.9229,
+      "y": 2801.842
+    },
+    {
+      "action": "combat_script",
+      "action_params": "玛薇卡 w(0.1),e(hold),keydown(VK_W),dash(3.2),keyup(VK_W),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4610.2871,
+      "y": 2865.1208
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4610.2871,
+      "y": 2865.1208
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4613.417,
+      "y": 2866.3462
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 21,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4613.4165,
+      "y": 2866.3462
+    }
+  ]
+}

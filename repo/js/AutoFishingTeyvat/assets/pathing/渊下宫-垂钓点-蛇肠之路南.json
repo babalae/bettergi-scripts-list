@@ -1,0 +1,107 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "提瓦特钓鱼玳师"
+      },
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "地区: 渊下宫\n类型: 垂钓点\n详细位置: 蛇肠之路南\n鱼类: 水晶宴、肺棘鱼、佛玛洛鳐、迪芙妲鳐\n饵类: 果酿饵、赤糜饵、飞蝇假饵\n附加信息: 普通",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1764489014492,
+    "map_match_method": "",
+    "map_name": "Enkanomiya",
+    "name": "渊下宫-垂钓点-蛇肠之路南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1409.52,
+      "y": -462.35
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1410.81,
+      "y": -480.44
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1407.04,
+      "y": -488.24
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1409.16,
+      "y": -500.09
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1404.23,
+      "y": -514.43
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1391.26,
+      "y": -523.86
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1373.3,
+      "y": -522.7
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1373.1,
+      "y": -523.95
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1376.24,
+      "y": -519.78
+    }
+  ]
+}

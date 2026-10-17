@@ -1,0 +1,126 @@
+{
+  "info": {
+    "name": "日落果15-蒙德鹰之门上-12个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "需携带纳西妲，部分危险路径刚需盾位",
+    "map_name": "Teyvat",
+    "bgi_version": "0.44.0",
+    "authors": [
+      {
+        "name": "灰林鸮",
+        "links": "https://github.com/Strix-nivicolum"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1867.3,
+      "y": 1331.24,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1840.97,
+      "y": 1360.4,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1834.96,
+      "y": 1391.36,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -1837.9,
+      "y": 1416.93,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -1815.29,
+      "y": 1410.28,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": -1764.17,
+      "y": 1406.56,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -1741.14,
+      "y": 1432.71,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": -1717.37,
+      "y": 1461.41,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": -1687.94,
+      "y": 1460.0,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": -1674.59,
+      "y": 1459.93,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": -1656.36,
+      "y": 1443.1,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": -1643.14,
+      "y": 1393.24,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "info": {
+    "name": "日落果08-蒙德天赋本-3个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "需携带纳西妲，部分危险路径刚需盾位",
+    "map_name": "Teyvat",
+    "bgi_version": "0.44.0",
+    "authors": [
+      {
+        "name": "灰林鸮",
+        "links": "https://github.com/Strix-nivicolum"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -887.5,
+      "y": 1679.18,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -876.58,
+      "y": 1686.46,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -856.65,
+      "y": 1687.08,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -849.84,
+      "y": 1664.45,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -843.74,
+      "y": 1646.49,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}

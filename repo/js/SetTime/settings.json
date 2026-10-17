@@ -1,0 +1,20 @@
+[
+    {
+        "name": "hour",
+        "type": "input-text",
+        "label": "输入小时 [0-24] ",
+        "default": "6"
+    },
+    {
+        "name": "minute",
+        "type": "input-text",
+        "label": "输入分钟 [0-59] ",
+        "default": "0"
+    },
+    {
+        "name": "skip",
+        "type": "checkbox",
+        "label": "是否跳过动画",
+        "default": true
+    }
+]

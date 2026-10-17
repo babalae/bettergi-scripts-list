@@ -1,0 +1,7 @@
+[
+  { "name": "mode", "type": "select", "label": "模式（先诊断，再自动试验）", "options": ["识别诊断", "自动试验"], "default": "识别诊断" },
+  { "name": "enemyCount", "type": "select", "label": "对方角色总数（包括已倒下的角色）", "options": ["3", "2", "4"], "default": "3" },
+  { "name": "mulligan", "type": "select", "label": "初始手牌（优先模式读不到卡名时，不新增换牌选择并确认）", "options": ["全部保留", "优先充能与调骰"], "default": "全部保留" },
+  { "name": "actionEntry", "type": "select", "label": "行动页启动（仅限新开局；双方未出牌、技能、切人、调和，不含首次选人）", "options": ["禁止从行动页启动", "确认新开局未行动"], "default": "禁止从行动页启动" },
+  { "name": "maxMinutes", "type": "select", "label": "单局超时保护", "options": ["15", "10", "20"], "default": "15" }
+]

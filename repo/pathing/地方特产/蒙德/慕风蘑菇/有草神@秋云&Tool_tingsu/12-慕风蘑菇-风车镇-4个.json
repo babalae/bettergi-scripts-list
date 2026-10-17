@@ -1,0 +1,150 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Tooltingsu",
+        "name": "Tool_tingsu"
+      }
+    ],
+    "bgi_version": "0.60.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1775656636428,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "12-慕风蘑菇-风车镇-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -156.4316,
+      "y": 3091.3657
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -155.0684,
+      "y": 3079.9067
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -141.959,
+      "y": 3074.1284
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -142.584,
+      "y": 3059.1396
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -144.7148,
+      "y": 3056.2354
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -137.0918,
+      "y": 3064.0273
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 attack",
+      "id": 7,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -140.4844,
+      "y": 3048.7729
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 moveby(0,5000),keydown(e),wait(0.3),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),keyup(e),wait(0.5),click(middle)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -140.4844,
+      "y": 3048.7729
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -133.9395,
+      "y": 3065.2271
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -123.0059,
+      "y": 3076.7695
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -112.2598,
+      "y": 3097.3716
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 w(0.1),wait(0.5),moveby(0,5000),keydown(e),wait(0.3),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),keyup(e),wait(0.5),click(middle)",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -112.082,
+      "y": 3095.3682
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -121.8418,
+      "y": 3091.3877
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 w(0.1),wait(1.5),moveby(0,5000),keydown(e),wait(0.3),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),moveby(0,-1000),wait(0.1),keyup(e),wait(0.5),click(middle)",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -124.5625,
+      "y": 3106.1782
+    }
+  ]
+}

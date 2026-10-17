@@ -1,0 +1,80 @@
+{
+    "info": {
+        "name": "狗粮-枫丹-研究院区-学术会堂-1个／2个-f",
+        "type": "collect",
+        "author": "Yang-z",
+        "version": "1.1",
+        "bgi_version": "0.42.0"
+    },
+    "positions": [
+        {
+            "x": 4143.8984375,
+            "y": 4423.59228515625,
+            "type": "teleport",
+            "move_mode": "walk"
+        },
+        {
+            "x": 4145.66552734375,
+            "y": 4418.8349609375,
+            "type": "target",
+            "move_mode": "walk",
+            "action": ""
+        },
+        {
+            "x": 4145.66552734375,
+            "y": 4418.8349609375,
+            "type": "target",
+            "move_mode": "walk",
+            "action": ""
+        }
+
+    ],
+
+
+
+    "position_not_actived": [
+        { "#": "太远" },
+
+        {
+            "x": 3923.07763671875,
+            "y": 4233.857421875,
+            "type": "teleport",
+            "move_mode": "walk"
+        },
+        {
+            "x": 4097.6533203125,
+            "y": 4326.37890625,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "stop_flying"
+        },
+
+        {
+            "x": 4097.95361328125,
+            "y": 4324.28125,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "pick_around",
+            "#": "2"
+        },
+
+        {
+            "x": 4096.02294921875,
+            "y": 4327.2353515625,
+            "type": "path",
+            "move_mode": "walk"
+        },
+        {
+            "x": 4099.0654296875,
+            "y": 4328.869140625,
+            "type": "path",
+            "move_mode": "walk"
+        },
+        {
+            "x": 4098.09765625,
+            "y": 4325.27490234375,
+            "type": "path",
+            "move_mode": "walk"
+        }
+    ]
+}

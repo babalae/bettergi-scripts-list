@@ -1,0 +1,343 @@
+{
+  "info": {
+    "name": "萃凝晶-火山右侧",
+    "type": "collect",
+    "version": "1.0",
+    "description": "需要钟离，有纳西妲可以顺便采集周围的植物\n注意：钟离不可以作为生存位！\n-(25.6.14)优化钟离开盾时间",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "成成"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9522.32,
+      "y": -2216.04,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": 9513.54,
+      "y": -2223.27,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "100",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 9510.06,
+      "y": -2223.7,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 9510.05,
+      "y": -2221.85,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "钟离 e(hold)",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 9514.56,
+      "y": -2219.94,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 9519.2,
+      "y": -2224.48,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 9513.69,
+      "y": -2222.95,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 9505.09,
+      "y": -2229.88,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": 9499.82,
+      "y": -2227.87,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 10,
+      "x": 9502.75,
+      "y": -2223.9,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 11,
+      "x": 9503.11,
+      "y": -2230.48,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 12,
+      "x": 9516.11,
+      "y": -2225.48,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 13,
+      "x": 9492.13,
+      "y": -2235.0,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 14,
+      "x": 9477.7,
+      "y": -2236.69,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "钟离 e(hold);wait(1)",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 15,
+      "x": 9468.84,
+      "y": -2219.67,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 16,
+      "x": 9445.57,
+      "y": -2210.14,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 17,
+      "x": 9446.0,
+      "y": -2206.99,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "钟离 e(hold)",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 18,
+      "x": 9449.38,
+      "y": -2204.98,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 19,
+      "x": 9454.53,
+      "y": -2209.79,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 20,
+      "x": 9448.07,
+      "y": -2208.95,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 21,
+      "x": 9443.34,
+      "y": -2203.76,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 22,
+      "x": 9437.46,
+      "y": -2204.91,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 23,
+      "x": 9438.46,
+      "y": -2209.36,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 24,
+      "x": 9444.41,
+      "y": -2209.56,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 25,
+      "x": 9438.74,
+      "y": -2203.77,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 26,
+      "x": 9430.78,
+      "y": -2206.9,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "钟离 e(hold)"
+    },
+    {
+      "id": 27,
+      "x": 9427.52,
+      "y": -2201.24,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 28,
+      "x": 9433.41,
+      "y": -2200.9,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 29,
+      "x": 9428.12,
+      "y": -2206.54,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 30,
+      "x": 9428.75,
+      "y": -2279.79,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": true
+    },
+    {
+      "id": 31,
+      "x": 9427.38,
+      "y": -2281.3,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "钟离 e(hold)",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 32,
+      "x": 9431.78,
+      "y": -2287.02,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 33,
+      "x": 9429.12,
+      "y": -2276.28,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    }
+  ]
+}

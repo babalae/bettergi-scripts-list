@@ -1,0 +1,157 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1785183171327,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B25-金鱼草-璃月-赤璋城垣二-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2207.3477,
+      "y": 1253.481
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2220.2383,
+      "y": 1241.7275
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2231.668,
+      "y": 1240.439
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2253.9648,
+      "y": 1243.8184
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2258.1426,
+      "y": 1250.1104
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2270.9404,
+      "y": 1260.8999
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2279.7529,
+      "y": 1266.7261
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2287.7598,
+      "y": 1265.3066
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2294.7061,
+      "y": 1269.5649
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2306.0117,
+      "y": 1277.4312
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2320.7344,
+      "y": 1279.3643
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 2340.8262,
+      "y": 1278.8643
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2340.8516,
+      "y": 1278.2212
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.001)",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2341.8691,
+      "y": 1276.3569
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2342.4707,
+      "y": 1274.3701
+    }
+  ]
+}

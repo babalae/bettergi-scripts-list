@@ -1,0 +1,166 @@
+{
+  "info": {
+    "name": "12-烬芯花-烟谜主右方-3个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.3",
+    "tags": [
+      "单手剑角色",
+      "大剑角色",
+      "长枪角色"
+    ],
+    "authors": [
+      {
+        "name": "Tool_tingsu",
+        "links": "https://github.com/Tooltingsu"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9229.53,
+      "y": -1729.56,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 9248.08,
+      "y": -1732.88,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 9255.11,
+      "y": -1709.76,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 9257.94,
+      "y": -1701.53,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 9263.96,
+      "y": -1687.11,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 9291.57,
+      "y": -1660.3,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "attack(0.2)"
+    },
+    {
+      "id": 7,
+      "x": 9286.35,
+      "y": -1654.05,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 9299.15,
+      "y": -1630.86,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 9315.0,
+      "y": -1609.47,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 9345.46,
+      "y": -1567.87,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "attack(0.2)"
+    },
+    {
+      "id": 11,
+      "x": 9355.1,
+      "y": -1562.49,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 9376.09,
+      "y": -1534.45,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 9366.5,
+      "y": -1499.41,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": 9377.14,
+      "y": -1494.95,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "attack(0.2)"
+    },
+    {
+      "id": 15,
+      "x": 9393.06,
+      "y": -1541.5,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 16,
+      "x": 9388.11,
+      "y": -1556.85,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    }
+  ]
+}

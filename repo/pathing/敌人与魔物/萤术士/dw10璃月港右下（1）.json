@@ -1,0 +1,64 @@
+{
+  "info": {
+    "name": "dw10璃月港右下（1）",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "下流山汉",
+        "links": "https://github.com/vulgar-rustic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 26.01,
+      "y": -112.24,
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": 18.89,
+      "y": -107.18,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -0.67,
+      "y": -106.92,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -24.53,
+      "y": -106.53,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -58.34,
+      "y": -110.01,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": "",
+      "locked": true
+    }
+  ]
+}

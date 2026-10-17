@@ -1,0 +1,59 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1765366086047,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "纳塔-度假村多人狗粮踩点",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10409.3935546875,
+      "y": 1653.50732421875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 13615.5048828125,
+      "y": 379.99462890625
+    },
+    {
+      "action": "log_output",
+      "action_params": "这次传送尝试抵消bug,不知是否有效",
+      "id": 3,
+      "locked": false,
+      "move_mode": "climb",
+      "type": "orientation",
+      "x": 13633.8779296875,
+      "y": 377.763671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 13633.8779296875,
+      "y": 377.763671875
+    }
+  ]
+}

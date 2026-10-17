@@ -1,0 +1,154 @@
+{
+  "config": {
+    "realtime_triggers": {
+      "AutoPick": true
+    }
+  },
+  "farming_info": {
+    "allow_farming_count": false,
+    "duration_seconds": 0,
+    "elite_details": "",
+    "elite_mob_count": 0,
+    "normal_mob_count": 0,
+    "primary_target": "",
+    "total_mora": 0
+  },
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "提瓦特钓鱼玳师"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "items": [],
+    "last_modified_time": 1767958854733,
+    "map_match_method": "TemplateMatch",
+    "map_name": "AncientSacredMountain",
+    "name": "远古圣山-垂钓点-分流识海-炽岩斗士急流鱼_秘源机关·巡戒使-温火饵-普通",
+    "order": 0,
+    "tags": [],
+    "type": "collect",
+    "version": ""
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
+      "type": "teleport",
+      "x": 185.4827880859375,
+      "y": -43.462890625
+    },
+    {
+      "action": "",
+      "id": 2,
+      "move_mode": "run",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
+      "type": "path",
+      "x": 208.844970703125,
+      "y": -19.76904296875
+    },
+    {
+      "action": "",
+      "id": 3,
+      "move_mode": "walk",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
+      "type": "path",
+      "x": 220.3687744140625,
+      "y": -2.805908203125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(space),wait(3.5),attack(0.1),wait(3)",
+      "id": 4,
+      "move_mode": "fly",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
+      "type": "path",
+      "x": 250.4083251953125,
+      "y": 55.0343017578125
+    },
+    {
+      "action": "",
+      "id": 5,
+      "move_mode": "walk",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
+      "type": "target",
+      "x": 254.2086181640625,
+      "y": 49.870361328125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 6,
+      "move_mode": "walk",
+      "point_ext_params": {
+        "description": "",
+        "enable_monster_loot_split": false,
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        }
+      },
+      "type": "target",
+      "x": 246.414814453125,
+      "y": 51.7835693359375
+    }
+  ]
+}

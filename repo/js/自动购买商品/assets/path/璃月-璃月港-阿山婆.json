@@ -1,0 +1,76 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1788368473033,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "璃月-璃月港-阿山婆",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 267.9473,
+      "y": -665.1211
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 255.4326,
+      "y": -657.0156
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 258.793,
+      "y": -639.7852
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 241.2295,
+      "y": -634.3877
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 242.667,
+      "y": -630.5205
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.2),wait(0.6)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 243.083,
+      "y": -630.8594
+    }
+  ]
+}

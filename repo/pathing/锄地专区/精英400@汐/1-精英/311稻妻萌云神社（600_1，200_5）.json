@@ -1,0 +1,172 @@
+{
+  "info": {
+    "name": "311稻妻萌云神社（600_1，200_5）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时127秒，包含6只精英与3只小怪，预计收入1721.5摩拉，包含以下怪物：2只木盾丘丘人、2只雷斧丘丘暴徒、1只丘丘雷兜王、1只水丘丘萨满、2只雷深渊法师、1只遗迹侦察者。",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -575.21,
+      "y": -3832.18,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -562.99,
+      "y": -3820.88,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -528.21,
+      "y": -3785.19,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -520,
+      "y": -3774.56,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -502.16,
+      "y": -3770.74,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -488.33,
+      "y": -3780.08,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -465.08,
+      "y": -3803.62,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -467.04,
+      "y": -3797.24,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -453.48,
+      "y": -3814.34,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -430.19,
+      "y": -3866.48,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 11,
+      "x": -429.63,
+      "y": -3873.84,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": -445.44,
+      "y": -3897.19,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": -452.71,
+      "y": -3919.48,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": -452.34,
+      "y": -3952.24,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": -460.76,
+      "y": -3982.97,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": -449.44,
+      "y": -3988.05,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": -449.44,
+      "y": -3988.05,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.2)",
+      "type": "orientation"
+    }
+  ]
+}

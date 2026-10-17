@@ -1,0 +1,73 @@
+{
+  "info": {
+    "name": "324稻妻渊下宫狭间之街西南（200_5）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时105秒，包含5只精英与3只小怪，预计收入1121.5摩拉，包含以下怪物：1只打手丘丘人、2只射手丘丘人、2只木盾丘丘暴徒、3只遗迹守卫。",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 851.06,
+      "y": 340.24,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 844.06,
+      "y": 302.81,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "w(6),wait(2)",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 844.06,
+      "y": 302.81,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "orientation"
+    },
+    {
+      "id": 4,
+      "x": 851.06,
+      "y": 340.24,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 5,
+      "x": 888.51,
+      "y": 362.04,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 920.38,
+      "y": 368.19,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

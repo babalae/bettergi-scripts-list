@@ -1,0 +1,174 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "芝士贝果"
+      }
+    ],
+    "bgi_version": "0.50.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1756008646342,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "C06-黎翡区下方传送锚点高处-12个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4753.8506,
+      "y": 4498.9604
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4803.6533,
+      "y": 4487.9204
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_SPACE);wait(3);keyup(VK_SPACE);click(middle)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4836.3242,
+      "y": 4441.5767
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4852.5625,
+      "y": 4422.8525
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,1428)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4878.1973,
+      "y": 4432.749
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4886.8662,
+      "y": 4433.4126
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4850.9336,
+      "y": 4405.0605
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4846.9131,
+      "y": 4385.9336
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4824.0684,
+      "y": 4392.9985
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4820.7852,
+      "y": 4382.6377
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4816.207,
+      "y": 4376.3916
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4768.0009,
+      "y": 4337.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4686.627,
+      "y": 4366.0122
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4667.5918,
+      "y": 4367.7041
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4666.1904,
+      "y": 4364.2959
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4665.6934,
+      "y": 4360.2305
+    },
+    {
+      "action": "combat_script",
+      "action_params": "e",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4663.665,
+      "y": 4358.249
+    }
+  ]
+}

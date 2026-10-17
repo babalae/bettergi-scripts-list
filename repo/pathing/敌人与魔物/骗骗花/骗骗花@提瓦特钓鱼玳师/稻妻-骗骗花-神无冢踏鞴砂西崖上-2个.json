@@ -1,0 +1,53 @@
+{
+  "info": {
+    "name": "稻妻-骗骗花-神无冢踏鞴砂西崖上-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "骗骗花-2个\n稻妻-神无冢踏鞴砂西崖上\n经由Economy优化交互触发",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -3156.27,
+      "y": -3885.53,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -3102.22,
+      "y": -3703.83,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -3102.22,
+      "y": -3703.83,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "attack(0.1),wait(2),wait(0.1),keypress(f),wait(0.1),keypress(f),dash"
+    },
+    {
+      "id": 4,
+      "x": -3102.22,
+      "y": -3703.83,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

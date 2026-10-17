@@ -1,0 +1,94 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/non-repeating001",
+        "name": "无限不循环"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758051703136,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B27-萃凝晶-纳塔-安绕之野入口1（火神赶路-2个）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9282.6055,
+      "y": -2163.5938
+    },
+    {
+      "action": "combat_script",
+      "action_params": "玛薇卡 w(0.1),e(hold),keydown(VK_W),dash(10.0),keyup(VK_W),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9250.8037,
+      "y": -2298.1719
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(5)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9246.3145,
+      "y": -2297.6455
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9244.7637,
+      "y": -2305.3125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9244.7637,
+      "y": -2305.3125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9249.6875,
+      "y": -2302.8486
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9247.9785,
+      "y": -2307.5371
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9247.9785,
+      "y": -2307.5371
+    }
+  ]
+}

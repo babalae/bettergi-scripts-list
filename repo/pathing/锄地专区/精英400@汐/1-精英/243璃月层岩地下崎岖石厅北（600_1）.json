@@ -1,0 +1,82 @@
+{
+  "info": {
+    "name": "243璃月层岩地下崎岖石厅北（600_1）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时58秒，包含1只精英，预计收入600摩拉，包含以下怪物：1只岩龙蜥。",
+    "map_name": "TheChasm",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 304.25,
+      "y": 506.53,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 296.78,
+      "y": 517.98,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 295.94,
+      "y": 536.49,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 310.41,
+      "y": 559.01,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 307.85,
+      "y": 595.29,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 315.77,
+      "y": 635.34,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 315.77,
+      "y": 635.34,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.2)",
+      "type": "orientation"
+    }
+  ]
+}

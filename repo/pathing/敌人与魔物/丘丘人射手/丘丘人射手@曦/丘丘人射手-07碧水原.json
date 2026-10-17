@@ -1,0 +1,65 @@
+{
+  "info": {
+    "name": "丘丘人射手-07碧水原",
+    "type": "collect",
+    "version": "1.0",
+    "description": "含风免",
+    "bgi_version": "0.52.0",
+    "authors": [
+      {
+        "name": "曦",
+        "links": "https://github.com/cx05121"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 482.42,
+      "y": 1445.25
+    },
+    {
+      "id": 2,
+      "x": 424.64,
+      "y": 1397.48,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 3,
+      "x": 424.64,
+      "y": 1397.48,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    },
+    {
+      "id": 4,
+      "x": 384.86,
+      "y": 1419.99,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": 387.98,
+      "y": 1430.31,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    },
+    {
+      "id": 6,
+      "x": 374.71,
+      "y": 1416.4,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}

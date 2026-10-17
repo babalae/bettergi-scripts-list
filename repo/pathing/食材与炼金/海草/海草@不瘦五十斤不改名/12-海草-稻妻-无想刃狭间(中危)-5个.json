@@ -1,0 +1,41 @@
+{
+  "info": {
+    "name": "12-海草-稻妻-无想刃狭间(中危)-5个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "不瘦五十斤不改名",
+        "links": "https://github.com/PanZic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2193.69,
+      "y": -3485.58
+    },
+    {
+      "id": 2,
+      "x": -2249.6,
+      "y": -3506.77,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": -2316.36,
+      "y": -3501.55,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "nahida_collect"
+    }
+  ]
+}
