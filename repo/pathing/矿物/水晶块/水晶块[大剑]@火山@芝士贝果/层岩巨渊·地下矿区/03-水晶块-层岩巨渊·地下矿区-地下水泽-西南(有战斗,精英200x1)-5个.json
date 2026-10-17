@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1791102182085,
+    "last_modified_time": 1791633979212,
     "map_match_method": "",
     "map_name": "TheChasm",
     "name": "03-水晶块-层岩巨渊·地下矿区-地下水泽-西南(有战斗,精英200x1)-5个",
@@ -179,22 +179,13 @@
       "id": 17,
       "move_mode": "dash",
       "type": "path",
-      "x": 718.47,
-      "y": 557.72
+      "x": 717.0587,
+      "y": 550.9435
     },
     {
       "action": "",
       "action_params": "",
       "id": 18,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 718.81,
-      "y": 557.84
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 19,
       "move_mode": "fly",
       "type": "path",
       "x": 739.78,
@@ -203,7 +194,7 @@
     {
       "action": "mining",
       "action_params": "",
-      "id": 20,
+      "id": 19,
       "move_mode": "dash",
       "type": "target",
       "x": 737.78,
@@ -212,7 +203,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.3)",
-      "id": 21,
+      "id": 20,
       "move_mode": "walk",
       "type": "path",
       "x": 740.07,
@@ -221,7 +212,7 @@
     {
       "action": "mining",
       "action_params": "",
-      "id": 22,
+      "id": 21,
       "move_mode": "walk",
       "type": "target",
       "x": 737.66,
@@ -230,7 +221,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.5)",
-      "id": 23,
+      "id": 22,
       "move_mode": "walk",
       "type": "path",
       "x": 737.35,

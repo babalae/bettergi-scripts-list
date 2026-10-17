@@ -1,0 +1,112 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1791917961477,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "03-虹滴晶-至冬-古兽冰原东-5个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7387.3984,
+      "y": 8341.7197
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7381.0898,
+      "y": 8339.6719
+    },
+    {
+      "action": "combat_script",
+      "action_params": "玛薇卡 w(0.2),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.4),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.2),wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.2),wait(0.15),keypress(e),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4); ;",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 7244.7832,
+      "y": 8295.8535
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7244.7832,
+      "y": 8295.8535
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 7253.3516,
+      "y": 8292.0547
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7263.3398,
+      "y": 8245.5664
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 7263.3799,
+      "y": 8238.0801
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7214.9727,
+      "y": 8241.6699
+    },
+    {
+      "action": "linnea_mining",
+      "action_params": "1,0",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7220.5176,
+      "y": 8258.6963
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7220.5176,
+      "y": 8258.6963
+    }
+  ]
+}

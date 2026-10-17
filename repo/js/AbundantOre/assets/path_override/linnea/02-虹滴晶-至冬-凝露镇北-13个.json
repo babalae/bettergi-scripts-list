@@ -1,0 +1,124 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1792169276308,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "02-虹滴晶-至冬-凝露镇北-13个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7677.4453,
+      "y": 7726.7148
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 7684.7646,
+      "y": 7743.3911
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7708.4393,
+      "y": 7866.6875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "玛薇卡 w(0.2),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.4),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.2),wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.2),wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.2),wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.2),wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.2),e; ;",
+      "id": 4,
+      "move_mode": "dash",
+      "point_ext_params": {
+        "description": "",
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized",
+            "pathTooFar"
+          ]
+        },
+        "monster_tag": ""
+      },
+      "type": "orientation",
+      "x": 7755.0176,
+      "y": 8104.4561
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7753.8887,
+      "y": 8105.0195
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "jump",
+      "type": "target",
+      "x": 7748.3184,
+      "y": 8111.9697
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.25),wait(0.35),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7751.2646,
+      "y": 8111.9668
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 7742.4023,
+      "y": 8116.7891
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7749.873,
+      "y": 8128.1699
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 wait(0.4),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7745.9551,
+      "y": 8135.8379
+    }
+  ]
+}

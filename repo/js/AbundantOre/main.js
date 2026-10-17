@@ -38,6 +38,7 @@ const country_name_tag_map = {
     "至冬": "snezhnaya"
 };
 
+const fight_option_mode = settings.fight_option || "正常挖";
 const route_optimization = settings.route_optimization || "根据运行记录优化";
 const curiosity_factor = (() => {
     let cf = Number(settings.curiosity_factor);
@@ -55,9 +56,9 @@ function get_exclude_tags() {
         "虹滴晶": "rainbowdrop crystal",
     };
     let tags = [];
-    if (settings.fight_option === "全跳过") {
+    if (fight_option_mode === "全跳过") {
         tags.push("fight");
-    } else if (settings.fight_option === "只跳过与精英怪战斗的路线") {
+    } else if (fight_option_mode === "只跳过与精英怪战斗的路线") {
         tags.push("elite enemy");
     }
     for (const [i, j] of Object.entries(country_name_tag_map)) {
@@ -347,6 +348,11 @@ function get_some_tasks(hints) {
         }
         if (value.tags.some(i => exclude_tags.has(i))) {
             continue;
+        }
+        if (fight_option_mode === "只挖需要战斗的路线") {
+            if (!value.tags.includes("fight") && !value.tags.includes("elite enemy")) {
+                continue;
+            }
         }
         if (value.statistics.avg_num_defeats > 0.5) {
             continue;
@@ -854,7 +860,7 @@ async function main() {
         log.error("首次运行前请编辑JS脚本自定义配置");
         return;
     }
-    log.debug("Fight options: {a}", settings.fight_option);
+    log.debug("Fight options: {a}", fight_option_mode);
     log.debug("Exclude regions: {a}, exclude types: {b}", settings.exclude_regions, settings.exclude_ore_types);
     log.debug("Exclude tags: {a}", get_exclude_tags());
     log.debug("Underwater only: {a}", underwater_only());
