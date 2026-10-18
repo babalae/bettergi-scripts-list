@@ -1,0 +1,50 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "伏羲的小屋"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "大伟丘",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1774097432609,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "大伟丘-璃月4-灵矩关",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1043.4658203125,
+      "y": -557.7265625
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1055.0888671875,
+      "y": -617.921875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1055.0888671875,
+      "y": -617.921875
+    }
+  ]
+}
