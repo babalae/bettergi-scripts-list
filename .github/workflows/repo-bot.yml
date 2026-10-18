@@ -1,5 +1,5 @@
 name: Repo Bot
-run-name: "Repo Bot #${{ github.event.issue.number }} - ${{ github.event_name }}/${{ github.event.action }} - @${{ github.actor }}"
+run-name: "Repo Bot #${{ github.event.issue.number || github.event.pull_request.number }} - ${{ github.event_name }}/${{ github.event.action }} - @${{ github.actor }}"
 
 on:
   issues:
@@ -11,6 +11,14 @@ on:
     types:
       - created
       - edited
+  # pull_request_target (not pull_request) is required so that pull requests opened from
+  # forks can be labelled/commented. Never check out or execute the pull request head here.
+  pull_request_target:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
 
 jobs:
   repo-bot:
@@ -24,6 +32,7 @@ jobs:
     uses: ddaodan/bettergi-github-bot/.github/workflows/repo-bot.yml@v1
     permissions:
       issues: write
+      pull-requests: write
       contents: read
     secrets:
       REPO_BOT_AI_API_KEY: ${{ secrets.REPO_BOT_AI_API_KEY }}

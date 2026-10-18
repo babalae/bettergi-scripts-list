@@ -302,3 +302,38 @@ pullRequests:
     enabled: false
   summary:
     enabled: false
+  pathLabels:
+    enabled: true
+    managed: true
+    documentationLabel: documentation
+    commentAnchor: pull-bot:path-labels
+    rules:
+      - label: JS 脚本
+        pathPrefixes:
+          - repo/js
+      - label: 地图追踪
+        pathPrefixes:
+          - repo/pathing
+      - label: 战斗策略
+        pathPrefixes:
+          - repo/combat
+      - label: 七圣召唤
+        pathPrefixes:
+          - repo/tcg
+  locationCheck:
+    enabled: true
+    commentAnchor: pull-bot:location
+    allowedPaths:
+      - build
+      - .github
+    scriptRoots:
+      - repo/js
+    fileKindRules:
+      - category: 战斗策略
+        expectedLocation: repo/combat
+        extensions:
+          - .txt
+    rules:
+      pathingFileNamePattern: ^\d{2,3}-
+  issueLink:
+    enabled: false
