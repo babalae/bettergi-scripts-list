@@ -44,7 +44,8 @@
     "千岩牢固 / 苍白之火" ,
     "冰风迷途的勇士 / 沉沦之心" ,
     "翠绿之影 / 被怜爱的少女" ,
-    "如雷的盛怒 / 平息鸣雷的尊者"    
+    "如雷的盛怒 / 平息鸣雷的尊者",
+    "血红之证 / 炉火熔炼之心"    
   ],
   "default": "保持圣遗物奖励不变"  
 },
@@ -95,5 +96,23 @@
         "type": "input-text",
         "label": "开始战斗后，向前移动的时间，默认1秒（注意单位：秒）",
         "default": "1"  
+    },
+    {
+        "name": "useNewPath",
+        "type": "checkbox",
+        "label": "使用新版寻路（测试功能，失败时自动回退到路径追踪）",
+        "default": true
+    },
+    {
+        "name": "devMode",
+        "type": "checkbox",
+        "label": "开发模式（开启后即使不在爆发期也继续执行，方便测试后续逻辑）",
+        "default": false
+    },
+    {
+        "name": "burstCacheEnabled",
+        "type": "checkbox",
+        "label": "爆发期时间缓存（⚠测试功能）缓存爆发期/紊乱平息的时间信息，下次运行时跳过OCR检测直接判断状态",
+        "default": false
     }
 ]
