@@ -1,74 +1,260 @@
+// Generated from 牌手共享. Edit layered source, not this standalone output.
+// Common host assembled from the maintained fragments. Deck rules are overrides.
 (function (root) {
   "use strict";
   const elements = ["Pyro", "Hydro", "Anemo", "Electro", "Dendro", "Cryo", "Geo", "Omni"];
   const handX = {
-    1: [1120], 2: [1019, 1222], 3: [914, 1117, 1322], 4: [812, 1013, 1216, 1424],
-    5: [719, 913, 1115, 1319, 1528], 6: [614, 811, 1012, 1216, 1423, 1625],
-    7: [635, 799, 961, 1117, 1279, 1438, 1603], 8: [605, 751, 893, 1042, 1177, 1325, 1471, 1618],
+    1: [1120],
+    2: [1019, 1222],
+    3: [914, 1117, 1322],
+    4: [812, 1013, 1216, 1424],
+    5: [719, 913, 1115, 1319, 1528],
+    6: [614, 811, 1012, 1216, 1423, 1625],
+    7: [635, 799, 961, 1117, 1279, 1438, 1603],
+    8: [605, 751, 893, 1042, 1177, 1325, 1471, 1618],
     9: [587, 716, 847, 976, 1103, 1225, 1352, 1492, 1634],
-    10: [570, 690, 810, 930, 1050, 1170, 1290, 1410, 1530, 1650]
+    10: [570, 690, 810, 930, 1050, 1170, 1290, 1410, 1530, 1650],
   };
   const charX = [750, 960, 1175];
+  function costMarkerLayout(rects, measuredCount = null, transform = null) {
+    if (transform && (transform.scale !== 1 || transform.dx || transform.dy)) {
+      const {scale,dx,dy}=transform;
+      const layout=costMarkerLayout(rects.map(r=>({x:(r.x-dx)/scale,y:(r.y-dy)/scale,w:r.w/scale,h:r.h/scale})),measuredCount);
+      return layout && {...layout, points:layout.points.map(x=>x*scale+dx),
+        markers:layout.markers.map(m=>({x:m.x*scale+dx,y:m.y*scale+dy}))};
+    }
+    if (
+      !rects.length ||
+      rects.some(
+        (r) =>
+          ![r.x, r.y, r.w, r.h].every(Number.isFinite) ||
+          r.w !== 10 ||
+          r.h !== 30 ||
+          r.x < 450 ||
+          r.x > 1750 ||
+          r.y < 750 ||
+          r.y > 920,
+      )
+    )
+      return null;
+    const groups = [];
+    for (const r of rects.slice().sort((a, b) => a.x - b.x || a.y - b.y)) {
+      const near = groups.find((g) => Math.abs(r.x - g[0].x) <= 14 && Math.abs(r.y - g[0].y) <= 10);
+      if (near) near.push(r);
+      else groups.push([r]);
+    }
+    // FindMulti has no confidence scalar. Deterministic rectangle-group means
+    // keep this identical to saved-pixel validation, without invented scores.
+    const marks = groups.map((g) => ({
+        x: g.reduce((s, m) => s + m.x, 0) / g.length,
+        y: g.reduce((s, m) => s + m.y, 0) / g.length,
+      })),
+      layouts = new Map();
+    // Optional count is a current-frame native rim measurement, never a
+    // projected/cache count. It binds the whole fan before artwork is filtered.
+    if (measuredCount !== null && (!Number.isInteger(measuredCount) || !handX[measuredCount]))
+      return null;
+    for (const seed of marks) {
+      const band = marks.filter((m) => Math.abs(m.y - seed.y) <= 35).sort((a, b) => a.x - b.x);
+      // Crowded 5–10-card rows have a calibrated grid even when the badge/rim
+      // is hidden. Interior artwork peaks do not add cards. Low-count fans
+      // retain their native rim binding and the original whole-row route.
+      const counts=measuredCount!==null?[measuredCount]:[...new Set([band.length,5,6,7,8,9,10])];
+      for(const candidateCount of counts){
+      if(!handX[candidateCount])continue;
+      let row = band;
+      if (measuredCount !== null || candidateCount>=5) {
+        row = handX[candidateCount].map((x) => {
+          const choices = band.filter((m) => Math.abs(m.x + 103 - x) <= 32)
+            .sort((a, b) => Math.abs(a.x + 103 - x) - Math.abs(b.x + 103 - x));
+          // No invented confidence: equal geometric fits remain ambiguous.
+          return choices.length && (choices.length === 1 ||
+            Math.abs(choices[0].x + 103 - x) < Math.abs(choices[1].x + 103 - x))
+            ? choices[0] : null;
+        });
+        if (row.some((m) => !m) || new Set(row).size !== candidateCount) continue;
+      }
+      const n = row.length;
+      if (
+        !handX[n] ||
+        row.some((m, i) => Math.abs(m.x + 103 - handX[n][i]) > 32) ||
+        row.some((m, i) => i > 0 && m.x - row[i - 1].x < 75) ||
+        Math.max(...row.map((m) => m.y)) - Math.min(...row.map((m) => m.y)) > 35 ||
+        // An inner artwork subrow cannot conceal outer markers above it.
+        // A same-frame measured count bounds the final card by its native rim,
+        // not by its left cost corner: artwork inside that card is not a new slot.
+        // Without independent count keep the stricter outer-marker conflict.
+        marks.some((m) => m.y <= Math.max(...row.map((r) => r.y)) &&
+          (m.x < row[0].x - 32 || m.x > (measuredCount === null
+            ? row[n - 1].x + 32 : handX[n][n - 1] + 95)))
+      )
+        continue;
+      layouts.set(JSON.stringify(row.map((m) => [m.x, m.y])), {
+        count: n,
+        measuredCount,
+        markers: row.map((m) => ({ x: m.x, y: m.y })),
+        points: row.map((m) => m.x + 103),
+      });
+      }
+    }
+    return layouts.size === 1 ? [...layouts.values()][0] : null;
+  }
+  function costDigitRows(rows) {
+    // Repeated zeroes are separate rectangles. Never deduplicate by text,
+    // normalize O/D to 0/1, or interpret any cost value as a card identity.
+    return rows
+      .filter(
+        (r) =>
+          /^\d{1,2}$/.test(r.text) &&
+          [r.x, r.y, r.w, r.h].every(Number.isFinite) &&
+          r.w > 0 &&
+          r.h > 0,
+      )
+      .map((r) => ({ value: Number(r.text), x: r.x + r.w / 2, y: r.y + r.h / 2 }));
+  }
+  function costNumbersAt(marker, numbers) {
+    return numbers.filter(
+      (r) => Math.abs(r.x - marker.x - 28) <= 16 && Math.abs(r.y - marker.y - 15) <= 18,
+    );
+  }
+  function costHandSample(layout, numbers) {
+    if (!layout) return null;
+    const assigned = layout.markers.map((m) => costNumbersAt(m, numbers));
+    // Without an independent count, an extra number can be the missing outer
+    // card of a shorter apparent row. Preserve that real layout conflict.
+    if(layout.measuredCount===null&&numbers.some(n=>!assigned.some(a=>a.includes(n))&&
+      (n.x<layout.markers[0].x+12||n.x>layout.markers.at(-1).x+44)))return null;
+    // Geometry is already bound to native evidence. One missing/ambiguous digit
+    // invalidates that slot's price, not the row, positions or other prices.
+    const costs = assigned.map(a => a.length === 1 &&
+      assigned.filter(other => other.includes(a[0])).length === 1 ? a[0].value : null);
+    return {
+      count: layout.count,
+      points: layout.points.slice(),
+      markerYs: layout.markers.map((m) => m.y),
+      costs,
+    };
+  }
   function handLayoutCount(edges) {
     // Entire low-count layout, not a matching subset of a larger hand. Extra
     // interior rim matches are harmless; any edge outside the fan rejects it.
-    const candidates=[];
-    for(let n=1;n<=4;n++) {
-      const xs=handX[n];
-      if(edges.length && edges.every(x=>x>=xs[0]-120 && x<=xs[n-1]+130) &&
-          xs.every(c=>edges.some(x=>Math.abs(x-c-95)<=32)))candidates.push(n);
+    const candidates = [];
+    for (let n = 1; n <= 4; n++) {
+      const xs = handX[n];
+      if (
+        edges.length &&
+        edges.every((x) => x >= xs[0] - 120 && x <= xs[n - 1] + 130) &&
+        xs.every((c) => edges.some((x) => Math.abs(x - c - 95) <= 32))
+      )
+        candidates.push(n);
     }
-    return candidates.length===1?candidates[0]:null;
+    return candidates.length === 1 ? candidates[0] : null;
   }
-  const enemyHpXs={1:[856],2:[751,962],3:[646,856,1066],4:[541,751,961,1171]};
+  const enemyHpXs = { 1: [856], 2: [751, 962], 3: [646, 856, 1066], 4: [541, 751, 961, 1171] };
   // Verified skill names from DSTCG's repository card dictionary. The native
   // skill/payment preview hides the usual turn marker; it is not an unknown
   // board. Require BOTH the exact skill name and its type, not merely a panel.
-  const skillNames = [
-    { NA: "源流", E: "神变·恶曜开眼", Q: "奥义·梦想真说" },
-    { NA: "祈颂射艺", E: "拂花偈叶", Q: "猫猫秘宝" },
-    { NA: "云来剑法", E: "星斗归位", Q: "天街巡游" }
-  ];
+  const skillNames = TCG.team.map(c => c.skills);
   const skillTypes = { NA: "普通攻击", E: "元素战技", Q: "元素爆发" };
   // This asset is the tooltip ABOVE the control, not its clickable area.
   // Use it only as a scene marker. First-pick confirmation uses the official
   // character-card path, not the separate tooltip/control geometry.
   const pickLabelROI = [1730, 820, 190, 100];
-  const number = text => /^\d{1,2}$/.test(String(text).trim()) ? Number(String(text).trim()) : null;
+  const number = (text) =>
+    /^\d{1,2}$/.test(String(text).trim()) ? Number(String(text).trim()) : null;
   function captureSize(f) {
-    const width = Number(f.width ?? f.Width), height = Number(f.height ?? f.Height);
-    return { width: Number.isInteger(width) && width > 0 ? width : null,
-      height: Number.isInteger(height) && height > 0 ? height : null };
+    const width = Number(f.width ?? f.Width),
+      height = Number(f.height ?? f.Height);
+    return {
+      width: Number.isInteger(width) && width > 0 ? width : null,
+      height: Number.isInteger(height) && height > 0 ? height : null,
+    };
   }
   function requireCaptureSize(size) {
-    if (size.width !== 1920 || size.height !== 1080) {
-      throw new Error("仅支持真实游戏捕获区 1920×1080；实际读取 " +
-        (size.width ?? "未知") + "×" + (size.height ?? "未知") +
-        "。请将游戏窗口设为1920×1080");
+    if (size.width !== 1920 || !(size.height === 1080 || size.height === 1200)) {
+      throw captureGeometryError(
+        "仅支持归一帧1920×1080或1920×1200；当前帧 " +
+          (size.width ?? "未知") +
+          "×" +
+          (size.height ?? "未知") +
+          "。请在开局前使用1920×1080、2560×1440或2560×1600客户区",
+      );
     }
   }
-  function mousePoint(x, y) {
+  function captureGeometry(f, hostScale) {
+    const frameSize = captureSize(f), owner = f.Prev;
+    // CaptureContent creates Desktop -> GameCaptureRegion -> optional resize.
+    // The raw 1080 frame's owner is Desktop, never the actual game region.
+    const normalized = !!owner?.Prev, raw = normalized ? owner : f;
+    if (!raw.Prev || raw.Prev.Prev) throw captureGeometryError("游戏捕获区域所有者链无效");
+    const actualSize = captureSize(raw), scale = actualSize.width / 1920;
+    if (!(scale > 0) || !Number.isFinite(hostScale) || Math.abs(scale - hostScale) > 1e-6 ||
+        normalized !== (actualSize.width > 1920) || frameSize.width !== 1920 ||
+        frameSize.height !== actualSize.height / scale) {
+      throw captureGeometryError("实际客户区、归一帧与宿主缩放比例不一致，请重新启动捕获器及牌手");
+    }
+    requireCaptureSize(frameSize);
+    const accepted = [[1920,1080],[2560,1440],[2560,1600]];
+    if (!accepted.some(([w, h]) => actualSize.width === w && actualSize.height === h))
+      throw captureGeometryError("仅支持1920×1080、2560×1440或2560×1600游戏客户区");
+    return { actualSize, frameSize, hostScale, layoutKey: frameSize.height === 1200 ? "16:10" : "16:9" };
+  }
+function captureGeometryError(message) {
+    const error = new Error(message);
+    error.code = "TCG_CAPTURE_GEOMETRY";
+    return error;
+  }
+  // Explicit semantic panels. 16:9 remains identity; 16:10 uses native
+// manual-layout measurements, not y-range anchor guesses.
+const panelLayouts = {
+    "16:9": Object.fromEntries(["phase", "board", "details", "choice", "opening",
+      "handFolded", "handExpanded", "viewport", "header", "bottom", "mainDice", "rollDice"]
+      .map(name => [name, { scale: 1, dx: 0, dy: 0 }])),
+    "16:10": {
+      phase: {scale:1,dx:0,dy:60}, board: {scale:1,dx:0,dy:60},
+      details: {scale:1,dx:0,dy:0}, choice: {scale:1,dx:0,dy:60},
+      header: {scale:1,dx:0,dy:24}, bottom: {scale:1,dx:0,dy:120},
+      mainDice: {scale:1,dx:0,dy:0}, rollDice: {scale:10/9,dx:-960/9,dy:0},
+      opening: {scale:.965,dx:33.6,dy:78.5},
+      handFolded: {scale:1,dx:0,dy:55}, handExpanded: {scale:1,dx:0,dy:55},
+      viewport: {scale:1,dx:0,dy:0,extraHeight:120},
+    },
+  };
+function panelRegion(layoutKey, panel, rect, observed = false) {
+    const transform = panelLayouts[layoutKey]?.[panel];
+    if (!transform || !Array.isArray(rect) || rect.length !== 4 || !rect.every(Number.isFinite) ||
+        rect[2] <= 0 || rect[3] <= 0) throw captureGeometryError("布局或识别区域无效：" + panel);
+    const { scale, dx, dy } = transform;
+    return { rect: observed ? rect.slice() : [rect[0] * scale + dx, rect[1] * scale + dy,
+      rect[2] * scale, rect[3] * scale + (transform.extraHeight || 0)], scale, layoutKey, panel };
+  }
+  function mousePoint(x, y, size = { width: 1920, height: 1080 }) {
     // ClearScript binds Click/MoveMouseTo to Action<int,int>. Odd-sized template
     // and OCR rectangles have half-pixel centers; do not pass them to the host.
-    if (!Number.isFinite(x) || !Number.isFinite(y) || x < 0 || y < 0 || x >= 1920 || y >= 1080) {
-      throw new Error("鼠标坐标无效或超出1920×1080：(" + x + "," + y + ")");
+    if (!Number.isFinite(x) || !Number.isFinite(y) || x < 0 || y < 0 || x >= size.width || y >= size.height) {
+      throw captureGeometryError("鼠标坐标无效或超出当前归一帧：(" + x + "," + y + ")");
     }
     const point = [Math.round(x), Math.round(y)];
-    if (point[0] >= 1920 || point[1] >= 1080) throw new Error("鼠标坐标取整后超出1920×1080");
+    if (point[0] >= size.width || point[1] >= size.height) throw captureGeometryError("鼠标坐标取整后超出当前归一帧");
     return point;
+  }
+  function boardDifferences(before, after) {
+    const fields={active:s=>s.active,dice:s=>TCG.diceOrder.map(e=>s.dice?.[e]||0),
+      own:s=>s.characters,enemy:s=>s.enemies,quicken:s=>s.quicken||null,support:s=>s.supportCounts||null,
+      eye:s=>s.eye||null,dendroCore:s=>s.dendroCore||null};
+    return Object.entries(fields).filter(([,read])=>JSON.stringify(read(before))!==JSON.stringify(read(after))).map(([name])=>name);
   }
   class BetterGIHost {
     constructor(options) {
       this.options = options;
       this.templates = new Map();
       this.roCache = new Map();
-      // BetterGI LimitedFile accepts .log but rejects .jsonl. Contents remain one JSON object per line.
-      this.path = "logs/run-" + new Date().toISOString().replace(/[:.]/g, "-") + ".log";
-      this.snapshotNumber = 0;
+      // Ten reusable slots: LimitedFile can overwrite, but has no delete API.
+      // Select a slot lazily on the first event, not merely on construction.
+      this.path = "logs/run-slot-01.log";
+      this.logAppend = null;
       this.emptyHandProven = false;
-      this.zeroDiceAllowed = false;
       this.expectedDice = null;
-      this.gamblerMayAddDice = false;
       this.gamblerBudget = null;
       this.hpReadKeys = new Map();
       this.diceReadKeys = new Map();
@@ -84,136 +270,307 @@
       this.pendingChoiceCard = null;
       this.lastObservedState = null;
       this.tossSession = null;
-      this.previewEvidence = new Set();
+      this.diagnosticKeys = new Set();
+      this.frameMemo = null;
+      this.captureGeometry = null;
+      this.captureGeometryError = null;
+      this.metrics = {frames:0,captureMs:0,frameWorkMs:0,ocrCalls:0,ocrMs:0,memoHits:0,geometryChecks:0,geometryMs:0};
+      this.inputRevision = 0;
+      this.lastCostSample = null;
+      this.handPositionProof = null;
+      this.lastObservedAt = 0;
+      this.lastObservedRevision = -1;
+      this.consumptionReceipt = null;
+      this.pendingHandEvidence = null;
       file.createDirectory("logs");
     }
+    requireMatchTime() {
+      if (Date.now() >= (this.matchDeadline ?? Infinity)) {
+        const error = new Error("达到单局时间上限，不再开始观察或发送输入");
+        error.code = "TCG_MATCH_TIMEOUT";
+        throw error;
+      }
+    }
     clickAt(x, y) {
-      const point = mousePoint(x, y);
+      const point = this.moveTo(x, y);
+      this.requireMatchTime();
       this.boardReady = false;
-      click(point[0], point[1]);
+      leftButtonClick();
+      this.inputRevision++;
+      this.handPositionProof = null;
       return point;
     }
     moveTo(x, y) {
-      const point = mousePoint(x, y);
-      moveMouseTo(point[0], point[1]);
+      const point = mousePoint(x, y, this.captureGeometry?.frameSize);
+      this.requireMatchTime();
+      // Recheck actual geometry even if the last OCR frame has the same size.
+      // This also guards each interpolation step of a held drag, without OCR.
+      this.checkInputGeometry();
+      this.requireMatchTime();
+      GameCaptureRegion.GameRegion1080PPosMove(point[0], point[1]);
       return point;
     }
     trace(event, data) {
       const text = JSON.stringify({ at: new Date().toISOString(), event, data });
-      if (!file.writeTextSync(this.path, text + "\n", true)) throw new Error("无法写入对局日志：" + this.path);
+      if (this.logAppend === null) {
+        const indexPath = "logs/tcg-log-index.json";
+        let next = 0;
+        if (file.isExists(indexPath)) {
+          try {
+            const index = JSON.parse(file.readTextSync(indexPath));
+            if (Number.isInteger(index?.next) && index.next >= 0 && index.next < 10) next = index.next;
+            else log.warn("日志轮转索引无效，从第一个日志槽继续。");
+          } catch (e) {
+            if (!(e instanceof SyntaxError)) throw e;
+            log.warn("日志轮转索引损坏，从第一个日志槽继续。");
+          }
+        }
+        this.path = "logs/run-slot-" + String(next + 1).padStart(2, "0") + ".log";
+        if (!file.writeTextSync(indexPath, JSON.stringify({ next: (next + 1) % 10 }), false))
+          throw new Error("无法写入日志轮转索引：" + indexPath);
+        this.logAppend = false;
+      }
+      if (!file.writeTextSync(this.path, text + "\n", this.logAppend))
+        throw new Error("无法写入对局日志：" + this.path);
+      this.logAppend = true;
     }
     frame(fn) {
+      this.requireMatchTime();
+      const started = Date.now(),
+        previousMemo = this.frameMemo;
       const f = captureGameRegion();
+      const captured = Date.now();
+      this.metrics.frames++;
+      this.metrics.captureMs += captured - started;
+      this.frameMemo = new WeakMap();
       try {
-        requireCaptureSize(captureSize(f));
-        return fn(f);
-      } finally { f.dispose(); }
+        this.adoptCapture(f);
+        this.requireMatchTime();
+        const result = fn(f);
+        this.requireMatchTime();
+        return result;
+      } finally {
+        this.metrics.frameWorkMs += Date.now() - captured;
+        this.frameMemo = previousMemo;
+        f.dispose();
+      }
+    }
+    adoptCapture(f) {
+      if (this.captureGeometryError) throw this.captureGeometryError;
+      try {
+        const geometry = captureGeometry(f, Number(genshin.scaleTo1080PRatio));
+        if (this.captureGeometry && JSON.stringify(geometry) !== JSON.stringify(this.captureGeometry))
+          throw captureGeometryError("本局客户区或归一帧尺寸已变化，请重新启动捕获器及牌手后开新局");
+        this.captureGeometry = geometry;
+        return geometry;
+      } catch (error) {
+        if (error.code !== "TCG_CAPTURE_GEOMETRY") throw error;
+        this.captureGeometryError = error;
+        this.boardReady = false;
+        this.handPositionProof = null;
+        this.preparedHandInput = null;
+        throw error;
+      }
+    }
+    checkInputGeometry() {
+      this.requireMatchTime();
+      if (this.captureGeometryError) throw this.captureGeometryError;
+      const started = Date.now(), f = captureGameRegion();
+      this.metrics.geometryChecks++;
+      this.metrics.frames++;
+      this.metrics.captureMs += Date.now() - started;
+      try { this.adoptCapture(f); }
+      finally { f.dispose(); this.metrics.geometryMs += Date.now() - started; }
+      this.requireMatchTime();
+    }
+    memoFrame(f, key, read) {
+      if (!this.frameMemo) return read();
+      let cache = this.frameMemo.get(f);
+      if (!cache) {
+        cache = new Map();
+        this.frameMemo.set(f, cache);
+      }
+      if (cache.has(key)) {
+        this.metrics.memoHits++;
+        return cache.get(key);
+      }
+      const value = read();
+      cache.set(key, value);
+      return value;
+    }
+    roi(panel, rect) {
+      return panelRegion(this.captureGeometry?.layoutKey || "16:9", panel, rect);
+    }
+    observedRoi(panel, rect) {
+      return panelRegion(this.captureGeometry?.layoutKey || "16:9", panel, rect, true);
+    }
+    panelTransform(panel) {
+      const transform = panelLayouts[this.captureGeometry?.layoutKey || "16:9"]?.[panel];
+      if (!transform) throw captureGeometryError("未知面板：" + panel);
+      return transform;
+    }
+    point(panel, x, y) {
+      const {scale,dx,dy} = this.panelTransform(panel);
+      return mousePoint(x * scale + dx, y * scale + dy, this.captureGeometry?.frameSize);
+    }
+    referencePoint(panel, x, y) {
+      const {scale,dx,dy} = this.panelTransform(panel);
+      return [(x-dx)/scale,(y-dy)/scale];
+    }
+    checkedRoi(f, area) {
+      const size = captureSize(f), layoutKey = this.captureGeometry?.layoutKey || "16:9";
+      if (!area || Array.isArray(area) || !Array.isArray(area.rect) || area.rect.length !== 4 ||
+          area.layoutKey !== layoutKey || area.scale !== panelLayouts[layoutKey]?.[area.panel]?.scale ||
+          !area.rect.every(Number.isFinite)) throw captureGeometryError("识别区域缺少已接纳的布局/尺度契约");
+      const rect = area.rect.map(Math.round), [x, y, w, h] = rect;
+      const [rawX, rawY, rawW, rawH] = area.rect;
+      if (rawX < 0 || rawY < 0 || rawW <= 0 || rawH <= 0 || rawX + rawW > size.width || rawY + rawH > size.height ||
+          x < 0 || y < 0 || w <= 0 || h <= 0 || x + w > size.width || y + h > size.height)
+        throw captureGeometryError("必需识别区域越界：" + area.panel);
+      return rect;
+    }
+    findOcr(f, roi, multiple, contextKey) {
+      const key = "ocr/" + contextKey;
+      if (!this.roCache.has(key)) this.roCache.set(key, RecognitionObject.Ocr(...roi));
+      const started = Date.now();
+      this.metrics.ocrCalls++;
+      try {
+        if (!multiple) {
+          const r = f.Find(this.roCache.get(key));
+          return r.isExist() ? String(r.text ?? r.Text ?? "").trim() : "";
+        }
+        const found = f.FindMulti(this.roCache.get(key)), rows = [];
+        for (let i = 0; i < found.count; i++) {
+          const r = found[i];
+          rows.push({ text: String(r.text ?? r.Text ?? "").trim(), x: Number(r.x ?? r.X),
+            y: Number(r.y ?? r.Y), w: Number(r.width ?? r.Width), h: Number(r.height ?? r.Height) });
+        }
+        return rows;
+      } finally { this.metrics.ocrMs += Date.now() - started; }
+    }
+    localOcr(f, area, zoom, multiple) {
+      const roi = this.checkedRoi(f, area);
+      if (!Number.isFinite(zoom) || zoom <= 0) throw captureGeometryError("局部OCR倍率无效");
+      const key = JSON.stringify(["localOcr", area, roi, zoom, multiple]);
+      return this.memoFrame(f, key, () => {
+        let crop = null, resized = null, region = null;
+        const width = Math.round(roi[2] * zoom / area.scale), height = Math.round(roi[3] * zoom / area.scale);
+        if (width <= 0 || height <= 0) throw captureGeometryError("局部OCR尺寸无效");
+        try {
+          crop = f.DeriveCrop(...roi);
+          resized = crop.SrcMat.Resize(new OpenCvSharp.OpenCvSharp.Size(width, height));
+          region = new ImageRegion(resized, 0, 0);
+          const read = this.findOcr(region, [0, 0, width, height], multiple, key);
+          if (!multiple) return read;
+          // Round-trip through actual integer crop/output sizes, not a nominal
+          // scale. Returned rectangles are already F; callers must not map again.
+          const sx = roi[2] / width, sy = roi[3] / height;
+          return read.map(r => ({ text: r.text, x: roi[0] + r.x * sx, y: roi[1] + r.y * sy,
+            w: r.w * sx, h: r.h * sy }));
+        } finally {
+          if (region) region.dispose();
+          else if (resized) resized.dispose();
+          if (crop) crop.dispose();
+        }
+      });
+    }
+    artworkScore(f, area, filename, pad, rank) {
+      const required=this.checkedRoi(f,area),size=captureSize(f);
+      if(!Number.isFinite(pad)||pad<0)throw captureGeometryError("牌面搜索边距无效");
+      const key=JSON.stringify(["artwork",area,filename,pad]);
+      return this.memoFrame(f,key,()=>{
+        if(!this.templates.has(filename)){
+          const mat=file.readImageMatSync(filename);
+          if(mat.empty()){mat.dispose();throw new Error("缺少牌面模板："+filename);}
+          this.templates.set(filename,mat);
+        }
+        const margin=pad*area.scale,[x,y,w,h]=required,
+          left=Math.max(0,Math.floor(x-margin)),top=Math.max(0,Math.floor(y-margin)),
+          right=Math.min(size.width,Math.ceil(x+w+margin)),bottom=Math.min(size.height,Math.ceil(y+h+margin));
+        let crop=null,normalized=null;
+        try {
+          crop=(f.srcMat??f.SrcMat).SubMat(top,bottom,left,right);
+          if(area.scale!==1)normalized=crop.Resize(new OpenCvSharp.OpenCvSharp.Size(
+            Math.round((right-left)/area.scale),Math.round((bottom-top)/area.scale)));
+          return rank(normalized||crop,this.templates.get(filename));
+        } finally { if(normalized)normalized.dispose();if(crop)crop.dispose(); }
+      });
+    }
+    metricSnapshot() {
+      return { ...this.metrics };
+    }
+    metricDelta(before) {
+      return Object.fromEntries(
+        Object.keys(this.metrics).map((k) => [k, this.metrics[k] - (before?.[k] || 0)]),
+      );
     }
     async waitForCapture() {
       // Give an in-progress window transition a bounded chance to settle.
-      // No OCR, templates, or game input until two native 1080P frames agree.
-      let stable = 0, last = { width: null, height: null }, lastKey = "";
+      // Bind both actual and normalized sizes; no OCR or input during settling.
+      let stable = 0,
+        last = null, lastError = null, lastKey = "";
       for (let attempt = 0; attempt < 20; attempt++) {
-        const f = captureGameRegion();
-        try { last = captureSize(f); } finally { f.dispose(); }
-        const key = JSON.stringify(last);
-        if (key !== lastKey) { this.trace("capture-size", { ...last, attempt }); lastKey = key; }
-        stable = last.width === 1920 && last.height === 1080 ? stable + 1 : 0;
-        if (stable >= 2) { this.trace("capture-ready", last); return; }
+        this.requireMatchTime();
+        if (this.captureGeometryError) throw this.captureGeometryError;
+        const f = captureGameRegion(), frameSize = captureSize(f);
+        try {
+          last = captureGeometry(f, Number(genshin.scaleTo1080PRatio));
+          lastError = null;
+        } catch (error) {
+          if (error.code !== "TCG_CAPTURE_GEOMETRY") throw error;
+          lastError = error;
+          last = null;
+        } finally {
+          f.dispose();
+        }
+        const key = JSON.stringify(last || { frameSize, error: lastError.message });
+        stable = last ? key === lastKey ? stable + 1 : 1 : 0;
+        if (key !== lastKey) {
+          this.trace("capture-size", { ...last, error: lastError?.message, attempt });
+          lastKey = key;
+        }
+        if (stable >= 2) {
+          if (this.captureGeometry && JSON.stringify(last) !== JSON.stringify(this.captureGeometry))
+            throw captureGeometryError("本局捕获尺寸已变化，不能重新绑定旧局");
+          this.captureGeometry = last;
+          this.trace("capture-ready", last);
+          return;
+        }
         if (attempt < 19) await sleep(300);
       }
-      requireCaptureSize(last);
-      throw new Error("游戏捕获尺寸未稳定为1920×1080");
+      throw lastError || captureGeometryError("游戏客户区及归一帧尺寸未稳定");
     }
-    ocr(f, roi) {
-      const key = "ocr/" + roi.join(",");
-      if (!this.roCache.has(key)) this.roCache.set(key, RecognitionObject.Ocr(...roi));
-      const r = f.Find(this.roCache.get(key));
-      return r.isExist() ? String(r.text ?? r.Text ?? "").trim() : "";
+    ocr(f, area) {
+      if (area.scale !== 1) return this.localOcr(f, area, 1, false);
+      const roi = this.checkedRoi(f, area), key = JSON.stringify(["ocr", area, roi]);
+      return this.memoFrame(f, key, () => this.findOcr(f, roi, false, key));
     }
-    ocrRows(f,roi) {
-      const key="ocr/"+roi.join(",");
-      if(!this.roCache.has(key))this.roCache.set(key,RecognitionObject.Ocr(...roi));
-      const rs=f.FindMulti(this.roCache.get(key)),out=[];
-      for(let i=0;i<rs.count;i++) {
-        const r=rs[i];out.push({text:String(r.text??r.Text??"").trim(),
-          x:Number(r.x??r.X),y:Number(r.y??r.Y),w:Number(r.width??r.Width),h:Number(r.height??r.Height)});
+    ocrRows(f, area) {
+      if (area.scale !== 1) return this.localOcr(f, area, 1, true);
+      const roi = this.checkedRoi(f, area), key = JSON.stringify(["ocrRows", area, roi]);
+      return this.memoFrame(f, key, () => this.findOcr(f, roi, true, key));
+    }
+    
+    
+    matches(f, asset, area, threshold = 0.88, useColor = false) {
+      const roi = this.checkedRoi(f, area);
+      if (area.scale !== 1) {
+        return this.memoFrame(f,JSON.stringify(["localMatch",asset,area,threshold,useColor]),()=>{
+          let crop=null,resized=null,region=null;
+          const width=Math.round(roi[2]/area.scale),height=Math.round(roi[3]/area.scale);
+          try {
+            crop=f.DeriveCrop(...roi);
+            resized=crop.SrcMat.Resize(new OpenCvSharp.OpenCvSharp.Size(width,height));
+            region=new ImageRegion(resized,0,0);
+            const local={rect:[0,0,width,height],scale:1,layoutKey:area.layoutKey,panel:"details"};
+            return this.matches(region,asset,local,threshold,useColor).map(r=>({
+              x:roi[0]+r.x*roi[2]/width,y:roi[1]+r.y*roi[3]/height,
+              w:r.w*roi[2]/width,h:r.h*roi[3]/height}));
+          } finally { if(region)region.dispose();else if(resized)resized.dispose();if(crop)crop.dispose(); }
+        });
       }
-      return out;
-    }
-    choiceIn(f) {
-      const header=TCG.norm(this.ocr(f,[700,155,520,130]));
-      if(!header.includes("挑选卡牌") || !header.includes("请选择一张卡牌"))return null;
-      // Native supplied 1920x1080 screenshot: names below the two cards at
-      // y=742, cards centred at y=540. Anchor to exact OCR title rectangles,
-      // not a fixed left/right preference or a guessed generic choice page.
-      const rows=this.ocrRows(f,[450,705,1030,90]),options=[];
-      for(const r of rows) {
-        const card=TCG.identify(r.text);
-        if(!card || !["shatterbolt","sharpkernel"].includes(card.id))continue;
-        const point=[r.x+r.w/2,r.y+r.h/2-200];
-        if(![r.x,r.y,r.w,r.h,...point].every(Number.isFinite) || r.w<=0 || r.h<=0 ||
-            point[0]<450 || point[0]>1480 || point[1]<470 || point[1]>600)continue;
-        options.push({id:card.id,point:mousePoint(...point),title:r.text});
-      }
-      return {phase:"choice",turn:"none",choiceKind:"thundergrass",options,
-        recognized:options.length===2 && new Set(options.map(c=>c.id)).size===2};
-    }
-    async resolveChoice(before=null,memory=TCG.freshMemory()) {
-      let stable=0,key="",last=null;
-      for(let attempt=0;attempt<24;attempt++) {
-        last=this.phase();
-        if(last.phase!=="choice") {
-          if(!this.choiceSession?.selected || !["board","pick","roll","settlement","result"].includes(last.phase) ||
-              last.phase==="board" && !["user","enemy"].includes(last.turn)) {stable=0;key="";}
-          else {
-            const current=JSON.stringify([last.phase,last.turn,last.result]);stable=current===key?stable+1:1;key=current;
-            if(stable>=2) {
-              const session=this.choiceSession;this.choiceSession=null;
-              this.invalidateHand("choice-generated-card-order-unknown");
-              this.pendingChoiceCard={id:session.id,oldCount:session.oldCount};
-              this.handCountHint=Number.isInteger(session.oldCount)?Math.min(10,session.oldCount+1):null;
-              this.handFanReady=false;this.handNeedsReset=false;this.emptyHandProven=false;this.boardReady=false;
-              this.trace("choice-resolved",{id:session.id,confirmationInputs:session.confirmed?1:0,phase:last.phase,turn:last.turn});
-              return last;
-            }
-          }
-        } else if(!this.choiceSession?.selected) {
-          if(last.choiceKind!=="thundergrass" || !last.recognized) {stable=0;key="";}
-          else {
-            const id=TCG.blessingChoice(before||this.lastObservedState,memory),target=last.options.find(c=>c.id===id);
-            const current=JSON.stringify([id,target?.point,last.options]);stable=current===key?stable+1:1;key=current;
-            if(stable>=2 && target) {
-              const oldCount=before?.hand?.length??this.handCache?.length??null;
-              this.choiceSession={id,oldCount,selected:true,confirmed:false};
-              this.clickAt(...target.point);this.trace("choice-selected",{id,point:target.point,proof:"two-stable-exact-card-labels-and-choice-header"});
-              stable=0;key="";await sleep(500);
-            }
-          }
-        } else if(!this.choiceSession.confirmed) {
-          // The supplied screenshot has no confirm button before selection.
-          // Allow immediate native resolution, or an explicit selected title
-          // plus unique native confirm control; never blindly double-click.
-          // Native 0.3.8 run: choice detail is in the left panel, unlike the
-          // ordinary hand detail at x=311. Require that exact selected title
-          // and the unique bottom confirm button, not a second card click.
-          const preview=this.frame(f=>({title:TCG.identify(this.ocr(f,[45,115,360,50]))?.id,
-            buttons:this.matches(f,"core/确定",[500,800,920,240])}));
-          const matched=preview.title===this.choiceSession.id && preview.buttons.length===1;
-          const current=matched?JSON.stringify(preview):"";stable=matched?(current===key?stable+1:1):0;key=current;
-          if(stable>=2) {
-            const b=preview.buttons[0];this.choiceSession.confirmed=true;
-            const point=this.clickAt(b.x+b.w/2,b.y+b.h/2);this.trace("choice-confirm-clicked",{id:this.choiceSession.id,point});
-            stable=0;key="";await sleep(500);
-          }
-        }
-        if(attempt<23)await sleep(250);
-      }
-      const error=new Error("挑选卡牌状态未读清");
-      error.code="TCG_CHOICE_RETRY";error.phase=last;throw error;
-    }
-    matches(f, asset, roi, threshold = 0.88, useColor = false) {
-      const key = asset + "/" + roi.join(",") + "/" + threshold + "/" + useColor;
+      const key = asset + "/" + JSON.stringify([area, roi, threshold, useColor]);
+      return this.memoFrame(f, "matches/"+key, () => {
       if (!this.roCache.has(key)) {
         if (!this.templates.has(asset)) {
           const mat = file.readImageMatSync("assets/" + asset + ".png");
@@ -234,10 +591,13 @@
           w: Number(r.width ?? r.Width), h: Number(r.height ?? r.Height) });
       }
       return results;
+      });
     }
-    has(f, asset, roi, threshold) { return this.matches(f, asset, roi, threshold).length > 0; }
-    button(asset, roi = [0, 540, 1920, 540]) {
-      return this.frame(f => this.matches(f, "core/" + asset, roi)[0] || null);
+    has(f, asset, roi, threshold) {
+      return this.matches(f, asset, roi, threshold).length > 0;
+    }
+    button(asset, roi = this.roi("viewport", [0, 540, 1920, 540])) {
+      return this.frame((f) => this.matches(f, "core/" + asset, roi)[0] || null);
     }
     async clickButton(asset, roi) {
       if (asset === "出战角色") throw new Error("出战角色模板是提示文字，不是按钮");
@@ -245,15 +605,18 @@
       if (!b) throw new Error("没有识别到按钮：" + asset);
       const point = this.clickAt(b.x + b.w / 2, b.y + b.h / 2);
       this.trace("button-clicked", { asset, point });
-      await sleep(550);
+      await sleep(200);
     }
     phaseIn(f) {
+      return this.memoFrame(f, "phase", () => this.readPhaseIn(f));
+    }
+    readPhaseIn(f) {
       // Native victory animation starts around y=500 before moving upward.
       // The old y=101..482 crop missed that exact terminal frame (20:11).
-      const result = this.ocr(f, [763, 101, 394, 600]);
+      const result = this.ocr(f, this.roi("phase", [763, 101, 394, 600]));
       if (/对局胜利/.test(result)) return { phase: "result", result: "win", turn: "none" };
       if (/对局失败/.test(result)) return { phase: "result", result: "lose", turn: "none" };
-      const title = this.ocr(f, [844, 167, 232, 65]);
+      const title = this.ocr(f, this.roi("header", [844, 167, 232, 65]));
       if (title.includes("初始手牌")) return { phase: "opening", turn: "none" };
       if (title.includes("重投骰子")) return { phase: "roll", turn: "none" };
       if(TCG.norm(title)==="挑选卡牌")return this.choiceIn(f) ||
@@ -262,23 +625,33 @@
       // it vanishes when the cursor moves onto the selected character.
       // Exclude the player-name row; saved native pixels passed 9 shifted/
       // brightness variants at native scale. No additional detail clicks.
-      const pickPrompt=TCG.norm(this.ocr(f,[138,1020,280,48]));
-      if (/^(请选择|选择)出战角色/.test(pickPrompt) || this.has(f, "core/出战角色", pickLabelROI)) return { phase: "pick", turn: "none" };
-      if (this.has(f, "core/回合结算阶段", [0, 0, 384, 1080])) return { phase: "settlement", turn: "none" };
+      const pickPrompt=TCG.norm(this.ocr(f,this.roi("bottom", [138,1020,280,48])));
+      if (/^(请选择|选择)出战角色/.test(pickPrompt) || this.has(f, "core/出战角色", this.roi("bottom", pickLabelROI))) return { phase: "pick", turn: "none" };
+      if (this.has(f, "core/回合结算阶段", this.roi("viewport", [0, 0, 384, 1080]))) return { phase: "settlement", turn: "none" };
       // Native action banners can coexist with the user-turn icon, while HP,
       // generated cards and the hand-count badge are still animating.
-      const banner = TCG.norm(this.ocr(f, [700, 508, 580, 65]));
+      const banner = TCG.norm(this.ocr(f, this.roi("phase", [700, 508, 580, 65])));
+      if (this.automaticBanners?.includes(banner)) return { phase: "automatic", turn: "none", automatic: banner };
       if (["我方行动", "对方行动", "行动阶段", "回合开始"].includes(banner)) return { phase: "transition", turn: "none" };
-      const user = this.has(f, "user_turn", [64, 518, 33, 42], 0.9);
-      const enemy = this.has(f, "enemy_turn", [64, 518, 33, 42], 0.9);
-      const opponent = this.has(f, "core/对方行动中", [0, 0, 384, 1080]);
+      const user = this.has(f, "user_turn", this.roi("phase", [64, 518, 33, 42]), 0.9);
+      const enemy = this.has(f, "enemy_turn", this.roi("phase", [64, 518, 33, 42]), 0.9);
+      const opponent = this.has(f, "core/对方行动中", this.roi("viewport", [0, 0, 384, 1080]));
       if (user && !enemy && !opponent) return { phase: "board", turn: "user" };
       if (enemy && !user || opponent) return { phase: "board", turn: "enemy" };
       const choice=this.choiceIn(f);
       if(choice)return choice;
       return { phase: "unknown", turn: "none" };
     }
-    phase() { const p=this.frame(f => this.phaseIn(f));if(p.phase!=="board"||p.turn!=="user")this.boardReady=false;return p; }
+    phase(read = null) {
+      // Optional pure readers bind their controls to this exact phase frame.
+      // The usual phase-adoption invalidation below remains the sole owner.
+      const p=this.frame(f=>{const phase=this.phaseIn(f);if(read)read(f,phase);return phase;});
+      return this.adoptPhase(p);
+    }
+    adoptPhase(p) {
+      if(p.phase!=="board"||p.turn!=="user") { this.boardReady=false; this.lastObservedAt=0; this.preparedHandInput=null; }
+      return p;
+    }
     async admitFreshActionBoard() {
       // Read-only admission, before reset/hand expansion/any game input.
       // User declaration covers hidden history; visible checks are necessary,
@@ -305,107 +678,282 @@
     skillPreviewIn(f) {
       // Native E preview read "神变·恶曜开眼\n3" with the old tall ROI.
       // Exclude the cost row instead of deleting arbitrary digits from OCR.
-      const name = this.ocr(f, [135, 122, 238, 42]);
-      const detail = this.ocr(f, [70, 210, 320, 85]);
+      const name = this.ocr(f, this.roi("details", [135, 122, 238, 42]));
+      const detail = this.ocr(f, this.roi("details", [70, 210, 320, 85]));
       const candidates = [];
       for (let who = 0; who < skillNames.length; who++) for (const skill of ["NA", "E", "Q"]) {
-        if (TCG.norm(name) === TCG.norm(skillNames[who][skill]) && detail.includes(skillTypes[skill])) {
+        const names = [skillNames[who][skill], ...(TCG.team[who].skillAliases?.[skill] || [])];
+        if (names.some(title => TCG.norm(name) === TCG.norm(title)) && detail.includes(skillTypes[skill])) {
           candidates.push({ who, skill });
         }
       }
       return { name, detail, identity: candidates.length === 1 ? candidates[0] : null };
     }
     async requireSkillPreview(action, feeProbe=false, readFee=false) {
-      let stable = 0, last = null, fee = null, feeStable = 0;
-      for (let attempt = 0; attempt < 6; attempt++) {
-        last = this.frame(f => ({ ...this.skillPreviewIn(f), phase: this.phaseIn(f),
-          fee: readFee && !feeProbe && ["E","Q"].includes(action.skill) ? this.skillFeeIn(f,action) : null }));
+      let stable = 0, last = null, fee = null, feeStable = 0, absent = true, missing = true;
+      for (let attempt = 0; attempt < 10; attempt++) {
+        const sampledAt = Date.now();
+        last = this.frame(f => {
+          const preview = this.skillPreviewIn(f);
+          return { ...preview, phase: this.phaseIn(f),
+            fee: readFee && !feeProbe && ["E","Q"].includes(action.skill)
+              ? this.skillFeeIn(f, action, preview.identity) : null,
+            warning: feeProbe ? null : this.warnings(f) };
+        });
+        if (!feeProbe) await this.requireNoWarning(last.warning);
         const matched = last.identity?.who === action.who && last.identity?.skill === action.skill &&
           ["unknown", "board"].includes(last.phase.phase) && last.phase.turn !== "enemy";
         this.trace("skill-preview", { attempt, matched, ...last });
+        absent=absent && this.emptySkillPreview(last);
+        missing=missing && (this.emptySkillPreview(last) || this.characterSkillPreview(last));
         stable = matched ? stable + 1 : 0;
         feeStable = matched && last.fee!==null ? last.fee===fee ? feeStable+1 : 1 : 0;
         fee = last.fee;
-        if (stable >= 2) { if(!feeProbe)await this.requireNoWarning();
-          const key=action.who+":"+action.skill;
-          if(!this.previewEvidence.has(key)){this.previewEvidence.add(key);this.captureEvidence("skill-preview-"+action.who+"-"+action.skill);}
-          return { fee:feeStable>=2?fee:null }; }
-        if (attempt < 5) await sleep(250);
+        if (stable >= 2) return { fee:feeStable>=2?fee:null };
+        const remaining = (matched ? 120 : 250) - (Date.now() - sampledAt);
+        if (attempt < 9 && remaining > 0) await sleep(remaining);
       }
-      throw new Error("技能确认页未核实目标技能：" + (last?.name || "空标题"));
+      const error=new Error("技能确认页未核实目标技能：" + (last?.name || "空标题"));
+      if(absent)error.code="TCG_SKILL_PREVIEW_ABSENT";
+      else if(missing)error.code="TCG_SKILL_PREVIEW_CHARACTER";
+      throw error;
+    }
+    emptySkillPreview(p) {
+      return (
+        !p.identity &&
+        ![p.name, p.nativeName, p.enlargedName, p.detail, p.aliasDetail].some((v) =>
+          TCG.norm(v || ""),
+        ) &&
+        p.phase?.phase === "board" &&
+        p.phase.turn === "user"
+      );
+    }
+    characterSkillPreview(p) {
+      const names = [p.name, p.nativeName, p.enlargedName].map((v) => TCG.norm(v || ""));
+      const named = names.filter(Boolean);
+      return (
+        !p.identity &&
+        !TCG.norm(p.detail || "") &&
+        !TCG.norm(p.aliasDetail || "") &&
+        named.length > 0 &&
+        named.every((name) => name === named[0] && TCG.characterName(name) >= 0) &&
+        p.phase?.phase === "board" &&
+        p.phase.turn === "user"
+      );
+    }
+    characterOverviewIn(f) {
+      // Native 17:18: the character overview has a role title, not a skill title.
+      // Its right-hand section varies with equipment/statuses. Read this only
+      // on a probe failure, never in the normal skill-confirm path.
+      const name = this.ocr(f, this.roi("details", [311, 115, 341, 50]));
+      const who = TCG.characterName(name);
+      if (who < 0) return null;
+      const heading = this.ocr(f, this.roi("details", [740, 123, 280, 44]));
+      if (["角色装备", "角色状态", "阵营出战状态"].includes(TCG.norm(heading))) return { name, heading };
+      const text = TCG.norm(this.ocr(f, this.roi("details", [350, 210, 300, 270])));
+      const skills = Object.values(TCG.team[who].skills).filter(skill => text.includes(TCG.norm(skill)));
+      return skills.length >= 2 ? { name, heading: "角色技能", skills } : null;
+    }
+    async dismissCharacterOverview(reason) {
+      // Only an unreadable board calls this. A payment/choice/unknown page is
+      // never a blank-click opportunity; a persistent panel gets one attempt.
+      if (this.overviewClearRevision === this.inputRevision) return false;
+      const read = () => this.frame(f => {
+        const phase = this.phaseIn(f);
+        return { phase, panel: phase.phase === "board" && phase.turn === "user"
+          ? this.characterOverviewIn(f) : null };
+      });
+      const first = read();
+      if (!first.panel) return false;
+      const revision = this.inputRevision;
+      await sleep(120);
+      const second = read();
+      if (!second.panel || this.inputRevision !== revision ||
+          TCG.norm(first.panel.name) !== TCG.norm(second.panel.name) ||
+          TCG.norm(first.panel.heading) !== TCG.norm(second.panel.heading) ||
+          JSON.stringify(first.panel.skills || []) !== JSON.stringify(second.panel.skills || [])) return false;
+      const point = this.clickAt(...this.point("board",1190,545));
+      this.overviewClearRevision = this.inputRevision;
+      this.moveTo(...this.point("board",1555,545));
+      this.trace("character-overview-dismissed", { reason, panel: second.panel, point });
+      await sleep(300);
+      return true;
+    }
+    async requireOpenedSkill(action, before, x, readFee = false, feeProbe = false) {
+      try {
+        return await this.requireSkillPreview(action, feeProbe, readFee);
+      } catch (error) {
+        if (!["TCG_SKILL_PREVIEW_ABSENT", "TCG_SKILL_PREVIEW_CHARACTER"].includes(error.code)) throw error;
+        let overview = null;
+        if (error.code === "TCG_SKILL_PREVIEW_CHARACTER") {
+          overview = this.frame(f => {
+            const preview = {...this.skillPreviewIn(f), phase:this.phaseIn(f)};
+            if (!this.emptySkillPreview(preview) && !this.characterSkillPreview(preview)) return null;
+            const panel = this.characterOverviewIn(f);
+            if (panel && this.characterSkillPreview(preview) && TCG.characterName(panel.name) !==
+                TCG.characterName(preview.name || preview.nativeName || preview.enlargedName)) return null;
+            return panel;
+          });
+          if (!overview) throw error;
+          this.trace("skill-preview-overview", {...overview, feeProbe, recoveryLimit:1});
+          this.boardReady=false;await this.reset();
+        }
+        // Reopen only an absent first-click preview, never an already sent skill.
+        // Two fresh full boards must prove all resources/characters unchanged;
+        // a fresh empty-detail sample also guards against a late-arriving panel.
+        for (let sample = 0; sample < 2; sample++) {
+          let board;
+          try { board = this.board(); }
+          catch (unsettled) {
+            if (unsettled.code !== "TCG_DICE_RETRY") throw unsettled;
+            const changed = new Error("技能详情缺失且骰子未读清，重新观察而不补点");
+            changed.code = "TCG_STATE_REFRESH";
+            throw changed;
+          }
+          if (
+            board.phase !== "board" ||
+            board.turn !== "user" ||
+            !board.diceKnown ||
+            boardDifferences(before, board).length !== 0
+          ) {
+            const changed = new Error("技能详情缺失且牌桌已变化，重新观察而不补点");
+            changed.code = "TCG_STATE_REFRESH";
+            throw changed;
+          }
+          if (sample === 0) await sleep(300);
+        }
+        const stillEmpty = this.frame((f) => ({
+          ...this.skillPreviewIn(f),
+          phase: this.phaseIn(f),
+        }));
+        if (!this.emptySkillPreview(stillEmpty)) throw error;
+        await this.requireNoWarning();
+        this.trace("skill-preview-reopen", {
+          who: action.who,
+          skill: action.skill,
+          proof: overview ? "verified-overview-reset-two-unchanged-boards-and-empty-details" :
+            "two-unchanged-boards-and-empty-details",
+          feeProbe,
+          limit: 1,
+        });
+        this.clickAt(...this.point("bottom", x, 957));
+        await sleep(120);
+        return this.requireSkillPreview(action, feeProbe, readFee);
+      }
     }
     diceIn(f, roll = false, expectedRollCount = 8, actionLayout = false) {
-      const inAction=roll && (actionLayout || expectedRollCount!==8);
-      const roi = inAction ? [320,280,1280,560] : roll ? [553, 330, 819, 411] : [1848, 177, 38, 737];
+      const inAction = roll && (actionLayout || expectedRollCount !== 8);
+      const roi = inAction
+        ? [320, 280, 1280, 560]
+        : roll
+          ? [553, 330, 819, 411]
+          : [1848, 177, 38, 737];
       // BetterGI0.66.0 uses COLOR dice assets and thresholds0.73/0.7,
       // not DSTCG gray crops at0.9. Keep the two asset/mode pairs together.
       const threshold = roll ? 0.73 : 0.7;
+      const area=this.roi(roll ? "rollDice" : "mainDice",roi), mapped=area.rect;
       let items = [];
       for (const e of elements) {
-        for (const r of this.matches(f, "dice/Native" + (roll ? "Roll" : "Main") + e, roi, threshold, true)) {
-          const [x, y] = mousePoint(r.x + r.w / 2, r.y + r.h / 2);
+        for (const r of this.matches(
+          f,
+          "dice/Native" + (roll ? "Roll" : "Main") + e,
+          area,
+          threshold,
+          true,
+        )) {
+          const [x, y] = mousePoint(r.x + r.w / 2, r.y + r.h / 2, this.captureGeometry?.frameSize);
           items.push({ element: e, x, y });
         }
       }
-      const fail = reason => {
+      const fail = (reason) => {
         this.trace("dice-read", { roll, roi, threshold, color: true, items, error: reason });
-        const error = new Error(reason); error.code = "TCG_DICE_RETRY"; throw error;
+        const error = new Error(reason);
+        error.code = "TCG_DICE_RETRY";
+        throw error;
       };
       if (!roll) {
         const groups = [];
         for (const item of items) {
-          const group = groups.find(g => g.some(d => Math.hypot(d.x-item.x,d.y-item.y)<14));
-          if (group) group.push(item); else groups.push([item]);
+          const group = groups.find((g) =>
+            g.some((d) => Math.hypot(d.x - item.x, d.y - item.y) < 14),
+          );
+          if (group) group.push(item);
+          else groups.push([item]);
         }
-        items = groups.map(group => {
+        items = groups.map((group) => {
           if (group.length === 1) return group[0];
           // Official0.66 compares scores across templates before suppressing
           // overlaps. FindMulti exposes positions only: bound each score via
           // six threshold probes in this slot. A fixed0.8 loses real0.783 dice.
-          const localROI = [1848, Math.max(177,Math.min(...group.map(d=>d.y))-22), 38, 48];
+          const localROI = [1848, Math.max(177, Math.min(...group.map((d) => d.y)) - 22), 38, 48];
           const ranked = [];
-          for (const e of new Set(group.map(d=>d.element))) {
-            let low=0.7, high=1, best=group.find(d=>d.element===e);
-            for(let probe=0;probe<6;probe++) {
-              const threshold=(low+high)/2;
-              const hits=this.matches(f,"dice/NativeMain"+e,localROI,threshold,true).map(r=>{
-                const [x,y]=mousePoint(r.x+r.w/2,r.y+r.h/2);return {element:e,x,y};
-              }).filter(d=>group.some(g=>Math.hypot(g.x-d.x,g.y-d.y)<14));
-              if(hits.length===1){low=threshold;best=hits[0];}else high=threshold;
+          for (const e of new Set(group.map((d) => d.element))) {
+            let low = 0.7,
+              high = 1,
+              best = group.find((d) => d.element === e);
+            for (let probe = 0; probe < 6; probe++) {
+              const threshold = (low + high) / 2;
+              const hits = this.matches(f, "dice/NativeMain" + e, this.observedRoi("board", localROI), threshold, true)
+                .map((r) => {
+                  const [x, y] = mousePoint(r.x + r.w / 2, r.y + r.h / 2);
+                  return { element: e, x, y };
+                })
+                .filter((d) => group.some((g) => Math.hypot(g.x - d.x, g.y - d.y) < 14));
+              if (hits.length === 1) {
+                low = threshold;
+                best = hits[0];
+              } else high = threshold;
             }
-            ranked.push({...best,low,high});
+            ranked.push({ ...best, low, high });
           }
-          ranked.sort((a,b)=>b.low-a.low);
+          ranked.sort((a, b) => b.low - a.low);
           // Keep the official0.7 threshold. Margin0.03 is over six times the
           // probe interval0.0046875; near ties still cannot be classified.
-          const accepted=ranked[0].low-ranked[1].high>=0.03;
-          this.trace("dice-conflict-recheck",{group,roi:localROI,probes:6,ranked,minScore:0.7,minMargin:0.03,accepted});
+          const accepted = ranked[0].low - ranked[1].high >= 0.03;
+          this.trace("dice-conflict-recheck", {
+            group,
+            roi: localROI,
+            probes: 6,
+            ranked,
+            minScore: 0.7,
+            minMargin: 0.03,
+            accepted,
+          });
           if (!accepted) fail("同一骰子跨模板分数复核后仍不唯一或分差不足，停止");
-          const {element,x,y}=ranked[0];return {element,x,y};
+          const { element, x, y } = ranked[0];
+          return { element, x, y };
         });
       }
       // Reject ambiguous classifications instead of double-counting an Omni die.
-      for (let i = 0; i < items.length; i++) for (let j = i + 1; j < items.length; j++) {
-        if (Math.hypot(items[i].x - items[j].x, items[i].y - items[j].y) < 14) fail("同一骰子被多模板识别，停止");
-      }
-      const dice = Object.fromEntries(elements.map(e => [e, items.filter(d => d.element === e).length]));
-      if (items.length > 16 || roll && items.length !== expectedRollCount) fail("骰子识别数量异常：" + items.length);
-      if (inAction)items.sort((a,b)=>Math.abs(a.y-b.y)>40?a.y-b.y:a.x-b.x);
+      for (let i = 0; i < items.length; i++)
+        for (let j = i + 1; j < items.length; j++) {
+          if (Math.hypot(items[i].x - items[j].x, items[i].y - items[j].y) < 14)
+            fail("同一骰子被多模板识别，停止");
+        }
+      const dice = Object.fromEntries(
+        elements.map((e) => [e, items.filter((d) => d.element === e).length]),
+      );
+      if (items.length > 16 || (roll && items.length !== expectedRollCount))
+        fail("骰子识别数量异常：" + items.length);
+      if (inAction) items.sort((a, b) => (Math.abs(a.y - b.y) > 40 ? a.y - b.y : a.x - b.x));
       if (roll && !inAction) {
         // Counting8 alone could hide a missing slot plus a side-face duplicate.
         const slots = new Set();
         for (const die of items) {
-          const col = Math.floor((die.x - roi[0]) / (roi[2] / 4));
-          const row = die.y < 540 ? 0 : 1;
-          if (col < 0 || col > 3 || die.y < roi[1] || die.y >= roi[1] + roi[3]) fail("重投骰子位置超出已验证的八格布局");
+          const col = Math.floor((die.x - mapped[0]) / (mapped[2] / 4));
+          const row = die.y < this.point("rollDice",960,540)[1] ? 0 : 1;
+          if (col < 0 || col > 3 || die.y < mapped[1] || die.y >= mapped[1] + mapped[3])
+            fail("重投骰子位置超出已验证的八格布局");
           die.slot = row * 4 + col;
-          if (slots.has(die.slot)) fail("重投骰子位置重复：第 " + (die.slot + 1) + " 格；不能用重复命中凑八颗");
+          if (slots.has(die.slot))
+            fail("重投骰子位置重复：第 " + (die.slot + 1) + " 格；不能用重复命中凑八颗");
           slots.add(die.slot);
         }
         if (slots.size !== 8) fail("重投骰子八个位置未识别完整");
-        items.sort((a,b) => a.slot - b.slot);
+        items.sort((a, b) => a.slot - b.slot);
       }
-      const key = JSON.stringify(items), domain = inAction ? "action-roll" : roll ? "roll" : "main";
+      const key = JSON.stringify(items),
+        domain = inAction ? "action-roll" : roll ? "roll" : "main";
       if (this.diceReadKeys.get(domain) !== key) {
         this.diceReadKeys.set(domain, key);
         this.trace("dice-read", { roll, roi, threshold, color: true, items, dice });
@@ -413,21 +961,29 @@
       return { dice, items };
     }
     async readRollDice() {
-      let previousKey = "", observed = null, lastError = "骰子尚未稳定";
+      let previousKey = "",
+        observed = null,
+        lastError = "骰子尚未稳定";
       for (let attempt = 0; attempt < 12; attempt++) {
         const p = this.phase();
-        if (p.phase !== "roll" && p.phase !== "unknown") throw new Error("稳定识别骰子前已离开投骰页");
+        if (p.phase !== "roll" && p.phase !== "unknown")
+          throw new Error("稳定识别骰子前已离开投骰页");
         if (p.phase === "roll") {
           try {
-            observed = this.frame(f => this.diceIn(f, true));
-            const key = JSON.stringify(observed.items.map(d => [d.slot, d.element]));
-            this.trace("roll-dice-wait", { attempt, stable: key === previousKey, count: observed.items.length });
+            observed = this.frame((f) => this.diceIn(f, true));
+            const key = JSON.stringify(observed.items.map((d) => [d.slot, d.element]));
+            this.trace("roll-dice-wait", {
+              attempt,
+              stable: key === previousKey,
+              count: observed.items.length,
+            });
             if (key === previousKey) return observed;
             previousKey = key;
             lastError = "八颗骰子的分类尚未取得连续两帧一致";
           } catch (e) {
             if (e.code !== "TCG_DICE_RETRY") throw e;
-            previousKey = ""; lastError = String(e.message || e);
+            previousKey = "";
+            lastError = String(e.message || e);
             this.trace("roll-dice-wait", { attempt, stable: false, error: lastError });
           }
         } else previousKey = "";
@@ -435,94 +991,187 @@
       }
       throw new Error("重投骰子识别12次未稳定：" + lastError);
     }
-    async actionReroll(before,memory=TCG.freshMemory()) {
-      const count=TCG.total(before.dice);
-      if(count<1 || count>16)throw new Error("战中重投的真实骰数无效");
-      const goal=TCG.actionRerollGoal(before,memory);
-      if(!this.tossSession)this.tossSession={sent:0,expected:2,selection:null,
-        wanted:goal?.element||TCG.team[before.active].element,transitioned:false,
-        previousDice:null,blankReady:false,blankSent:false};
-      const session=this.tossSession,counterROI=[700,835,520,65];
-      let stable=0,key="",lastTrace="",lastError="重投页面尚未稳定";
-      for(let attempt=0;attempt<60;attempt++) {
+    async actionReroll(before, memory = TCG.freshMemory()) {
+      const count = TCG.total(before.dice);
+      if (count < 1 || count > 16) throw new Error("战中重投的真实骰数无效");
+      const goal = TCG.actionRerollGoal(before, memory);
+      if (!this.tossSession)
+        this.tossSession = {
+          sent: 0,
+          expected: 2,
+          selection: null,
+          wanted: goal?.element || TCG.team[before.active].element,
+          transitioned: false,
+          previousDice: null,
+          blankReady: false,
+          blankSent: false,
+        };
+      const session = this.tossSession,
+        counterROI = [700, 835, 520, 65];
+      let stable = 0,
+        key = "",
+        lastTrace = "",
+        lastError = "重投页面尚未稳定";
+      for (let attempt = 0; attempt < 60; attempt++) {
         let page;
-        try{page=this.frame(f=>{
-          const phase=this.phaseIn(f);
-          if(phase.phase!=="roll")return {phase};
-          const text=this.ocr(f,counterROI),remaining=TCG.rerollCounter(text);
-          const blank=remaining===null&&TCG.norm(text)==="";
-          return {phase,text,remaining,blank,
-            blankHeader:blank ? TCG.norm(this.ocr(f,[844,167,232,65]))==="重投骰子" &&
-              TCG.norm(this.ocr(f,[700,230,520,50]))==="请选择要重投的骰子" : false,
-            buttons:this.matches(f,"core/确定",[500,900,920,150]),
-            dice:!session.selection && (remaining===session.expected ||
-              blank&&session.sent===1 || session.blankSent&&session.sent===2&&remaining===1) ?
-              this.diceIn(f,true,count,true):null};
-        });}catch(e){if(e.code!=="TCG_DICE_RETRY")throw e;
-          lastError=e.message;stable=0;key="";await sleep(300);continue;}
-        const p=page.phase;
-        if(session.sent>0 && p.phase!=="roll")session.transitioned=true;
-        if(p.result || p.phase==="board"&&p.turn==="user"&&session.sent>=2) {
-          const current=JSON.stringify([p.phase,p.turn,p.result]);stable=current===key?stable+1:1;key=current;
-          if(stable>=2){this.trace("action-reroll-resolved",{count,confirmations:session.sent,wanted:session.wanted});
-            this.tossSession=null;return {confirmations:2,inputConfirmations:session.sent};}await sleep(300);continue;
+        try {
+          page = this.frame((f) => {
+            const phase = this.phaseIn(f);
+            if (phase.phase !== "roll") return { phase };
+            const text = this.ocr(f, this.roi("bottom", counterROI)),
+              remaining = TCG.rerollCounter(text);
+            const blank = remaining === null && TCG.norm(text) === "";
+            return {
+              phase,
+              text,
+              remaining,
+              blank,
+              blankHeader: blank
+                ? TCG.norm(this.ocr(f, this.roi("header", [844, 167, 232, 65]))) === "重投骰子" &&
+                  TCG.norm(this.ocr(f, this.roi("header", [700, 230, 520, 50]))) === "请选择要重投的骰子"
+                : false,
+              buttons: this.matches(f, "core/确定", this.roi("bottom", [500, 900, 920, 150])),
+              dice:
+                !session.selection &&
+                (remaining === session.expected ||
+                  (blank && session.sent === 1) ||
+                  (session.blankSent && session.sent === 2 && remaining === 1))
+                  ? this.diceIn(f, true, count, true)
+                  : null,
+            };
+          });
+        } catch (e) {
+          if (e.code !== "TCG_DICE_RETRY") throw e;
+          lastError = e.message;
+          stable = 0;
+          key = "";
+          await sleep(300);
+          continue;
         }
-        const traceKey=JSON.stringify([p.phase,page.remaining,page.text,page.buttons?.length]);
-        if(traceKey!==lastTrace){this.trace("action-reroll-page",{phase:p.phase,remaining:page.remaining,text:page.text,
-          expected:session.expected,count,wanted:session.wanted});lastTrace=traceKey;}
-        const diceKey=page.dice ? JSON.stringify(page.dice.items) : null;
-        const blankOK=page.blank && page.blankHeader && session.sent===1 &&
-          (session.blankReady || session.transitioned || diceKey!==null&&diceKey!==session.previousDice);
+        const p = page.phase;
+        if (session.sent > 0 && p.phase !== "roll") session.transitioned = true;
+        if (p.phase === "board" && p.turn === "user" && session.sent < 2) {
+          const observed = await this.settledBoard(true);
+          if (observed.phase === "board" && observed.turn === "user") {
+            this.tossSession = null;
+            this.trace("action-reroll-resolved", { count, confirmations:session.sent,
+              wanted:session.wanted, recovery:"complete-native-board", unresolved:true });
+            return { confirmations:session.sent, inputConfirmations:session.sent, unresolved:true };
+          }
+          stable = 0; key = ""; await sleep(300); continue;
+        }
+        if (p.result || (p.phase === "board" && p.turn === "user" && session.sent >= 2)) {
+          const current = JSON.stringify([p.phase, p.turn, p.result]);
+          stable = current === key ? stable + 1 : 1;
+          key = current;
+          if (stable >= 2) {
+            this.trace("action-reroll-resolved", {
+              count,
+              confirmations: session.sent,
+              wanted: session.wanted,
+            });
+            this.tossSession = null;
+            return { confirmations: 2, inputConfirmations: session.sent };
+          }
+          await sleep(300);
+          continue;
+        }
+        const traceKey = JSON.stringify([p.phase, page.remaining, page.text, page.buttons?.length]);
+        if (traceKey !== lastTrace) {
+          this.trace("action-reroll-page", {
+            phase: p.phase,
+            remaining: page.remaining,
+            text: page.text,
+            expected: session.expected,
+            count,
+            wanted: session.wanted,
+          });
+          lastTrace = traceKey;
+        }
+        const diceKey = page.dice ? JSON.stringify(page.dice.items) : null;
+        const blankOK =
+          page.blank &&
+          page.blankHeader &&
+          session.sent === 1 &&
+          (session.blankReady ||
+            session.transitioned ||
+            (diceKey !== null && diceKey !== session.previousDice));
         // A counterless page may be either the second selection or an interim
         // acknowledgement. Only an explicit subsequent "1" permits a third
         // button confirmation; never repeat a counterless page after sending it.
-        const countedOK=page.remaining===session.expected&&session.sent<2 ||
-          session.blankSent&&session.sent===2&&page.remaining===1;
-        if(p.phase!=="roll" || !(countedOK||blankOK) || page.buttons.length!==1 || session.sent>=3) {
-          lastError=page.remaining===null?"战中重投次数未识别":"战中重投页面未就绪";
-          stable=0;key="";await sleep(300);continue;
+        const countedOK =
+          (page.remaining === session.expected && session.sent < 2) ||
+          (session.blankSent && session.sent === 2 && page.remaining === 1);
+        if (
+          p.phase !== "roll" ||
+          !(countedOK || blankOK) ||
+          page.buttons.length !== 1 ||
+          session.sent >= 3
+        ) {
+          lastError = page.remaining === null ? "战中重投次数未识别" : "战中重投页面未就绪";
+          stable = 0;
+          key = "";
+          await sleep(300);
+          continue;
         }
-        const current=JSON.stringify([page.remaining,page.buttons,page.dice?.items]);
-        stable=current===key?stable+1:1;key=current;
-        if(stable<2){await sleep(300);continue;}
-        if(!session.selection) {
-          const bad=page.dice.items.filter(d=>d.element!==session.wanted&&d.element!=="Omni");
+        if (!session.selection) {
+          const bad = page.dice.items.filter(
+            (d) => d.element !== session.wanted && d.element !== "Omni",
+          );
           // Persist selection BEFORE any input. A delayed OCR/control cannot
           // cause a second click to toggle the same die back off.
-          session.blankReady=blankOK;
-          session.selection={remaining:page.remaining,selected:bad.length,diceKey,blank:blankOK};
-          for(const die of bad){this.clickAt(die.x,die.y);await sleep(120);}
-          stable=0;key="";await sleep(250);continue;
+          session.blankReady = blankOK;
+          session.selection = {
+            remaining: page.remaining,
+            selected: bad.length,
+            diceKey,
+            blank: blankOK,
+          };
+          for (const die of bad) {
+            this.clickAt(die.x, die.y);
+            await sleep(120);
+          }
+          stable = 0;
+          key = "";
+          await sleep(250);
+          continue;
         }
         // Fresh same-frame phase, exact counter and unique control after dice
         // selection. Empty OCR retries read-only; no selection replay.
-        const b=page.buttons[0];this.clickAt(b.x+b.w/2,b.y+b.h/2);
-        session.sent++;session.expected=page.remaining===null?0:page.remaining-1;
-        const selected=session.selection.selected;
-        session.previousDice=session.selection.diceKey;session.blankSent ||= session.selection.blank;
-        session.selection=null;session.blankReady=false;session.transitioned=false;
-        this.trace("action-reroll-confirmed",{remaining:page.remaining,selected,count,wanted:session.wanted});
-        stable=0;key="";await sleep(1000);
+        const b = page.buttons[0];
+        this.clickAt(b.x + b.w / 2, b.y + b.h / 2);
+        // 1440 can restore the raised fan on leaving reroll. Let the existing
+        // action-board boundary fold it before reading HP/death/status again.
+        const actual = this.captureGeometry?.actualSize;
+        if (actual?.width === 2560 && [1440,1600].includes(actual.height)) this.handNeedsReset = true;
+        session.sent++;
+        session.expected = page.remaining === null ? 0 : page.remaining - 1;
+        const selected = session.selection.selected;
+        session.previousDice = session.selection.diceKey;
+        session.blankSent ||= session.selection.blank;
+        session.selection = null;
+        session.blankReady = false;
+        session.transitioned = false;
+        this.trace("action-reroll-confirmed", {
+          remaining: page.remaining,
+          selected,
+          count,
+          wanted: session.wanted,
+        });
+        stable = 0;
+        key = "";
+        await sleep(1000);
       }
-      this.captureEvidence("action-reroll-layout");throw new Error("战中重投等待超时："+lastError);
+      this.trace("action-reroll-layout", { reason: lastError });
+      const error = new Error("战中重投等待超时：" + lastError);
+      error.code = "TCG_DICE_RETRY";
+      throw error;
     }
-    skillFeeIn(f,action) {
-      // Calibrated native preview fee row; identity is independently checked.
-      // A normal-board skill icon or a cost from another card is never proof.
-      const identity=this.skillPreviewIn(f).identity;
-      if(identity?.who!==action.who || identity?.skill!==action.skill)return null;
-      // Read the CURRENT action icon's die fee, not the nominal fee in the
-      // left description. Native 1080P preview has Q energy in a separate
-      // gold badge to the right: exclude it from this narrow numeric crop.
-      const roi=action.skill==="Q"?[1780,1010,36,35]:action.skill==="E"?[1698,1010,36,35]:null;
-      if(!roi)return null;
-      const n=number(this.numericAt(f,roi,4)),nominal=action.skill==="Q"?(action.who===2?4:3):3;
-      return n!==null&&n>=1&&n<=nominal?n:null;
-    }
+    
     async probeSkill(action,before,memory) {
       if(action.who!==before.active)throw new Error("费用检视只能用于当前角色");
       const x={NA:1608,E:1716,Q:1824}[action.skill];
-      this.clickAt(x,957);await sleep(800);await this.requireSkillPreview(action,true);
+      this.clickAt(...this.point("bottom",x,957));await sleep(120);await this.requireOpenedSkill(action,before,x,false,true);
       let fee=null,last=null,stable=0;
       for(let i=0;i<4;i++){
         const n=this.frame(f=>this.skillFeeIn(f,action));stable=n!==null&&n===last?stable+1:1;last=n;
@@ -530,24 +1179,15 @@
       }
       // A fee probe NEVER casts. Cancel, then prove unchanged real resources.
       this.boardReady=false;await this.reset();await this.requireUnchangedBoard(before);
-      if(!memory.probeKeys.includes(action.key))memory.probeKeys.push(action.key);
-      memory.costEvidence=fee===null?null:{source:"native-skill-preview",key:TCG.boardKey(before),
-        who:action.who,skill:action.skill,n:fee};
+      TCG.recordSkillCost(before,memory,action,fee);
       this.trace("skill-fee-probed",{who:action.who,skill:action.skill,fee,unchanged:true,castInputs:0});
       return {...before,confirmed:false,probed:true};
     }
-    numericAt(f, roi, scale) {
-      let crop = null, resized = null, region = null;
-      try {
-        crop = f.DeriveCrop(...roi);
-        resized = crop.SrcMat.Resize(new OpenCvSharp.OpenCvSharp.Size(roi[2] * scale, roi[3] * scale));
-        region = new ImageRegion(resized, 0, 0);
-        return this.ocr(region, [0, 0, roi[2] * scale, roi[3] * scale]);
-      } finally {
-        if (region) region.dispose();
-        else if (resized) resized.dispose();
-        if (crop) crop.dispose();
-      }
+    numericAt(f, area, scale) {
+      return this.localOcr(f, area, scale, false);
+    }
+    enlargedOcrRows(f, area, scale) {
+      return this.localOcr(f, area, scale, true);
     }
     hpAt(f, x, y) {
       // V4's detector returns no boxes for the native 58x40 HP ROIs.
@@ -556,34 +1196,98 @@
       // Recovery profile adds horizontal context, not overlapping vertical HP
       // slots. Saved-pixel 11-HP stress test: wide4=9/9, original=7/9.
       const roi = this.precisionBoard ? [x + 2, y, 56, 40] : [x + 8, y, 44, 40];
-      return this.numericAt(f, roi, this.precisionBoard ? 4 : 3);
+      const raw = this.numericAt(f, this.roi("board", roi), this.precisionBoard ? 4 : 3);
+      if (number(raw) !== null || !this.precisionBoard) return raw;
+      // Same-frame, read-only retry with vertical context. Saved 1-HP / empty
+      // regions were stress-tested; no cached-health or digit substitution.
+      return this.numericAt(f, this.roi("board", [x, y - 6, 62, 52]), 4);
     }
     diceCountIn(f) {
       // Official MyDiceCountRect. A missing badge is unknown, never zero.
-      const raw=this.numericAt(f,[68,642,25,31],4), count=number(raw);
-      return count!==null && count<=16 ? count : null;
+      const raw = this.numericAt(f, this.roi("board", [68, 642, 25, 31]), 4),
+        count = number(raw);
+      if (count !== null) return count <= 16 ? count : null;
+      // Keep the 1080 path unchanged. Only a bound 1440 client may retry an
+      // unreadable single zero at another scale, in this very same frame/ROI.
+      const actual = this.captureGeometry?.actualSize;
+      if (actual?.width === 2560 && [1440,1600].includes(actual.height)) {
+        const retry = this.numericAt(f, this.roi("board", [68, 642, 25, 31]), 3);
+        if (retry === "0") {
+          this.trace("dice-zero-recovered", { raw, retry, scale: 3, roi: [68, 642, 25, 31],
+            proof: "same-frame-exact-native-zero", actualSize: actual });
+          return 0;
+        }
+      }
+      return null;
     }
     usePrecisionBoard(reason) {
-      if(this.precisionBoard)return;
-      this.precisionBoard=true;
-      this.trace("board-recovery",{reason,hpROI:["x+2","y",56,40],hpScale:4,diceBadgeCrossCheck:true});
+      if (this.precisionBoard) return;
+      this.precisionBoard = true;
+      this.trace("board-recovery", {
+        reason,
+        hpROI: ["x+2", "y", 56, 40],
+        hpScale: 4,
+        diceBadgeCrossCheck: true,
+      });
     }
-    characterIn(f, who, enemy = false, enemyLayoutCount = this.options.enemyCount) {
+    releasePrecisionBoard(reason) {
+      if (!this.precisionBoard) return;
+      this.precisionBoard = false;
+      this.trace("board-recovery-complete", { reason, nextHpScale: 3, diceBadgeCrossCheck: true });
+    }
+    normalHpProfileIn(f, characters, enemies) {
+      // Downgrade only when the ordinary crops independently reproduce the
+      // accepted HP and raised/lowered positions in this SAME native frame.
+      // Read only the accepted enemy layout, not all four layout candidates.
+      if (
+        !Array.isArray(characters) ||
+        characters.length !== 3 ||
+        !Array.isArray(enemies) ||
+        !enemyHpXs[enemies.length] ||
+        TCG.enemyCount({ enemies }) === null
+      )
+        return false;
+      const at = (x, raisedY, loweredY, c, raised) => {
+        if (c.dead === true) return true;
+        if (!TCG.alive(c) || typeof raised !== "boolean") return false;
+        const a = number(this.numericAt(f, this.roi("board", [x + 8, raisedY, 44, 40]), 3)),
+          b = number(this.numericAt(f, this.roi("board", [x + 8, loweredY, 44, 40]), 3));
+        return raised ? a === c.hp && b === null : b === c.hp && a === null;
+      };
+      return (
+        characters.every((c, i) => at(enemyHpXs[3][i], 600, 640, c, c.raised)) &&
+        enemies.every((c, i) => at(enemyHpXs[enemies.length][i], 170, 212, c, !c.active))
+      );
+    }
+    characterIn(f, who, enemy = false, enemyLayoutCount = 3, readAura = false) {
       const count = enemy ? enemyLayoutCount : 3;
       const hpXs = enemy ? enemyHpXs[count] : enemyHpXs[3];
       const hpX = hpXs[who];
-      const rawRaised = this.hpAt(f, hpX, enemy ? 170 : 600);
-      const rawLowered = this.hpAt(f, hpX, enemy ? 212 : 640);
-      const raised = number(rawRaised), lowered = number(rawLowered);
       const stateX = hpX + 17;
       const stateY = enemy ? 105 : 545;
-      const dead = this.has(f, "disable", [stateX, stateY, 167, 382], 0.9);
+      // This current-frame positive marker already determines hp=0 below.
+      // Do not OCR two empty/covered HP crops only to discard both results.
+      // An absent marker still requires both native HP positions; never use
+      // a prior death, cached HP, or a missing number as this proof.
+      const dead = this.has(f, "disable", this.roi("board", [stateX, stateY, 167, 382]), 0.9);
+      const rawRaised = dead ? null : this.hpAt(f, hpX, enemy ? 170 : 600);
+      const rawLowered = dead ? null : this.hpAt(f, hpX, enemy ? 212 : 640);
+      const raised = number(rawRaised),
+        lowered = number(rawLowered);
       // NPC/modified character cards can start above 10 (native current match
       // shows two 11-HP opponents). Do not turn every such slot into unknown.
       // This bounds a two-digit observation, not an assumed enemy max HP.
-      const maxHp = enemy ? 99 : TCG.team[who].maxHp;
-      const validHp = value => value !== null && value >= 1 && value <= maxHp;
-      const raisedValid = validHp(raised), loweredValid = validHp(lowered);
+      const maxHp = enemy
+        ? 99
+        : TCG.team[who].maxHp +
+          (this.memory?.extraMaxHp?.[who] || 0) +
+          (this.soupReceipt?.effect === "maxhp" && this.soupReceipt.exited === true &&
+            this.soupReceipt.origin === this.confirmationSession?.key &&
+            this.confirmationSession?.plan?.action?.target === who &&
+            this.soupReceipt.target === who ? 1 : 0);
+      const validHp = (value) => value !== null && value >= 1 && value <= maxHp;
+      const raisedValid = validHp(raised),
+        loweredValid = validHp(lowered);
       // Two positions containing numbers is not proof of either HP or active slot.
       const conflict = raisedValid && loweredValid;
       const hp = dead ? 0 : conflict ? null : raisedValid ? raised : loweredValid ? lowered : null;
@@ -591,90 +1295,253 @@
       const slotKey = (enemy ? "enemy" + count + "/" : "own") + who;
       if (this.hpReadKeys.get(slotKey) !== key) {
         this.hpReadKeys.set(slotKey, key);
-        this.trace("hp-read", { side: enemy ? "enemy" : "own", index: who,
-          rois: this.precisionBoard ? [[hpX+2,enemy?170:600,56,40],[hpX+2,enemy?212:640,56,40]] :
-            [[hpX + 8, enemy ? 170 : 600, 44, 40], [hpX + 8, enemy ? 212 : 640, 44, 40]],
-          scale: this.precisionBoard?4:3, raw: [rawRaised, rawLowered], hp, dead, conflict });
+        this.trace("hp-read", {
+          side: enemy ? "enemy" : "own",
+          index: who,
+          rois: this.precisionBoard
+            ? [
+                [hpX + 2, enemy ? 170 : 600, 56, 40],
+                [hpX + 2, enemy ? 212 : 640, 56, 40],
+              ]
+            : [
+                [hpX + 8, enemy ? 170 : 600, 44, 40],
+                [hpX + 8, enemy ? 212 : 640, 44, 40],
+              ],
+          scale: this.precisionBoard ? 4 : 3,
+          raw: [rawRaised, rawLowered],
+          hpSource: dead ? "native-death-marker" : "native-hp-ocr",
+          hp,
+          dead,
+          conflict,
+        });
       }
-      if (enemy) return { hp, dead: dead ? true : hp === null ? null : false, active: loweredValid && !conflict };
+      if (enemy) {
+        // Positive aura matches only. Missing templates do NOT prove no aura.
+        const aura = readAura && !dead ? this.auraIn(f, hpX, loweredValid ? 212 : 170) : [];
+        const frozen=!dead&&this.has(f,"state/StateFreeze",this.roi("board", [stateX,stateY,167,382]),0.9);
+        return {
+          hp,
+          dead: dead ? true : hp === null ? null : false,
+          active: !dead && loweredValid && !conflict,
+          aura,
+          auraKnown: aura.length > 0 && aura.length <= 2,
+          frozen: frozen?true:null,
+        };
+      }
       const cx = [812, 1022, 1233][who];
-      const charged = this.matches(f, "charge", [cx, 612, 32, 180], 0.86).length;
-      const empty = this.matches(f, "uncharge", [cx, 612, 32, 180], 0.86).length;
+      const charged = this.matches(f, "charge", this.roi("board", [cx, 612, 32, 180]), 0.86).length;
+      const empty = this.matches(f, "uncharge", this.roi("board", [cx, 612, 32, 180]), 0.86).length;
       const energy = charged + empty === TCG.team[who].maxEnergy ? charged : null;
       const statusROI = [stateX, stateY, 167, 382];
-      const frozen = this.has(f, "state/StateFreeze", statusROI, 0.9) ||
-        ["角色状态_冻结", "角色状态_冻结2", "角色状态_水泡"].some(name => this.has(f, "core/" + name, statusROI, 0.9));
-      return { hp, dead: dead ? true : hp === null ? null : false,
-        energy: dead ? 0 : energy, frozen, raised: raisedValid && !conflict };
+      const frozen =
+        this.has(f, "state/StateFreeze", this.roi("board", statusROI), 0.9) ||
+        ["角色状态_冻结", "角色状态_冻结2", "角色状态_水泡"].some((name) =>
+          this.has(f, "core/" + name, this.roi("board", statusROI), 0.9),
+        );
+      return {
+        hp,
+        dead: dead ? true : hp === null ? null : false,
+        energy: dead ? 0 : energy,
+        frozen,
+        raised: !dead && raisedValid && !conflict,
+      };
     }
     enemiesIn(f) {
-      // Defeated NPC cards disappear and survivors recenter. A layout must
-      // have every living HP slot AND exactly one lowered active card.
+      // Defeated cards may remain in their slots OR disappear and recenter.
+      // Every slot needs positive live HP or an explicit death-template match,
+      // with exactly one lowered LIVING active card.
       // Ambiguous/partial layouts remain unknown; they never become deaths.
-      const observations=[],candidates = [];
+      const observations = [],
+        candidates = [];
       // These four native layouts already have calibrated HP geometry. Do not
       // silently crop a four-opponent mode to the configured default of three.
       for (let count = 1; count <= 4; count++) {
-        const cards = Array.from({length: count}, (_, i) => this.characterIn(f, i, true, count));
-        const row={count,cards,xs:enemyHpXs[count]};observations.push(row);
-        if (cards.every(c => TCG.alive(c)) && cards.filter(c => c.active).length === 1)candidates.push(row);
+        const cards = Array.from({ length: count }, (_, i) =>
+          this.characterIn(f, i, true, count, false),
+        );
+        const row = { count, cards, xs: enemyHpXs[count] };
+        observations.push(row);
+        if (
+          cards.every((c) => TCG.alive(c) || (c.dead === true && c.hp === 0 && !c.active)) &&
+          cards.filter((c) => TCG.alive(c) && c.active).length === 1
+        )
+          candidates.push(row);
       }
-      const unknown=()=>Array.from({length:this.options.enemyCount},()=>({hp:null,dead:null,active:null}));
-      if(!candidates.length)return unknown();
-      const best=candidates.sort((a,b)=>b.count-a.count)[0];
+      // Placeholder shape is not an observed enemy count or strategy setting.
+      const unknown = () =>
+        Array.from({ length: 3 }, () => ({ hp: null, dead: null, active: null }));
+      if (!candidates.length) return unknown();
+      const best = candidates.sort((a, b) => b.count - a.count)[0];
       // Three vs one and four vs two overlap at inner HP positions. Accept a
       // smaller candidate only as the EXACT same subset, not a second team.
-      for(const row of candidates.slice(1))for(let i=0;i<row.count;i++) {
-        const j=best.xs.findIndex(x=>Math.abs(x-row.xs[i])<=12);
-        if(j<0 || row.cards[i].hp!==best.cards[j].hp || row.cards[i].active!==best.cards[j].active)return unknown();
-      }
+      for (const row of candidates.slice(1))
+        for (let i = 0; i < row.count; i++) {
+          const j = best.xs.findIndex((x) => Math.abs(x - row.xs[i]) <= 12);
+          if (
+            j < 0 ||
+            row.cards[i].hp !== best.cards[j].hp ||
+            row.cards[i].dead !== best.cards[j].dead ||
+            row.cards[i].active !== best.cards[j].active
+          )
+            return unknown();
+        }
       // A temporarily unreadable outer card must not shrink a 4-card team to
       // its readable middle pair (or a 3-card team to its middle card).
-      for(const row of observations.filter(r=>r.count>best.count))if(row.cards.some((c,i)=>TCG.alive(c)&&
-          !best.xs.some(x=>Math.abs(x-row.xs[i])<=12)))return unknown();
-      return best.cards;
+      for (const row of observations.filter((r) => r.count > best.count))
+        if (
+          row.cards.some(
+            (c, i) =>
+              (TCG.alive(c) || c.dead === true) &&
+              !best.xs.some((x) => Math.abs(x - row.xs[i]) <= 12),
+          )
+        )
+          return unknown();
+      return best.cards.map((c, i) => {
+        const aura = c.dead === true ? [] : this.auraIn(f, best.xs[i], c.active ? 212 : 170);
+        return { ...c, aura, auraKnown: aura.length > 0 && aura.length <= 2 };
+      });
     }
-    board() {
+    auraIn(f, hpX, hpY) {
+      // Only the strip above this card, not its artwork/statuses. Official
+      // 15px glyphs score 0.824 on the saved Hydro frame; 0.9 rejected it.
+      const roi = [hpX + 60, hpY - 70, 95, 62],
+        hits = [];
+      for (const element of ["Cryo", "Hydro", "Pyro", "Electro", "Dendro"])
+        for (const r of this.matches(f, "state/State" + element, this.roi("board", roi), 0.8, true))
+          hits.push({ ...r, element });
+      if (
+        hits.some((a, i) =>
+          hits
+            .slice(i + 1)
+            .some((b) => a.element !== b.element && Math.hypot(a.x - b.x, a.y - b.y) < 15),
+        )
+      )
+        return [];
+      const aura = [...new Set(hits.map((h) => h.element))];
+      return aura.length <= 2 ? aura : [];
+    }
+    
+    board(actionOnly = false, pickTransition = false) {
       return this.frame(f => {
         const phase = this.phaseIn(f);
         // A terminal screen has no character/dice/hand UI. Do not run board
         // readers first and discover the result only after they have failed.
         if (phase.result) return { ...phase, hand: null };
+        if(pickTransition && !["pick","board"].includes(phase.phase))return {...phase,hand:null};
+        if(actionOnly && (phase.phase!=="board" || phase.turn!=="user"))return {...phase,hand:null};
         const characters = [0, 1, 2].map(i => this.characterIn(f, i));
         const actives = characters.map((c, i) => c.raised && !c.dead ? i : -1).filter(i => i >= 0);
         const dice = this.diceIn(f);
-        const badgeCount=this.precisionBoard && phase.phase==="board" && phase.turn==="user" ? this.diceCountIn(f) : null;
+        const badgeCount=phase.phase==="board" && phase.turn==="user" ? this.diceCountIn(f) : null;
         if(badgeCount!==null && badgeCount!==TCG.total(dice.dice)) {
           this.trace("dice-count-mismatch",{badgeCount,templateCount:TCG.total(dice.dice),dice:dice.dice});
           const error=new Error("实际骰数徽标与元素模板不一致");
           error.code="TCG_DICE_RETRY";throw error;
         }
-        return { ...phase, pickSelection:phase.phase==="pick"?this.pickSelectionIn(f):null, characters, active: actives.length === 1 ? actives[0] : null,
-          enemies: this.enemiesIn(f),
-          dice: dice.dice, diceKnown: phase.phase === "board" && (TCG.total(dice.dice) > 0 || this.zeroDiceAllowed), hand: null };
+        const enemies=this.enemiesIn(f);
+        const normalHpReadable=this.precisionBoard ? this.normalHpProfileIn(f,characters,enemies) : true;
+        return { ...phase, normalHpReadable, pickSelection:phase.phase==="pick"?this.pickSelectionIn(f):null, characters, active: actives.length === 1 ? actives[0] : null,
+          enemies, ...this.boardExtrasIn(f,phase),
+          // Observation truth is independent of the predicted action budget.
+          dice: dice.dice, diceKnown: phase.phase === "board" && (TCG.total(dice.dice) > 0 || badgeCount === 0),
+          diceObservation: { badge: badgeCount, templates: TCG.total(dice.dice) }, hand: null };
       });
     }
-    async reset() {
-      if(this.boardReady && !this.handNeedsReset && !this.handFanReady) {
-        this.trace("hand-reset-skipped",{reason:"already-clean-board"});return;
+    observationIssues(state) {
+      const issues = [];
+      if (state.phase !== "board") issues.push("phase");
+      if (state.turn !== "user") issues.push("turn");
+      if (state.diceKnown !== true) issues.push("dice");
+      if (!Number.isInteger(state.active) || !TCG.alive(state.characters?.[state.active])) issues.push("active");
+      if (!Array.isArray(state.characters) || state.characters.length !== 3) issues.push("own");
+      else state.characters.forEach((c, i) => {
+        if (c?.dead === true) return;
+        if (!TCG.alive(c)) issues.push(`own[${i}].hp`);
+        if (!Number.isInteger(c?.energy) || c.energy < 0 || c.energy > TCG.team[i].maxEnergy) issues.push(`own[${i}].energy`);
+        if (typeof c?.frozen !== "boolean") issues.push(`own[${i}].status`);
+      });
+      if (TCG.enemyCount(state) === null) issues.push("enemy");
+      if (!issues.length && !TCG.legalState({ ...state, hand: [] })) issues.push("board-rules");
+      return issues;
+    }
+    finishObservation(state, pendingAction, handRead, observedAt = Date.now()) {
+      if (!TCG.legalState(state) || TCG.enemyCount(state) === null) {
+        const error = new Error("完整观察仍有未知字段：" + this.observationIssues(state).join("、"));
+        error.code = "TCG_BOARD_RETRY"; throw error;
       }
-      this.handFanReady=false;
-      this.clickAt(1190,545);this.moveTo(1555,860);await sleep(300);
-      this.handNeedsReset=false;this.boardReady=true;this.trace("hand-reset",{});
+      let resynchronized = false;
+      TCG.refreshSkillCosts(this.memory,state);
+      if (!pendingAction) {
+        if (!this.diceBudgetMatches(state)) {
+          this.trace("state-resync", { reason: "observation-budget", expectedDice: this.expectedDice, observedDice: TCG.total(state.dice) });
+          this.adoptObservedState(state, "observation-resync"); resynchronized = true;
+          this.trace("state-resynced", { reason: "observation-budget", after: state });
+        }
+        if (!resynchronized) this.acceptHand(state.hand, "observed-stable-board");
+      }
+      this.boardReady = true; this.lastObservedState = state; this.lastObservedAt = observedAt;
+      this.lastObservedRevision = this.inputRevision;
+      return { ...state, handRead, ...(resynchronized ? { resynchronized: true } : {}) };
+    }
+    async observedResourceProof(state) {
+      if (!TCG.legalState(state) || this.autoRisk || this.handNeedsReset || this.handFanReady) return null;
+      const revision = this.inputRevision, count = TCG.total(state.dice);
+      for (let attempt = 0; attempt < 2; attempt++) {
+        const sampledAt = Date.now();
+        let sample;
+        try { sample = this.frame(f => {
+          const phase = this.phaseIn(f);
+          if (phase.phase !== "board" || phase.turn !== "user") return phase;
+          return { ...phase, dice: this.diceIn(f).dice, badge: this.diceCountIn(f) };
+        }); } catch (e) { if (e.code === "TCG_DICE_RETRY") return null; throw e; }
+        if (sample.phase !== "board" || sample.turn !== "user" || sample.badge !== count ||
+            !TCG.diceOrder.every(e => (sample.dice?.[e] || 0) === (state.dice[e] || 0)) ||
+            TCG.total(sample.dice) !== count || this.inputRevision !== revision) return null;
+        const remaining = 120 - (Date.now() - sampledAt);
+        if (attempt === 0 && remaining > 0) await sleep(remaining);
+      }
+      const proof = { kind: "two-fresh-element-and-count-frames", count, stableReads: 2, revision };
+      this.trace("resource-native-proof", { ...proof, expectedDice: this.expectedDice, attributedEffect: null });
+      return proof;
+    }
+    
+    async reset() {
+      if (this.boardReady && !this.handNeedsReset && !this.handFanReady) {
+        this.trace("hand-reset-skipped", { reason: "already-clean-board" });
+        return;
+      }
+      this.handFanReady = false;
+      this.clickAt(...this.point("board",1190,545));
+      this.moveTo(...this.point("board",1555,545));
+      await sleep(300);
+      this.handNeedsReset = false;
+      this.boardReady = true;
+      this.trace("hand-reset", {});
     }
     async expand(resetFirst = true) {
       // The native control is a toggle. Card selection does not close the fan;
       // never click that control again while the same layout remains ready.
-      if(this.handFanReady) {this.trace("hand-expand-skipped",{reason:"fan-already-ready"});return;}
-      if(resetFirst && !this.boardReady)await this.reset();
-      this.clickAt(967,1041);await sleep(600);this.moveTo(1791,917);await sleep(100);
-      this.handFanReady=true;this.handNeedsReset=true;this.trace("hand-expanded",{resetFirst});
+      if (this.handFanReady) {
+        this.trace("hand-expand-skipped", { reason: "fan-already-ready" });
+        return;
+      }
+      if (resetFirst && !this.boardReady) await this.reset();
+      this.clickAt(...this.point("handFolded",967,1041));
+      this.moveTo(...this.point("bottom",1791,917));
+      await sleep(180);
+      this.handFanReady = true;
+      this.handNeedsReset = true;
+      this.trace("hand-expanded", { resetFirst });
     }
     requireHandObservation(phase = this.phase(), stage = "hand") {
       // Details may legitimately hide the turn icon (unknown). Only positive
       // phase evidence interrupts observation; unreadable titles on a stable
       // board remain genuine errors, never converted into a fabricated win.
-      if (phase.result || ["pick", "roll", "settlement", "transition", "choice"].includes(phase.phase) || phase.turn === "enemy") {
+      if (
+        phase.result ||
+        ["pick", "roll", "settlement", "transition", "choice", "automatic"].includes(phase.phase) ||
+        phase.turn === "enemy"
+      ) {
         this.handFanReady = false;
         const error = new Error("读牌期间页面变化：" + phase.phase + "/" + phase.turn);
         error.code = "TCG_OBSERVATION_INTERRUPTED";
@@ -683,80 +1550,445 @@
         throw error;
       }
     }
-    async titleAt(x, y, opening = false, hover = false, kind = "card", expected = null, watchPhase = false) {
+    titleIn(f, roi, kind = "card", names = null) {
+      const native = this.ocr(f, this.roi("details", roi));
+      const identify = text => names ? names.some(name => TCG.norm(name) === TCG.norm(text)) :
+        kind === "character" ? TCG.characterName(text) >= 0 : !!TCG.identify(text);
+      const card = kind === "card" ? TCG.identify(native) : null;
+      if (card && TCG.norm(native) !== TCG.norm(card.name)) {
+        this.trace("title-exact-alias", { native, canonical:card.name, id:card.id, additionalInputs:0 });
+        return card.name;
+      }
+      if (identify(native) || !native) return native;
+      const enlarged = this.numericAt(f, this.roi("details", roi), 3);
+      if (identify(enlarged)) {
+        this.trace("title-pixel-recovery", { roi, kind, native, enlarged, scale:3, additionalInputs:0 });
+        return enlarged;
+      }
+      const key = "unknown-title:" + TCG.norm(native);
+      if (kind !== "character" && !this.diagnosticKeys.has(key)) {
+        this.diagnosticKeys.add(key);
+        this.trace("unresolved-title", { kind, roi, native, enlarged });
+      }
+      return native;
+    }
+    async inspectHandCard(action, x) {
+      const raw = await this.titleAt(x, 945, false, false, "card", action.id, true);
+      if (!raw) {
+        // No title is not a conflicting identity. No action was submitted;
+        // restore the view and retry this slot through the state owner.
+        this.requireHandObservation(this.phase(), "missing-input-title");
+        await this.reset();
+        const error = new Error("目标手牌标题暂未读到，保留身份后重试目标槽");
+        error.code = "TCG_STATE_REFRESH";
+        throw error;
+      }
+      if (TCG.observedCard(raw, action.index)?.id !== action.id)
+        await this.refreshHandBeforeInput("目标手牌卡名校验失败，重新核对手牌");
+    }
+    takePreparedHandInput(action, before) {
+      const prepared = this.preparedHandInput;
+      this.preparedHandInput = null;
+      const inspecting = action.type === "probe" && action.scope === "card";
+      const sameSlot = !!prepared && prepared.id === action.id && prepared.index === action.index;
+      const target = before.hand.find(h => h.index === action.index);
+      const age = prepared ? Date.now() - prepared.at : Infinity;
+      if (!prepared || !(inspecting || action.type === "card" || action.type === "tune") ||
+          !inspecting && (!Number.isInteger(action.index) || action.index < 0 || action.index >= before.hand.length ||
+            target?.id !== action.id || !TCG.handCardKnown(target)) ||
+          prepared.revision !== this.inputRevision || !Number.isFinite(age) || age < 0 || age > 5000 ||
+          prepared.beforeKey !== TCG.boardKey(before)) return null;
+      const count = this.frame(f => {
+        this.requireHandObservation(this.phaseIn(f), "after-card-inspection");
+        return this.nativeHandCountIn(f);
+      });
+      if (count !== null && count !== before.hand.length) return null;
+      // A new direct target may keep the fan only with a definite current
+      // native count. Missing count falls back to the full board/input path.
+      if (!sameSlot && !inspecting && count !== before.hand.length) return null;
+      const viewOnly = inspecting || !sameSlot;
+      this.trace("hand-input-inspection-reused", { id:action.id, index:action.index,
+        viewOnly, additionalInputs:0 });
+      // View authority carries no selected position, identity, price or count
+      // proof from the inspected slot. The next target establishes its own.
+      return viewOnly ? { viewOnly:true } : prepared;
+    }
+    async titleAt(
+      x,
+      y,
+      opening = false,
+      hover = false,
+      kind = "card",
+      expected = null,
+      watchPhase = false,
+    ) {
       if (watchPhase) this.requireHandObservation(this.phase(), "before-title-input");
-      if (hover) this.moveTo(x, y); else this.clickAt(x, y);
+      // Opening/character arguments are reference points. Hand x is already
+      // measured in F; only its reference row y needs the hand-panel transform.
+      if (opening || kind === "character") [x,y]=this.point(opening?"opening":"board",x,y);
+      else y=this.point("handExpanded",0,y)[1];
+      if (!opening && kind === "card") this.selectedCostProof = this.handPositionProof;
+      if (hover) this.moveTo(x, y);
+      else this.clickAt(x, y);
       // Official DSTCG getHandMsg clicks consecutive titles on one raised fan.
       // A hand-card click is not evidence of collapse. An empty/unstable title
       // leaves layout unknown and is normalized before any further toggle.
-      if(!hover && !opening)this.handNeedsReset=true;
-      if(!hover && (opening || kind === "character"))this.handFanReady=false;
-      await sleep(350);
+      if (!hover && !opening) this.handNeedsReset = true;
+      if (!hover && (opening || kind === "character")) this.handFanReady = false;
+      // Known input targets can be sampled early: an old neighbouring title
+      // cannot pass the expected identity. Blind title discovery keeps its delay.
+      await sleep(expected === null ? 350 : 120);
       const roi = opening ? [58, 112, 339, 53] : [311, 115, 341, 50];
-      const reads = []; let previousKey = "", lastStable = "";
-      for (let attempt = 0; attempt < 6; attempt++) {
-        const raw = this.frame(f => {
+      const reads = [];
+      let previousKey = "",
+        lastStable = "";
+      const attempts = expected === null ? 6 : 10;
+      for (let attempt = 0; attempt < attempts; attempt++) {
+        const sampledAt = Date.now();
+        const raw = this.frame((f) => {
           if (watchPhase) this.requireHandObservation(this.phaseIn(f), "title-sampling");
-          return this.ocr(f, roi);
-        }); reads.push(raw);
+          const title = this.titleIn(f, roi, kind);
+          // Use the already captured stable title frame for optional deck facts.
+          // Normal decks have no facts reader and perform no additional OCR.
+          if (!opening && kind === "card" && previousKey === "title:" + TCG.norm(title)) {
+            const card = TCG.identify(title);
+            if (card) this.readSelectedCardFacts?.(f, card, x);
+          }
+          return title;
+        });
+        reads.push(raw);
         const who = kind === "character" ? TCG.characterName(raw) : -1;
-        const key = raw ? who >= 0 ? "character:" + who : "title:" + TCG.norm(raw) : "";
+        const key = raw ? (who >= 0 ? "character:" + who : "title:" + TCG.norm(raw)) : "";
         const stable = !!key && key === previousKey;
         lastStable = stable ? raw : "";
-        const matchesExpected = kind !== "character" || expected === null || who === expected;
+        const matchesExpected = expected === null || (kind === "character"
+          ? who === expected : TCG.observedCard(raw, 0)?.id === expected);
         if (stable && matchesExpected) {
-          if(!hover && !opening && !raw)this.handFanReady=false;
-          this.trace("title-read", { point: [x,y], roi, kind, expected, reads, stable: true, matchesExpected: true });
+          this.trace("title-read", {
+            point: [x, y],
+            roi,
+            kind,
+            expected,
+            reads,
+            stable: true,
+            matchesExpected: true,
+          });
           return raw;
         }
         previousKey = key;
-        if (attempt < 5) await sleep(150);
+        const remaining = (expected === null ? 150 : 120) - (Date.now() - sampledAt);
+        if (attempt < attempts - 1 && remaining > 0) await sleep(remaining);
       }
-      this.trace("title-read", { point: [x,y], roi, kind, expected, reads, stable: !!lastStable, matchesExpected: false });
-      if(!hover && !opening)this.handFanReady=false;
+      this.trace("title-read", {
+        point: [x, y],
+        roi,
+        kind,
+        expected,
+        reads,
+        stable: !!lastStable,
+        matchesExpected: false,
+      });
+      if (!hover && !opening) this.handFanReady = false;
       // A stable wrong character remains wrong; preserve its raw title for the error.
-      return kind === "character" ? lastStable : "";
+      return kind === "character" || expected !== null ? lastStable : "";
     }
     invalidateHand(reason) {
-      if (this.handCache !== null) this.trace("hand-cache-invalidated", { reason, count: this.handCache.length });
+      if (this.handCache !== null)
+        this.trace("hand-cache-invalidated", { reason, count: this.handCache.length });
       this.handCache = null;
       this.handCountHint = null;
+      this.handPositionProof = null;
+      if (this.confirmationSession) this.confirmationSession.handObservation = null;
     }
     acceptHand(hand, reason) {
-      this.handCache = TCG.indexedHand(hand);
+      this.handCache = TCG.reconcileHand(this.handProvenance, hand, false,
+        (this.memory?.refusedActions || []).filter(r => r.uncertain && r.round === this.memory.round));
+      // Publish the same provenance into the observation returned to planning.
+      hand.forEach((card, index) => Object.assign(card, this.handCache[index]));
+      this.handProvenance = this.handCache;
       this.trace("hand-cache-updated", { reason, count: this.handCache.length });
     }
+    handCostMarkersIn(f, roi, useColor = false) {
+      const threshold = roi.panel === "handFolded" && roi.layoutKey === "16:10" ? .88 : .9;
+      return ["hand_cost_neutral", "hand_cost_element", "hand_cost_dendro", "hand_cost_electro", "hand_cost_matching"]
+        .flatMap(asset => this.matches(f, asset, roi, threshold, useColor));
+    }
+    handCostLayoutIn(f, nativeCount = null) {
+      return this.memoFrame(f, "costLayout:" + nativeCount, () => {
+        const measured = nativeCount ?? (this.handFanReady ? this.memoFrame(f, "hand/rim-count", () =>
+          handLayoutCount(this.matches(f, "hand_rim", this.roi("handExpanded", [500, 900, 1260, 135]), 0.85, false).map(r => r.x))) : null);
+        return costMarkerLayout(this.handCostMarkersIn(f, this.roi("handExpanded", [450, 750, 1310, 200])), measured, this.panelTransform("handExpanded"));
+      });
+    }
+    handPriceIn(f, marker) {
+      const cost = number(this.numericAt(f, this.observedRoi("handExpanded", [Math.round(marker.x + 12), Math.round(marker.y - 5), 36, 42]), 4));
+      return cost !== null ? { cost, reads: 1 } : {
+        cost: number(this.numericAt(f, this.observedRoi("handExpanded", [Math.round(marker.x), Math.round(marker.y - 30), 60, 90]), 4)), reads: 2,
+      };
+    }
+    costHandIn(f, nativeCount = null) {
+      return this.memoFrame(f, "costHand:" + nativeCount, () => {
+        const roi = [450, 750, 1310, 200];
+        const matches = this.handCostMarkersIn(f, this.roi("handExpanded", roi)), layout = this.handCostLayoutIn(f, nativeCount);
+        const unresolved = (reason, detail = {}) => {
+          const key = "hand-cost-unresolved:" + reason;
+          if (!this.diagnosticKeys.has(key)) {
+            this.diagnosticKeys.add(key);
+            this.trace("hand-cost-unresolved", { reason, matches, layout, nativeCount, ...detail });
+          }
+          return null;
+        };
+        if (!layout) return unresolved("geometry");
+        const yy = Math.floor(
+          Math.max(this.point("handExpanded",0,750)[1], Math.min(this.point("handExpanded",0,840)[1], Math.min(...layout.markers.map((m) => m.y)) - 40)),
+        );
+        const numbers = costDigitRows(this.enlargedOcrRows(f, this.observedRoi("handExpanded", [470, yy, 1290, 110]), 3));
+        let localRecoveryCalls = 0;
+        for (const m of layout.markers) {
+          const found = costNumbersAt(m, numbers);
+          if (found.length > 1) { unresolved("ambiguous-digit", { marker: m, numbers }); continue; }
+          if (found.length === 1 && found[0].value < 10) continue;
+          if (found.length === 1) {
+            // Whole-row OCR can concatenate neighbouring strokes (native 1→11).
+            // Verify only this digit in its tight crop; legal two-digit prices
+            // are retained, never clamped to the printed card cost.
+            numbers.splice(numbers.indexOf(found[0]),1);
+            const value=number(this.numericAt(f,this.observedRoi("handExpanded", [Math.round(m.x+12),Math.round(m.y-5),36,42]),4));
+            localRecoveryCalls++;
+            if(value!==null)numbers.push({...found[0],value});
+            continue;
+          }
+          // The tight crop also reads zeroes that a broad OCR row drops.
+          // Use the same numeric ROI as selected/folded prices before wider rows.
+          const digit=number(this.numericAt(f,this.observedRoi("handExpanded", [Math.round(m.x+12),Math.round(m.y-5),36,42]),4));
+          localRecoveryCalls++;
+          if(digit!==null){numbers.push({value:digit,x:m.x+28,y:m.y+15});continue;}
+          // Only missing locations: at most three wider crops on the SAME frame.
+          // No clicks, title expansion, guessed values, or unbounded ROI search.
+          let recovered = false;
+          for (const [dx, dy, w, h] of [
+            [0, -30, 60, 90],
+            [8, -18, 44, 68],
+            [-4, -30, 68, 90],
+          ]) {
+            const local = costNumbersAt(
+              m,
+              costDigitRows(
+                this.enlargedOcrRows(f, this.observedRoi("handExpanded", [Math.floor(m.x + dx), Math.floor(m.y + dy), w, h]), 4),
+              ),
+            );
+            localRecoveryCalls++;
+            if (local.length > 1) {
+              numbers.push(...local);
+              unresolved("ambiguous-digit", { marker: m, numbers, local });
+              recovered = true;
+              break;
+            }
+            if (local.length === 1) {
+              numbers.push(local[0]);
+              recovered = true;
+              break;
+            }
+          }
+          if (!recovered)
+            unresolved("missing-digit", { marker: m, numbers, localRecoveryCalls });
+        }
+        const sample = costHandSample(layout, numbers);
+        return { ...sample, localRecoveryCalls };
+      });
+    }
+    selectedCardCostIn(f, x) {
+      const roi = [Math.round(x - 125), this.point("handExpanded",0,750)[1], 80, 140];
+      const marks = this.handCostMarkersIn(f, this.observedRoi("handExpanded", roi))
+        .filter(m => Math.abs(m.x + 103 - x) <= 32).sort((a,b) => a.y - b.y);
+      if (!marks.length) return null;
+      const m = marks[0];
+      const read = this.handPriceIn(f, m);
+      let cost = read.cost;
+      if (read.reads > 1) {
+        this.trace("selected-cost-retry", { point:x, cost, additionalInputs:0 });
+      }
+      if (cost === null) {
+        const p = this.selectedCostProof, age = p ? Date.now() - p.at : Infinity;
+        const index = p ? p.points.indexOf(x) : -1;
+        if (p && this.inputRevision === p.revision + 1 && age >= 0 && age <= 5000 && TCG.known(p.costs[index])) {
+          cost = p.costs[index];
+          this.trace("selected-cost-reused", { index, cost, proof:"two-native-cost-frames-before-selection", additionalInputs:0 });
+        }
+      }
+      if (cost === null) this.trace("selected-cost-unread", { point:x, marker:m });
+      return cost;
+    }
+    handSample(f, priceIndex = null) {
+      this.lastCostSample = null;
+      const count = this.handCountIn(f);
+      let cost = this.lastCostSample;
+      // Quantity/positions need corners, not every digit. Only the impending
+      // target gets a price proof on these same preselection frames.
+      if (count > 0 && this.handFanReady) {
+        const layout = this.handCostLayoutIn(f, count);
+        if (layout) {
+          cost = { ...costHandSample(layout, []), revision: this.inputRevision, at: Date.now() };
+          if (priceIndex !== null && priceIndex < count)
+            cost.costs[priceIndex] = this.handPriceIn(f, layout.markers[priceIndex]).cost;
+        }
+      }
+      return { count, cost, source: this.lastHandCountSource };
+    }
+    foldedHandCostsIn(f, layout) {
+      // The same native digits (including green prices), on an already bound
+      // folded row. A missing price does not invalidate any card identity.
+      const numbers=costDigitRows(this.enlargedOcrRows(f,this.roi("handFolded", [430,965,1050,70]),3));
+      const costs=layout.slots.map(({marker})=>{
+        const found=costNumbersAt(marker,numbers);
+        if(found.length===1&&found[0].value<10)return found[0].value;
+        if(found.length>1)return null;
+        return number(this.numericAt(f,this.observedRoi("handFolded", [marker.x+12,marker.y-5,36,42]),4));
+      });
+      return {costs,source:"native-folded-cost-markers"};
+    }
+    handEmpowermentIn(f, markers) {
+      // A covered/missing badge is unknown, never proof of no empowerment.
+      return markers.map(m => this.matches(f, "hand_empowered",
+        this.observedRoi("handExpanded", [Math.round(m.x + 68), Math.round(m.y - 12), 68, 66]), .92, true).length ? true : null);
+    }
+    publishHandPositions(samples, count) {
+      this.handPositionProof = null;
+      if (samples.length < 2 || !this.handFanReady) return;
+      const [a, b] = samples.slice(-2),
+        p = a.cost,
+        q = b.cost;
+      if (
+        !p ||
+        !q ||
+        a.count !== count ||
+        b.count !== count ||
+        p.count !== count ||
+        q.count !== count ||
+        p.revision !== this.inputRevision ||
+        q.revision !== this.inputRevision ||
+        p.points.length !== count ||
+        q.points.length !== count ||
+        p.costs.length !== count ||
+        q.costs.length !== count ||
+        p.markerYs.length !== count ||
+        q.markerYs.length !== count ||
+        [p, q].some(
+          (s) => !Number.isFinite(s.at) || Date.now() - s.at < 0 || Date.now() - s.at > 5000,
+        ) ||
+        p.points.some(
+          (x, i) =>
+            !Number.isFinite(x) || !Number.isFinite(q.points[i]) || Math.abs(x - q.points[i]) > 8,
+        ) ||
+        p.markerYs.some(
+          (y, i) =>
+            !Number.isFinite(y) ||
+            !Number.isFinite(q.markerYs[i]) ||
+            Math.abs(y - q.markerYs[i]) > 8,
+        )
+      )
+        return;
+      this.handPositionProof = {
+        count,
+        points: q.points.slice(),
+        costs: q.costs.map((cost, i) => cost === p.costs[i] ? cost : null),
+        revision: this.inputRevision,
+        at: q.at,
+      };
+      this.trace(this.handPositionProof.costs.some(TCG.known)?"hand-cost-proof":"hand-position-proof", {
+        count,
+        points: q.points,
+        costs: this.handPositionProof.costs,
+        stableReads: 2,
+        localRecoveryCalls: q.localRecoveryCalls,
+        additionalInputs: 0,
+      });
+    }
+    handPoints(count) {
+      const p = this.handPositionProof,
+        age = p ? Date.now() - p.at : Infinity;
+      return p &&
+        p.count === count &&
+        p.revision === this.inputRevision &&
+        age >= 0 &&
+        age <= 5000 &&
+        this.handFanReady
+        ? p.points.slice()
+        : (handX[count] || []).slice();
+    }
     handCountIn(f) {
+      this.lastCostSample = null;
+      this.lastHandCountSource = null;
       const counts = [];
-      for (let n = 5; n <= 10; n++) if (this.has(f, "num/Hand" + n, [1463, 700, 439, 124], 0.92)) counts.push(n);
-      if (counts.length > 1) throw new Error("手牌数量模板相互冲突");
-      if (counts.length === 1) return counts[0];
-      const n = number(this.ocr(f, [1730, 700, 170, 124]));
-      if(n!==null && n<=10)return n;
-      if(!this.handFanReady)return null;
+      for (let n = 5; n <= 10; n++)
+        if (this.has(f, "num/Hand" + n, this.roi("handExpanded", [1463, 700, 439, 124]), 0.92)) counts.push(n);
+      if (counts.length > 1) {
+        const error = new Error("手牌数量模板相互冲突：" + JSON.stringify(counts));
+        error.code = "TCG_HAND_RETRY";
+        throw error;
+      }
+      if (counts.length === 1) {
+        this.lastHandCountSource = "native-badge";
+        return counts[0];
+      }
+      const n = number(this.ocr(f, this.roi("handExpanded", [1730, 700, 170, 124])));
+      if (n !== null && n <= 10) {
+        this.lastHandCountSource = "native-badge";
+        return n;
+      }
+      if (!this.handFanReady) return null;
+      const layout = this.handCostLayoutIn(f);
+      if (layout) {
+        // An unbound row still checks outer numeric evidence. No per-slot
+        // digit recovery is needed just to establish quantity/positions.
+        const y=Math.floor(Math.max(this.point("handExpanded",0,750)[1],Math.min(this.point("handExpanded",0,840)[1],Math.min(...layout.markers.map(m=>m.y))-40))),
+          numbers=layout.measuredCount===null?costDigitRows(this.enlargedOcrRows(f,this.observedRoi("handExpanded", [470,y,1290,110]),3)):[],
+          sample=costHandSample(layout,numbers);
+        if(sample){
+          this.lastHandCountSource = "full-cost-layout";
+          this.lastCostSample = { ...sample, revision: this.inputRevision, at: Date.now() };
+          return layout.count;
+        }
+      }
       // Grayscale rim gradient: usable-card gold glow must not change count.
-      return handLayoutCount(this.matches(f,"hand_rim",[500,900,1260,135],0.85,false).map(r=>r.x));
+      const rimCount = this.memoFrame(f, "hand/rim-count", () => handLayoutCount(
+        this.matches(f, "hand_rim", this.roi("handExpanded", [500, 900, 1260, 135]), 0.85, false).map((r) => r.x),
+      ));
+      if (rimCount !== null) this.lastHandCountSource = "full-rim-layout";
+      return rimCount;
     }
     recordHandLayout(count) {
-      const key="hand-layout:"+count;
-      if(count>=1 && count<=4 && !this.previewEvidence.has(key)) {
-        this.captureEvidence("hand-layout-"+count);this.previewEvidence.add(key);
+      const key = "hand-layout:" + count;
+      if (count >= 1 && count <= 4 && !this.diagnosticKeys.has(key)) {
+        this.trace("hand-layout", { count });
+        this.diagnosticKeys.add(key);
       }
     }
     async handCount(expected = null) {
       this.requireHandObservation(this.phase(), "before-hand-expand");
-      if(!this.handFanReady)await this.expand();
-      const readCount = () => this.frame(f => {
-        // The fan's count badge is transient. Collect consecutive read-only
-        // count frames quickly; full phase OCR between them can outlive it.
-        // A fresh phase guard follows the bounded sampling BEFORE any input.
-        return this.handCountIn(f);
-      });
-      const reads = []; let previous = null;
-      for (let attempt = 0; attempt < 4; attempt++) {
-        const result = readCount(); reads.push(result);
+      if (!this.handFanReady) await this.expand();
+      const readCount = () =>
+        this.frame((f) => {
+          // The fan's count badge is transient. Collect consecutive read-only
+          // count frames quickly; full phase OCR between them can outlive it.
+          // A fresh phase guard follows the bounded sampling BEFORE any input.
+          return this.handSample(f);
+        });
+      const reads = [],
+        samples = [];
+      let previous = null;
+      for (let attempt = 0; attempt < 8; attempt++) {
+        const sampledAt = Date.now();
+        const sample = readCount(),
+          result =
+            Number.isInteger(sample.count) && sample.count >= 0 && sample.count <= 10
+              ? sample.count
+              : null;
+        reads.push(result);
+        samples.push(sample);
         if (result !== null && result === previous) {
           this.requireHandObservation(this.phase(), "hand-count-resolved");
+          this.publishHandPositions(samples, result);
           if (this.emptyHandProven && result > 0) {
             this.emptyHandProven = false;
             this.invalidateHand("visible-cards-after-empty-hand");
@@ -766,63 +1998,147 @@
           return result;
         }
         previous = result;
-        if (attempt < 3) await sleep(120);
+        // Recycle/discount and drawn-card animations can outlast the transient
+        // badge. Keep the same raised fan and wait read-only, rather than
+        // immediately toggling it. The normal two-clean-frame path is unchanged.
+        const remaining = (attempt < 3 ? 120 : 300) - (Date.now() - sampledAt);
+        if (attempt < 7 && remaining > 0) await sleep(remaining);
       }
       this.requireHandObservation(this.phase(), "hand-count-unresolved");
-      const knownCounts = [...new Set(reads.filter(n => n !== null))];
-      if (knownCounts.length > 1) throw new Error("手牌计数复读不稳定：" + JSON.stringify(reads));
-      if (knownCounts.length === 1) {
-        const error = new Error("手牌计数未得到连续证据：" + JSON.stringify(reads));
-        error.code = "TCG_HAND_RETRY"; throw error;
+      const knownCounts = [...new Set(reads.filter((n) => n !== null))];
+      if (knownCounts.length > 0) {
+        const error = new Error(
+          (knownCounts.length > 1 ? "手牌计数复读不稳定：" : "手牌计数未得到连续证据：") +
+            JSON.stringify(reads),
+        );
+        error.code = "TCG_HAND_RETRY";
+        throw error;
       }
       // Missing badge/rim evidence is never a guessed zero or a reason to
       // click candidate positions. Retry read-only on the same raised fan.
       if (this.emptyHandProven) return 0;
       const error = new Error("无法确认手牌数量");
-      error.code = "TCG_HAND_RETRY"; throw error;
+      error.code = "TCG_HAND_RETRY";
+      throw error;
     }
-    async readHand(expected = this.handCountHint, evidence = null) {
+    async readHandTitles(cards, points, scan = { titles: 0 }) {
+      for (let i = 0; i < cards.length; i++) if (!cards[i]) {
+        scan.titles++;
+        const raw = await this.titleAt(points[i], 945, false, false, "card", null, true);
+        const card = TCG.observedCard(raw, i);
+        if (!card || scan.titleCandidates?.[i] && !scan.titleCandidates[i].includes(card.id)) {
+          const error = new Error("第 " + (i + 1) + " 张手牌卡名无法可靠读取：" + (raw || "OCR为空"));
+          error.code = "TCG_HAND_RETRY";
+          throw error;
+        }
+        cards[i] = card;
+      }
+    }
+    async readHand(expected = this.handCountHint, evidence = null, scan = { titles: 0 }) {
       // Evidence passed here was obtained in this very observation, not an
       // estimated count or the previous action's projected hand.
       const n = evidence ? evidence.count : await this.handCount(expected);
-      const hand = [];
+      // This scratch list belongs to one observe() call: no submitted action,
+      // phase transition or next round can inherit it. A changed native count
+      // replaces it; a failed title alone does not erase successful slots.
+      if (scan.cards && scan.cards.length !== n) scan.titleCandidates = null;
+      const hand = scan.cards?.length === n ? scan.cards : Array(n).fill(null);
+      scan.cards = hand;
       // Establish the expanded fan once. Selecting a card only raises that
       // card; it does not require resetting/re-expanding the whole hand.
-      if(n>0 && !this.handFanReady) {
+      if (n > 0 && !this.handFanReady) {
         this.requireHandObservation(this.phase(), "before-scan-expand");
         await this.expand();
       }
       this.handScanSerial++;
-      this.trace("hand-scan", { count:n, expected, reusedCount:!!evidence });
-      for (let i = 0; i < n; i++) {
-        const raw = await this.titleAt(handX[n][i], 945, false, false, "card", null, true);
-        const c = TCG.observedCard(raw, i);
-        if (!c) throw new Error("第 " + (i + 1) + " 张手牌卡名无法可靠读取：" + (raw || "OCR为空"));
-        hand.push(c);
-      }
+      // Copy all positions before the first title click invalidates the proof.
+      // Selection raises one card but does not reorder the rest of this fan.
+      const points = this.handPoints(n);
+      await this.prepareHandObservation?.(n);
+      this.trace("hand-scan", { count: n, expected, reusedCount: !!evidence });
+      await this.fillHandArtwork?.(hand, scan);
+      await this.readHandTitles(hand, points, scan);
+      const observed = this.finishHandObservation ? this.finishHandObservation(hand, scan) : hand;
       this.requireHandObservation(this.phase(), "before-hand-reset");
       await this.reset();
-      this.handCountHint=null;
-      return hand;
+      this.handCountHint = null;
+      return observed;
     }
-    async observedHand(plan = null) {
+    async observedHand(plan = null, scan = { titles: 0 }) {
       if (plan?.mode === "full") {
+        const session = this.confirmationSession,
+          observed = session?.handObservation;
+        if (observed && observed.revision === this.inputRevision) {
+          session.handObservation = null;
+          const count = this.frame(f => {
+            this.requireHandObservation(this.phaseIn(f), "before-pending-hand-reuse");
+            return this.handCountIn(f);
+          });
+          if (count === null || count === observed.hand.length) {
+            session.handObservation = observed;
+            this.trace("hand-full-read-reused", { count: observed.hand.length, visibleCount: count,
+              proof: "completed-native-read-in-same-pending-action", additionalInputs: 0 });
+            return TCG.indexedHand(observed.hand);
+          }
+        }
+        scan.retainedHand = plan.retainedHand;
+        scan.retainedVariantFamilies = plan.retainedVariantFamilies;
+        scan.settling = true;
         this.invalidateHand("generated-drawn-or-replaced-card");
-        return await this.readHand(plan.expectedCount ?? null);
+        let hand = await this.readHand(plan.expectedCount ?? null, null, scan);
+        if (plan.rejectedHand && !this.autoRisk)
+          hand = TCG.reconcileHand(plan.rejectedHand, hand, true);
+        if (session) session.handObservation = { hand: TCG.indexedHand(hand), revision: this.inputRevision };
+        return hand;
       }
       if (plan?.mode === "remove") {
-        if (plan.effectProven) {
+        const proof = plan.preResetEvidence,
+          receipt = this.consumptionReceipt;
+        const age = proof ? Date.now() - proof.at : Infinity;
+        if (
+          proof &&
+          receipt?.inputSent &&
+          plan.action?.type === "card" &&
+          proof.beforeKey === TCG.boardKey(plan.before) &&
+          proof.id === plan.action.id &&
+          proof.index === plan.action.index &&
+          proof.target === (plan.action.target ?? null) &&
+          proof.beforeKey === receipt.beforeKey &&
+          proof.id === receipt.id &&
+          proof.index === receipt.index &&
+          proof.target === receipt.target &&
+          proof.count === plan.hand.length &&
+          proof.stableReads >= 2 &&
+          proof.revision === this.inputRevision &&
+          age >= 0 &&
+          age <= 5000 &&
+          !this.handFanReady &&
+          !this.handNeedsReset
+        ) {
+          const count = this.frame((f) => this.handCountIn(f));
+          if (count === null || count === proof.count) {
+            this.trace("hand-incremental", {
+              mode: "remove",
+              count: proof.count,
+              proof: "two-native-counts-before-single-reset",
+            });
+            return TCG.indexedHand(plan.hand);
+          }
+          this.invalidateHand("unexpected-count-after-pre-reset-proof");
+          return await this.readHand(null, null, scan);
+        }
+        if (plan.effectProven || plan.paidProven) {
           // The settled board proves consumption independently. A visible count
           // disagreement still forces a real scan; unreadable badge is not zero.
           const count = this.frame(f => this.handCountIn(f));
           if (count === null || count === plan.hand.length) {
             this.trace("hand-incremental", { mode:"remove", count:plan.hand.length,
-              proof:"independent-native-effect", visibleCount:count });
+              proof:plan.paidProven?"confirmed-paid-card-two-stable-boards":"independent-native-effect", visibleCount:count });
             return TCG.indexedHand(plan.hand);
           }
           this.emptyHandProven = false;
           this.invalidateHand("unexpected-post-effect-count");
-          return await this.readHand();
+          return await this.readHand(null, null, scan);
         }
         // Publishing the projected list requires native count evidence first.
         // The independent resource/HP/energy effect is still checked by confirm.
@@ -838,7 +2154,7 @@
           return TCG.indexedHand(plan.hand);
         }
         this.invalidateHand("unexpected-post-action-count");
-        return await this.readHand(null,{count:n});
+        return await this.readHand(null,{count:n},scan);
       }
       const cached = plan?.mode === "unchanged" ? plan.hand : this.handCache;
       if (cached !== null && cached !== undefined) {
@@ -851,231 +2167,529 @@
         }
         this.invalidateHand("unexpected-visible-count");
       }
-      return await this.readHand();
+      return await this.readHand(null, null, scan);
     }
-    async settledBoard(pendingAction = false) {
-      let previousKey = "", last = null;
-      // Official 0.66 WaitForMyTurn also requires repeated observations before
-      // acting. Here exact HP/energy/active/dice must agree, not just an icon.
-      for (let attempt = 0; attempt < 12; attempt++) {
-        const p = this.phase();
-        if (p.result || ["pick", "roll", "settlement", "choice"].includes(p.phase) || p.turn === "enemy") return {...p,hand:null};
-        if (p.phase !== "board" || p.turn !== "user") { previousKey=""; await sleep(400); continue; }
-        try { last=this.board(); } catch(e) {
-          if(e.code!=="TCG_DICE_RETRY")throw e;
-          previousKey="";this.trace("board-settle-wait",{attempt,error:String(e.message||e)});await sleep(400);continue;
-        }
-        if(last.result || ["pick","roll","settlement"].includes(last.phase) || last.turn==="enemy")return {...last,hand:null};
-        const valid=TCG.legalState({...last,hand:[]});
-        let budgetValid=true;
-        if(!pendingAction)try{this.requireDiceBudget(last);}catch(e){budgetValid=false;}
-        const key=JSON.stringify([last.phase,last.turn,last.active,last.characters,last.dice]);
-        if(valid && budgetValid && key===previousKey)return last;
-        previousKey=valid && budgetValid?key:"";
-        this.trace("board-settle-wait",{attempt,phase:last.phase,turn:last.turn,valid,budgetValid});
-        if(attempt===2) {this.usePrecisionBoard("three-unsettled-board-reads");previousKey="";}
-        if(attempt<11)await sleep(400);
+    async settledBoard(_pendingAction = false, firstBoard = null) {
+      // A failed hand read or completed choice can leave cards/details raised.
+      // Normalize at the full-board boundary, never OCR obscured HP in a loop.
+      if (this.handFanReady || this.handNeedsReset) {
+        const phase = this.phase();
+        if (phase.phase !== "board" || phase.turn !== "user") return { ...phase, hand: null };
+        await this.reset();
+        firstBoard = null;
       }
-      this.usePrecisionBoard("board-retry-window-exhausted");
-      const error=new Error("行动页12次读取未稳定");
-      error.code="TCG_BOARD_RETRY";throw error;
+      this.prepareBoardObservation?.();
+      let previous = "", stableReads = 0, stableSince = 0, hpGapReads = 0, previousNormalHp = false;
+      let last = null;
+      for (let attempt = 0; attempt < 12; attempt++) {
+        const sampledAt = Date.now();
+        try { last = attempt === 0 && firstBoard ? firstBoard : this.board(true); }
+        catch (e) {
+          if (e.code !== "TCG_DICE_RETRY") throw e;
+          previous = ""; stableReads = 0; hpGapReads = 0; previousNormalHp = false;
+          this.trace("board-settle-wait", { attempt, missing: ["dice"], reason: e.message });
+          const remaining = 400 - (Date.now() - sampledAt);
+          if (attempt < 11 && remaining > 0) await sleep(remaining);
+          continue;
+        }
+        if (last.result || ["pick", "roll", "settlement", "choice"].includes(last.phase) || last.turn === "enemy") {
+          this.releasePrecisionBoard("scene-exit");
+          return { ...last, hand: null };
+        }
+        const issues = this.observationIssues(last);
+        const hpGap = last.phase === "board" && last.turn === "user" &&
+          [...(last.characters || []), ...(last.enemies || [])].some(c => c?.dead !== true && !TCG.alive(c));
+        hpGapReads = hpGap ? hpGapReads + 1 : 0;
+        if (hpGapReads === 1 && await this.dismissCharacterOverview("board-hp-gap")) {
+          previous = ""; stableReads = 0; hpGapReads = 0; previousNormalHp = false;
+          continue;
+        }
+        const key = JSON.stringify([last.phase, last.turn, last.active, last.characters, last.dice,
+          last.enemies, last.quicken || null, last.supportCounts || null,last.eye||null,last.dendroCore||null]);
+        if (!issues.length) {
+          if (key === previous) stableReads++;
+          else { stableReads = 1; stableSince = Date.now(); }
+          if (stableReads >= (this.autoRisk ? 4 : 2) && (!this.autoRisk || Date.now() - stableSince >= 1200)) {
+            if (this.autoRisk) this.trace("automatic-settled", { active: last.active, proof: "quiet-native-board-not-status-ocr" });
+            this.autoRisk = false;
+            if (previousNormalHp && last.normalHpReadable === true) this.releasePrecisionBoard("two-stable-normal-hp-profiles");
+            return { ...last, nativeStability: { reads: stableReads, key: TCG.boardKey({ ...last, hand: [] }), inputRevision: this.inputRevision } };
+          }
+        } else stableReads = 0;
+        previous = issues.length ? "" : key;
+        previousNormalHp = !issues.length && last.normalHpReadable === true;
+        this.trace("board-settle-wait", { attempt, phase: last.phase, turn: last.turn,
+          valid: issues.length === 0, missing: issues, hpGapReads });
+        if (hpGapReads === 3 && !this.precisionBoard) {
+          this.usePrecisionBoard("three-consecutive-user-hp-gaps");
+          previous = ""; stableReads = 0; previousNormalHp = false;
+        }
+        const remaining = 400 - (Date.now() - sampledAt);
+        if (attempt < 11 && remaining > 0) await sleep(remaining);
+      }
+      const missing = last ? this.observationIssues(last) : ["capture"];
+      const error = new Error("行动页12次读取未稳定" + (missing.length ? "：" + missing.join("、") : ""));
+      error.code = "TCG_BOARD_RETRY"; error.missing = missing;
+      throw error;
     }
-    requireDiceBudget(state) {
+    diceBudgetMatches(state) {
       if (this.expectedDice !== null && state.phase === "board" && state.turn === "user") {
         const extra = TCG.total(state.dice) - this.expectedDice;
-        const gambler=this.gamblerBudget,afterCount=TCG.enemyCount(state);
+        const gambler = this.gamblerBudget,
+          afterCount = TCG.enemyCount(state);
         // Gambler refunds require actual defeats while its wearer is active,
         // and can never exceed the remaining match-wide uses. An arbitrary
         // +2/+4/+6 resource discrepancy is not evidence that this effect fired.
-        const defeats=gambler?.enemies!==null && gambler?.enemies!==undefined && afterCount!==null ?
-          Math.max(0,gambler.enemies-afterCount):0;
-        const refund=this.gamblerMayAddDice && state.active===gambler?.owner ?
-          2*Math.min(gambler.remaining,defeats):0;
-        if (extra !== 0 && !(extra>0 && extra%2===0 && extra<=refund)) {
-          throw new Error("骰子识别与已确认行动预算不符：预期 " + this.expectedDice + "，读取 " + TCG.total(state.dice));
-        }
+        const defeats =
+          gambler?.enemies !== null && gambler?.enemies !== undefined && afterCount !== null
+            ? Math.max(0, gambler.enemies - afterCount)
+            : 0;
+        const refund =
+          gambler?.remaining > 0 && state.active === gambler.owner
+            ? 2 * Math.min(gambler.remaining, defeats)
+            : 0;
+        return extra === 0 || extra > 0 && Array.from({length:refund/2},(_,i)=>
+          Math.min(16,this.expectedDice+2*(i+1))-this.expectedDice).includes(extra);
       }
+      return true;
+    }
+    requireDiceBudget(state) {
+      if (!this.diceBudgetMatches(state))
+        throw new Error("骰子识别与已确认行动预算不符：预期 " + this.expectedDice + "，读取 " + TCG.total(state.dice));
     }
     async observe(pendingAction = false, plan = null) {
-      const p = this.phase();
-      if (p.phase !== "board" || p.turn !== "user") return { ...p, hand: null };
+      // The first fresh action-only board already contains its phase. Reuse it
+      // as the first stable sample instead of a separate full phase capture.
+      // No cross-frame HP caching; subsequent samples and auto quiet windows stay.
+      const p = this.initialObservationBoard?.() || null;
+      if (p && (p.phase !== "board" || p.turn !== "user")) return { ...p, hand: null };
       let hand = null;
       const scanBefore = this.handScanSerial;
-      let resync = false;
-      for(let attempt=0;attempt<3;attempt++) {
-        const settled=await this.settledBoard(true);
-        if(settled.phase!=="board" || settled.turn!=="user")return {...settled,hand:null};
-        if(!this.handNeedsReset && !this.handFanReady)this.boardReady=true;
-        if (!pendingAction) try { this.requireDiceBudget(settled); } catch (e) {
-          resync = true;
-          this.trace("state-resync", { reason:"observation-budget", expectedDice:this.expectedDice, observedDice:TCG.total(settled.dice) });
+      const handScan = { titles: 0 };
+      let reusableSettled = null,
+        reusableSettledAt = 0, previousBoardKey = "";
+      const boardSnapshotKey = s => JSON.stringify([
+        s.phase, s.turn, s.active, s.dice, s.characters, s.enemies,
+        s.supportCounts, s.quicken || null, s.eye || null, s.dendroCore || null,
+      ]);
+      for (let attempt = 0; attempt < 3; attempt++) {
+        const settled = await this.settledBoard(true, attempt === 0 ? p : null);
+        if (settled.phase !== "board" || settled.turn !== "user") return { ...settled, hand: null };
+        if (!this.handNeedsReset && !this.handFanReady) this.boardReady = true;
+        const handReadStart = Date.now(),
+          handInputRevision = this.inputRevision;
+        if (
+          plan?.mode === "remove" &&
+          plan.hand.length === 0 &&
+          plan.action &&
+          TCG.emptyHandEffect(
+            plan.action,
+            plan.before,
+            settled,
+            plan.transitionPassed === true,
+          )
+        ) {
+          this.emptyHandProven = true;
+          this.trace("empty-hand-proof", {
+            action: plan.action,
+            proof: "independent-native-effect",
+            transition: plan.transitionPassed === true,
+          });
         }
-        const effectProven = plan?.mode === "remove" && plan.action &&
+        if (plan?.mode === "remove" && plan.hand.length === 0 && !this.emptyHandProven)
+          await this.proveEmptyHand(plan, settled);
+        const effectProven =
+          plan?.mode === "remove" &&
+          plan.action &&
           (TCG.removalEffect(plan.action, plan.before, settled) ||
-           plan.action.type==="card"&&plan.action.id==="toss"&&plan.rerollConfirmed===true &&
-           settled.active===plan.before.active && TCG.total(settled.dice)===TCG.total(plan.before.dice));
+            (plan.action.type === "card" &&
+              plan.action.id === "toss" &&
+              plan.rerollConfirmed === true &&
+              settled.active === plan.before.active &&
+              TCG.total(settled.dice) === TCG.total(plan.before.dice)));
         try {
-          hand=await this.observedHand(effectProven ? {...plan,effectProven:true} : plan);
-          if(this.pendingChoiceCard) {
-            const {id,oldCount}=this.pendingChoiceCard;
-            if(oldCount!==10 && !hand.some(c=>c.id===id)) {
-              this.invalidateHand("selected-generated-card-not-yet-observed");
-              const error=new Error("挑选结果尚未在实际手牌中出现");error.code="TCG_HAND_RETRY";throw error;
+          const paidProven = this.paidRemovalProven?.(plan, settled) === true;
+          hand = await this.observedHand(effectProven || paidProven ? { ...plan, effectProven, paidProven } : plan, handScan);
+          if(this.handScanSerial===scanBefore&&this.refreshHandFacts)
+            hand=this.refreshHandFacts(hand);
+          if (this.pendingChoiceCard) {
+            const { id, oldCount } = this.pendingChoiceCard;
+            // Cached identities cannot prove that generation failed. Read the
+            // current hand once, then accept its negative evidence too rather
+            // than retrying until a predicted card appears.
+            if (oldCount !== 10 && !hand.some(c => c.id === id) && this.handScanSerial === scanBefore)
+              hand = await this.observedHand({ mode:"full", expectedCount:null }, handScan);
+            const present = hand.some(c => c.id === id), overflowPossible = oldCount === 10,
+              unresolved = !present && !overflowPossible;
+            if (this.choiceReceipt)
+              this.choiceReceipt = { ...this.choiceReceipt, generatedPresent:present, overflowPossible, unresolved };
+            this.trace("choice-card-verified", {
+              id,
+              count: hand.length,
+              present, overflowPossible, unresolved,
+            });
+            this.pendingChoiceCard = null;
+          }
+          if (
+            this.inputRevision === handInputRevision &&
+            !this.handFanReady &&
+            !this.handNeedsReset
+          ) {
+            if (Date.now() - handReadStart <= 700) {
+              if(this.handScanSerial>scanBefore){
+                const phase=this.phase();
+                if(phase.result||phase.phase!=="board"||phase.turn!=="user")return {...phase,hand:null};
+              }
+              reusableSettled = settled;
+              reusableSettledAt = handReadStart;
+            } else if (!this.autoRisk) {
+              // Same observe(), no input or obscured board. Only retain the
+              // comparison key: a NEW complete board must still match it.
+              previousBoardKey = boardSnapshotKey(settled);
             }
-            this.trace("choice-card-verified",{id,count:hand.length,overflowPossible:oldCount===10});this.pendingChoiceCard=null;
           }
           break;
-        } catch(e) {
-          if(e.code === "TCG_OBSERVATION_INTERRUPTED") return { ...e.phase, hand: null };
-          if(e.code!=="TCG_HAND_RETRY" || attempt===2)throw e;
-          this.trace("hand-read-deferred",{attempt,error:String(e.message||e)});
+        } catch (e) {
+          if (e.code === "TCG_OBSERVATION_INTERRUPTED") return { ...e.phase, hand: null };
+          if (e.code !== "TCG_HAND_RETRY" || attempt === 2) throw e;
+          this.trace("hand-read-deferred", { attempt, error: String(e.message || e) });
+          if (attempt === 1) {
+            // A genuine second failed observation, not every normal scan.
+            // Re-anchor once, then require new evidence; never resend a card.
+            try {
+              this.requireHandObservation(this.phase(), "before-hand-reanchor");
+            } catch (interrupted) {
+              if (interrupted.code === "TCG_OBSERVATION_INTERRUPTED")
+                return { ...interrupted.phase, hand: null };
+              throw interrupted;
+            }
+            this.invalidateHand("two-unresolved-hand-observations");
+            this.boardReady = false;
+            await this.reset();
+            this.trace("hand-reanchored", {
+              attempt,
+              maximumPerObservation: 1,
+              replayedAction: false,
+            });
+          }
           await sleep(400);
         }
       }
+      const handRead = this.handScanSerial > scanBefore ||
+        plan?.mode === "full" && this.confirmationSession?.handObservation?.revision === this.inputRevision
+        ? "full" : "cached";
       // Board snapshot comes after closing card-detail overlays.
-      let previousKey = "", last = null;
+      if (reusableSettled) {
+        const state = { ...reusableSettled, hand, ...(this.pendingHandEvidence ? { handEvidence: this.pendingHandEvidence } : {}) };
+        this.trace("board-snapshot-reused", {
+          scope: "same-settled-observation-no-input",
+          handCount: hand.length,
+        });
+        return this.finishObservation(state, pendingAction, handRead, reusableSettledAt);
+      }
+      let previousKey = previousBoardKey,
+        last = null;
       for (let attempt = 0; attempt < 6; attempt++) {
-        try{last = this.board();}catch(e){
-          if(e.code!=="TCG_DICE_RETRY")throw e;
-          previousKey="";this.trace("board-read-wait",{attempt,error:String(e.message||e)});
-          if(attempt<5)await sleep(300);continue;
+        const sampledAt = Date.now();
+        try {
+          last = this.board();
+        } catch (e) {
+          if (e.code !== "TCG_DICE_RETRY") throw e;
+          previousKey = "";
+          this.trace("board-read-wait", { attempt, error: String(e.message || e) });
+          const remaining = 300 - (Date.now() - sampledAt);
+          if (attempt < 5 && remaining > 0) await sleep(remaining);
+          continue;
         }
-        if (last.result || ["pick", "roll", "settlement", "choice"].includes(last.phase) || last.turn === "enemy") {
+        if (
+          last.result ||
+          ["pick", "roll", "settlement", "choice"].includes(last.phase) ||
+          last.turn === "enemy"
+        ) {
           this.trace("observation-interrupted", { attempt, phase: last.phase, turn: last.turn });
           return { ...last, hand: null };
         }
-        const state = { ...last, hand };
-        const key = JSON.stringify([last.phase, last.turn, last.active, last.dice, last.characters]);
-        let budgetValid=true;
-        if(!pendingAction)try{this.requireDiceBudget(state);}catch(e){budgetValid=false;}
-        if (TCG.legalState(state) && key === previousKey) {
-          if (!pendingAction && (!budgetValid || resync)) {
-            this.adoptObservedState(state, "observation-resync");
-            this.trace("state-resynced", { reason:"observation-budget", after:state });
-          }
-          if (!pendingAction) this.acceptHand(hand, "observed-stable-board");
-          this.boardReady=true;
-          this.lastObservedState=state;
-          return { ...state, handRead: this.handScanSerial > scanBefore ? "full" : "cached",
-            ...(!pendingAction && (!budgetValid || resync)?{resynchronized:true}:{}) };
+        const state = { ...last, hand, ...(this.pendingHandEvidence ? { handEvidence: this.pendingHandEvidence } : {}) };
+        const key = boardSnapshotKey(last);
+        if (TCG.legalState(state) && TCG.enemyCount(state) !== null && key === previousKey) {
+          return this.finishObservation(state, pendingAction, handRead);
         }
         previousKey = key;
-        if (attempt < 5) await sleep(300);
+        const remaining = 300 - (Date.now() - sampledAt);
+        if (attempt < 5 && remaining > 0) await sleep(remaining);
       }
       this.trace("board-unstable", { last, pendingAction });
       // Preserve the already-read hand: another unstable board must NOT trigger
       // another hand scan. Recovery still requires a complete two-frame board.
-      this.usePrecisionBoard("post-hand-board-unstable");
-      const settled=await this.settledBoard(true);
-      if(settled.phase!=="board" || settled.turn!=="user")return {...settled,hand:null};
-      const recovered={...settled,hand};
-      this.boardReady=true;
-      if(!pendingAction) {
-        let budgetValid=true;try{this.requireDiceBudget(recovered);}catch(e){budgetValid=false;}
-        if(!budgetValid || resync)this.adoptObservedState(recovered,"observation-resync");
-        else this.acceptHand(hand,"observed-recovered-board");
-      }
-      return {...recovered,handRead:this.handScanSerial>scanBefore?"full":"cached"};
+      const settled = await this.settledBoard(true);
+      if (settled.phase !== "board" || settled.turn !== "user") return { ...settled, hand: null };
+      const recovered = { ...settled, hand, ...(this.pendingHandEvidence ? { handEvidence: this.pendingHandEvidence } : {}) };
+      return this.finishObservation(recovered, pendingAction, handRead);
     }
-    async validateTeam() {
-      const names = [];
-      for (let i = 0; i < 3; i++) {
-        await this.reset();
-        const raw = await this.titleAt(charX[i], 720, false, false, "character", i);
-        if (TCG.characterName(raw) !== i) throw new Error("角色顺序必须是雷电将军→柯莱→刻晴；第 " + (i + 1) + " 位实际读取：" + raw);
-        names.push(TCG.team[i].name);
-        this.trace("team-member", { index: i, raw, canonical: TCG.team[i].name });
-      }
-      await this.reset();
-      this.trace("team", names);
+    emptyHandIn(f,panel="handExpanded") {
+      const region=this.roi(panel,[1003,928,504,124]);
+      return this.has(f,"hand_empty",region,0.97,false)||this.has(f,"hand_empty_blue",region,0.97,false);
     }
+    async proveEmptyHand(plan,settled) {
+      const receipt=this.consumptionReceipt,a=plan?.action,b=plan?.before;
+      if(plan?.mode!=="remove" || plan.hand.length!==0 || b?.hand?.length!==1 || !a ||
+          !receipt?.inputSent || receipt.beforeKey!==TCG.boardKey(b) || receipt.id!==a.id ||
+          receipt.index!==a.index || receipt.target!==(a.target??null) ||
+          settled.phase!=="board" || settled.turn!=="user")return false;
+      if(!this.handFanReady)await this.expand(false);
+      let stable=0;
+      for(let attempt=0;attempt<3;attempt++) {
+        const p=this.frame(f=>({phase:this.phaseIn(f),count:this.handCountIn(f),
+          empty:this.emptyHandIn(f)}));
+        const matched=p.phase.phase==="board"&&p.phase.turn==="user"&&p.empty&&(p.count===null||p.count===0);
+        stable=matched?stable+1:0;
+        this.trace("empty-hand-native",{attempt,matched,stable,count:p.count,phase:p.phase});
+        if(p.count>0)return false;
+        if(stable>=2) {
+          const proof={kind:"native-empty-fan",stableReads:stable,sourceCount:1,...receipt};
+          if(!TCG.emptyHandEffect(a,b,{...settled,handEvidence:proof},false))return false;
+          this.pendingHandEvidence=proof;this.emptyHandProven=true;
+          this.handFanReady=false;this.handNeedsReset=false;this.boardReady=true;
+          this.trace("empty-hand-proof",{action:a,proof,netDice:TCG.total(settled.dice)-TCG.total(b.dice)});
+          return true;
+        }
+        if(attempt<2)await sleep(180);
+      }
+      return false;
+    }
+    
     async confirmOpening(data) {
       if (this.phase().phase !== "opening") throw new Error("确认起手前页面已改变");
       this.moveTo(1791, 860);
       await sleep(150);
-      await this.clickButton("确定", [720, 880, 480, 140]);
+      await this.clickButton("确定", this.roi("bottom", [720, 880, 480, 140]));
       // Confirm exactly once, then prove progression; no blind double-click.
-      let stable = 0, previous = "";
+      let stable = 0,
+        previous = "";
       for (let attempt = 0; attempt < 40; attempt++) {
         const p = this.phase();
         const accepted = ["pick", "roll"].includes(p.phase);
-        stable = accepted ? p.phase === previous ? stable + 1 : 1 : 0;
-        if (p.phase !== previous || attempt === 0) this.trace("opening-confirm-wait", { attempt, phase:p.phase });
+        stable = accepted ? (p.phase === previous ? stable + 1 : 1) : 0;
+        if (p.phase !== previous || attempt === 0)
+          this.trace("opening-confirm-wait", { attempt, phase: p.phase });
         previous = p.phase;
         if (stable >= 2) {
           this.trace("opening-confirmed", { ...data, phase: p.phase });
           return p;
         }
-        if (!["opening", "unknown", "transition", "pick", "roll"].includes(p.phase)) throw new Error("起手确认后出现意外页面：" + p.phase);
+        if (!["opening", "unknown", "transition", "pick", "roll"].includes(p.phase))
+          throw new Error("起手确认后出现意外页面：" + p.phase);
         if (attempt < 39) await sleep(400);
       }
       throw new Error("初始手牌确认未生效：未进入稳定的选人或掷骰页");
     }
-    async opening(diagnostic) {
+    async opening() {
       const startingXs = [383, 665, 960, 1248, 1535];
-      if (!diagnostic && this.options.mulligan === "全部保留") {
-        await this.confirmOpening({ policy: "confirm-current", reason: "keep-setting", selectedByScript: [] });
+      if (TCG.openingSetting(this.options.mulligan) === "全部保留") {
+        await this.confirmOpening({
+          policy: "confirm-current",
+          reason: "keep-setting",
+          selectedByScript: [],
+        });
         return;
       }
+      // User and native tests confirmed hover does not reveal these titles.
+      // One click reads a title AND toggles replacement; track the actual
+      // marker, then adjust only the final mismatches. No hover probe.
+      const original = await this.openingSelections(startingXs);
+      let selected = original.slice(), pendingInspection = null;
       const cards = [];
-      for (let i = 0; i < 5; i++) {
-        const raw = await this.titleAt(startingXs[i], 540, true, true);
-        const c = TCG.observedCard(raw, i);
-        if (!c) {
-          this.trace("opening-unreadable", { index: i, raw, recognized: cards, diagnostic });
-          if (diagnostic) {
-            log.warn("起手卡名未读清");
-            return;
-          }
-          // All title probes are hover-only, before ANY mulligan selection.
-          // Preserve a user's existing choices; do not guess or toggle cards.
-          log.warn("起手卡名未读清，保留当前选择");
-          await this.confirmOpening({ policy: "confirm-current", reason: "unreadable-title", failedIndex: i, selectedByScript: [] });
-          return;
+      const recordInput = (index, purpose, observed) => {
+        const verified = !!observed && observed.every((value, i) => value === (i === index ? !selected[i] : selected[i]));
+        this.trace("opening-card-input", {index, purpose, before:selected[index], after:observed?.[index]??null, verified});
+        return verified;
+      };
+      const toggle = async (index, purpose) => {
+        // First card's centre is covered by its own left detail panel.
+        this.clickAt(...this.point("opening",startingXs[index]+70,540));
+        await sleep(350);
+        let observed;
+        try { observed = await this.openingSelections(startingXs); }
+        catch (error) { recordInput(index, purpose, null); throw error; }
+        if (!recordInput(index, purpose, observed)) {
+          throw new Error("起手置换标记未证实，不重复点击第" + (index + 1) + "张牌");
         }
-        cards.push(c);
+        selected = observed;
+      };
+      try {
+        for (let i = 0; i < 5; i++) {
+          pendingInspection = i;
+          const raw = await this.titleAt(startingXs[i] + 70, 540, true, false);
+          let observed;
+          try { observed = await this.openingSelections(startingXs); }
+          catch (error) { recordInput(i, "inspect-unknown", null); pendingInspection = null; throw error; }
+          const verified = recordInput(i, "inspect-unknown", observed); pendingInspection = null;
+          if (!verified) {
+            throw new Error("起手读牌后的置换标记不符，不猜测选择状态");
+          }
+          selected = observed;
+          const c = TCG.observedCard(raw, i);
+          if (!c) throw new Error("第" + (i + 1) + "张初始牌标题未读清，不自动确认开局");
+          cards.push(c);
+          this.trace("opening-title-method", { index: i, method: "click", selectionChanged: true });
+        }
+      } catch (error) {
+        // Recover only when the actual marker can still be read. Do not
+        // confirm a game whose initial cards or selected replacements are unknown.
+        let observed;
+        try { observed = await this.openingSelections(startingXs); }
+        catch (failure) { if(pendingInspection!==null)recordInput(pendingInspection,"inspect-unknown",null); throw failure; }
+        if(pendingInspection!==null)recordInput(pendingInspection,"inspect-unknown",observed);
+        selected = observed;
+        for (let i = 0; i < 5; i++) if (selected[i] !== original[i]) await toggle(i, "rollback");
+        throw error;
       }
       this.trace("opening", cards);
-      log.info("初始手牌：" + cards.map(c => c.name).join("、"));
-      if (diagnostic) return;
-      // Only replace cards whose rules we know. The deck need not match a reference list.
-      for (const h of cards) if (h.supported && !TCG.keepOpening(h.id)) { this.clickAt(startingXs[h.index], 540); await sleep(200); }
-      await this.confirmOpening({ policy: "known-priority", selectedByScript: cards.filter(h => h.supported && !TCG.keepOpening(h.id)).map(h => h.index) });
+      const context = TCG.openingContext({});
+      const plan = TCG.openingPlan(cards, original, context);
+      this.openingCards = plan.keep;
+      const wanted = plan.replace;
+      this.trace("opening-plan", {
+        cards,
+        keep: cards.filter((h) => !wanted[h.index]).map((h) => h.id),
+        replace: cards.filter((h) => wanted[h.index]).map((h) => h.id),
+        replaceIndices: wanted.map((v, i) => (v ? i : -1)).filter((i) => i >= 0),
+        duplicateWeaponIndices: plan.duplicateWeapons,
+        context,
+      });
+      const final = wanted;
+      // Settle kept inspection marks first; no undo after final replacements start.
+      for (let i = 0; i < 5; i++) if (selected[i] && !final[i]) await toggle(i, "reconcile");
+      for (let i = 0; i < 5; i++) if (!selected[i] && final[i]) await toggle(i, "reconcile");
+      this.moveTo(1791, 860);
+      this.trace("opening-selection-verified", {
+        original,
+        selected,
+        proof: "two-stable-native-replace-labels-per-input",
+      });
+      await this.confirmOpening({
+        policy: "known-priority",
+        selectedByScript: selected.map((s, i) => (s ? i : -1)).filter((i) => i >= 0),
+      });
+    }
+    async openingSelections(xs) {
+      let previous = "",
+        stable = 0;
+      for (let attempt = 0; attempt < 8; attempt++) {
+        const observation = this.frame((f) => ({
+          phase: this.phaseIn(f).phase,
+          labels: xs.map((x) => TCG.norm(this.ocr(f, this.roi("opening", [x - 100, 730, 200, 60])))),
+        }));
+        if (observation.phase !== "opening") throw new Error("起手置换检查期间页面改变");
+        if (observation.labels.some((t) => t !== "" && t !== "替换")) {
+          previous = "";
+          stable = 0;
+        } else {
+          const key = JSON.stringify(observation.labels);
+          stable = key === previous ? stable + 1 : 1;
+          previous = key;
+          if (stable >= 2) return observation.labels.map((t) => t === "替换");
+        }
+        await sleep(200);
+      }
+      throw new Error("初始牌置换标记未稳定");
+    }
+    async removalEvidenceBeforeReset(plan) {
+      const r = this.consumptionReceipt,
+        a = plan?.action,
+        b = plan?.before;
+      // Ordinary consumption only. Draw/recycle/talent and the final-card
+      // empty-fan branch keep their existing independent native proofs.
+      if (
+        plan?.mode !== "remove" ||
+        plan.hand.length === 0 ||
+        a?.type !== "card" ||
+        !r?.inputSent ||
+        r.beforeKey !== TCG.boardKey(b) ||
+        r.id !== a.id ||
+        r.index !== a.index ||
+        r.target !== (a.target ?? null) ||
+        !this.handFanReady
+      )
+        return null;
+      const revision = this.inputRevision;
+      let stable = 0,
+        last = null;
+      for (let attempt = 0; attempt < 2; attempt++) {
+        const sampledAt = Date.now();
+        const p = this.frame((f) => {
+          const phase = this.phaseIn(f);
+          return {
+            ...phase,
+            count: phase.phase === "board" && phase.turn === "user" ? this.handCountIn(f) : null,
+          };
+        });
+        if (p.phase !== "board" || p.turn !== "user" || this.inputRevision !== revision)
+          return null;
+        stable =
+          p.count === plan.hand.length && p.count === last
+            ? stable + 1
+            : p.count === plan.hand.length
+              ? 1
+              : 0;
+        last = p.count;
+        const remaining = 120 - (Date.now() - sampledAt);
+        if (attempt === 0 && remaining > 0) await sleep(remaining);
+      }
+      this.trace("hand-pre-reset-proof", {
+        id: a.id,
+        count: last,
+        expected: plan.hand.length,
+        stableReads: stable,
+        additionalInputs: 0,
+      });
+      return stable >= 2
+        ? { ...r, count: last, stableReads: stable, at: Date.now(), revision }
+        : null;
+    }
+    
+    markNativeCardConfirmation(action,layout) {
+      const r=this.consumptionReceipt;
+      if(r?.inputSent===true && r.id===action.id && r.index===action.index && r.target===(action.target??null)) {
+        r.nativeConfirmed=true;r.confirmationLayout=layout;
+      }
     }
     firstPickObservation() {
       // Read the already-opened target title and phase from ONE fresh frame.
       // No startup inspection of all roles and no extra character-detail click.
-      return this.frame(f => {
+      return this.frame((f) => {
         const p = this.phaseIn(f);
-        return { ...p, selectedTarget:p.phase === "pick" ? TCG.characterName(this.ocr(f,[311,115,341,50])) : null };
+        return {
+          ...p,
+          selectedTarget:
+            p.phase === "pick" ? TCG.characterName(this.ocr(f, this.roi("details", [311, 115, 341, 50]))) : null,
+        };
       });
     }
     async pick(target, first = true) {
       if (!Number.isInteger(target) || target < 0 || target >= charX.length) throw new Error("出战角色索引无效");
       if(!first)return this.pickForced(target);
       if (this.phase().phase !== "pick") throw new Error("当前不是出战页");
-      this.clickAt(charX[target], 720);
+      this.clickAt(...this.point("board",charX[target],720));
       this.trace("pick-target-clicked", { target, name:TCG.team[target].name, first, point:[charX[target],720] });
       await sleep(500);
       // A preselected card can confirm on the FIRST click (native 11:07 run).
       // Otherwise ChooseFirst uses the same card again, but only after positive
       // selected-target evidence. Never send a second input to a roll/board.
-      let confirmationSent = false, selectionStable = 0;
+      let confirmationSent = false;
       let stable = 0, lastKey = "", last = { phase: "unknown", turn: "none" };
       for (let attempt = 0; attempt < 60; attempt++) {
         last = this.firstPickObservation();
         if (last.phase === "pick" && !confirmationSent && last.selectedTarget === target) {
-          if (++selectionStable >= 2) {
-            this.trace("pick-selected", { target, name:TCG.team[target].name, first, proof:"exact-target-title-on-pick-page" });
-            this.clickAt(charX[target], 720);
-            confirmationSent = true;
-            this.trace("pick-confirm-clicked", { target, first, point:[charX[target],720], method:"official-character-card" });
-            this.moveTo(1555, 860);
-            selectionStable = 0; stable = 0; lastKey = "";
-            await sleep(500);
-            continue;
-          }
-        } else selectionStable = 0;
+          this.trace("pick-selected", { target, name:TCG.team[target].name, first, proof:"exact-target-title-on-pick-page" });
+          this.clickAt(...this.point("board",charX[target],720));
+          confirmationSent = true;
+          this.trace("pick-confirm-clicked", { target, first, point:[charX[target],720], method:"official-character-card" });
+          this.moveTo(1555, 860);
+          stable = 0; lastKey = "";
+          await sleep(500);
+          continue;
+        }
         let accepted = last.phase === "roll" || !!last.result;
         if (last.phase === "board" && ["user", "enemy"].includes(last.turn)) {
           try { last = this.board(); } catch (e) {
@@ -1092,7 +2706,7 @@
         lastKey = key;
         if (stable >= 2) { this.trace("pick-confirmed", { target, first, phase:last.phase, turn:last.turn,
           characterInputs:confirmationSent ? 2 : 1, method:"official-character-card" }); return last; }
-        if (!["pick","unknown","transition","roll","board","result"].includes(last.phase)) {
+        if (!["pick","unknown","transition","settlement","roll","board","result"].includes(last.phase)) {
           throw new Error("首次出战后出现意外页面：" + last.phase);
         }
         if (attempt < 59) await sleep(400);
@@ -1102,29 +2716,31 @@
     pickSelectionIn(f) {
       // Native forced selection can leave ALL character cards lowered. The
       // selected card opens its exact identity and a dedicated selection banner.
-      return {who:TCG.characterName(this.ocr(f,[311,115,341,50])),
-        banner:TCG.norm(this.ocr(f,[700,508,580,65]))};
+      return {
+        who: TCG.characterName(this.ocr(f, this.roi("details", [311, 115, 341, 50]))),
+        banner: TCG.norm(this.ocr(f, this.roi("phase", [700, 508, 580, 65]))),
+      };
     }
     async pickForced(target) {
       // Official Character.SwitchWhenTakenOut selects and confirms on the
       // character card itself. Do not reuse first-pick tooltip/icon geometry.
       if(this.forcedPickSession)target=this.forcedPickSession.target;
       if(!this.forcedPickSession) {
-        const initial=this.board();
+        const initial=this.board(false, true);
         if(initial.result)return initial;
         if(initial.phase!=="pick" || !TCG.alive(initial.characters?.[target])) {
           const e=new Error("强制换人局面尚未核实");e.code="TCG_PICK_RETRY";throw e;
         }
-        this.clickAt(charX[target],720);
+        this.clickAt(...this.point("board",charX[target],720));
         this.forcedPickSession={target,confirmed:false};
         this.trace("forced-pick-selected",{target,name:TCG.team[target].name});
         await sleep(500);
       }
-      let confirmed=this.forcedPickSession.confirmed,stable=0,key="",last=null,selectionStable=0;
+      let confirmed=this.forcedPickSession.confirmed,stable=0,key="",last=null;
       for(let attempt=0;attempt<40;attempt++) {
-        try{last=this.board();}catch(e){
+        try{last=this.board(false, true);}catch(e){
           if(!["TCG_DICE_RETRY","TCG_BOARD_RETRY"].includes(e.code))throw e;
-          stable=0;key="";selectionStable=0;
+          stable=0;key="";
           this.trace("forced-pick-read-deferred",{target,attempt,code:e.code});await sleep(400);continue;
         }
         if(last.result){this.forcedPickSession=null;return last;}
@@ -1133,25 +2749,49 @@
           ["请选择一位角色出战","请选择一个角色出战"].includes(last.pickSelection.banner);
         if(last.phase==="pick" && TCG.alive(c) && (c.raised===true || selected) && !confirmed) {
           // Positive selected-card evidence; exactly one confirmation input.
-          selectionStable++;
-          if(selectionStable>=2) {
-            this.clickAt(charX[target],720);confirmed=true;this.forcedPickSession.confirmed=true;
-            this.trace("forced-pick-confirm-clicked",{target,point:[charX[target],720],method:"official-character-card",
-              proof:selected?"exact-target-title-and-pick-banner":"raised-living-target"});
-          }
+          this.clickAt(...this.point("board",charX[target],720));confirmed=true;this.forcedPickSession.confirmed=true;
+          this.trace("forced-pick-confirm-clicked",{target,point:[charX[target],720],method:"official-character-card",
+            proof:selected?"exact-target-title-and-pick-banner":"raised-living-target"});
           stable=0;key="";
         } else if(last.phase==="board" && ["user","enemy"].includes(last.turn) &&
             last.active===target && TCG.alive(c)) {
-          selectionStable=0;
           const next=JSON.stringify([last.phase,last.turn,last.active]);
           stable=next===key?stable+1:1;key=next;
           if(stable>=2) {
             this.trace("forced-pick-confirmed",{target,phase:last.phase,turn:last.turn,confirmationInputs:confirmed?1:0});
             this.forcedPickSession=null;
+            if (last.enemies?.some(e => e.dead !== true &&
+                (!Number.isInteger(e.hp) || e.dead !== false)) &&
+                await this.dismissCharacterOverview("forced-pick-handoff"))
+              return this.board(false, true);
             return last;
           }
+        } else if(last.phase==="board"&&last.turn==="user"&&last.active!==target) {
+          const observed=await this.settledBoard(true,last);
+          if(observed.phase==="board"&&observed.turn==="user"&&observed.active!==target){
+            this.trace("forced-pick-handoff",{target,actualActive:observed.active,
+              confirmationInputs:confirmed?1:0,proof:"complete-native-board-overrides-planned-target"});
+            this.forcedPickSession=null;return observed;
+          }
+          stable=0;key="";
+        } else if(["settlement","choice","roll"].includes(last.phase)) {
+          // End-phase damage can require a replacement BEFORE remaining summons,
+          // a blessing choice, and next-round dice. Hand off the stable native
+          // phase; it is not proof of the target's final active/alive state.
+          // A preselected target can finish on the FIRST card click. Native
+          // phase exit is enough to transfer page ownership, never to assert
+          // a cast, card consumption, or an unobserved active character.
+          const next=JSON.stringify(["handoff",last.phase,last.turn]);
+          stable=next===key?stable+1:1;key=next;
+          if(stable>=2) {
+            this.trace("forced-pick-handoff",{target,attempt,phase:last.phase,turn:last.turn,
+              selectionInputs:1,confirmationInputs:confirmed?1:0,
+              proof:"selection-input-and-two-stable-native-phase-exit-frames"});
+            this.forcedPickSession=null;
+            return {phase:last.phase,turn:last.turn};
+          }
         } else {
-          stable=0;key="";selectionStable=0;
+          stable=0;key="";
           if(confirmed && last.phase==="pick" && c?.dead===true) {
             this.trace("forced-pick-defeated-again",{target});this.forcedPickSession=null;return last;
           }
@@ -1160,7 +2800,9 @@
         this.trace("forced-pick-wait",{target,attempt,phase:last.phase,turn:last.turn,confirmationSent:confirmed});
         await sleep(400);
       }
-      throw new Error("阵亡换人长时间未取得完整出战证据");
+      const error = new Error("阵亡换人长时间未取得完整出战证据");
+      error.code = "TCG_PICK_RETRY";
+      throw error;
     }
     async roll(memory, { allowInitialPick = false } = {}) {
       // Only a first roll can lead to the still-pending first character pick.
@@ -1168,344 +2810,421 @@
       if (this.phase().phase !== "roll") throw new Error("当前不是投骰页");
       const observed = await this.readRollDice();
       if (this.phase().phase !== "roll") throw new Error("选择骰子前页面已改变");
-      const plan = TCG.rerollPlan(observed.items, memory);
+      const plan = TCG.rerollPlan(observed.items, memory, memory.openingContext || {});
       const keep = plan.elements;
-      for (let i=0;i<observed.items.length;i++) if (!plan.indices.includes(i)) { const die=observed.items[i];this.clickAt(die.x, die.y); await sleep(130); }
-      this.trace("reroll-plan",plan);
+      for (let i = 0; i < observed.items.length; i++)
+        if (!plan.indices.includes(i)) {
+          const die = observed.items[i];
+          this.clickAt(die.x, die.y);
+          await sleep(130);
+        }
+      this.trace("reroll-plan", plan);
       if (this.phase().phase !== "roll") throw new Error("重投确认前已离开投骰页");
       await this.clickButton("确定");
-      let stable = 0, lastKey = "", last = null;
+      let stable = 0,
+        lastKey = "",
+        last = null;
       for (let attempt = 0; attempt < 30; attempt++) {
         last = this.phase();
-        const accepted = !!last.result || last.phase === "board" && ["user", "enemy"].includes(last.turn) || mayPick && last.phase === "pick";
+        const accepted =
+          !!last.result ||
+          (last.phase === "board" && ["user", "enemy"].includes(last.turn)) ||
+          (mayPick && last.phase === "pick");
         const key = JSON.stringify([last.phase, last.turn, last.result]);
-        stable = accepted ? key === lastKey ? stable + 1 : 1 : 0;
-        if (key !== lastKey) this.trace("roll-wait", { attempt, phase: last.phase, turn: last.turn });
+        stable = accepted ? (key === lastKey ? stable + 1 : 1) : 0;
+        if (key !== lastKey)
+          this.trace("roll-wait", { attempt, phase: last.phase, turn: last.turn });
         lastKey = key;
         if (stable >= 2) break;
-        if (last.phase === "opening" || last.phase === "pick" && !mayPick) throw new Error("重投确认后出现意外页面：" + last.phase);
+        if (last.phase === "opening" || (last.phase === "pick" && !mayPick))
+          throw new Error("重投确认后出现意外页面：" + last.phase);
         if (attempt < 29) await sleep(500);
       }
       if (stable < 2) throw new Error("重投确认未生效；最后页面 " + last.phase);
       TCG.nextRound(memory);
-      const nextCount=this.handCache===null ? null : Math.min(10,this.handCache.length+2);
+      const nextCount = this.handCache === null ? null : Math.min(10, this.handCache.length + 2);
       this.invalidateHand("new-round-draw-order-unknown");
-      this.handCountHint=nextCount; // Common round draw is a candidate, not proof.
-      this.handFanReady=false;this.handNeedsReset=false;this.boardReady=false;
+      this.handCountHint = nextCount; // Common round draw is a candidate, not proof.
+      this.handFanReady = false;
+      this.handNeedsReset = false;
+      this.boardReady = false;
       this.emptyHandProven = false; // Round draw adds two known cards (before deck exhaustion).
-      this.zeroDiceAllowed = false;
+      this.consumptionReceipt = null;
+      this.lastObservedAt = 0;
+      this.lastObservedRevision = -1;
       this.expectedDice = 8;
-      this.gamblerMayAddDice=false;this.gamblerBudget=null;
+      this.gamblerBudget = null;
       this.trace("round", { round: memory.round, keep });
       return last;
     }
     async drag(x, y, toX, toY) {
       // Validate BOTH endpoints before any movement or button press.
-      const start = mousePoint(x, y), end = mousePoint(toX, toY);
+      const size = this.captureGeometry?.frameSize;
+      const start = mousePoint(x, y, size), end = mousePoint(toX, toY, size);
       this.moveTo(start[0], start[1]);
-      await sleep(120);
+      await sleep(60);
+      this.requireMatchTime();
+      this.checkInputGeometry();
       leftButtonDown();
+      this.inputRevision++;
+      this.handPositionProof = null;
       try {
-        for (let i = 1; i <= 15; i++) {
-          this.moveTo(start[0] + (end[0] - start[0]) * i / 15, start[1] + (end[1] - start[1]) * i / 15);
-          await sleep(20);
+        for (let i = 1; i <= 10; i++) {
+          this.moveTo(start[0] + (end[0] - start[0]) * i / 10, start[1] + (end[1] - start[1]) * i / 10);
+          await sleep(15);
         }
       } finally { leftButtonUp(); }
-      await sleep(550);
+      await sleep(350);
     }
-    warnings() {
-      return this.frame(f => ({
-        lack: this.has(f, "core/元素骰子不足", [960, 0, 960, 1080]),
-        text: this.ocr(f, [1490, 790, 410, 250])
-      }));
+    warnings(frame = null) {
+      const read = (f) => ({
+        lack: this.has(f, "core/元素骰子不足", this.roi("viewport", [960, 0, 960, 1080])),
+        text: this.ocr(f, this.roi("bottom", [1490, 790, 410, 250])),
+      });
+      return frame ? read(frame) : this.frame(read);
     }
-    async requireNoWarning() {
-      const warning = this.warnings();
-      if (warning.lack || /无法|不足|不能|充能未满/.test(warning.text)) throw new Error("游戏拒绝动作：" + warning.text);
+    cardPaymentControlsIn(f) {
+      // OCR Find returns only its first item, which may be a key hint. Read
+      // complete native rows; confirmation still requires a unique exact label.
+      return this.ocrRows(f, this.roi("bottom", [770, 900, 380, 90])).filter(
+        (row) => TCG.norm(row.text) === "打出手牌",
+      );
+    }
+    cardConfirmationEntryIn(f, targetedBanners = []) {
+      const banner = this.cardBannerIn ? this.cardBannerIn(f) : this.ocr(f, this.roi("phase", [740, 510, 450, 65]));
+      const phase = this.phaseIn(f);
+      // A real target page owns a different input. Do not OCR its payment
+      // control until the target owner has selected the character.
+      const paymentPhase = phase.phase === "unknown" && phase.turn === "none";
+      const targeted = paymentPhase && targetedBanners.includes(TCG.norm(banner));
+      // Callers can reuse entry controls only in this phase. Other entries
+      // still take their original fresh payment frames; no unused OCR here.
+      return { banner, phase, ...(paymentPhase && !targeted ? { targets: this.cardPaymentControlsIn(f) } : {}) };
+    }
+    cardChoicePreviewIn(f, kind, phase = this.phaseIn(f)) {
+      return {
+        banner: TCG.norm(this.ocr(f, this.roi("choice", kind === "target" ? [600, 510, 720, 65] : [740, 510, 450, 65]))),
+        phase, controls: this.cardPaymentControlsIn(f),
+        ...(kind === "target" ? { buttons: this.matches(f, "core/确定", this.roi("bottom", [770, 900, 380, 90])) } : {}),
+      };
+    }
+    async waitForSample(sampledAt, interval, revision = this.inputRevision) {
+      // Pure observation already spent part (or all) of the sampling interval.
+      // An intervening click starts a new animation boundary: keep the full
+      // old post-input wait rather than charging pre-input OCR against it.
+      const remaining = revision === this.inputRevision ? interval - (Date.now() - sampledAt) : interval;
+      const wait = Math.min(remaining, (this.matchDeadline ?? Infinity) - Date.now());
+      if (wait > 0) await sleep(wait);
+      this.requireMatchTime();
+    }
+    cardTargetPreviewIn(f) {
+      return {
+        banner: TCG.norm(this.cardBannerIn ? this.cardBannerIn(f) : this.ocr(f, this.roi("phase", [740, 510, 450, 65]))),
+        buttons: this.matches(f, "core/确定", this.roi("bottom", [770, 900, 380, 90])),
+        rows: this.ocrRows(f, this.roi("bottom", [770, 900, 380, 90])),
+        phase: this.phaseIn(f), warning: this.warnings(f),
+      };
+    }
+    async requireNoWarning(warning = this.warnings()) {
+      if (warning.lack || /无法|不足|不能|充能未满/.test(warning.text)) {
+        const e = new Error("游戏拒绝动作：" + warning.text);
+        e.code = "TCG_NATIVE_REJECTION";
+        throw e;
+      }
     }
     async requireSwitchPreview(action, memory) {
       // Native normal switching has NO bottom action label. Only the fast
       // status displays 快速行动; absence alone never identifies this overlay.
       const expectedSpeed = memory.fastSwitch ? "快速行动" : "";
-      let stable = 0, previousSpeed = null;
-      for (let attempt=0; attempt<6; attempt++) {
-        await this.requireNoWarning();
-        const preview=this.frame(f=>({phase:this.phaseIn(f),
-          banner:this.ocr(f,[700,508,580,65]),
-          control:this.ocr(f,[1720,835,195,75]),
-          speed:this.ocr(f,[850,972,260,60])}));
-        const matched=preview.phase.phase==="unknown" && preview.phase.turn==="none" &&
-          TCG.norm(preview.banner)==="将所选角色切换为出战角色" &&
-          TCG.norm(preview.control)==="切换角色" && ["", "快速行动"].includes(TCG.norm(preview.speed));
-        this.trace("switch-preview",{attempt,target:action.target,expectedSpeed,matched,...preview});
+      let stable = 0,
+        previousSpeed = null;
+      for (let attempt = 0; attempt < 10; attempt++) {
+        const sampledAt = Date.now();
+        const preview = this.frame((f) => ({
+          phase: this.phaseIn(f),
+          banner: this.ocr(f, this.roi("phase", [700, 508, 580, 65])),
+          control: this.ocr(f, this.roi("bottom", [1720, 835, 195, 75])),
+          speed: this.ocr(f, this.roi("bottom", [850, 972, 260, 60])),
+          warning: this.warnings(f),
+        }));
+        await this.requireNoWarning(preview.warning);
+        this.requireHandObservation(preview.phase, "switch-preview");
+        const matched =
+          preview.phase.phase === "unknown" &&
+          preview.phase.turn === "none" &&
+          TCG.norm(preview.banner) === "将所选角色切换为出战角色" &&
+          TCG.norm(preview.control) === "切换角色" &&
+          ["", "快速行动"].includes(TCG.norm(preview.speed));
+        this.trace("switch-preview", {
+          attempt,
+          target: action.target,
+          expectedSpeed,
+          matched,
+          ...preview,
+        });
+        if (preview.phase.phase === "board" && preview.phase.turn === "user" &&
+            TCG.norm(preview.banner) === "元素骰子不足") {
+          const error = new Error("游戏拒绝动作：" + preview.banner);
+          error.code = "TCG_NATIVE_REJECTION";
+          throw error;
+        }
         const actualSpeed = TCG.norm(preview.speed);
-        stable=matched ? actualSpeed===previousSpeed ? stable+1 : 1 : 0;
-        previousSpeed=matched ? actualSpeed : null;
-        if(stable>=2)return {fast:actualSpeed==="快速行动",speed:actualSpeed};
-        if(attempt<5)await sleep(300);
+        stable = matched ? (actualSpeed === previousSpeed ? stable + 1 : 1) : 0;
+        previousSpeed = matched ? actualSpeed : null;
+        if (stable >= 2) return { fast: actualSpeed === "快速行动", speed: actualSpeed };
+        const remaining = (matched ? 120 : 300) - (Date.now() - sampledAt);
+        if (attempt < 9 && remaining > 0) await sleep(remaining);
       }
       throw new Error("切换确认页未核实横幅、控件与行动类型");
     }
-    async cardConfirm(action, before=null) {
-      await this.requireNoWarning();
-      const type = TCG.byId[action.id].type;
-      const foodPage = this.frame(f => ({banner:this.ocr(f,[740,510,450,65]),phase:this.phaseIn(f)}));
-      const targetedBanners={legend:["请选择一个角色","对所选角色生效"],
-        artifact:["请选择要装备圣遗物的角色","请选择一个角色装备圣遗物","请选择一个角色","对所选角色生效"],
-        weapon:["请选择要装备武器的角色","请选择一个角色装备武器","请选择一个角色","对所选角色生效"]};
-      if(targetedBanners[type]?.includes(TCG.norm(foodPage.banner)) && foodPage.phase.phase==="unknown" && foodPage.phase.turn==="none"){
-        if(!Number.isInteger(action.target)||action.target<0||action.target>2)throw new Error("卡牌目标不合法");
-        const point=this.clickAt(charX[action.target],720);
-        this.trace("card-target-clicked",{id:action.id,target:action.target,point,layout:"targeted",banner:foodPage.banner});
-        await sleep(500);let stable=0,key="";
-        for(let attempt=0;attempt<6;attempt++){
-          await this.requireNoWarning();
-          const selected=this.frame(f=>({banner:TCG.norm(this.ocr(f,[740,510,450,65])),
-            buttons:this.matches(f,"core/确定",[770,900,380,90]),rows:this.ocrRows(f,[770,900,380,90]),phase:this.phaseIn(f)}));
-          // A direct native resolution is verified by confirm(), not assumed
-          // successful here. Never send a second selection or a skill input.
-          if(selected.phase.result || selected.phase.phase==="board" && selected.phase.turn==="user"){
-            this.trace("card-target-resolved",{id:action.id,target:action.target,proof:"native-page-exit-only"});return;}
-          const play=selected.rows.filter(r=>TCG.norm(r.text)==="打出手牌");
-          const controls=selected.buttons.length?selected.buttons:play;
-          const matched=selected.banner===TCG.norm(foodPage.banner)&&controls.length===1&&
-            selected.phase.phase==="unknown"&&selected.phase.turn==="none";
-          const current=matched?JSON.stringify([selected.banner,controls[0]]):"";
-          stable=matched?(current===key?stable+1:1):0;key=current;
-          this.trace("card-target-preview",{id:action.id,target:action.target,attempt,matched,...selected});
-          if(stable>=2){const b=controls[0];const confirmPoint=this.clickAt(b.x+b.w/2,b.y+b.h/2);
-            this.trace("card-confirm-clicked",{id:action.id,target:action.target,point:confirmPoint,layout:"targeted"});
-            await sleep(700);return;}
-          if(attempt<5)await sleep(250);
-        }
-        this.captureEvidence("targeted-card-"+action.id);throw new Error("目标卡牌选人后确认页未核实");
-      }
-      if (type === "food" && TCG.norm(foodPage.banner) === "请选择一个角色食用料理" && foodPage.phase.phase === "unknown") {
-        if (!Number.isInteger(action.target) || action.target < 0 || action.target > 2) throw new Error("料理目标未核实");
-        // Dropping on a character opens selection, but does not select it.
-        // Select exactly once, then require the native CENTER 确定 button.
-        const point = this.clickAt(charX[action.target],720);
-        this.trace("card-target-clicked",{id:action.id,target:action.target,point,layout:"food"});
-        await sleep(600);
-        await this.requireNoWarning();
-        const selected = this.frame(f => ({banner:this.ocr(f,[740,510,450,65]),
-          buttons:this.matches(f,"core/确定",[770,900,380,90]),phase:this.phaseIn(f)}));
-        if(TCG.norm(selected.banner)!=="请选择一个角色食用料理" || selected.buttons.length!==1 || selected.phase.phase!=="unknown") {
-          throw new Error("料理选人后未识别到唯一中央确定");
-        }
-        const b=selected.buttons[0];
-        const confirmedPoint=this.clickAt(b.x+b.w/2,b.y+b.h/2);
-        this.trace("card-confirm-clicked",{id:action.id,target:action.target,point:confirmedPoint,layout:"food"});
-        await sleep(700);return;
-      }
-      // Native 星天之兆 opens a payment page with a CENTER button. Its detail
-      // panel is gone and the right skill buttons are not the confirmation.
-      const central = this.frame(f => {
-        const roi = [770, 900, 380, 90];
-        const text = this.ocr(f, roi), banner = this.ocr(f, [740, 510, 450, 65]);
-        const targets = [];
-        if (TCG.norm(text) === "打出手牌") {
-          const rs = f.FindMulti(RecognitionObject.Ocr(...roi));
-          for (let i = 0; i < rs.count; i++) {
-            const r = rs[i];
-            if (TCG.norm(String(r.text ?? r.Text)) === "打出手牌") targets.push({
-              x:Number(r.x ?? r.X), y:Number(r.y ?? r.Y),
-              w:Number(r.width ?? r.Width), h:Number(r.height ?? r.Height) });
-          }
-        }
-        return { text, banner, targets, phase:this.phaseIn(f) };
-      });
-      if (central.targets.length) {
-        const card=TCG.byId[action.id],banner=TCG.norm(central.banner);
-        const activeScope=["stars","voltage","calx","lost"].includes(action.id) && banner==="对我方出战角色生效";
-        const namedEvent=["dice","draw","switch","energy","support","reroll","recovery"].includes(card.type) &&
-          banner==="打出手牌"+TCG.norm(card.name);
-        const talentWho=action.id==="penance"?2:action.id==="talent"?1:null;
-        const activeTalent=talentWho!==null && action.target===talentWho && before?.active===talentWho &&
-          TCG.alive(before.characters?.[talentWho]) && !before.characters[talentWho].frozen &&
-          banner==="装备给出战中的"+TCG.norm(TCG.team[talentWho].name);
-        if (central.targets.length !== 1 || !(action.target===null && (activeScope || namedEvent) || activeTalent) ||
-            central.phase.phase !== "unknown" || central.phase.turn!=="none") {
-          throw new Error("中央出牌确认页的卡牌类型/作用范围未核实");
-        }
-        const b = central.targets[0];
-        // A talent is already selected on its active wearer. Confirm the
-        // observed payment button once; the card itself invokes the skill.
-        // Never add a target click or a separate skill cast here.
-        let stable=1;
-        for(let attempt=0;attempt<6;attempt++) {
-          await sleep(250);await this.requireNoWarning();
-          const current=this.frame(f=>({banner:TCG.norm(this.ocr(f,[740,510,450,65])),
-            controls:this.ocrRows(f,[770,900,380,90]).filter(r=>TCG.norm(r.text)==="打出手牌"),phase:this.phaseIn(f)}));
-          const c=current.controls[0],matched=current.banner===banner && current.controls.length===1 &&
-            current.phase.phase==="unknown" && current.phase.turn==="none" &&
-            Math.abs(c.x+c.w/2-b.x-b.w/2)<=3 && Math.abs(c.y+c.h/2-b.y-b.h/2)<=3;
-          stable=matched?stable+1:0;
-          this.trace("card-payment-preview",{id:action.id,attempt,matched,stable,...current});
-          if(stable>=2)break;
-          if(attempt===5)throw new Error("中央出牌确认控件未连续核实");
-        }
-        const point = this.clickAt(b.x+b.w/2,b.y+b.h/2);
-        this.trace("card-confirm-clicked", { id:action.id, point, layout:"central", banner:central.banner });
-        await sleep(700);
-        return;
-      }
-      if (action.target !== null && ["food", "artifact", "weapon", "wedge", "talent","legend"].includes(type)) {
-        // Only click a target while the selected card is still displayed in its detail panel.
-        const title = this.frame(f => this.ocr(f, [311, 115, 341, 50]));
-        // A drag directly onto the intended character may already resolve the card.
-        // In that case, issue no more input; the state verifier must prove acceptance.
-        if (!title) return;
-        if (TCG.identify(title)?.id !== action.id) throw new Error("出牌后的选目标页面未确认");
-        this.clickAt(charX[action.target], 720);
-        await sleep(500);
-      }
-      // Zero-cost untargeted events can resolve immediately. Never click a skill button
-      // as a fallback confirmation for those events.
-      const text = this.frame(f => this.ocr(f, [1550, 850, 360, 190]));
-      if (/确认|使用|打出/.test(text) && !/无法|不足|不能/.test(text)) {
-        const targets = this.frame(f => {
-          const rs = f.FindMulti(RecognitionObject.Ocr(1550, 850, 360, 190));
-          const out = [];
-          for (let i = 0; i < rs.count; i++) {
-            const r = rs[i];
-            if (/^(确认|使用|打出)(卡牌)?$/.test(String(r.text ?? r.Text).replace(/\s/g, ""))) {
-              out.push({ x: Number(r.x ?? r.X), y: Number(r.y ?? r.Y), w: Number(r.width ?? r.Width), h: Number(r.height ?? r.Height) });
-            }
-          }
-          return out;
-        });
-        if (targets.length !== 1) throw new Error("无法唯一识别出牌确认按钮");
-        const b = targets[0];
-        const point = this.clickAt(b.x + b.w / 2, b.y + b.h / 2);
-        this.trace("card-confirm-clicked", { id: action.id, point });
-        await sleep(700);
-      }
-    }
+    
     async requireUnchangedBoard(before) {
+      // One pre-input owner: a clean board is read with its phase in the same
+      // frame. Only an actually raised view needs a phase guard and a reset.
+      let entryPhasePending = !this.boardReady && !this.handFanReady && !this.handNeedsReset;
+      if (!this.boardReady && !entryPhasePending) {
+        const phase = this.phase();
+        if (phase.phase !== "board" || phase.turn !== "user") {
+          const error = new Error("执行前页面/回合已变化");
+          error.code = "TCG_OBSERVATION_INTERRUPTED"; error.phase = { ...phase, hand: null };
+          throw error;
+        }
+        if (this.handFanReady || this.handNeedsReset) await this.reset();
+      }
       // Dice maps are unordered and zero entries may be omitted. Compare
       // resources semantically, not by host dictionary insertion order.
-      const keyOf=s=>JSON.stringify([s.active,TCG.diceOrder.map(e=>s.dice?.[e]||0),s.characters]);
+      const keyOf=s=>JSON.stringify([s.active,TCG.diceOrder.map(e=>s.dice?.[e]||0),s.characters,s.enemies,s.quicken||null,s.supportCounts||null]);
       const expected=keyOf(before);let stable=0,last=null;
+      const recent=this.preInputBoardClean() && this.lastObservedState && keyOf(this.lastObservedState)===expected &&
+        this.lastObservedRevision===this.inputRevision && Date.now()-this.lastObservedAt<=1500 && !this.autoRisk;
       for(let attempt=0;attempt<6;attempt++) {
-        try{last=this.board();}catch(e){
+        const sampledAt = Date.now();
+        // A clean but unready entry has no reset/input between its phase and
+        // full-board reads. Let this same fresh frame prove both. Do not turn
+        // it into boardReady/recent evidence or remove either stable board.
+        const entryPhase = entryPhasePending; entryPhasePending = false;
+        try{last=entryPhase ? this.adoptPhase(this.board(true)) : this.board();}catch(e){
           if(e.code!=="TCG_DICE_RETRY")throw e;
           stable=0;this.trace("execution-board-wait",{attempt,error:String(e.message||e)});
-          if(attempt<5)await sleep(300);continue;
+          const remaining = 300 - (Date.now() - sampledAt);
+          if(attempt<5 && remaining>0)await sleep(remaining);continue;
         }
         if(last.phase!=="board" || last.turn!=="user") {
         const error=new Error("执行前页面/回合已变化");
-          error.code=last.phase==="unknown" ? "TCG_STATE_REFRESH" : "TCG_OBSERVATION_INTERRUPTED";
+          error.code=!entryPhase && last.phase==="unknown" ? "TCG_STATE_REFRESH" : "TCG_OBSERVATION_INTERRUPTED";
           error.phase={...last,hand:null};this.boardReady=false;throw error;
         }
         const matched=keyOf(last)===expected;stable=matched?stable+1:0;
-        this.trace("execution-board-wait",{attempt,matched,stable,active:last.active,dice:last.dice});
-        if(stable>=2)return last;
-        if(attempt<5)await sleep(300);
+        this.trace("execution-board-wait",{attempt,matched,stable,active:last.active,dice:last.dice,changed:matched?[]:boardDifferences(before,last)});
+        if(stable>=2 || recent&&attempt===0&&matched)return last;
+        const remaining = 300 - (Date.now() - sampledAt);
+        if(attempt<5 && remaining>0)await sleep(remaining);
       }
       const error = new Error("执行前牌桌已变化或六次读取未稳定匹配");
       error.code = "TCG_STATE_REFRESH";
       throw error;
     }
+    preInputBoardClean() { return this.boardReady; }
     async execute(action, before, memory) {
-      if (action.type === "card" && !TCG.byId[action.id]) throw new Error("未支持的卡牌禁止出牌");
-      if (action.type === "tune" && !before.hand.some(h => h.index===action.index && h.id===action.id && TCG.handCardKnown(h))) throw new Error("未核实身份的牌禁止调和");
-      if (action.type === "card" && TCG.byId[action.id].type === "weapon" &&
-          (action.target !== TCG.byId[action.id].weaponTarget || memory.weapons[action.target])) throw new Error("武器目标不适配或已有武器，禁止装备");
-      if(action.type==="card" && action.id==="lost" && (memory.defeatRound!==memory.round || memory.lostUsedRound===memory.round))throw new Error("本大爷需要本轮阵亡且本轮尚未使用");
-      if(action.type==="card" && action.id==="edict" && memory.legendUsed)throw new Error("秘传牌本局已使用");
-      if(action.type==="card" && ["penance","talent"].includes(action.id) &&
-        (action.target!==(action.id==="penance"?2:1)||before.active!==action.target||before.characters[action.target].frozen))throw new Error("天赋出战角色/技能可用性不符");
-      if(action.type==="card" && action.target!==null && !TCG.alive(before.characters[action.target]))throw new Error("目标角色不可用");
-      const inputPhase=this.phase();
-      if(inputPhase.phase!=="board" || inputPhase.turn!=="user") {
-        const error=new Error("执行前已不是我方回合");
-        error.code="TCG_OBSERVATION_INTERRUPTED";error.phase={...inputPhase,hand:null};throw error;
-      }
-      if(!this.boardReady)await this.reset();else this.trace("hand-reset-skipped",{reason:"verified-clean-board-before-input"});
-      await this.requireUnchangedBoard(before);
-      if(action.type==="probe")return this.probeSkill(action,before,memory);
-      if (action.type === "skill" && !TCG.skillLegal(before, action, memory)) throw new Error("技能资源/充能预检失败");
-      const cost = action.type === "skill" ? TCG.size(TCG.skillCost(action.who, action.skill, memory,before)) :
-        action.type === "switch" ? (memory.freeSwitch ? 0 : 1) :
-        action.type === "card" ? TCG.size(TCG.byId[action.id].cost) : 0;
-      this.expectedDice = action.type === "end" ? null : TCG.total(before.dice) - cost +
-        (action.type === "card" ? (action.id === "woven" || action.id === "lost" ? 1 : action.id === "companion" ? 2 : 0) : 0);
-      this.zeroDiceAllowed = this.expectedDice === 0;
-      const wearer=action.type==="switch"?action.target:action.type==="skill"?action.who:
-        action.type==="card"&&action.id==="wedge"?2:before.active;
-      this.gamblerBudget=memory.artifactKinds?.[wearer]==="gambler" ?
-        {owner:wearer,remaining:TCG.gamblerRemaining(memory,wearer),enemies:TCG.enemyCount(before)}:null;
-      this.gamblerMayAddDice=!!this.gamblerBudget && this.gamblerBudget.remaining>0;
-      this.boardReady=false;
-      if (action.type === "skill" && action.who === 2 && action.skill === "E" && !before.hand.some(c => c.id === "wedge")) {
-        this.emptyHandProven = false;
-      }
-      if (action.type === "card" || action.type === "tune") {
-        await this.prepareHandInput(before.hand.length);
-        const current = before.hand;
-        const h = current.find(c => c.index === action.index);
-        if (!h || h.id !== action.id) throw new Error("执行前重新核对卡名失败");
-        if(!this.handFanReady)await this.expand();
-        const x = handX[current.length][action.index];
-        const title = TCG.observedCard(await this.titleAt(x, 945, false, false, "card", null, true),action.index);
-        if (title?.id !== action.id) await this.refreshHandBeforeInput("拖牌前最后一次卡名校验失败");
-        if(this.phase().turn!=="user")throw new Error("拖牌前回合已改变");
-        const targeted = action.type === "card" && action.target !== null;
-        await this.drag(x, 945, action.type === "tune" ? 1867 : targeted ? charX[action.target] : x,
-          action.type === "tune" ? 518 : targeted ? 720 : 595);
-        if (action.type === "tune") { await this.requireNoWarning(); await this.clickButton("元素调和"); }
-        else await this.cardConfirm(action,before);
-      } else if (action.type === "skill") {
-        const x = { NA: 1608, E: 1716, Q: 1824 }[action.skill];
-        this.clickAt(x, 957);
-        await sleep(900);
-        await this.requireNoWarning();
-        // This second click confirms the already-open skill, not a repeated attempt.
-        const preview=await this.requireSkillPreview(action,false,!!memory.thundergrassSupport);
-        if(preview?.fee!==null && preview?.fee!==undefined) {
-          this.expectedDice=TCG.total(before.dice)-preview.fee;
-          this.zeroDiceAllowed=this.expectedDice===0;
-          this.trace("skill-fee-budget",{who:action.who,skill:action.skill,nominal:cost,actual:preview.fee,
-            expectedDice:this.expectedDice,source:"current-confirmed-preview"});
+      this.consumptionReceipt = null;
+      this.pendingHandEvidence = null;
+      this.currentAction = action;
+      this.actionSubmittedAt = null;
+      const startedAt = Date.now();
+      try {
+        if (action.type === "tune" && !TCG.handCardKnown(before.hand.find(
+            h => h.index === action.index && h.id === action.id)))
+          throw new Error("未核实身份的牌禁止调和");
+        const result = await this.executeInput(action, before, memory);
+        if (!result?.probed) {
+          this.actionSubmittedAt = Date.now();
+          this.trace("input-submitted", { action, ms: this.actionSubmittedAt - startedAt,
+            inputRevision: this.inputRevision, awaitingChoice: !!this.choiceSession });
         }
-        this.clickAt(x, 957);
-        this.trace("skill-confirm-clicked", { who: action.who, skill: action.skill, point: [x, 957] });
-      } else if (action.type === "switch") {
-        if(!Number.isInteger(action.target) || action.target<0 || action.target>2 ||
-            action.target===before.active || before.characters[action.target].dead!==false)throw new Error("切换目标非法");
-        // Clicking the character opens its details. Verify its exact identity
-        // before opening the payment overlay, without clicking that card again.
-        const raw=await this.titleAt(charX[action.target],720,false,false,"character",action.target);
-        if(TCG.characterName(raw)!==action.target)throw new Error("切换目标角色标题未核实");
-        this.clickAt(1820, 958);
-        await sleep(800);
-        const preview=await this.requireSwitchPreview(action,memory);
-        this.clickAt(1820, 958);
-        this.trace("switch-confirm-clicked",{target:action.target,point:[1820,958],fast:preview.fast,predictedFast:memory.fastSwitch});
-      } else if (action.type === "end") {
-        await this.clickButton("回合结束", [0, 0, 384, 1080]);
-        if (this.phase().turn === "user") await this.clickButton("回合结束", [0, 0, 384, 1080]);
-      } else throw new Error("禁止执行动作：" + action.type);
-      await sleep(1200);
+        return result;
+      } catch (e) {
+        this.consumptionReceipt = null;
+        this.pendingHandEvidence = null;
+        const nativeRejection = e.code === "TCG_NATIVE_REJECTION";
+        if (!nativeRejection && !(action.type === "tune" && e.code === "TCG_TUNE_UNCONFIRMED"))
+          throw e;
+        if (nativeRejection) e.code = "TCG_INPUT_REJECTED";
+        // Dismiss the existing preview once. A missing tuning button is NOT a
+        // rejection proof: Player must reread hand/resources before retrying.
+        this.boardReady = false;
+        await this.reset();
+        throw e;
+      } finally {
+        this.currentAction = null;
+      }
     }
-    async prepareHandInput(expected) {
+    
+    async inputHand(action,before,memory,prepared=null) {
+      const current = before.hand;
+      const h = current.find(c => c.index === action.index);
+      if (!h || h.id !== action.id) throw new Error("执行前重新核对卡名失败");
+      const selected = prepared && !prepared.viewOnly;
+      if (prepared?.viewOnly && !this.handFanReady) await this.requireUnchangedBoard(before);
+      const priceIndex = action.type==="card"&&this.checkCardInput?action.index:null;
+      // Non-selected inputs always enter inspectHandCard below. Its fresh
+      // pre-click phase owns the boundary; quantity reads stay independent.
+      let sourceCount=selected?prepared.sourceCount:await this.prepareHandInput(before.hand.length,priceIndex,false,true);
+      if (prepared?.viewOnly && !sourceCount) {
+        // No title/drag has been sent for this target. Unknown new quantity
+        // cannot authorize bypassing the ordinary complete-board preflight.
+        await this.requireUnchangedBoard(before);
+        sourceCount=await this.prepareHandInput(before.hand.length,priceIndex,false,true);
+      }
+      const x = selected?prepared.x:this.handPoints(current.length)[action.index];
+      if (!selected) await this.inspectHandCard(action, x);
+      await this.checkCardInput?.(action,before,x,memory);
+      const phase = this.phase();
+      if (phase.turn !== "user") {
+        const error = new Error("拖牌前回合已改变"), actual = this.captureGeometry?.actualSize;
+        if (actual?.width === 2560 && [1440,1600].includes(actual.height)) {
+          error.code = "TCG_OBSERVATION_INTERRUPTED"; error.phase = { ...phase, hand: null };
+          this.boardReady = false; this.preparedHandInput = null; this.autoRisk = true;
+          this.trace("hand-input-interrupted", { action, stage: "before-drag", phase: phase.phase,
+            turn: phase.turn, inputSubmitted: false });
+        }
+        throw error;
+      }
+      const targeted = action.type === "card" && action.target !== null;
+      const drawCost = action.type === "card" ? TCG.drawPayment(before,action,memory) : null;
+      this.consumptionReceipt={id:action.id,index:action.index,target:action.target??null,
+        beforeKey:TCG.boardKey(before),inputSent:false,
+        ...(drawCost?{sourceInstanceIds:h.instanceIds?.slice()||[],cost:drawCost}:{}),
+        ...(sourceCount?{sourceCountProof:sourceCount}:{})};
+      const destination=action.type==="tune"?this.point("phase",1867,518):
+        targeted?this.point("board",charX[action.target],720):[x,this.point("board",0,595)[1]];
+      await this.drag(x, this.point("handExpanded",0,945)[1], ...destination);
+      this.consumptionReceipt.inputSent=true;
+      if (action.type === "tune") await this.confirmTune();
+      else await this.cardConfirm(action,before);
+    }
+    async confirmTune() {
+      for (let attempt = 0; attempt < 3; attempt++) {
+        await this.requireNoWarning();
+        const b = this.button("元素调和");
+        if (b) {
+          const point = this.clickAt(b.x + b.w / 2, b.y + b.h / 2);
+          this.trace("button-clicked", { asset: "元素调和", point });
+          await sleep(120);
+          return;
+        }
+        if (attempt < 2) await sleep(300);
+      }
+      const error = new Error("调和确认按钮未读清，核对实际手牌与骰子后再选择");
+      error.code = "TCG_TUNE_UNCONFIRMED";
+      throw error;
+    }
+    async inputSkill(action, before, memory, cost, readFee = false) {
+      const x = { NA: 1608, E: 1716, Q: 1824 }[action.skill];
+      this.clickAt(...this.point("bottom",x,957));
+      await sleep(120);
+      const preview = await this.requireOpenedSkill(action, before, x, readFee);
+      if (this.expectedDice !== null && preview.fee !== null) {
+        this.expectedDice = TCG.total(before.dice) - preview.fee;
+        this.trace("skill-fee-budget", { who: action.who, skill: action.skill,
+          nominal: cost, actual: preview.fee, expectedDice: this.expectedDice,
+          source: "current-confirmed-preview" });
+      }
+      this.clickAt(...this.point("bottom",x,957));
+      this.trace("skill-confirm-clicked", { who: action.who, skill: action.skill, point: this.point("bottom",x,957) });
+    }
+    
+    async inputSwitch(action,before,memory) {
+      if (!Number.isInteger(action.target) || action.target < 0 || action.target > 2 ||
+          action.target === before.active || before.characters[action.target].dead !== false)
+        throw new Error("切换目标非法");
+      // Opening details verifies the target before the payment overlay.
+      const raw = await this.titleAt(charX[action.target], 720, false, false, "character", action.target, true);
+      this.requireHandObservation(this.phase(), "before-switch-payment");
+      if (TCG.characterName(raw) !== action.target) throw new Error("切换目标角色标题未核实");
+      this.clickAt(...this.point("bottom",1820,958));
+      await sleep(120);
+      const preview = await this.requireSwitchPreview(action, memory);
+      this.clickAt(...this.point("bottom",1820,958));
+      this.trace("switch-confirm-clicked", {
+        target: action.target,
+        point: this.point("bottom",1820,958),
+        fast: preview.fast,
+        predictedFast: memory.fastSwitch,
+      });
+    }
+    async inputEnd() {
+      await this.clickButton("回合结束", this.roi("viewport", [0, 0, 384, 1080]));
+      if (this.phase().turn === "user") await this.clickButton("回合结束", this.roi("viewport", [0, 0, 384, 1080]));
+    }
+    async prepareHandInput(expected, priceIndex = null, requireReusableCount = false, deferToTitle = false) {
       this.requireHandObservation(this.phase(), "before-target-expand");
       // execute already normalized and verified the board; do not blank-click
       // a second time simply to raise the fan.
       await this.expand(false);
       // Known order/count comes from this session's confirmed hand. Look for
       // visible anomalies without the redundant 1–4-card boundary/title loop.
-      const reads = [this.frame(f=>this.handCountIn(f))];
-      await sleep(120);
-      reads.push(this.frame(f=>this.handCountIn(f)));
-      this.requireHandObservation(this.phase(), "before-target-title");
-      this.trace("hand-input-check", { expected, reads, boundaryProbe:false });
-      if (reads.some(n=>n!==null && n!==expected)) {
+      const revision = this.inputRevision, samples = [], sampledTimes = [];
+      const validCount = s => s.count === expected && Number.isInteger(s.count) &&
+        ["native-badge", "full-cost-layout", "full-rim-layout"].includes(s.source);
+      const requireRevision = () => {
+        if (this.inputRevision === revision) return;
+        this.handPositionProof = null;
+        const error = new Error("执行前手牌采样期间输入已变化");
+        error.code = "TCG_STATE_REFRESH";
+        throw error;
+      };
+      let sampledAt;
+      const sample = (recovery = false) => {
+        sampledAt = Date.now();
+        sampledTimes.push(sampledAt);
+        return this.frame(f => {
+          if (recovery) this.requireHandObservation(this.phaseIn(f), "target-count-recovery");
+          return this.handSample(f, priceIndex);
+        });
+      };
+      try {
+        samples.push(sample());
+        const remaining = 120 - (Date.now() - sampledAt);
+        if (remaining > 0) await sleep(remaining);
+        requireRevision();
+        samples.push(sample());
+        // Only a read-only inspection requests reusable count authority. A
+        // first-frame miss may recover once; positive conflicts and unknown
+        // sources never authorize another attempt or a fabricated stable pair.
+        if (requireReusableCount === true && samples[0].count === null && validCount(samples[1])) {
+          const remaining = 120 - (Date.now() - sampledAt);
+          if (remaining > 0) await sleep(remaining);
+          requireRevision();
+          samples.push(sample(true));
+        }
+      } catch (e) {
+        if (e.code !== "TCG_HAND_RETRY") throw e;
+        await this.refreshHandBeforeInput("执行前手牌数量证据冲突");
+      }
+      const reads = samples.map((s) => s.count), sources = samples.map((s) => s.source);
+      // Ordinary input immediately enters inspectHandCard, whose titleAt
+      // takes a fresh phase before the title click. Keep that later guard,
+      // rather than capturing two adjacent phase-only frames with no input
+      // between them. Price-only probes/standalone callers keep this guard.
+      if (deferToTitle !== true) this.requireHandObservation(this.phase(), "before-target-title");
+      requireRevision();
+      this.trace("hand-input-check", {
+        expected, reads, sources, boundaryProbe: false,
+      });
+      if (reads.some((n) => n !== null && n !== expected)) {
         await this.refreshHandBeforeInput("执行前手牌张数已变化");
       }
+      this.publishHandPositions(samples, expected);
       // Reuse the existing read-only count frames; no extra hand expansion.
-      if(reads[0]!==null && reads[0]===reads[1])this.recordHandLayout(reads[0]);
+      const stableSamples = samples.slice(-2);
+      if (stableSamples.every(validCount)) this.recordHandLayout(expected);
+      // Layout sources already validate every slot, expected spacing and extra
+      // edges/markers. A single raw hit or two unreadable samples is NOT proof.
+      // The transient badge can replace a complete calibrated row between
+      // frames. Stable quantity needs two native counts, not identical readers.
+      return stableSamples.every(validCount) && sampledTimes.slice(-2).every(at =>
+        Date.now() - at >= 0 && Date.now() - at <= 5000)
+        ? { count: expected, stableReads: 2, source: stableSamples[0].source, reads, sources } : null;
     }
     async refreshHandBeforeInput(reason) {
       this.invalidateHand(reason);
@@ -1515,148 +3234,553 @@
       error.code = "TCG_HAND_REFRESH";
       throw error;
     }
-    async confirm(action, before, memory=TCG.freshMemory()) {
-      const deadline = Date.now() + 45000;
-      let transition = false;
-      let plan = action.type === "end" ? null : {...TCG.handPlan(action, before),action,before};
+    async confirm(action, before, memory = TCG.freshMemory()) {
+      let pending = false;
+      try { return await this.confirmPending(action, before, memory); }
+      catch (e) {
+        pending = ["TCG_CONFIRMATION_RETRY", "TCG_BOARD_RETRY", "TCG_DICE_RETRY", "TCG_HAND_RETRY"].includes(e.code);
+        throw e;
+      }
+      finally {
+        if (!pending) {
+          this.confirmationSession = null;
+          this.actionSubmittedAt = null;
+          this.consumptionReceipt = null;
+          this.pendingHandEvidence = null;
+          this.soupReceipt = null;
+        }
+      }
+    }
+    async confirmPending(action, before, memory = TCG.freshMemory()) {
+      const key = TCG.actionKey(action) + "/" + TCG.boardKey(before);
+      if (this.confirmationSession && this.confirmationSession.key !== key)
+        throw new Error("上一个动作仍待确认，禁止提交另一动作");
+      const session = this.confirmationSession || { key, transition: false, submittedAt: this.actionSubmittedAt ?? null,
+        plan: action.type === "end" ? null : { ...TCG.handPlan(action, before, memory), action, before } };
+      this.confirmationSession = session;
+      const deadline = Math.min(Date.now() + 45000, this.matchDeadline ?? Infinity);
+      let lastPhase = null;
+      let sampledAt = 0;
+      // Polling intervals include this cycle's OCR/observation work. This does
+      // not shorten the input helpers' animation waits or replay an input.
+      const waitForSample = async interval => {
+        const remaining = Math.min(interval - (Date.now() - sampledAt), deadline - Date.now());
+        if (remaining > 0) await sleep(remaining);
+      };
+      const combat = ["skill", "switch", "end"].includes(action.type) ||
+        action.type === "card" && (TCG.byId[action.id]?.combatSkill || ["floralSidewinder", "skivingNewAndImproved", "wedge", "penance"].includes(action.id));
+      // The existing combat flag also owns switch/end recovery. This new
+      // refresh policy is only for casts, not ordinary fast/manual switches.
+      const effectAction = combat && !["switch", "end"].includes(action.type);
+      const actual = this.captureGeometry?.actualSize;
+      const handoff = actual?.width === 2560 && [1440,1600].includes(actual.height) &&
+        (effectAction || action.type === "switch" && !memory.fastSwitch)
+        ? (session.handoff ||= { startedAt: session.submittedAt ?? Date.now(), ownSince: null, ownReads: 0, ready: false }) : null;
+      // Edict consumption can precede its healing animation. Keep consumption
+      // confirmed, but use the existing quiet-board observer before planning.
+      // Do not require HP gain: full HP or healing suppression may prevent it.
+      const quietObservationRequired = action.type === "card" && action.id === "edict";
       while (Date.now() < deadline) {
+        sampledAt = Date.now();
         const p = this.phase();
+        lastPhase = p;
+        if (handoff && (p.phase !== "board" || p.turn !== "user")) {
+          handoff.ownSince = null; handoff.ownReads = 0; handoff.ready = false;
+        }
         if (p.result) return { ...p, confirmed: true };
-        if(p.phase==="choice") {
-          try{await this.resolveChoice(before,memory);}catch(e){if(e.code!=="TCG_CHOICE_RETRY")throw e;
-            this.trace("choice-deferred",{action,reason:e.message});await sleep(300);continue;}
-          plan={mode:"full",action,before,expectedCount:this.handCountHint};continue;
+        if (p.turn === "enemy" || ["choice", "roll", "pick", "settlement"].includes(p.phase))
+          session.handObservation = null;
+        if (this.choiceSession || p.phase === "choice") {
+          session.handObservation = null;
+          try { await this.resolveChoice(before, memory); }
+          catch (e) { if (e.code !== "TCG_CHOICE_RETRY") throw e;
+            this.trace("choice-deferred", { action, reason: e.message }); await waitForSample(300); continue; }
+          // A verified payment/target exit is not a generated-card choice.
+          // Keep simple removal only when this action owns the completed exit.
+          const receipt = this.soupReceipt || this.choiceReceipt;
+          if (!(session.plan?.mode === "remove" && receipt?.origin === session.key &&
+              receipt.exited === true && (this.soupReceipt === receipt || ["payment", "target"].includes(receipt.kind))))
+            session.plan = { mode: "full", action, before, expectedCount: this.handCountHint,
+              retainedHand: session.plan?.retainedHand,retainedVariantFamilies:session.plan?.retainedVariantFamilies };
+          continue;
         }
-        if(p.phase==="roll" && action.type==="card" && action.id==="toss"){
-          const proof=await this.actionReroll(before,memory);
-          plan={...plan,rerollConfirmed:proof?.confirmations===2};continue;
+        if (action.type === "card" && action.id === "toss" && (this.tossSession || p.phase === "roll")) {
+          const proof = await this.actionReroll(before, memory);
+          session.plan = { ...session.plan, rerollConfirmed: proof?.confirmations === 2 }; continue;
         }
-        if (p.turn === "enemy") transition = true;
+        if (p.turn === "enemy") session.transition = true;
         if (action.type === "end" && TCG.verify(action, before, p)) return { ...p, confirmed: true };
+        // End-turn confirmation is a phase transition, not a hand effect.
+        // While its animation still reports our board, keep the same submitted
+        // session; no full observation, hand invalidation or second click.
+        if (action.type === "end" && p.phase === "board" && p.turn === "user") { await waitForSample(450); continue; }
         if (p.phase === "pick") {
-          // A forced replacement is an ordinary phase, not a lost-session
-          // error. Preserve this session's memory, never replay the cast.
-          const combat = ["skill", "switch", "end"].includes(action.type) ||
-            action.type === "card" && ["talent", "wedge","penance"].includes(action.id);
-          if(plan?.mode==="unchanged")this.acceptHand(plan.hand,"forced-pick-unchanged-action");
+          if (session.plan?.mode === "unchanged") this.acceptHand(session.plan.hand, "forced-pick-unchanged-action");
           else this.invalidateHand("forced-character-pick-hand-changing-action");
-          this.trace("confirmation-forced-pick", { action, transition, confirmed:combat && transition });
-          return { ...p, confirmed:combat && transition };
+          const independent = combat && !session.transition && await this.forcedActionProof(action, before);
+          const confirmed = combat && (session.transition || independent);
+          this.trace("confirmation-forced-pick", { action, transition: session.transition, independent, confirmed });
+          return { ...p, confirmed };
         }
         if (p.turn === "user") {
+          if (handoff && !handoff.ready) {
+            const now = Date.now(), minimumMs = action.skill === "Q" ? 15000 : 10000;
+            // Reuse the official 10s/15s no-handoff grace, but keep observing:
+            // a real opponent return can release it early; terminal/pick/choice
+            // still dispatch above. Never require a nonexistent enemy turn.
+            const eligible = p.phase === "board" &&
+              (session.transition || now - handoff.startedAt >= minimumMs);
+            if (eligible) { handoff.ownSince ??= now; handoff.ownReads++; }
+            else { handoff.ownSince = null; handoff.ownReads = 0; }
+            if (!eligible || handoff.ownReads < 3 || now - handoff.ownSince < 2000) {
+              const reason = eligible ? "own-turn-still-settling" : "handoff-not-observed";
+              if (handoff.reason !== reason) {
+                handoff.reason = reason;
+                this.trace("combat-handoff-wait", { action, reason, phase: p.phase, turn: p.turn,
+                  transition: session.transition, elapsedMs: now - handoff.startedAt, minimumMs });
+              }
+              await waitForSample(450); continue;
+            }
+            handoff.ready = true;
+            // Phase persistence is not full effect proof. Keep the existing
+            // quiet COMPLETE-board observer before any hand scan or input.
+            this.autoRisk = true;
+            this.trace("combat-handoff-ready", { action, transition: session.transition,
+              elapsedMs: now - handoff.startedAt, ownStableMs: now - handoff.ownSince,
+              ownReads: handoff.ownReads, proof: session.transition ? "observed-opponent-return" : "conservative-no-handoff-window" });
+          }
           let after;
           try {
-          this.requireHandObservation(this.phase(), "before-confirm-reset");
-          // Hand-changing SKILLS also resolve without a hand overlay. Only a
-          // genuine dirty hand/card input needs normalization before proof.
-          if (!this.boardReady && (this.handNeedsReset || this.handFanReady ||
-              ["card","tune"].includes(action.type))) await this.reset();
-          const proofBoard = this.board();
-          if (proofBoard.result) return { ...proofBoard, confirmed: true };
-          if (TCG.emptyHandEffect(action, before, proofBoard, transition)) {
-            // Not a zero inferred from failed OCR: source count=1 and an independent
-            // observed effect prove that a consumable card has actually resolved.
-            this.emptyHandProven = true;
-            this.trace("empty-hand-proof", { action, transition });
-          }
-          after = await this.observe(true, plan);
+            this.requireHandObservation(p, "before-confirm-reset");
+            const receipt = await this.removalEvidenceBeforeReset(session.plan);
+            if (!this.boardReady && (this.handNeedsReset || this.handFanReady)) await this.reset();
+            if (receipt && this.inputRevision >= receipt.revision && this.inputRevision <= receipt.revision + 1)
+              session.plan = { ...session.plan, preResetEvidence: { ...receipt, revision: this.inputRevision } };
+            after = await this.observe(true, session.plan ? { ...session.plan, transitionPassed: session.transition } : null);
           } catch (e) {
-            if(["TCG_BOARD_RETRY","TCG_DICE_RETRY"].includes(e.code)) {
-              this.usePrecisionBoard("confirmation-read-retry");
-              this.trace("confirmation-read-deferred",{action,code:e.code,reason:String(e.message||e)});
-              await sleep(400);continue;
+            if (["TCG_BOARD_RETRY", "TCG_DICE_RETRY", "TCG_HAND_RETRY"].includes(e.code)) {
+              this.trace("confirmation-read-deferred", { action, code: e.code, missing: e.missing, reason: e.message });
+              await waitForSample(400); continue;
             }
             if (e.code !== "TCG_OBSERVATION_INTERRUPTED") throw e;
             after = { ...e.phase, hand: null };
           }
-          // readHand/observe can cross an actual turn transition. It returns
-          // only phase metadata then, never a fabricated character/dice state.
-          if(after.result)return {...after,confirmed:true};
-          if(after.phase!=="board" || after.turn!=="user") {
-            if(after.turn==="enemy")transition=true;
-            this.trace("confirmation-deferred",{action,phase:after.phase,turn:after.turn});
-            await sleep(450);continue;
-          }
-          const verified = TCG.verify(action, before, after, transition);
-          let budgetMatches = true;
-          try { this.requireDiceBudget(after); } catch (e) { budgetMatches = false; }
-          if (verified && budgetMatches) {
-            this.acceptHand(after.hand, "confirmed-" + (plan?.mode || "full"));
-            return { ...after, confirmed: true };
-          }
-          // Board resources are independent of hand order. A verified action,
-          // or a hand-preserving action, needs no second full hand scan.
-          this.trace("state-resync", { action, verified, budgetMatches, expectedDice:this.expectedDice, observedDice:TCG.total(after.dice), reuseFullRead:after.handRead === "full" });
-          if (!verified && plan?.mode!=="unchanged" && after.handRead !== "full") {
-            // A verified consumption/count is useful candidate ordering, not
-            // permission to skip the independent count/title checks below.
-            const expectedCount=verified && Array.isArray(after.hand)?after.hand.length:null;
-            this.invalidateHand("post-action-state-mismatch");
-            this.emptyHandProven = false;
-            after = await this.observe(true, { mode:"full",expectedCount });
-          }
-          if (after.result) return { ...after, confirmed:true };
+          if (after.result) return { ...after, confirmed: true };
           if (after.phase !== "board" || after.turn !== "user") {
-            if (after.turn === "enemy") transition = true;
-            this.trace("confirmation-deferred", { action, phase:after.phase, turn:after.turn });
-            await sleep(450); continue;
+            if (handoff) { handoff.ownSince = null; handoff.ownReads = 0; handoff.ready = false; }
+            if (after.turn === "enemy" || ["choice", "roll", "pick", "settlement"].includes(after.phase))
+              session.handObservation = null;
+            if (after.turn === "enemy") session.transition = true;
+            this.trace("confirmation-deferred", { action, phase: after.phase, turn: after.turn });
+            await waitForSample(450); continue;
           }
-          if (!TCG.legalState(after)) throw new Error("完整重同步仍存在不可读状态");
-          const recovered = TCG.verifyResynchronized(action, before, after, transition);
+          // Consumed source can precede a late soup page. Keep its owner even
+          // after a complete resync; neither success nor uncertain exit closes it.
+          if (TCG.confirmationReady && !TCG.confirmationReady(action, before, after)) {
+            await waitForSample(250); continue;
+          }
+          await this.provePaidDraw(action,before,after,memory);
+          const verified = TCG.verify(action, before, after, session.transition);
+          const budgetMatches = this.diceBudgetMatches(after);
+          // Begin observing immediately after submission. A positive effect may
+          // confirm early; the unchanged pre-animation board cannot reject or
+          // resynchronize the action during the former fixed 1200ms wait.
+          if (!verified && !session.transition && session.submittedAt !== null &&
+              Date.now() - session.submittedAt < 1200) {
+            this.trace("confirmation-awaiting-effect", { action, elapsed: Date.now() - session.submittedAt });
+            await waitForSample(120); continue;
+          }
+          if (verified && budgetMatches) {
+            this.acceptHand(after.hand, "confirmed-" + (session.plan?.mode || "full"));
+            // Resource/consumption proof can precede the combat's visible
+            // effects. Keep that cast confirmed (never resend it), but do not
+            // hand this early snapshot straight to the next planner. A new
+            // full observation is required when no enemy turn was observed;
+            // it must not wait for predicted damage or exclude zero damage.
+            return { ...after, ...this.confirmationExtras?.(), confirmed: true,
+              freshObservationRequired: effectAction && !session.transition || quietObservationRequired,
+              quietObservationRequired };
+          }
+          if (!budgetMatches && !await this.observedResourceProof(after)) {
+            this.trace("budget-reconciliation-wait", { action, expectedDice: this.expectedDice,
+              observedDice: TCG.total(after.dice), missing: ["native-dice-count-proof"] });
+            await waitForSample(400); continue;
+          }
+          this.trace("state-resync", { action, verified, budgetMatches, expectedDice: this.expectedDice,
+            observedDice: TCG.total(after.dice), reuseFullRead: after.handRead === "full" });
+          if (!verified && session.plan?.mode !== "unchanged" && after.handRead !== "full") {
+            this.invalidateHand("post-action-state-mismatch"); this.emptyHandProven = false;
+            after = await this.observe(true, { mode: "full", expectedCount: null });
+          }
+          if (after.result) return { ...after, confirmed: true };
+          if (after.phase !== "board" || after.turn !== "user") {
+            if (after.turn === "enemy") session.transition = true;
+            if (handoff) { handoff.ownSince = null; handoff.ownReads = 0; handoff.ready = false; }
+            await waitForSample(450); continue;
+          }
+          if (!TCG.legalState(after)) {
+            await waitForSample(400); continue;
+          }
+          if (TCG.confirmationReady && !TCG.confirmationReady(action, before, after)) {
+            await waitForSample(250); continue;
+          }
+          await this.provePaidDraw(action,before,after,memory);
+          const confirmed = TCG.verifyResynchronized(action, before, after, session.transition);
           this.adoptObservedState(after, "post-action-resync");
-          this.trace("state-resynced", { action, confirmed:recovered, after });
-          return { ...after, confirmed:recovered, resynchronized:true };
+          this.trace("state-resynced", { action, confirmed, after });
+          return { ...after, ...this.confirmationExtras?.(), confirmed, resynchronized: true,
+            freshObservationRequired: confirmed && (effectAction && !session.transition || quietObservationRequired),
+            quietObservationRequired: confirmed && quietObservationRequired };
         }
-        if (p.phase === "roll" && (["skill", "switch"].includes(action.type) || action.type==="card"&&["talent","penance","wedge"].includes(action.id)) && transition) {
-          return { ...p, confirmed: true };
-        }
-        await sleep(450);
+        if (p.phase === "roll" && combat) return { ...p, confirmed: session.transition };
+        await waitForSample(450);
       }
-      throw new Error("动作结果等待超时（45秒）");
+      const error = new Error("动作仍待核实，保留本次输入并继续观察");
+      error.code = "TCG_CONFIRMATION_RETRY";
+      error.phase = lastPhase;
+      error.elapsedMs = session.submittedAt === null ? null : Date.now() - session.submittedAt;
+      throw error;
+    }
+    async provePaidDraw(action,before,after,memory) {
+      const r=this.consumptionReceipt,h=before.hand?.[action.index],cost=r?.cost,p=r?.sourceCountProof;
+      if(TCG.drawConsumptionProven(action,before,after))return true;
+      if(action.type!=="card"||after.handRead!=="full"||
+          this.confirmationSession?.key!==TCG.actionKey(action)+"/"+TCG.boardKey(before)||
+          this.confirmationSession.transition||
+          !TCG.legalState(after)||before.diceKnown!==true||after.diceKnown!==true||this.autoRisk||
+          after.active!==before.active||JSON.stringify(after.characters)!==JSON.stringify(before.characters)||
+          JSON.stringify(after.enemies)!==JSON.stringify(before.enemies)||!r?.inputSent||
+          r.beforeKey!==TCG.boardKey(before)||r.id!==action.id||r.index!==action.index||r.target!==(action.target??null)||
+          h?.id!==action.id||!h.instanceIds?.length||JSON.stringify(r.sourceInstanceIds)!==JSON.stringify(h.instanceIds)||
+          p?.count!==before.hand.length||p.stableReads!==2||
+          !["native-badge","full-cost-layout","full-rim-layout"].includes(p.source)||
+          !cost||TCG.size(cost)<=0)return false;
+      // Exact payment is the default. A deck may additionally prove a native
+      // conversion, but never infer consumption from hand growth or total alone.
+      const current=TCG.drawPayment(before,action,memory);
+      if(!current||JSON.stringify(current)!==JSON.stringify(cost))return false;
+      const spent=Object.fromEntries(TCG.diceOrder.map(e=>[e,(before.dice[e]||0)-(after.dice[e]||0)]));
+      const exactPaid=Object.values(spent).every(n=>Number.isInteger(n)&&n>=0)&&TCG.total(spent)===TCG.size(cost)&&
+          !!TCG.payment(spent,cost,TCG.team[before.active].element);
+      if(TCG.drawPaymentMatches?!TCG.drawPaymentMatches(before,action,after,memory,cost,exactPaid):!exactPaid)return false;
+      const decreased=after.hand.filter(h=>h.id===action.id).length<before.hand.filter(h=>h.id===action.id).length;
+      // Ordinary confirmed consumption needs no extra dice OCR. Only the
+      // same-name ambiguity adds the existing independent resource proof.
+      if(!decreased||!TCG.verify(action,before,after)){
+        const native=await this.observedResourceProof(after);if(!native)return false;
+        after.drawConsumption={kind:"native-paid-draw",...r,cost:TCG.size(cost),stableReads:2,
+          revision:native.revision,diceKey:JSON.stringify(TCG.diceOrder.map(e=>after.dice[e]||0))};
+      }
+      // Remove the selected old item, never every possible origin of another copy.
+      const retained=before.hand.filter((_,i)=>i!==action.index);
+      after.hand=TCG.reconcileHand(retained,after.hand.map(({instanceIds,instanceAmbiguous,...card})=>card),false,
+        (memory.refusedActions||[]).filter(a=>a.uncertain&&a.round===memory.round));
+      this.handProvenance=retained;
+      this.trace("draw-consumption-proven",{id:action.id,index:action.index,proof:after.drawConsumption||"native-source-count-decrease"});
+      return true;
+    }
+    async forcedActionProof(action, before) {
+      // Death/energy reset is not proof of a cast. Preserve deck verification,
+      // but require two fresh identical frames and a positive resource effect.
+      if (action.type !== "skill") return false;
+      const revision = this.inputRevision;
+      let previous = "";
+      for (let i = 0; i < 2; i++) {
+        const sampledAt = Date.now();
+        let after;
+        try { after = this.board(); }
+        catch (e) { if (["TCG_BOARD_RETRY", "TCG_DICE_RETRY"].includes(e.code)) return false; throw e; }
+        const caster = after.characters?.[action.who], oldCaster = before.characters?.[action.who];
+        const paid = after.diceKnown===true&&before.diceKnown===true&&TCG.total(after.dice) < TCG.total(before.dice);
+        const charged = TCG.alive(caster) && Number.isInteger(caster.energy) &&
+          Number.isInteger(oldCaster?.energy) && caster.energy > oldCaster.energy;
+        if (after.phase !== "pick" || this.inputRevision !== revision || !(paid || charged)) return false;
+        const key = JSON.stringify([after.phase, after.characters, after.dice, after.enemies]);
+        if (i === 1) return key === previous;
+        previous = key;
+        const remaining = 120 - (Date.now() - sampledAt);
+        if (remaining > 0) await sleep(remaining);
+      }
+      return false;
     }
     adoptObservedState(state, reason) {
       if (!TCG.legalState(state)) throw new Error("重同步状态无效，不能作为下一动作基线");
       this.expectedDice = TCG.total(state.dice);
-      this.zeroDiceAllowed = this.expectedDice === 0;
-      this.gamblerMayAddDice = false;
       this.gamblerBudget = null;
       this.emptyHandProven = state.hand.length === 0;
       this.boardReady=true;
       this.lastObservedState=state;
+      this.lastObservedAt=0;this.lastObservedRevision=-1;
+      this.consumptionReceipt=null;this.pendingHandEvidence=null;
       this.acceptHand(state.hand, reason);
     }
-    captureEvidence(label) {
-      let saved=null;
-      try{this.frame(f=>{saved=this.path.replace(/\.log$/,"-"+label+"-"+(this.snapshotNumber++)+".png");
-        if(file.writeImageSync(saved,f.srcMat??f.SrcMat)===false)throw new Error("证据截图写入失败");});}
-      catch(e){this.trace("evidence-capture-failed",{label,reason:String(e.message||e)});return;}
-      this.trace("evidence-captured",{label,path:saved});
-    }
-    snapshot(reason) {
-      const data = { reason, capture: null, screenshotPath: null };
+    reportStop(reason) {
+      // Preserve the original stop even if its final log write fails.
       try {
-        // Diagnostic capture is raw and must work even when gameplay ROIs cannot.
-        const f = captureGameRegion();
-        try {
-          data.capture = captureSize(f);
-          const path = this.path.replace(/\.log$/, "-stop-" + this.snapshotNumber++ + ".png");
-          if (file.writeImageSync(path, f.srcMat ?? f.SrcMat) === false) throw new Error("截图文件写入失败：" + path);
-          data.screenshotPath = path;
-        } finally { f.dispose(); }
-      } catch (e) { data.snapshotError = String(e.message || e); log.warn("诊断截图保存失败：" + data.snapshotError); }
-      // A screenshot failure must not erase the original reason from the run log.
-      try { this.trace("stop", data); } catch (e) { log.warn("停止日志保存失败：" + e.message); }
+        this.trace("stop", { reason });
+      } catch (e) {
+        log.warn("停止日志保存失败：" + e.message);
+      }
     }
     dispose() {
       const gray = new Set();
       for (const ro of this.roCache.values()) {
         const mat = ro.templateImageGreyMat ?? ro.TemplateImageGreyMat;
-        if (mat && !gray.has(mat)) { gray.add(mat); mat.dispose(); }
+        if (mat && !gray.has(mat)) {
+          gray.add(mat);
+          mat.dispose();
+        }
       }
       for (const mat of this.templates.values()) mat.dispose();
       this.templates.clear();
       this.roCache.clear();
     }
   }
-  root.TCGBetterGI = { BetterGIHost, handX, handLayoutCount, charX, number, captureSize };
+  root.TCGBetterGI = { BetterGIHost, handX, handLayoutCount, charX, number, mousePoint, captureSize, costMarkerLayout, costDigitRows, costNumbersAt, costHandSample, boardDifferences };
+})(globalThis);
+(function(root){
+  "use strict";
+  const {charX,number,mousePoint}=root.TCGBetterGI;
+  class BetterGIHost extends root.TCGBetterGI.BetterGIHost {
+    choiceIn(f) {
+      const header=TCG.norm(this.ocr(f,this.roi("header", [700,155,520,130])));
+      if(!header.includes("挑选卡牌") || !header.includes("请选择一张卡牌"))return null;
+      // Native supplied 1920x1080 screenshot: names below the two cards at
+      // y=742, cards centred at y=540. Anchor to exact OCR title rectangles,
+      // not a fixed left/right preference or a guessed generic choice page.
+      const rows=this.ocrRows(f,this.roi("choice", [450,705,1030,90])),options=[];
+      for(const r of rows) {
+        const card=TCG.identify(r.text);
+        if(!card || !["shatterbolt","sharpkernel"].includes(card.id))continue;
+        const point=[r.x+r.w/2,r.y+r.h/2-200], reference=this.referencePoint("choice",...point);
+        if(![r.x,r.y,r.w,r.h,...point].every(Number.isFinite) || r.w<=0 || r.h<=0 ||
+            reference[0]<450 || reference[0]>1480 || reference[1]<470 || reference[1]>600)continue;
+        options.push({id:card.id,point:mousePoint(...point,this.captureGeometry?.frameSize),title:r.text});
+      }
+      return {phase:"choice",turn:"none",choiceKind:"thundergrass",options,
+        recognized:options.length===2 && new Set(options.map(c=>c.id)).size===2};
+    }
+    async resolveChoice(before=null,memory=TCG.freshMemory()) {
+      let stable=0,key="",last=null;
+      for(let attempt=0;attempt<24;attempt++) {
+        const sampledAt=Date.now(),revision=this.inputRevision;
+        last=this.phase();
+        if(last.phase!=="choice") {
+          if(!this.choiceSession || !["board","pick","roll","settlement","result"].includes(last.phase) ||
+              last.phase==="board" && !["user","enemy"].includes(last.turn)) {stable=0;key="";}
+          else {
+            const current=JSON.stringify([last.phase,last.turn,last.result]);stable=current===key?stable+1:1;key=current;
+            if(stable>=2) {
+              const session=this.choiceSession;this.choiceSession=null;
+              this.invalidateHand("choice-generated-card-order-unknown");
+              this.pendingChoiceCard={id:session.id,oldCount:session.oldCount};
+              this.handCountHint=Number.isInteger(session.oldCount)?Math.min(10,session.oldCount+1):null;
+              this.handFanReady=false;this.handNeedsReset=true;this.emptyHandProven=false;this.boardReady=false;
+              this.trace("choice-resolved",{id:session.id,confirmationInputs:session.confirmed?1:0,phase:last.phase,turn:last.turn});
+              return last;
+            }
+          }
+        } else if(!this.choiceSession) {
+          if(last.choiceKind!=="thundergrass" || !last.recognized) {stable=0;key="";}
+          else {
+            const id=TCG.blessingChoice(before||this.lastObservedState,memory),target=last.options.find(c=>c.id===id);
+            if(target) {
+              const oldCount=before?.hand?.length??this.handCache?.length??null;
+              this.choiceSession={id,oldCount,confirmed:false};
+              this.clickAt(...target.point);this.trace("choice-selected",{id,point:target.point,proof:"native-card-labels-and-choice-header"});
+              stable=0;key="";await sleep(120);
+            }
+          }
+        } else if(!this.choiceSession.confirmed) {
+          // The supplied screenshot has no confirm button before selection.
+          // The session owns the selected option. A unique confirm template
+          // authorizes one click without rereading its title.
+          const preview=this.frame(f=>({phase:this.phaseIn(f),buttons:this.matches(f,"core/确定",this.roi("bottom", [500,800,920,240]))}));
+          if(["choice","unknown"].includes(preview.phase.phase)&&preview.phase.turn==="none"&&preview.buttons.length===1) {
+            const b=preview.buttons[0];this.choiceSession.confirmed=true;
+            const point=this.clickAt(b.x+b.w/2,b.y+b.h/2);this.trace("choice-confirm-clicked",{id:this.choiceSession.id,point});
+            stable=0;key="";await sleep(120);
+          }
+        }
+        if(attempt<23)await this.waitForSample(sampledAt,250,revision);
+      }
+      const error=new Error("挑选卡牌状态未读清");
+      error.code="TCG_CHOICE_RETRY";error.phase=last;throw error;
+    }
+    skillFeeIn(f,action) {
+      // Calibrated native preview fee row; identity is independently checked.
+      // A normal-board skill icon or a cost from another card is never proof.
+      const identity=this.skillPreviewIn(f).identity;
+      if(identity?.who!==action.who || identity?.skill!==action.skill)return null;
+      // Read the CURRENT action icon's die fee, not the nominal fee in the
+      // left description. Native 1080P preview has Q energy in a separate
+      // gold badge to the right: exclude it from this narrow numeric crop.
+      const roi=action.skill==="Q"?[1780,1010,36,35]:action.skill==="E"?[1698,1010,36,35]:null;
+      if(!roi)return null;
+      const n=number(this.numericAt(f,this.roi("bottom", roi),4)),nominal=action.skill==="Q"?(action.who===2?4:3):3;
+      return n!==null&&n>=1&&n<=nominal?n:null;
+    }
+    quickenIn(f) {
+      // Saved native positives from Collei/Keqing, with separate native 1/2
+      // badges. No extra UI input or OCR; absence/conflicts are UNKNOWN, not 0.
+      const unknown={known:false,charges:null};
+      const icons=this.matches(f,"quicken",this.roi("board", [640,880,630,88]),0.9,true);
+      if(icons.length!==1)return unknown;
+      const {x,y}=icons[0],roi=[x+25,y+17,24,32];
+      const counts=[1,2].flatMap(n=>this.matches(f,"quicken_count"+n,this.observedRoi("board", roi),0.92,false).map(()=>n));
+      return counts.length===1?{known:true,charges:counts[0]}:unknown;
+    }
+    boardExtrasIn(f,phase) { return {quicken:phase.phase==="board"?this.quickenIn(f):{known:false,charges:null}}; }
+    paidRemovalProven(plan,state) {
+      // Only ordinary paid statuses/equipment, never free, drawing, choice,
+      // skill-casting or resource/healing cards. Last-card handling retains its
+      // independent empty-hand proof. A projected fee or a drag is insufficient.
+      const a=plan?.action,b=plan?.before,r=this.consumptionReceipt,stable=state?.nativeStability;
+      if(plan?.mode!=="remove" || !Array.isArray(plan.hand) || plan.hand.length===0 ||
+          a?.type!=="card" || !["lotus","mint","gambler","exile","tassel","raven","sword","shatterbolt","sharpkernel"].includes(a.id) ||
+          !b?.hand || b.hand.length!==plan.hand.length+1 || b.hand[a.index]?.id!==a.id ||
+          plan.transitionPassed===true || state?.phase!=="board" || state.turn!=="user" || state.active!==b.active ||
+          stable?.reads!==2 || stable.inputRevision!==this.inputRevision || stable.key!==TCG.boardKey({...state,hand:[]}) ||
+          !TCG.legalState({...state,hand:plan.hand}) || r?.inputSent!==true || r.nativeConfirmed!==true ||
+          r.id!==a.id || r.index!==a.index || r.target!==(a.target??null) || r.beforeKey!==TCG.boardKey(b))return false;
+      const expected=TCG.handPlan(a,b);
+      if(expected.mode!=="remove" || JSON.stringify(expected.hand)!==JSON.stringify(TCG.indexedHand(plan.hand)))return false;
+      const cost=TCG.size(TCG.byId[a.id].cost);
+      return cost>0 && TCG.total(b.dice)-TCG.total(state.dice)===cost &&
+        TCG.diceOrder.every(e=>(state.dice[e]||0)<=(b.dice[e]||0));
+    }
+    async cardConfirm(action, before=null) {
+      await this.requireNoWarning();
+      const type = TCG.byId[action.id].type;
+      const targetedBanners={food:["请选择一个角色食用料理"],legend:["请选择一个角色","对所选角色生效"],
+        artifact:["请选择要装备圣遗物的角色","请选择一个角色装备圣遗物","请选择一个角色","对所选角色生效"],
+        weapon:["请选择要装备武器的角色","请选择一个角色装备武器","请选择一个角色","对所选角色生效"]};
+      const entrySampledAt=Date.now(),entryRevision=this.inputRevision;
+      const foodPage = this.frame(f => this.cardConfirmationEntryIn(f,targetedBanners[type]||[]));
+      if(type==="food"&&TCG.norm(foodPage.banner)==="请选择一个角色食用料理"&&
+          (foodPage.phase.phase!=="unknown"||foodPage.phase.turn!=="none"))throw new Error("料理选人页面未核实");
+      if(targetedBanners[type]?.includes(TCG.norm(foodPage.banner)) && foodPage.phase.phase==="unknown" && foodPage.phase.turn==="none"){
+        if(!Number.isInteger(action.target)||action.target<0||action.target>2)throw new Error("卡牌目标不合法");
+        const layout=type==="food"?"food":"targeted";
+        if(type==="food") {
+          if(before && !TCG.alive(before.characters?.[action.target]))throw new Error("料理目标未核实");
+        }
+        const point=this.clickAt(...this.point("board",charX[action.target],720));
+        this.trace("card-target-clicked",{id:action.id,target:action.target,point,layout,banner:foodPage.banner});
+        await sleep(120);
+        for(let attempt=0;attempt<6;attempt++){
+          const sampledAt=Date.now();
+          const selected=this.frame(f=>this.cardTargetPreviewIn(f));
+          await this.requireNoWarning(selected.warning);
+          // A direct native resolution is verified by confirm(), not assumed
+          // successful here. Never send a second selection or a skill input.
+          if(selected.phase.result || selected.phase.phase==="board" && selected.phase.turn==="user"){
+            this.trace("card-target-resolved",{id:action.id,target:action.target,proof:"native-page-exit-only"});return;}
+          const play=selected.rows.filter(r=>TCG.norm(r.text)==="打出手牌" || type==="food"&&TCG.norm(r.text)==="确定");
+          const controls=selected.buttons.length?selected.buttons:play;
+          const otherTarget=Object.values(targetedBanners).some(labels=>labels.includes(selected.banner))&&
+            !targetedBanners[type].includes(selected.banner);
+          const matched=!otherTarget&&controls.length===1&&
+            selected.phase.phase==="unknown"&&selected.phase.turn==="none";
+          this.trace("card-target-preview",{id:action.id,target:action.target,attempt,matched,...selected});
+          if(matched){const b=controls[0];const confirmPoint=this.clickAt(b.x+b.w/2,b.y+b.h/2);
+            this.trace("card-confirm-clicked",{id:action.id,target:action.target,point:confirmPoint,layout});
+            this.markNativeCardConfirmation(action,layout);
+            return;}
+          if(attempt<5)await this.waitForSample(sampledAt,250);
+        }
+        if(type==="food")throw new Error("料理选人后未识别到唯一中央确定");
+        this.trace("targeted-card-unresolved",{id:action.id,target:action.target,reason:"目标卡牌选人后确认页未核实"});
+        throw new Error("目标卡牌选人后确认页未核实");
+      }
+      // Native 星天之兆 opens a payment page with a CENTER button. Its detail
+      // panel is gone and the right skill buttons are not the confirmation.
+      const centralScopeMatches=banner=>{
+        const card=TCG.byId[action.id];
+        const activeScope=["stars","voltage","calx","lost"].includes(action.id) && banner==="对我方出战角色生效";
+        const namedEvent=["dice","draw","switch","energy","support","reroll","recovery"].includes(card.type) &&
+          banner.startsWith("打出手牌") && TCG.identify(banner.slice(4))?.id===action.id;
+        const talentWho=action.id==="penance"?2:action.id==="floralSidewinder"?1:null;
+        const activeTalent=talentWho!==null && action.target===talentWho && before?.active===talentWho &&
+          TCG.alive(before.characters?.[talentWho]) && !before.characters[talentWho].frozen &&
+          banner==="装备给出战中的"+TCG.norm(TCG.team[talentWho].name);
+        const wedgeReturn=action.id==="wedge" && action.target===2 && [0,1].includes(before?.active) &&
+          TCG.alive(before.characters?.[2]) && before.characters[2].frozen===false &&
+          banner===TCG.norm("切换到"+TCG.team[2].name+"，使用「"+TCG.team[2].skills.E+"」");
+        return action.target===null && (activeScope || namedEvent) || activeTalent || wedgeReturn;
+      };
+      const entryReused=this.inputRevision===entryRevision && foodPage.targets?.length===1 &&
+        foodPage.phase.phase==="unknown" && foodPage.phase.turn==="none" && centralScopeMatches(TCG.norm(foodPage.banner));
+      const central = entryReused?foodPage:this.frame(f => ({
+        banner:this.ocr(f,this.roi("phase", [740,510,450,65])),targets:this.cardPaymentControlsIn(f),phase:this.phaseIn(f),
+      }));
+      if(entryReused)this.trace("card-payment-entry-reused",{id:action.id,banner:central.banner,entrySampledAt});
+      if (central.targets.length) {
+        const banner=TCG.norm(central.banner);
+        if (central.targets.length !== 1 || !centralScopeMatches(banner) ||
+            central.phase.phase !== "unknown" || central.phase.turn!=="none") {
+          throw new Error("中央出牌确认页的卡牌类型/作用范围未核实");
+        }
+        const b = central.targets[0];
+        // Talent wearers and a wedge's returning Keqing are already selected.
+        // Confirm the observed payment button once; the card invokes the skill.
+        // Never add a target click or a separate skill cast here.
+        const point = this.clickAt(b.x+b.w/2,b.y+b.h/2);
+        this.trace("card-confirm-clicked", { id:action.id, point, layout:"central", banner:central.banner });
+        this.markNativeCardConfirmation(action,"central");
+        
+        return;
+      }
+      if (action.target !== null && ["food", "artifact", "weapon", "wedge", "talent","legend"].includes(type)) {
+        // Only click a target while the selected card is still displayed in its detail panel.
+        const title = this.frame(f => this.ocr(f, this.roi("details", [311, 115, 341, 50])));
+        // A drag directly onto the intended character may already resolve the card.
+        // In that case, issue no more input; the state verifier must prove acceptance.
+        if (!title) return;
+        if (TCG.identify(title)?.id !== action.id) throw new Error("出牌后的选目标页面未确认");
+        this.clickAt(...this.point("board",charX[action.target],720));
+        await sleep(120);
+      }
+      // Zero-cost untargeted events can resolve immediately. Never click a skill button
+      // as a fallback confirmation for those events.
+      const text = this.frame(f => this.ocr(f, this.roi("bottom", [1550, 850, 360, 190])));
+      if (/确认|使用|打出/.test(text) && !/无法|不足|不能/.test(text)) {
+        const targets = this.frame(f => this.ocrRows(f, this.roi("bottom", [1550, 850, 360, 190]))
+          .filter(r => /^(确认|使用|打出)(卡牌)?$/.test(r.text.replace(/\s/g, ""))));
+        if (targets.length !== 1) throw new Error("无法唯一识别出牌确认按钮");
+        const b = targets[0];
+        const point = this.clickAt(b.x + b.w / 2, b.y + b.h / 2);
+        this.trace("card-confirm-clicked", { id: action.id, point });
+        
+      }
+    }
+    async executeInput(action, before, memory) {
+      if(action.type==="card") {
+        const reason=TCG.cardInputError(before,action,memory);
+        if(reason)throw new Error(reason);
+      }
+      await this.requireUnchangedBoard(before);
+      if(action.type==="probe")return this.probeSkill(action,before,memory);
+      if (action.type === "skill" && !TCG.skillLegal(before, action, memory)) throw new Error("技能资源/充能预检失败");
+      const cost = action.type === "skill" ? TCG.size(TCG.skillCost(action.who, action.skill, memory,before)) :
+        action.type === "switch" ? (memory.freeSwitch ? 0 : 1) :
+        action.type === "card" ? TCG.size(TCG.byId[action.id].cost) : 0;
+      this.expectedDice = action.type === "end" ? null : TCG.total(before.dice) - cost +
+        (action.type === "card" ? (action.id === "wovenThunder" || action.id === "lost" ? 1 : action.id === "companion" ? 2 : 0) : 0);
+      const wearer=action.type==="switch"?action.target:action.type==="skill"?action.who:
+        action.type==="card"&&action.id==="wedge"?2:before.active;
+      this.gamblerBudget=memory.artifactKinds?.[wearer]==="gambler" ?
+        {owner:wearer,remaining:TCG.gamblerRemaining(memory,wearer),enemies:TCG.enemyCount(before)}:null;
+      this.boardReady=false;
+      if (action.type === "skill" && action.who === 2 && action.skill === "E" && !before.hand.some(c => c.id === "wedge")) {
+        this.emptyHandProven = false;
+      }
+      if (action.type === "card" || action.type === "tune") await this.inputHand(action,before,memory);
+      else if(action.type==="skill") await this.inputSkill(action,before,memory,cost,!!memory.thundergrassSupport);
+      else if(action.type==="switch") await this.inputSwitch(action,before,memory);
+      else if(action.type==="end") await this.inputEnd();
+      else throw new Error("禁止执行动作："+action.type);
+    }
+  }
+  root.TCGBetterGI={...root.TCGBetterGI,BetterGIHost};
 })(globalThis);

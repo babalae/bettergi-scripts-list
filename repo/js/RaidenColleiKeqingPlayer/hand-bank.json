@@ -1,0 +1,751 @@
+{
+  "schemaVersion": 1,
+  "patches": [
+    [
+      34,
+      48,
+      46,
+      22
+    ],
+    [
+      34,
+      74,
+      46,
+      22
+    ]
+  ],
+  "scoreFloor": 0.9,
+  "runnerUpGap": 0.2,
+  "entries": [
+    {
+      "id": "calx",
+      "name": "白垩之术",
+      "views": [
+        {
+          "name": "native",
+          "patches": [
+            "assets/hand/白垩之术-v01-p01.png",
+            "assets/hand/白垩之术-v01-p02.png"
+          ]
+        },
+        {
+          "name": "native-417bc1cff2-f0",
+          "patches": [
+            "assets/hand/白垩之术-v02-p01.png",
+            "assets/hand/白垩之术-v02-p02.png"
+          ]
+        },
+        {
+          "name": "native-417bc1cff2-f1",
+          "patches": [
+            "assets/hand/白垩之术-v03-p01.png",
+            "assets/hand/白垩之术-v03-p02.png"
+          ]
+        }
+      ],
+      "scoreFloor": 0.83
+    },
+    {
+      "id": "companion",
+      "name": "最好的伙伴！",
+      "views": [
+        {
+          "name": "sampler-20261013",
+          "patches": [
+            "assets/hand/最好的伙伴-v01-p01.png",
+            "assets/hand/最好的伙伴-v01-p02.png"
+          ]
+        },
+        {
+          "name": "runtime-00742781d9",
+          "patches": [
+            "assets/hand/最好的伙伴-v02-p01.png",
+            "assets/hand/最好的伙伴-v02-p02.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "draw",
+      "name": "运筹帷幄",
+      "views": [
+        {
+          "name": "original",
+          "patches": [
+            "assets/hand/运筹帷幄-v01-p01.png",
+            "assets/hand/运筹帷幄-v01-p02.png"
+          ]
+        },
+        {
+          "name": "half-left",
+          "patches": [
+            "assets/hand/运筹帷幄-v02-p01.png",
+            "assets/hand/运筹帷幄-v02-p02.png"
+          ]
+        },
+        {
+          "name": "half-right",
+          "patches": [
+            "assets/hand/运筹帷幄-v03-p01.png",
+            "assets/hand/运筹帷幄-v03-p02.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "edict",
+      "name": "赦免宣告",
+      "views": [
+        {
+          "name": "native-c5806c48af-f0",
+          "patches": [
+            "assets/hand/赦免宣告-v01-p01.png",
+            "assets/hand/赦免宣告-v01-p02.png"
+          ]
+        },
+        {
+          "name": "native-c5806c48af-f1",
+          "patches": [
+            "assets/hand/赦免宣告-v02-p01.png",
+            "assets/hand/赦免宣告-v02-p02.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "exile",
+      "name": "流放者头冠",
+      "views": [
+        {
+          "name": "native",
+          "patches": [
+            "assets/hand/流放者头冠-v01-p01.png",
+            "assets/hand/流放者头冠-v01-p02.png"
+          ]
+        },
+        {
+          "name": "native-974b3092a6-f0",
+          "patches": [
+            "assets/hand/流放者头冠-v02-p01.png",
+            "assets/hand/流放者头冠-v02-p02.png"
+          ]
+        },
+        {
+          "name": "native-974b3092a6-f1",
+          "patches": [
+            "assets/hand/流放者头冠-v03-p01.png",
+            "assets/hand/流放者头冠-v03-p02.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fast",
+      "name": "交给我吧！",
+      "views": [
+        {
+          "name": "native",
+          "patches": [
+            "assets/hand/交给我吧-v01-p01.png",
+            "assets/hand/交给我吧-v01-p02.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gambler",
+      "name": "赌徒的耳环",
+      "views": [
+        {
+          "name": "original",
+          "patches": [
+            "assets/hand/赌徒的耳环-v01-p01.png",
+            "assets/hand/赌徒的耳环-v01-p02.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hashbrown",
+      "name": "蒙德土豆饼",
+      "views": [
+        {
+          "name": "native",
+          "patches": [
+            "assets/hand/蒙德土豆饼-v01-p01.png",
+            "assets/hand/蒙德土豆饼-v01-p02.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lost",
+      "name": "本大爷还没有输！",
+      "views": [
+        {
+          "name": "native",
+          "patches": [
+            "assets/hand/本大爷还没有输-v01-p01.png",
+            "assets/hand/本大爷还没有输-v01-p02.png"
+          ]
+        },
+        {
+          "name": "runtime-00742781d9",
+          "patches": [
+            "assets/hand/本大爷还没有输-v02-p01.png",
+            "assets/hand/本大爷还没有输-v02-p02.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lotus",
+      "name": "莲花酥",
+      "views": [
+        {
+          "name": "native",
+          "patches": [
+            "assets/hand/莲花酥-v01-p01.png",
+            "assets/hand/莲花酥-v01-p02.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "penance",
+      "name": "抵天雷罚",
+      "views": [
+        {
+          "name": "native-76eb4d0dbf-f0",
+          "patches": [
+            "assets/hand/抵天雷罚-v01-p01.png",
+            "assets/hand/抵天雷罚-v01-p02.png"
+          ]
+        },
+        {
+          "name": "native-76eb4d0dbf-f1",
+          "patches": [
+            "assets/hand/抵天雷罚-v02-p01.png",
+            "assets/hand/抵天雷罚-v02-p02.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "shatterbolt",
+      "name": "雷草祝佑·碎霆",
+      "views": [
+        {
+          "name": "native",
+          "patches": [
+            "assets/hand/雷草祝佑-碎霆-v01-p01.png",
+            "assets/hand/雷草祝佑-碎霆-v01-p02.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "shift",
+      "name": "换班时间",
+      "views": [
+        {
+          "name": "original",
+          "patches": [
+            "assets/hand/换班时间-v01-p01.png",
+            "assets/hand/换班时间-v01-p02.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "smoked",
+      "name": "北地烟熏鸡",
+      "views": [
+        {
+          "name": "native",
+          "patches": [
+            "assets/hand/北地烟熏鸡-v01-p01.png",
+            "assets/hand/北地烟熏鸡-v01-p02.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stars",
+      "name": "星天之兆",
+      "views": [
+        {
+          "name": "sampler-20261013",
+          "patches": [
+            "assets/hand/星天之兆-v01-p01.png",
+            "assets/hand/星天之兆-v01-p02.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "floralSidewinder",
+      "name": "飞叶迴斜",
+      "views": [
+        {
+          "name": "native-268d398512-f0",
+          "patches": [
+            "assets/hand/飞叶迴斜-v01-p01.png",
+            "assets/hand/飞叶迴斜-v01-p02.png"
+          ]
+        },
+        {
+          "name": "native-268d398512-f1",
+          "patches": [
+            "assets/hand/飞叶迴斜-v02-p01.png",
+            "assets/hand/飞叶迴斜-v02-p02.png"
+          ]
+        },
+        {
+          "name": "runtime-3184c9fd83",
+          "patches": [
+            "assets/hand/飞叶迴斜-v03-p01.png",
+            "assets/hand/飞叶迴斜-v03-p02.png"
+          ]
+        },
+        {
+          "name": "runtime-911fc990d7",
+          "patches": [
+            "assets/hand/飞叶迴斜-v04-p01.png",
+            "assets/hand/飞叶迴斜-v04-p02.png"
+          ]
+        },
+        {
+          "name": "runtime-d04a76e30d",
+          "patches": [
+            "assets/hand/飞叶迴斜-v05-p01.png",
+            "assets/hand/飞叶迴斜-v05-p02.png"
+          ]
+        }
+      ],
+      "animated": true
+    },
+    {
+      "id": "toss",
+      "name": "一掷乾坤",
+      "views": [
+        {
+          "name": "native",
+          "patches": [
+            "assets/hand/一掷乾坤-v01-p01.png",
+            "assets/hand/一掷乾坤-v01-p02.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "voltage",
+      "name": "元素共鸣：强能之雷",
+      "views": [
+        {
+          "name": "native",
+          "patches": [
+            "assets/hand/元素共鸣-强能之雷-v01-p01.png",
+            "assets/hand/元素共鸣-强能之雷-v01-p02.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wedge",
+      "name": "雷楔",
+      "views": [
+        {
+          "name": "native-d7a88ba0a5-f0",
+          "patches": [
+            "assets/hand/雷楔-v01-p01.png",
+            "assets/hand/雷楔-v01-p02.png"
+          ]
+        },
+        {
+          "name": "native-d7a88ba0a5-f1",
+          "patches": [
+            "assets/hand/雷楔-v02-p01.png",
+            "assets/hand/雷楔-v02-p02.png"
+          ]
+        },
+        {
+          "name": "native-36213af90c-f0",
+          "patches": [
+            "assets/hand/雷楔-v03-p01.png",
+            "assets/hand/雷楔-v03-p02.png"
+          ]
+        },
+        {
+          "name": "native-36213af90c-f1",
+          "patches": [
+            "assets/hand/雷楔-v04-p01.png",
+            "assets/hand/雷楔-v04-p02.png"
+          ]
+        },
+        {
+          "name": "runtime-803553d7b2",
+          "patches": [
+            "assets/hand/雷楔-v05-p01.png",
+            "assets/hand/雷楔-v05-p02.png"
+          ]
+        }
+      ],
+      "scoreFloor": 0.77,
+      "animated": true
+    },
+    {
+      "id": "wovenThunder",
+      "name": "元素共鸣：交织之雷",
+      "views": [
+        {
+          "name": "native",
+          "patches": [
+            "assets/hand/元素共鸣-交织之雷-v01-p01.png",
+            "assets/hand/元素共鸣-交织之雷-v01-p02.png"
+          ]
+        }
+      ]
+    }
+  ],
+  "expanded": {
+    "scoreFloor": 0.95,
+    "runnerUpGap": 0.2,
+    "patches": [
+      [
+        34,
+        65,
+        32,
+        26
+      ],
+      [
+        34,
+        103,
+        32,
+        26
+      ]
+    ],
+    "entries": [
+      {
+        "id": "calx",
+        "name": "白垩之术",
+        "views": [
+          {
+            "name": "fdb127fc1ef0",
+            "patches": [
+              "assets/expanded/白垩之术-v01-p01.png",
+              "assets/expanded/白垩之术-v01-p02.png"
+            ]
+          },
+          {
+            "name": "b20e61ce17a2",
+            "patches": [
+              "assets/expanded/白垩之术-v02-p01.png",
+              "assets/expanded/白垩之术-v02-p02.png"
+            ]
+          },
+          {
+            "name": "runtime-e04467c737",
+            "patches": [
+              "assets/expanded/白垩之术-v03-p01.png",
+              "assets/expanded/白垩之术-v03-p02.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "edict",
+        "name": "赦免宣告",
+        "views": [
+          {
+            "name": "e7f5b3afe4e2",
+            "patches": [
+              "assets/expanded/赦免宣告-v01-p01.png",
+              "assets/expanded/赦免宣告-v01-p02.png"
+            ]
+          },
+          {
+            "name": "ba9901712438",
+            "patches": [
+              "assets/expanded/赦免宣告-v02-p01.png",
+              "assets/expanded/赦免宣告-v02-p02.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "fast",
+        "name": "交给我吧！",
+        "views": [
+          {
+            "name": "d06d73324e2d",
+            "patches": [
+              "assets/expanded/交给我吧-v01-p01.png",
+              "assets/expanded/交给我吧-v01-p02.png"
+            ]
+          },
+          {
+            "name": "f42aca02215f",
+            "patches": [
+              "assets/expanded/交给我吧-v02-p01.png",
+              "assets/expanded/交给我吧-v02-p02.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "hashbrown",
+        "name": "蒙德土豆饼",
+        "views": [
+          {
+            "name": "b70efb2f90f0",
+            "patches": [
+              "assets/expanded/蒙德土豆饼-v01-p01.png",
+              "assets/expanded/蒙德土豆饼-v01-p02.png"
+            ]
+          },
+          {
+            "name": "b3fc47184be0",
+            "patches": [
+              "assets/expanded/蒙德土豆饼-v02-p01.png",
+              "assets/expanded/蒙德土豆饼-v02-p02.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "lost",
+        "name": "本大爷还没有输！",
+        "views": [
+          {
+            "name": "9e0e42fae618",
+            "patches": [
+              "assets/expanded/本大爷还没有输-v01-p01.png",
+              "assets/expanded/本大爷还没有输-v01-p02.png"
+            ]
+          },
+          {
+            "name": "b46f95ecbbc0",
+            "patches": [
+              "assets/expanded/本大爷还没有输-v02-p01.png",
+              "assets/expanded/本大爷还没有输-v02-p02.png"
+            ]
+          },
+          {
+            "name": "runtime-d704f96ed1",
+            "patches": [
+              "assets/expanded/本大爷还没有输-v03-p01.png",
+              "assets/expanded/本大爷还没有输-v03-p02.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "toss",
+        "name": "一掷乾坤",
+        "views": [
+          {
+            "name": "8aa81e794f45",
+            "patches": [
+              "assets/expanded/一掷乾坤-v01-p01.png",
+              "assets/expanded/一掷乾坤-v01-p02.png"
+            ]
+          },
+          {
+            "name": "7cdc46a8a81b",
+            "patches": [
+              "assets/expanded/一掷乾坤-v02-p01.png",
+              "assets/expanded/一掷乾坤-v02-p02.png"
+            ]
+          },
+          {
+            "name": "runtime-26039ab165",
+            "patches": [
+              "assets/expanded/一掷乾坤-v03-p01.png",
+              "assets/expanded/一掷乾坤-v03-p02.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "wovenThunder",
+        "name": "元素共鸣：交织之雷",
+        "views": [
+          {
+            "name": "efd9cb49e562",
+            "patches": [
+              "assets/expanded/元素共鸣-交织之雷-v01-p01.png",
+              "assets/expanded/元素共鸣-交织之雷-v01-p02.png"
+            ]
+          },
+          {
+            "name": "ad7df4d675e7",
+            "patches": [
+              "assets/expanded/元素共鸣-交织之雷-v02-p01.png",
+              "assets/expanded/元素共鸣-交织之雷-v02-p02.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "floralSidewinder",
+        "name": "飞叶迴斜",
+        "views": [
+          {
+            "name": "runtime-d704f96ed1",
+            "patches": [
+              "assets/expanded/飞叶迴斜-v01-p01.png",
+              "assets/expanded/飞叶迴斜-v01-p02.png"
+            ]
+          },
+          {
+            "name": "runtime-cc27a1f3b4",
+            "patches": [
+              "assets/expanded/飞叶迴斜-v02-p01.png",
+              "assets/expanded/飞叶迴斜-v02-p02.png"
+            ]
+          },
+          {
+            "name": "runtime-26039ab165",
+            "patches": [
+              "assets/expanded/飞叶迴斜-v03-p01.png",
+              "assets/expanded/飞叶迴斜-v03-p02.png"
+            ]
+          },
+          {
+            "name": "runtime-a10b6a54d5",
+            "patches": [
+              "assets/expanded/飞叶迴斜-v04-p01.png",
+              "assets/expanded/飞叶迴斜-v04-p02.png"
+            ]
+          },
+          {
+            "name": "runtime-576200ab98",
+            "patches": [
+              "assets/expanded/飞叶迴斜-v05-p01.png",
+              "assets/expanded/飞叶迴斜-v05-p02.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "shatterbolt",
+        "name": "雷草祝佑·碎霆",
+        "views": [
+          {
+            "name": "runtime-d704f96ed1",
+            "patches": [
+              "assets/expanded/雷草祝佑-碎霆-v01-p01.png",
+              "assets/expanded/雷草祝佑-碎霆-v01-p02.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "companion",
+        "name": "最好的伙伴！",
+        "views": [
+          {
+            "name": "runtime-d704f96ed1",
+            "patches": [
+              "assets/expanded/最好的伙伴-v01-p01.png",
+              "assets/expanded/最好的伙伴-v01-p02.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "shift",
+        "name": "换班时间",
+        "views": [
+          {
+            "name": "runtime-d704f96ed1",
+            "patches": [
+              "assets/expanded/换班时间-v01-p01.png",
+              "assets/expanded/换班时间-v01-p02.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "lotus",
+        "name": "莲花酥",
+        "views": [
+          {
+            "name": "runtime-d704f96ed1",
+            "patches": [
+              "assets/expanded/莲花酥-v01-p01.png",
+              "assets/expanded/莲花酥-v01-p02.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "wedge",
+        "name": "雷楔",
+        "views": [
+          {
+            "name": "runtime-2794319e00",
+            "patches": [
+              "assets/expanded/雷楔-v01-p01.png",
+              "assets/expanded/雷楔-v01-p02.png"
+            ]
+          },
+          {
+            "name": "runtime-a10b6a54d5",
+            "patches": [
+              "assets/expanded/雷楔-v02-p01.png",
+              "assets/expanded/雷楔-v02-p02.png"
+            ]
+          },
+          {
+            "name": "runtime-576200ab98",
+            "patches": [
+              "assets/expanded/雷楔-v03-p01.png",
+              "assets/expanded/雷楔-v03-p02.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "stars",
+        "name": "星天之兆",
+        "views": [
+          {
+            "name": "runtime-cc27a1f3b4",
+            "patches": [
+              "assets/expanded/星天之兆-v01-p01.png",
+              "assets/expanded/星天之兆-v01-p02.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "smoked",
+        "name": "北地烟熏鸡",
+        "views": [
+          {
+            "name": "runtime-cc27a1f3b4",
+            "patches": [
+              "assets/expanded/北地烟熏鸡-v01-p01.png",
+              "assets/expanded/北地烟熏鸡-v01-p02.png"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "gambler",
+        "name": "赌徒的耳环",
+        "views": [
+          {
+            "name": "runtime-576200ab98",
+            "patches": [
+              "assets/expanded/赌徒的耳环-v01-p01.png",
+              "assets/expanded/赌徒的耳环-v01-p02.png"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
