@@ -53,7 +53,41 @@
     checkedBank(T,bank);
     if(bank.expanded)checkedBank(T,bank.expanded);
     if(openingBank)checkedBank(T,openingBank);
+    const atlas=new Map();
+    function addTemplate(filename,item,ui=false){
+      const r=item?.rect;
+      if(!item||!(ui?item.file==="assets/card-atlas/ui.png":/^assets\/card-atlas\/(hand|opening|expanded)\.png$/.test(item.file))||
+        !Array.isArray(r)||r.length!==4||!r.every(Number.isInteger)||r[0]<0||r[1]<0||r[2]<=0||r[3]<=0)
+        throw Error("模板图集索引无效："+filename);
+      if(atlas.has(filename)&&JSON.stringify(atlas.get(filename))!==JSON.stringify(item))throw Error("模板图集索引冲突："+filename);
+      atlas.set(filename,item);
+    }
+    for(const library of [bank,openingBank].filter(Boolean)){
+      for(const part of [library,library.expanded].filter(Boolean))for(const entry of part.entries){
+        for(const filename of [...(entry.patches||[]),...(entry.views||[]).flatMap(view=>view.patches)]){
+          addTemplate(filename,library.atlas?.[filename]);
+        }
+      }
+    }
+    for(const [filename,item]of Object.entries(bank.uiAtlas||{}))addTemplate(filename,item,true);
     class Host extends env.TCGBetterGI.BetterGIHost{
+      readTemplateImage(filename){
+        const item=atlas.get(filename);
+        if(!item)throw Error("缺少模板图集索引："+filename);
+        const key="@atlas/"+item.file;
+        if(!this.templates.has(key)){
+          const image=env.file.readImageMatSync(item.file);
+          if(image.empty()){image.dispose();throw Error("缺少模板图集："+item.file);}
+          this.templates.set(key,image);
+        }
+        const image=this.templates.get(key),[x,y,w,h]=item.rect;
+        if(x+w>Number(image.Cols)||y+h>Number(image.Rows))throw Error("模板图集区域越界："+filename);
+        let region=null;
+        try{
+          region=image.SubMat(y,y+h,x,x+w);
+          return region.Clone();
+        }finally{if(region)region.dispose();}
+      }
       nativeHandCountIn(f){
         return this.memoFrame(f,"collapsed/native-count",()=>super.handCountIn(f));
       }

@@ -923,8 +923,8 @@ function actionRefused(s, m, action) {
     actionRerollGoal,rerollCounter,enemyCount,gamblerRemaining,skillElement,dendroReaction,sproutAvailable,activeKeqingInfusion,damageAgainst };
 })(globalThis);
 
-globalThis.TCG.version = "1.4.1";
-globalThis.TCG.sharedVersion = "1.6.3";
+globalThis.TCG.version = "1.4.2";
+globalThis.TCG.sharedVersion = "1.6.4";
 globalThis.TCG.defaultStrategy = "default";
 (function (T) {
   const strategies = new Map();
