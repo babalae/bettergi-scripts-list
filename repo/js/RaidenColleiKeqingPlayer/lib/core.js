@@ -1,13 +1,36 @@
+// Generated from 牌手共享. Edit layered source, not this standalone output.
 /* Local rules, not an omniscient simulator. No host API, network, or LLM here. */
 (function (root) {
   "use strict";
+  // One synchronous decision, including nested helpers and failed projections.
+// No cross-decision cache; exhaustion is not evidence of action illegality.
+const projectionBudget = (() => {
+  let current = null;
+  return {
+    run(limit, decide) {
+      if (current) return decide();
+      current = { used: 0, limit };
+      try {
+        const result = decide();
+        return { ...result, projections: { ...current, exhausted: current.used >= current.limit } };
+      } finally { current = null; }
+    },
+    available() { return !current || current.used < current.limit; },
+    take() {
+      if (!current) return true; // Standalone rule projection, not a decision.
+      if (current.used >= current.limit) return false;
+      current.used++; return true;
+    },
+  };
+})();
+  function openingSetting(value) { return !value || value === "优先充能与调骰" ? "全部保留" : value; }
   const team = [
-    { name: "雷电将军", element: "Electro", maxEnergy: 2, maxHp: 10 },
-    { name: "柯莱", element: "Dendro", maxEnergy: 2, maxHp: 11 },
-    { name: "刻晴", element: "Electro", maxEnergy: 3, maxHp: 10 }
+    { name: "雷电将军", element: "Electro", maxEnergy: 2, maxHp: 10, skills:{NA:"源流",E:"神变·恶曜开眼",Q:"奥义·梦想真说"} },
+    { name: "柯莱", element: "Dendro", maxEnergy: 2, maxHp: 11, skills:{NA:"祈颂射艺",E:"拂花偈叶",Q:"猫猫秘宝"}, skillAliases:{E:["拂花偶叶"]} },
+    { name: "刻晴", element: "Electro", maxEnergy: 3, maxHp: 10, skills:{NA:"云来剑法",E:"星斗归位",Q:"天街巡游"} }
   ];
   const cards = [
-    ["woven", "元素共鸣：交织之雷", {}, "dice"],
+    ["wovenThunder", "元素共鸣：交织之雷", {}, "dice"],
     ["voltage", "元素共鸣：强能之雷", { element: "Electro", n: 1 }, "energy"],
     ["shift", "换班时间", {}, "switch"],
     ["fast", "交给我吧！", {}, "switch"],
@@ -21,7 +44,7 @@
     ["smoked", "北地烟熏鸡", {}, "food"],
     ["mint", "兽肉薄荷卷", { aligned: 1 }, "food"],
     ["gambler", "赌徒的耳环", { aligned: 1 }, "artifact"],
-    ["talent", "飞叶迴斜", { element: "Dendro", n: 3 }, "talent"],
+    ["floralSidewinder", "飞叶迴斜", { element: "Dendro", n: 3 }, "talent"],
     ["wedge", "雷楔", { element: "Electro", n: 3 }, "wedge"],
     ["tassel", "白缨枪", { aligned: 2 }, "weapon", 0],
     ["raven", "鸦羽弓", { aligned: 2 }, "weapon", 1],
@@ -38,14 +61,19 @@
     copies: id === "wedge" || type === "weapon" || type === "support" ||
       ["edict","toss","lost","exile","penance"].includes(id) ? 0 : 2 }));
   const byId = Object.fromEntries(cards.map(c => [c.id, c]));
-  const norm = text => String(text || "").replace(/[\s:：·!！。，,（）()]/g, "").replace(/迴/g, "回");
+  const norm = (t) =>
+    String(t || "")
+      .replace(/[\s:：·!！。，,（）()「」『』【】\[\]“”"‘’']/g, "")
+      .replace(/迴/g, "回");
+  // The user accepts the two-glyph 运筹 anchor; other cards keep exact titles/aliases.
+  const cardTitleAliases = { "救免宣告":"赦免宣告", "飞叶斜":"飞叶迴斜" };
   function identify(text) {
-    const t = norm(text);
-    // Exact aliases independently observed in native run titles, not fuzzy OCR.
-    if(t === "救免宣告")return byId.edict;
-    if(t === "飞叶斜")return byId.talent;
-    return cards.find(c => norm(c.name) === t) || null;
-  }
+  const title = norm(text);
+  // User-approved two-glyph anchor. Other titles remain exact aliases only.
+  if (title.includes("运筹") && byId.draw) return byId.draw;
+  const canonical = cardTitleAliases[title] || title;
+  return cards.find(c => norm(c.name) === norm(canonical)) || null;
+}
   // A readable title is not permission to play the card. Unsupported cards have
   // stable identities for hand accounting only; empty/invalid OCR is still fatal.
   function observedCard(text, index) {
@@ -56,40 +84,73 @@
         /^(初始手牌|请选择要替换的手牌|确定|取消|出战角色|回合结束|元素调和)$/.test(t)) return null;
     return { index, id: "unsupported:" + t, name, supported: false };
   }
+  // Shared native-play contract. Strategic value remains in strategy.js;
+  // observation/payment/target legality is identical for planning and input.
+  function cardInputError(s, a, m) {
+    const c=byId[a.id];
+    if(!c)return "未支持的卡牌禁止出牌";
+    if(c.type==="weapon" && (a.target!==c.weaponTarget || m.weapons[a.target]))
+      return "武器目标不适配或已有武器，禁止装备";
+    if(a.id==="lost" && (m.defeatRound!==m.round || m.lostUsedRound===m.round))
+      return "本大爷需要本轮阵亡且本轮尚未使用";
+    if(a.id==="edict" && m.legendUsed)return "秘传牌本局已使用";
+    if(["penance","floralSidewinder"].includes(a.id) && (a.target!==(a.id==="penance"?2:1) ||
+        s.active!==a.target || s.characters[a.target]?.frozen))return "天赋出战角色/技能可用性不符";
+    if(a.id==="wedge" && (a.target!==2 || s.characters[2]?.frozen))
+      return "雷楔目标/技能可用性不符";
+    if(a.target!==null && (!Number.isInteger(a.target) || !alive(s.characters?.[a.target])))
+      return "目标角色不可用";
+    if(["weapon","artifact","food","wedge","talent","legend"].includes(c.type) &&
+        a.target===null)return "目标角色不可用";
+    if(c.type==="food" && m.food[a.target])return "目标角色本轮已食用料理";
+    if(!Number.isInteger(a.index) || s.hand?.[a.index]?.id!==a.id ||
+        !handCardKnown(s.hand[a.index]))return "执行前重新核对卡名失败";
+    if(!payment(s.dice,c.cost,team[s.active]?.element))return "卡牌费用无法支付";
+    return null;
+  }
+  function cardLegal(s,a,m) { return a.type==="card" && cardInputError(s,a,m)===null; }
   function handCardKnown(h) {
     if (!h || typeof h.id !== "string") return false;
     if (byId[h.id]) return h.supported !== false;
     const parsed = observedCard(h.name, h.index);
     return h.supported === false && parsed && parsed.supported === false && parsed.id === h.id;
   }
+  const characterAliases={"雷神":"雷电将军","刻睛":"刻晴"};
   function characterName(text) {
-    const t = norm(text);
-    // Exact, native-observed OCR alias only; never fuzzy-match an arbitrary hero.
-    if (t === "刻睛") return 2;
-    return team.findIndex(c => norm(c.name) === t || (c.name === "雷电将军" && t === "雷神"));
-  }
+  const title=norm(text),canonical=characterAliases[title]||title;
+  return team.findIndex(c=>norm(c.name)===norm(canonical));
+}
   const diceOrder = ["Pyro","Hydro","Anemo","Electro","Dendro","Cryo","Geo","Omni"];
   const total = dice => Object.values(dice || {}).reduce((sum, n) => sum + n, 0);
   const size = cost => (cost.n || 0) + (cost.any || 0) + (cost.aligned || 0);
   const known = n => Number.isInteger(n) && n >= 0;
-  const alive = c => c && c.dead === false && known(c.hp) && c.hp > 0;
+  const alive = (c) => !!c && c.dead === false && known(c.hp) && c.hp > 0;
   function freshMemory() {
     return { round: 0, raidenBurst: false, colleiBurst: false, used: [0, 0, 0],
-      eyeRound: -10, dendroRound: -10, keqingInfusedRound: -10,
+      eyeRound: -10, dendroRound: -10, keqingInfusion: null, resolve:0,
       food: [false, false, false], normalDiscount: [0, 0, 0],
       freeSwitch: false, fastSwitch: false, artifacts: [false, false, false],
-      weapons: [false, false, false], talent: false, uncertainActions: [], defeated: [false,false,false], thundergrassSupport:null,
+      weapons: [false, false, false], talent: false, uncertainActions: [], refusedActions: [], defeated: [false,false,false], thundergrassSupport:null,
+      sproutRound:-1,sproutUsedRound:-1,sproutUncertainRound:-1,
       artifactKinds:[null,null,null],exileUsedRound:[-1,-1,-1],gamblerUsed:[0,0,0],
       enemyAliveCount:null,enemyLastActive:null,penance:false,legendUsed:false,
-      immuneUntil:[-1,-1,-1],defeatRound:-1,lostUsedRound:-1,blessingUsed:0,costEvidence:null,probeKeys:[] };
+      immuneUntil:[-1,-1,-1],defeatRound:-1,lostUsedRound:-1,blessingUsed:0,skillCosts:null,probeKeys:[] };
   }
   function nextRound(m) {
     m.round++;
     m.food = [false, false, false];
     m.normalDiscount = [0, 0, 0];
-    m.uncertainActions = [];
-    m.blessingUsed=0;m.costEvidence=null;m.probeKeys=[];
+    m.uncertainActions = []; m.refusedActions = [];
+    m.blessingUsed=0;m.skillCosts=null;m.probeKeys=[];
     // Switch discounts survive round boundaries (they are not oneDuration).
+  }
+  function rejectAction(m, action, before) {
+    clearSkillCosts(m);
+    blockAction(m, action, before);
+    // A proven rejection consumes neither the card nor confirmed equipment.
+    if (action.type === "tune") return;
+    m.skillCosts = null;
+    m.probeKeys = [];
   }
   // Opening lifecycle is independent of round counters: a first roll may
   // precede the first character pick. This is NOT a midgame restore record.
@@ -149,41 +210,54 @@
   // Payment feasibility includes Omni exactly once; energy is a separate resource.
   // The host uses the game's default legal auto-payment, not these suggested indices.
   function payment(dice, cost, preserve = "Electro") {
-    const list = Object.entries(dice || {}).flatMap(([e, n]) => Array(n).fill(e));
-    const need = size(cost);
-    if (need > list.length || list.length > 16) return null;
-    if (!need) return { indices: [], remaining: { ...dice } };
-    let best = null;
-    function visit(start, selected) {
-      if (selected.length === need) {
-        const chosen = selected.map(i => list[i]);
-        if (cost.n && chosen.filter(e => e === cost.element || e === "Omni").length < cost.n) return;
-        if (cost.aligned) {
-          const unique = [...new Set(chosen.filter(e => e !== "Omni"))];
-          if (unique.length > 1) return;
+    const secondaryPaymentWeights = { Dendro: 3 }, emptyPaymentWeight = {};
+        const groups = Object.entries(dice || {}), need = size(cost),
+      count = groups.reduce((n, [, amount]) => n + amount, 0);
+    if (need > count || count > 16) return null;
+    if (!need) return { indices: [], remaining: { ...dice }, ...emptyPaymentWeight };
+    const counts = Array(groups.length).fill(0), offsets = [];
+    let offset = 0, best = null;
+    for (const [, amount] of groups) { offsets.push(offset); offset += amount; }
+    function visit(at, left, weight, matching, aligned) {
+      if (best && weight > best.weight) return;
+      if (left === 0) {
+        if (cost.n && matching < cost.n) return;
+        const indices = counts.flatMap((n, i) => Array.from({ length: n }, (_, j) => offsets[i] + j));
+        // Original subset enumeration chose the earliest slot list on equal
+        // weight. Count enumeration preserves that tie without identical dice subsets.
+        if (best && weight === best.weight) {
+          const different = indices.findIndex((n, i) => n !== best.indices[i]);
+          if (different < 0 || indices[different] > best.indices[different]) return;
         }
-        const weight = chosen.reduce((v, e) => v + (e === "Omni" ? 10 : e === preserve ? 6 : e === "Dendro" ? 3 : 1), 0);
-        if (best && best.weight <= weight) return;
         const remaining = { ...dice };
-        for (const e of chosen) remaining[e]--;
-        best = { indices: selected.slice(), remaining, weight };
-        return;
+        groups.forEach(([element], i) => { remaining[element] -= counts[i]; });
+        best = { indices, remaining, weight }; return;
       }
-      for (let i = start; i <= list.length - need + selected.length; i++) visit(i + 1, selected.concat(i));
+      if (at === groups.length) return;
+      const [element, amount] = groups[at],
+        fee = element === "Omni" ? 10 : element === preserve ? 6 : secondaryPaymentWeights[element] || 1;
+      for (let n = 0; n <= Math.min(amount, left); n++) {
+        if (n && cost.aligned && element !== "Omni" && aligned && aligned !== element) continue;
+        counts[at] = n;
+        visit(at + 1, left - n, weight + n * fee,
+          matching + (element === cost.element || element === "Omni" ? n : 0),
+          n && element !== "Omni" ? element : aligned);
+      }
+      counts[at] = 0;
     }
-    visit(0, []);
+    visit(0, need, 0, 0, null);
     return best;
   }
   function boardKey(s) {
     return JSON.stringify([s.active,diceOrder.map(e=>s.dice?.[e]||0),s.characters,
-      (s.hand||[]).map(h=>h.id),s.enemies,s.quicken||null]);
+      (s.hand||[]).map(h=>h.id),s.enemies,s.quicken||null,s.supportCounts||null,s.eye||null,s.dendroCore||null]);
   }
   function skillCost(who, skill, m, s=null) {
     const base=skill === "Q" ? { element:team[who].element,n:who===2?4:3 } :
       skill === "E" ? {element:team[who].element,n:3} :
       {element:team[who].element,n:1,any:m.normalDiscount[who]>0?1:2};
-    const evidence=m.costEvidence;
-    if(s && evidence?.key===boardKey(s) && evidence.who===who && evidence.skill===skill &&
+    const evidence=s&&skillQuote(s,m,{who,skill});
+    if(s && evidence &&
         known(evidence.n) && evidence.n<=size(base) && evidence.source==="native-skill-preview") {
       return skill==="NA" ? {element:base.element,n:Math.min(1,evidence.n),any:Math.max(0,evidence.n-1)} :
         {element:base.element,n:evidence.n};
@@ -202,6 +276,49 @@
     if (s.active !== who || !alive(s.characters[who]) || s.characters[who].frozen !== false) return false;
     if (action.skill === "Q" && (!known(s.characters[who].energy) || s.characters[who].energy < team[who].maxEnergy)) return false;
     return !!payment(s.dice, skillCost(who, action.skill, m,s), team[who].element);
+  }
+  function activeKeqingInfusion(m) {
+    const status=m.keqingInfusion;
+    return status && status.createdRound<=m.round && m.round<=status.untilRound ? status : null;
+  }
+  function createKeqingInfusion(m) {
+    m.keqingInfusion={kind:m.penance?"enhanced":"normal",createdRound:m.round,
+      untilRound:m.round+(m.penance?2:1)};
+  }
+  function skillElement(m,who,skill) {
+    if(skill==="NA")return who===2 && activeKeqingInfusion(m)?"Electro":null;
+    return who===0 && skill==="E"?null:team[who].element;
+  }
+  // null means the observed aura cannot settle whether this skill reacts.
+  function dendroReaction(s,m,who,skill) {
+    const element=skillElement(m,who,skill);if(!element)return false;
+    const target=s.enemies?.find(e=>e.active===true && alive(e));
+    if(target?.auraKnown!==true || !Array.isArray(target.aura))return null;
+    const aura=target.aura;
+    if(element==="Electro")return !aura.some(e=>["Pyro","Cryo","Hydro"].includes(e)) && aura.includes("Dendro");
+    return element==="Dendro" && aura.some(e=>["Electro","Pyro","Hydro"].includes(e));
+  }
+  function sproutAvailable(m,who,skill,equips=false) {
+    return (m.talent || equips) && (m.sproutRound===m.round || who===1 && skill==="E") &&
+      m.sproutUsedRound!==m.round && m.sproutUncertainRound!==m.round;
+  }
+  function sproutCast(action) {
+    if(action.type==="skill")return action;
+    if(action.type!=="card")return null;
+    return action.id==="floralSidewinder"?{who:1,skill:"E"}:
+      ["wedge","penance"].includes(action.id)?{who:2,skill:"E"}:null;
+  }
+  function commitSprout(m,action,before) {
+    const cast=sproutCast(action);if(!cast)return;
+    const equips=action.type==="card" && action.id==="floralSidewinder",
+      available=sproutAvailable(m,cast.who,cast.skill,equips);
+    // Equipment persists; Sprout and its creation guard last only this round.
+    // Repeated E never restores a used or outcome-unknown trigger.
+    if((m.talent || equips) && cast.who===1 && cast.skill==="E")m.sproutRound=m.round;
+    if(!available)return;
+    const reaction=dendroReaction(before,m,cast.who,cast.skill);
+    if(reaction===true)m.sproutUsedRound=m.round;
+    else if(reaction===null)m.sproutUncertainRound=m.round;
   }
   function intent(s, m) {
     const cs = s.characters;
@@ -226,7 +343,7 @@
           payment(s.dice, { element: "Dendro", n: 3, any: s.active === 1 || m.freeSwitch ? 0 : 1 }, "Dendro")) {
         return { type: "skill", who: 1, skill: cs[1].energy === 2 ? "Q" : "E" };
       }
-      return { type: "skill", who: 2, skill: cs[2].energy === 3 ? "Q" : m.keqingInfusedRound + (m.penance?2:1) >= m.round ? "NA" : "E" };
+      return { type: "skill", who: 2, skill: cs[2].energy === 3 ? "Q" : activeKeqingInfusion(m) ? "NA" : "E" };
     }
     const who = cs.findIndex(c => alive(c) && c.frozen === false);
     return who < 0 ? null : { type: "skill", who, skill: cs[who].energy === team[who].maxEnergy ? "Q" : "E" };
@@ -277,9 +394,9 @@
   }
   function burnableHand(s,m) {
     const a=s.active,active=s.characters[a];
-    const values={woven:100,voltage:95,shift:20,fast:30,companion:60,draw:55,stars:40,calx:35,
+    const values={wovenThunder:100,voltage:95,shift:20,fast:30,companion:60,draw:55,stars:40,calx:35,
       lotus:active?.hp<=4?90:25,hashbrown:active?.hp<=5?80:20,sweet:25,smoked:15,
-      mint:20,gambler:30,talent:alive(s.characters[1])&&!m.talent?75:0,wedge:alive(s.characters[2])?80:0,tassel:25,raven:25,sword:25,
+      mint:20,gambler:30,floralSidewinder:alive(s.characters[1])&&!m.talent?75:0,wedge:alive(s.characters[2])?80:0,tassel:25,raven:25,sword:25,
       thundergrass:75,shatterbolt:93,sharpkernel:85,edict:m.legendUsed?0:70,
       exile:45,penance:alive(s.characters[2])&&!m.penance?75:0,
       lost:m.defeatRound===m.round&&m.lostUsedRound!==m.round?95:25,toss:30};
@@ -287,7 +404,7 @@
     // cost dice/energy/talent actions already outrank tuning. If missing other
     // cards, even a valuable card may unlock a fully reachable burst/skill.
     return s.hand.filter(h=>handCardKnown(h) &&
-      !(m.uncertainActions||[]).includes(actionKey({type:"tune",id:h.id})))
+      !actionRefused(s,m,{type:"tune",id:h.id,index:h.index,element:team[a].element}))
       .sort((x,y)=>(values[x.id]??50)-(values[y.id]??50));
   }
   function tuningPlan(s,m,goal) {
@@ -334,19 +451,20 @@
       const p=payment(dice,{any:1},team[goal.who].element);if(!p)return false;dice=p.remaining;
     }
     const local={...s,active:goal.who,dice};
+    if(actionRefused(local,m,{type:"skill",...goal}))return false;
     return skillLegal(local,goal,m) || Array.isArray(local.hand) && !!tuningPlan(local,m,goal);
   }
   function switchPreparationReachable(s,m,goal) {
     const goals=[goal,{who:goal.who,skill:"E"},{who:goal.who,skill:"NA"}];
     if(goals.some(g=>followupReachable(s,m,g)))return true;
-    const hh=s.hand||[],uncertain=m.uncertainActions||[];
-    const shift=hh.find(h=>h.id==="shift");
-    if(!m.freeSwitch && shift && hh.length>1 && !uncertain.includes(actionKey({type:"card",id:"shift"}))) {
+    const hh=s.hand||[];
+    const shift=hh.find(h=>h.id==="shift"&&!actionRefused(s,m,{type:"card",id:h.id,index:h.index,target:null}));
+    if(!m.freeSwitch && shift && hh.length>1) {
       const local={...s,hand:hh.filter(h=>h!==shift)};
       if(goals.some(g=>followupReachable(local,{...m,freeSwitch:true},g)))return true;
     }
-    const companion=hh.find(h=>h.id==="companion"),pay=companion&&payment(s.dice,byId.companion.cost,team[s.active].element);
-    if(pay && !uncertain.includes(actionKey({type:"card",id:"companion"}))) {
+    const companion=hh.find(h=>h.id==="companion"&&!actionRefused(s,m,{type:"card",id:h.id,index:h.index,target:null})),pay=companion&&payment(s.dice,byId.companion.cost,team[s.active].element);
+    if(pay) {
       const local={...s,hand:hh.filter(h=>h!==companion),dice:{...pay.remaining,Omni:(pay.remaining.Omni||0)+2}};
       if(goals.some(g=>followupReachable(local,m,g)))return true;
     }
@@ -387,7 +505,7 @@
     const skill = wanted && wanted.who === a ? wanted.skill : null;
     const candidates = [];
     function offer(action, score, reason) {
-      if (!(m.uncertainActions || []).includes(actionKey(action))) candidates.push({ ...action, score, reason });
+      if (!actionRefused(s,m,action)) candidates.push({ ...action, score, reason });
     }
     const desiredCost = wanted ? skillCost(wanted.who, wanted.skill, m,s) : { any: 3 };
     const reserve = size(desiredCost) + (wantSwitch && !m.freeSwitch ? 1 : 0);
@@ -408,7 +526,7 @@
       // These zero-cost statuses have no independent visible resource effect.
       // Keep a final copy until the next draw, instead of pretending failed count OCR proves zero cards.
       if (s.hand.length === 1 && ["shift", "fast", "smoked"].includes(c.id)) continue;
-      if (c.id === "woven" && diceCount < 16) offer(action, 100, "零费雷骰，扩充本轮行动资源");
+      if (c.id === "wovenThunder" && diceCount < 16) offer(action, 100, "零费雷骰，扩充本轮行动资源");
       if (c.id === "voltage" && known(active.energy) && active.energy < team[a].maxEnergy &&
           !wantSwitch && active.frozen === false && remaining >= 3) offer(action, 94, "优先充能；不假设只能给一人充能");
       if (c.id === "shift" && wantSwitch && !m.freeSwitch) offer(action, 96, "下一次切换减一骰");
@@ -434,9 +552,9 @@
         if (c.id === "hashbrown" && active.hp <= 7 && remaining >= reserve) offer(action, 85, "有后续行动预算时治疗两点");
         if (c.id === "sweet" && active.hp <= 8) offer(action, active.hp <= 3 ? 97 : 70, "零费治疗；遵守每人每轮一次料理");
         if (c.id === "smoked" && !wantSwitch && skill === "NA" && diceCount >= 2) offer(action, 91, "即将普攻，先减一无色骰");
-        if (c.id === "mint" && !wantSwitch && skill === "NA" && a === 2 && m.keqingInfusedRound + 1 >= m.round && remaining >= 4) offer(action, 80, "预计连续两次附魔普攻，薄荷卷才划算");
+        if (c.id === "mint" && !wantSwitch && skill === "NA" && a === 2 && activeKeqingInfusion(m) && remaining >= 4) offer(action, 80, "预计连续两次附魔普攻，薄荷卷才划算");
       }
-      if (c.id === "gambler" && a === 2 && gamblerRemaining(m,a)>0 && !wantSwitch && !m.artifacts[a] &&
+      if (c.id === "gambler" && a === 2 && !wantSwitch && !m.artifacts[a] &&
           remaining >= reserve && s.enemies.some(e => alive(e) && e.hp <= 4)) {
         offer({ ...action, target: a }, 82, "可能击倒敌人前装备赌徒，不空耗启动骰");
       }
@@ -445,7 +563,7 @@
           payment(pay.remaining, desiredCost, team[a].element)) {
         offer({ ...action, target: a }, 66, "仅给适配的出战角色装备基础武器，且保留下一技能的元素骰");
       }
-      if (c.id === "talent" && a === 1 && !wantSwitch && skill === "E" && !m.talent && active.frozen === false) {
+      if (c.id === "floralSidewinder" && a === 1 && !wantSwitch && skill === "E" && !m.talent && active.frozen === false) {
         offer({ ...action, target: 1 }, 84, "三草骰天赋直接释放战技，而不是额外四费");
       }
       if (c.id === "wedge" && alive(s.characters[2]) && s.characters[2].frozen === false && wanted && wanted.who === 2 &&
@@ -453,7 +571,7 @@
         if(a!==2)offer({ ...action, target: 2 },83,"雷楔返场并放战技/附魔，不另付普通切换骰");
         else if(wanted.skill!=="Q")offer({type:"skill",who:2,skill:"E"},83,"刻晴已出战，直接战技消耗雷楔获得附魔，省去出牌操作");
       }
-      if (c.id === "draw" && s.hand.length <= 8 &&
+      if (c.id === "draw" && s.hand.length <= 9 &&
           (remaining >= reserve || (s.hand.length <= 2 && diceCount < reserve))) offer(action, 62, "有预算或缺乏可行动资源时过牌");
     }
     if (wanted) {
@@ -491,13 +609,104 @@
     for (const h of hand || []) out[h.id] = (out[h.id] || 0) + 1;
     return out;
   }
+  function cardCountDecreased(before, after, id) {
+    // Unrelated hand growth or sent input cannot prove this card was consumed.
+    return Array.isArray(before) && Array.isArray(after) &&
+      (bag(before)[id] || 0) > (bag(after)[id] || 0);
+  }
   function removedOne(before, after, id) {
     const b = bag(before), a = bag(after);
     return before.length === after.length + 1 && Object.keys({ ...b, ...a }).every(k => (b[k] || 0) - (a[k] || 0) === (k === id ? 1 : 0));
   }
-  function indexedHand(hand) {
+  let handInstanceSerial = 0;
+function indexedHand(hand) {
     if (!Array.isArray(hand) || !hand.every(handCardKnown)) throw new Error("手牌缓存身份不完整");
-    return hand.map((h, index) => ({ ...h, index }));
+    return hand.map((h, index) => ({ ...h, index,
+      instanceIds: h.instanceIds?.length ? h.instanceIds.slice() : [++handInstanceSerial] }));
+  }
+function handInstanceFacts(h) {
+    return [h.currentCost ?? null, ...["empowered", "noTuning", "effectless", "reduction", "increase"]
+      .map(k => h.attachments?.[k] ?? null)];
+  }
+// Quotes and failed attempts belong to one observed board, not a whole round.
+// Card-fact probeKeys are independent and are never cleared here.
+function skillQuoteKey(a) { return [a.who,a.skill,a.technique ?? null].join("/"); }
+function skillQuote(s,m,a) {
+    return m.skillCosts?.key === boardKey(s) ? m.skillCosts.entries[skillQuoteKey(a)] : undefined;
+  }
+function skillProbeAttempted(s,m,a) { return skillQuote(s,m,a) !== undefined; }
+function recordSkillCost(s,m,a,n,source="native-skill-preview") {
+    const key=boardKey(s);
+    if(m.skillCosts?.key!==key)m.skillCosts={key,entries:{}};
+    m.skillCosts.entries[skillQuoteKey(a)]={n,source};
+  }
+function clearSkillCosts(m) { m.skillCosts=null; }
+function refreshSkillCosts(m,s) {
+    if(m?.skillCosts&&m.skillCosts.key!==boardKey(s))clearSkillCosts(m);
+  }
+function drawConsumptionProven(a,b,s) {
+    const r=s?.drawConsumption,h=b?.hand?.[a?.index];
+    // Eligibility comes from the deck's drawPayment adapter at receipt creation
+    // and proof validation; retrieval supports need not have display type draw.
+    return a?.type==="card"&&!!byId[a.id]&&s.phase==="board"&&s.turn==="user"&&
+      r?.kind==="native-paid-draw"&&r.beforeKey===boardKey(b)&&r.id===a.id&&r.index===a.index&&
+      r.target===(a.target??null)&&r.inputSent===true&&r.stableReads===2&&r.cost>0&&
+      h?.id===a.id&&r.sourceInstanceIds?.length>0&&JSON.stringify(r.sourceInstanceIds)===JSON.stringify(h.instanceIds)&&
+      r.diceKey===JSON.stringify(diceOrder.map(e=>s.dice?.[e]||0));
+  }
+// Positive native rejection proves that input did not mutate the hand. Only
+// that recovery may bind an unchanged complete ordered row directly. Else use
+// native cost/attachment distinctions; indistinguishable copies stay ambiguous.
+function reconcileHand(previous, observed, unchanged = false, uncertainRecords = []) {
+    const next = indexedHand(observed), prior = previous || [],
+      continuous = unchanged && prior.length === next.length && prior.every((h, i) => h.id === next[i].id),
+      compatible = (a, b) => handInstanceFacts(a).every((v, i) => v === null || handInstanceFacts(b)[i] === null || v === handInstanceFacts(b)[i]);
+    return next.map((h, index) => {
+      if (continuous && prior[index].instanceIds?.length) return { ...h,
+        instanceIds: prior[index].instanceIds.slice(), ...(prior[index].instanceAmbiguous ? {instanceAmbiguous:true} : {}) };
+      const old = prior.filter(c => c.id === h.id && (compatible(c, h) ||
+        uncertainRecords.some(r => r.id === c.id && (!r.instanceIds || r.instanceIds.some(id => c.instanceIds?.includes(id)))))),
+        origins = [...new Set(old.flatMap(c => c.instanceIds || []))];
+      if (!origins.length || h.instanceIds.every(id => origins.includes(id))) return h;
+      if (old.length === 1 && next.filter(c => c.id === h.id && compatible(c, old[0])).length === 1)
+        return { ...h, instanceIds: origins, ...(old[0].instanceAmbiguous ? {instanceAmbiguous:true} : {}) };
+      return { ...h, instanceIds: [...new Set([...origins, ...h.instanceIds])], instanceAmbiguous: true };
+    });
+  }
+function refusalScope(s, action, m) {
+    const a = action.cardAction || action,
+      handAction = ["card", "tune"].includes(a.type) || a.type === "probe" && a.scope === "card",
+      card = handAction && s?.hand?.[a.index], actor = s?.characters?.[a.who ?? s.active],
+      target = s?.characters?.[a.target], cost = s && root.TCG.refusalCost?.(s,m,a);
+    return { type: a.type, id: a.id ?? null, target: a.target ?? null,
+      who: a.who ?? null, skill: a.skill ?? null, technique: a.technique ?? null,
+      element: a.type === "tune" ? a.element ?? team[s?.active]?.element ?? null : null,
+      active: a.type === "card" && a.target == null ? s?.active ?? null : null,
+      handAction, instanceIds: card?.id === a.id ? card.instanceIds?.slice() || null : null,
+      conditions: s ? JSON.stringify([cost ? Object.keys(cost).sort().map(k => [k,cost[k]]) : null,
+        diceOrder.map(e => s.dice?.[e] || 0), actor?.frozen, actor?.dead,
+        a.skill === "Q" ? actor?.energy : null, target && [target.hp,target.dead,target.frozen],
+        card ? handInstanceFacts(card) : null]) : null };
+  }
+function blockAction(m, action, before, uncertain = false) {
+    const key = actionKey(action), scope = refusalScope(before, action, m);
+    m.uncertainActions ||= [];
+    if (!m.uncertainActions.includes(key)) m.uncertainActions.push(key);
+    m.refusedActions ||= [];
+    const record = { key, round: m.round, uncertain, ...scope };
+    if (!m.refusedActions.some(r => JSON.stringify(r) === JSON.stringify(record))) m.refusedActions.push(record);
+  }
+function actionRefused(s, m, action) {
+    const key = actionKey(action);
+    const records = (m.refusedActions || []).filter(r => r.round === m.round && r.key === key);
+    // Old callers may still supply display-only blocks. New records are never
+    // interpreted as a name-wide ban through this compatibility path.
+    if (!records.length) return (m.uncertainActions || []).includes(key);
+    const scope = refusalScope(s, action, m);
+    return records.some(r => ["type", "id", "target", "who", "skill", "technique", "element", "active"]
+      .every(k => r[k] === scope[k] || ["active", "element"].includes(k) && (r[k] === null || scope[k] === null)) &&
+      (!r.handAction || !r.instanceIds || !scope.instanceIds || r.instanceIds.some(id => scope.instanceIds.includes(id))) &&
+      (r.uncertain || r.conditions === null || scope.conditions === null || r.conditions === scope.conditions));
   }
   // This is a plan, NOT evidence that an action happened. The host must prove
   // the count/effect before publishing a removal. New cards can insert anywhere.
@@ -507,7 +716,7 @@
       return { mode: "unchanged", hand };
     }
     if (action.type === "tune" || action.type === "card" && byId[action.id] &&
-        !["draw", "talent", "wedge","penance"].includes(action.id)) {
+        !["draw", "floralSidewinder", "wedge","penance"].includes(action.id)) {
       if (!Number.isInteger(action.index) || hand[action.index]?.id !== action.id) throw new Error("手牌增量计划的目标索引/身份不一致");
       return { mode: "remove", hand: indexedHand(hand.filter((_, i) => i !== action.index)) };
     }
@@ -517,12 +726,13 @@
       Math.min(10, hand.length + (hand.some(c => c.id === "wedge") ? -1 : 1)) :
       action.type === "card" && action.id === "draw" ? Math.min(10, hand.length + 1) :
       action.type === "card" && action.id === "penance" ? Math.max(0,Math.min(10,hand.length-(hand.some(h=>h.id==="wedge")?2:0))) :
-      action.type === "card" && ["talent", "wedge"].includes(action.id) ? Math.max(0, hand.length - 1) : null;
+      action.type === "card" && ["floralSidewinder", "wedge"].includes(action.id) ? Math.max(0, hand.length - 1) : null;
     return { mode: "full", hand: null, expectedCount };
   }
   function verify(action, before, after, transition = false) {
     if(!action || !before || !after)return false;
     if (after.result) return true;
+    if (singleConsumptionEvidence(action, before, after)) return true;
     if (action.type === "end") return after.turn === "enemy" || after.phase === "roll" || after.phase === "settlement";
     if (action.type === "switch") return after.active === action.target && after.active !== before.active;
     if (action.type === "skill") {
@@ -536,15 +746,16 @@
     if (action.type === "card") {
       if (!byId[action.id]) return false;
       if (!after.hand) return false;
-      if (action.id === "draw") return after.hand.length === Math.min(10, before.hand.length + 1);
+      if (action.id === "draw") return drawConsumptionProven(action,before,after) || cardCountDecreased(before.hand, after.hand, action.id) &&
+        after.hand.length === Math.min(10, before.hand.length + 1);
       // Combat cards may generate/discard another card: require the selected card's count drop,
       // and a real combat effect, rather than assuming a drag succeeded.
-      if (["talent","wedge","penance"].includes(action.id)) {
+      if (["floralSidewinder","wedge","penance"].includes(action.id)) {
         return (bag(before.hand)[action.id] || 0) > (bag(after.hand)[action.id] || 0) &&
           (transition || total(after.dice) < total(before.dice));
       }
       if (!removedOne(before.hand, after.hand, action.id)) return false;
-      if (action.id === "woven") return total(after.dice) === total(before.dice) + 1;
+      if (action.id === "wovenThunder") return total(after.dice) === total(before.dice) + 1;
       if (action.id === "companion") return total(after.dice) === total(before.dice) && (after.dice.Omni || 0) > (before.dice.Omni || 0);
       if (action.id==="voltage")return after.characters.some((c,i)=>known(c.energy) && c.energy>before.characters[i].energy);
       if (["stars", "calx"].includes(action.id)) return after.characters[before.active].energy > before.characters[before.active].energy;
@@ -571,9 +782,9 @@
     if (["stars", "calx"].includes(action.id)) return after.characters[before.active].energy > before.characters[before.active].energy;
     if(action.id==="lost" || action.id==="toss")return verify(action,before,after,transition);
     if (["sweet", "hashbrown"].includes(action.id)) return after.characters[action.target]?.hp > before.characters[action.target]?.hp;
-    if (action.id === "woven") return (after.dice.Electro || 0) > (before.dice.Electro || 0);
+    if (action.id === "wovenThunder") return (after.dice.Electro || 0) > (before.dice.Electro || 0);
     if (action.id === "companion") return (after.dice.Omni || 0) > (before.dice.Omni || 0);
-    if (["talent", "wedge","penance"].includes(action.id)) return transition || total(after.dice) < total(before.dice);
+    if (["floralSidewinder", "wedge","penance"].includes(action.id)) return transition || total(after.dice) < total(before.dice);
     // Other supported cards have no independent visible status indicator.
     // Exact selected-card consumption is their proof, not a predicted dice cost.
     return true;
@@ -581,15 +792,27 @@
   function actionKey(action) {
     return action.type + ":" + (action.id || (["skill","probe"].includes(action.type) ? action.who + ":" + action.skill : action.target));
   }
-  function deferUncertain(m, action) {
+  function damageAgainst(target,amount,element,piercing=false) {
+  if(!target)return {direct:amount,shieldSpent:0,guaranteed:null};
+  const immune=!piercing&&target.immuneElements?.includes(element),
+    shieldSpent=!piercing&&!immune&&known(target.shield)?Math.min(target.shield,amount):0,
+    direct=immune?0:Math.max(0,amount-shieldSpent);
+  return {direct,shieldSpent,guaranteed:target.defenseKnown===true?direct:null};
+}
+  function deferUncertain(m, action, before) {
+    clearSkillCosts(m);
     // Do not replay an outcome-unknown action in the same round. A food might
     // already have resolved, so conservatively reserve that target's food slot.
-    const key = actionKey(action);
-    if (!m.uncertainActions) m.uncertainActions = [];
-    if (!m.uncertainActions.includes(key)) m.uncertainActions.push(key);
+    blockAction(m, action, before, true);
     if (action.type === "card" && byId[action.id]?.type === "food") m.food[action.target] = true;
+    if(action.type==="skill"&&action.skill==="Q")m.resolve=null;
+    const cast=sproutCast(action);
+    if(cast && sproutAvailable(m,cast.who,cast.skill,action.type==="card"&&action.id==="floralSidewinder") &&
+        skillElement(m,cast.who,cast.skill))m.sproutUncertainRound=m.round;
   }
   function commit(m, action, before, after=null) {
+    clearSkillCosts(m);
+    commitSprout(m,action,before);
     // Board layouts shrink after defeats. Count only complete known enemy
     // observations, and attribute a forced-card cast to its actual wearer.
     if(m.enemyAliveCount===null || m.enemyAliveCount===undefined)m.enemyAliveCount=enemyCount(before);
@@ -599,12 +822,13 @@
     if (action.type === "switch") { m.freeSwitch = false; m.fastSwitch = false; }
     if (action.type === "skill") {
       const who = action.who;
+      if(action.skill==="Q")m.resolve=who===0?0:known(m.resolve)?Math.min(3,m.resolve+1):null;
       m.used[who]++;
       if (who === 0 && action.skill === "Q") m.raidenBurst = true;
       if (who === 0 && action.skill === "E") m.eyeRound = m.round;
       if (who === 1 && action.skill === "Q") { m.colleiBurst = true; m.dendroRound = m.round; }
       if (who === 1 && action.skill === "E") m.dendroRound = m.round;
-      if (who === 2 && action.skill === "E" && before.hand.some(h => h.id === "wedge")) m.keqingInfusedRound = m.round;
+      if (who === 2 && action.skill === "E" && before.hand.some(h => h.id === "wedge")) createKeqingInfusion(m);
       if (action.skill === "NA" && m.normalDiscount[who] > 0) m.normalDiscount[who]--;
       if(action.skill==="Q" && m.artifactKinds?.[who]==="exile")m.exileUsedRound[who]=m.round;
       const base=action.skill==="Q"?(who===2?4:3):action.skill==="E"?3:null;
@@ -620,15 +844,16 @@
     if (["gambler","exile"].includes(action.id)) {
       m.artifacts[action.target]=action.id==="gambler";
       m.artifactKinds[action.target]=action.id;
+      if(action.id==="gambler")m.gamblerUsed[action.target]=0;
     }
     if (byId[action.id].type === "weapon") m.weapons[action.target] = true;
-    if (action.id === "talent") { m.talent = true; m.dendroRound = m.round; m.used[a]++; }
-    if(action.id==="penance"){m.penance=true;m.used[2]++;if(before.hand.some(h=>h.id==="wedge"))m.keqingInfusedRound=m.round;}
+    if (action.id === "floralSidewinder") { m.talent = true; m.dendroRound = m.round; m.used[a]++; }
+    if(action.id==="penance"){m.penance=true;m.used[2]++;if(before.hand.some(h=>h.id==="wedge"))createKeqingInfusion(m);}
     if(action.id==="edict"){m.legendUsed=true;m.immuneUntil[action.target]=m.round+1;}
     if(action.id==="lost")m.lostUsedRound=m.round;
     if (byId[action.id].type === "support") m.thundergrassSupport=action.id;
     // A forced switch from a card is not the manual switch action that consumes these discounts.
-    if (action.id === "wedge") { m.keqingInfusedRound = m.round; m.used[2]++; }
+    if (action.id === "wedge") { createKeqingInfusion(m); m.used[2]++; }
   }
   function removalEffect(action, before, after) {
     // Independent native effect, not projected card consumption. Only common
@@ -641,13 +866,14 @@
     if (["stars", "calx"].includes(action.id)) return after.characters[before.active].energy > before.characters[before.active].energy;
     if(action.id==="lost")return verify(action,before,{...after,hand:indexedHand(before.hand.filter(h=>h.index!==action.index))});
     if (["sweet", "hashbrown","edict"].includes(action.id)) return after.characters[action.target]?.hp > before.characters[action.target]?.hp;
-    if (action.id === "woven") return total(after.dice) === total(before.dice) + 1 &&
+    if (action.id === "wovenThunder") return total(after.dice) === total(before.dice) + 1 &&
       (after.dice.Electro || 0) === (before.dice.Electro || 0) + 1;
     if (action.id === "companion") return total(after.dice) === total(before.dice) && (after.dice.Omni || 0) > (before.dice.Omni || 0);
     return false;
   }
   function emptyHandEffect(action, before, after, transition) {
     if (before.hand.length !== 1 || after.turn !== "user") return false;
+    if (singleConsumptionEvidence(action, before, after)) return true;
     if (removalEffect(action, before, after)) return true;
     if (action.type === "tune") return false;
     if (action.type === "skill" && action.who === 2 && action.skill === "E" && before.hand[0].id === "wedge") {
@@ -656,11 +882,20 @@
     if (action.type !== "card" || !byId[action.id] || action.id === "draw" || ["shift", "fast", "smoked"].includes(action.id)) return false;
     if (["voltage", "stars", "calx"].includes(action.id)) return after.characters[before.active].energy > before.characters[before.active].energy;
     if (["sweet", "hashbrown"].includes(action.id)) return after.characters[action.target].hp > before.characters[action.target].hp;
-    if (action.id === "woven") return total(after.dice) === total(before.dice) + 1;
+    if (action.id === "wovenThunder") return total(after.dice) === total(before.dice) + 1;
     if (action.id === "companion") return total(after.dice) === total(before.dice) && (after.dice.Omni || 0) > (before.dice.Omni || 0);
     return transition || total(after.dice) < total(before.dice);
   }
-  function keepOpening(id) { return ["woven", "voltage", "stars", "companion", "shift", "draw", "thundergrass","edict","exile"].includes(id); }
+  function singleConsumptionEvidence(action, before, after) {
+    const proof = after.handEvidence;
+    if (after.phase !== "board" || after.turn !== "user" || before.hand?.length !== 1 ||
+        Array.isArray(after.hand) && after.hand.length !== 0 || !["card","tune"].includes(action.type) ||
+        !Number.isInteger(action.index) || before.hand[action.index]?.id !== action.id) return false;
+    return proof?.kind === "native-empty-fan" && proof.stableReads >= 2 && proof.inputSent === true &&
+      proof.sourceCount === 1 && proof.id === action.id && proof.index === action.index &&
+      proof.target === (action.target ?? null) && proof.beforeKey === boardKey(before) &&
+      handPlan(action, before).mode === "remove";
+  }
   function blessingChoice(s,m) {
     const cs=s?.characters;
     // Normally choose the cheaper burst-chain support. Collei-only without
@@ -668,8 +903,40 @@
     if(Array.isArray(cs) && alive(cs[1]) && !alive(cs[0]) && !alive(cs[2]) && cs[1].energy<2)return "sharpkernel";
     return "shatterbolt";
   }
-  root.TCG = { team, cards, byId, norm, identify, observedCard, handCardKnown, characterName, total, size, payment, rerollPlan,
-    known, alive, freshMemory, nextRound, OpeningFlow, freshActionBoard, skillCost, skillLegal, intent, survivorIntent, followupReachable, switchPreparationReachable, replacement, noteBoard, tuningPlan, legalState, choose, verify, commit, emptyHandEffect, keepOpening, diceOrder,
-    indexedHand, handPlan, verifyResynchronized, actionKey, deferUncertain, removalEffect, blessingChoice,boardKey,burnableHand,
-    actionRerollGoal,rerollCounter,enemyCount,gamblerRemaining };
+  function openingContext() { return {}; }
+  function openingPlan(cards, original) {
+    // This fixed Electro/Dendro team auto-plays the mother blessing from hand
+    // or pile. Mulligan it to keep an ordinary opening card instead of losing
+    // that card slot when the blessing enters the support zone.
+    const useful=new Set(["wovenThunder","voltage","draw","stars","floralSidewinder","gambler","tassel","raven","sword"]);
+    const seen=new Set();
+    const replace=cards.map(c=>!useful.has(c.id) || (["weapon","artifact","talent","support"].includes(byId[c.id]?.type) && seen.has(c.id)) || !seen.add(c.id));
+    return {keep:cards.filter((c,i)=>!replace[i]),replace,duplicateWeapons:[]};
+  }
+  root.TCG = { projectionBudget, openingContext, openingPlan, team, cards, byId, norm, identify, observedCard, handCardKnown, characterName, total, size, payment, rerollPlan,
+    openingSetting, known, alive, freshMemory, nextRound, OpeningFlow, freshActionBoard, skillCost, skillLegal, cardLegal, cardInputError, intent, survivorIntent, followupReachable, switchPreparationReachable, replacement, noteBoard, tuningPlan, legalState, choose, verify, commit, emptyHandEffect, diceOrder,
+    indexedHand, reconcileHand, actionRefused, blockAction,
+    skillQuote,skillProbeAttempted,recordSkillCost,clearSkillCosts,refreshSkillCosts,drawConsumptionProven,
+    drawPayment:(s,a,m)=>byId[a.id]?.type==="draw"?byId[a.id].cost:null,
+    refusalCost:(s,m,a)=>a.type==="card"?byId[a.id]?.cost:a.type==="skill"?skillCost(a.who,a.skill,m,s):null,
+    handPlan, verifyResynchronized, actionKey, rejectAction, deferUncertain, removalEffect, blessingChoice,boardKey,burnableHand,
+    actionRerollGoal,rerollCounter,enemyCount,gamblerRemaining,skillElement,dendroReaction,sproutAvailable,activeKeqingInfusion,damageAgainst };
 })(globalThis);
+
+globalThis.TCG.version = "1.4.2";
+globalThis.TCG.sharedVersion = "1.6.4";
+globalThis.TCG.defaultStrategy = "default";
+(function (T) {
+  const strategies = new Map();
+  T.registerStrategy = function (id, choose) {
+    if (!/^[a-z][a-z0-9-]*$/.test(id) || typeof choose !== "function" || strategies.has(id))
+      throw new Error("策略标识无效、重复或缺少决策函数：" + id);
+    strategies.set(id, choose);
+  };
+  T.selectStrategy = function (id) {
+    if (!strategies.has(id)) throw new Error("未注册策略：" + id);
+    T.choose = strategies.get(id);
+    T.activeStrategy = id;
+  };
+  T.availableStrategies = function () { return [...strategies.keys()]; };
+})(globalThis.TCG);
