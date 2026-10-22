@@ -31,6 +31,12 @@ function isExecutableCultivationTask(task, settings) {
   return false;
 }
 
+/** 角色填充比高级旧填充更保守：有任何已启用的培养树脂候选就不读取推荐。 */
+export function shouldReadRoleArtifactFallback(plan, settings, resolvedTargetState = {}) {
+  return settings.roleArtifactFillEnabled === true && !resolvedTargetState.incomplete
+    && !(plan.todayQueue ?? []).some(task => isExecutableCultivationTask(task, settings));
+}
+
 /** 构造圣遗物秘境执行配置，沿用普通秘境树脂规则且默认不自动分解。 */
 export function buildArtifactDomainExecutionConfig(task, settings, resinPolicy) {
   if (task?.executionType !== 'artifactDomain' || !task.domainName) {
@@ -45,10 +51,14 @@ export function buildArtifactDomainExecutionConfig(task, settings, resinPolicy) 
     ? {
       ...resinPolicy,
       priority: ['原粹树脂'],
-      originalResinUseCount: 1,
+      originalResinUseCount: 0,
+      originalResin20UseCount: 1,
+      originalResin40UseCount: 0,
       condensedResinUseCount: 0,
       transientResinUseCount: 0,
       fragileResinUseCount: 0,
+      maxClaims: 1,
+      boundedResinType: '原粹树脂',
     }
     : resinPolicy;
   return {

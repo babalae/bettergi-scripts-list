@@ -27,3 +27,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 《原神》及相关名称、图像与游戏数据的权利归其各自权利人所有。本项目为非官方社区脚本，与米哈游、HoYoverse 无隶属或背书关系。
+
+## 提升指南识别
+
+`guide-reader/`的导航、OCR解析与定位模板源自LeiShi1313对本项目的[贡献PR #1](https://github.com/yunxi001/GenshinCultivationPlanner/pull/1)，原工作来自[bettergi-growth-planner](https://github.com/LeiShi1313/bettergi-growth-planner)。来源注释予以保留；本版复用导航与角色定位能力读取圣遗物推荐，不开放批量培养目标入口。

@@ -2,13 +2,23 @@
   {
     "name": "basicSection",
     "type": "separator",
-    "label": "【角色一键养成】选择角色和目标后，自动计算、匹配并刷取材料。需要 BetterGI 0.64+ 和 OCR V6。"
+    "label": "【角色一键养成】选择角色和目标后，自动计算、匹配并刷取材料。需要 BetterGI 0.66+ 和 OCR V6。"
   },
   {
     "name": "executionConfirmed",
     "type": "checkbox",
     "label": "允许实际执行",
     "default": false
+  },
+  {
+    "name": "runPurpose",
+    "type": "select",
+    "label": "运行用途",
+    "options": [
+      "正常培养",
+      "仅刷角色圣遗物"
+    ],
+    "default": "正常培养"
   },
   {
     "name": "targetInputMode",
@@ -19,6 +29,12 @@
       "读取档案并执行"
     ],
     "default": "读取档案并执行"
+  },
+  {
+    "name": "allowUnowned",
+    "type": "checkbox",
+    "label": "允许预刷（未拥有角色按1级、天赋1/1/1；拥有后自动读取）",
+    "default": false
   },
   {
     "name": "autoWeaponMode",
@@ -548,7 +564,7 @@
   {
     "name": "weaponLevelRange",
     "type": "cascade-select",
-    "label": "指定武器等级（当前→目标）",
+    "label": "指定武器等级（当前→目标；未标注时按突破前）",
     "cascadeOptions": {
       "升至 90 级": [
         "1>90",
@@ -594,6 +610,12 @@
       ]
     },
     "default": "80>90"
+  },
+  {
+    "name": "appendTrainingGuide",
+    "type": "checkbox",
+    "label": "附加提升指南培养计划（默认关闭）",
+    "default": false
   },
   {
     "name": "domainSection",
@@ -771,6 +793,90 @@
     "default": "关闭圣遗物填充"
   },
   {
+    "name": "roleArtifactSection",
+    "type": "separator",
+    "label": "\n━━━━━━━━━━━━━━━━━ 角色圣遗物刷取 ━━━━━━━━━━━━━━━━━\n"
+  },
+  {
+    "name": "roleArtifactFillEnabled",
+    "type": "checkbox",
+    "label": "按角色推荐填充圣遗物（无培养树脂任务时，默认关闭）",
+    "default": false
+  },
+  {
+    "name": "roleArtifactSource",
+    "type": "select",
+    "label": "角色圣遗物套装来源（独立刷取或角色填充）",
+    "options": [
+      "提升指南第一项推荐",
+      "手动指定套装"
+    ],
+    "default": "提升指南第一项推荐"
+  },
+  {
+    "name": "roleArtifactSet",
+    "type": "select",
+    "label": "手动指定套装（选手动来源时生效）",
+    "options": [
+      "未选择套装",
+      "被怜爱的少女",
+      "冰风迷途的勇士",
+      "苍白之火",
+      "沉沦之心",
+      "辰砂往生录",
+      "晨星与月的晓歌",
+      "炽烈的炎之魔女",
+      "翠绿之影",
+      "渡过烈火的贤人",
+      "纺月的夜歌",
+      "风起之日",
+      "海染砗磲",
+      "黑曜秘典",
+      "花海甘露之光",
+      "华馆梦醒形骸记",
+      "黄金剧团",
+      "回声之林夜话",
+      "烬城勇者绘卷",
+      "绝缘之旗印",
+      "来歆余响",
+      "乐园遗落之花",
+      "炉火融炼之心",
+      "逆飞的流星",
+      "平息鸣雷的尊者",
+      "千岩牢固",
+      "穹境示现之夜",
+      "染血的骑士道",
+      "如雷的盛怒",
+      "沙上楼阁史话",
+      "深廊终曲",
+      "深林的记忆",
+      "饰金之梦",
+      "水仙之梦",
+      "天之美赐",
+      "未竟的遐思",
+      "昔日宗室之仪",
+      "昔时之歌",
+      "谐律异想断章",
+      "血红之证",
+      "影中沉凝的幻灭",
+      "悠古的磐岩",
+      "长夜之誓",
+      "逐影猎人",
+      "追忆之注连"
+    ],
+    "default": "未选择套装"
+  },
+  {
+    "name": "roleArtifactRunMode",
+    "type": "select",
+    "label": "独立刷取次数（正常培养填充沿用树脂规则）",
+    "options": [
+      "按树脂规则",
+      "单次（20原粹）"
+    ],
+    "default": "按树脂规则"
+  },
+  {
     "name": "artifactTeamName",
     "type": "input-text",
     "label": "圣遗物秘境队伍名称",
@@ -790,12 +896,12 @@
   {
     "name": "resinRuleMode",
     "type": "select",
-    "label": "树脂任务模式",
+    "label": "树脂任务模式：等级优先先刷角色、武器突破材料，再刷天赋；每次只刷首个可用任务",
     "options": [
-      "一次只刷一类（推荐）",
+      "等级优先（推荐）",
       "按顺序刷多类"
     ],
-    "default": "一次只刷一类（推荐）"
+    "default": "等级优先（推荐）"
   },
   {
     "name": "resinPrioritySection",
@@ -1131,7 +1237,7 @@
   {
     "name": "sendRunSummary",
     "type": "checkbox",
-    "label": "发送运行摘要",
+    "label": "发送运行结束摘要",
     "default": false
   }
 ]
