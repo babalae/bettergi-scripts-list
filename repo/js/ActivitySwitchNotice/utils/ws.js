@@ -1,5 +1,4 @@
-import {ocrUID} from "./uid";
-
+import {toMainUi} from "./tool";
 const actionType = Object.freeze({
     send_private_msg: 'send_private_msg',//私聊
     send_group_msg: 'send_group_msg',//群聊
@@ -78,7 +77,8 @@ async function buildInitConfigSettings() {
  */
 async function init() {
     await buildInitConfigSettings()
-    const uid = await ocrUID()
+    await toMainUi()
+    let uid = await genshin.uid()
     local.token = await getToken()
     local.uid = uid
     if (settings.wsNoticeType === "自定义通知") {

@@ -687,104 +687,126 @@
                 for (let scroll = 0; scroll <= pageScrollCount; scroll++) {
                     const ra = captureGameRegion();
 
-                    if (!foundPriorityMaterial) {
-                        for (const { category, name } of priorityMaterialNames) {
-                            if (recognizedMaterials.has(name)) {
-                                continue;
-                            }
-
-                            const filePath = `assets/RecognitionObject/${category}/${name}.png`;
-                            const mat = file.readImageMatSync(filePath);
-                            if (mat.empty()) {
-                                log.error(`加载材料图库失败：${filePath}`);
-                                continue;
-                            }
-
-                            const recognitionObject = RecognitionObject.TemplateMatch(mat, 1142, startY, columnWidth, columnHeight);
-                            recognitionObject.threshold = 0.78; // 适中的阈值
-                            recognitionObject.Use3Channels = true;
-
-                            const result = ra.find(recognitionObject);
-                            if (result.isExist() && result.x !== 0 && result.y !== 0) {
-                                foundPriorityMaterial = true;
-                                // log.info(`发现当前或后位材料: ${name}，开始全列扫描`);
-                                break;
-                            }
-                        }
-                    }
-
-                    if (foundPriorityMaterial) {
-                        for (let column = 0; column < maxColumns; column++) {
-                            const scanX0 = startX + column * OffsetWidth;
-                            const scanX = Math.round(scanX0);
-
-                            for (let i = 0; i < materialCategories.length; i++) {
-                                const { name } = materialCategories[i];
+                    try {
+                        if (!foundPriorityMaterial) {
+                            for (const { category, name } of priorityMaterialNames) {
                                 if (recognizedMaterials.has(name)) {
                                     continue;
                                 }
 
-                                const mat = materialRecognitionObject[name];
-                                const recognitionObject = RecognitionObject.TemplateMatch(mat, scanX, startY, columnWidth, columnHeight);
-                                recognitionObject.threshold = 0.82;
-                                recognitionObject.Use3Channels = true;
-
-                                const result = ra.find(recognitionObject);
-
-                                if (result.isExist() && result.x !== 0 && result.y !== 0) {
-                                    recognizedMaterials.add(name);
-                                    moveMouseTo(result.x, result.y);
-
-                                    const ocrRegion = {
-                                        x: result.x - tolerance,
-                                        y: result.y + 97 - tolerance,
-                                        width: 66 + 2 * tolerance,
-                                        height: 22 + 2 * tolerance
-                                    };
-
-                                    // 增加OCR识别尝试次数和时间，提高数字7识别成功率
-                                    const ocrResult = await recognizeText(ocrRegion, 1000, 25, 10, 4, ra);
-                                    materialInfo.push({ name, count: ocrResult || "?" });
-
-                                    if (!hasFoundFirstMaterial) {
-                                        hasFoundFirstMaterial = true;
-                                        lastFoundTime = Date.now();
-                                    } else {
-                                        lastFoundTime = Date.now();
-                                    }
+                                const filePath = `assets/RecognitionObject/${category}/${name}.png`;
+                                const mat = file.readImageMatSync(filePath);
+                                if (mat.empty()) {
+                                    log.error(`加载材料图库失败：${filePath}`);
+                                    continue;
                                 }
-                                await sleep(config.imageDelay);
+
+                                try {
+                                    const recognitionObject = RecognitionObject.TemplateMatch(mat, 1142, startY, columnWidth, columnHeight);
+                                    recognitionObject.threshold = 0.78; // 适中的阈值
+                                    recognitionObject.Use3Channels = true;
+
+                                    const result = ra.find(recognitionObject);
+                                    if (result.isExist() && result.x !== 0 && result.y !== 0) {
+                                        foundPriorityMaterial = true;
+                                        // log.info(`发现当前或后位材料: ${name}，开始全列扫描`);
+                                        break;
+                                    }
+                                } finally {
+                                    mat.dispose();
+                                }
                             }
                         }
-                    }
 
-                    // 检查是否结束扫描
-                    if (recognizedMaterials.size === allMaterials.size) {
-                        log.info("所有材料均已识别！");
-                        shouldEndScan = true;
-                        break;
-                    }
+                        if (foundPriorityMaterial) {
+                            for (let column = 0; column < maxColumns; column++) {
+                                const scanX0 = startX + column * OffsetWidth;
+                                const scanX = Math.round(scanX0);
 
-                    if (hasFoundFirstMaterial && Date.now() - lastFoundTime > 4000) {
-                        log.info("未发现新的材料，结束扫描");
-                        shouldEndScan = true;
-                        break;
-                    }
+                                for (let i = 0; i < materialCategories.length; i++) {
+                                    const { name } = materialCategories[i];
+                                    if (recognizedMaterials.has(name)) {
+                                        continue;
+                                    }
 
-                    // 检查是否到达最后一页
-                    const sliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/SliderBottom.png"), 1284, 916, 9, 26);
-                    sliderBottomRo.threshold = 0.75;
-                    const sliderBottomResult = ra.find(sliderBottomRo);
-                    if (sliderBottomResult.isExist()) {
-                        log.info("已到达最后一页！");
-                        shouldEndScan = true;
-                        break;
-                    }
+                                    const mat = materialRecognitionObject[name];
+                                    const recognitionObject = RecognitionObject.TemplateMatch(mat, scanX, startY, columnWidth, columnHeight);
+                                    recognitionObject.threshold = 0.82;
+                                    recognitionObject.Use3Channels = true;
 
-                    // 滑动到下一页
-                    if (scroll < pageScrollCount) {
-                        await scrollPage(-config.pageScrollDistance, 15, 10);
-                        await sleep(100); // 适中的页面切换延迟
+                                    const result = ra.find(recognitionObject);
+
+                                    if (result.isExist() && result.x !== 0 && result.y !== 0) {
+                                        recognizedMaterials.add(name);
+                                        moveMouseTo(result.x, result.y);
+
+                                        const ocrRegion = {
+                                            x: result.x - tolerance,
+                                            y: result.y + 97 - tolerance,
+                                            width: 66 + 2 * tolerance,
+                                            height: 22 + 2 * tolerance
+                                        };
+
+                                        // 增加OCR识别尝试次数和时间，提高数字7识别成功率
+                                        const ocrResult = await recognizeText(ocrRegion, 1000, 25, 10, 4, ra);
+                                        materialInfo.push({ name, count: ocrResult || "?" });
+
+                                        if (!hasFoundFirstMaterial) {
+                                            hasFoundFirstMaterial = true;
+                                            lastFoundTime = Date.now();
+                                        } else {
+                                            lastFoundTime = Date.now();
+                                        }
+                                    }
+                                    await sleep(config.imageDelay);
+                                }
+                            }
+                        }
+
+                        // 检查是否结束扫描
+                        if (recognizedMaterials.size === allMaterials.size) {
+                            log.info("所有材料均已识别！");
+                            shouldEndScan = true;
+                            break;
+                        }
+
+                        if (hasFoundFirstMaterial && Date.now() - lastFoundTime > 4000) {
+                            log.info("未发现新的材料，结束扫描");
+                            shouldEndScan = true;
+                            break;
+                        }
+
+                        // 检查是否到达最后一页
+                        const sliderMat = file.ReadImageMatSync("assets/RecognitionObject/SliderBottom.png");
+                        try {
+                            const sliderBottomRo = RecognitionObject.TemplateMatch(sliderMat, 1284, 916, 9, 26);
+                            sliderBottomRo.threshold = 0.75;
+                            const sliderBottomResult = ra.find(sliderBottomRo);
+                            if (sliderBottomResult.isExist()) {
+                                log.info("已到达最后一页！");
+                                shouldEndScan = true;
+                                break;
+                            }
+                        } finally {
+                            sliderMat.dispose();
+                        }
+
+                        // 滑动到下一页
+                        if (scroll < pageScrollCount) {
+                            await scrollPage(-config.pageScrollDistance, 15, 10);
+                            await sleep(100); // 适中的页面切换延迟
+                        }
+                    } finally {
+                        if (ra) {
+                            ra.dispose();
+                        }
+                    }
+                }
+
+                // 释放所有模板 Mat
+                for (const name in materialRecognitionObject) {
+                    if (materialRecognitionObject[name]) {
+                        materialRecognitionObject[name].dispose();
                     }
                 }
 
@@ -844,12 +866,14 @@
                 await sleep(1500);
 
                 let cachedFrame = captureGameRegion();
-                const BagpackRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/Bagpack.png"), 58, 31, 38, 38);
+                const bagpackMat = file.ReadImageMatSync("assets/RecognitionObject/Bagpack.png");
+                const BagpackRo = RecognitionObject.TemplateMatch(bagpackMat, 58, 31, 38, 38);
 
                 const backpackResult = await recognizeImage(BagpackRo, cachedFrame, 3000);
 
                 if (!backpackResult.isDetected) {
                     log.warn("未识别到背包图标");
+                    bagpackMat.dispose();
                     return [];
                 }
 
@@ -876,17 +900,20 @@
 
                         // 识别材料分类
                         let CategoryObject;
+                        let categoryMat = null;
                         switch (materialsCategory) {
                             case "锻造素材":
                             case "一般素材":
                             case "烹饪食材":
                             case "木材":
                             case "鱼饵鱼类":
-                                CategoryObject = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/Materials.png"), 941, 29, 38, 38);
+                                categoryMat = file.ReadImageMatSync("assets/RecognitionObject/Materials.png");
+                                CategoryObject = RecognitionObject.TemplateMatch(categoryMat, 941, 29, 38, 38);
                                 break;
                             case "采集食物":
                             case "料理":
-                                CategoryObject = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/Food.png"), 845, 31, 38, 38);
+                                categoryMat = file.ReadImageMatSync("assets/RecognitionObject/Food.png");
+                                CategoryObject = RecognitionObject.TemplateMatch(categoryMat, 845, 31, 38, 38);
                                 break;
                             case "怪物掉落素材":
                             case "周本素材":
@@ -894,7 +921,8 @@
                             case "宝石":
                             case "角色天赋素材":
                             case "武器突破素材":
-                                CategoryObject = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/CultivationItems.png"), 749, 30, 38, 38);
+                                categoryMat = file.ReadImageMatSync("assets/RecognitionObject/CultivationItems.png");
+                                CategoryObject = RecognitionObject.TemplateMatch(categoryMat, 749, 30, 38, 38);
                                 break;
                             default:
                                 log.error("未知的材料分类");
@@ -902,30 +930,36 @@
                                 continue;
                         }
 
-                        await sleep(1500);
+                        try {
+                            await sleep(1500);
 
-                        let CategoryResult = await recognizeImage(CategoryObject, cachedFrame, 5000);
+                            let CategoryResult = await recognizeImage(CategoryObject, cachedFrame, 5000);
 
-                        if (!CategoryResult.isDetected) {
-                            log.warn(`首次未识别到材料分类图标: ${materialsCategory}，重试中...`);
-                            CategoryResult = await recognizeImage(CategoryObject, cachedFrame, 5000);
                             if (!CategoryResult.isDetected) {
-                                log.error(`重试后仍未识别到材料分类图标: ${materialsCategory}`);
+                                log.warn(`首次未识别到材料分类图标: ${materialsCategory}，重试中...`);
+                                CategoryResult = await recognizeImage(CategoryObject, cachedFrame, 5000);
+                                if (!CategoryResult.isDetected) {
+                                    log.error(`重试后仍未识别到材料分类图标: ${materialsCategory}`);
+                                }
+                            } else {
+                                // log.info(`识别到${materialsCategory} 所在分类。`);
+
+                                // 重置材料滑条
+                                await moveMouseTo(1288, 124);
+                                await sleep(50);
+                                leftButtonDown();
+                                await sleep(200);
+                                leftButtonUp();
+                                await sleep(100);
+
+                                // 扫描材料
+                                const materialInfo = await scanMaterials(materialsCategory, materialCategoryMap);
+                                allMaterialInfo.push(...materialInfo);
                             }
-                        } else {
-                            // log.info(`识别到${materialsCategory} 所在分类。`);
-
-                            // 重置材料滑条
-                            await moveMouseTo(1288, 124);
-                            await sleep(50);
-                            leftButtonDown();
-                            await sleep(200);
-                            leftButtonUp();
-                            await sleep(100);
-
-                            // 扫描材料
-                            const materialInfo = await scanMaterials(materialsCategory, materialCategoryMap);
-                            allMaterialInfo.push(...materialInfo);
+                        } finally {
+                            if (categoryMat) {
+                                categoryMat.dispose();
+                            }
                         }
 
                         currentCategoryIndex++;
@@ -938,6 +972,7 @@
                 await genshin.returnMainUi();
                 log.info("扫描流程结束");
 
+                bagpackMat.dispose();
                 cachedFrame?.dispose();
                 return allMaterialInfo;
             } catch (error) {
@@ -1113,41 +1148,52 @@
     */
     async function textOCR(text = "空参数", timeout = 10, afterBehavior = 0, debugmodel = 0, x = 0, y = 0, w = 1920, h = 1080) {
         const startTime = new Date();
-        var Outcheak = 0
-        for (var ii = 0; ii < 10; ii++) {
-            // 获取一张截图
-            var captureRegion = captureGameRegion();
-            var res1
-            var res2
-            var conuntcottimecot = 1;
-            var conuntcottimecomp = 1;
-            // 对整个区域进行 OCR
-            var resList = captureRegion.findMulti(RecognitionObject.ocr(x, y, w, h));
-            //log.info("OCR 全区域识别结果数量 {len}", resList.count);
-            if (resList.count !== 0) {
-                for (let i = 0; i < resList.count; i++) { // 遍历的是 C# 的 List 对象，所以要用 count，而不是 length
-                    let res = resList[i];
-                    res1 = res.text
-                    conuntcottimecomp++;
-                    if (res.text.includes(text) && debugmodel == 3) { return result = { text: res.text, x: res.x, y: res.y, found: true }; }
-                    if (res.text.includes(text) && debugmodel !== 2) {
-                        conuntcottimecot++;
-                        if (debugmodel === 1 & x === 0 & y === 0) { log.info("全图代码位置：({x},{y},{h},{w})", res.x - 10, res.y - 10, res.width + 10, res.Height + 10); }
-                        if (afterBehavior === 1) { await sleep(1000); click(res.x, res.y); } else { if (debugmodel === 1 & x === 0 & y === 0) { log.info("点击模式:关") } }
-                        if (afterBehavior === 2) { await sleep(100); keyPress("F"); } else { if (debugmodel === 1 & x === 0 & y === 0) { log.info("F模式:关"); } }
-                        if (conuntcottimecot >= conuntcottimecomp / 2) { return result = { text: res.text, x: res.x, y: res.y, found: true }; } else { return result = { found: false }; }
-                    }
-                    if (debugmodel === 2) {
-                        if (res1 === res2) { conuntcottimecot++; res2 = res1; }
-                        //log.info("输出模式：全图代码位置：({x},{y},{h},{w},{string})", res.x-10, res.y-10, res.width+10, res.Height+10, res.text);
-                        if (Outcheak === 1) { if (conuntcottimecot >= conuntcottimecomp / 2) { return result = { text: res.text, x: res.x, y: res.y, found: true }; } else { return result = { found: false }; } }
+        var Outcheak = 0;
+        var captureRegion = null;
+        try {
+            for (var ii = 0; ii < 10; ii++) {
+                // 释放上一轮的截图
+                if (captureRegion) {
+                    captureRegion.dispose();
+                }
+                // 获取一张截图
+                captureRegion = captureGameRegion();
+                var res1
+                var res2
+                var conuntcottimecot = 1;
+                var conuntcottimecomp = 1;
+                // 对整个区域进行 OCR
+                var resList = captureRegion.findMulti(RecognitionObject.ocr(x, y, w, h));
+                //log.info("OCR 全区域识别结果数量 {len}", resList.count);
+                if (resList.count !== 0) {
+                    for (let i = 0; i < resList.count; i++) { // 遍历的是 C# 的 List 对象，所以要用 count，而不是 length
+                        let res = resList[i];
+                        res1 = res.text
+                        conuntcottimecomp++;
+                        if (res.text.includes(text) && debugmodel == 3) { return result = { text: res.text, x: res.x, y: res.y, found: true }; }
+                        if (res.text.includes(text) && debugmodel !== 2) {
+                            conuntcottimecot++;
+                            if (debugmodel === 1 & x === 0 & y === 0) { log.info("全图代码位置：({x},{y},{h},{w})", res.x - 10, res.y - 10, res.width + 10, res.Height + 10); }
+                            if (afterBehavior === 1) { await sleep(1000); click(res.x, res.y); } else { if (debugmodel === 1 & x === 0 & y === 0) { log.info("点击模式:关") } }
+                            if (afterBehavior === 2) { await sleep(100); keyPress("F"); } else { if (debugmodel === 1 & x === 0 & y === 0) { log.info("F模式:关"); } }
+                            if (conuntcottimecot >= conuntcottimecomp / 2) { return result = { text: res.text, x: res.x, y: res.y, found: true }; } else { return result = { found: false }; }
+                        }
+                        if (debugmodel === 2) {
+                            if (res1 === res2) { conuntcottimecot++; res2 = res1; }
+                            //log.info("输出模式：全图代码位置：({x},{y},{h},{w},{string})", res.x-10, res.y-10, res.width+10, res.Height+10, res.text);
+                            if (Outcheak === 1) { if (conuntcottimecot >= conuntcottimecomp / 2) { return result = { text: res.text, x: res.x, y: res.y, found: true }; } else { return result = { found: false }; } }
+                        }
                     }
                 }
+                const NowTime = new Date();
+                if ((NowTime - startTime) > timeout * 1000) { if (debugmodel === 2) { if (resList.count === 0) { return result = { found: false }; } else { Outcheak = 1; ii = 2; } } else { Outcheak = 0; if (debugmodel === 1 & x === 0 & y === 0) { log.info(`${timeout}秒超时退出，"${text}"未找到`) }; return result = { found: false }; } }
+                else { ii = 2; if (debugmodel === 1 & x === 0 & y === 0) { log.info(`"${text}"识别中……`); } }
+                await sleep(100);
             }
-            const NowTime = new Date();
-            if ((NowTime - startTime) > timeout * 1000) { if (debugmodel === 2) { if (resList.count === 0) { return result = { found: false }; } else { Outcheak = 1; ii = 2; } } else { Outcheak = 0; if (debugmodel === 1 & x === 0 & y === 0) { log.info(`${timeout}秒超时退出，"${text}"未找到`) }; return result = { found: false }; } }
-            else { ii = 2; if (debugmodel === 1 & x === 0 & y === 0) { log.info(`"${text}"识别中……`); } }
-            await sleep(100);
+        } finally {
+            if (captureRegion) {
+                captureRegion.dispose();
+            }
         }
     }
 
@@ -1188,11 +1234,12 @@
 
         const startTime = Date.now();
         let captureRegion = null;
+        let templateImage = null;
         let result = { found: false };
 
         try {
             // 读取模板图像
-            const templateImage = file.ReadImageMatSync(imagefilePath);
+            templateImage = file.ReadImageMatSync(imagefilePath);
             if (!templateImage) {
                 throw new Error("无法读取模板图像");
             }
@@ -1220,48 +1267,54 @@
 
                 try {
                     const croppedRegion = captureRegion.DeriveCrop(xa, ya, wa, ha);
-                    const res = croppedRegion.Find(Imagidentify);
+                    try {
+                        const res = croppedRegion.Find(Imagidentify);
 
-                    if (res.isEmpty()) {
-                        if (debugmodel === 1) {
-                            log.info("识别图片中...");
+                        if (res.isEmpty()) {
+                            if (debugmodel === 1) {
+                                log.info("识别图片中...");
+                            }
+                        } else {
+                            // 计算基准点击位置（目标的左上角）
+                            let clickX = res.x + xa;
+                            let clickY = res.y + ya;
+
+                            // 如果要求点击中心，计算中心点坐标
+                            if (clickCenter) {
+                                clickX += Math.floor(res.width / 2);
+                                clickY += Math.floor(res.height / 2);
+                            }
+
+                            // 应用自定义偏移量
+                            clickX += clickOffsetX;
+                            clickY += clickOffsetY;
+
+                            if (debugmodel === 1) {
+                                log.info("计算后点击位置：({x},{y})", clickX, clickY);
+                            }
+
+                            // 执行识别后行为
+                            if (afterBehavior === 1) {
+                                await sleep(1000);
+                                click(clickX, clickY);
+                            } else if (afterBehavior === 2) {
+                                await sleep(1000);
+                                keyPress("F");
+                            }
+
+                            result = {
+                                x: clickX,
+                                y: clickY,
+                                w: res.width,
+                                h: res.height,
+                                found: true
+                            };
+                            break;
                         }
-                    } else {
-                        // 计算基准点击位置（目标的左上角）
-                        let clickX = res.x + xa;
-                        let clickY = res.y + ya;
-
-                        // 如果要求点击中心，计算中心点坐标
-                        if (clickCenter) {
-                            clickX += Math.floor(res.width / 2);
-                            clickY += Math.floor(res.height / 2);
+                    } finally {
+                        if (croppedRegion) {
+                            croppedRegion.dispose();
                         }
-
-                        // 应用自定义偏移量
-                        clickX += clickOffsetX;
-                        clickY += clickOffsetY;
-
-                        if (debugmodel === 1) {
-                            log.info("计算后点击位置：({x},{y})", clickX, clickY);
-                        }
-
-                        // 执行识别后行为
-                        if (afterBehavior === 1) {
-                            await sleep(1000);
-                            click(clickX, clickY);
-                        } else if (afterBehavior === 2) {
-                            await sleep(1000);
-                            keyPress("F");
-                        }
-
-                        result = {
-                            x: clickX,
-                            y: clickY,
-                            w: res.width,
-                            h: res.height,
-                            found: true
-                        };
-                        break;
                     }
                 } finally {
                     if (captureRegion) {
@@ -1275,6 +1328,11 @@
         } catch (error) {
             log.info(`图像识别错误: ${error.message}`);
             result.error = error.message;
+        } finally {
+            // 释放模板图像
+            if (templateImage) {
+                templateImage.dispose();
+            }
         }
 
         return result;
@@ -1522,110 +1580,116 @@
                 // 启用自动拾取
                 dispatcher.addTimer(new RealtimeTimer("AutoPick"));
 
-                for (const fileName of files) {
-                    try {
-                        // 提取路线名称（不含.json后缀）
-                        const fName = fileName.split('\\').pop().split('/').pop().replace('.json', '');
+                try {
+                    for (const fileName of files) {
+                        try {
+                            // 提取路线名称（不含.json后缀）
+                            const fName = fileName.split('\\').pop().split('/').pop().replace('.json', '');
 
-                        // 判断是否选择该路线执行（根据路线名和国家模式）
-                        if (!await routeSelection(fName, countryMode)) {
-                            continue;
-                        }
-
-                        const routeName = fName;
-                        currentTask++;
-
-                        // 检查冷却时间是否已刷新，未刷新则跳过该路线
-                        if (!isRouteAvailable(routeName, cdRecords)) {
-                            log.info(`路线 ${routeName} CD未刷新，跳过`);
-                            continue;
-                        }
-
-                        let retryCount = 0;
-                        const maxRetries = 3; // 最大重试次数，避免无限循环
-
-                        // 循环尝试执行路径直到成功或达到最大重试次数
-                        while (retryCount < maxRetries) {
-                            await fakeLog(routeName, false, true, 0);
-                            log.info(`当前任务：${routeName} 为第${currentTask}/${totalCount.totalKeywordCount}个`);
-
-                            // 运行指定的路径文件
-                            await pathingScript.runFile(fileName);
-                            await sleep(300);
-
-                            let position1, position2;
-                            try {
-                                // 获取路径结束位置坐标及当前游戏内小地图坐标
-                                position1 = await getLastPositionCoords(fileName);
-                                position2 = genshin.getPositionFromMap();
-                            } catch (error) {
-                                position2 = { X: 0, Y: 0 }
+                            // 判断是否选择该路线执行（根据路线名和国家模式）
+                            if (!await routeSelection(fName, countryMode)) {
+                                continue;
                             }
-                            log.debug(`当前任务末位坐标: X=${position1.x}, Y=${position1.y}`);
-                            log.debug(`当前小地图坐标: X=${position2.X}, Y=${position2.Y}`);
 
-                            // 判断两个坐标的偏差是否在允许范围内
-                            const ifDeviation = areCoordinatesApproximate(position1, position2, 25);
-                            await sleep(10);
+                            const routeName = fName;
+                            currentTask++;
 
-                            if (ifDeviation) {
-                                // 坐标匹配，更新CD记录，并跳出重试循环
-                                updatedRecords[routeName] = getNextMidnight();
-                                await writeCDRecords(updatedRecords);
-                                break; // 跳出重试循环，继续下一个文件
-                            } else {
-                                await fakeLog(routeName, false, false, 0);
-                                // 坐标偏差较大，进入重试流程
-                                log.info(`坐标偏差，第${retryCount + 1}次重试 ${routeName}`);
-                                // 防被抓策略延迟等待
-                                await exponentialBackoffRetry(preventBeingcaught, 3, 500);
+                            // 检查冷却时间是否已刷新，未刷新则跳过该路线
+                            if (!isRouteAvailable(routeName, cdRecords)) {
+                                log.info(`路线 ${routeName} CD未刷新，跳过`);
+                                continue;
+                            }
 
-                                retryCount++;
+                            let retryCount = 0;
+                            const maxRetries = 3; // 最大重试次数，避免无限循环
 
-                                if (retryCount >= maxRetries) {
-                                    log.info(`路线 ${routeName} 重试${maxRetries}次后仍失败，跳过`);
+                            // 循环尝试执行路径直到成功或达到最大重试次数
+                            while (retryCount < maxRetries) {
+                                await fakeLog(routeName, false, true, 0);
+                                log.info(`当前任务：${routeName} 为第${currentTask}/${totalCount.totalKeywordCount}个`);
+
+                                // 运行指定的路径文件
+                                await pathingScript.runFile(fileName);
+                                await sleep(300);
+
+                                let position1, position2;
+                                try {
+                                    // 获取路径结束位置坐标及当前游戏内小地图坐标
+                                    position1 = await getLastPositionCoords(fileName);
+                                    position2 = genshin.getPositionFromMap();
+                                } catch (error) {
+                                    position2 = { X: 0, Y: 0 }
+                                }
+                                log.debug(`当前任务末位坐标: X=${position1.x}, Y=${position1.y}`);
+                                log.debug(`当前小地图坐标: X=${position2.X}, Y=${position2.Y}`);
+
+                                // 判断两个坐标的偏差是否在允许范围内
+                                const ifDeviation = areCoordinatesApproximate(position1, position2, 25);
+                                await sleep(10);
+
+                                if (ifDeviation) {
+                                    // 坐标匹配，更新CD记录，并跳出重试循环
+                                    updatedRecords[routeName] = getNextMidnight();
+                                    await writeCDRecords(updatedRecords);
+                                    break; // 跳出重试循环，继续下一个文件
+                                } else {
+                                    await fakeLog(routeName, false, false, 0);
+                                    // 坐标偏差较大，进入重试流程
+                                    log.info(`坐标偏差，第${retryCount + 1}次重试 ${routeName}`);
+                                    // 防被抓策略延迟等待
+                                    await exponentialBackoffRetry(preventBeingcaught, 3, 500);
+
+                                    retryCount++;
+
+                                    if (retryCount >= maxRetries) {
+                                        log.info(`路线 ${routeName} 重试${maxRetries}次后仍失败，跳过`);
+                                    }
                                 }
                             }
-                        }
 
-                        await fakeLog(routeName, false, false, 0);
+                            await fakeLog(routeName, false, false, 0);
 
-                        const ifExit = checkExitTime(settings.exitTime); // 检查是否已到退出时间
-                        if (!ifExit) {
-                            // 计算需要等待的时间
-                            const waitTime = calculateWaitTime(settings.exitTime);
-                            if (waitTime > 0) {
-                                log.warn(`距离退出时间还有约${Math.floor(waitTime / 1000 / 60)}分${Math.floor((waitTime / 1000) % 60)}秒`);
-                                await genshin.tpToStatueOfTheSeven(); // 回神像等别被肘死了再怪作者……
-                                await sleep(waitTime + 10000); // 等待时间差+10秒
+                            const ifExit = checkExitTime(settings.exitTime); // 检查是否已到退出时间
+                            if (!ifExit) {
+                                // 计算需要等待的时间
+                                const waitTime = calculateWaitTime(settings.exitTime);
+                                if (waitTime > 0) {
+                                    log.warn(`距离退出时间还有约${Math.floor(waitTime / 1000 / 60)}分${Math.floor((waitTime / 1000) % 60)}秒`);
+                                    await genshin.tpToStatueOfTheSeven(); // 回神像等别被肘死了再怪作者……
+                                    await sleep(waitTime + 10000); // 等待时间差+10秒
+                                }
                             }
-                        }
 
-                        try {
-                            // 若启用月卡功能，则点击领取月卡奖励
-                            if (ifMonthcard) {
-                                await clickMonthcard();//月卡点击
+                            try {
+                                // 若启用月卡功能，则点击领取月卡奖励
+                                if (ifMonthcard) {
+                                    await clickMonthcard();//月卡点击
+                                } else {
+                                    log.debug("月卡点击功能未开启");
+                                }
+                            } catch (error) {
+                                log.error(`月卡功能发生错误: ${error}`);
+                            }
+
+                            if (!ifExit) {
+                                log.warn("已到退出时间，将退出程序");
+                                await genshin.returnMainUi();
+                                throw new Error("Exit time reached."); // 抛出异常
+                            }
+
+                        } catch (e) {
+                            if (e.message == "A task was canceled." || e.message == "Exit time reached.") {
+                                throw e; // 继续抛出错误
                             } else {
-                                log.debug("月卡点击功能未开启");
+                                log.error(`处理文件 ${fileName} 时出错: ${e.message}，已跳过该路径`);
+                                continue; // 继续执行下一个路径
                             }
-                        } catch (error) {
-                            log.error(`月卡功能发生错误: ${error}`);
-                        }
-
-                        if (!ifExit) {
-                            log.warn("已到退出时间，将退出程序");
-                            await genshin.returnMainUi();
-                            throw new Error("Exit time reached."); // 抛出异常
-                        }
-
-                    } catch (e) {
-                        if (e.message == "A task was canceled." || e.message == "Exit time reached.") {
-                            throw e; // 继续抛出错误
-                        } else {
-                            log.error(`处理文件 ${fileName} 时出错: ${e.message}，已跳过该路径`);
-                            continue; // 继续执行下一个路径
                         }
                     }
+                } catch (e) {
+                    // 异常路径也清理触发器
+                    dispatcher.ClearAllTriggers();
+                    throw e;
                 }
 
                 // 关闭自动拾取，防止误触炉子

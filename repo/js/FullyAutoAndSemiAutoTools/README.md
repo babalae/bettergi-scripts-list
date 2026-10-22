@@ -71,7 +71,7 @@ FullyAutoAndSemiAutoTools/
 ├── utils/
 │   ├── SwitchTeam.js               # 队伍切换核心
 │   ├── cron.js                     # Cron 解析工具
-│   └── uid.js                      # UID 识别模块
+│   └── tool.js                      # UID 识别模块
 ├── pathing/                        # ★ 所有路径文件目录（需符号链接）
 ├── SymLink.bat                     # 一键创建 pathing 链接
 ├── main.js                         # 主程序入口（已重构路径扫描）

@@ -303,7 +303,7 @@ function calculatePerTime(resourceName, pathName, recordDir, noRecordDir, isFood
     return null;
   }
 
-  const recentRecords = completeRecords.slice(-5).filter(r => !isNaN(r) && r !== Infinity);
+  const recentRecords = completeRecords.slice(0, 5).filter(r => !isNaN(r) && r !== Infinity);
   const mean = recentRecords.reduce((acc, val) => acc + val, 0) / recentRecords.length;
   const stdDev = Math.sqrt(recentRecords.reduce((acc, val) => acc + Math.pow(val - mean, 2), 0) / recentRecords.length);
   const filteredRecords = recentRecords.filter(r => Math.abs(r - mean) <= 1 * stdDev);

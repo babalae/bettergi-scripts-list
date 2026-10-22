@@ -1,19 +1,19 @@
-﻿{
+{
   "info": {
     "authors": [
       {
         "links": "",
-        "name": "听雨♪"
+        "name": "蜜柑魚"
       }
     ],
     "bgiVersion": "0.35.1",
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1762088557847,
+    "last_modified_time": 1785054094183,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "老孙",
+    "name": "璃月-璃月港-老孙",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -32,46 +32,46 @@
       "action": "",
       "action_params": "",
       "id": 2,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
-      "x": 247.5,
-      "y": -664.5
+      "x": 254.2285,
+      "y": -655.7949
     },
     {
       "action": "",
       "action_params": "",
       "id": 3,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
-      "x": 214.5,
-      "y": -661.5
+      "x": 254.2813,
+      "y": -629.1934
     },
     {
       "action": "",
       "action_params": "",
       "id": 4,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
-      "x": 192.5,
-      "y": -682
+      "x": 222.6611,
+      "y": -615.9551
     },
     {
-      "action": "",
+      "action": "stop_flying",
       "action_params": "",
       "id": 5,
-      "move_mode": "run",
+      "move_mode": "fly",
       "type": "path",
-      "x": 162.5,
-      "y": -681
+      "x": 182.0068,
+      "y": -600.6699
     },
     {
       "action": "",
       "action_params": "",
       "id": 6,
-      "move_mode": "run",
-      "type": "path",
-      "x": 157.5000949141504,
-      "y": -630.375
+      "move_mode": "dash",
+      "type": "target",
+      "x": 167.0898,
+      "y": -601.3799
     },
     {
       "action": "",
@@ -79,35 +79,17 @@
       "id": 7,
       "move_mode": "walk",
       "type": "path",
-      "x": 139.99022999999943,
-      "y": -608.2969000000003
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 8,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 162.32030999999915,
-      "y": -592.3183600000002
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 9,
-      "move_mode": "walk",
-      "type": "target",
-      "x": 167.29102000000057,
-      "y": -599.75684
+      "x": 162.9551,
+      "y": -604.7998
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.75)",
-      "id": 10,
+      "action_params": "w(0.3),wait(0.75)",
+      "id": 8,
       "move_mode": "walk",
-      "type": "target",
-      "x": 163.2538999999997,
-      "y": -603.9433600000002
+      "type": "orientation",
+      "x": 159.9951,
+      "y": -601.2578
     }
   ]
 }

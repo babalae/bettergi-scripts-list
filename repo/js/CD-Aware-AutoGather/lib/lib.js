@@ -303,7 +303,7 @@ function isTaskRefreshed(refreshMode, taskName, accountName = null) {
     let record = {};
     const recordPath = `record/${accountName || "默认账号"}.json`;
     try {
-        const content = file.readTextSync(recordPath);
+        const content = readTextSync(recordPath);
         record = JSON.parse(content);
     } catch (e) {
         log.debug(`无法读取或解析记录文件 ${recordPath}，错误: ${e.message}`);
@@ -373,7 +373,7 @@ async function updateTaskRunTime(taskName = null, accountName = null) {
     }
     // 1. 读取记录文件
     try {
-        const content = file.readTextSync(recordPath);
+        const content = readTextSync(recordPath);
         record = JSON.parse(content);
     } catch (e) {
         log.debug(`未能读取或解析记录文件 ${recordPath}，将创建新记录。错误: ${e.message}`);
@@ -474,13 +474,6 @@ function getScriptName() {
     return manifest.name;
 }
 
-function fileExists(fullPath) {
-    const [dirpath, filename] = splitPath(fullPath);
-    const normalizedPath = fullPath.replaceAll("/", "\\");
-    const files = Array.from(file.ReadPathSync(dirpath));
-    return files.includes(normalizedPath);
-}
-
 /**
  * 重写内置函数，解决每次读取不存在的文件时必然出现的、不可抑制的Error消息问题
  *
@@ -488,7 +481,7 @@ function fileExists(fullPath) {
  * 并且[看起来也不会修复](https://github.com/babalae/better-genshin-impact/issues/2474)
  */
 function readTextSync(fullPath) {
-    if (fileExists(fullPath)) {
+    if (file.IsExists(fullPath)) {
         return file.readTextSync(fullPath);
     } else {
         throw new Error("FileNotFound: " + fullPath);
@@ -554,18 +547,18 @@ function getDefaultTime() {
 }
 
 /**
- * 获取指定目录下指定后缀的文件
+ * 获取AutoPathing目录下的文件
  * @param {string} folderPath - 要遍历的根文件夹路径
  * @param {string} suffix - 目标文件后缀
  * @returns {string[]} 匹配后缀的所有文件路径
  */
-function getFilesBySuffix(folderPath, suffix, recursive = true) {
+function getFilesInAutoPathing(folderPath, suffix = ".json", recursive = true) {
     let files = [];
-    const items = file.ReadPathSync(folderPath);
+    const items = pathingScript.ReadPathSync(folderPath);
 
     for (const itemPath of items) {
-        if (recursive && file.IsFolder(itemPath)) {
-            const subFolderFiles = getFilesBySuffix(itemPath, suffix, recursive);
+        if (recursive && pathingScript.IsFolder(itemPath)) {
+            const subFolderFiles = getFilesInAutoPathing(itemPath, suffix, recursive);
             // 将子目录返回的数组合并到当前数组中
             files = files.concat(subFolderFiles);
         } else {
@@ -577,32 +570,6 @@ function getFilesBySuffix(folderPath, suffix, recursive = true) {
     }
 
     return files;
-}
-
-/**
- * 获取指定路径下所有最底层的文件夹（即不包含任何子文件夹的文件夹）
- * @param {string} folderPath - 要遍历的根文件夹路径
- * @param {string[]} result - 用于收集最底层文件夹路径的数组
- * @returns {Promise<string[]>} 所有最底层文件夹的路径
- */
-function getLeafFolders(folderPath, result = []) {
-    const filesInSubFolder = file.ReadPathSync(folderPath);
-    let hasSubFolder = false;
-
-    for (const filePath of filesInSubFolder) {
-        if (file.IsFolder(filePath)) {
-            hasSubFolder = true;
-            // 递归查找子文件夹
-            getLeafFolders(filePath, result);
-        }
-    }
-
-    // 如果没有发现任何子文件夹，则当前为最底层文件夹
-    if (!hasSubFolder) {
-        result.push(folderPath);
-    }
-
-    return result;
 }
 
 // 参考了 mno 大佬的函数

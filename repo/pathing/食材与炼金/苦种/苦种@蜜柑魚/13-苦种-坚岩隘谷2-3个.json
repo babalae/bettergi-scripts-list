@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1777293969640,
+    "last_modified_time": 1777361546800,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "13-苦种-坚岩隘谷2-3个",
@@ -82,8 +82,8 @@
       "y": -1625.7588
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(0.1),attack(0.2)",
       "id": 8,
       "move_mode": "walk",
       "type": "path",
@@ -95,7 +95,7 @@
       "action_params": "wait(0.4)",
       "id": 9,
       "move_mode": "dash",
-      "type": "path",
+      "type": "target",
       "x": 8240.1348,
       "y": -1621.8789
     },

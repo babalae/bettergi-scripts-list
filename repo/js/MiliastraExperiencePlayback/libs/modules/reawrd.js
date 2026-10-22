@@ -4,20 +4,29 @@ import {
   assertRegionDisappearing,
   getErrorMessage,
 } from "../@bettergi+utils.js";
+import { userConfig } from "../constants/config.js";
 import {
   clickToContinue,
   findBeyondBattlepassBtn,
   findBeyondBattlepassPopup,
   findBottomBtnText,
+  findFestiveFever,
   findFetchRewardBtn,
   findHeaderTitle,
+  findStarlitGalaRewardBtn,
+  findStarlitGalaRewardDialog,
 } from "../constants/regions.js";
 import { isInLobby } from "./lobby.js";
 
 //#region src/modules/reawrd.ts
-//! 领取诸界纪游经验
+/** 领取诸界纪游经验 */
 const fetchBattlepassExp = async () => {
-  //! 确保处于大厅内
+  log.info(`尝试领取诸界纪游经验...`);
+  if (!userConfig.dailyRewards.includes("诸界纪游")) {
+    log.warn("未配置领取诸界纪游奖励，跳过领取诸界纪游经验");
+    return;
+  }
+  /** 确保处于大厅内 */
   if (!isInLobby()) {
     log.warn("不在奇域大厅内，跳过领取诸界纪游经验");
     return;
@@ -26,13 +35,13 @@ const fetchBattlepassExp = async () => {
     log.warn("诸界纪游已结束，跳过领取诸界纪游经验");
     return;
   }
-  //! 打开诸界纪游界面
+  /** 打开诸界纪游界面 */
   await assertRegionAppearing(
     () => findHeaderTitle("纪游", true),
     "打开诸界纪游界面超时",
     () => {
       keyPress("VK_F4");
-      //! 关闭纪游开屏动画（如果弹出）
+      /** 关闭纪游开屏动画（如果弹出） */
       if (findBeyondBattlepassPopup()) keyPress("VK_ESCAPE");
     },
     {
@@ -40,7 +49,7 @@ const fetchBattlepassExp = async () => {
       retryInterval: 2e3,
     },
   );
-  //! 跳转到任务界面
+  /** 跳转到任务界面 */
   await assertRegionAppearing(
     () => findHeaderTitle("任务", true),
     "打开诸界纪游任务界面超时",
@@ -52,21 +61,19 @@ const fetchBattlepassExp = async () => {
       retryInterval: 2e3,
     },
   );
-  //! 点击一键领取
+  /** 点击一键领取 */
   await assertRegionDisappearing(
     () => findBottomBtnText("领取", true),
     "领取诸界纪游经验超时",
     async () => {
-      //! 重复确认，防止误领纪游奖励（部件礼箱会卡流程）而不是经验
+      /** 重复确认，防止误领纪游奖励（部件礼箱会卡流程）而不是经验 */
       if (findHeaderTitle("任务", true)) {
         const reward = findBottomBtnText("领取", true);
         if (reward) {
           reward.click();
           await sleep(50);
           reward.click();
-          clickToContinue();
-          await sleep(1e3);
-          clickToContinue();
+          await closeRewardPopups();
         }
       }
     },
@@ -77,21 +84,28 @@ const fetchBattlepassExp = async () => {
   );
   await genshin.returnMainUi();
 };
-//! 点击领取奖励按钮
-const clickClaimRewardBtn = async () => {
+/** 关闭奖励弹窗 */
+const closeRewardPopups = async (offsetX = 0, offsetY = 0) => {
+  /** 存在多重弹窗（例如随机试行斗篷），可能导致奖励领取不完整 */
+  for (let i = 0; i < 6; i++) {
+    clickToContinue(offsetX, offsetY);
+    await sleep(500);
+    clickToContinue(offsetX, offsetY);
+  }
+};
+/** 点击领取奖励按钮 */
+const clickClaimRewardBtn = async (offsetX = 0, offsetY = 0) => {
   const reward = findFetchRewardBtn();
   if (reward) {
     reward.click();
     await sleep(50);
     reward.click();
-    clickToContinue();
-    await sleep(1e3);
-    clickToContinue();
+    await closeRewardPopups(offsetX, offsetY);
   }
 };
-//! 领取绮衣珍赏奖励
+/** 领取绮衣珍赏奖励 */
 const fetchRaimentCollection = async () => {
-  //! 打开绮衣珍赏
+  /** 打开绮衣珍赏 */
   await assertRegionAppearing(
     () => findHeaderTitle("绮衣", true) || findHeaderTitle("珍赏", true),
     "打开绮衣珍赏超时，活动未轮换/已结束",
@@ -105,7 +119,7 @@ const fetchRaimentCollection = async () => {
       retryInterval: 1e3,
     },
   );
-  //! 领取绮衣珍赏奖励
+  /** 领取绮衣珍赏奖励 */
   await assertRegionDisappearing(
     findFetchRewardBtn,
     "领取绮衣珍赏奖励超时",
@@ -119,9 +133,9 @@ const fetchRaimentCollection = async () => {
   );
   await genshin.returnMainUi();
 };
-//! 领取奇趣盛邀奖励
+/** 领取奇趣盛邀奖励 */
 const fetchInvitationToWonderland = async () => {
-  //! 打开奇趣盛邀
+  /** 打开奇趣盛邀 */
   await assertRegionAppearing(
     () => findHeaderTitle("盛邀", true),
     "打开奇趣盛邀超时，活动未轮换/已结束",
@@ -135,10 +149,10 @@ const fetchInvitationToWonderland = async () => {
       retryInterval: 1e3,
     },
   );
-  //! 领取妙思觅索奖励
+  /** 领取奇趣盛邀奖励 */
   await assertRegionDisappearing(
     findFetchRewardBtn,
-    "领取妙思觅索奖励超时",
+    "领取奇趣盛邀奖励超时",
     async () => {
       await clickClaimRewardBtn();
     },
@@ -149,25 +163,107 @@ const fetchInvitationToWonderland = async () => {
   );
   await genshin.returnMainUi();
 };
-//! 领取日活奖励
+/** 领取星境彩馈奖励 */
+const fetchMiliastralGifts = async () => {
+  /** 打开星境彩馈 */
+  await assertRegionAppearing(
+    () => findHeaderTitle("星境", true) || findHeaderTitle("彩馈", true),
+    "打开星境彩馈超时，活动未轮换/已结束",
+    async () => {
+      keyPress("VK_F6");
+      await sleep(2e3);
+      if (!findHeaderTitle("星境", true) && !findHeaderTitle("彩馈", true)) keyPress("VK_Q");
+    },
+    {
+      maxAttempts: 5,
+      retryInterval: 1e3,
+    },
+  );
+  /** 领取星境彩馈奖励 */
+  await assertRegionDisappearing(
+    findFetchRewardBtn,
+    "领取星境彩馈奖励超时",
+    async () => {
+      await clickClaimRewardBtn();
+    },
+    {
+      maxAttempts: 5,
+      retryInterval: 2e3,
+    },
+  );
+  await genshin.returnMainUi();
+};
+/** 领取绮星盛会奖励 */
+const fetchStarlitGala = async () => {
+  /** 打开绮星盛会 */
+  await assertRegionAppearing(
+    () => findHeaderTitle("绮星", true) || findHeaderTitle("盛会", true),
+    "打开绮星盛会超时，活动未轮换/已结束",
+    async () => {
+      keyPress("VK_F6");
+      await sleep(2e3);
+      if (!findHeaderTitle("绮星", true) && !findHeaderTitle("盛会", true)) keyPress("VK_Q");
+    },
+    {
+      maxAttempts: 5,
+      retryInterval: 1e3,
+    },
+  );
+  /** 打开绮星盛会奖励界面 */
+  await assertRegionAppearing(
+    findFestiveFever,
+    "打开绮星盛会奖励界面超时",
+    async () => {
+      /** 打开绮星盛会奖励对话框 */
+      findStarlitGalaRewardBtn()?.click();
+      /** 滚动查找盛会人气 */
+      if (!findFestiveFever() && findStarlitGalaRewardDialog()) keyPress("VK_S");
+    },
+    {
+      maxAttempts: 5,
+      retryInterval: 1e3,
+    },
+  );
+  /** 领取绮星盛会奖励 */
+  await assertRegionDisappearing(
+    findFetchRewardBtn,
+    "领取绮星盛会奖励超时",
+    async () => {
+      await clickClaimRewardBtn(0, -150);
+    },
+    {
+      maxAttempts: 5,
+      retryInterval: 2e3,
+    },
+  );
+  await genshin.returnMainUi();
+};
+/** 领取日活奖励 */
 const fetchCultivateReward = async () => {
-  //! 确保处于大厅内
+  /** 确保处于大厅内 */
   if (!isInLobby()) {
     log.warn("不在奇域大厅内，跳过领取日活奖励");
     return;
   }
-  try {
-    log.info("尝试领取绮衣珍赏奖励...");
-    await fetchRaimentCollection();
-  } catch (err) {
-    log.warn(`尝试领取绮衣珍赏奖励失败: ${getErrorMessage(err)}`);
+  const rewards = Object.entries({
+    绮衣珍赏: fetchRaimentCollection,
+    奇趣盛邀: fetchInvitationToWonderland,
+    星境彩馈: fetchMiliastralGifts,
+    绮星盛会: fetchStarlitGala,
+  }).filter(([key]) => userConfig.dailyRewards.includes(key));
+  if (rewards.length === 0) {
+    log.warn("未配置领取日活奖励，跳过领取日活奖励");
+    return;
   }
-  try {
-    log.info("尝试领取奇趣盛邀奖励...");
-    await fetchInvitationToWonderland();
-  } catch (err) {
-    log.warn(`尝试领取奇趣盛邀奖励失败: ${getErrorMessage(err)}`);
-  }
+  for (const [reward, fetchRewardFunc] of rewards)
+    try {
+      log.info(`尝试领取${reward}奖励...`);
+      await fetchRewardFunc();
+    } catch (err) {
+      log.warn(`尝试领取${reward}奖励失败: ${getErrorMessage(err)}`);
+    } finally {
+      await genshin.returnMainUi();
+    }
 };
 
 //#endregion

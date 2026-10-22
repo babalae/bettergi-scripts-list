@@ -1,4 +1,4 @@
-﻿{
+{
   "info": {
     "authors": [
       {
@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1771299801495,
+    "last_modified_time": 1788298330997,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "蒙德-蒙德城-天使的馈赠-查尔斯",
@@ -24,8 +24,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": -875.962890625,
-      "y": 2275.97314453125
+      "x": -875.9629,
+      "y": 2275.9731
     },
     {
       "action": "",
@@ -33,8 +33,8 @@
       "id": 2,
       "move_mode": "run",
       "type": "path",
-      "x": -887.1015625,
-      "y": 2318.0107421875
+      "x": -887.1016,
+      "y": 2318.0107
     },
     {
       "action": "stop_flying",
@@ -42,8 +42,8 @@
       "id": 3,
       "move_mode": "fly",
       "type": "target",
-      "x": -890.734375,
-      "y": 2323.68115234375
+      "x": -890.7344,
+      "y": 2323.6812
     },
     {
       "action": "",
@@ -51,8 +51,8 @@
       "id": 4,
       "move_mode": "walk",
       "type": "path",
-      "x": -894.005859375,
-      "y": 2319.78125
+      "x": -894.0059,
+      "y": 2319.7813
     },
     {
       "action": "",
@@ -60,7 +60,7 @@
       "id": 5,
       "move_mode": "run",
       "type": "path",
-      "x": -908.830078125,
+      "x": -908.8301,
       "y": 2314.8125
     },
     {
@@ -69,26 +69,26 @@
       "id": 6,
       "move_mode": "dash",
       "type": "path",
-      "x": -921.044921875,
-      "y": 2327.1181640625
+      "x": -919.6738,
+      "y": 2327.9009
     },
     {
       "action": "",
       "action_params": "",
       "id": 7,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
-      "x": -923.63671875,
-      "y": 2326.474609375
+      "x": -930.8125,
+      "y": 2322.251
     },
     {
       "action": "",
       "action_params": "",
       "id": 8,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "path",
-      "x": -930.8125,
-      "y": 2322.2509765625
+      "x": -934.2969,
+      "y": 2316.3057
     },
     {
       "action": "",
@@ -96,26 +96,17 @@
       "id": 9,
       "move_mode": "walk",
       "type": "path",
-      "x": -934.296875,
-      "y": 2316.3056640625
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 10,
-      "move_mode": "walk",
-      "type": "path",
-      "x": -933.291015625,
-      "y": 2310.25634765625
+      "x": -933.291,
+      "y": 2310.2563
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.5),keypress(F),wait(0.2),keypress(F),wait(0.2),keypress(F),wait(7.5),keydown(a),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keyup(a),wait(0.8),w(0.8),click(middle),wait(0.8),d(2),wait(1.75)",
-      "id": 11,
+      "action_params": "wait(0.5),keypress(F),wait(0.2),keypress(F),wait(0.2),keypress(F),wait(7.5),s(0.8),wait(0.2),a(1.2),wait(1)",
+      "id": 10,
       "move_mode": "walk",
       "type": "target",
-      "x": -929.392578125,
-      "y": 2313.3408203125
+      "x": -929.3926,
+      "y": 2313.3408
     }
   ]
 }

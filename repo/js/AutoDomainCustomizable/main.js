@@ -1,6 +1,175 @@
-// Version: 1.7
-// Modified Date: 2026-04-11
+// Version: 1.9
+// Modified Date: 2026-05-24
 (async function () {
+    let SCRIPT_START_TIME = Date.now();
+
+    function __wipOcrCheckText(roi1080, keywords, label) {
+        let ra = null;
+        try {
+            const s = genshin.scaleTo1080PRatio;
+            const x = Math.round(roi1080[0] * s);
+            const y = Math.round(roi1080[1] * s);
+            const w = Math.round(roi1080[2] * s);
+            const h = Math.round(roi1080[3] * s);
+
+            ra = captureGameRegion();
+            const resList = ra.findMulti(RecognitionObject.ocr(x, y, w, h));
+            const count = resList.length !== undefined ? resList.length : resList.count;
+
+            if (typeof enableDebug !== "undefined" && enableDebug) {
+                log.info(`[DEBUG][${label}] ROI(1080P)=(${roi1080.join(',')}) 当前=(${x},${y},${w},${h}) 段数=${count}`);
+                for (let i = 0; i < count; i++) {
+                    const r = resList[i];
+                    if (r) log.info(`[DEBUG][${label}] #${i+1} text="${r.text}" pos=(${r.x},${r.y},${r.width},${r.height})`);
+                }
+            }
+
+            for (let i = 0; i < count; i++) {
+                const r = resList[i];
+                if (!r || !r.text) continue;
+                for (let k = 0; k < keywords.length; k++) {
+                    if (r.text.includes(keywords[k])) return r;
+                }
+            }
+            return null;
+        } catch (e) {
+            log.warn(`[DEBUG][${label}] OCR异常: ${e.message}`);
+            return null;
+        } finally {
+            if (ra) ra.dispose();
+        }
+    }
+
+    // =========================================================================
+    // 限时全开检测函数
+    // 参数: targetType - 'weapon' 或 'talent'，决定点击哪种素材
+    // 返回值: true(检测到限时全开) / false(未检测到) / null(检测异常)
+    // =========================================================================
+    async function __detectLimitedOpen(targetType = 'weapon') {
+        log.info('[限时全开] 开始检测...');
+        
+        try {
+            // 第一步：返回主界面
+            log.info('[限时全开] 第一步: 返回主界面');
+            try { await genshin.returnMainUi(); } catch(e) { log.warn(`[限时全开] 返回主界面失败: ${e.message}`); }
+            await sleep(100);
+
+            // 第二步：ESC打开菜单 → OCR识别冒险之证 → 点击
+            log.info('[限时全开] 第二步: ESC打开菜单');
+            keyPress("VK_ESCAPE");
+            await sleep(2000);
+
+            let bookHit = null;
+            const smallRoi = [149, 861, 94, 41], largeRoi = [98, 346, 651, 708];
+
+            bookHit = __wipOcrCheckText(smallRoi, ["冒险之证"], "限时全开-冒险之证");
+            if (!bookHit) { log.info('[限时全开] 冒险之证识别失败，重试1...'); await sleep(2500); bookHit = __wipOcrCheckText(smallRoi, ["冒险之证"], "限时全开-冒险之证-r1"); }
+            if (!bookHit) { log.info('[限时全开] 冒险之证识别失败，重试2...'); await sleep(2500); bookHit = __wipOcrCheckText(smallRoi, ["冒险之证"], "限时全开-冒险之证-r2"); }
+            if (!bookHit) { log.info('[限时全开] 小范围失败，尝试大范围...'); bookHit = __wipOcrCheckText(largeRoi, ["冒险之证"], "限时全开-冒险之证-large"); }
+            if (!bookHit) { log.info('[限时全开] 大范围失败，重新打开ESC...'); try { await genshin.returnMainUi(); await sleep(1000); } catch(e) {} keyPress("VK_ESCAPE"); await sleep(2000); bookHit = __wipOcrCheckText(largeRoi, ["冒险之证"], "限时全开-冒险之证-esc"); }
+
+            if (bookHit) {
+                const s = genshin.scaleTo1080PRatio;
+                const bookX = Math.round(bookHit.x / s + bookHit.width / s / 2);
+                const bookY = Math.round(bookHit.y / s + bookHit.height / s / 2) - 50;
+                log.info(`[限时全开] 点击冒险之证: (${bookX}, ${bookY})`);
+                GameCaptureRegion.gameRegion1080PPosClick(bookX, bookY);
+                await sleep(2500);
+            } else {
+                log.warn('[限时全开] 冒险之证识别失败，尝试F1快捷键');
+                try { await genshin.returnMainUi(); await sleep(1000); } catch(e) {}
+                keyPress("VK_F1");
+                await sleep(2000);
+            }
+
+            // 第三步：识别秘境 → 点击
+            log.info('[限时全开] 第三步: 识别秘境');
+            let hit = null;
+            const dSmall = [258, 414, 89, 59], dLarge = [214, 38, 127, 982];
+            
+            hit = __wipOcrCheckText(dSmall, ["秘境"], "限时全开-秘境");
+            if (!hit) { log.info('[限时全开] 秘境识别失败，重试1...'); await sleep(2500); hit = __wipOcrCheckText(dSmall, ["秘境"], "限时全开-秘境-r1"); }
+            if (!hit) { log.info('[限时全开] 秘境识别失败，重试2...'); await sleep(2500); hit = __wipOcrCheckText(dSmall, ["秘境"], "限时全开-秘境-r2"); }
+            if (!hit) { log.info('[限时全开] 小范围失败，尝试大范围...'); hit = __wipOcrCheckText(dLarge, ["秘境"], "限时全开-秘境-large"); }
+            if (!hit) { log.info('[限时全开] 大范围失败，重试...'); await sleep(2500); hit = __wipOcrCheckText(dLarge, ["秘境"], "限时全开-秘境-large2"); }
+
+            if (hit) {
+                const s = genshin.scaleTo1080PRatio;
+                log.info(`[限时全开] 点击秘境: (${Math.round(hit.x/s+hit.width/s/2)}, ${Math.round(hit.y/s+hit.height/s/2)})`);
+                GameCaptureRegion.gameRegion1080PPosClick(Math.round(hit.x/s+hit.width/s/2), Math.round(hit.y/s+hit.height/s/2));
+                await sleep(1500);
+            } else {
+                log.warn('[限时全开] 秘境识别失败，点击默认位置');
+                GameCaptureRegion.gameRegion1080PPosClick(297, 437);
+                await sleep(1500);
+            }
+
+            // 第四步：根据目标类型识别并点击对应的素材
+            log.info(`[限时全开] 第四步: 识别${targetType === 'talent' ? '天赋' : '武器'}突破素材`);
+            const wSmall = [429, 425, 255, 41], wLarge = [364, 0, 369, 1060];
+            const tSmall = [431, 516, 249, 40], tLarge = [364, 0, 369, 1060];
+            
+            const isTalent = targetType === 'talent';
+            const targetKeyword = isTalent ? "天赋突破素材" : "武器突破素材";
+            const targetSmall = isTalent ? tSmall : wSmall;
+            const targetLarge = isTalent ? tLarge : wLarge;
+            const defaultX = isTalent ? 523 : 523;
+            const defaultY = isTalent ? 530 : 438;
+
+            let targetHit = __wipOcrCheckText(targetSmall, [targetKeyword], `限时全开-${targetKeyword}`);
+            if (!targetHit) { log.info(`[限时全开] ${targetKeyword}识别失败，重试1...`); await sleep(2500); targetHit = __wipOcrCheckText(targetSmall, [targetKeyword], `限时全开-${targetKeyword}-r1`); }
+            if (!targetHit) { log.info(`[限时全开] ${targetKeyword}识别失败，重试2...`); await sleep(2500); targetHit = __wipOcrCheckText(targetSmall, [targetKeyword], `限时全开-${targetKeyword}-r2`); }
+            if (!targetHit) { log.info('[限时全开] 小范围失败，尝试大范围...'); targetHit = __wipOcrCheckText(targetLarge, [targetKeyword], `限时全开-${targetKeyword}-large`); }
+            if (!targetHit) { log.info('[限时全开] 大范围失败，重试...'); await sleep(2500); targetHit = __wipOcrCheckText(targetLarge, [targetKeyword], `限时全开-${targetKeyword}-large2`); }
+
+            if (targetHit) {
+                const s = genshin.scaleTo1080PRatio;
+                log.info(`[限时全开] 点击${targetKeyword}: (${Math.round(targetHit.x/s+targetHit.width/s/2)}, ${Math.round(targetHit.y/s+targetHit.height/s/2)})`);
+                GameCaptureRegion.gameRegion1080PPosClick(Math.round(targetHit.x/s+targetHit.width/s/2), Math.round(targetHit.y/s+targetHit.height/s/2));
+                await sleep(1500);
+            } else {
+                log.warn(`[限时全开] ${targetKeyword}识别失败，点击默认位置`);
+                GameCaptureRegion.gameRegion1080PPosClick(defaultX, defaultY);
+                await sleep(1500);
+            }
+
+            // 第五步：识别限时开放状态
+            log.info('[限时全开] 第五步: 识别限时开放状态');
+            let limitHit = __wipOcrCheckText([761, 261, 384, 31], ["限时", "开放", "特定秘境"], "限时全开-限时状态");
+            if (!limitHit) { log.info('[限时全开] 限时状态识别失败，重试1...'); await sleep(1000); limitHit = __wipOcrCheckText([761, 261, 384, 31], ["限时", "开放", "特定秘境"], "限时全开-限时状态-r1"); }
+            if (!limitHit) { log.info('[限时全开] 限时状态识别失败，重试2...'); await sleep(1000); limitHit = __wipOcrCheckText([761, 261, 384, 31], ["限时", "开放", "特定秘境"], "限时全开-限时状态-r2"); }
+
+            const result = limitHit ? true : false;
+            const timeText = limitHit ? limitHit.text : "";
+            log.info(`[限时全开] 检测结果: ${result ? `有限时开放 [${timeText}]` : '无限时开放'}`);
+
+            try { await genshin.returnMainUi(); } catch(e) { log.warn(`[限时全开] 还原主界面失败: ${e.message}`); }
+            await sleep(500);
+
+            return { result: result, timeText: timeText };
+
+        } catch (ex) {
+            log.warn(`[限时全开] 检测异常: ${ex.message}`);
+            try { await genshin.returnMainUi(); } catch(e2) { log.warn(`[限时全开] 异常后还原主界面失败: ${e2.message}`); }
+            await sleep(500);
+            return { result: null, timeText: "" };
+        }
+    }
+
+    function safeNotify(type, message) {
+        try {
+            if (typeof notification !== "undefined") {
+                if (type === "error") {
+                    notification.Error(message);
+                } else {
+                    notification.Send(message);
+                }
+            }
+        } catch (e) {
+            log.warn("[通知] 发送通知失败: " + e.message);
+        }
+    }
+
     // =========================================================================
     // 0. 动态加载数据 (基于 Genshin_Domains_SC_Live_Source.json)
     // =========================================================================
@@ -53,9 +222,9 @@
     let userConfig = settings;
     let enableDebug = userConfig.EnableDebug;
 
-    // --- 调试模式输出所有使用者设定参数 ---
+    // --- 调试模式输出所有用户设置参数 ---
     if (enableDebug) {
-        log.info("[DEBUG] ====== 收到使用者设定参数 (User Config) ======");
+        log.info("[DEBUG] ====== 收到用户设置参数 (User Config) ======");
         for (let key in userConfig) {
             log.info(`[DEBUG] ${key}: ${userConfig[key]}`);
         }
@@ -63,6 +232,7 @@
     }
 
     let pForceRunMode = userConfig.ForceRunMode;
+    let pAutoDetectLimitedOpen = userConfig.AutoDetectLimitedOpen;  // 自动识别限时全开
     let pRunUntilDepleted = userConfig.RunUntilResinDepleted;
     let pAutoArtifactSalvage = userConfig.AutoArtifactSalvage;
     let pMaxArtifactStar = userConfig.MaxArtifactStar || "4"; 
@@ -71,16 +241,37 @@
     let pTalent = userConfig.TargetTalentMaterialName;
     let pWeapon = userConfig.TargetWeaponMaterialName;
     let pArtifact = userConfig.TargetArtifactName;
-    let selectedCount = (pTalent ? 1 : 0) + (pWeapon ? 1 : 0) + (pArtifact ? 1 : 0);
-
-    if (selectedCount === 0) {
-        log.error("【配置错误】您未选择任何素材！请在天赋、武器或圣遗物中选择一项。");
+    let pAutoSwitchToArtifact = userConfig.AutoSwitchToArtifactWhenNotMatch;
+    
+    // 检查武器和天赋是否同时选择（始终互斥）
+    if (pTalent && pWeapon) {
+        log.error("【配置冲突】您同时选择了角色天赋素材和武器升级素材！请只保留一项。");
         return;
     }
-    if (selectedCount > 1) {
-        log.error("【配置冲突】您同时选择了多种类型的素材！请只保留一项，将其余两项设为空。");
+    
+    // 检查是否选择了任何素材
+    let hasTalentOrWeapon = !!pTalent || !!pWeapon;
+    let hasArtifact = !!pArtifact;
+    
+    if (!hasTalentOrWeapon && !hasArtifact) {
+        log.error("【配置错误】您未选择任何素材！请至少选择一项。");
         return;
     }
+    
+    // 当启用"不命中规则时刷取圣遗物"时，允许同时选择圣遗物和武器/天赋
+    // 否则，只能选择一项
+    if (pAutoSwitchToArtifact) {
+        if (!hasTalentOrWeapon || !hasArtifact) {
+            log.warn("【配置警告】已勾选'不命中规则时刷取圣遗物'，但未同时选择素材与圣遗物，该选项将被视为未勾选。");
+            pAutoSwitchToArtifact = false;
+        }
+    }
+    if (!pAutoSwitchToArtifact && hasTalentOrWeapon && hasArtifact) {
+        log.error("【配置冲突】您同时选择了圣遗物和其他素材！请只保留一项，或勾选'不命中规则时刷取圣遗物'并正确配置。");
+        return;
+    }
+    
+    // 默认优先使用武器/天赋，没有则使用圣遗物
     let pTargetMaterial = pTalent || pWeapon || pArtifact;
 
     // --- 1.2 队伍名称防呆 (input-text) ---
@@ -102,10 +293,21 @@
     if (pCombatStrategyType === "指定战斗策略") {
         if (!pSpecifiedCombatStrategy) {
             log.warn("【配置警告】您选择了'指定战斗策略'但未填写策略名称，系统将自动退回'根据队伍自动选择'。");
-        } else if (/[\\/:*?"<>|]/.test(pSpecifiedCombatStrategy)) {
-            log.warn(`【配置警告】指定的战斗策略名称包含非法字元: ${pSpecifiedCombatStrategy}，系统将自动退回'根据队伍自动选择'。`);
+        } else if (/[/:*?"<>|]/.test(pSpecifiedCombatStrategy)) {
+            log.warn(`【配置警告】指定的战斗策略名称包含非法字符: ${pSpecifiedCombatStrategy}，系统将自动退回'根据队伍自动选择'。`);
         } else {
-            pCombatStrategyPath = pSpecifiedCombatStrategy;
+            // 自动去除 .txt 后缀（如果存在）
+            let strategyName = pSpecifiedCombatStrategy;
+            if (strategyName.toLowerCase().endsWith(".txt")) {
+                strategyName = strategyName.substring(0, strategyName.length - 4);
+            }
+            
+            // 处理路径分隔符：如果存在单个 \ 则转换为 \\，如果已有 \\ 则保持不变
+            if (strategyName.includes("\\") && !strategyName.includes("\\\\")) {
+                pCombatStrategyPath = strategyName.replace(/\\/g, "\\\\");
+            } else {
+                pCombatStrategyPath = strategyName;
+            }
         }
     }
 
@@ -176,6 +378,7 @@
     if (materialInfo.type === 'artifact') {
         pDomainName = materialInfo.domain;
         log.info(`【圣遗物模式】目标：${pTargetMaterial}`);
+        safeNotify("info", `任务启动：已自动切换目标秘境为【${pDomainName} - ${pTargetMaterial}】。`);
     } else {
         let requiredIdx = materialInfo.idx;
         pDomainName = materialInfo.domain;
@@ -198,10 +401,83 @@
 
         log.info(`【智能匹配】目标: ${pTargetMaterial} (游戏内星期${dayStr})`);
 
-        if (!isDateOpen && !pForceRunMode) {
-            log.error(`【停止运行】今日非该素材开放日。若需强制运行，请在设置中勾选。`);
-            return;
+        // --- 日期检查与限时全开检测 ---
+        let isLimitedOpen = false;  // 是否检测到限时全开（声明在外部作用域）
+        let isSwitchedToArtifact = false;  // 是否已切换到圣遗物
+        
+        // 圣遗物每日开放，无需日期检查和限时全开检测
+        if (materialInfo.type !== 'artifact') {
+
+            if (!isDateOpen) {
+                if (pForceRunMode) {
+                    // 强制运行模式：直接跳过日期检查（优先级最高）
+                    log.warn(`【强制运行】已跳过日期检查，强制进入秘境。`);
+                } else if (pAutoDetectLimitedOpen) {
+                    // 自动识别限时全开模式：执行OCR检测
+                    log.info(`【限时全开检测】日期不匹配，开始检测限时全开活动...`);
+                    // 传入目标素材类型，决定点击武器还是天赋
+                    const limitedOpenResult = await __detectLimitedOpen(pTalent ? 'talent' : 'weapon');
+                    isLimitedOpen = limitedOpenResult.result;
+                    const limitedTimeText = limitedOpenResult.timeText;
+                    if (isLimitedOpen === true) {
+                        log.info(`【限时全开检测】检测到限时全开活动，允许进入秘境。`);
+                        safeNotify("info", `[限时全开] 检测结果：有限时开放 [${limitedTimeText}]`);
+                    } else if (isLimitedOpen === false) {
+                        // 未检测到限时全开，检查是否启用自动切换到圣遗物
+                        if (pAutoSwitchToArtifact && pArtifact) {
+                            log.warn(`【自动切换】日期不匹配且无限时全开，自动切换到圣遗物【${pArtifact}】。`);
+                            // 重新获取圣遗物的信息
+                            materialInfo = MATERIAL_DB[pArtifact];
+                            pDomainName = materialInfo.domain;
+                            pTargetMaterial = pArtifact;
+                            pSundaySelectedValue = "";
+                            isSwitchedToArtifact = true;
+                        } else {
+                            log.error(`【停止运行】日期不匹配且未检测到限时全开活动。`);
+                            return;
+                        }
+                    } else {
+                        // isLimitedOpen === null，检测异常
+                        if (pAutoSwitchToArtifact && pArtifact) {
+                            log.warn(`【自动切换】限时全开检测异常，自动切换到圣遗物【${pArtifact}】。`);
+                            // 重新获取圣遗物的信息
+                            materialInfo = MATERIAL_DB[pArtifact];
+                            pDomainName = materialInfo.domain;
+                            pTargetMaterial = pArtifact;
+                            pSundaySelectedValue = "";
+                            isSwitchedToArtifact = true;
+                        } else {
+                            log.error(`【停止运行】限时全开检测异常，无法确定活动状态。`);
+                            return;
+                        }
+                    }
+                } else if (pAutoSwitchToArtifact && pArtifact) {
+                    // 未启用自动识别，但启用了自动切换到圣遗物
+                    log.warn(`【自动切换】日期不匹配，自动切换到圣遗物【${pArtifact}】。`);
+                    // 重新获取圣遗物的信息
+                    materialInfo = MATERIAL_DB[pArtifact];
+                    pDomainName = materialInfo.domain;
+                    pTargetMaterial = pArtifact;
+                    pSundaySelectedValue = "";
+                    isSwitchedToArtifact = true;
+                } else {
+                    log.error(`【停止运行】今日非该素材开放日。若需强制运行、自动识别限时全开或自动切换圣遗物，请在设置中勾选。`);
+                    return;
+                }
+            }
         }
+
+        let notifyMsg = `任务启动：今日为游戏内星期${dayStr}，已自动切换目标秘境为【${pDomainName} - ${pTargetMaterial}】。`;
+        if (!isDateOpen) {
+            if (pForceRunMode) {
+                notifyMsg = `任务启动：今日为游戏内星期${dayStr}，日期不匹配，强制运行进入秘境【${pDomainName} - ${pTargetMaterial}】。`;
+            } else if (pAutoDetectLimitedOpen && isLimitedOpen) {
+                notifyMsg = `任务启动：今日为游戏内星期${dayStr}，日期不匹配，检测到限时全开进入秘境【${pDomainName} - ${pTargetMaterial}】。`;
+            } else if (isSwitchedToArtifact) {
+                notifyMsg = `任务启动：今日为游戏内星期${dayStr}，日期不匹配，自动切换到圣遗物【${pDomainName} - ${pTargetMaterial}】。`;
+            }
+        }
+        safeNotify("info", notifyMsg);
     }
 
     // =========================================================================
@@ -214,12 +490,12 @@
     taskParam.MaxArtifactStar = pMaxArtifactStar;
     taskParam.SundaySelectedValue = pSundaySelectedValue;
     
-    // 调用底层方法以支持路径转换，并将回传值賦予屬性
+    // 调用底层方法以支持路径转换，并将返回值赋予属性
     taskParam.CombatStrategyPath = taskParam.SetCombatStrategyPath(pCombatStrategyPath); 
     
     taskParam.SpecifyResinUse = !pRunUntilDepleted;
     
-    // 樹脂數量與警告邏輯
+    // 树脂数量与警告逻辑
     if (!pRunUntilDepleted) {
         taskParam.OriginalResin20UseCount = pOriginal20;
         taskParam.OriginalResin40UseCount = pOriginal40;
@@ -243,7 +519,7 @@
         }
     }
 
-    // 統一由 priorityList 決定刷取順序 (包含耗盡模式)
+    // 统一由 priorityList 决定刷取顺序 (包含耗尽模式)
     if (priorityList.length > 0) {
         taskParam.SetResinPriorityList(...priorityList);
     } else {
@@ -258,29 +534,40 @@
                 log.info(`[脚本] 任务结束，等待 ${pFightEndDelay} 秒...`);
                 await sleep(pFightEndDelay * 1000);
             }
+
+            let totalTimeMs = Date.now() - SCRIPT_START_TIME;
+            let totalMins = Math.floor(totalTimeMs / 60000);
+            let totalSecs = Math.floor((totalTimeMs % 60000) / 1000);
+            let timeStr = `${totalMins}分${totalSecs}秒`;
+            let extraStr = pAutoArtifactSalvage ? " (已完成圣遗物自动分解)" : "";
+            safeNotify("info", `任务完成：今日自动秘境已全数执行完毕！总耗时：${timeStr}。${extraStr}`);
+
             break; 
         } catch (ex) {
             let msg = ex.message || "";
             
-            // --- 战斗策略档案不存在的降级重试逻辑 ---
+            // --- 战斗策略文件不存在的降级重试逻辑 ---
             if (msg.includes("战斗脚本文件不存在")) {
                 if (taskParam.CombatStrategyPath && taskParam.CombatStrategyPath !== "") {
-                    log.warn(`[脚本] 找不到指定的战斗策略档案！`);
+                    log.warn(`[脚本] 找不到指定的战斗策略文件！`);
                     log.warn(`[脚本] 已触发降级机制：退回【根据队伍自动选择】模式，3 秒后重新启动任务...`);
+                    safeNotify("info", `警告：找不到指定的战斗策略文件，已触发降级机制，改以【自动匹配队伍】模式接续执行。`);
                     
-                    // 调用底层方法正确切换为目录路径，并将回传值賦予屬性
+                    // 调用底层方法正确切换为目录路径，并将返回值赋予属性
                     taskParam.CombatStrategyPath = taskParam.SetCombatStrategyPath(""); 
                     
                     await sleep(3000);
                     continue; 
                 } else {
                     log.error("[脚本] 自动匹配战斗脚本失败：请检查 User/AutoFight 目录下是否有 txt 脚本，且脚本内角色是否符合当前队伍。");
+                    safeNotify("error", "异常中断：自动匹配战斗脚本失败，请检查 User/AutoFight 目录下的配置，任务已强制停止。");
                     break;
                 }
             }
 
             if (msg.includes("背包物品已满") || msg.includes("未检测到秘境结束")) {
                 log.warn(`[脚本] 任务可能已完成，但检测到: ${msg}`);
+                safeNotify("error", `异常中断：背包物品可能已满，或无法检测秘境结束状态，自动任务已强制停止。`);
                 break; 
             } else if (msg.includes("复苏")) {
                 log.warn(`[脚本] 角色死亡，5秒后重试...`);
@@ -290,10 +577,12 @@
                 log.info("[脚本] 任务已取消。");
                 break;
             } else if (msg.includes("未找到对应的秘境")) {
-                log.error("请等待BetterGI本体更新支援新秘境");
+                log.error("请等待BetterGI本体更新支持新秘境");
+                safeNotify("error", "异常中断：未找到对应的秘境，请等待 BetterGI 更新支持。");
                 throw ex;
             } else {
                 log.error(`[脚本] 错误: ${msg}`);
+                safeNotify("error", `异常中断：发生未知的脚本错误，任务已强制停止。\n详细信息: ${msg.substring(0, 100)}`);
                 throw ex; 
             }
         }

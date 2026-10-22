@@ -7,9 +7,9 @@
       }
     ],
     "bgi_version": "0.52.0",
-    "description": "1个薄荷；6个螃蟹；2个冰雾花；3个堇瓜；6个海草；",
+    "description": "1个薄荷；6个螃蟹；2个冰雾花；6个海草；",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1763316047815,
+    "last_modified_time": 1785856911014,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "C05-1-稻妻食材-鸣神岛-甘金岛【螃蟹】",
@@ -31,7 +31,7 @@
       "action": "",
       "action_params": "",
       "id": 2,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
       "x": -4223.0898,
       "y": -3026.043
@@ -76,7 +76,7 @@
       "action": "",
       "action_params": "",
       "id": 7,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
       "x": -4202.8848,
       "y": -3042.1377
@@ -85,7 +85,7 @@
       "action": "",
       "action_params": "",
       "id": 8,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
       "x": -4195.9844,
       "y": -3021.251
@@ -94,7 +94,7 @@
       "action": "",
       "action_params": "",
       "id": 9,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
       "x": -4177.1426,
       "y": -3010.9355
@@ -103,7 +103,7 @@
       "action": "",
       "action_params": "",
       "id": 10,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
       "x": -4164.3945,
       "y": -3022.0557
@@ -121,7 +121,7 @@
       "action": "",
       "action_params": "",
       "id": 12,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
       "x": -4141.8047,
       "y": -2992.833
@@ -130,7 +130,7 @@
       "action": "",
       "action_params": "",
       "id": 13,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
       "x": -4112.2246,
       "y": -2999.7598
@@ -145,8 +145,8 @@
       "y": -2972.5
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "迪希雅 e",
       "id": 15,
       "move_mode": "walk",
       "type": "path",
@@ -166,7 +166,7 @@
       "action": "combat_script",
       "action_params": "迪希雅 e",
       "id": 17,
-      "move_mode": "run",
+      "move_mode": "dash",
       "type": "path",
       "x": -3967.875,
       "y": -2922.875
@@ -196,7 +196,7 @@
       "move_mode": "dash",
       "type": "path",
       "x": -3947.6562,
-      "y": -2937.2188
+      "y": -2937.2187
     },
     {
       "action": "",
@@ -229,7 +229,7 @@
       "action": "",
       "action_params": "",
       "id": 24,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
       "x": -3910.3782,
       "y": -2976.3728
@@ -265,7 +265,7 @@
       "action": "",
       "action_params": "",
       "id": 28,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
       "x": -3910.8242,
       "y": -2996.5146
@@ -274,7 +274,7 @@
       "action": "",
       "action_params": "",
       "id": 29,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
       "x": -3923.3047,
       "y": -3011.1152
@@ -283,7 +283,7 @@
       "action": "",
       "action_params": "",
       "id": 30,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
       "x": -3935.6934,
       "y": -3015.4482
@@ -292,7 +292,7 @@
       "action": "",
       "action_params": "",
       "id": 31,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
       "x": -3943.9307,
       "y": -3003.8896
@@ -310,7 +310,7 @@
       "action": "",
       "action_params": "",
       "id": 33,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
       "x": -3941.4354,
       "y": -2991.3204
@@ -328,7 +328,7 @@
       "action": "",
       "action_params": "",
       "id": 35,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
       "x": -3944.9061,
       "y": -2981.8128

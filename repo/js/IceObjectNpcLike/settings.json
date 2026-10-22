@@ -1,0 +1,61 @@
+[
+  {
+    "name": "executionOrderMode",
+    "type": "select",
+    "label": "路线运行模式（按路线组读取“点赞=总数”标签）",
+    "options": [
+      "推荐顺序",
+      "高点赞优先",
+      "高收益精简（6赞及以上）"
+    ],
+    "default": "推荐顺序"
+  },
+  {
+    "name": "enabledPoints",
+    "type": "multi-checkbox",
+    "label": "启用路线（Point 08、09 依赖 Point 07）",
+    "default": [
+      "Point 01｜北国银行门口｜预计 6 赞",
+      "Point 02｜印记商店门口｜预计 8 赞",
+      "Point 03｜炉灰食堂门口｜预计 4 赞",
+      "Point 04｜餐厅门口｜预计 2 赞",
+      "Point 05｜铁匠附近｜预计 2 赞",
+      "Point 06｜曙光车站玩具附近｜预计 4 赞",
+      "Point 07｜车站餐厅｜预计 4 赞",
+      "Point 08｜车站火炬边｜预计 6 赞（接续 07）",
+      "Point 09｜车站台子｜预计 2 赞（接续路线）",
+      "Point 10｜曙光车站内｜预计 6 赞",
+      "Point 11｜火炬书店｜预计 2 赞",
+      "Point 12｜冬契军训练场｜预计 2 赞"
+    ],
+    "options": [
+      "Point 01｜北国银行门口｜预计 6 赞",
+      "Point 02｜印记商店门口｜预计 8 赞",
+      "Point 03｜炉灰食堂门口｜预计 4 赞",
+      "Point 04｜餐厅门口｜预计 2 赞",
+      "Point 05｜铁匠附近｜预计 2 赞",
+      "Point 06｜曙光车站玩具附近｜预计 4 赞",
+      "Point 07｜车站餐厅｜预计 4 赞",
+      "Point 08｜车站火炬边｜预计 6 赞（接续 07）",
+      "Point 09｜车站台子｜预计 2 赞（接续路线）",
+      "Point 10｜曙光车站内｜预计 6 赞",
+      "Point 11｜火炬书店｜预计 2 赞",
+      "Point 12｜冬契军训练场｜预计 2 赞"
+    ]
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "defaultCameraPitchFromTop",
+    "type": "input-text",
+    "label": "冰造物放置镜头角度（从垂直上限向下移动量，推荐 7500）",
+    "default": "7500"
+  },
+  {
+    "name": "forceTDelayCompensationEnabled",
+    "type": "checkbox",
+    "label": "强制启用 4K 时序补偿（非 4K 出现点击过早时开启）",
+    "default": false
+  }
+]

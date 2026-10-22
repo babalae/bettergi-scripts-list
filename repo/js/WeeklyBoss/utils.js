@@ -5,6 +5,460 @@ async function keyMaintain(key, duration) {
 }
 
 /**
+ * 在指定区域内查找并点击指定文字
+ * @param {string} targetText - 要点击的目标文字
+ * @param {number} x - 识别区域的左上角X坐标
+ * @param {number} y - 识别区域的左上角Y坐标
+ * @param {number} width - 识别区域的宽度
+ * @param {number} height - 识别区域的高度
+ * @param {object} options - 可选参数
+ * @param {boolean} options.trimText - 是否对OCR结果进行trim处理，默认true
+ * @param {boolean} options.clickCenter - 是否点击文字区域中心，默认true
+ * @param {number} options.retryCount - 重试次数，默认3
+ * @param {number} options.retryInterval - 重试间隔(毫秒)，默认500
+ * @returns {Promise<boolean>} 是否找到并点击了文字
+ */
+async function clickTextInRegion(targetText, x=0, y=0, width=1920, height=1080, options = {}) {
+    const {
+        trimText = true,
+        clickCenter = true,
+        retryCount = 3,
+        retryInterval = 400,
+		ifClick = true,
+    } = options;
+
+    for (let attempt = 0; attempt <= retryCount; attempt++) {
+        let captureRegion = null;
+        let ocrRo = null;
+        let results = null;
+        
+        try {
+            // 获取游戏区域截图
+            captureRegion = captureGameRegion();
+
+            // 创建OCR识别对象，限定识别区域
+            ocrRo = RecognitionObject.ocr(x, y, width, height);
+            
+            // 在限定区域内进行OCR识别
+            results = captureRegion.findMulti(ocrRo);
+
+            // 遍历OCR结果
+            for (let i = 0; i < results.count; i++) {
+                const res = results[i];
+                let detectedText = res.text;
+                
+                // 可选：去除前后空白字符
+                if (trimText) {
+                    detectedText = detectedText.trim();
+                }
+
+                // 检查是否匹配目标文字
+                if (detectedText === targetText) {
+                    //log.info(`找到目标文字: "${targetText}"，位置: (${res.x}, ${res.y}, ${res.width}, ${res.height})`);
+                    
+                    if (clickCenter && ifClick) {
+                        // 点击文字区域中心
+                        await sleep(300);
+                        keyDown("VK_LMENU");
+                        await sleep(400);
+                        res.click();
+                        await sleep(300);
+                        keyUp("VK_LMENU");
+                        log.info(`已点击文字中心: "${targetText}"`);
+
+                    } else {
+                        // 点击文字区域的左上角
+                        //res.clickTo(0, 0);
+                        //log.info(`已点击文字偏移位置: "${targetText}"`);
+                    }
+                    
+                    // 释放资源
+                    if (captureRegion) {
+                        captureRegion.Dispose();
+                    }
+                    if (res) {
+                        res.Dispose();
+                    }
+                    
+                    return true;
+                }
+                
+                // 释放当前遍历的结果对象
+                if (res) {
+                    res.Dispose();
+                }
+            }
+
+            // 如果当前尝试未找到，且还有重试机会，则等待后重试
+            if (attempt < retryCount) {
+                
+                await sleep(retryInterval);
+            }
+        } catch (error) {
+            log.error(`点击文字"${targetText}"时发生错误: ${error.message}`);
+            if (attempt < retryCount) {
+                await sleep(retryInterval);
+            }
+        } finally {
+            // 确保每次尝试都释放资源
+            if (captureRegion) {
+                captureRegion.Dispose();
+            }
+            if (results) {
+                // 如果还有未释放的结果对象
+                for (let i = 0; i < results.count; i++) {
+                    const res = results[i];
+                    if (res && typeof res.Dispose === 'function') {
+                        try {
+                            res.Dispose();
+                        } catch (e) {
+                            // 忽略释放错误
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    log.info(`未找到文字: "${targetText}"，已尝试${retryCount + 1}次`);
+    return false;
+}
+
+/**
+ * 检测指定图片是否存在
+ * @param {string} imagePath - 图片路径（自动添加assets/前缀和.png后缀）
+ * @param {number} [x=0] - 检测区域X坐标（可选）
+ * @param {number} [y=0] - 检测区域Y坐标（可选）
+ * @param {number} [width=0] - 检测区域宽度（0表示全屏）（可选）
+ * @param {number} [height=0] - 检测区域高度（0表示全屏）（可选）
+ * @param {number} [threshold=0.8] - 匹配阈值（0-1）（可选）
+ * @returns {Promise<boolean>} 如果检测到图片返回true，否则返回false
+ */
+async function detectImage(imagePath, x = 0, y = 0, width = 0, height = 0, threshold = 0.9) {
+    let captureRegion = null;
+    let templateImage = null;
+    let recognitionObject = null;
+    let searchRegion = null;
+    let result = null;
+    
+    try {
+        // 自动处理路径：添加assets/前缀和.png后缀
+        let fullPath = imagePath;
+        
+        // 1. 确保有assets/前缀
+        if (!fullPath.startsWith('assets/')) {
+            fullPath = `assets/${fullPath}`;
+        }
+        
+        // 2. 确保有.png后缀
+        if (!fullPath.toLowerCase().endsWith('.png')) {
+            fullPath = `${fullPath}.png`;
+        }
+        
+        
+        // 3. 加载模板图片
+        templateImage = file.ReadImageMatSync(fullPath);
+        if (!templateImage) {
+            log.error(`无法加载图片: ${fullPath}`);
+            return false;
+        }
+        
+        // 4. 捕获游戏区域
+        captureRegion = captureGameRegion();
+        
+        // 5. 创建识别对象
+        if (width > 0 && height > 0) {
+            // 指定区域检测
+            recognitionObject = RecognitionObject.TemplateMatch(
+                templateImage, 
+                x, 
+                y, 
+                width, 
+                height
+            );
+        } else {
+            // 全屏检测
+            recognitionObject = RecognitionObject.TemplateMatch(templateImage);
+        }
+        
+        // 设置匹配阈值
+        recognitionObject.Threshold = threshold;
+        
+        // 6. 确定检测区域
+        if (width > 0 && height > 0) {
+            // 如果指定了区域，则裁剪检测区域
+            searchRegion = captureRegion.DeriveCrop(x, y, width, height);
+        } else {
+            searchRegion = captureRegion;
+        }
+        
+        // 7. 执行检测
+        result = searchRegion.Find(recognitionObject);
+        const detected = !result.IsEmpty();
+        
+        if (detected) {
+            log.info(`✅ 检测到图片: ${imagePath}, 位置: (${result.X}, ${result.Y})`);
+        } else {
+
+        }
+        
+        return detected;
+        
+    } catch (error) {
+        log.error(`检测图片时发生错误: ${error.message}`);
+        return false;
+        
+    } finally {
+        // 8. 确保释放所有资源（内存管理）
+        try {
+            // 释放结果对象
+            if (result) {
+                result.Dispose();
+            }
+            
+            // 释放裁剪的区域（如果是独立创建的）
+            if (searchRegion && searchRegion !== captureRegion) {
+                searchRegion.Dispose();
+            }
+            
+            // 释放识别对象内部资源
+            if (recognitionObject) {
+                recognitionObject.InitTemplate();
+            }
+            
+            // 释放模板图片
+            if (templateImage) {
+                templateImage.Dispose();
+            }
+            
+            // 释放截图区域
+            if (captureRegion) {
+                captureRegion.Dispose();
+            }
+            
+        } catch (disposeError) {
+            log.warn(`释放资源时出错: ${disposeError.message}`);
+        }
+    }
+}
+/**
+ * 等待图片出现并点击
+ * @param {string} imageName 图片名称（不带.png后缀且在assets文件中）
+ * @param {number} [timeout=20000] 超时时间（毫秒），默认20秒
+ * @param {number} [checkInterval=500] 检查间隔（毫秒），默认500毫秒
+ * @returns {Promise<void>}
+ * @throws 如果超时未找到图片则抛出错误
+ */
+// 使用示例：
+// await waitAndClickImage("paimon_menu");
+// await waitAndClickImage("confirm_button",false,9000);
+//
+// (2) 自定义偏移量和是否点击，可以用于检测是否有图片
+// await waitAndClickImage("confirm_button",false,7000);
+//滚动查询偏移点击
+// await waitAndClickImage("confirm_button",true,20000,758,60,true,1);
+const waitAndClickImage = async (
+    imageName,
+	ifClick = true,
+    timeout = 20000,
+    extraWidth = 10,
+    extraHeight = 10,
+	ifScroll = false,
+	scrollNum = 3,
+    checkInterval = 500,
+    threshold = 0.9 // 新增阈值参数，默认值0.8
+) => {
+    const startTime = Date.now();
+    const imagePath = `assets/${imageName}.png`;
+    
+    // 读取模板图片
+    const templateMat = file.ReadImageMatSync(imagePath);
+    const recognitionObj = RecognitionObject.TemplateMatch(templateMat, 0, 0, 1920, 1080);
+    recognitionObj.threshold = threshold;
+    
+    // 使用 try-finally 确保模板图像被释放
+    try {
+        while (Date.now() - startTime < timeout) {
+            // 捕获游戏区域
+
+
+            const captureRegion = captureGameRegion();
+            
+            // 使用 try-finally 确保每次循环的资源被释放
+            try {
+                // 查找图片
+                const result = captureRegion.Find(recognitionObj);
+                
+                // 使用 try-finally 确保结果对象被释放
+                try {
+                    if (!result.isEmpty()) {
+                        
+						await sleep(400); // 点击前稍作等待
+                        if (ifClick){
+						    click(result.x+extraWidth, result.y+extraHeight);
+						    log.info(`找到图片 ${imageName}，位置(${result.x}, ${result.y})，正在点击...`);
+						} 
+						else log.info(`找到图片 ${imageName}，位置(${result.x}, ${result.y})`);
+                        await sleep(200); // 点击后稍作等待
+                        return true;
+                    }
+                } finally {
+                    // 释放结果对象
+                    if (result && result.Dispose) {
+                        result.Dispose();
+                    }
+                }
+            } finally {
+                // 释放捕获区域
+                if (captureRegion && captureRegion.Dispose) {
+                    captureRegion.Dispose();
+                }
+            }
+            
+            await sleep(checkInterval);
+			
+			if(ifScroll){
+                for (let i = 0; i < scrollNum; i++) {
+                await keyMouseScript.runFile("assets/滚轮下滑.json");
+				await sleep(50);
+                }						
+			}
+        }
+    } finally {
+        // 释放模板图像
+        if (templateMat && templateMat.Dispose) {
+            templateMat.Dispose();
+        }
+    }
+    
+    throw new Error(`等待图片 ${imageName} 超时`);
+}
+
+async function earlyChallage() {
+	await genshin.returnMainUi();
+	await sleep(2000);
+	keyPress("F1");
+	await sleep(800);
+	await clickTextInRegion("秘境",0,0,370,900);//左上角
+	await clickTextInRegion("征讨领域",0,0,740,990);//左上角
+	await sleep(800);
+	moveMouseTo(1600,335);
+	await sleep(800);
+	await waitAndClickImage(settings.monsterName,true,50000,300,0,true,8);
+	await clickTextInRegion("传送",960,540,960,540);//左上角
+	await sleep(5000);
+}
+
+/**
+ * 检测当前血量是否为红色（低血量）
+ * @returns {Promise<boolean>} - 红血返回 true，否则返回 false
+ * 非常感谢 mno 和 汐 在锄地一条龙中提到的血量检测方法！！！
+ */
+async function isHealthRed() {
+    // 内嵌配置和管理器
+    const GAME_REGION_CACHE_SIZE = 5;
+    const gameRegionManager = {
+        cache: [],
+        lastCapture: new Date(),
+        isDisposing: false,
+        isCapturing: false
+    };
+    
+    // 内嵌模板图片加载（使用立即执行函数确保初始化）
+    let imageMat, img;
+    (function initTemplate() {
+        imageMat = file.ReadImageMatSync("assets/三色血条.png");
+        img = new ImageRegion(imageMat, 0, 0);
+    })();
+
+    // 内嵌截图获取函数
+    async function getGameRegion(minInterval = 17, asyncDispose = false) {
+        async function disposeOldGameRegion() {
+            gameRegionManager.isDisposing = true;
+            try {
+                while (gameRegionManager.cache.length > GAME_REGION_CACHE_SIZE) {
+                    const oldestRegion = gameRegionManager.cache.shift();
+                    if (oldestRegion) {
+                        oldestRegion.dispose();
+                    }
+                }
+            } catch (error) {
+                log.error(`释放旧游戏区域截图失败: ${error.message}`);
+            } finally {
+                gameRegionManager.isDisposing = false;
+            }
+        }
+
+        while (gameRegionManager.isCapturing) {
+            await sleep(1);
+        }
+
+        gameRegionManager.isCapturing = true;
+        try {
+            if (new Date() - gameRegionManager.lastCapture >= minInterval || gameRegionManager.cache.length === 0) {
+                while (gameRegionManager.isDisposing) {
+                    await sleep(1);
+                }
+                gameRegionManager.lastCapture = new Date();
+                const newRegion = captureGameRegion(); // 假设 captureGameRegion 已全局存在
+                gameRegionManager.cache.push(newRegion);
+
+                if (asyncDispose) {
+                    disposeOldGameRegion();
+                } else {
+                    await disposeOldGameRegion();
+                }
+            }
+        } catch (error) {
+            log.error(`获取游戏区域截图失败: ${error.message}`);
+        } finally {
+            gameRegionManager.isCapturing = false;
+            return gameRegionManager.cache[gameRegionManager.cache.length - 1];
+        }
+    }
+
+    // 主检测逻辑
+    try {
+        const gameRegion = await getGameRegion();
+        const checkRegion = gameRegion.DeriveCrop(824 - 9, 1014 - 9, 8, 8);
+        const checkMat = checkRegion.SrcMat;
+        
+        const ro = RecognitionObject.TemplateMatch(checkMat);
+        ro.use3Channels = true;
+        ro.Threshold = 0.4;
+        ro.InitTemplate();
+        
+        const result = img.find(ro);
+        
+        if (!result.isEmpty()) {
+            return result.x <= 14;
+        }
+        return false;
+    } catch (error) {
+        log.error(`血量检测失败: ${error.message}`);
+        return false;
+    }
+}
+
+async function switchToFoodBag() {
+    await genshin.returnMainUi();
+    await sleep(1500);
+    
+    keyDown("z");
+    await sleep(1500);
+    keyUp("z");
+    
+    try {
+        await waitAndClickImage("食物袋");
+        log.info("道具成功切换为食物袋");
+        return true;
+    } catch (error) {
+        log.error(`食物袋切换失败: ${error.message}`);
+        return false;
+    }
+}
+
+/**
  * 自动导航直到检测到指定文字
  * @param {Object} options 配置选项
  * @param {number} [options.x=1210] 检测区域左上角x坐标
@@ -352,16 +806,32 @@ async function eatResurgenceFood() {
   }
 }
 
+
 //异步调用战斗
 async function autoFightAsync() {
-  try {
-    const cts = new CancellationTokenSource();
-    dispatcher.RunTask(new SoloTask("AutoFight"), cts);
-    await sleep(1000 * settings.challengeTime);//
-    cts.cancel();
-  } catch (error) {
-    log.info("启动战斗失败，尝试重新启动");
-  }
+    try {
+        const cts = new CancellationTokenSource();
+        dispatcher.RunTask(new SoloTask("AutoFight"), cts);
+		let checkTimes = parseInt(settings.challengeTime, 10);
+		
+		for (let i = 0;i < 2*checkTimes; i++) {
+		  if(await detectImage("复活药")){log.info("检测到复活标志，尝试一次复活");keyPress("Z");}
+		  if (await isHealthRed()&& await detectImage("小道具标志")) {
+            log.info("检测到血量过低");
+		    if(settings.ifAutoEatFood){
+			log.info("尝试一次吃药");
+			keyPress("Z");
+			}
+        }
+          await sleep(490);
+		}
+		
+		if(settings.challengeTime != checkTimes) await sleep(1000*(settings.challengeTime-checkTimes));
+		
+        cts.cancel();
+    } catch (error) {
+      log.info("启动战斗失败，尝试重新启动");
+    }
 }
 
 async function queryStaminaValue() {
@@ -653,6 +1123,7 @@ async function autoFightAndEndDetection(extraFightAction) {
   const teamRo2 = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/team2.png"), 1820, 240, 80, 400);
   let challengeTime = 0;
   let challengeNum = 0;
+  let skipMovie = 0;
   //10分钟兜底
   while (challengeTime < 600000) {
     await resurgenceDetectionAndEatFood();//检查吃药复活
@@ -688,7 +1159,12 @@ async function autoFightAndEndDetection(extraFightAction) {
       await extraFightAction(2);
     }
     // 情况4: 三个区域均无文字，可能处于转场动画，尝试点击快进
+	if (skipMovie > 9) {
+	  throw new Error('多次未能成功跳过动画，结束本次挑战');
+	}
+	
     else if (!hasText2 && !hasText3) {
+	  skipMovie++;
       await extraFightAction(3);
     }
     challengeTime = challengeTime + 100;
@@ -705,10 +1181,16 @@ async function goToChallenge() {
   await genshin.returnMainUi();
   //切换队伍
   await genshin.switchParty(settings.teamName);
+  //切换小道具
+  if(settings.ifAutoEatFood) await switchToFoodBag();
   //前往充满能量
   if (settings.energyMax) await restoredEnergy();
   else await genshin.tp(2297.6201171875, -824.5869140625);//传送到神像回血
-  switch (settings.monsterName) {
+  if(settings.ifEarlyChallage){
+    await earlyChallage();
+  }
+  else {
+    switch (settings.monsterName) {
     case "风魔龙":
       await genshin.tp(122.626, 2657.63,);//传送到周本
       break;
@@ -743,8 +1225,11 @@ async function goToChallenge() {
       await genshin.tp(-1608.205078125, 1730.2724609375, true);//传送到周本
       break;
     case "博士":
-      await genshin.tp(9531, 6393);
+      await genshin.tp(9533.977415460497,6392.802705966171,true);
       break;
+    case "世界树博士":
+      await genshin.tp(2917.732421875,216.9765625,true);
+      break;	  
     default:
       break;
   }
@@ -753,6 +1238,7 @@ async function goToChallenge() {
   await sleep(500);
   keyPress("F");
   await sleep(2000);
+  }
   await repeatOperationUntilTextFound({
     x: 1650,
     y: 1000,
@@ -967,7 +1453,7 @@ async function weeklyBoss3() {
         break;
       case 3:
         log.info("进入过场动画尝试快进");
-        await sleep(400);
+        await sleep(1500);
         click(1765, 55);
         await sleep(400);
         click(1765, 55);
@@ -1062,7 +1548,7 @@ async function weeklyBoss5() {
         break;
       case 3:
         log.info("进入过场动画尝试快进");
-        await sleep(400);
+        await sleep(1400);
         click(1765, 55);
         await sleep(400);
         click(1765, 55);
@@ -1178,7 +1664,7 @@ async function weeklyBoss7() {
         break;
       case 3:
         log.info("进入过场动画尝试快进");
-        await sleep(400);
+        await sleep(1400);
         click(1765, 55);
         await sleep(400);
         click(1765, 55);
@@ -1234,7 +1720,7 @@ async function weeklyBoss8() {
         break;
       case 3:
         log.info("进入过场动画尝试快进");
-        await sleep(400);
+        await sleep(1400);
         click(1765, 55);
         await sleep(400);
         click(1765, 55);
@@ -1338,7 +1824,7 @@ async function weeklyBoss10() {
         break;
       case 3:
         log.info("进入过场动画尝试快进");
-        await sleep(400);
+        await sleep(1400);
         click(1765, 55);
         await sleep(400);
         click(1765, 55);
@@ -1447,7 +1933,7 @@ async function weeklyBoss12() {
         break;
       case 3:
         log.info("进入过场动画尝试快进");
-        await sleep(400);
+        await sleep(1400);
         click(1765, 55);
         await sleep(400);
         click(1765, 55);
@@ -1530,7 +2016,7 @@ async function weeklyBoss13() {
     await sleep(500);//切换钟离
     await keyMaintain("w", 2000);
     await keyMaintain("s", 3500);
-    await keyMaintain("d", 4300);
+    await keyMaintain("d", 4500);
     await keyMaintain("e", 1000);
     await sleep(5000);
     keyDown("w");
@@ -1555,6 +2041,53 @@ async function weeklyBoss13() {
   await checkDate(main);
 }
 
+async function weeklyBoss14() {
+  async function extraFightAction(fight = 0) {
+    switch (fight) {
+      case 1://单次调用战斗任务后
+
+        break;
+      case 2:  //未出现boss名称但有队伍名称
+
+        break;
+      case 3://全无，可能是过程动画
+        log.info("进入过场动画尝试快进");
+        await sleep(1400);
+        click(1765, 55);
+        await sleep(400);
+        click(1765, 55);
+		await sleep(400);
+        click(1765, 55);
+        await sleep(4000);
+        await keyMouseScript.runFile(`assets/世界树博士战斗.json`);
+        break;
+      default:
+        break;
+    }
+  }
+
+  async function main() {
+    await goToChallenge();
+    //副本内前往BOSS处
+    await eatFood();//嗑药
+
+	keyDown("w");
+	await sleep(700);
+	keyDown("SHIFT");
+	await sleep(400);
+	keyUp("SHIFT");
+	await sleep(1000);
+	keyUp("w");
+	
+    await autoFightAsync();
+    await autoFightAndEndDetection(extraFightAction);//一直战斗直到检测到结束
+    await autoNavigateToReward();
+    await claimAndExit();
+  }
+
+  await checkDate(main);
+}
+
 this.utils = {
   weeklyBoss1,
   weeklyBoss2,
@@ -1569,4 +2102,5 @@ this.utils = {
   weeklyBoss11,
   weeklyBoss12,
   weeklyBoss13,
+  weeklyBoss14,
 };

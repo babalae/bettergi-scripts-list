@@ -140,6 +140,11 @@ async function compareVersion(version1, version2) {
             log.info(`ABGI注销1Remote多用户：`+`${settings.inputText}`);
             await sleep(outTime);
             return;
+        case "自定义文本输出":
+            await sleep(500);            
+            log.info(`ABGI自定义文本输出：`+`${settings.inputText}`);
+            await sleep(outTime);
+            return;
         default:
             log.error(`ABGI不支持的任务${settings.selectTask}`);
             await sleep(outTime);

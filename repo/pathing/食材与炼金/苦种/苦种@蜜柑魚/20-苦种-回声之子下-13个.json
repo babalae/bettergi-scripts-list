@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1777291990182,
+    "last_modified_time": 1777447663244,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "20-苦种-回声之子下-13个",
@@ -319,8 +319,18 @@
       "action": "",
       "action_params": "",
       "id": 34,
+      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
+      "x": 7634.1445,
+      "y": -1646.4297
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 35,
+      "move_mode": "walk",
+      "type": "path",
       "x": 7634.1445,
       "y": -1646.4297
     }

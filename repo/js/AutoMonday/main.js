@@ -5,26 +5,39 @@
     if (!settings.ifCheck) { log.error("请阅读readme文件并做好相关设置后再运行此脚本！"); return; }
 
     //初始化配置
-    var TEAM;
     var Material = settings.Material;
     const actiontime = 180;//最大等待时间，单位秒
     const BH = `assets/RecognitionObject/${Material}.png`;
     const ZHIBIANYI = "assets/RecognitionObject/zhibian.png";
     const CHA = "assets/RecognitionObject/cha.png";
     const xingChen = "assets/RecognitionObject/星尘.png";
+    const BATTLE_PASS_LEVEL_50 = "assets/RecognitionObject/纪行等级50.png";
+    const battlePassLevel50Ro = RecognitionObject.TemplateMatch(
+        file.ReadImageMatSync(BATTLE_PASS_LEVEL_50),
+        0,
+        0,
+        1920,
+        1080
+    );
     const ifAkf = settings.ifAkf;
-    const chargingMethod = settings.chargingMethod;
+    const zbyChargingMethod = settings.zbyChargingMethod || settings.chargingMethod || "电气水晶充能";
+    const akfChargingMethod = settings.akfChargingMethod || settings.chargingMethod || "电气水晶充能";
+    const zbyTeam = settings.ZBYTeamName || settings.TEAMname;
+    const akfTeam = settings.AKFTeamName || settings.TEAMname;
     const ifCooking = settings.ifCooking;
     const ifduanZao = settings.ifduanZao;
     const ifShouling = settings.ifShouling;
     const ifMijing = settings.ifMijing;
+    const skipCookingWhenBattlePassFull = settings.skipCookingWhenBattlePassFull;
+    const skipForgingWhenBattlePassFull = settings.skipForgingWhenBattlePassFull;
+    const skipBossWhenBattlePassFull = settings.skipBossWhenBattlePassFull;
+    const skipDomainWhenBattlePassFull = settings.skipDomainWhenBattlePassFull;
     const ifbuyNet = settings.ifbuyNet;
     const ifbuyTzq = settings.ifbuyTzq;
     const ifPink = settings.ifPink;
     const ifBlue = settings.ifBlue;
     const ifChange = ifPink || ifBlue;
     const ifZBY = settings.ifZBY;
-    const ifYB = settings.ifYB;
     const food = settings.food; // 要烹饪的食物
     const cookCount = settings.cookCount;//烹饪数量
     const mineral = settings.mineral;// 矿石种类
@@ -46,18 +59,16 @@
     // 直接通过映射获取ITEM值（未匹配时默认0）
     const ITEM = materialToItemMap[Material] || 0;
 
-    if (ifZBY && chargingMethod == "法器角色充能" && (!settings.TEAMname || settings.TEAMname.trim() === "")) {
+    if (ifZBY && zbyChargingMethod == "法器角色充能" && (!zbyTeam || zbyTeam.trim() === "")) {
         log.error("您选择了法器角色充能，请在配置页面填写包含法器角色的队伍名称！！！");
         return;// 没选就报错后停止
     }
 
-    //检查用户是否配置队伍
-    if (ifZBY && ifAkf && (!settings.TEAMname || settings.TEAMname.trim() === "")) {
+    // 爱可菲任务始终需要切换到包含爱可菲的队伍
+    if (ifAkf && (!akfTeam || akfTeam.trim() === "")) {
         log.error("您选择了拥有爱可菲，请在配置页面填写包含爱可菲的队伍名称！！！");
         return;// 没选就报错后停止
     }
-
-    TEAM = settings.TEAMname;
 
     const username = settings.username || "默认账户";
     const cdRecordPath = `record/${username}_cd.txt`;// 修改CD记录文件路径，包含用户名
@@ -65,11 +76,11 @@
     // 定义任务列表
     const tasks = [
         { condition: ifZBY, func: autoZhibian, name: "质变仪" },
-        { condition: ifYB, func: Jingdie, name: "晶蝶诱捕装置" },
-        { condition: ifCooking, func: Cooking, name: "做菜" },
-        { condition: ifduanZao, func: duanZao, name: "锻造" },
-        { condition: ifShouling, func: hitBoss, name: "首领" },
-        { condition: ifMijing, func: AutoDomain, name: "秘境" },
+        { condition: ifAkf, func: autoAkf, name: "爱可菲" },
+        { condition: ifCooking, func: Cooking, name: "做菜", cdRouteName: "每周做菜", skipWhenBattlePassFull: skipCookingWhenBattlePassFull },
+        { condition: ifduanZao, func: duanZao, name: "锻造", cdRouteName: "每周锻造", skipWhenBattlePassFull: skipForgingWhenBattlePassFull },
+        { condition: ifShouling, func: hitBoss, name: "首领", cdRouteName: "每周首领", skipWhenBattlePassFull: skipBossWhenBattlePassFull },
+        { condition: ifMijing, func: AutoDomain, name: "秘境", cdRouteName: "每周秘境", skipWhenBattlePassFull: skipDomainWhenBattlePassFull },
         { condition: ifbuyNet, func: buyNet, name: "购买四方八方之网" },
         { condition: ifbuyTzq, func: buyTzq, name: "购买投资券" },
         { condition: ifChange, func: getPinkandBlue, name: "粉球篮球兑换" }
@@ -417,9 +428,6 @@
         var startTime = new Date();
         await sleep(500);
         var NowTime = new Date();
-        var getFood = 0;
-        var lastIncrementTime = 0; // 上次增加getFood的时间
-        const intervalTime = 3000; // 3秒的时间间隔，单位为毫秒
 
         // 质变仪判断逻辑
         if (deployed) {
@@ -429,7 +437,7 @@
             await sleep(500);
             await keyUp("S");
 
-            if (chargingMethod == "法器角色充能") {
+            if (zbyChargingMethod == "法器角色充能") {
                 const ifbblIn = await includes("芭芭拉");
                 if (!ifbblIn) { throw new Error("队伍中未包含角色：芭芭拉"); }
             }
@@ -437,59 +445,69 @@
                 const ocrRes = await textOCREnhanced("质变产生了以下物质", 0.7, 1, 0, 539, 251, 800, 425);
                 if (ocrRes.found) {
                     click(970, 760);
-                    if (!ifAkf) { return true; }
-                    await sleep(150);
-                    break;
+                    return true;
                 }
-                if (chargingMethod == "法器角色充能") {
+                if (zbyChargingMethod == "法器角色充能") {
                     leftButtonClick();
                     await sleep(150);
                 }
-                NowTime = new Date();
-            }
-        }
-
-        // 厨艺机关判断逻辑
-        if (ifAkf) {
-            if ((chargingMethod == "电气水晶充能")) {
-                await AutoPath("全自动爱可菲");//厨艺机关的部署动作用路径追踪执行
-            } else if (chargingMethod == "法器角色充能") {
-
-                const ifakfIn = await includes("爱可菲");
-                if (!ifakfIn) { throw new Error("队伍中未包含角色:爱可菲"); }
-
-                keyDown("E");
-                await sleep(1000);
-                keyUp("E");
-
-                await sleep(800);
-                await includes("芭芭拉");
-            }
-            while ((NowTime - startTime) < actiontime * 1000) {
-                const ifEarn = await textOCREnhanced("获得", 0.2, 0, 3, 159, 494, 75, 44);
-                if (ifEarn.found) {
-                    const currentTime = new Date().getTime();
-                    if (currentTime - lastIncrementTime >= intervalTime) {
-                        getFood++;
-                        lastIncrementTime = currentTime;
-                        log.warn(`获得料理数量: ${getFood}`);
-                        if (getFood >= 10) {
-                            log.warn("获得料理数量已达10，结束流程！");
-                            await genshin.returnMainUi(); // 提前退出循环
-                            return true;
-                        }
-                    }
-                }
-                if (chargingMethod == "法器角色充能") {
-                    leftButtonClick();
-                    await sleep(150);
-                }
-                await sleep(50);
                 NowTime = new Date();
             }
         }
         await genshin.returnMainUi();
-        log.error(`${actiontime}秒超时，结束流程！`);
+        log.error(`${actiontime}秒超时，结束质变仪流程！`);
+        return false;
+    }
+
+    // 独立执行爱可菲厨艺机关并等待获得10份料理
+    async function runAkfMachine() {
+        var startTime = new Date();
+        var NowTime = new Date();
+        var getFood = 0;
+        var lastIncrementTime = 0;
+        const intervalTime = 3000;
+
+        if (akfChargingMethod == "电气水晶充能") {
+            const pathCompleted = await AutoPath("全自动爱可菲");
+            if (!pathCompleted) {
+                throw new Error("爱可菲未能到达电气水晶");
+            }
+        } else if (akfChargingMethod == "法器角色充能") {
+            const ifakfIn = await includes("爱可菲");
+            if (!ifakfIn) { throw new Error("队伍中未包含角色:爱可菲"); }
+
+            keyDown("E");
+            await sleep(1000);
+            keyUp("E");
+
+            await sleep(800);
+            await includes("芭芭拉");
+        }
+        while ((NowTime - startTime) < actiontime * 1000) {
+            const ifEarn = await textOCREnhanced("获得", 0.2, 0, 3, 159, 494, 75, 44);
+            if (ifEarn.found) {
+                const currentTime = new Date().getTime();
+                if (currentTime - lastIncrementTime >= intervalTime) {
+                    getFood++;
+                    lastIncrementTime = currentTime;
+                    log.warn(`获得料理数量: ${getFood}`);
+                    if (getFood >= 10) {
+                        log.warn("获得料理数量已达10，结束流程！");
+                        await genshin.returnMainUi();
+                        return true;
+                    }
+                }
+            }
+            if (akfChargingMethod == "法器角色充能") {
+                leftButtonClick();
+                await sleep(150);
+            }
+            await sleep(50);
+            NowTime = new Date();
+        }
+        await genshin.returnMainUi();
+        log.error(`${actiontime}秒超时，结束爱可菲流程！`);
+        return false;
     }
 
     //放置质变仪
@@ -622,8 +640,10 @@
         try {
             let filePath = `assets/${locationName}.json`;
             await pathingScript.runFile(filePath);
+            return true;
         } catch (error) {
-            log.error(`执行 ${locationName} 路径时发生错误`);
+            log.error(`执行 ${locationName} 路径时发生错误: ${error.message}`);
+            return false;
         }
     }
 
@@ -646,35 +666,56 @@
         return sevenDaysLater.toISOString();
     }
 
-    // 返回当前时间的下周一四点的时间戳
+    // 游戏服务器刷新时间按 UTC+8 计算，避免运行环境时区不同造成偏差
+    const SERVER_TIMEZONE_OFFSET_MS = 8 * 60 * 60 * 1000;
+
+    // 返回“下一次周一 04:00（UTC+8）”的时间戳。
+    // 周一 04:00 前运行时，目标应是“当天 04:00”，而不是再下一周。
     function getNextMonday4AMISO() {
-        const now = new Date();
+        const nowMs = Date.now();
+        const serverNowMs = nowMs + SERVER_TIMEZONE_OFFSET_MS;
+        const serverNow = new Date(serverNowMs);
 
-        // 获取当前是星期几
-        const currentDay = now.getDay();
+        const currentDay = serverNow.getUTCDay();
+        const daysUntilMonday = (1 - currentDay + 7) % 7;
 
-        // 计算距离下周一还有几天
-        let daysUntilMonday = 1 - currentDay;
-        if (daysUntilMonday <= 0) {
-            daysUntilMonday += 7;
+        let targetServerMs = Date.UTC(
+            serverNow.getUTCFullYear(),
+            serverNow.getUTCMonth(),
+            serverNow.getUTCDate() + daysUntilMonday,
+            4, 0, 0, 0
+        );
+
+        // 如果本周一 04:00 已经过了，才进入下一周
+        if (targetServerMs <= serverNowMs) {
+            targetServerMs += 7 * 24 * 60 * 60 * 1000;
         }
 
-        // 创建下周一4点的日期对象
-        const nextMonday4AM = new Date(now);
-        nextMonday4AM.setDate(now.getDate() + daysUntilMonday);
-        nextMonday4AM.setHours(4, 0, 0, 0);
-
-        return nextMonday4AM.toISOString();
+        return new Date(targetServerMs - SERVER_TIMEZONE_OFFSET_MS).toISOString();
     }
 
-    // 返回下月1号四点的时间戳
+    // 返回“下一次每月 1 日 04:00（UTC+8）”的时间戳。
+    // 1 日 04:00 前运行时，目标应是“当天 04:00”。
     function getNextMonthFirst4AMISO() {
-        const now = new Date();
+        const nowMs = Date.now();
+        const serverNowMs = nowMs + SERVER_TIMEZONE_OFFSET_MS;
+        const serverNow = new Date(serverNowMs);
 
-        // 获取当前月份并加一个月
-        let nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1, 4, 0, 0, 0);
+        let targetServerMs = Date.UTC(
+            serverNow.getUTCFullYear(),
+            serverNow.getUTCMonth(),
+            1, 4, 0, 0, 0
+        );
 
-        return nextMonth.toISOString();
+        if (targetServerMs <= serverNowMs) {
+            targetServerMs = Date.UTC(
+                serverNow.getUTCFullYear(),
+                serverNow.getUTCMonth() + 1,
+                1, 4, 0, 0, 0
+            );
+        }
+
+        return new Date(targetServerMs - SERVER_TIMEZONE_OFFSET_MS).toISOString();
     }
 
     // 检查文件是否存在
@@ -701,10 +742,36 @@
                 const lines = content.split('\n');
 
                 for (const line of lines) {
-                    if (line.trim()) {
-                        const [name, timestamp] = line.split('::');
+                    const cleanLine = line.trim();
+                    if (!cleanLine) continue;
+
+                    // 只按第一个 :: 分隔，并清理 Windows CRLF 残留的 \r / 空格。
+                    const separatorIndex = cleanLine.indexOf('::');
+                    if (separatorIndex < 0) {
+                        log.warn(`忽略格式错误的CD记录：${cleanLine}`);
+                        continue;
+                    }
+
+                    const name = cleanLine.slice(0, separatorIndex).trim();
+                    const timestamp = cleanLine.slice(separatorIndex + 2).trim();
+                    if (name && timestamp) {
                         records[name] = timestamp;
                     }
+                }
+
+                // 迁移旧版本共用的“质变仪&爱可菲”CD记录。
+                // 已存在的新记录优先，避免迁移时覆盖较新的独立CD。
+                const legacyRouteName = "质变仪&爱可菲";
+                if (records[legacyRouteName]) {
+                    if (!records["质变仪"]) {
+                        records["质变仪"] = records[legacyRouteName];
+                    }
+                    if (!records["爱可菲"]) {
+                        records["爱可菲"] = records[legacyRouteName];
+                    }
+                    delete records[legacyRouteName];
+                    await writeCDRecords(records);
+                    log.info("已迁移并移除旧版质变仪&爱可菲CD记录");
                 }
             } catch (e) {
                 log.error(`读取CD记录失败: ${e}`);
@@ -722,34 +789,59 @@
             content += `${name}::${records[name]}\n`;
         }
 
-        try {
-            // 尝试创建目录（如果环境支持）
+        // 发布包中会携带 record 目录；这里仍为旧安装或目录被删除的情况兜底。
+        if (typeof file.mkdir === 'function') {
             try {
-                if (typeof file.mkdir === 'function') {
-                    file.mkdir('record');
-                }
+                await file.mkdir('record');
             } catch (e) {
-                // 忽略目录创建错误
+                // 目录已存在时部分运行环境也会抛错，交给实际写入结果判断。
             }
+        }
 
+        try {
             await file.writeText(cdRecordPath, content);
         } catch (e) {
-            log.error(`写入CD记录失败: ${e}`);
+            log.error(`写入CD记录失败，任务下次仍会执行: ${e}`);
+            throw new Error(`无法保存CD记录 ${cdRecordPath}: ${e.message || e}`);
         }
     }
 
     // 检查路线是否可执行（CD是否已刷新）
     function isRouteAvailable(routeName, cdRecords) {
-        const now = new Date();
-
         // 如果记录中没有该路线，说明是第一次执行，可以执行
         if (!cdRecords[routeName]) {
             return true;
         }
 
-        // 检查CD时间是否已过
-        const cdTime = new Date(cdRecords[routeName]);
-        return now >= cdTime;
+        const rawTimestamp = String(cdRecords[routeName]).trim();
+
+        // 兼容 ISO 时间字符串，也兼容以后可能改成的毫秒时间戳。
+        let cdTimeMs;
+        if (/^\d+$/.test(rawTimestamp)) {
+            cdTimeMs = Number(rawTimestamp);
+        } else {
+            cdTimeMs = Date.parse(rawTimestamp);
+        }
+
+        // 记录损坏时不能让任务永久锁死：警告后允许重新执行并覆盖旧记录。
+        if (!Number.isFinite(cdTimeMs)) {
+            log.warn(`${routeName}的CD记录时间无效：${rawTimestamp}，本次按已刷新处理`);
+            return true;
+        }
+
+        const nowMs = Date.now();
+        if (nowMs >= cdTimeMs) {
+            log.info(`${routeName}CD已到期，允许执行`);
+            return true;
+        }
+
+        const remainingMinutes = Math.ceil((cdTimeMs - nowMs) / 60000);
+        const displayTime = new Date(cdTimeMs + SERVER_TIMEZONE_OFFSET_MS)
+            .toISOString()
+            .replace('T', ' ')
+            .slice(0, 19);
+        log.info(`${routeName}下次刷新：${displayTime} (UTC+8)，剩余约${remainingMinutes}分钟`);
+        return false;
     }
 
     // 自动战斗函数
@@ -835,73 +927,14 @@
         }
     }
 
-    // 晶蝶诱捕装置
-    async function Jingdie() {
-        try {
-            // 读取CD记录
-            const cdRecords = await readCDRecords();
-            let updatedRecords = { ...cdRecords };
-
-            const routeName = "晶蝶诱捕装置";
-
-            // 检查CD
-            if (!isRouteAvailable(routeName, cdRecords)) {
-                log.info(routeName + "CD未刷新，跳过本次执行");
-                return;
-            }
-
-            keyPress("M");
-            await sleep(1000);
-
-            // 判断是否诱捕完成
-            const res2 = await textOCREnhanced("晶蝶诱捕装置", 1, 0, 3, 0, 0, 360, 500);
-
-            if (!res2.found) {
-                log.warn("诱捕未完成，不执行后续操作");
-                await genshin.returnMainUi();
-                return;
-            } else {
-                //执行晶蝶诱捕装置代码
-                await AutoPath("晶蝶诱捕装置");
-                //进行交互
-                await sleep(1000);
-                keyPress("F");//领取奖励
-                await sleep(2000);
-
-                click(960, 900);//点击奖励弹窗
-
-                await sleep(1000);
-                keyPress("F");//再次启动
-                await sleep(1000);
-
-                click(1750, 1020);//点击启动
-                await sleep(1000);
-                click(1180, 750);//点击确认
-
-                log.info("已完成 领取晶蝶诱捕装置");
-                await sleep(1000);
-
-                // 更新CD记录（设置为七天后）
-                updatedRecords[routeName] = getSevenDaysLater();
-                await writeCDRecords(updatedRecords);
-
-                log.info("本周晶蝶诱捕装置收取完成！");
-            }
-        } catch (error) {
-            if (error.message === "A task was canceled." || error.message === "取消自动任务") { throw error; }
-            log.error("执行晶蝶诱捕任务过程中出现错误: {error}", error.message);
-        }
-
-    }
-
-    // 质变仪和爱可菲
+    // 质变仪
     async function autoZhibian() {
         try {
             // 读取CD记录
             const cdRecords = await readCDRecords();
             let updatedRecords = { ...cdRecords };
 
-            const routeName = "质变仪&爱可菲";
+            const routeName = "质变仪";
 
             // 检查CD
             if (!isRouteAvailable(routeName, cdRecords)) {
@@ -930,12 +963,14 @@
                 return;
             }
 
-            await switchPartyIfNeeded(TEAM); //切换到指定队伍
+            await switchPartyIfNeeded(zbyTeam); //切换到指定队伍
 
-            if (chargingMethod == "电气水晶充能") {
+            if (zbyChargingMethod == "电气水晶充能") {
                 await AutoPath("全自动质变仪");
-            } else if (chargingMethod == "法器角色充能") {
+            } else if (zbyChargingMethod == "法器角色充能") {
                 await genshin.tp(-874.724609375, 2276.950439453125);
+                await genshin.returnMainUi();
+                await sleep(1000);
             }
 
             const deployed = await deployTransformer();//部署质变仪
@@ -945,16 +980,51 @@
                 await insertMaterial();//放入材料并开始质变流程
             }
 
-            await waitTransformer(deployed)//等待质变完成
+            const completed = await waitTransformer(deployed);//等待质变完成
+            if (!completed) { return; }
             log.info("任务执行完成！！！");
 
-            // 更新CD记录（设置为七天后）
-            updatedRecords[routeName] = getSevenDaysLater();
+            // 更新CD记录（设置为6天22小时后）
+            const now = new Date();
+            const sevenDaysLater = new Date(now.getTime() + ((6 * 24 + 22) * 3600000)); // 当前时间 + 6天22小时
+            updatedRecords[routeName] = sevenDaysLater.toISOString();
             await writeCDRecords(updatedRecords);
-            log.info("本周质变仪&爱可菲任务已完成！");
+            log.info("本周质变仪任务已完成！");
         } catch (error) {
             if (error.message === "A task was canceled." || error.message === "取消自动任务") { throw error; }
-            log.error("执行质变仪&爱可菲任务过程中出现错误: {error}", error.message);
+            log.error("执行质变仪任务过程中出现错误: {error}", error.message);
+        }
+    }
+
+    // 爱可菲
+    async function autoAkf() {
+        try {
+            const cdRecords = await readCDRecords();
+            let updatedRecords = { ...cdRecords };
+            const routeName = "爱可菲";
+
+            if (!isRouteAvailable(routeName, cdRecords)) {
+                log.info(routeName + "CD未刷新，跳过本次执行");
+                return;
+            }
+
+            await switchPartyIfNeeded(akfTeam);
+            const completed = await runAkfMachine();
+            if (!completed) {
+                // 爱可菲流程已启动但在等待奖励时超时。按周一 4 点刷新规则写入保护性 CD，
+                // 避免奖励 OCR 偶发失败时每天重复执行。
+                updatedRecords[routeName] = getNextMonday4AMISO();
+                await writeCDRecords(updatedRecords);
+                log.warn("爱可菲流程超时，已记录至下周一4点CD，避免重复执行");
+                return;
+            }
+
+            updatedRecords[routeName] = getNextMonday4AMISO();
+            await writeCDRecords(updatedRecords);
+            log.info("本周爱可菲任务已完成！");
+        } catch (error) {
+            if (error.message === "A task was canceled." || error.message === "取消自动任务") { throw error; }
+            log.error("执行爱可菲任务过程中出现错误: {error}", error.message);
         }
     }
 
@@ -1409,6 +1479,67 @@
         log.warn(`${scriptname}：V${scriptVersion}`);
     }
 
+    // 检查本期纪行是否已达到50级
+    async function isBattlePassFull() {
+        try {
+            await genshin.returnMainUi();
+            await keyPress("F4");
+            await sleep(1500);
+
+            const battlePassPage = await textOCREnhanced("纪行", 3, 0, 3);
+            if (!battlePassPage.found) {
+                log.warn("未能打开纪行页面，本次不跳过纪行任务");
+                return false;
+            }
+
+            // 模板匹配“纪行等级 50”
+            for (let attempt = 0; attempt < 3; attempt++) {
+                let captureRegion = null;
+                try {
+                    captureRegion = captureGameRegion();
+                    const level50Result = captureRegion.Find(battlePassLevel50Ro);
+                    if (!level50Result.isEmpty()) {
+                        log.info(
+                            "模板匹配到“纪行等级 50”，位置({x},{y},{w},{h})",
+                            level50Result.x,
+                            level50Result.y,
+                            level50Result.width,
+                            level50Result.height
+                        );
+                        return true;
+                    }
+                } finally {
+                    if (captureRegion) {
+                        captureRegion.dispose();
+                    }
+                }
+                await sleep(300);
+            }
+
+            // OCR“纪行等级 50”
+            const levelLabel = await textOCREnhanced("纪行等级", 1, 0, 3);
+            if (levelLabel.found) {
+                const levelX = Math.max(0, levelLabel.x - 120);
+                const levelY = Math.max(0, levelLabel.y - 100);
+                const levelW = Math.min(500, 1920 - levelX);
+                const levelH = Math.min(220, 1080 - levelY);
+                const level50 = await textOCREnhanced("50", 1, 0, 3, levelX, levelY, levelW, levelH, 1);
+                if (level50.found) {
+                    log.info("检测到本期纪行等级为50级");
+                    return true;
+                }
+            }
+
+            log.info("本期纪行未满，继续执行已启用的纪行任务");
+            return false;
+        } catch (error) {
+            log.warn(`检测纪行等级失败，本次不跳过纪行任务：${error.message}`);
+            return false;
+        } finally {
+            await genshin.returnMainUi();
+        }
+    }
+
     // ===== 3. 主函数执行部分 =====
 
     try {
@@ -1418,9 +1549,23 @@
 
         await outputVersion(); // 输出版本信息
 
+        const shouldCheckBattlePass = tasks.some(task =>
+            task.condition && task.skipWhenBattlePassFull
+        );
+        const battlePassFull = shouldCheckBattlePass
+            ? await isBattlePassFull()
+            : false;
+
         // 执行所有启用的任务
         for (const task of tasks) {
             if (task.condition) {
+                if (battlePassFull && task.skipWhenBattlePassFull) {
+                    log.info("本期纪行已满，按配置跳过任务：{name}", task.name);
+                    const cdRecords = await readCDRecords();
+                    cdRecords[task.cdRouteName] = getNextMonday4AMISO();
+                    await writeCDRecords(cdRecords);
+                    continue;
+                }
                 log.info("开始执行任务：{name}", task.name);
                 await task.func();
                 await sleep(10);

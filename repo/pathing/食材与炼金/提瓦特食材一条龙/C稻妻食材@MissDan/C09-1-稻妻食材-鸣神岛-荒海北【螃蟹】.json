@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "2个薄荷；2个螃蟹；1个电气水晶；3个堇瓜；3个海草；2个鳗肉；",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1762339248271,
+    "last_modified_time": 1780123554687,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "C09-1-稻妻食材-鸣神岛-荒海北【螃蟹】",
@@ -74,7 +74,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "万叶 e(wait,hold),attack(0.2),wait(0.4)",
+      "action_params": "万叶 e(wait,hold),attack(0.2),wait(1.5)",
       "id": 7,
       "move_mode": "walk",
       "type": "path",
@@ -175,7 +175,7 @@
       "action": "",
       "action_params": "",
       "id": 18,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
       "x": -4249.9986,
       "y": -2204.0011
@@ -195,12 +195,12 @@
       "id": 20,
       "move_mode": "walk",
       "type": "target",
-      "x": -4268.9997,
-      "y": -2171.5005
+      "x": -4270.2187,
+      "y": -2172.1484
     },
     {
       "action": "combat_script",
-      "action_params": "迪希雅 e,wait(0.4)",
+      "action_params": "迪希雅 e,wait(0.4),e",
       "id": 21,
       "move_mode": "walk",
       "type": "path",

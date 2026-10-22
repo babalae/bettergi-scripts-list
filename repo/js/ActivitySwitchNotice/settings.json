@@ -1,5 +1,11 @@
 [
     {
+        "name": "debug",
+        "type": "checkbox",
+        "label": "启用开发者模式",
+        "default": false
+    },
+    {
         "name": "toMainUi",
         "type": "checkbox",
         "label": "启用先返回主界面后执行切换",
@@ -32,7 +38,11 @@
         "options": [
             "伴月纪闻任务",
             "探索派遣奖励",
+            "食材加工奖励",
+            "锻造奖励",
+            "至冬冒险笔记奖励",
             "豪斗旅纪奖励",
+            "绘想游迹",
             "每日委托奖励"
         ],
         "default": [

@@ -15,5 +15,26 @@
     "name": "enableMoreSettings",
     "type": "checkbox",
     "label": "勾选后下次运行展开高级设置\n用于进行路线筛选和排序"
+  },
+  {
+    "name": "pickup_Mode",
+    "type": "select",
+    "label": "选择拾取模式\n【警告】「bgi原版拾取」依赖莫版BGI，在原版BGI下使用会导致物品计数功能失效",
+    "options": [
+      "模板匹配拾取",
+      "bgi原版拾取"
+    ],
+    "default": "模板匹配拾取"
+  },
+  {
+    "name": "oneTimePriorityItems",
+    "type": "input-text",
+    "label": "一次性优先采集材料，优先级低于每日优先采集，采完即止、不再按天重置\n采集到该材料时会自动扣减本配置，清零自动删除对应项\n格式：材料名*数量，由加号+连接\n如萃凝晶*160+甜甜花*10"
+  },
+  {
+    "name": "maxRuntimeMinutes",
+    "type": "input-text",
+    "label": "总运行限时（分钟），0=不限时\n从脚本启动开始计时，完成任意路线后检测，超时则结束脚本",
+    "default": "0"
   }
 ]

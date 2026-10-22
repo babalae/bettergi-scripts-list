@@ -104,7 +104,7 @@ const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSyn
 				await sleep(500);
 				await pageTop(LeftSliderTopRo);
 
-				for (let p = 0; p < 4; p++) {
+				for (let p = 0; p < 5; p++) {
 					// 识别当前页
 					let captureRegion = captureGameRegion();
 					let resList = captureRegion.findMulti(RecognitionObject.ocr(0, 100, 400, 900));

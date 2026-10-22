@@ -1,4 +1,5 @@
 eval(file.readTextSync("lib/ocr.js"));
+eval(file.readTextSync("lib/lib.js"));
 
 const rewardIcon = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RewardIcon.png"), 1430, 760, 100, 70);
 const tavernRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/TavernIcon.png"), 800, 450, 500, 330);
@@ -16,9 +17,9 @@ let currentState = "任意界面";
 const outFile = "卡牌熟练度.json";
 let allProficiencys = {};
 try {
-    allProficiencys = JSON.parse(file.readTextSync(outFile));
+    allProficiencys = JSON.parse(readTextSync(outFile));
 } catch (error) {
-    log.debug("历史熟练度文件不存在");
+    log.warn("读取卡牌熟练度失败: {0}", error.toString());
 }
 
 (async function () {
@@ -95,8 +96,7 @@ async function runAsPartner() {
     log.info("辅助账号开始工作，如需停止请按下你设置的BetterGI停止按键");
     while (true) {
         log.info("等待对局邀请");
-        await waitForTextAppear("点击进行准备", [820, 70, 296, 31], 1800000);
-        keyPress("Y");
+        await waitForTextAppear("正在匹配对局", [870, 386, 181, 43], 1800000);
         await recognizeTextAndClick("接受", [1177, 713, 82, 55]);
 
         log.info("等待加载");
@@ -196,7 +196,7 @@ async function startChallenge() {
 }
 
 function recommendNextTeam(targetProficiency) {
-    log.info("当前牌组中卡牌已达成熟练度目标，请更换牌组内角色");
+    notification.Send("当前牌组中卡牌已达成熟练度目标，请更换牌组内角色");
     const nextTeam = Object.fromEntries(
         Object.entries(allProficiencys)
             .filter(([_, v]) => v < targetProficiency)

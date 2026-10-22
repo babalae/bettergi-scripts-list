@@ -1,0 +1,69 @@
+{
+    "info": {
+        "authors": [
+            {
+                "links": "",
+                "name": "星野"
+            }
+        ],
+        "bgi_version": "0.45.0",
+        "description": "",
+        "enable_monster_loot_split": false,
+        "last_modified_time": 1758960208248,
+        "map_match_method": "",
+        "map_name": "Teyvat",
+        "name": "二次战斗寻路",
+        "tags": [],
+        "type": "collect",
+        "version": "1.0"
+    },
+    "positions": [
+        {
+            "action": "combat_script",
+            "action_params": "attack,wait(0.3),keypress(1),wait(0.3),keypress(E),wait(0.4),keypress(Q),wait(0.6),attack,wait(0.3),keypress(2),wait(0.3),keypress(E),wait(0.3),keypress(Q)",
+            "id": 1,
+            "locked": false,
+            "move_mode": "walk",
+            "type": "path",
+            "x": -812.24609375,
+            "y": 657
+        },
+        {
+            "action": "combat_script",
+            "action_params": "attack,wait(0.3),keypress(3),wait(0.3),keypress(E),wait(0.4),keypress(Q),wait(0.6),attack,wait(0.3),keypress(4),wait(0.3),keypress(E),wait(0.3),keypress(Q)",
+            "id": 2,
+            "move_mode": "walk",
+            "type": "path",
+            "x": -812.24609375,
+            "y": 657
+        },
+        {
+            "action": "combat_script",
+            "action_params": "attack,wait(0.3),keypress(1),wait(0.3),keypress(E),wait(0.4),keypress(Q),wait(0.6),attack,wait(0.3),keypress(2),wait(0.3),keypress(E),wait(0.3),keypress(Q)",
+            "id": 3,
+            "locked": false,
+            "move_mode": "walk",
+            "type": "path",
+            "x": -814.765625,
+            "y": 672.7841796875
+        },
+        {
+            "action": "combat_script",
+            "action_params": "attack,wait(0.3),keypress(3),wait(0.3),keypress(E),wait(0.4),keypress(Q),wait(0.6),attack,wait(0.3),keypress(4),wait(0.3),keypress(E),wait(0.3),keypress(Q)",
+            "id": 4,
+            "move_mode": "walk",
+            "type": "path",
+            "x": -814.765625,
+            "y": 672.7841796875
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 5,
+            "move_mode": "walk",
+            "type": "path",
+            "x": -821.861328125,
+            "y": 664.9912109375
+        }
+    ]
+}

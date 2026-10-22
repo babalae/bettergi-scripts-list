@@ -500,7 +500,12 @@ function filterLowCountMaterials(pathingMaterialCounts, materialCategoryMap, onl
       // 只处理allMaterials内的材料（同源）
       if (!allMaterials.includes(item.name)) return false;
       // 低数量判断：<目标值 或 数量未知（?）
-      return item.count < targetCount || item.count === "?";
+      if (item.count === "?") return true;
+      let numCount = Number(item.count);
+      if (specialMaterials.includes(item.name)) {
+        numCount = Math.floor(numCount / 10);
+      }
+      return numCount < targetCount;
     })
     .map(item => {
       // 矿石数量处理（和超量判断的处理逻辑一致）

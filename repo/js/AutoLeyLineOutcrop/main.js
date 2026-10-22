@@ -14,12 +14,14 @@ let currentRunTimes = 0;  // 当前运行次数
 let isNotification = false; // 是否发送通知
 let config = {};          // 全局配置对象
 let recheckCount = 0;     // 树脂重新检查次数（防止无限递归）
+let originalResinCount = 0; // 原始识别到的树脂可刷取次数（用于判断是否需要重检）
 const MAX_RECHECK_COUNT = 3; // 最大重新检查次数
 let consecutiveFailureCount = 0; // 连续战斗失败次数
 const MAX_CONSECUTIVE_FAILURES = 5; // 最大连续失败次数，超过后终止脚本
-const ocrRegion1 = {x: 800, y: 200, width: 300, height: 100};   // 中心区域
-const ocrRegion2 = {x: 0, y: 200, width: 300, height: 300};     // 追踪任务区域
-const ocrRegion3 = {x: 1200, y: 520, width: 300, height: 300};  // 拾取区域
+let doubleSurgeCounter = 0; // 双倍剩余次数计数器（0=未知/未初始化，>0=剩余次数）
+const ocrRegion1 = { x: 800, y: 200, width: 300, height: 100 };   // 中心区域
+const ocrRegion2 = { x: 0, y: 200, width: 300, height: 300 };     // 追踪任务区域
+const ocrRegion3 = { x: 1200, y: 520, width: 300, height: 300 };  // 拾取区域
 
 // 预定义识别对象
 const openRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/icon/open.png"));
@@ -55,6 +57,14 @@ const ocrRoThis = RecognitionObject.ocrThis;
             // 任何时候都确保自定义标记处于打开状态
             await openCustomMarks();
         }
+
+        // 确保返回主界面（防止拾取等操作后停留在意外界面）
+        try {
+            await genshin.returnMainUi();
+        } catch (mainUiError) {
+            log.warn(`返回主界面时出错: ${mainUiError.message}`);
+        }
+
         log.info("全自动地脉花运行结束");
     }
 })();
@@ -65,7 +75,14 @@ const ocrRoThis = RecognitionObject.ocrThis;
  */
 async function runLeyLineOutcropScript() {
     // 初始化加载配置和设置并校验
-    initialize();
+    await initialize();
+
+    // 如果开启"只刷双倍"模式，双倍检测在两个位置进行：
+    // 1. 开书时快速检测（如果开启冒险之证）
+    // 2. 打完地脉花后在奖励界面兜底检测（带区域重试）
+    if (settings.onlySurgeMode) {
+        log.info("开启只刷双倍模式，双倍检测将在开书时进行");
+    }
 
     // 处理树脂耗尽模式（如果开启）
     let runTimesValue = await handleResinExhaustionMode();
@@ -80,7 +97,20 @@ async function runLeyLineOutcropScript() {
 
     // 如果是树脂耗尽模式，执行完毕后再次检查是否还有树脂
     if (settings.isResinExhaustionMode) {
-        await recheckResinAndContinue();
+        // 判断是否需要重新检查：
+        // 1. 非取小值模式 → 需要重检（确保真刷完）
+        // 2. 取小值模式但设定次数≥识别次数 → 用户想刷光 → 需要重检
+        // 3. 取小值模式且设定次数<识别次数 → 用户只想刷设定次数 → 不需要重检
+        const needRecheck = !physical.OpenModeCountMin || settings.timesValue >= originalResinCount;
+
+        if (needRecheck) {
+            await recheckResinAndContinue();
+        } else {
+            log.info(`[取小值模式] 已完成设定的 ${settings.timesValue} 次（可刷 ${originalResinCount} 次），结束运行`);
+            if (isNotification) {
+                notification.send(`树脂耗尽模式（取小值）：已完成 ${settings.timesValue} 次运行，脚本结束`);
+            }
+        }
     }
 }
 
@@ -118,9 +148,13 @@ async function initialize() {
     // 2. 加载配置文件
     try {
         config = JSON.parse(file.readTextSync("config.json"));
-        loadSettings();
     } catch (error) {
         throw new Error("配置文件加载失败，请检查config.json文件是否存在");
+    }
+    try {
+        loadSettings();
+    } catch (error) {
+        throw new Error(error.message);
     }
     try {
         // 3. 检查脚本更新
@@ -138,7 +172,7 @@ async function checkUpdate() {
     try {
         // 发送GET请求
         const response = await http.request("GET", "https://cnb.cool/bettergi/bettergi-scripts-list/-/git/raw/release/repo/js/AutoLeyLineOutcrop/manifest.json",
-            JSON.stringify({"Content-Type": "text/plain; charset=utf-8"})
+            JSON.stringify({ "Content-Type": "text/plain; charset=utf-8" })
         );
         const latestManifest = JSON.parse(response.body);
         const manifest = JSON.parse(file.readTextSync("manifest.json"));
@@ -160,6 +194,9 @@ async function checkUpdate() {
     } catch (error) {
         throw new Error(`检查脚本更新时出错: ${error.message}`);
     }
+
+    // 重置双倍次数计数器
+    doubleSurgeCounter = 0;
 }
 
 
@@ -199,6 +236,9 @@ async function handleResinExhaustionMode() {
             // 使用统计到的次数替换设置中的刷取次数
             settings.timesValue = resinResult.count;
         }
+
+        // 保存原始识别到的树脂次数，用于后续判断是否需要重检
+        originalResinCount = resinResult.count;
 
         physical.NeedRunsCount = settings.timesValue;
         log.info(`树脂统计成功：`);
@@ -376,7 +416,17 @@ async function runLeyLineChallenges() {
         // 寻找地脉花位置
         // 数据保存在全局变量中 leyLineX，leyLineY
         if (settings.useAdventurerHandbook) {
-            await findLeyLineOutcropByBook(settings.country, settings.leyLineOutcropType);
+            // 仅在第一次循环且开启双倍模式时检测双倍
+            const checkSurge = settings.onlySurgeMode && currentRunTimes === 0;
+            const findResult = await findLeyLineOutcropByBook(settings.country, settings.leyLineOutcropType, checkSurge);
+
+            // 开书双倍检测未通过，提前退出
+            if (findResult && findResult.noSurge) {
+                log.info("[双倍检测] 开书未检测到双倍产出，脚本结束");
+                // 确保返回主界面（此时可能在冒险之证菜单）
+                try { await genshin.returnMainUi(); } catch (e) { }
+                return;
+            }
         } else {
             await findLeyLineOutcrop(settings.country, settings.leyLineOutcropType);
         }
@@ -647,9 +697,19 @@ async function executePath(path) {
     await processLeyLineOutcrop(settings.timeout, targetPath);
 
     // 尝试领取奖励，如果失败则抛出异常停止执行
-    const rewardSuccess = await attemptReward();
-    if (!rewardSuccess) {
+    const rewardResult = await attemptReward();
+    if (!rewardResult || !rewardResult.success) {
         throw new Error("无法领取奖励，树脂不足或其他原因");
+    }
+
+    // 根据双倍剩余次数决定是否继续
+    if (settings.onlySurgeMode && rewardResult.willFinishDoubleTimes) {
+        log.info("[双倍次数] 双倍次数已刷完，脚本结束");
+        // 设置运行次数为目标值，终止while循环
+        currentRunTimes = settings.timesValue;
+        return;
+    } else if (settings.onlySurgeMode && rewardResult.doubleRemainingTimes !== undefined) {
+        log.info(`[双倍次数] 还有 ${rewardResult.doubleRemainingTimes} 次双倍，继续下一个地脉花`);
     }
 
     // 成功完成地脉花挑战，重置连续失败计数器

@@ -12,6 +12,7 @@ const collectAbility = {
     pyro_collect: "火",
     nahida_collect: "纳西妲",
 };
+const specialCategoryWithoutTarget = ["莉奈娅一条龙", "爱可菲", "纳塔食材一条龙", "提瓦特食材一条龙", "瓦雷莎家的果园"];
 
 let stopAtTime = null;
 let currentParty = null;
@@ -36,23 +37,30 @@ class UserCancelled extends Error {
 (async function () {
     setGameMetrics(1920, 1080, 1.25);
 
-    if (!file.IsFolder("pathing")) {
-        let batFile = "SymLink.bat";
-        log.error("{0}文件夹不存在，请在BetterGI中右键点击本脚本，选择{1}。然后双击脚本目录下的{2}文件以创建文件夹链接", "pathing", "打开所在目录", batFile);
-        return;
-    }
     if (!runMode) {
         const defaultRunMode = "扫描文件夹更新可选材料列表";
         log.warn("运行模式 未选择或无效: {0}，默认为{1}", runMode, defaultRunMode);
         runMode = defaultRunMode;
-        await sleep(3000);
+        await sleep(1000);
     }
 
     log.info("当前运行模式:{0}", runMode);
     if (runMode === "扫描文件夹更新可选材料列表") {
-        await runScanMode();
-        settings.runMode = "采集选中的材料";
-        log.info("扫描完成，自动更新设置：下次脚本将以{0}模式运行", settings.runMode);
+        const configMap = await runScanMode();
+        // 总是生成csv文件，以便需要csv模式时不必再重复运行脚本
+        const account = await getAccount();
+        updateTargetCountOfTasks({}, configMap, account, "csv");
+        const newRunMode = "采集选中的材料";
+        // 由于 https://github.com/babalae/better-genshin-impact/pull/3215
+        if (typeof settings.runMode === "undefined") {
+            // 如果用户从未打开过脚本配置页面，那么传递的设置是undefined，并且这种情况下脚本修改的设置无法被持久化
+            log.info("扫描完成，请在脚本配置中修改运行模式为{0}", newRunMode);
+        } else {
+            // 只要用户打开过脚本配置界面，即使点开后什么都没做，传递过来的也将是选项的default值，此时脚本修改的设置可以被持久化
+            log.info("扫描完成，自动更新设置：下次脚本将以{0}模式运行", newRunMode);
+        }
+        settings.runMode = newRunMode;
+        await sleep(2000);
     } else if (runMode === "采集选中的材料") {
         let startTime = logFakeScriptStart();
         await runGatherMode();
@@ -90,8 +98,13 @@ async function runScanMode() {
     config = config.concat(cfgLocalSpecialtyByCountry);
 
     // 扫描食材与炼金材料
-    const otherJsonFiles = scanAndFilterJsonFiles("pathing/食材与炼金");
-    const otherMaterialByName = await groupByMaterialName(otherJsonFiles);
+    const otherJsonFiles = scanAndFilterJsonFiles("食材与炼金");
+    const otherMaterialByNameAll = await groupByMaterialName(otherJsonFiles);
+    // 过滤掉特殊类别
+    const otherMaterialByName = Object.keys(otherMaterialByNameAll).reduce((acc, k) => {
+        if (!specialCategoryWithoutTarget.includes(k)) acc[k] = otherMaterialByNameAll[k];
+        return acc;
+    }, {});
     const cfgOtherMaterial = {
         label: "\n【食材与炼金】",
         type: "multi-checkbox",
@@ -101,8 +114,8 @@ async function runScanMode() {
     const miscEntry = config.find((entry) => entry.name === "selectMiscellaneous");
     const miscOptions = miscEntry && miscEntry.options ? miscEntry.options : [];
     configMap["selectMiscellaneous"] = miscOptions.reduce((acc, k) => {
-        if (k in otherMaterialByName) {
-            acc[k] = otherMaterialByName[k];
+        if (k in otherMaterialByNameAll) {
+            acc[k] = otherMaterialByNameAll[k];
         }
         return acc;
     }, {});
@@ -113,15 +126,17 @@ async function runScanMode() {
         config.push(cfgOtherMaterial);
     }
 
-    const forgingOreJsonFiles = scanAndFilterJsonFiles("pathing/矿物");
+    const forgingOreJsonFiles = scanAndFilterJsonFiles("矿物");
     const forgingOreByname = await groupByMaterialName(forgingOreJsonFiles);
+    // 魔晶矿的刷新机制特殊，需要与铁匠对话后人工判定，暂不支持
+    delete forgingOreByname["魔晶矿"];
     configMap["selectForgingOre"] = forgingOreByname;
     const flattenedSpecialties = Object.assign({}, ...Object.values(localSpecialtyByCountry));
     const allMaterials = {
         ...flattenedSpecialties,
         ...forgingOreByname,
-        ...(otherMaterialByName["晶蝶"] ? { 晶蝶: otherMaterialByName["晶蝶"] } : {}),
-        ...otherMaterialByName,
+        ...(otherMaterialByNameAll["晶蝶"] ? { 晶蝶: otherMaterialByNameAll["晶蝶"] } : {}),
+        ...otherMaterialByNameAll,
     };
 
     // 生成按大类选择的配置数据
@@ -160,7 +175,7 @@ async function runScanMode() {
         const firstPaths = Object.values(groupMap)[0][0]; // 假设 groupMap 的值是路径数组
         const items = firstPaths.split("\\");
         const mIndex = items.indexOf(material);
-        const tip_items = items.slice(1, mIndex + 1);
+        const tip_items = items.slice(0, mIndex + 1);
         const name = "selectRoute_" + material;
         configMap[name] = groupMap;
         return {
@@ -207,12 +222,7 @@ async function runGatherMode() {
     }
     log.info("共选中{0}种材料: {1}", materialNames.length, materialNames.join(", "));
 
-    let account = settings.manualSetAccountName || "";
-    if (!account) {
-        worldInfo = await getCoOpModeAndHostUid();
-        // 使用掩码后的UID作为账户名，避免浮窗和日志等意外暴露用户UID
-        account = worldInfo.maskUid;
-    }
+    let account = await getAccount();
 
     const groupedTasks = groupTasksByMaterialsName(selectedMaterials, account);
     const refreshedMaterials = Object.entries(groupedTasks)
@@ -275,8 +285,18 @@ async function runGatherMode() {
     }
 }
 
+async function getAccount() {
+    let account = settings.manualSetAccountName || "";
+    if (!account) {
+        worldInfo = await getCoOpModeAndHostUid();
+        // 使用掩码后的UID作为账户名，避免浮窗和日志等意外暴露用户UID
+        account = worldInfo.maskUid;
+    }
+    return account;
+}
+
 function scanAndFilterJsonFiles(folderPath) {
-    const jsonFiles = getFilesBySuffix(folderPath, ".json");
+    const jsonFiles = getFilesInAutoPathing(folderPath);
     jsonFiles.sort((a, b) => a.localeCompare(b, "zh", { numeric: true }));
 
     const filterConfig = settings.filterPathByKeywords;
@@ -317,7 +337,7 @@ function scanAndFilterJsonFiles(folderPath) {
     );
 
     if (result.excluded.length > 0) {
-        log.info(`{0}扫描完成：根据配置排除了${result.excluded.length}条路线，详见日志`, basename(folderPath));
+        log.info(`{0}扫描完成：根据配置排除了${result.excluded.length}条路线，详见日志文件`, basename(folderPath));
         log.debug("过滤配置: {0}, 排除的文件:\n" + result.excluded.join("\n"), filterConfig);
     }
     return result.passed;
@@ -345,14 +365,14 @@ function groupTasksByMaterialsName(selectedMaterials, account) {
         for (const jsonPath of jsonFiles) {
             const parts = jsonPath.split("\\");
             const fileName = parts[parts.length - 1]; // 获取最后一行（文件名）
-            // 路径处理：去掉首项(pathing)和末项(文件名)，提取中间目录
-            const dirPath = parts.slice(1, parts.length - 1).join("\\");
+            // 路径处理：去掉末项(文件名)，提取中间目录
+            const dirPath = parts.slice(0, parts.length - 1).join("\\");
             const dirSlug = dirPath.replace(/[^\u4e00-\u9fa5\w]+/g, "_");
             const recordFile = `record/${account}/${dirSlug}.txt`;
             // 如果这个分组还没初始化，则初始化
             if (!tasksMap.hasOwnProperty(dirSlug)) {
                 const refreshTime = {};
-                if (fileExists(recordFile)) {
+                if (file.IsExists(recordFile)) {
                     try {
                         const text = readTextSync(recordFile);
                         if (text) {
@@ -426,6 +446,14 @@ function updateTargetCountOfTasks(groupedTasks, configMap, account, targetCount)
                 info.target = fixedCount;
             }
         }
+        // 一条龙等特殊类型的采集任务，不支持设置采集数量，因此排除这类任务
+        const selectedButInSkip = Object.keys(groupedTasks).filter((name) => specialCategoryWithoutTarget.includes(name));
+        if (selectedButInSkip.length > 0) {
+            log.info("忽略特殊任务的采集数量目标: {0}", selectedButInSkip.join(", "));
+            selectedButInSkip.forEach((name) => {
+                groupedTasks[name].target = null;
+            });
+        }
     } else {
         log.info("未设置采集目标数量");
     }
@@ -482,7 +510,7 @@ async function calculateTodoTasksByCount(groupedTasks) {
 function scanSpecialCollectMethod(jsonFiles) {
     const actions = jsonFiles.flatMap((filePath) => {
         try {
-            const data = JSON.parse(readTextSync(filePath));
+            const data = JSON.parse(pathingScript.readTextSync(filePath));
             return data.positions
                 .map((p) => p.action)
                 .filter((a) => a) // 确保 action 存在
@@ -501,7 +529,7 @@ function scanLocalSpecialty() {
     const specialtyToFiles = {}; // 映射 特产名 -> [路径列表]
     const separator = "\\";
 
-    const jsonFiles = scanAndFilterJsonFiles("pathing/地方特产");
+    const jsonFiles = scanAndFilterJsonFiles("地方特产");
     // 1. 遍历并归类数据
     jsonFiles.forEach((path) => {
         const parts = path.split(separator);
@@ -542,8 +570,8 @@ async function groupByMaterialName(jsonFiles) {
 
     for (const path of jsonFiles) {
         const parts = path.split(separator);
-        if (parts.length > 2) {
-            const name = parts[2];
+        if (parts.length > 1) {
+            const name = parts[1];
             const cdType = getMaterialCD(name, path);
             if (cdType === null) {
                 missingCdInfo.add(name);
@@ -553,8 +581,8 @@ async function groupByMaterialName(jsonFiles) {
         }
     }
     if (missingCdInfo.size > 0) {
-        log.warn("未获取到以下物品的CD信息: {0}", Array.from(missingCdInfo).join(", "));
-        await sleep(200);
+        log.info("未获取到以下物品的CD信息: {0}", Array.from(missingCdInfo).join(", "));
+        await sleep(100);
     }
     return materialPathMap;
 }
@@ -607,7 +635,7 @@ function syncWithCsv(filePath, configHierarchy) {
     const csvData = {};
 
     // 1. 读取并解析现有 CSV
-    if (fileExists(filePath)) {
+    if (file.IsExists(filePath)) {
         try {
             const content = readTextSync(filePath).replace(/^\ufeff/, "");
             // 使用正则切分行，同时兼容 Windows (\r\n) 和 Linux (\n) 换行符
@@ -778,6 +806,7 @@ function sortTasksByGap(tasksToRun) {
 }
 
 function calculateAvatarsAbility(avatars) {
+    // 特殊元素采集只有 火水雷风 4种类型，并且不是对应元素的每个角色都支持
     const elements_map = JSON.parse(readTextSync("assets/avatar_elements.json"));
     const avatar2element = {};
     for (const key in elements_map) {
@@ -804,12 +833,11 @@ function calculateAvatarsAbility(avatars) {
 function analysisCharacterRequirement(actions_map) {
     const result = {};
     for (const [key, values] of Object.entries(actions_map)) {
-        const newKey = key.replace(/^pathing\\/, "");
         for (const v of values) {
             if (!result[v]) {
                 result[v] = [];
             }
-            result[v].push(newKey);
+            result[v].push(key);
         }
     }
     let collect_methods = {};
@@ -861,7 +889,7 @@ function analysisCharacterRequirement(actions_map) {
 }
 
 async function runPathScriptFile(jsonPath) {
-    await pathingScript.runFile(jsonPath);
+    await pathingScript.runFileFromUser(jsonPath);
     //捕获任务取消的信息并跳出循环
     try {
         await sleep(10);
@@ -960,7 +988,7 @@ async function runPathTaskIfCooldownExpired(material, taskInfo) {
                     }
                 }
                 if (distance >= 5) {
-                    const jsonData = JSON.parse(readTextSync(jsonPath));
+                    const jsonData = JSON.parse(pathingScript.readTextSync(jsonPath));
                     const jsonRegion = jsonData.info?.map_name || "Teyvat";
                     if (jsonRegion !== currentMap) {
                         log.info("当前地图区域: {0}", currentMap);
@@ -1029,7 +1057,8 @@ function getSelectedMaterials(configMap) {
         if (!entry.name || entry.type !== "multi-checkbox") return;
 
         const { name, label } = entry;
-        const options = settings[name] ? Array.from(settings[name]) : [];
+        // settings中多选项的顺序和用户打钩的先后顺序有关，因此需要排序
+        const options = settings[name] ? Array.from(settings[name]).sort((a, b) => a.localeCompare(b, "zh")) : [];
 
         // 2. 处理 selectLocalSpecialtyByCountry
         if (name === "selectByCategory") {

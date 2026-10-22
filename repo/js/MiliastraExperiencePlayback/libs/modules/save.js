@@ -14,52 +14,57 @@ import {
   findEditStageSaveBtn,
   findExternalSaveColumnPos,
   findManageStagesBtn,
+  findSaveTimePlaceholder,
   findSaveToDeletePos,
 } from "../constants/regions.js";
 import { goToRecommendedWonderlands } from "./room.js";
 
 //#region src/modules/save.ts
-//! 进入管理关卡存档界面
+/** 进入管理关卡存档界面 */
 const goToManageStageSave = async () => {
-  //! 打开人气奇域
+  /** 打开人气奇域 */
   await goToRecommendedWonderlands();
-  //! 打开奇域收藏->管理关卡
+  /** 打开奇域收藏->管理关卡 */
   await assertRegionAppearing(
     findEditStageSaveBtn,
     "打开编辑关卡存档按钮超时",
     async () => {
-      //! 点击奇域收藏
+      /** 点击奇域收藏 */
       findBeyondFavoritesBtn()?.click();
       await sleep(300);
-      //! 点击管理关卡
+      /** 点击管理关卡 */
       findManageStagesBtn()?.click();
       await sleep(300);
     },
     { maxAttempts: 5 },
   );
+  /** 等待 "1970年1月1日 08:00" 占位文本消失 */
+  await sleep(1e3);
+  await assertRegionDisappearing(findSaveTimePlaceholder, "等待存档时间占位文本消失超时");
 };
-//! 删除关卡存档
+/** 删除关卡存档 */
 const deleteStageSave = async () => {
+  let isDeleted = false;
   if (!userConfig.deleteStageSave || userConfig.deleteStageSaveKeyword.trim() === "") {
     log.info("未启用删除关卡存档，跳过");
-    return;
+    return isDeleted;
   }
   try {
-    //! 进入管理关卡存档界面
+    /** 进入管理关卡存档界面 */
     await goToManageStageSave();
-    //! 选中要删除的关卡的局外存档
+    /** 选中要删除的关卡的局外存档 */
     const stagePos = await findSaveToDeletePos(userConfig.deleteStageSaveKeyword);
     if (stagePos === void 0) {
       log.warn("未找到要删除的关卡存档，跳过");
-      return;
+      return isDeleted;
     }
     stagePos?.drawSelf("group_text");
     const colPos = findExternalSaveColumnPos();
     if (colPos === void 0) {
       log.warn("无法确定关卡的局外存档列位置，跳过");
-      return;
+      return isDeleted;
     }
-    //! 进入编辑模式
+    /** 进入编辑模式 */
     await assertRegionDisappearing(
       findEditStageSaveBtn,
       "进入编辑模式超时",
@@ -68,7 +73,7 @@ const deleteStageSave = async () => {
       },
       { maxAttempts: 5 },
     );
-    //! 计算勾选框位置并点击
+    /** 计算勾选框位置并点击 */
     const [cx, cy] = [(colPos.x * 2 + colPos.width) / 2, stagePos.y + 40];
     await assertRegionAppearing(
       () => findDeleteExternalSaveChecked(colPos.x),
@@ -81,12 +86,12 @@ const deleteStageSave = async () => {
         retryInterval: 1500,
       },
     );
-    //! 点击删除所选按钮
+    /** 点击删除所选按钮 */
     await assertRegionDisappearing(
       () => findDeleteExternalSaveChecked(colPos.x),
       "删除关卡存档超时",
       async () => {
-        //! 特征较为脆弱，多次确认，确保成功删除
+        /** 特征较为脆弱，多次确认，确保成功删除 */
         findConfirmBtn()?.click();
         await sleep(500);
         findConfirmBtn()?.click();
@@ -98,13 +103,16 @@ const deleteStageSave = async () => {
       },
       { maxAttempts: 5 },
     );
+    /** 标记为已删除 */
+    isDeleted = true;
   } catch (err) {
     if (isHostException(err)) throw err;
     log.warn("删除关卡存档失败: {error}", getErrorMessage(err));
   } finally {
-    //! 返回大厅
+    /** 返回大厅 */
     await genshin.returnMainUi();
   }
+  return isDeleted;
 };
 
 //#endregion

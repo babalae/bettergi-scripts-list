@@ -1,0 +1,95 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.63.1",
+    "description": "  路线信息：该路线预计用时42秒，包含以下怪物：2只嵌合梭地兽、1只嵌合角熊。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1788748011650,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "H026至冬海屑镇东",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7648.0771,
+      "y": 9477.2305
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7641.5928,
+      "y": 9477.9072
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7585.3682,
+      "y": 9454.6465
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7488.6133,
+      "y": 9467.6865
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";茜特菈莉 attack(0.05),keypress(E),wait(0.1),keypress(E);莱依拉 attack(0.05),keypress(E),wait(0.1),keypress(E);伊涅芙 attack(0.05),keypress(E),wait(0.1),keypress(E);尼可 attack(0.05),keypress(E),wait(0.1),keypress(E);",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7397.9102,
+      "y": 9476.7207
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7422.0771,
+      "y": 9522.1914
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 7,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7416.8252,
+      "y": 9504.1484
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7416.8252,
+      "y": 9504.1484
+    }
+  ]
+}

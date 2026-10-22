@@ -160,9 +160,8 @@ async function getTextInRegion(ocrRegion, timeout = 5000, retryInterval = 50, re
 async function waitForTextAppear(targetText, ocrRegion, timeout = 5000, retryInterval = 50, replacementMap = null) {
     const startTime = Date.now();
     
-    // 循环复用 getTextInRegion 的逻辑思想
     while (Date.now() - startTime < timeout) {
-        const currentText = await getTextInRegion(ocrRegion, retryInterval, retryInterval, replacementMap);
+        const currentText = await getTextInRegion(ocrRegion, timeout, retryInterval, replacementMap);
         if (currentText && currentText.includes(targetText)) {
             return { success: true, wait_time: Date.now() - startTime };
         }

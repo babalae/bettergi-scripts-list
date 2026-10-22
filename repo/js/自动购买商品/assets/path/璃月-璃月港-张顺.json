@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1766154459290,
+    "last_modified_time": 1779104226494,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "璃月-璃月港-张顺",
@@ -42,6 +42,15 @@
       "id": 3,
       "move_mode": "dash",
       "type": "path",
+      "x": 341.619140625,
+      "y": -472.4951171875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "target",
       "x": 340.1533203125,
       "y": -471.30517578125
     }

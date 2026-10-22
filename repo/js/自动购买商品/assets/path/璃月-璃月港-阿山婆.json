@@ -1,4 +1,4 @@
-﻿{
+{
   "info": {
     "authors": [
       {
@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1770224083972,
+    "last_modified_time": 1788368473033,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "璃月-璃月港-阿山婆",
@@ -24,8 +24,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 267.947265625,
-      "y": -665.12109375
+      "x": 267.9473,
+      "y": -665.1211
     },
     {
       "action": "",
@@ -33,8 +33,8 @@
       "id": 2,
       "move_mode": "run",
       "type": "path",
-      "x": 255.4326171875,
-      "y": -657.015625
+      "x": 255.4326,
+      "y": -657.0156
     },
     {
       "action": "",
@@ -42,8 +42,8 @@
       "id": 3,
       "move_mode": "run",
       "type": "path",
-      "x": 258.79296875,
-      "y": -639.78515625
+      "x": 258.793,
+      "y": -639.7852
     },
     {
       "action": "",
@@ -51,17 +51,26 @@
       "id": 4,
       "move_mode": "walk",
       "type": "path",
-      "x": 241.2294921875,
-      "y": -634.3876953125
+      "x": 241.2295,
+      "y": -634.3877
     },
     {
-      "action": "combat_script",
-      "action_params": "wait(0.5)",
+      "action": "",
+      "action_params": "",
       "id": 5,
       "move_mode": "walk",
       "type": "target",
-      "x": 242.6669921875,
-      "y": -630.5205078125
+      "x": 242.667,
+      "y": -630.5205
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.2),wait(0.6)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 243.083,
+      "y": -630.8594
     }
   ]
 }

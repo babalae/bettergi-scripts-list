@@ -1,4 +1,4 @@
-// 當前版本2.2.1
+// 當前版本2.3.1
 // Encounter Points
 const AdventurerHandbookButtonRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/Adventurer Handbook Button.png"), 100, 300, 700, 700);
 const EncounterPointsStageRewardsRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/Encounter Points Stage Rewards.png"), 1500, 700, 100, 100);
@@ -25,6 +25,7 @@ const MiddleSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSy
 const RightSliderTopRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/Slider Top.png"), 1750, 100, 100, 100);
 const RightSliderBottomRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("Assets/RecognitionObject/Slider Bottom.png"), 1750, 100, 100, 900);
 
+const settingsMovePartyName = settings.movePartyName ? settings.movePartyName.trim() : "";
 // 取得需要离队角色資訊
 const removedCharacters1 = settings.removedCharacters1 || false;
 const removedCharacters2 = settings.removedCharacters2 || false;
@@ -168,7 +169,7 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
                     await sleep(500);
                     await pageTop(LeftSliderTopRo);
 
-                    for (let p = 0; p < 4; p++) {
+                    for (let p = 0; p < 5; p++) {
                         // 识别当前页
                         let captureRegion = captureGameRegion();
                         let resList = captureRegion.findMulti(RecognitionObject.ocr(0, 100, 400, 900));
@@ -472,7 +473,7 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
         await sleep(1300);
         keyPress("VK_ESCAPE");
 
-        await sleep(2000);
+        await sleep(1500);
         const ro27 = captureGameRegion();
         let AdventurerHandbookButton = ro27.find(AdventurerHandbookButtonRo);
         ro27.dispose();
@@ -480,7 +481,7 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
             log.info("识别到冒险之证按钮");
             AdventurerHandbookButton.click();
 
-            await sleep(2000)
+            await sleep(1500)
             let captureRegion = captureGameRegion();
             let resList = captureRegion.findMulti(RecognitionObject.ocr(200, 300, 200, 100));
             captureRegion.dispose();
@@ -529,7 +530,7 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
 
                 keyPress("VK_ESCAPE");
             } else if (EncounterPointsStageRewardsButton.isEmpty()) {
-                log.info("未识别到 完成所有任務");
+                log.info("未识别到 可领取历练点奖励");
                 log.info("不领取历练点奖励");
                 returnValue = false;
             }
@@ -700,6 +701,15 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
     // 自動凱瑟琳領奬
     async function fontaineCatherineCommissionAward() {
         await sleep(1000);
+
+        // 1. 如果设置了移动队伍，先切换过去进行寻路
+        if (settingsMovePartyName) {
+            log.info(`切换至移动队伍 [${settingsMovePartyName}] 进行寻路`);
+            await SwitchParty(settingsMovePartyName);
+            await sleep(1000);
+        }
+
+        // 2. 检查队伍是否为 4 人
         try {
             const avatars = Array.from(getAvatars?.() || []);
             if (avatars.length < 4) {
@@ -711,12 +721,23 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
             return;
         }
 
-        //到指定冒险家协会領奬
+        // 3. 执行寻路
         log.info(`开始前往${adventurePath}冒险家协会領奬`);
         let Catherine_Egeria = `Assets/AutoPath/冒险家协会_${adventurePath}.json`;
         await pathingScript.runFile(Catherine_Egeria);
-        log.info('开始每日委托或探索派遣，若无退出对话，则说明重复领取或未完成派遣');
-        // 交互
+        await sleep(300);
+        
+        // 4. 如果设置了移动队伍與好感队伍，切换回来（用于领奖）
+        if (settings.partyName && settingsMovePartyName) {
+            log.info('寻路完成，准备切换回好感队伍');
+            await sleep(750);
+            log.info(`切换回好感队伍 [${settings.partyName}]`);
+            await SwitchParty(settings.partyName);
+            await sleep(750);
+        }
+
+        // 5. 开始交互领奖
+        log.info('开始领取每日委托，若无退出对话，则说明重复领取');
         await keyPress("f");
         await sleep(1000);
         // 利用自動劇情領奬
@@ -730,5 +751,4 @@ const adventurePath = settings.adventurePath || '蒙德'; // 若未定义，用�
         await sleep(1000);
         log.info(`交互或拾取："领取完成"`);
     }
-
 })();

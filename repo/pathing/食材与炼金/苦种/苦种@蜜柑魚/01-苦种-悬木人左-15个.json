@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1777184594819,
+    "last_modified_time": 1777875941454,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "01-苦种-悬木人左-15个",
@@ -280,9 +280,18 @@
       "y": -2170.5684
     },
     {
+      "action": "",
+      "action_params": "",
+      "id": 30,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8983.248,
+      "y": -2169.6201
+    },
+    {
       "action": "combat_script",
       "action_params": "wait(0.345)",
-      "id": 30,
+      "id": 31,
       "move_mode": "walk",
       "type": "path",
       "x": 8988.6953,
@@ -291,7 +300,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 31,
+      "id": 32,
       "move_mode": "walk",
       "type": "teleport",
       "x": 8674.4561,

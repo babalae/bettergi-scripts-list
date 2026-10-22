@@ -13,7 +13,7 @@ async function drawAndClearRedBox(searchRegion, ra, delay = 500) {
         drawRegion = ra.DeriveCrop(searchRegion.x, searchRegion.y, searchRegion.width, searchRegion.height);
         drawRegion.DrawSelf("rect"); 
         await sleep(delay);
-        ra.DeriveCrop(0, 0, 0, 0).DrawSelf("rect");
+        ra.DeriveCrop(0, 0, 1, 1).DrawSelf("rect");
     } catch (e) {
         if (!e.message.includes("task was canceled")) log.error(`红框绘制异常：${e.message}`);
     } finally {

@@ -5,21 +5,46 @@ let resurrectionFoodName = settings.resurrectionFoodName || "";
 let attackFoodName = settings.attackFoodName || "";
 let defenseFoodName = settings.defenseFoodName || "";
 let otherFoodName = settings.otherFoodName || "";
+let damageFoodName = settings.damageFoodName || "";
+let resistanceFoodName = settings.resistanceFoodName || "";
+let extraFoodName = settings.extraFoodName || "";
+// 自动补充回血药设置
+const autoRefillRecovery = settings.autoRefillRecovery || false;
+const refillThreshold = parseInt(settings.refillThreshold) || 100;
+const refillCount = settings.refillCount || "20";
 const ocrRegion = {
-        x: 1422,
+        x: 1420,
         y: 586,
-        width: 300,
+        width: 350,
         height: 40
     };
 const ocrRegion1 = {
         x: 1420,
         y: 687,
-        width: 300,
+        width: 350,
         height: 40
     };
 const ocrRegion2 = {
         x: 105,
         y: 242,
+        width: 140,
+        height: 40
+    };
+const ocrRegion3 = {
+        x: 810,
+        y: 574,
+        width: 140,
+        height: 40
+    };
+const ocrRegion4 = {
+        x: 961,
+        y: 577,
+        width: 140,
+        height: 40
+    };
+const ocrRegion5 = {
+        x: 892,
+        y: 580,
         width: 140,
         height: 40
     };
@@ -89,7 +114,7 @@ function escapeRegExp(string) {
      * 获取本地记录中当天4点至次日4点间的最早记录
      * @param {string} filePath - 记录文件路径
      * @returns {Promise<object>} 包含药品数据的对象
-     * 格式: { recovery: { count }, resurrection: { count }, attack: { count }, defense: { count }, other: { count }, initialized: { recovery, resurrection, attack, defense, other } }
+     * 格式: { recovery: { count }, resurrection: { count }, attack: { count }, defense: { count }, other: { count }, damage: { count }, resistance: { count }, extra: { count }, initialized: { recovery, resurrection, attack, defense, other, damage, resistance, extra } }
      */
     async function getLocalData(filePath) {
         // 初始化返回结果
@@ -99,12 +124,18 @@ function escapeRegExp(string) {
             attack: null,
             defense: null,
             other: null,
+            damage: null,
+            resistance: null,
+            extra: null,
             initialized: {
                 recovery: false,
                 resurrection: false,
                 attack: false,
                 defense: false,
-                other: false
+                other: false,
+                damage: false,
+                resistance: false,
+                extra: false
             }
         };
 
@@ -143,6 +174,9 @@ function escapeRegExp(string) {
             const attackRegex = new RegExp(`${escapeRegExp(attackFoodName)}-(\\d+)`);
             const defenseRegex = new RegExp(`${escapeRegExp(defenseFoodName)}-(\\d+)`);
             const otherRegex = new RegExp(`${escapeRegExp(otherFoodName)}-(\\d+)`);
+            const damageRegex = new RegExp(`${escapeRegExp(damageFoodName)}-(\\d+)`);
+            const resistanceRegex = new RegExp(`${escapeRegExp(resistanceFoodName)}-(\\d+)`);
+            const extraRegex = new RegExp(`${escapeRegExp(extraFoodName)}-(\\d+)`);
 
             // 正向遍历：找到第一个小于startTime的行索引（边界）
             let firstOutOfRangeIndex = -1; // 初始化为-1（表示所有行都在时间范围内）
@@ -172,8 +206,8 @@ function escapeRegExp(string) {
             // 反向遍历的终止索引：0（顶部）
             const reverseEndIndex = 0;
 
-            // 根据当前模式确定需要处理的药品类型
-            const needAttackDefenseOther = mode === "综合模式";
+            // 根据当前模式确定是否需要处理扩展类药品（筛选模式/综合模式下处理攻击/防御/其他/增伤/抗性/额外）
+            const needExtendedDrugs = mode === "筛选模式" || mode === "综合模式";
 
             // 反向遍历：找时间范围内最早的药品记录
             // 遍历范围：[reverseStartIndex, reverseEndIndex]（从时间范围的最旧→最新）
@@ -209,8 +243,8 @@ function escapeRegExp(string) {
                     }
                 }
 
-                // 匹配攻击药：未初始化时才赋值，仅在综合模式下处理
-                if (needAttackDefenseOther && !result.initialized.attack) {
+                // 匹配攻击药：未初始化时才赋值，仅在筛选模式和综合模式下处理
+                if (needExtendedDrugs && !result.initialized.attack) {
                     const attackMatch = line.match(attackRegex);
                     if (attackMatch) {
                         result.attack = { count: parseInt(attackMatch[1]) };
@@ -218,8 +252,8 @@ function escapeRegExp(string) {
                     }
                 }
 
-                // 匹配防御药：未初始化时才赋值，仅在综合模式下处理
-                if (needAttackDefenseOther && !result.initialized.defense) {
+                // 匹配防御药：未初始化时才赋值，仅在筛选模式和综合模式下处理
+                if (needExtendedDrugs && !result.initialized.defense) {
                     const defenseMatch = line.match(defenseRegex);
                     if (defenseMatch) {
                         result.defense = { count: parseInt(defenseMatch[1]) };
@@ -227,8 +261,8 @@ function escapeRegExp(string) {
                     }
                 }
 
-                // 匹配其他药：未初始化时才赋值，仅在综合模式下处理
-                if (needAttackDefenseOther && !result.initialized.other) {
+                // 匹配其他药：未初始化时才赋值，仅在筛选模式和综合模式下处理
+                if (needExtendedDrugs && !result.initialized.other) {
                     const otherMatch = line.match(otherRegex);
                     if (otherMatch) {
                         result.other = { count: parseInt(otherMatch[1]) };
@@ -236,10 +270,38 @@ function escapeRegExp(string) {
                     }
                 }
 
+                // 匹配增伤药：未初始化时才赋值，仅在筛选模式和综合模式下处理
+                if (needExtendedDrugs && !result.initialized.damage) {
+                    const damageMatch = line.match(damageRegex);
+                    if (damageMatch) {
+                        result.damage = { count: parseInt(damageMatch[1]) };
+                        result.initialized.damage = true;
+                    }
+                }
+
+                // 匹配抗性药：未初始化时才赋值，仅在筛选模式和综合模式下处理
+                if (needExtendedDrugs && !result.initialized.resistance) {
+                    const resistanceMatch = line.match(resistanceRegex);
+                    if (resistanceMatch) {
+                        result.resistance = { count: parseInt(resistanceMatch[1]) };
+                        result.initialized.resistance = true;
+                    }
+                }
+
+                // 匹配额外药：未初始化时才赋值，仅在筛选模式和综合模式下处理
+                if (needExtendedDrugs && !result.initialized.extra) {
+                    const extraMatch = line.match(extraRegex);
+                    if (extraMatch) {
+                        result.extra = { count: parseInt(extraMatch[1]) };
+                        result.initialized.extra = true;
+                    }
+                }
+
                 // 所有需要的药品都找到，提前终止遍历（已拿到最早记录）
                 let allFound = result.initialized.recovery && result.initialized.resurrection;
-                if (needAttackDefenseOther) {
-                    allFound = allFound && result.initialized.attack && result.initialized.defense && result.initialized.other;
+                if (needExtendedDrugs) {
+                    allFound = allFound && result.initialized.attack && result.initialized.defense && result.initialized.other
+                        && result.initialized.damage && result.initialized.resistance && result.initialized.extra;
                 }
                 if (allFound) {
                     break;
@@ -252,7 +314,7 @@ function escapeRegExp(string) {
         }
     }
 
-    async function updateRecord(filePath, currentRecovery, currentResurrection, currentAttack, currentDefense, currentOther, deleteSameDayRecords = false) {
+    async function updateRecord(filePath, currentRecovery, currentResurrection, currentAttack, currentDefense, currentOther, currentDamage, currentResistance, currentExtra, deleteSameDayRecords = false) {
         // 生成当前时间字符串
         const now = new Date();
         const timeStr = `${now.getFullYear()}/${
@@ -267,24 +329,27 @@ function escapeRegExp(string) {
             String(now.getSeconds()).padStart(2, '0')
         }`;
 
-        // 根据当前模式确定需要处理的药品类型
-        const needAttackDefenseOther = mode === "综合模式";
-        
+        // 根据当前模式确定是否需要处理扩展类药品（筛选模式/综合模式下处理攻击/防御/其他/增伤/抗性/额外）
+        const needExtendedDrugs = mode === "筛选模式" || mode === "综合模式";
+
         // 基础药品：回血药和复活药
         const baseDrugs = [
             { name: recoveryFoodName, count: currentRecovery },
             { name: resurrectionFoodName, count: currentResurrection }
         ];
-        
+
         // 根据模式确定要处理的药品列表
         let drugs = [...baseDrugs];
-        
-        // 只在综合模式下添加攻击药、防御药和其他药
-        if (needAttackDefenseOther) {
+
+        // 在筛选模式和综合模式下添加扩展类药品
+        if (needExtendedDrugs) {
             drugs = drugs.concat([
                 { name: attackFoodName, count: currentAttack },
                 { name: defenseFoodName, count: currentDefense },
-                { name: otherFoodName, count: currentOther }
+                { name: otherFoodName, count: currentOther },
+                { name: damageFoodName, count: currentDamage },
+                { name: resistanceFoodName, count: currentResistance },
+                { name: extraFoodName, count: currentExtra }
             ]);
         }
         
@@ -330,18 +395,18 @@ function escapeRegExp(string) {
                     endTime.setDate(endTime.getDate() + 1);
                 }
 
-                // 根据当前模式确定需要处理的药品类型
-                const needAttackDefenseOther = mode === "综合模式";
-                
+                // 根据当前模式确定是否需要处理扩展类药品（筛选模式/综合模式下处理攻击/防御/其他/增伤/抗性/额外）
+                const needExtendedDrugs = mode === "筛选模式" || mode === "综合模式";
+
                 // 基础药品：回血药和复活药
                 const baseDrugs = [recoveryFoodName, resurrectionFoodName];
-                
+
                 // 根据模式确定要处理的药品列表
                 let drugs = [...baseDrugs];
-                
-                // 只在综合模式下添加攻击药、防御药和其他药
-                if (needAttackDefenseOther) {
-                    drugs = drugs.concat([attackFoodName, defenseFoodName, otherFoodName]);
+
+                // 在筛选模式和综合模式下添加扩展类药品
+                if (needExtendedDrugs) {
+                    drugs = drugs.concat([attackFoodName, defenseFoodName, otherFoodName, damageFoodName, resistanceFoodName, extraFoodName]);
                 }
                 
                 // 创建药品匹配正则，只处理需要记录的药品
@@ -506,7 +571,7 @@ function escapeRegExp(string) {
             try {
                 // 使用numberTemplateMatch函数识别数字
                 const count = await numberTemplateMatch(
-                    'assets/背包数字', // 数字模板文件夹路径
+                    'assets/RecognitionObject/背包数字', // 数字模板文件夹路径
                     ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height
                 );
                 const digits = count === -1 ? '' : count.toString();
@@ -584,7 +649,7 @@ function escapeRegExp(string) {
 
     async function clickPNG(png, maxAttempts = 20, doClick=true) {
         //log.info(`调试-点击目标${png},重试次数${maxAttempts}`);
-        const pngRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/${png}.png`));
+        const pngRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync(`assets/RecognitionObject/${png}.png`));
         pngRo.Threshold = 0.95;
         pngRo.InitTemplate();
         return await findAndClick(pngRo, doClick, maxAttempts);
@@ -611,6 +676,9 @@ function escapeRegExp(string) {
         let attackNumber = 0;
         let defenseNumber = 0;
         let otherNumber = 0;
+        let damageNumber = 0;
+        let resistanceNumber = 0;
+        let extraNumber = 0;
         
         // 进入界面的通用函数
         async function enterInterface(interfaceType, maxRetries = 5) {
@@ -695,12 +763,15 @@ function escapeRegExp(string) {
                 log.warn(`未识别到有效的${drugType}信息`);
             }
             const count = result.count || 0;
-            const name = result.name || `未识别到${drugType}名称`;
-            
+            // OCR 失败时返回空字符串，让上层 hasAnyFoodName 检测和 shouldWrite 过滤能正确拦截，避免写入脏数据
+            const name = result.name || "";
+
             if (count === 0) {
-                notification.send(`【营养袋吃药统计】\n未识别到${drugType}数量\n药品名：${name}\n设置数量为：0`);
+                // 通知展示用兜底文本，保持提示友好
+                const displayName = name || `未识别到${drugType}名称`;
+                notification.send(`【营养袋吃药统计】\n未识别到${drugType}数量\n药品名：${displayName}\n设置数量为：0`);
             }
-            
+
             return { count, name };
         }
         
@@ -715,7 +786,7 @@ function escapeRegExp(string) {
         await sleep(loadDelay);
         
         if (mode === "综合模式") {
-            // 综合模式：回血药和复活药通过营养袋模式获取，攻击药和防御药通过筛选模式获取
+            // 综合模式：回血药和复活药通过营养袋模式获取，扩展类药品（攻击/防御/其他/增伤/抗性/额外）通过筛选模式获取
             
             // 1. 先处理营养袋模式（识别回血药和复活药）
             const successClick = await enterInterface('nutrition_bag');
@@ -727,16 +798,23 @@ function escapeRegExp(string) {
                 // 使用模块化函数识别各种药品
                 const recoveryResult = await recognizeNutritionBagDrug(ocrRegion, pattern, '回血药');
                 recoveryNumber = recoveryResult.count;
-                recoveryFoodName = recoveryResult.name;
-                
+                // 仅在 OCR 识别到名字时才覆盖，失败时保留用户配置的名字
+                if (recoveryResult.name) {
+                    recoveryFoodName = recoveryResult.name;
+                }
+
                 const resurrectionResult = await recognizeNutritionBagDrug(ocrRegion1, pattern, '复活药');
                 resurrectionNumber = resurrectionResult.count;
-                resurrectionFoodName = resurrectionResult.name;
+                // 仅在 OCR 识别到名字时才覆盖，失败时保留用户配置的名字
+                if (resurrectionResult.name) {
+                    resurrectionFoodName = resurrectionResult.name;
+                }
             }
-            // 2. 然后处理筛选模式（识别攻击药和防御药，只有填了名字才筛选）
-            // 检查是否需要进行筛选（攻击药、防御药或其他药名字已填）
-            const needFilter = !!attackFoodName.trim() || !!defenseFoodName.trim() || !!otherFoodName.trim();
-            
+            // 2. 然后处理筛选模式（识别扩展类药品：攻击/防御/其他/增伤/抗性/额外药，只有填了名字才筛选）
+            // 检查是否需要进行筛选（任一扩展类药品名字已填）
+            const needFilter = !!attackFoodName.trim() || !!defenseFoodName.trim() || !!otherFoodName.trim()
+                || !!damageFoodName.trim() || !!resistanceFoodName.trim() || !!extraFoodName.trim();
+
             if (needFilter) {
                 const successClick = await enterInterface('filter');
                 if (successClick) {
@@ -744,7 +822,10 @@ function escapeRegExp(string) {
                     attackNumber = await searchAndRecognizeDrug(attackFoodName, '攻击药');
                     defenseNumber = await searchAndRecognizeDrug(defenseFoodName, '防御药');
                     otherNumber = await searchAndRecognizeDrug(otherFoodName, '其他药');
-                    
+                    damageNumber = await searchAndRecognizeDrug(damageFoodName, '增伤药');
+                    resistanceNumber = await searchAndRecognizeDrug(resistanceFoodName, '抗性药');
+                    extraNumber = await searchAndRecognizeDrug(extraFoodName, '额外药');
+
                     // 重置筛选
                     await clickPNG('筛选1', 1);
                     await clickPNG('筛选2', 1);
@@ -765,22 +846,34 @@ function escapeRegExp(string) {
                 // 使用模块化函数识别各种药品
                 const recoveryResult = await recognizeNutritionBagDrug(ocrRegion, pattern, '回血药');
                 recoveryNumber = recoveryResult.count;
-                recoveryFoodName = recoveryResult.name;
-                
+                // 仅在 OCR 识别到名字时才覆盖，失败时保留用户配置的名字
+                if (recoveryResult.name) {
+                    recoveryFoodName = recoveryResult.name;
+                }
+
                 const resurrectionResult = await recognizeNutritionBagDrug(ocrRegion1, pattern, '复活药');
                 resurrectionNumber = resurrectionResult.count;
-                resurrectionFoodName = resurrectionResult.name;
+                // 仅在 OCR 识别到名字时才覆盖，失败时保留用户配置的名字
+                if (resurrectionResult.name) {
+                    resurrectionFoodName = resurrectionResult.name;
+                }
             }
         } else if (mode === "筛选模式") {
-            // 筛选模式：只处理回血药和复活药
+            // 筛选模式：处理所有填写了名称的药品（回血/复活/攻击/防御/其他/增伤/抗性/额外）
             // 使用通用进入界面函数
             const successClick = await enterInterface('filter');
-            
+
             if (successClick) {
                 // 使用模块化函数识别各种药品
                 recoveryNumber = await searchAndRecognizeDrug(recoveryFoodName, '回血药');
                 resurrectionNumber = await searchAndRecognizeDrug(resurrectionFoodName, '复活药');
-                
+                attackNumber = await searchAndRecognizeDrug(attackFoodName, '攻击药');
+                defenseNumber = await searchAndRecognizeDrug(defenseFoodName, '防御药');
+                otherNumber = await searchAndRecognizeDrug(otherFoodName, '其他药');
+                damageNumber = await searchAndRecognizeDrug(damageFoodName, '增伤药');
+                resistanceNumber = await searchAndRecognizeDrug(resistanceFoodName, '抗性药');
+                extraNumber = await searchAndRecognizeDrug(extraFoodName, '额外药');
+
                 // 重置筛选
                 await clickPNG('筛选1', 1);
                 await clickPNG('筛选2', 1);
@@ -789,45 +882,171 @@ function escapeRegExp(string) {
                 await clickPNG('确认筛选');
             }
         }
+
+        await genshin.returnMainUi();
+        return { recoveryNumber, resurrectionNumber, attackNumber, defenseNumber, otherNumber, damageNumber, resistanceNumber, extraNumber };
+    }
+
+    /**
+     * 自动补充回血药功能
+     * 当回血药数量低于阈值时，自动前往烹饪锅制作回血药
+     * @param {number} currentRecovery - 当前回血药数量
+     */
+    async function autoRefillRecoveryFood(currentRecovery) {
+        if (!autoRefillRecovery) {
+            return false;
+        }
+
+        if (!recoveryFoodName.trim()) {
+            log.warn("未设置回血药名称，无法自动补充");
+            return false;
+        }
+
+        if (currentRecovery === 0 && initRecovery > 0) {
+            log.warn(`回血药当前数量为0但初始数量为${initRecovery}，疑似识别失败，跳过自动烹饪`);
+            return false;
+        }
+
+        if (currentRecovery >= refillThreshold) {
+            log.info(`回血药数量(${currentRecovery})高于阈值(${refillThreshold})，无需补充`);
+            return false;
+        }
+
+        if (initRecovery <= currentRecovery) {
+            log.info(`回血药无消耗(初始:${initRecovery}, 当前:${currentRecovery})，无需补充`);
+            return false;
+        }
+
+        log.info(`回血药有消耗，同时数量(${currentRecovery})低于阈值(${refillThreshold})，开始自动补充，补充数量：${refillCount}`);
+        
+        const stove = "蒙德炉子";
+        log.info(`正在前往${stove}进行料理制作`);
+
+        try {
+            let filePath = `assets/${stove}.json`;
+            await pathingScript.runFile(filePath);
+        } catch (error) {
+            log.error(`执行 ${stove} 路径时发生错误`);
+            return;
+        }
+
+        const res1 = await clickPNG("交互烹饪锅",20,false);
+        if (res1) {
+            keyPress("F");
+        } else {
+            log.warn("烹饪按钮未找到，正在寻找……");
+            let attempts = 0;
+            const maxAttempts = 3;
+            let foundInRetry = false;
+            while (attempts < maxAttempts) {
+                log.info(`第${attempts + 1}次尝试寻找烹饪按钮`);
+                keyPress("W");
+                const res2 = await clickPNG("交互烹饪锅",20,false);
+                if (res2) {
+                    keyPress("F");
+                    foundInRetry = true;
+                    break;
+                } else {
+                    attempts++;
+                    await sleep(500);
+                }
+            }
+            if (!foundInRetry) {
+                log.error("多次未找到烹饪按钮，放弃");
+                return;
+            }
+        }
+        await clickPNG("料理制作",20,false);
+        //搜索回血药
+        await clickPNG('筛选1', 1);
+        await clickPNG('筛选2', 1);
+        await clickPNG('重置');
+        await sleep(stepDelay);
+        await clickPNG('搜索');
+        await sleep(loadDelay);
+        // 去除前缀
+        let searchName = recoveryFoodName.replace(/^.+的/, '');
+        log.info(`搜索${searchName}`);
+        inputText(searchName);
+        await clickPNG('确认筛选');
+        await sleep(loadDelay);
+        await clickPNG('制作');
+        await sleep(loadDelay);
+        await clickPNG('自动烹饪');
+        await sleep(stepDelay);
+        await clickPNG('选择烹饪数量',20,false);
+        await sleep(stepDelay);
+        await clickPNG('烹饪输入框');
+        await sleep(stepDelay);
+        inputText(refillCount);
+        await clickPNG('确认按钮');
+        await clickPNG('烹饪完成',20,false);
+        // 识别烹饪数量
+        let baseCount = 0;
+        let extraCount = 0;
+        let specialCount = 0;
+        const hasExtra = await clickPNG('额外物品', 20, false);
+        if (hasExtra) {
+            baseCount = await getFoodCount('基础料理', ocrRegion3);
+            extraCount = await getFoodCount('额外物品', ocrRegion4);
+        } else {
+            const hasSpecial = await clickPNG('多个物品', 20, false);
+            if (hasSpecial) {
+                baseCount = await getFoodCount('基础料理', ocrRegion3);
+                specialCount = await getFoodCount('特殊料理', ocrRegion4);
+            } else {
+                baseCount = await getFoodCount('料理', ocrRegion5);
+            }
+        }
+        log.info(`烹饪完成，基础回血药：${baseCount}个${extraCount > 0 ? `，额外回血药：${extraCount}个` : ''}${specialCount > 0 ? `，特殊回血药：${specialCount}个` : ''}`);
+        
+        notification.send(`【营养袋吃药统计】\n\n✅ 自动补充回血药完成\n\n📊 补充前数量：${currentRecovery}个\n📊 制作基础回血药：${baseCount}个${extraCount > 0 ? `\n📊 制作额外回血药：${extraCount}个` : ''}${specialCount > 0 ? `\n📊 制作特殊回血药：${specialCount}个` : ''}\n📊 目标回血药：${recoveryFoodName}`);
         
         await genshin.returnMainUi();
-        return { recoveryNumber, resurrectionNumber, attackNumber, defenseNumber, otherNumber };
-    }
+        //往后走一步，防止被火烧
+        await keyDown("S");
+        await sleep(300);
+        await keyUp("S");
+        }
+
     // 主执行流程
     userName = await getUserName();
     const recordPath = `assets/${userName}.txt`;
     // 获取当前药物数量
-    const { recoveryNumber, resurrectionNumber, attackNumber, defenseNumber, otherNumber } = await main();
+    const { recoveryNumber, resurrectionNumber, attackNumber, defenseNumber, otherNumber, damageNumber, resistanceNumber, extraNumber } = await main();
     // 获取本地保存的数据
     const localData = await getLocalData(recordPath);
     // 确定初始化数据
-    let initRecovery, initResurrection, initAttack, initDefense, initOther;
+    let initRecovery, initResurrection, initAttack, initDefense, initOther, initDamage, initResistance, initExtra;
     let useLocalDataAsInit = false;
-    
+
     // 检查本地数据初始化情况，只处理name不为空的数据
     const hasLocalRecovery = recoveryFoodName.trim() && localData.initialized.recovery;
     const hasLocalResurrection = resurrectionFoodName.trim() && localData.initialized.resurrection;
     const hasLocalAttack = attackFoodName.trim() && localData.initialized.attack;
     const hasLocalDefense = defenseFoodName.trim() && localData.initialized.defense;
     const hasLocalOther = otherFoodName.trim() && localData.initialized.other;
-    
-    // 根据当前模式确定需要处理的药品类型
-    const needAttackDefenseOther = mode === "综合模式";
-    
+    const hasLocalDamage = damageFoodName.trim() && localData.initialized.damage;
+    const hasLocalResistance = resistanceFoodName.trim() && localData.initialized.resistance;
+    const hasLocalExtra = extraFoodName.trim() && localData.initialized.extra;
+
+    // 根据当前模式确定是否需要处理扩展类药品（筛选模式/综合模式下处理攻击/防御/其他/增伤/抗性/额外）
+    const needExtendedDrugs = mode === "筛选模式" || mode === "综合模式";
+
     // 计算有效药品数量（name不为空的药品），只考虑当前模式下需要处理的药品
     const baseFoods = [recoveryFoodName, resurrectionFoodName];
-    const allFoods = needAttackDefenseOther 
-        ? [...baseFoods, attackFoodName, defenseFoodName, otherFoodName] 
-        : baseFoods;
+    const allFoods = needExtendedDrugs
+        ? [...baseFoods, attackFoodName, defenseFoodName, otherFoodName, damageFoodName, resistanceFoodName, extraFoodName]
+        : [...baseFoods];
     const validFoodCount = allFoods.filter(name => name.trim()).length;
-    
+
     // 计算已读取到本地数据的有效药品数量，只考虑当前模式下需要处理的药品
     const baseLoaded = [hasLocalRecovery, hasLocalResurrection];
-    const allLoaded = needAttackDefenseOther 
-        ? [...baseLoaded, hasLocalAttack, hasLocalDefense, hasLocalOther] 
-        : baseLoaded;
+    const allLoaded = needExtendedDrugs
+        ? [...baseLoaded, hasLocalAttack, hasLocalDefense, hasLocalOther, hasLocalDamage, hasLocalResistance, hasLocalExtra]
+        : [...baseLoaded];
     const loadedFoodCount = allLoaded.filter(Boolean).length;
-    
+
     if (validFoodCount > 0 && validFoodCount === loadedFoodCount) {
         // 情况1：所有有效药品（name不为空）都有本地数据
         initRecovery = hasLocalRecovery ? localData.recovery.count : recoveryNumber;
@@ -835,6 +1054,9 @@ function escapeRegExp(string) {
         initAttack = hasLocalAttack ? localData.attack.count : attackNumber;
         initDefense = hasLocalDefense ? localData.defense.count : defenseNumber;
         initOther = hasLocalOther ? localData.other.count : otherNumber;
+        initDamage = hasLocalDamage ? localData.damage.count : damageNumber;
+        initResistance = hasLocalResistance ? localData.resistance.count : resistanceNumber;
+        initExtra = hasLocalExtra ? localData.extra.count : extraNumber;
         useLocalDataAsInit = true;
         log.info(`已读取到本地数据`)
     } else {
@@ -845,38 +1067,57 @@ function escapeRegExp(string) {
         initAttack = hasLocalAttack ? localData.attack.count : attackNumber;
         initDefense = hasLocalDefense ? localData.defense.count : defenseNumber;
         initOther = hasLocalOther ? localData.other.count : otherNumber;
+        initDamage = hasLocalDamage ? localData.damage.count : damageNumber;
+        initResistance = hasLocalResistance ? localData.resistance.count : resistanceNumber;
+        initExtra = hasLocalExtra ? localData.extra.count : extraNumber;
         if (loadedFoodCount === 0) {
             log.info(`未读取到本地数据，所有药品使用当前数据作为初始数据`)
         } else {
             log.info(`未读取到全部的本地数据，缺失部分使用当前数据作为初始数据`)
         }
     }
-    
+
     // 判断是否需要写入（只写入填了名字的药品）
     const shouldWriteRecovery = recoveryFoodName.trim() && recoveryNumber > 0;
     const shouldWriteResurrection = resurrectionFoodName.trim() && resurrectionNumber > 0;
     const shouldWriteAttack = attackFoodName.trim() && attackNumber > 0;
     const shouldWriteDefense = defenseFoodName.trim() && defenseNumber > 0;
     const shouldWriteOther = otherFoodName.trim() && otherNumber > 0;
-    const shouldWriteRecord = shouldWriteRecovery || shouldWriteResurrection || shouldWriteAttack || shouldWriteDefense || shouldWriteOther;
-    
+    const shouldWriteDamage = damageFoodName.trim() && damageNumber > 0;
+    const shouldWriteResistance = resistanceFoodName.trim() && resistanceNumber > 0;
+    const shouldWriteExtra = extraFoodName.trim() && extraNumber > 0;
+    const shouldWriteRecord = shouldWriteRecovery || shouldWriteResurrection || shouldWriteAttack || shouldWriteDefense || shouldWriteOther || shouldWriteDamage || shouldWriteResistance || shouldWriteExtra;
+
+    // 未配置任何药品名称时，提前提示并退出，避免误报"识别异常"
+    const hasAnyFoodName = recoveryFoodName.trim() || resurrectionFoodName.trim()
+        || attackFoodName.trim() || defenseFoodName.trim() || otherFoodName.trim()
+        || damageFoodName.trim() || resistanceFoodName.trim() || extraFoodName.trim();
+    if (!hasAnyFoodName) {
+        notification.send(`【营养袋吃药统计】\n\n⚠️ 未配置药品名称\n👤 账户：${userName}\n\n请在配置中至少填写一个药品名称`);
+        log.warn(`${userName}：未配置任何药品名称，跳过统计`);
+        return;
+    }
+
     // initSelect处理逻辑
     if (settings.initSelect && shouldWriteRecord) {
         // 强制初始化：初始化数量和最后一次运行数量都设为当前值
-        await updateRecord(recordPath, recoveryNumber, resurrectionNumber, attackNumber, defenseNumber, otherNumber, deleteSameDayRecords=true);
-        
+        await updateRecord(recordPath, recoveryNumber, resurrectionNumber, attackNumber, defenseNumber, otherNumber, damageNumber, resistanceNumber, extraNumber, deleteSameDayRecords=true);
+
         // 构建通知消息
         let initMsg = `【营养袋吃药统计】\n\n`;
         initMsg += `📋 强制初始化完成！\n`;
         initMsg += `👤 账户：${userName}\n\n`;
         initMsg += `📊 初始药品数据：\n`;
-        
+
         let items = [];
         if (shouldWriteRecovery) items.push(`- ${recoveryFoodName}：${recoveryNumber}个`);
         if (shouldWriteResurrection) items.push(`- ${resurrectionFoodName}：${resurrectionNumber}个`);
         if (shouldWriteAttack) items.push(`- ${attackFoodName}：${attackNumber}个`);
         if (shouldWriteDefense) items.push(`- ${defenseFoodName}：${defenseNumber}个`);
         if (shouldWriteOther) items.push(`- ${otherFoodName}：${otherNumber}个`);
+        if (shouldWriteDamage) items.push(`- ${damageFoodName}：${damageNumber}个`);
+        if (shouldWriteResistance) items.push(`- ${resistanceFoodName}：${resistanceNumber}个`);
+        if (shouldWriteExtra) items.push(`- ${extraFoodName}：${extraNumber}个`);
         
         initMsg += items.join('\n');
         
@@ -890,36 +1131,42 @@ function escapeRegExp(string) {
     
     if (shouldWriteRecord) {
         // 使用当前的数据更新记录
-        await updateRecord(recordPath, recoveryNumber, resurrectionNumber, attackNumber, defenseNumber, otherNumber);
-        
+        await updateRecord(recordPath, recoveryNumber, resurrectionNumber, attackNumber, defenseNumber, otherNumber, damageNumber, resistanceNumber, extraNumber);
+
         // 本地有初始记录
         if(useLocalDataAsInit){
             const diffRecovery = initRecovery - recoveryNumber;
             const diffResurrection = initResurrection - resurrectionNumber;
-            
-            // 根据当前模式确定需要处理的药品类型
-            const needAttackDefenseOther = mode === "综合模式";
-            const diffAttack = needAttackDefenseOther ? initAttack - attackNumber : 0;
-            const diffDefense = needAttackDefenseOther ? initDefense - defenseNumber : 0;
-            const diffOther = needAttackDefenseOther ? initOther - otherNumber : 0;
+
+            // 根据当前模式确定是否需要处理扩展类药品（筛选模式/综合模式下处理攻击/防御/其他/增伤/抗性/额外）
+            const needExtendedDrugs = mode === "筛选模式" || mode === "综合模式";
+            const diffAttack = needExtendedDrugs ? initAttack - attackNumber : 0;
+            const diffDefense = needExtendedDrugs ? initDefense - defenseNumber : 0;
+            const diffOther = needExtendedDrugs ? initOther - otherNumber : 0;
+            const diffDamage = needExtendedDrugs ? initDamage - damageNumber : 0;
+            const diffResistance = needExtendedDrugs ? initResistance - resistanceNumber : 0;
+            const diffExtra = needExtendedDrugs ? initExtra - extraNumber : 0;
 
             let changes = [];
-            
+
             await generateDrugDescription(recoveryFoodName, diffRecovery,changes);
             await generateDrugDescription(resurrectionFoodName, diffResurrection,changes);
-            
-            // 只在综合模式下处理攻击药、防御药和其他药
-            if (needAttackDefenseOther) {
+
+            // 在筛选模式和综合模式下处理扩展类药品
+            if (needExtendedDrugs) {
                 await generateDrugDescription(attackFoodName, diffAttack,changes);
                 await generateDrugDescription(defenseFoodName, diffDefense,changes);
                 await generateDrugDescription(otherFoodName, diffOther,changes);
+                await generateDrugDescription(damageFoodName, diffDamage,changes);
+                await generateDrugDescription(resistanceFoodName, diffResistance,changes);
+                await generateDrugDescription(extraFoodName, diffExtra,changes);
             }
 
             // 构建通知消息
             let logMsg = `【营养袋吃药统计】\n\n`;
             logMsg += `📊 今日药品使用情况\n`;
             logMsg += `👤 账户：${userName}\n\n`;
-            
+
             if (changes.every(change => change.includes("无变化"))) {
                 logMsg += `✅ 今日药物数量无变化\n\n`;
             } else {
@@ -933,15 +1180,18 @@ function escapeRegExp(string) {
                 { name: recoveryFoodName, count: recoveryNumber },
                 { name: resurrectionFoodName, count: resurrectionNumber }
             ];
-            
+
             let inventoryDrugs = [...baseDrugs];
-            
-            // 只在综合模式下添加攻击药、防御药和其他药的库存信息
-            if (needAttackDefenseOther) {
+
+            // 在筛选模式和综合模式下添加扩展类药品的库存信息
+            if (needExtendedDrugs) {
                 inventoryDrugs = inventoryDrugs.concat([
                     { name: attackFoodName, count: attackNumber },
                     { name: defenseFoodName, count: defenseNumber },
-                    { name: otherFoodName, count: otherNumber }
+                    { name: otherFoodName, count: otherNumber },
+                    { name: damageFoodName, count: damageNumber },
+                    { name: resistanceFoodName, count: resistanceNumber },
+                    { name: extraFoodName, count: extraNumber }
                 ]);
             }
             
@@ -966,24 +1216,23 @@ function escapeRegExp(string) {
             initMsg += `✅ 今日初始化完成！\n`;
             initMsg += `👤 账户：${userName}\n\n`;
             
-            // 根据当前模式确定需要显示的药品类型
-            const needAttackDefenseOther = mode === "综合模式";
-            
+            // 根据当前模式确定是否需要处理扩展类药品（筛选模式/综合模式下处理攻击/防御/其他/增伤/抗性/额外）
+            const needExtendedDrugs = mode === "筛选模式" || mode === "综合模式";
+
             const baseDrugs = [
                 { name: recoveryFoodName, count: initRecovery },
                 { name: resurrectionFoodName, count: initResurrection }
             ];
-            
-            let drugs = [...baseDrugs];
-            
-            // 只在综合模式下添加攻击药、防御药和其他药
-            if (needAttackDefenseOther) {
-                drugs = drugs.concat([
+
+            const drugs = needExtendedDrugs
+                ? [...baseDrugs,
                     { name: attackFoodName, count: initAttack },
                     { name: defenseFoodName, count: initDefense },
-                    { name: otherFoodName, count: initOther }
-                ]);
-            }
+                    { name: otherFoodName, count: initOther },
+                    { name: damageFoodName, count: initDamage },
+                    { name: resistanceFoodName, count: initResistance },
+                    { name: extraFoodName, count: initExtra }]
+                : [...baseDrugs];
             
             let items = drugs
                 .filter(drug => drug.name.trim() && drug.count > 0)
@@ -1017,7 +1266,10 @@ function escapeRegExp(string) {
             { name: resurrectionFoodName, count: resurrectionNumber },
             { name: attackFoodName, count: attackNumber },
             { name: defenseFoodName, count: defenseNumber },
-            { name: otherFoodName, count: otherNumber }
+            { name: otherFoodName, count: otherNumber },
+            { name: damageFoodName, count: damageNumber },
+            { name: resistanceFoodName, count: resistanceNumber },
+            { name: extraFoodName, count: extraNumber }
         ];
         
         let items = drugs
@@ -1033,5 +1285,10 @@ function escapeRegExp(string) {
         
         // 添加简单格式的日志记录
         log.info(`${userName}：识别异常，未更新记录|当前库存：无`);
+    }
+
+    // 自动补充回血药
+    if (autoRefillRecovery && shouldWriteRecord) {
+        await autoRefillRecoveryFood(recoveryNumber);
     }
 })();

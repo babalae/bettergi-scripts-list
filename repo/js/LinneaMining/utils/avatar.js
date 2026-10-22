@@ -5,12 +5,12 @@
  * @returns {boolean} 队伍中是否包含该角色
  */
 function checkAvatar(targetName) {
-  const avatars = getAvatars();
-  if (!avatars || avatars.length < 1) return false;
+  const avatars = getAvatars()
+  if (!avatars || avatars.length < 1) return false
   for (let i = 0; i < avatars.length; i++) {
-    if (avatars[i] === targetName) return true;
+    if (avatars[i] === targetName) return true
   }
-  return false;
+  return false
 }
 
-export { checkAvatar };
+export { checkAvatar }

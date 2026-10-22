@@ -3,10 +3,12 @@ import { getNextDay4AM, getNextMonday4AM, useStoreWithDefaults } from "../@bette
 import { findUidText } from "./regions.js";
 
 //#region src/constants/store.ts
-//! 脚本数据存储
-const store = (() => {
-  const uid = findUidText()?.text.replace(/\D/g, "");
-  if (!uid) throw new Error("创建用户数据存储失败: 无法识别UID");
+const DEFAULT_STORE_NAME = "default";
+/** 脚本数据存储 */
+const store = await (async () => {
+  const uid = String(findUidText() || (await genshin.uid()) || DEFAULT_STORE_NAME);
+  if (uid === DEFAULT_STORE_NAME)
+    log.warn("无法识别 UID，已回退至默认数据存储，多用户数据存储功能将不可用");
   return useStoreWithDefaults(uid, {
     uid,
     weekly: {

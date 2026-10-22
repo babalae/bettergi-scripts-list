@@ -1,5 +1,7 @@
 // ======================================================
 // 切换账号OCR模式
+import {check} from "./utils/tool";
+
 const author = "彩虹QQ人";
 // 图像识别资源
 const pm_out = {
@@ -78,7 +80,7 @@ const login_verification = {
 
 // 判断temporaryAccount是否为空，如果为空则赋值‘否’
 const Account = settings.temporaryAccount || "否";
-eval(file.readTextSync('utils/uid.js'))
+
 
 // 点击区域中心
 async function clickCenter(x, y, width, height) {
@@ -252,6 +254,26 @@ async function waitForOcrMatch(target, rect = null, threshold = null, timeout = 
     log.warn(`【OCR】等待文字匹配超时: ${target} | 重试次数: ${retryCount} | 耗时: ${Date.now() - start}ms`);
     return false;
 }
+
+// 账号列表 OCR 形近字符映射。先统一大小写，再处理常见的字母/数字混淆。
+const accountOcrGlyphMap = Object.freeze({
+    "0": "o", "o": "o",
+    "1": "l", "i": "l", "l": "l", "|": "l",
+    "2": "z", "z": "z",
+    "5": "s", "s": "s",
+    "8": "b", "b": "b",
+    "＊": "*", "•": "*", "·": "*", "●": "*",
+    "＠": "@", "．": ".", "。": "."
+});
+
+function normalizeAccountOcrText(text) {
+    let normalized = String(text || "");
+    if (typeof normalized.normalize === "function") {
+        normalized = normalized.normalize("NFKC");
+    }
+    normalized = normalized.toLowerCase().replace(/\s+/g, "");
+    return Array.from(normalized, glyph => accountOcrGlyphMap[glyph] || glyph).join("");
+}
 // 切换账号OCR模式
 // ======================================================
 
@@ -276,10 +298,13 @@ async function waitForOcrMatch(target, rect = null, threshold = null, timeout = 
     };
     u.matchUser = function (text, username) {
         if (typeof text !== "string" || typeof username !== "string") return false;
-        if (text.length !== username.length) return false;
-        for (let i = 0; i < text.length; i++) {
-            const a = text[i];
-            const b = username[i];
+
+        const pattern = normalizeAccountOcrText(text);
+        const target = normalizeAccountOcrText(username);
+        if (pattern.length !== target.length) return false;
+        for (let i = 0; i < pattern.length; i++) {
+            const a = pattern[i];
+            const b = target[i];
             if (a === '*' || b === '*') continue;
             if (a !== b) return false;
         }
@@ -288,23 +313,23 @@ async function waitForOcrMatch(target, rect = null, threshold = null, timeout = 
     u.matchUserRelaxed = function (text, username) {
         if (typeof text !== "string" || typeof username !== "string") return false;
 
-        // 1. 规范化：将连续的 '*' 替换为单个 '*'
-        const pattern = text.replace(/\*+/g, '*');
-        const target = username.replace(/\*+/g, '*');
+        // OCR 可能混淆大小写、形近字母/数字和掩码符号，先统一到映射表中的形式。
+        const pattern = normalizeAccountOcrText(text).replace(/\*+/g, '*');
+        const target = normalizeAccountOcrText(username).replace(/\*+/g, '*');
 
-        // 2. 如果规范化后没有通配符，则进行全等匹配
+        // 如果规范化后没有通配符，则进行全等匹配
         if (!pattern.includes('*')) {
             return pattern === target;
         }
 
-        // 3. 获取前缀和后缀
+        // 获取前缀和后缀
         // split('*') 会将 "abc*def" 拆分为 ["abc", "def"]
         // 如果是 "*abc"，拆分为 ["", "abc"]；如果是 "abc*"，拆分为 ["abc", ""]
         const parts = pattern.split('*');
         const prefix = parts[0];
         const suffix = parts[parts.length - 1];
 
-        // 4. 匹配逻辑：
+        // 匹配逻辑：
         // - 目标字符串必须以 prefix 开头
         // - 目标字符串必须以 suffix 结尾
         // - 目标字符串的长度必须足以容纳 prefix 和 suffix (避免重叠部分的逻辑错误)
@@ -514,11 +539,11 @@ async function waitForOcrMatch(target, rect = null, threshold = null, timeout = 
         }
 
         u.logi("开始从下拉列表选择账号");
-        var selectedUser = null;
+        let selectedUser = null;
+        const recognizedUserTexts = [];
         {
             const start = Date.now();
-            let lastLog = start;
-            // 超时8秒直接跳出让下一步报错
+            // 最多识别8秒，超时后输出候选文本并明确报错。
             while (selectedUser == null && Date.now() - start <= 8000) {
                 await sleep(500);
 
@@ -527,16 +552,28 @@ async function waitForOcrMatch(target, rect = null, threshold = null, timeout = 
                 captureRegion.dispose();
                 for (let i = 0; i < resList.count; i++) {
                     let res = resList[i];
-                    let user = u.matchUserRelaxed(res.text, targetUser) || u.matchUser(res.text, targetUser);
+                    const recognizedText = typeof res.text === "string" ? res.text : "";
+                    if (recognizedText && !recognizedUserTexts.includes(recognizedText)) {
+                        recognizedUserTexts.push(recognizedText);
+                    }
+
+                    let user = u.matchUserRelaxed(recognizedText, targetUser) || u.matchUser(recognizedText, targetUser);
                     if (user) {
                         selectedUser = res;
                         break;
                     } else {
-                        u.logw("当前匹配文本：{0}", res.text);
-                        lastLog = Date.now();
+                        u.logw("当前匹配文本：{0}", recognizedText);
                     }
                 }
             }
+        }
+
+        if (selectedUser == null) {
+            const candidateText = recognizedUserTexts.length > 0 ? recognizedUserTexts.join(" | ") : "未识别到任何账号文本";
+            const errorMessage = `未在下拉列表中识别到目标账号，OCR候选：${candidateText}`;
+            log.error(`[下拉列表切换账号]${errorMessage}`);
+            notification.error(errorMessage);
+            throw new Error(errorMessage);
         }
 
         u.logi("识别到目标账号：{0}", selectedUser.text);
@@ -566,7 +603,7 @@ async function waitForOcrMatch(target, rect = null, threshold = null, timeout = 
     // ======================================================
     // Main flow
 
-    if (await uidUtil.check()) {
+    if (await check()) {
         log.info("当前UID与设置UID相同，无需切换账号。");
         return
     }

@@ -1,22 +1,30 @@
-# 紫晶块[大剑]@蜜柑魚 注意事项
+# 紫晶块之大剑矿闻录 注意事项
 ## 一、前言
 - 本地图追蹤以稻妻、渊下宫 解谜全解 与 宝箱全收集 情况下制作
 - 制作脚本时，以**钟剑诺艾尔**作为行走位
 - 部份地图追蹤會使用玛薇卡趕路
 - 队伍 : 诺艾尔、玛薇卡、爱可菲、芭芭拉
 
-- 预期用时 1小时35分 / 235~275 个
+- 预期用时 1小时35分~40分 / 235~275 个
 
 ## 二、配置简介
+- 生存位技能 : 芭芭拉
+- CD : `300`
 
-- 以下为參考用战斗脚本
+- 以下为战斗脚本
 
     ```
     诺艾尔 e
-    玛薇卡 e
-    爱可菲 attack(0.01),e,attack(0.1),jump,wait(0.2),keypress(q),keydown(W),attack(0.3),keypress(q),keyup(W),attack(0.3),keypress(q),attack(0.1),keydown(S),attack(0.33),keyup(S), wait(0.15), keydown(S), attack(0.66), keyup(S),keypress(q),wait(0.3)
-    芭芭拉 attack(0.2),wait(0.3),keypress(e), wait(0.2),keypress(e), click(middle), keypress(q),wait(0.2), keypress(q),keypress(e),wait(0.2), keypress(q),click(middle) ,attack(0.6),charge(0.6),click(middle),keypress(e),wait(0.3)
-    玛薇卡 q
+    哥伦比娅 attack(0.01),keypress(q),attack(0.2),e,wait(0.2),attack(0.4),keypress(e),charge(0.2),keypress(q),charge(0.12),attack(0.08),keypress(e),keypress(q),w(0.01),attack(0.2),keypress(e),keypress(q)
+    莉奈娅 attack(0.18),keypress(q),wait(0.1), ready,attack(0.05), e,attack(0.65), keypress(q),wait(0.1) ,keypress(q),attack(0.1)
+    玛薇卡 attack(0.01),e
+    爱可菲 e,wait(0.26),attack(0.15),wait(0.26),keypress(q),keypress(q),wait(0.3),keypress(q),wait(0.3),keypress(q),wait(0.3),keypress(q),wait(0.2),keypress(q),attack(0.01)
+    芭芭拉 attack(0.2),wait(0.3),keypress(e), wait(0.2),keypress(e), click(middle), keypress(q),wait(0.2), keypress(q),keypress(e),wait(0.2), keypress(q) ,attack(0.6),charge(0.6),keypress(e),wait(0.3)
+    玛薇卡 check,q
+    罗莎莉亚 e,attack(0.4),keypress(q),attack(0.4),keypress(q),e
+    迪希雅 e, attack(0.3), keypress(e), wait(0.3), wait(0.3)
+    诺艾尔 e,check,q,ready,charge(2.3)
+    枫原万叶 attack(0.01),wait(0.25),e(hold),click(middle),wait(0.48),attack,wait(0.3),keypress(q),wait(0.3),keypress(q),wait(0.3),keypress(q),wait(0.1),keydown(E),wait(0.55),keyup(E),click(middle),wait(0.45),attack,w(0.01),wait(0.19)
     ```
 
 - 開啟 更快檢查結束戰鬥

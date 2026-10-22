@@ -1,3 +1,5 @@
+import {toMainUi} from "./utils/tool";
+
 let manifest_json = "manifest.json";
 let manifest = undefined
 let configSettings = undefined
@@ -1391,8 +1393,9 @@ function getTimeDifference(startTime, endTime) {
  * 同时会检查记录列表中是否存在相同UID的最新记录，并进行更新
  */
 async function initRecord() {
+    await toMainUi()
     // 设置记录的唯一标识符，通过OCR技术获取
-    Record.uid = await uidUtil.ocrUID()
+    Record.uid = await genshin.uid()
     // 设置记录的时间戳为当前时间
     Record.timestamp = Date.now()
     // 获取并设置调整后的日期数据

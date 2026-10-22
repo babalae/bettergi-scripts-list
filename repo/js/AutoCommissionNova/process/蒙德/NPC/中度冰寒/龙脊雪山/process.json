@@ -1,0 +1,71 @@
+[
+    {
+        "type": "地图追踪",
+        "data": "中度冰寒-1.json"
+    },
+    {
+        "type": "对话",
+        "data": {
+            "priorityOptions": [
+                "热菜"
+            ],
+            "npcWhiteList": [
+                "汤米"
+            ]
+        }
+    },
+    {
+        "type": "自动任务",
+        "data": {
+            "action": "enable",
+            "taskType": "AutoSkip"
+        },
+        "note": "开启自动剧情"
+    },
+    {
+        "type": "按键",
+        "data": "F",
+        "note": "按下F键"
+    },
+    {
+        "type": "等待返回主界面",
+        "note": "等待对话完成提交物品"
+    },
+    {
+        "type": "按键",
+        "data": "F",
+        "note": "按下F键"
+    },
+    {
+        "type": "按键",
+        "data": "F",
+        "note": "按下F键"
+    },
+    {
+        "type": "等待返回主界面"
+    },
+    {
+        "type": "切换委托队伍",
+        "data": "元素采集"
+    },
+    {
+        "type": "地图追踪",
+        "data": "中度冰寒-2.json"
+    },
+    {
+        "type": "切换委托队伍",
+        "data": "战斗"
+    },
+    {
+        "type": "地图追踪",
+        "data": "中度冰寒-3.json"
+    },
+    {
+        "type": "按键",
+        "data": "F",
+        "note": "按下F键"
+    },
+    {
+        "type": "等待返回主界面"
+    }
+]

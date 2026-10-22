@@ -167,7 +167,7 @@ function readAliases() {
         if (filterInfo && noResultTemplate) {
             try {
                 log.info(`对角色【${selectedCharacter}】执行筛选: 元素=${filterInfo.element || '空'}, 武器=${filterInfo.weapon || '空'}`);
-                
+                await sleep(600);
                 // 点击筛选按钮
                 const ro1 = captureGameRegion();
                 const filterBtn = ro1.find(RecognitionObject.TemplateMatch(
@@ -176,10 +176,13 @@ function readAliases() {
                 ro1.dispose();
                 if (filterBtn.isExist()) {
                     filterBtn.click();
-                    await sleep(200);
+                    await sleep(500);
                     
                     // 元素不为空才执行元素筛选
                     if (filterInfo.element) {
+                        click(796, 125);
+                        await sleep(50);
+                        
                         const ro2 = captureGameRegion();
                         const elementBtn = ro2.find(RecognitionObject.TemplateMatch(
                             file.readImageMatSync(`Assets/RecognitionObject/${filterInfo.element}.png`), 0, 0, 1920, 1080
@@ -197,6 +200,9 @@ function readAliases() {
                     
                     // 武器不为空才执行武器筛选
                     if (filterInfo.weapon) {
+                        click(796, 125);
+                        await sleep(50);
+                        
                         const ro3 = captureGameRegion();
                         const weaponBtn = ro3.find(RecognitionObject.TemplateMatch(
                             file.readImageMatSync(`Assets/RecognitionObject/${filterInfo.weapon}.png`), 0, 0, 1920, 1080
@@ -310,6 +316,7 @@ function readAliases() {
                     } else {
                         joinResult.click();
                     }
+                    await sleep(50);
                     keyPress("VK_LBUTTON");
                     await sleep(500);
                 } else {
@@ -318,7 +325,7 @@ function readAliases() {
                     keyPress("VK_ESCAPE");
                     await sleep(500);
                 }
-                await sleep(500);
+                await sleep(750);
             }
             return true;
         }

@@ -145,9 +145,9 @@ async function performOcr(targetTexts, region, ra = null, timeout = 200, interva
                         return true;
                     }
                     
-                    // 通道2：相似度大于75%（特殊通道）
+                    // 通道2：相似度大于85%（特殊通道）
                     const similarity = calculateSimilarity(correctedText, target);
-                    if (similarity >= 0.75) {
+                    if (similarity >= 0.85) {
                         log.debug(`相似度匹配: "${correctedText}" vs "${target}" = ${(similarity * 100).toFixed(1)}%`);
                         return true;
                     }

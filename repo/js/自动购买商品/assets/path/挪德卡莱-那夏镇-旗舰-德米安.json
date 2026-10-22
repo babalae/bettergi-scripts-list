@@ -1,4 +1,4 @@
-﻿{
+{
   "info": {
     "authors": [
       {
@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1773665461435,
+    "last_modified_time": 1784972690932,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "挪德卡莱-那夏镇-旗舰-德米安",
@@ -24,8 +24,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 9452.8056640625,
-      "y": 1661.51123046875
+      "x": 9452.8057,
+      "y": 1661.5112
     },
     {
       "action": "",
@@ -33,8 +33,8 @@
       "id": 2,
       "move_mode": "run",
       "type": "path",
-      "x": 9466.6640625,
-      "y": 1657.76513671875
+      "x": 9466.6641,
+      "y": 1657.7651
     },
     {
       "action": "",
@@ -42,8 +42,8 @@
       "id": 3,
       "move_mode": "run",
       "type": "path",
-      "x": 9491.2451171875,
-      "y": 1609.6298828125
+      "x": 9491.2451,
+      "y": 1609.6299
     },
     {
       "action": "",
@@ -51,17 +51,17 @@
       "id": 4,
       "move_mode": "run",
       "type": "path",
-      "x": 9465.5546875,
-      "y": 1596.20703125
+      "x": 9465.5547,
+      "y": 1596.207
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.5),keypress(F),wait(0.2),keypress(F),wait(0.2),keypress(F),wait(7.5),w(1.5),wait(0.5),s(0.26),wait(0.5),d(0.2),wait(0.5),click(middle),wait(0.5),keydown(W),wait(1.3),keypress(SPACE),wait(1.55),keyup(W),wait(0.5),a(0.3),wait(0.5),click(middle),wait(0.5),keydown(W),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keyup(W),wait(0.5),s(0.3),d(1.1),w(0.2),wait(0.6)",
+      "action_params": "wait(0.5),keypress(F),wait(0.2),keypress(F),wait(0.2),keypress(F),wait(7.5),w(1.5),wait(0.5),s(0.2),wait(0.5),d(0.2),wait(0.5),click(middle),wait(0.5),keydown(W),wait(3.0),keyup(W),wait(0.5),a(0.3),wait(0.5),click(middle),wait(0.5),keydown(W),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keypress(SPACE),wait(0.5),keyup(W),wait(0.5),s(0.3),d(1.1),w(0.2),wait(0.6)",
       "id": 5,
       "move_mode": "walk",
       "type": "target",
-      "x": 9461.2763671875,
-      "y": 1598.33837890625
+      "x": 9461.2764,
+      "y": 1598.3384
     }
   ]
 }

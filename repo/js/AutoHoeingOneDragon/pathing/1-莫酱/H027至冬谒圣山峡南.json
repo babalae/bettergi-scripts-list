@@ -1,0 +1,77 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.63.1",
+    "description": "  路线信息：该路线预计用时42秒，包含以下怪物：1只嵌合鍪甲兽、1只嵌合角熊。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1788452144091,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "H027至冬谒圣山峡南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5866.4053,
+      "y": 9398.8184
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5866.4639,
+      "y": 9380.3613
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5854.1543,
+      "y": 9360.2568
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5859.874,
+      "y": 9321.8721
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5878.1367,
+      "y": 9292
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 5878.1367,
+      "y": 9292
+    }
+  ]
+}

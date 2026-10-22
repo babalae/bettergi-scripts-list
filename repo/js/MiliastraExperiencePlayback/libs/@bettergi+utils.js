@@ -16,10 +16,10 @@ const defaultRetryInterval = 1e3;
 const waitForAction = async (condition, retryAction, options) => {
   const { maxAttempts = defaultMaxAttempts, retryInterval = defaultRetryInterval } = options || {};
   for (let i = 0; i < maxAttempts; i++) {
-    if (i === 0 && condition()) return true;
-    await retryAction?.();
+    if (i === 0 && (await condition())) return true;
+    await retryAction?.(i + 1);
     await sleep(retryInterval);
-    if (condition()) return true;
+    if (await condition()) return true;
   }
   return false;
 };
@@ -33,8 +33,8 @@ const waitForAction = async (condition, retryAction, options) => {
  */
 const waitForRegionAppear = async (regionProvider, retryAction, options) => {
   return waitForAction(
-    () => {
-      const region = regionProvider();
+    async () => {
+      const region = await regionProvider();
       return region != null && region.isExist();
     },
     retryAction,
@@ -51,8 +51,8 @@ const waitForRegionAppear = async (regionProvider, retryAction, options) => {
  */
 const waitForRegionDisappear = async (regionProvider, retryAction, options) => {
   return waitForAction(
-    () => {
-      const region = regionProvider();
+    async () => {
+      const region = await regionProvider();
       return !region || !region.isExist();
     },
     retryAction,
@@ -327,13 +327,6 @@ const deepMerge = (...objects) => {
     }, result);
   }, {});
 };
-/**
- * 同步休眠执行指定时长
- * @param duration - 休眠时长（毫秒）
- */
-const sleepSync = (duration) => {
-  duration > 0 && Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, duration);
-};
 
 //#endregion
 //#region node_modules/@bettergi/utils/dist/time.js
@@ -478,6 +471,7 @@ const useStore = (name) => {
   const filePath = `store/${name}.json`;
   const storeData = (() => {
     try {
+      if (file.isExists && !file.isExists(filePath)) throw new Error("File does not exist");
       if (
         ![...file.readPathSync("store")].map((path) => path.replace(/\\/g, "/")).includes(filePath)
       )
@@ -498,20 +492,16 @@ const useStore = (name) => {
           : value;
       },
       set: (target, key, value) => {
-        const success = Reflect.set(target, key, value);
-        if (success)
-          Promise.resolve().then(() => {
-            file.writeTextSync(filePath, JSON.stringify(storeData, null, 2));
-          });
-        return success;
+        return (
+          Reflect.set(target, key, value) &&
+          file.writeTextSync(filePath, JSON.stringify(storeData, null, 2))
+        );
       },
       deleteProperty: (target, key) => {
-        const success = Reflect.deleteProperty(target, key);
-        if (success)
-          Promise.resolve().then(() => {
-            file.writeTextSync(filePath, JSON.stringify(storeData, null, 2));
-          });
-        return success;
+        return (
+          Reflect.deleteProperty(target, key) &&
+          file.writeTextSync(filePath, JSON.stringify(storeData, null, 2))
+        );
       },
     });
   };
@@ -540,7 +530,6 @@ export {
   getNextDay4AM,
   getNextMonday4AM,
   isHostException,
-  sleepSync,
   useStoreWithDefaults,
   waitForAction,
 };
