@@ -1,0 +1,21 @@
+{
+  "manifest_version": 1,
+  "name": "地图圆盘",
+  "version": "0.4.0",
+  "bgi_version": "0.50.0",
+  "description": "在小地图上盖一层透明圆盘：圆环套住小地图，永远只指 tasks.txt 里第一个没完成的任务——盘内红点标真实位置，超出范围变圆环外沿方向箭头（带距离）。走到任务点自动划掉指下一个，F9 记当前位置为任务，F8 手动完成。",
+  "authors": [
+    {
+      "name": "轩果子",
+      "link": "https://github.com/xuan251"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js",
+  "saved_files": [
+    "tasks.txt"
+  ],
+  "library": [
+    "."
+  ]
+}

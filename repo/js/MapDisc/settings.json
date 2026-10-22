@@ -1,0 +1,163 @@
+[
+  {
+    "type": "separator"
+  },
+  {
+    "name": "discX",
+    "type": "input-text",
+    "label": "【圆盘位置】圆心 X（以 1080p 高度为基准，单位像素；换分辨率自动缩放）",
+    "default": "118"
+  },
+  {
+    "name": "discY",
+    "type": "input-text",
+    "label": "圆心 Y（同上）",
+    "default": "118"
+  },
+  {
+    "name": "discR",
+    "type": "input-text",
+    "label": "圆环半径（同上，贴着游戏小地图外缘一点点就对了）",
+    "default": "104"
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "showTarget",
+    "type": "checkbox",
+    "label": "【任务点】显示下一个任务（盘内红点 / 超出范围转成外径箭头）",
+    "default": true
+  },
+  {
+    "name": "mapRange",
+    "type": "input-text",
+    "label": "小地图半径 = 多少米（决定红点摆多开：调大红点往里收，调小红点往外跑）",
+    "default": "60"
+  },
+  {
+    "name": "northAngle",
+    "type": "input-text",
+    "label": "「北」在世界坐标系里的角度（默认 -90；红点方向整体镜像或偏 90° 时改这个）",
+    "default": "-90"
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "autoDone",
+    "type": "checkbox",
+    "label": "【到达判定】走到任务点附近就自动划掉、指向下一个",
+    "default": true
+  },
+  {
+    "name": "arriveR",
+    "type": "input-text",
+    "label": "多少米以内算「到了」（默认 8）",
+    "default": "8"
+  },
+  {
+    "name": "arriveHoldMs",
+    "type": "input-text",
+    "label": "要在范围内待够多少毫秒才算到（防路过误判，默认 1200）",
+    "default": "1200"
+  },
+  {
+    "name": "hkMark",
+    "type": "input-text",
+    "label": "【热键】把当前位置追加为任务（默认 f9）",
+    "default": "f9"
+  },
+  {
+    "name": "hkDone",
+    "type": "input-text",
+    "label": "【热键】手动完成当前任务、指向下一个（默认 f8）",
+    "default": "f8"
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "autoDetect",
+    "type": "checkbox",
+    "label": "【自动识别】用模板匹配找小地图上的任务图标（要先放 assets/task_icon.png 模板图）",
+    "default": false
+  },
+  {
+    "name": "autoScore",
+    "type": "input-text",
+    "label": "模板匹配分阈值 0.5~0.99（越高越不容易误报，也越难命中，默认 0.75）",
+    "default": "0.75"
+  },
+  {
+    "name": "hkSample",
+    "type": "input-text",
+    "label": "【热键】截一张小地图存到 assets/shot_minimap.png（做模板用，默认反斜杠 \\ 键）",
+    "default": "backslash"
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "discOpacity",
+    "type": "input-text",
+    "label": "【外观】圆环不透明度 0.1 ~ 1（越小越不挡小地图）",
+    "default": "0.55"
+  },
+  {
+    "name": "showRing",
+    "type": "checkbox",
+    "label": "显示外圈圆环",
+    "default": true
+  },
+  {
+    "name": "showHeading",
+    "type": "checkbox",
+    "label": "显示朝向指针（视野扇形 + 小白箭头）",
+    "default": true
+  },
+  {
+    "name": "debugHud",
+    "type": "checkbox",
+    "label": "显示调试信息（角度 / 坐标 / 距离）",
+    "default": true
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "angleUnit",
+    "type": "select",
+    "label": "【朝向】getCameraOrientation 返回的单位（原始值一直在 0~6.28 之间就是弧度）",
+    "options": [
+      "度",
+      "弧度"
+    ],
+    "default": "度"
+  },
+  {
+    "name": "angleOffset",
+    "type": "input-text",
+    "label": "朝向指针偏移（默认 90；指针和小地图自带箭头差 90/180 时改）",
+    "default": "90"
+  },
+  {
+    "name": "angleSign",
+    "type": "select",
+    "label": "朝向方向（转视角时指针转反了，就换另一个）",
+    "options": [
+      "正向",
+      "反向"
+    ],
+    "default": "正向"
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "hkCalib",
+    "type": "input-text",
+    "label": "标定模式热键（进入后方向键挪位置、+/- 改半径、Home 复位；退出时自动保存）",
+    "default": "insert"
+  }
+]
