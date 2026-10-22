@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MapDisc</title>
+  <style>
+    :root {
+      --op: .55;
+      --target: #ffb95e;
+      --calib: #4ea1ff;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: transparent;
+      font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+      pointer-events: none;
+    }
+
+    /* 圆盘容器：位置和尺寸由主脚本给（translate + width/height） */
+    #disc {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 208px;
+      height: 208px;
+      pointer-events: none;
+      will-change: transform, width, height;
+    }
+
+    svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    /* ---------- 环 ---------- */
+    #ringG {
+      opacity: var(--op);
+    }
+
+    .ring-out {
+      fill: none;
+      stroke: #fff;
+      stroke-width: 2.2;
+      filter: url(#sh);
+    }
+
+    .ring-in {
+      fill: none;
+      stroke: #fff;
+      stroke-width: .9;
+      opacity: .35;
+      stroke-dasharray: 1.6 6.4;
+    }
+
+    .tick {
+      stroke: #fff;
+      stroke-width: 1.4;
+      stroke-linecap: round;
+      opacity: .28;
+    }
+
+    .tick.major {
+      stroke-width: 2;
+      opacity: .55;
+    }
+
+    /* ---------- 朝向指针（角色朝哪） ---------- */
+    #headG {
+      opacity: .95;
+    }
+
+    .head-body {
+      fill: #fff;
+      stroke: rgba(0, 0, 0, .55);
+      stroke-width: .9;
+      stroke-linejoin: round;
+      filter: url(#sh);
+    }
+
+    /* 视野扇形：比箭头更能看出朝向，也最方便和游戏自带的小地图比对。
+     * 只留渐变填充、不画边框 —— 画了边框就像在地图上劈了条线，很脏。 */
+    .head-fan {
+      fill: url(#fanGrad);
+      stroke: none;
+    }
+
+    /* ---------- 目标点：范围内是红点，超出范围是外径箭头 ---------- */
+    .dot-halo {
+      fill: #ff4d5e;
+    }
+
+    .dot-body {
+      fill: #ff4d5e;
+      stroke: #fff;
+      stroke-width: 1.6;
+      filter: url(#sh);
+    }
+
+    .arrow-body {
+      fill: #ff4d5e;
+      stroke: #fff;
+      stroke-width: 1.2;
+      stroke-linejoin: round;
+      filter: url(#sh);
+    }
+
+    /* 箭头背后那团红晕：比描一圈线更像"标记"，也不会把箭头轮廓搅乱 */
+    .arrow-bg {
+      fill: #ff4d5e;
+      opacity: .17;
+    }
+
+    /* ---------- 自动识别到的任务图标：黄色，区别于手动红点 ---------- */
+    .auto-dot {
+      fill: #ffd54a;
+      stroke: #6b4e00;
+      stroke-width: 1.2;
+      filter: url(#sh);
+    }
+
+    .auto-ring {
+      fill: none;
+      stroke: #ffd54a;
+      stroke-width: 1.6;
+      opacity: .8;
+    }
+
+    /* ---------- 标定辅助 ---------- */
+    #calibG {
+      display: none;
+    }
+
+    #calibG.on {
+      display: block;
+    }
+
+    .calib-line {
+      stroke: var(--calib);
+      stroke-width: 1;
+      stroke-dasharray: 4 6;
+      opacity: .55;
+    }
+
+    .calib-ring {
+      fill: none;
+      stroke: var(--calib);
+      stroke-width: 1;
+      stroke-dasharray: 7 7;
+      opacity: .8;
+    }
+
+    .calib-dot {
+      fill: var(--calib);
+    }
+
+    /* ---------- HUD ---------- */
+    #hud {
+      position: absolute;
+      left: calc(100% + 8px);
+      top: 2px;
+      padding: 5px 7px;
+      border-radius: 6px;
+      background: rgba(8, 12, 18, .62);
+      border: 1px solid rgba(255, 255, 255, .14);
+      color: #e9f2fb;
+      font-size: 11px;
+      line-height: 1.55;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+      display: none;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, .8);
+    }
+
+    #hud.on {
+      display: block;
+    }
+
+    #hud .k {
+      color: #8fa6bd;
+      margin-right: 6px;
+    }
+
+    #hud .v {
+      color: #fff;
+    }
+
+    #hud .warn {
+      color: #ffcf7a;
+    }
+
+    #hud .calib-tip {
+      margin-top: 3px;
+      padding-top: 3px;
+      border-top: 1px solid rgba(255, 255, 255, .12);
+      color: var(--calib);
+    }
+
+    /* ---------- 独立预览用的假游戏画面（只有 ?demo 才出现） ---------- */
+    body.demo {
+      background: #0b1016;
+    }
+
+    body.demo #gamefake {
+      display: block;
+    }
+
+    #gamefake {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(120% 90% at 20% 0%, #2a4a63 0%, #16283a 45%, #0b1016 100%);
+      z-index: -2;
+    }
+
+    #minimapfake {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 208px;
+      height: 208px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: radial-gradient(circle at 40% 35%, #6f8f55 0%, #4e6e40 45%, #35502f 100%);
+      z-index: -1;
+      display: none;
+    }
+
+    body.demo #minimapfake {
+      display: block;
+    }
+
+    #minimapfake svg {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 独立预览时假装游戏画面，正常运行时这两个 div 都不显示 -->
+  <div id="gamefake"></div>
+  <div id="minimapfake">
+    <svg viewBox="0 0 200 200">
+      <circle cx="100" cy="100" r="100" fill="#4e6e40" />
+      <path d="M20 140 C60 120 80 160 130 145 S180 110 200 130" fill="none" stroke="#7d9a6a"
+        stroke-width="9" opacity=".85" />
+      <path d="M40 60 C70 40 100 80 140 55 S180 40 200 60" fill="none" stroke="#8aa878"
+        stroke-width="7" opacity=".7" />
+      <circle cx="150" cy="75" r="6" fill="#ffd479" opacity=".9" />
+      <circle cx="60" cy="130" r="4" fill="#ffd479" opacity=".7" />
+      <circle cx="118" cy="118" r="3" fill="#fff" opacity=".5" />
+    </svg>
+  </div>
+
+  <div id="disc">
+    <svg id="svg" viewBox="-100 -100 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="sh" x="-60%" y="-60%" width="220%" height="220%">
+          <feDropShadow dx="0" dy="0" stdDeviation="1.8" flood-color="#000" flood-opacity=".85" />
+        </filter>
+        <radialGradient id="fanGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#fff" stop-opacity="0" />
+          <stop offset="60%" stop-color="#fff" stop-opacity=".03" />
+          <stop offset="100%" stop-color="#fff" stop-opacity=".10" />
+        </radialGradient>
+      </defs>
+
+      <g id="ringG">
+        <circle class="ring-out" cx="0" cy="0" r="99" />
+        <circle class="ring-in" cx="0" cy="0" r="90" />
+        <g id="ticks"></g>
+      </g>
+
+      <!-- 目标点：小地图范围内 → 红点（按真实相对位置摆）；超出范围 → 贴在外径上的箭头 -->
+      <g id="tgtG" style="display:none">
+        <g id="tgtDotG">
+          <circle class="dot-halo" cx="0" cy="0" r="11" opacity=".28">
+            <animate attributeName="r" values="9;15;9" dur="1.7s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values=".32;.04;.32" dur="1.7s" repeatCount="indefinite" />
+          </circle>
+          <circle class="dot-body" cx="0" cy="0" r="5.4" />
+        </g>
+        <g id="tgtArrowG">
+          <circle class="arrow-bg" cx="0" cy="-95" r="11">
+            <animate attributeName="r" values="10;12.5;10" dur="1.7s" repeatCount="indefinite" />
+          </circle>
+          <path class="arrow-body" d="M0,-108 L7.4,-94.6 L0,-97.8 L-7.4,-94.6 Z" />
+        </g>
+      </g>
+
+      <!-- 自动识别到的任务图标：黄色标记，区别于手动红点 -->
+      <g id="autoG" style="display:none">
+        <circle class="auto-ring" cx="0" cy="0" r="11">
+          <animate attributeName="r" values="10;14;10" dur="1.6s" repeatCount="indefinite" />
+        </circle>
+        <circle class="auto-dot" cx="0" cy="0" r="6" />
+      </g>
+
+      <!-- 朝向：视野扇形 + 小箭头，贴着圆心 -->
+      <g id="headG">
+        <path class="head-fan" d="M0,0 L-43.5,-75.3 A87,87 0 0 1 43.5,-75.3 Z" />
+        <path class="head-body" d="M0,-54 L8.5,-32 L0,-36.5 L-8.5,-32 Z" />
+      </g>
+
+      <!-- 标定辅助 -->
+      <g id="calibG">
+        <circle class="calib-ring" cx="0" cy="0" r="99" />
+        <line class="calib-line" x1="-100" y1="0" x2="100" y2="0" />
+        <line class="calib-line" x1="0" y1="-100" x2="0" y2="100" />
+        <circle class="calib-dot" cx="0" cy="0" r="2.6" />
+      </g>
+    </svg>
+
+    <div id="hud">
+      <div><span class="k">朝向</span><span class="v" id="hYaw">--</span></div>
+      <div><span class="k">原始</span><span class="v" id="hRaw">--</span></div>
+      <div><span class="k">坐标</span><span class="v" id="hPos2">--</span></div>
+      <div><span class="k">目标</span><span class="v" id="hDist">--</span></div>
+      <div><span class="k">圆盘</span><span class="v" id="hPos">--</span></div>
+      <div id="hErr" class="warn"></div>
+      <div id="hCalib" class="calib-tip" style="display:none">标定中 · 方向键移动 · +/- 半径 · Home 复位</div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var disc = document.getElementById("disc");
+      var headG = document.getElementById("headG");
+      var tgtG = document.getElementById("tgtG");
+      var tgtDotG = document.getElementById("tgtDotG");
+      var tgtArrowG = document.getElementById("tgtArrowG");
+      var calibG = document.getElementById("calibG");
+      var hud = document.getElementById("hud");
+      var hYaw = document.getElementById("hYaw");
+      var hRaw = document.getElementById("hRaw");
+      var hPos = document.getElementById("hPos");
+      var hPos2 = document.getElementById("hPos2");
+      var hDist = document.getElementById("hDist");
+      var hErr = document.getElementById("hErr");
+      var hCalib = document.getElementById("hCalib");
+
+      /* ---------- 刻度：只留 8 根（每 45°），四个正向加粗 ----------
+       * 一开始画了 36 根，远看像仪表盘，跟游戏 UI 一点都不像；
+       * 圆盘上真正要读的信息只有"目标在哪个方向"，刻度多了纯挡画面。 */
+      (function buildTicks() {
+        var g = document.getElementById("ticks");
+        var NS = "http://www.w3.org/2000/svg";
+        for (var i = 0; i < 8; i++) {
+          var deg = i * 45;
+          var major = (deg % 90 === 0);
+          var l = document.createElementNS(NS, "line");
+          var inner = major ? 93.5 : 95;
+          var outer = 97.5;
+          var rad = (deg - 90) * Math.PI / 180;
+          l.setAttribute("x1", (Math.cos(rad) * inner).toFixed(2));
+          l.setAttribute("y1", (Math.sin(rad) * inner).toFixed(2));
+          l.setAttribute("x2", (Math.cos(rad) * outer).toFixed(2));
+          l.setAttribute("y2", (Math.sin(rad) * outer).toFixed(2));
+          l.setAttribute("class", "tick" + (major ? " major" : ""));
+          g.appendChild(l);
+        }
+      })();
+
+      /* ---------- 状态 ---------- */
+      var S = {
+        cx: 118, cy: 118, r: 104, baseH: 1080,
+        opacity: 0.55, ring: true, heading: true, debug: true,
+        calib: false,
+        yaw: null, raw: null,
+        offset: 90, sign: 1,
+        err: "",
+        pos: null,
+        posErr: "",
+        tgt: null,           // {rel, phi, dist, demo, name} 或 {waiting:true} 或 {done:true}
+        autoTgt: null,       // 自动识别到的任务图标 {rel, phi, score}
+        sampling: false,     // 采样中：主脚本让页面把圆盘藏起来再截图
+        mapRange: 60,
+        scale: 1
+      };
+
+      var lastCss = {};
+
+      function num(v, d) {
+        var n = Number(v);
+        return isFinite(n) ? n : d;
+      }
+
+      /* ---------- 布局：把 viewBox 坐标换算成屏幕像素 ---------- */
+      function layout() {
+        var k = (window.innerHeight || 1080) / (S.baseH || 1080);
+        S.scale = k;
+        var r = S.r * k;
+        var cx = S.cx * k;
+        var cy = S.cy * k;
+        var w = Math.max(16, r * 2);
+        var key = w + "|" + cx + "|" + cy;
+        if (lastCss.pos !== key) {
+          lastCss.pos = key;
+          disc.style.width = w + "px";
+          disc.style.height = w + "px";
+          disc.style.transform = "translate(" + (cx - w / 2).toFixed(1) + "px," + (cy - w / 2).toFixed(1) + "px)";
+        }
+        if (lastCss.op !== S.opacity) {
+          lastCss.op = S.opacity;
+          disc.style.setProperty("--op", String(S.opacity));
+        }
+      }
+
+      /* ---------- 指针 ---------- */
+      function renderHeading() {
+        if (S.yaw === null || !isFinite(S.yaw)) return;
+        // 屏幕顺时针角 φ = offset - sign * yaw
+        // 默认 offset=90：相机朝北(yaw=90)时 φ=0（箭头朝上），与"北固定朝上"的小地图一致
+        var deg = S.offset - S.sign * S.yaw;
+        headG.setAttribute("transform", "rotate(" + deg.toFixed(2) + ")");
+      }
+
+      /* 目标点两种形态：
+       *   rel <= 1  → 红点，位置 = 中心 + (sinφ, −cosφ) × 100 × rel（按真实比例摆在盘内）
+       *   rel >  1  → 外径箭头，只保留方向
+       * 两者共用同一个 φ，所以红点滑到边缘时不会跳角度。 */
+      function renderTarget() {
+        var t = S.tgt;
+        if (!t || t.waiting || t.done) { tgtG.style.display = "none"; return; }
+        tgtG.style.display = "";
+
+        var rel = Number(t.rel);
+        var phi = Number(t.phi);
+        if (!isFinite(rel)) rel = 0;
+        if (!isFinite(phi)) phi = 0;
+        if (rel < 0) rel = 0;
+
+        var rad = phi * Math.PI / 180;
+        if (rel <= 1) {
+          tgtDotG.style.display = "";
+          tgtArrowG.style.display = "none";
+          var x = Math.sin(rad) * 100 * rel;
+          var y = -Math.cos(rad) * 100 * rel;
+          tgtDotG.setAttribute("transform", "translate(" + x.toFixed(2) + "," + y.toFixed(2) + ")");
+        } else {
+          tgtDotG.style.display = "none";
+          tgtArrowG.style.display = "";
+          tgtArrowG.setAttribute("transform", "rotate(" + phi.toFixed(2) + ")");
+        }
+      }
+
+      /* 自动识别到的任务图标：黄色标记，位置就是它在小地图上的真实位置。
+       * 理论上图标都在盘内（超出范围的图标游戏会贴到边缘，模板匹配也能找到），
+       * rel 超了 1 就夹到边缘，别画到盘外面去。 */
+      function renderAutoTarget() {
+        var a = S.autoTgt;
+        var g = document.getElementById("autoG");
+        if (!a || !isFinite(Number(a.rel))) { g.style.display = "none"; return; }
+        g.style.display = "";
+
+        var rel = Number(a.rel);
+        var phi = Number(a.phi) || 0;
+        if (!isFinite(rel)) rel = 0;
+        if (rel > 1) rel = 1;
+        if (rel < 0) rel = 0;
+
+        var rad = phi * Math.PI / 180;
+        var x = Math.sin(rad) * 100 * rel;
+        var y = -Math.cos(rad) * 100 * rel;
+        g.setAttribute("transform", "translate(" + x.toFixed(2) + "," + y.toFixed(2) + ")");
+      }
+
+      /* ---------- HUD ---------- */
+      function renderHud() {
+        hud.classList.toggle("on", !!S.debug);
+        if (!S.debug) return;
+
+        hYaw.textContent = (S.yaw === null || !isFinite(S.yaw)) ? "--" : (S.yaw.toFixed(1) + "°");
+        hRaw.textContent = (S.raw === null || S.raw === undefined) ? "--" : String(S.raw);
+        hPos2.textContent = S.pos ? (S.pos.x + ", " + S.pos.y) : (S.posErr ? "读不到" : "--");
+        var t = S.tgt;
+        if (!t || t.waiting) {
+          hDist.textContent = "--";
+        } else if (t.done) {
+          hDist.textContent = "全部完成（" + t.total + " 个任务）";
+        } else if (t.demo) {
+          hDist.textContent = t.dist + " 米 · 演示中";
+        } else {
+          var nm = String(t.name || "");
+          if (nm.length > 9) nm = nm.slice(0, 9) + "…";
+          hDist.textContent = "剩 " + t.left + "/" + t.total + " · " + nm + " · " +
+            t.dist + " 米 · " + (t.rel > 1 ? "外径" : "盘内");
+        }
+        hPos.textContent = S.cx + "," + S.cy + "  r" + S.r + "  ×" + S.scale.toFixed(2);
+        hErr.textContent = S.err || S.posErr || "";
+        hCalib.style.display = S.calib ? "block" : "none";
+      }
+
+      function apply() {
+        layout();
+        document.getElementById("ringG").style.display = S.ring ? "" : "none";
+        headG.style.display = S.heading ? "" : "none";
+        calibG.classList.toggle("on", !!S.calib);
+        renderHeading();
+        renderTarget();
+        renderAutoTarget();
+        renderHud();
+      }
+
+      /* ---------- 与 BetterGI 通信 ---------- */
+      var wired = false;
+
+      function post(url, data) {
+        var payload;
+        try { payload = JSON.stringify({ url: url, data: data || {} }); } catch (e) { return; }
+        try {
+          if (window.chrome && window.chrome.webview && window.chrome.webview.postMessage) {
+            window.chrome.webview.postMessage(payload);
+            return;
+          }
+        } catch (e) { }
+        try {
+          if (window.htmlMask && typeof window.htmlMask.postMessage === "function") {
+            window.htmlMask.postMessage(payload);
+          }
+        } catch (e) { }
+      }
+
+      function onMessage(msg) {
+        if (!msg || !msg.url) return;
+        if (msg.url === "/sample") {
+          // 采样：主脚本要截一张没有圆盘的干净小地图，先让页面把整个盘藏起来
+          var sd = msg.data || {};
+          S.sampling = !!sd.on;
+          disc.style.display = S.sampling ? "none" : "";
+          return;
+        }
+        if (msg.url !== "/state") return;
+        var d = msg.data || {};
+        S.cx = num(d.cx, S.cx);
+        S.cy = num(d.cy, S.cy);
+        S.r = num(d.r, S.r);
+        S.baseH = num(d.baseH, S.baseH);
+        S.opacity = num(d.opacity, S.opacity);
+        S.ring = d.ring !== false;
+        S.heading = d.heading !== false;
+        S.debug = d.debug !== false;
+        S.calib = !!d.calib;
+        S.offset = num(d.offset, S.offset);
+        S.sign = num(d.sign, S.sign);
+        S.err = d.err ? String(d.err) : "";
+        if (d.yaw !== null && d.yaw !== undefined && isFinite(Number(d.yaw))) S.yaw = Number(d.yaw);
+        S.raw = (d.raw === null || d.raw === undefined) ? null : d.raw;
+        S.pos = (d.pos && isFinite(Number(d.pos.x)) && isFinite(Number(d.pos.y)))
+          ? { x: Number(d.pos.x), y: Number(d.pos.y) } : null;
+        S.posErr = d.posErr ? String(d.posErr) : "";
+        S.tgt = d.tgt || null;
+        S.autoTgt = d.autoTgt || null;
+        S.mapRange = num(d.mapRange, S.mapRange);
+        apply();
+      }
+
+      function wire() {
+        if (wired) return;
+        try {
+          if (window.htmlMask) {
+            var fn = function (m) { onMessage(m); };
+            window.htmlMask.onMessage = fn;
+            if (window.htmlMask.onMessage === fn) { wired = true; }
+          }
+        } catch (e) { }
+        if (!wired) {
+          try {
+            if (window.chrome && window.chrome.webview && window.chrome.webview.addEventListener) {
+              window.chrome.webview.addEventListener("message", function (ev) {
+                var m = null;
+                try { m = JSON.parse(ev.data); } catch (e) { return; }
+                onMessage(m);
+              });
+              wired = true;
+            }
+          } catch (e) { }
+        }
+      }
+
+      wire();
+      // 通道可能比脚本晚就绪，前几秒反复补挂
+      var tries = 0;
+      var timer = setInterval(function () {
+        wire();
+        if (wired || ++tries > 40) clearInterval(timer);
+      }, 120);
+
+      window.addEventListener("resize", apply);
+
+      /* ---------- 独立预览（?demo）：假装有游戏画面 + 一个绕圈的目标点 ---------- */
+      var isDemo = /(\?|&)demo(=|&|$)/.test(location.search);
+      if (isDemo) {
+        document.body.classList.add("demo");
+        /* 假小地图必须和圆环用同一套圆心/半径，否则"环到底套没套准"根本看不出来。
+         * 直接写 left/top/width/height，不要复制 transform —— 之前那版就是这么错的。 */
+        var syncFake = function () {
+          var k = (window.innerHeight || 1080) / (S.baseH || 1080);
+          var r = S.r * k, cx = S.cx * k, cy = S.cy * k;
+          var mm = document.getElementById("minimapfake");
+          mm.style.left = (cx - r) + "px";
+          mm.style.top = (cy - r) + "px";
+          mm.style.width = (r * 2) + "px";
+          mm.style.height = (r * 2) + "px";
+          mm.style.borderRadius = "50%";
+        };
+        setTimeout(syncFake, 30);
+        window.addEventListener("resize", syncFake);
+
+        // ?demo=1&calib=1 用来截"标定模式"的样子
+        if (/(\?|&)calib(=|&|$)/.test(location.search)) S.calib = true;
+      }
+
+      apply();
+      post("/ready", {});
+
+      if (isDemo) {
+        /* 截图/调参用：?demo=1&rel=0.5&phi=135 可以把目标钉死在某个位置，
+         * 免得为了截"盘内红点"和"外径箭头"两种形态在那儿等它转。 */
+        var mRel = /(\?|&)rel=(-?[0-9.]+)/.exec(location.search);
+        var mPhi = /(\?|&)phi=(-?[0-9.]+)/.exec(location.search);
+        var pinned = null;
+        if (mRel || mPhi) {
+          var rv = mRel ? Number(mRel[2]) : 0.6;
+          var pv = mPhi ? Number(mPhi[2]) : 90;
+          pinned = {
+            rel: rv, phi: pv, dist: Math.round(rv * S.mapRange),
+            demo: false, name: "北风之狼的庙宇", left: 2, total: 3
+          };
+          S.tgt = pinned;
+          S.pos = { x: 1234.5, y: -567.2 };
+          renderTarget();
+          renderHud();
+        }
+
+        var mAuto = /(\?|&)auto=(-?[0-9.]+),(-?[0-9.]+)/.exec(location.search);
+        if (mAuto) {
+          S.autoTgt = { rel: Number(mAuto[2]), phi: Number(mAuto[3]), score: 0.9 };
+          renderAutoTarget();
+        }
+
+        var t = 0;
+        setInterval(function () {
+          if (pinned) return;
+          t += 0.05;
+          // 和主脚本的演示模式一模一样的节奏：目标绕圈 + 距离在 25~85 米之间伸缩
+          var dist = 25 + 60 * (1 + Math.sin(t * 0.9)) / 2;
+          S.tgt = {
+            rel: dist / S.mapRange,
+            phi: (t * 24) % 360,
+            dist: Math.round(dist),
+            demo: true
+          };
+          S.yaw = (t * 30) % 360;
+          S.raw = Math.round(S.yaw * 10) / 10;
+          S.pos = { x: 1234.5, y: -567.2 };
+          renderHeading();
+          renderTarget();
+          renderHud();
+        }, 50);
+      }
+    })();
+  </script>
+</body>
+
+</html>
