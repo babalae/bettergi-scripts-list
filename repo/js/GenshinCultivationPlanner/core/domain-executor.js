@@ -17,7 +17,9 @@ export function buildDomainExecutionConfig(task, settings, resinPolicy) {
     ? {
       ...resinPolicy,
       priority: ['原粹树脂'],
-      originalResinUseCount: 1,
+      originalResinUseCount: 0,
+      originalResin20UseCount: 1,
+      originalResin40UseCount: 0,
       condensedResinUseCount: 0,
       transientResinUseCount: 0,
       fragileResinUseCount: 0,

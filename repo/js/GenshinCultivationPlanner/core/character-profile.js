@@ -1,4 +1,6 @@
 import { parseLevelRange } from './level-state.js';
+import { validateWeaponProgress } from './requirements.js';
+import { isCancellationError } from './error-classifier.js';
 
 const PROFILE_MODES = new Set(['自动档案仅预览', '自动档案识别后执行']);
 const CULTIVATION_MODE_ALIASES = Object.freeze({
@@ -15,6 +17,7 @@ const NO_CHARACTER_SELECTION = '不选择角色';
 const NO_WEAPON_SELECTION = '不选择武器';
 const NO_TALENT_TARGET = '不培养';
 const LEVEL_LIMITS = new Set([20, 40, 50, 60, 70, 80, 90]);
+const COMPLETED_CHARACTER_LEVEL_LIMITS = new Set([90, 95, 100]);
 const TARGET_LIMITS = new Map([
   [20, 40], [40, 50], [50, 60], [60, 70], [70, 80], [80, 90], [90, 90],
 ]);
@@ -33,9 +36,9 @@ export function prepareAutomaticProfileRequest(settings, rulebook) {
     || cultivationMode === '仅培养指定武器';
   let characterName = null;
   if (includesCharacter) {
-    characterName = String(settings.selectedCharacter ?? '').trim();
+    characterName = requireConfiguredName(settings.selectedCharacter, '角色名称');
     if (!characterName || characterName === NO_CHARACTER_SELECTION) throw new Error('当前培养内容必须选择角色');
-    if (!rulebook.characters?.[characterName]) throw new Error(`角色“${characterName}”不在当前规则库中`);
+    if (!Object.hasOwn(rulebook.characters ?? {}, characterName)) throw new Error(`角色“${characterName}”不在当前规则库中`);
     parseTargetLevel(settings.autoCharacterTargetLevel, '角色目标等级');
     for (const [field, label] of [
       ['autoNormalAttackTargetLevel', '普通攻击目标等级'],
@@ -60,14 +63,19 @@ export function prepareAutomaticProfileRequest(settings, rulebook) {
 /** 调用 BetterGI 档案接口，并转换为可安全序列化的普通对象。 */
 export async function readCharacterProfile(service, request, now = new Date()) {
   if (!service || typeof service.GetCharacter !== 'function') {
-    throw new Error('当前 BetterGI 未提供 characterDevelopmentTask.GetCharacter()；本脚本仅支持 BetterGI 0.64.0 或更高版本，请升级后重试');
+    throw new Error('当前 BetterGI 未提供 characterDevelopmentTask.GetCharacter()；本脚本仅支持 BetterGI 0.66.0 或更高版本，请升级后重试');
   }
   let raw;
   try {
     raw = await service.GetCharacter(request.characterName, request.categories);
   } catch (error) {
+    if (isCancellationError(error)) throw error;
     const message = error?.message ?? String(error);
-    const wrapped = new Error(`${message}；若角色、等级、武器或天赋文字识别异常，请确认 BetterGI 已使用 OCR V6 后重试`);
+    const hint = /当前获取焦点的窗口不是原神|无法获取原神窗口焦点|未能获取原神窗口焦点|锁屏/.test(message)
+      ? '请解锁电脑并将原神切到前台后重试'
+      : /OCR|识别|读取.*(?:角色|等级|武器|天赋)|(?:角色|等级|武器|天赋).*读取失败/i.test(message)
+        ? '若角色、等级、武器或天赋文字识别异常，请确认 BetterGI 已使用 OCR V6 后重试' : '';
+    const wrapped = new Error(`${message}${hint ? `；${hint}` : ''}`);
     wrapped.cause = error;
     throw wrapped;
   }
@@ -121,19 +129,20 @@ export function normalizeCharacterProfile(raw, expectedCharacterName, now = new 
 }
 
 /** 用规范化档案与用户目标生成现有材料计算器可直接消费的目标。 */
-export function buildAutomaticProfileTargets(profile, settings, rulebook, request = null, profileError = null) {
+export function buildAutomaticProfileTargets(profile, settings, rulebook, request = null, profileError = null, initialProgress = false) {
   const targets = [];
   const targetOutcomes = [];
   const summary = [];
   const cultivationMode = request?.cultivationMode ?? resolveCultivationMode(settings.autoWeaponMode);
   const includesCharacter = cultivationMode !== '仅培养指定武器';
   if (includesCharacter) {
-    if (profileError || !profile) {
+    if (profileError || !profile && !initialProgress) {
       const message = profileError?.message ?? '未读取到角色档案';
       targetOutcomes.push({ kind: 'character', component: 'profile', status: 'failed', name: request?.characterName ?? null, message });
       summary.push(`角色 ${request?.characterName ?? '未确认'}：档案读取失败（${message}）`);
     } else {
-      const generatedCharacter = buildCharacterTarget(profile, settings);
+      // Initial progress is calculation input, never a fabricated native profile.
+      const generatedCharacter = buildCharacterTarget(profile, settings, request?.characterName, initialProgress && !profile);
       if (generatedCharacter.target) targets.push(generatedCharacter.target);
       targetOutcomes.push(...generatedCharacter.outcomes);
       summary.push(...generatedCharacter.summary);
@@ -142,10 +151,12 @@ export function buildAutomaticProfileTargets(profile, settings, rulebook, reques
 
   let ignoredWeaponReason = null;
   if (cultivationMode === '培养角色和当前佩戴武器') {
-    const weaponName = profile.weapon.name;
+    const weaponName = profile?.weapon?.name;
     try {
-      if (!weaponName) throw new Error('BetterGI 档案未返回当前佩戴武器名称');
-      const weaponRule = rulebook.weapons?.[weaponName];
+      if (!weaponName) throw new Error(initialProgress
+        ? '未拥有角色没有当前佩戴武器；如需预刷武器，请使用“培养角色和指定武器”'
+        : 'BetterGI 档案未返回当前佩戴武器名称');
+      const weaponRule = Object.hasOwn(rulebook.weapons ?? {}, weaponName) ? rulebook.weapons[weaponName] : null;
       if (!weaponRule) throw new Error(`当前佩戴武器“${weaponName}”不在规则库中，不能猜测培养材料`);
       if (weaponRule.rarity === 1) {
         ignoredWeaponReason = `当前佩戴的是一星初始武器“${weaponName}”，已按规则忽略武器培养`;
@@ -154,6 +165,8 @@ export function buildAutomaticProfileTargets(profile, settings, rulebook, reques
       } else {
         const current = requireProgress(profile.weapon, '武器等级');
         const target = buildTargetProgress(settings.autoWeaponTargetLevel, '武器目标等级');
+        validateWeaponProgress(weaponName, weaponRule, { current: current.level, currentLimit: current.levelLimit,
+          target: target.level, targetLimit: target.levelLimit });
         const pending = compareProgress(current, target) < 0;
         targetOutcomes.push({
           kind: 'weapon', component: 'level', status: pending ? 'pending' : 'completed', name: weaponName,
@@ -173,18 +186,25 @@ export function buildAutomaticProfileTargets(profile, settings, rulebook, reques
     } catch (error) {
       const message = error?.message ?? String(error);
       targetOutcomes.push({ kind: 'weapon', component: 'level', status: 'failed', name: weaponName ?? null, message });
-      summary.push(`当前佩戴武器：读取失败（${message}）`);
+      summary.push(`武器 ${weaponName ?? '未确认'}：未能生成目标（${message}）`);
     }
   } else if (cultivationMode === '培养角色和指定武器' || cultivationMode === '仅培养指定武器') {
-    const manualTarget = buildManualWeaponTarget(settings, rulebook);
-    const pending = compareManualProgress(manualTarget.level) < 0;
-    targetOutcomes.push({
-      kind: 'weapon', component: 'level', status: pending ? 'pending' : 'completed', name: manualTarget.name,
-      current: manualTarget.level.current, target: manualTarget.level.target,
-      message: pending ? '需要培养' : '当前进度已达到目标',
-    });
-    summary.push(`指定武器 ${manualTarget.name}：${formatManualProgress(manualTarget.level, 'current')} → ${formatManualProgress(manualTarget.level, 'target')}${pending ? '' : '（已达到，跳过）'}`);
-    if (pending) targets.push(manualTarget);
+    try {
+      const manualTarget = buildManualWeaponTarget(settings, rulebook);
+      validateWeaponProgress(manualTarget.name, rulebook.weapons[manualTarget.name], manualTarget.level);
+      const pending = compareManualProgress(manualTarget.level) < 0;
+      targetOutcomes.push({
+        kind: 'weapon', component: 'level', status: pending ? 'pending' : 'completed', name: manualTarget.name,
+        current: manualTarget.level.current, target: manualTarget.level.target,
+        message: pending ? '需要培养' : '当前进度已达到目标',
+      });
+      summary.push(`指定武器 ${manualTarget.name}：${formatManualProgress(manualTarget.level, 'current')} → ${formatManualProgress(manualTarget.level, 'target')}${pending ? '' : '（已达到，跳过）'}`);
+      if (pending) targets.push(manualTarget);
+    } catch (error) {
+      const message = error?.message ?? String(error);
+      targetOutcomes.push({ kind: 'weapon', component: 'level', status: 'failed', name: settings.selectedWeapon, message });
+      summary.push(`指定武器 ${settings.selectedWeapon}：未能生成目标（${message}）`);
+    }
   }
 
   return {
@@ -195,25 +215,27 @@ export function buildAutomaticProfileTargets(profile, settings, rulebook, reques
   };
 }
 
-function buildCharacterTarget(profile, settings) {
+function buildCharacterTarget(profile, settings, requestedName = null, initialProgress = false) {
   const outcomes = [];
   const summary = [];
+  const characterName = profile?.characterName ?? requestedName;
+  if (initialProgress) summary.push(`角色 ${characterName}：档案未确认，按允许预刷配置从 1/20、天赋 1/1/1 计算`);
   const characterTarget = buildTargetProgress(settings.autoCharacterTargetLevel, '角色目标等级');
   let characterCurrent = null;
   let levelPending = false;
   try {
-    characterCurrent = requireProgress(profile.character, '角色等级');
+    characterCurrent = initialProgress ? { level: 1, levelLimit: 20 } : requireCharacterProgress(profile.character);
     levelPending = compareProgress(characterCurrent, characterTarget) < 0;
     outcomes.push({
-      kind: 'character', component: 'level', status: levelPending ? 'pending' : 'completed', name: profile.characterName,
+      kind: 'character', component: 'level', status: levelPending ? 'pending' : 'completed', name: characterName,
       current: characterCurrent, target: characterTarget,
       message: levelPending ? '需要培养' : '当前进度已达到或超过目标',
     });
-    summary.push(`角色 ${profile.characterName}：${formatProgress(characterCurrent.level, characterCurrent.levelLimit)} → ${formatProgress(characterTarget.level, characterTarget.levelLimit)}${levelPending ? '' : '（已达到，跳过等级）'}`);
+    summary.push(`角色 ${characterName}：${formatProgress(characterCurrent.level, characterCurrent.levelLimit)} → ${formatProgress(characterTarget.level, characterTarget.levelLimit)}${levelPending ? '' : '（已达到，跳过等级）'}`);
   } catch (error) {
     const message = error?.message ?? String(error);
-    outcomes.push({ kind: 'character', component: 'level', status: 'failed', name: profile.characterName, message });
-    summary.push(`角色 ${profile.characterName}：等级读取失败（${message}）`);
+    outcomes.push({ kind: 'character', component: 'level', status: 'failed', name: characterName, message });
+    summary.push(`角色 ${characterName}：等级读取失败（${message}）`);
   }
 
   const talents = {};
@@ -226,23 +248,23 @@ function buildCharacterTarget(profile, settings) {
   for (const [name, field, label, shortLabel] of talentSettings) {
     const target = parseTalentTarget(settings[field], `${label}目标等级`);
     if (target == null) {
-      const current = optionalTalentLevel(profile.talents[name]);
-      outcomes.push({ kind: 'character', component: name, status: 'skipped', name: profile.characterName, message: '用户选择不培养' });
+      const current = initialProgress ? 1 : optionalTalentLevel(profile.talents[name]);
+      outcomes.push({ kind: 'character', component: name, status: 'skipped', name: characterName, message: '用户选择不培养' });
       talentSummaries.push(`${shortLabel}${current ?? ''}（不培养）`);
       continue;
     }
     try {
-      const current = requireTalentLevel(profile.talents[name], label);
+      const current = initialProgress ? 1 : requireTalentLevel(profile.talents[name], label);
       const pending = target > current;
       outcomes.push({
-        kind: 'character', component: name, status: pending ? 'pending' : 'completed', name: profile.characterName,
+        kind: 'character', component: name, status: pending ? 'pending' : 'completed', name: characterName,
         current, target, message: pending ? '需要培养' : '当前进度已达到或超过目标',
       });
       talentSummaries.push(`${shortLabel}${current}→${target}${pending ? '' : '（已达到）'}`);
       if (pending) talents[name] = { current, target };
     } catch (error) {
       const message = error?.message ?? String(error);
-      outcomes.push({ kind: 'character', component: name, status: 'failed', name: profile.characterName, message });
+      outcomes.push({ kind: 'character', component: name, status: 'failed', name: characterName, message });
       talentSummaries.push(`${shortLabel}读取失败`);
     }
   }
@@ -250,17 +272,16 @@ function buildCharacterTarget(profile, settings) {
 
   const hasPendingTalent = Object.keys(talents).length > 0;
   if (!levelPending && !hasPendingTalent) return { target: null, outcomes, summary };
-  const effectiveCurrent = characterCurrent ?? characterTarget;
   return {
     target: {
-      kind: 'character', name: profile.characterName,
-      level: levelPending ? {
+      kind: 'character', name: characterName,
+      ...(levelPending ? { level: {
         current: characterCurrent.level, currentLimit: characterCurrent.levelLimit,
         target: characterTarget.level, targetLimit: characterTarget.levelLimit,
-      } : {
-        current: effectiveCurrent.level, currentLimit: effectiveCurrent.levelLimit,
-        target: effectiveCurrent.level, targetLimit: effectiveCurrent.levelLimit,
-      },
+      } } : characterCurrent ? { level: {
+        current: characterCurrent.level, currentLimit: characterCurrent.levelLimit,
+        target: characterCurrent.level, targetLimit: characterCurrent.levelLimit,
+      } } : {}),
       talents,
     },
     outcomes,
@@ -290,9 +311,9 @@ export function buildTargetSummary(targets = [], extraMessage = null) {
 }
 
 function validateManualWeaponSettings(settings, rulebook) {
-  const name = String(settings.selectedWeapon ?? '').trim();
+  const name = requireConfiguredName(settings.selectedWeapon, '武器名称');
   if (!name || name === NO_WEAPON_SELECTION) throw new Error('手动指定武器模式必须选择武器');
-  if (!rulebook.weapons?.[name]) throw new Error(`武器“${name}”不在当前规则库中`);
+  if (!Object.hasOwn(rulebook.weapons ?? {}, name)) throw new Error(`武器“${name}”不在当前规则库中`);
   parseManualRange(settings.weaponLevelRange, `武器“${name}”等级`);
 }
 
@@ -324,6 +345,18 @@ function optionalTalentLevel(talent) {
   if (!Number.isInteger(talent?.displayLevel) || typeof talent?.hasBonus !== 'boolean') return null;
   const level = talent.displayLevel - (talent.hasBonus ? 3 : 0);
   return level >= 1 && level <= 10 ? level : null;
+}
+
+function requireCharacterProgress(value) {
+  const level = value?.level;
+  const levelLimit = value?.levelLimit;
+  // Special-item character levels above 90 are already complete for the legacy
+  // material catalog. This only normalizes current progress; targets stay capped at 90.
+  if (Number.isInteger(level) && Number.isInteger(levelLimit)
+      && level >= 90 && level <= levelLimit && COMPLETED_CHARACTER_LEVEL_LIMITS.has(levelLimit)) {
+    return { level: 90, levelLimit: 90 };
+  }
+  return requireProgress(value, '角色等级');
 }
 
 function requireProgress(value, label) {
@@ -398,6 +431,22 @@ function textValue(value) {
 function nullableTextValue(value) {
   const text = textValue(value);
   return text || null;
+}
+
+function requireConfiguredName(value, label) {
+  if (typeof value !== 'string' || ['__proto__', 'constructor', 'prototype'].includes(value.trim())) {
+    throw new Error(`${label}无效`);
+  }
+  return value.trim();
+}
+
+/** Only exact native missing-name results permit an explicitly opted-in initial assumption. */
+export function isUnownedProfileError(error, name) {
+  for (let cause = error, depth = 0; cause != null && depth < 4; cause = cause.cause, depth++) {
+    const message = String(cause?.message ?? cause).trim();
+    if (message === `未找到目标角色 ${name}。` || message === `角色名称校验失败：${name}`) return true;
+  }
+  return false;
 }
 
 function nullableInteger(value) {

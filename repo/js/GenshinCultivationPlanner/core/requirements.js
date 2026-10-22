@@ -16,18 +16,54 @@ export function expandTargets(targets, rulebook) {
   });
 }
 
+/** 单个目标先完整展开验证，失败时不保留任何部分成本，也不阻断其他目标。 */
+export function validateCalculationTargets(targets, rulebook) {
+  const validTargets = [];
+  const failures = [];
+  for (const target of targets) {
+    try {
+      expandTargets([target], rulebook);
+      validTargets.push(target);
+    } catch (error) {
+      failures.push({ kind: target.kind, name: target.name, component: 'calculation',
+        status: 'failed', message: error?.message ?? String(error) });
+    }
+  }
+  return { targets: validTargets, failures };
+}
+
+/** 等级上限来自武器星级规则，不用缺失的突破成本反推上限。 */
+export function validateWeaponProgress(name, weapon, progress) {
+  const maxLevel = [1, 2].includes(weapon.rarity) ? 70 : 90;
+  if ([progress.current, progress.target, progress.currentLimit, progress.targetLimit]
+    .some((value) => Number.isFinite(value) && value > maxLevel)
+    || progress.target === maxLevel && progress.targetAscended === true
+    || progress.current === maxLevel && progress.currentAscended === true) {
+    throw new Error(`武器“${name}”最高${maxLevel}级，当前或目标等级超出上限；请检查武器识别或手动指定武器`);
+  }
+}
+
+/** 单独展开突破需求；先合并所有目标，再扣同一份库存，避免共享材料重复抵扣。 */
+export function expandLevelTargets(targets, rulebook) {
+  return expandTargets(targets.filter((target) => target.requirements || target.level != null)
+    .map((target) => ({ ...target, talents: undefined })), rulebook);
+}
+
 function expandCharacterTarget(target, characters) {
   const character = characters[target.name];
   if (!character) throw new Error(`规则库中没有角色：${target.name}`);
-  validateLevels(target.level?.current, target.level?.target, `角色 ${target.name} 等级`);
   const costs = [];
-  appendAscensionCosts(costs, character.ascensionCosts, target.level);
+  if (target.level != null) {
+    validateLevels(target.level.current, target.level.target, `角色 ${target.name} 等级`);
+    appendAscensionCosts(costs, character.ascensionCosts, target.level);
+  }
   for (const talentName of ['normal', 'skill', 'burst']) {
     const talent = target.talents?.[talentName];
     if (!talent) continue;
     validateTalentLevels(talent.current, talent.target, `角色 ${target.name} 的${talentName}天赋`);
     appendTalentCosts(costs, character.talentCosts, talent.current, talent.target);
   }
+  if (target.level == null && costs.length === 0) throw new Error(`角色 ${target.name} 没有可计算的培养项目`);
   return { id: target.id ?? `character:${target.name}`, requirements: mergeCostItems(costs) };
 }
 
@@ -35,6 +71,7 @@ function expandWeaponTarget(target, weapons) {
   const weapon = weapons[target.name];
   if (!weapon) throw new Error(`规则库中没有武器：${target.name}`);
   validateLevels(target.level?.current, target.level?.target, `武器 ${target.name} 等级`);
+  validateWeaponProgress(target.name, weapon, target.level);
   const costs = [];
   appendAscensionCosts(costs, weapon.ascensionCosts, target.level);
   return { id: target.id ?? `weapon:${target.name}`, requirements: mergeCostItems(costs) };
@@ -51,14 +88,14 @@ function appendAscensionCosts(output, costs, progress) {
     const targetIncludesAscension = level < targetLevel
       || (level === targetLevel && targetAscended);
     if (level >= currentLevel && !currentAlreadyAscended && targetIncludesAscension) {
-      output.push(...(costs[`ascend${index + 1}`] ?? []));
+      output.push(...requireCostStage(costs, `ascend${index + 1}`));
     }
   });
 }
 
 function appendTalentCosts(output, costs, currentLevel, targetLevel) {
   TALENT_LEVELS.forEach((level) => {
-    if (level > currentLevel && level <= targetLevel) output.push(...(costs[`lvl${level}`] ?? []));
+    if (level > currentLevel && level <= targetLevel) output.push(...requireCostStage(costs, `lvl${level}`));
   });
 }
 
@@ -66,6 +103,14 @@ function mergeCostItems(costs) {
   const totals = new Map();
   for (const cost of costs) totals.set(String(cost.id), (totals.get(String(cost.id)) ?? 0) + cost.count);
   return [...totals.entries()].map(([materialId, count]) => ({ materialId, count }));
+}
+
+function requireCostStage(costs, stage) {
+  const items = costs?.[stage];
+  if (!Array.isArray(items) || items.length === 0 || items.some((item) => (
+    !/^\d+$/.test(String(item?.id)) || !Number.isSafeInteger(item?.count) || item.count <= 0
+  ))) throw new Error(`材料映射缺少有效的 ${stage} 阶段成本，不能按零需求计算`);
+  return items;
 }
 
 function validateLevels(current, target, label) {

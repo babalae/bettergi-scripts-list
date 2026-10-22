@@ -17,6 +17,7 @@ export function discoverAutoPathingRoutes({ shortages, sourceCandidates = {}, pa
       name: candidate.name,
       type: candidate.type,
       shortage: shortage.shortage,
+      cultivationPriority: shortage.cultivationPriority ?? 0,
       paths,
       source: overridden.length > 0 ? 'manualOverride' : 'autoDiscovered',
     };
@@ -77,13 +78,36 @@ function findSubscribedPaths(candidate, pathing) {
   if (candidate.type === 'localSpecialty') {
     return candidate.routeNames.flatMap((name) => findLocalSpecialtyPaths(name, pathing));
   }
-  return unique(candidate.routeNames.flatMap((name) => findFiles(`${'敌人与魔物'}/${name}`, pathing)));
+  return unique(candidate.routeNames.flatMap((name) => {
+    const folder = `敌人与魔物/${name}`;
+    return selectRouteVariant(findFiles(folder, pathing), folder);
+  }));
 }
 
 function findLocalSpecialtyPaths(name, pathing) {
   return unique(pathing.readPaths('地方特产')
     .filter((path) => pathing.isFolder(path))
-    .flatMap((country) => findFiles(`${country}/${name}`, pathing)));
+    .flatMap((country) => {
+      const folder = `${country}/${name}`;
+      return selectRouteVariant(findFiles(folder, pathing), folder);
+    }));
+}
+
+/** 同一材料目录中带 @ 的作者版本通常覆盖相同点位；普通子目录可能是不同区域，必须全部保留。 */
+function selectRouteVariant(paths, folder) {
+  const variants = new Map();
+  const prefix = `${folder}/`;
+  for (const path of paths) {
+    const relative = path.slice(prefix.length).replaceAll('\\', '/');
+    const separator = relative.indexOf('/');
+    const subfolder = separator < 0 ? '' : relative.slice(0, separator);
+    const variant = subfolder.includes('@') ? subfolder : '';
+    if (!variants.has(variant)) variants.set(variant, []);
+    variants.get(variant).push(path);
+  }
+  const selected = [...variants.entries()].sort((a, b) =>
+    b[1].length - a[1].length || a[0].localeCompare(b[0], 'zh-CN'))[0];
+  return selected ? selected[1].sort((a, b) => a.localeCompare(b, 'zh-CN')) : [];
 }
 
 function findFiles(folder, pathing, visited = new Set()) {

@@ -27,6 +27,36 @@ export function buildInventoryScanGroups(materialIds, materials) {
   return Object.fromEntries(Object.entries(groups).filter(([, items]) => items.length > 0));
 }
 
+/** 将 BetterGI 0.66 的物品数量映射转换为普通对象，保留 -2 数量识别失败标记。 */
+export function normalizeInventoryCountMap(rawCounts, scanItems) {
+  if (!rawCounts || typeof rawCounts !== 'object') {
+    throw new Error('BetterGI 背包计数未返回物品数量映射');
+  }
+  const counts = {};
+  for (const { name } of scanItems) {
+    let value;
+    try {
+      value = rawCounts[name];
+    } catch {
+      // 部分 ClearScript 字典只提供 get_Item()。
+    }
+    if (value === undefined && typeof rawCounts.get_Item === 'function') {
+      try {
+        value = rawCounts.get_Item(name);
+      } catch {
+        // 原生结果省略未找到的物品。
+      }
+    }
+    if (value === undefined) continue;
+    const count = value === null ? NaN : Number(value);
+    if (!Number.isInteger(count) || count < -2) {
+      throw new Error(`BetterGI 背包计数返回了无效数量：“${name}”=${String(value)}`);
+    }
+    counts[name] = count;
+  }
+  return counts;
+}
+
 /**
  * 将 BetterGI 返回的名称->数量映射合入库存。
  * BetterGI 批量任务会省略未找到的名称，或用 -1 表示未找到。

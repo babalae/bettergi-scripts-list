@@ -29,9 +29,12 @@ export function buildRouteExecutionPlan(routes, settings, recipes = {}) {
         partyName,
         paths: [...pathsByNormalizedName.values()],
         materialMap: new Map(),
+        cultivationPriority: route.cultivationPriority ?? 0,
       });
     }
-    groupedByRoute.get(key).materialMap.set(route.materialId, {
+    const group = groupedByRoute.get(key);
+    group.cultivationPriority = Math.min(group.cultivationPriority, route.cultivationPriority ?? 0);
+    group.materialMap.set(route.materialId, {
       materialId: route.materialId,
       name: route.name,
       shortage: route.shortage,
@@ -43,13 +46,14 @@ export function buildRouteExecutionPlan(routes, settings, recipes = {}) {
     const requirements = new Map(materials.map((item) => [item.materialId, 1]));
     return {
       type: group.type,
+      cultivationPriority: group.cultivationPriority,
       partyName: group.partyName,
       paths: group.paths,
       materials,
       name: materials.map((item) => item.name).join('、'),
       scanMaterialIds: collectCraftingMaterialIds(requirements, recipes),
     };
-  });
+  }).sort((left, right) => left.cultivationPriority - right.cultivationPriority);
 }
 
 function isRouteTypeEnabled(routeType, settings) {
@@ -76,18 +80,22 @@ export async function runSubscribedRouteFile(pathing, routePath) {
 export function applyFinalRouteInventoryGains(records, before, after, { unreliableMaterialIds = [] } = {}) {
   const unreliableIds = new Set(unreliableMaterialIds.map(String));
   return records.map((record) => {
+    const unattempted = record.stage === 'party' || record.status === 'skipped';
     const routeMaterials = (record.materials ?? []).map((item) => {
       const previous = before[item.materialId];
       const current = after[item.materialId];
-      const gained = !unreliableIds.has(String(item.materialId))
+      const gained = !unattempted && !unreliableIds.has(String(item.materialId))
         && Number.isInteger(previous) && Number.isInteger(current) && current > previous
         ? current - previous
         : 0;
       return { ...item, gained };
     });
     const gained = Object.fromEntries(routeMaterials.map((item) => [item.name, item.gained]));
-    if (record.status === 'failed') return { ...record, materials: routeMaterials, gained };
+    if (record.status === 'failed' || unattempted) return { ...record, materials: routeMaterials, gained };
     const confirmedGain = routeMaterials.some((item) => item.gained > 0);
+    const quantityUnknown = routeMaterials.some((item) => unreliableIds.has(String(item.materialId)));
+    const reason = quantityUnknown ? '前后背包数量无法确认，不将未知数量当作零增长'
+      : '全部任务结束后的背包复核未确认到材料增长';
     return {
       ...record,
       ...createExecutionOutcome({
@@ -95,10 +103,10 @@ export function applyFinalRouteInventoryGains(records, before, after, { unreliab
         taskType: 'route',
         targetName: record.name,
         status: confirmedGain ? 'completed' : 'unconfirmed',
-        code: confirmedGain ? 'reward_confirmed' : 'reward_unconfirmed',
+        code: confirmedGain ? 'reward_confirmed' : quantityUnknown ? 'quantity_unknown' : 'reward_unconfirmed',
         stage: 'reward',
         severity: confirmedGain ? 'info' : 'warning',
-        message: confirmedGain ? '已由全部任务结束后的背包差值确认路线收益' : '全部任务结束后的背包复核未确认到材料增长',
+        message: confirmedGain ? '已由全部任务结束后的背包差值确认路线收益' : reason,
         evidence: {
           ...(record.evidence ?? {}),
           inventoryGains: gained,
@@ -106,7 +114,7 @@ export function applyFinalRouteInventoryGains(records, before, after, { unreliab
         startedAt: record.startedAt ?? null,
         endedAt: new Date().toISOString(),
       }),
-      reason: confirmedGain ? null : '全部任务结束后的背包复核未确认到材料增长',
+      reason: confirmedGain ? null : reason,
       materials: routeMaterials,
       gained,
     };

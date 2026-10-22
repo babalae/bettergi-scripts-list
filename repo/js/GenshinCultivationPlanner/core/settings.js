@@ -11,9 +11,44 @@ const TARGET_INPUT_MODE_ALIASES = Object.freeze({
 const BOSS_OVERRIDE_SLOT_COUNT = 3;
 const BOSS_OVERRIDE_ACTIONS = new Set(['继承通用配置', '启用', '禁用']);
 
+/** 用途先分流，避免只读采样被旧培养、Boss或树脂配置影响。 */
+export function resolveRunPurpose(settings = {}) {
+  const purpose = settings.runPurpose ?? '正常培养';
+  if (!['正常培养', '仅刷角色圣遗物'].includes(purpose)) {
+    throw new Error(`未知的运行用途：“${purpose}”`);
+  }
+  return purpose;
+}
+
+/** 独立圣遗物用途只校验相关设置，不解析培养等级、武器或Boss覆盖。 */
+export function normalizeRoleArtifactSettings(raw = {}) {
+  const characterName = String(raw.selectedCharacter ?? '').trim();
+  if (!characterName || characterName === '不选择角色') throw new Error('请先选择圣遗物目标角色');
+  const source = raw.roleArtifactSource ?? '提升指南第一项推荐';
+  if (!['提升指南第一项推荐', '手动指定套装'].includes(source)) throw new Error('未知的圣遗物套装来源');
+  const mode = raw.roleArtifactRunMode ?? '按树脂规则';
+  if (!['按树脂规则', '单次（20原粹）'].includes(mode)) throw new Error('未知的角色圣遗物刷取模式');
+  if (source === '手动指定套装' && (!raw.roleArtifactSet || raw.roleArtifactSet === '未选择套装')) {
+    throw new Error('请选择手动圣遗物套装');
+  }
+  const normalized = { ...raw, selectedCharacter: characterName, roleArtifactSource: source,
+    artifactDomainEnabled: true, artifactTestSingleRun: mode === '单次（20原粹）' };
+  applyResinStrategy(normalized, raw.resinStrategy);
+  return normalized;
+}
+
 /** 将紧凑设置页的模式值转换为现有执行器使用的兼容字段。 */
 export function normalizeScriptSettings(rawSettings = {}) {
+  if (rawSettings.appendTrainingGuide === true) {
+    throw new Error('公开版暂不支持提升指南批量培养目标，请选择角色或使用自定义培养目标');
+  }
   const normalized = { ...rawSettings };
+  if (rawSettings.roleArtifactFillEnabled != null && typeof rawSettings.roleArtifactFillEnabled !== 'boolean') {
+    throw new Error('角色圣遗物填充开关必须是布尔值');
+  }
+  if (rawSettings.allowUnowned != null && typeof rawSettings.allowUnowned !== 'boolean') {
+    throw new Error('允许预刷必须是布尔值');
+  }
 
   applyTargetSelections(normalized, rawSettings);
   applyRouteModes(normalized, rawSettings);
@@ -137,8 +172,15 @@ function applyLegacyBossOverrideSlots(settings, rawSettings) {
 }
 
 /** 自由文本仍需校验名称，避免拼写错误导致专属配置静默失效。 */
-export function validateBossOverrideNames(settings = {}, catalog = {}) {
+export function validateBossOverrideNames(settings = {}, catalog = {}, materials = {}) {
   const knownBosses = new Set(catalog.bosses ?? []);
+  if (settings.allowUnowned === true) {
+    for (const material of Object.values(materials)) {
+      if (material.executionType === 'boss' && typeof material.bossName === 'string' && material.bossName.trim()) {
+        knownBosses.add(material.bossName);
+      }
+    }
+  }
   for (const bossName of Object.keys(settings.bossOverrides ?? {})) {
     if (!knownBosses.has(bossName)) {
       throw new Error(`Boss 专属配置中的“${bossName}”不是当前 BetterGI 支持的世界 Boss 名称`);

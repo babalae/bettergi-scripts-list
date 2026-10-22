@@ -79,7 +79,12 @@ export function createRunExecution({
       severity,
       retryable,
       message,
-      evidence,
+      evidence: {
+        materialIds: task?.materials?.map((item) => String(item.materialId))
+          ?? (task?.materialId ? [String(task.materialId)] : []),
+        sundaySelectedValue: task?.sundaySelectedValue ?? null,
+        ...evidence,
+      },
       startedAt,
       endedAt,
     })
@@ -168,8 +173,9 @@ export function combineRunExecutions(executions = []) {
   }
   const terminal = items.find((item) => item.status === 'failed')
     ?? items.find((item) => item.status === 'unconfirmed')
+    ?? items.filter((item) => item.code !== 'native_unsupported').at(-1)
     ?? items.at(-1);
-  const first = items[0];
+  const first = items.find((item) => item.code !== 'native_unsupported') ?? items[0];
   return {
     ...first,
     status: terminal.status,

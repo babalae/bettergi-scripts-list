@@ -11,7 +11,8 @@ const TASK_CATEGORY_BY_LABEL = Object.freeze(Object.fromEntries(
 
 const DEFAULT_TASK_ORDER = Object.freeze(['boss', 'limitedDomain', 'domain', 'artifactDomain']);
 const CUSTOM_MODE_LABEL = '按顺序刷多类';
-const LEGACY_MODE_LABEL = '一次只刷一类（推荐）';
+const LEGACY_MODE_LABEL = '等级优先（推荐）';
+const PREVIOUS_MODE_LABEL = '一次只刷一类（推荐）';
 const LEGACY_CUSTOM_MODE_LABEL = '自定义顺序与上限';
 const LEGACY_SINGLE_MODE_LABEL = '兼容当前规则';
 const UNLIMITED_CLAIM_LABEL = '用完可用树脂';
@@ -24,11 +25,11 @@ const MAX_CLAIM_LIMIT = 9999;
 
 /**
  * 把设置页中的树脂规则编译为不可变策略。
- * 兼容模式完全复现 0.9.0 行为；高级字段只在自定义模式下生效。
+ * 默认等级优先，兼容旧模式名称；高级字段只在自定义模式下生效。
  */
 export function compileResinPolicyV2(settings = {}) {
   const modeLabel = String(settings.resinRuleMode ?? LEGACY_MODE_LABEL).trim();
-  if (![LEGACY_MODE_LABEL, CUSTOM_MODE_LABEL, LEGACY_SINGLE_MODE_LABEL, LEGACY_CUSTOM_MODE_LABEL].includes(modeLabel)) {
+  if (![LEGACY_MODE_LABEL, PREVIOUS_MODE_LABEL, CUSTOM_MODE_LABEL, LEGACY_SINGLE_MODE_LABEL, LEGACY_CUSTOM_MODE_LABEL].includes(modeLabel)) {
     throw new Error(`未知的树脂规则模式：“${modeLabel}”`);
   }
 
@@ -81,7 +82,7 @@ export function formatResinPolicyPreview(policy) {
   ].filter(([key]) => policy.resinTypes[key]).map(([, name]) => name);
   return {
     mode: policy.mode === 'custom' ? CUSTOM_MODE_LABEL : LEGACY_MODE_LABEL,
-    order,
+    order: policy.mode === 'custom' ? order : '角色突破 Boss → 武器突破秘境 → 天赋秘境 → 圣遗物填充（只执行首个可用任务）',
     resinTypes: resinNames.join(' → ') || '未允许任何秘境树脂',
     routeTiming: policy.routeTiming === 'beforeResin' ? '树脂任务前' : '树脂任务后',
   };

@@ -1,4 +1,5 @@
-const UNLIMITED_RUN_COUNT = 9999;
+// 沿用项目已确认的世界等级 9：每次领奖至少获得 3 个首领专属突破材料。
+const BOSS_MIN_ASCENSION_YIELD = 3;
 
 /** 构造世界 Boss 执行配置：只耗原粹树脂，不主动使用须臾或脆弱树脂。 */
 export function buildBossExecutionConfig(task, settings, maxClaims = null) {
@@ -11,15 +12,25 @@ export function buildBossExecutionConfig(task, settings, maxClaims = null) {
   if (!partyName) throw new Error(`世界 Boss“${task.bossName}”未配置 Boss 队伍`);
   const testSingleRun = settings.bossTestSingleRun === true;
   const bounded = Number.isInteger(maxClaims) && maxClaims > 0;
+  const trackedMaterials = task.materials?.length > 0 ? task.materials
+    : [{ materialId: task.materialId, materialName: task.materialName, shortage: task.shortage }];
+  if (trackedMaterials.some((material) => !Number.isSafeInteger(material.shortage) || material.shortage <= 0)) {
+    throw new Error(`世界 Boss“${task.bossName}”的材料缺口无效，无法确定领奖上限`);
+  }
+  // 同一个 Boss 同时掉落多个目标材料时取最大需求次数，不能重复相加。
+  const shortageRunCount = Math.max(...trackedMaterials.map((material) => (
+    Math.ceil(material.shortage / BOSS_MIN_ASCENSION_YIELD)
+  )));
   return {
     bossName: task.bossName,
     partyName,
     // 留空时由 BetterGI 自动首领配置决定实际战斗策略。
     strategyName: override.strategyName?.trim() || settings.bossCombatStrategyName?.trim() || '',
-    specifyRunCount: testSingleRun || bounded,
-    runCount: testSingleRun ? 1 : bounded ? maxClaims : UNLIMITED_RUN_COUNT,
+    specifyRunCount: true,
+    runCount: testSingleRun ? 1 : bounded ? Math.min(maxClaims, shortageRunCount) : shortageRunCount,
+    shortageRunCount,
     reviveRetryCount: 3,
-    trackedMaterials: task.materials ?? [{ materialId: task.materialId, materialName: task.materialName, shortage: task.shortage }],
+    trackedMaterials,
   };
 }
 

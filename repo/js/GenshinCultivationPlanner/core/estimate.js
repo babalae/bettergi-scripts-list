@@ -11,7 +11,9 @@ const DOMAIN_EXPECTED_BASE_YIELD = {
  * Boss 按 3 个保底加 10% 概率第 4 个，即 3.1 个/40 树脂；
  * 培养秘境按最高难度的公开统计均值；周本和圣遗物不显示预计天数。
  */
-export function buildCompletionEstimate({ plan, materials, recipes = {}, today, dailyResinBudget = DAILY_RESIN_BUDGET }) {
+export function buildCompletionEstimate({ plan, history = [], materials, recipes = {}, today,
+  dailyResinBudget = DAILY_RESIN_BUDGET, routeExecutionEnabled = true,
+  gatheringRouteExecutionEnabled, monsterRouteExecutionEnabled }) {
   const displayShortages = plan.displayShortages ?? [];
   if (displayShortages.some((item) => item.status === 'unknown')) {
     return { days: null, reason: '背包库存未确认，暂无法估算', details: [] };
@@ -21,9 +23,19 @@ export function buildCompletionEstimate({ plan, materials, recipes = {}, today, 
 
   const groups = new Map();
   const unestimatedReasons = new Set();
+  const failedBosses = new Set((plan.execution?.tasks ?? [])
+    .filter((task) => task.taskType === 'boss' && task.status === 'failed').map((task) => task.targetName));
   for (const shortage of shortages) {
     // 路线发现会为本次计划补充 executionType=route；优先使用计划内的动态来源信息。
     const material = shortage.material ?? materials[shortage.materialId];
+    if (material?.executionType === 'boss' && failedBosses.has(material.bossName)) {
+      unestimatedReasons.add(`“${material.bossName}”执行失败，需先处理队伍、机制或传送问题`);
+      continue;
+    }
+    if (material?.executionType === 'route') {
+      unestimatedReasons.add('路线材料暂不显示预计天数');
+      continue;
+    }
     const policy = resolvePolicy(shortage.materialId, material);
     if (!policy) {
       unestimatedReasons.add(buildUnsupportedReason(material));
@@ -42,13 +54,15 @@ export function buildCompletionEstimate({ plan, materials, recipes = {}, today, 
     groups.set(key, group);
   }
 
-  if (groups.size === 0) {
+  const resinBudget = normalizeDailyResinBudget(dailyResinBudget);
+  const details = [...groups.values()].map((group) => buildDetail(group, resinBudget, today));
+  if (details.length === 0) {
     return { days: null, reason: [...unestimatedReasons].join('；'), details: [], unestimatedReasons: [...unestimatedReasons] };
   }
 
-  const resinBudget = normalizeDailyResinBudget(dailyResinBudget);
-  const details = [...groups.values()].map((group) => buildDetail(group, resinBudget, today));
-  const baseReason = '按世界等级 9 与最高难度秘境掉落期望估算；不考虑双倍掉落';
+  const baseReason = [
+    groups.size > 0 ? '树脂任务按世界等级 9 与最高难度秘境掉落期望估算；不考虑双倍掉落' : null,
+  ].filter(Boolean).join('；');
   return {
     days: Math.max(...details.map((item) => item.estimatedDays)),
     reason: unestimatedReasons.size > 0
@@ -80,7 +94,7 @@ function resolvePolicy(materialId, material) {
 function buildUnsupportedReason(material) {
   if (material?.executionType === 'weeklyBoss') return '周本材料不显示预计天数';
   if (material?.executionType === 'artifactDomain') return '圣遗物秘境不显示预计天数';
-  if (material?.executionType === 'route') return '路线材料完成时间预估尚未接入，暂不显示预计天数';
+  if (material?.executionType === 'route') return '路线材料尚无可靠执行记录，暂不显示预计天数';
   return '含未自动执行材料，无法估算全部完成时间';
 }
 
