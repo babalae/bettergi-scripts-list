@@ -490,6 +490,43 @@ function extractInfoFromTCGFile(filePath, parentFolder) {
     };
 }
 
+// 解析 JSON 战斗策略的元数据（BetterGI 0.62+ 支持 JSON 格式）
+function extractInfoFromCombatJsonFile(filePath) {
+    const content = fs.readFileSync(filePath, 'utf8');
+    let obj;
+    try {
+        obj = JSON.parse(content);
+    } catch (e) {
+        return {
+            author: '', authors: null, description: '', tags: [],
+            version: '', lastUpdated: ''
+        };
+    }
+
+    const info = obj.Info || obj.info || {};
+    const config = info.Config || info.config || {};
+    const actions = obj.Actions || obj.actions || [];
+    const authorName = info.Author || info.author || '';
+    const characters = [...new Set(
+        actions
+            .map(action => (action && (action.Character || action.character)) || '')
+            .filter(Boolean)
+    )];
+
+    const gitTimestamp = getGitTimestamp(filePath);
+    const lastUpdated = formatLastUpdated(gitTimestamp);
+    const version = gitTimestamp ? formatTime(gitTimestamp) : '';
+
+    return {
+        author: processAuthorInfo(authorName) || '',
+        authors: processDetailedAuthorInfo(authorName),
+        description: convertNewlines(config['介绍'] || config.description || info.Description || ''),
+        tags: prioritizeVersionTag(filterLongTags(characters)),
+        version: version,
+        lastUpdated: lastUpdated
+    };
+}
+
 // 检查文件是否需要处理（增量更新模式下）
 function shouldProcessFile(filePath) {
     // 如果没有现有的repo.json或没有修改文件列表，则处理所有文件
@@ -625,7 +662,11 @@ function generateDirectoryTree(dir, currentDepth = 0, parentFolders = []) {
         try {
             switch (category) {
                 case 'combat':
-                    Object.assign(info, extractInfoFromCombatFile(dir));
+                    if (path.extname(dir).toLowerCase() === '.json') {
+                        Object.assign(info, extractInfoFromCombatJsonFile(dir));
+                    } else {
+                        Object.assign(info, extractInfoFromCombatFile(dir));
+                    }
                     break;
                 case 'pathing':
                     Object.assign(info, extractInfoFromPathingFile(dir, parentFolders));
