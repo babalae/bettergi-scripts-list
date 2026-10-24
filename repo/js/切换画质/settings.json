@@ -1,0 +1,31 @@
+[
+  {
+    "name": "Rendering",
+    "type": "select",
+    "label": "渲染精度（默认0.6)",
+    "options": [
+      "0.6",
+      "1.0"
+    ]
+  },
+  {
+    "name": "Quality",
+    "type": "select",
+    "label": "图像质量（默认最低)",
+    "options": [
+      "兼容模式",
+      "中",
+      "高"
+    ]
+  },
+  {
+    "name": "MotionBlur",
+    "type": "checkbox",
+    "label": "==============\n中、高画质 额外设置：\n-----------------\n保留动态模糊（默认否)"
+  },
+  {
+    "name": "Bloom",
+    "type": "checkbox",
+    "label": "-----------------\n保留Bloom（默认否)"
+  }
+]

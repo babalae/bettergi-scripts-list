@@ -1,0 +1,31 @@
+[
+  {
+    "name": "auto_load",
+    "type": "select",
+    "label": "加载模式",
+    "options": ["输入加载","bgi_tools加载"] ,
+    "default": "输入加载"
+  },
+  {
+     "name": "team",
+     "type": "input-text",
+     "label": "队伍名称，不填表示不切换队伍(适用于输入加载)"
+  },
+  {
+     "name": "type",
+     "type": "input-text",
+     "label": "分组类型(适用于bgi_tools加载)"
+  },
+  {
+    "name": "bgi_tools_uid_team_api",
+    "type": "input-text",
+    "label": "bgi_tools Http Api",
+    "default": "http://127.0.0.1:8081/bgi/uid/team"
+  },
+  {
+    "name": "bgi_tools_token",
+    "type": "input-text",
+    "label": "bgi_tools授权token 语法:tokenName=tokenValue",
+    "default": "Authorization= "
+  }
+]

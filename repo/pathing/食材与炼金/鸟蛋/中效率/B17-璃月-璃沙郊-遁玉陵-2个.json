@@ -1,0 +1,58 @@
+{
+  "info": {
+    "name": "B17-璃月-璃沙郊-遁玉陵-2个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.54.0",
+    "tags": [],
+    "last_modified_time": 1752171267387,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 985.08,
+      "y": -348.32,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 949.69,
+      "y": -333.98,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 865.13,
+      "y": -286.49,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 865.13,
+      "y": -286.49,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "nahida_collect",
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,177 @@
+{
+  "info": {
+    "name": "02-水晶块-璃月-天衡山西南(有战斗,火免,精英200x1)-5个",
+    "type": "collect",
+    "version": "1.1",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.52.0",
+    "authors": [
+      {
+        "name": "火山",
+        "links": "https://github.com/RRRR623"
+      }
+    ],
+    "tags": [],
+    "last_modified_time": 1755348907828,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 710.7,
+      "y": -772.46,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 793.18,
+      "y": -762.13,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "wait(0.3),keypress(VK_SPACE),wait(1.5),keypress(VK_SPACE)",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 787.31,
+      "y": -775.43,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 782.95,
+      "y": -787.3,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.8)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 791.07,
+      "y": -769.42,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1.2)",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 793.2,
+      "y": -763.85,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 791.12,
+      "y": -772.63,
+      "action": "fight",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path",
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized"
+          ],
+          "handling_mode": "previousDetectedPoint",
+          "arrival_time": 0
+        },
+        "description": "火深渊法师",
+        "monster_tag": "elite"
+      }
+    },
+    {
+      "id": 8,
+      "x": 788.91,
+      "y": -770.59,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": 785.63,
+      "y": -775.31,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 10,
+      "x": 784.81,
+      "y": -786.82,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 11,
+      "x": 784.9,
+      "y": -791.55,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 12,
+      "x": 782.5439,
+      "y": -790.396,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 782.18,
+      "y": -793.73,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 14,
+      "x": 776.16,
+      "y": -794.7,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 15,
+      "x": 776.59,
+      "y": -789.63,
+      "action": "mining",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 16,
+      "x": 782.9,
+      "y": -789.58,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.5)",
+      "type": "target"
+    }
+  ]
+}

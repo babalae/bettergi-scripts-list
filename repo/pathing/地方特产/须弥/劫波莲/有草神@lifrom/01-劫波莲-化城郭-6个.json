@@ -1,0 +1,41 @@
+{
+  "info": {
+    "name": "01-劫波莲-化城郭-6个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "成熟的纳西妲要学会自己采材料。感谢米游社大佬“@吃瓜的喵”的优质路线！（本引导的所有路线均已精修过，请放心使用）",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "lifrom",
+        "links": "https://github.com/pkjsjq"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2297.63,
+      "y": -824.53
+    },
+    {
+      "id": 2,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2323.72,
+      "y": -832.96
+    },
+    {
+      "id": 3,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2317.97,
+      "y": -841.95
+    }
+  ]
+}

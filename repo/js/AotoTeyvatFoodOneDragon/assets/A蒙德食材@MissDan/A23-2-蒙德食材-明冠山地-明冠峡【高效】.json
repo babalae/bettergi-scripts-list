@@ -1,0 +1,103 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "4个金鱼草；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762333497200,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A23-2-蒙德食材-明冠山地-明冠峡【高效】",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -439.8594,
+      "y": 2581.0991
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -475.0996,
+      "y": 2620.3987
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -492.4785,
+      "y": 2638.79
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -672.3184,
+      "y": 2640.6646
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -678.8086,
+      "y": 2662.2314
+    },
+    {
+      "action": "combat_script",
+      "action_params": "万叶 e,wait(0.2),keypress(VK_SPACE),wait(1)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -680.0664,
+      "y": 2653.5193
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -761.6133,
+      "y": 2555.6094
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "run",
+      "type": "path",
+      "x": -794.5215,
+      "y": 2520.4565
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -795.7773,
+      "y": 2518.8137
+    }
+  ]
+}

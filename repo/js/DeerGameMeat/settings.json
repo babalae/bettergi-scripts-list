@@ -1,0 +1,26 @@
+[
+  {
+    "name": "enableDampDetection",
+    "type": "checkbox",
+    "default": true,
+    "label": "启用潮湿状态检测"
+  },
+  {
+    "name": "maxWaitAttempts",
+    "type": "input-text",
+    "default": "5",
+    "label": "最大等待次数"
+  },
+  {
+    "name": "enableHighRiskRoutes",
+    "type": "checkbox",
+    "default": true,
+    "label": "运行高危路线"
+  },
+  {
+    "name": "partyName",
+    "type": "input-text",
+    "default": "",
+    "label": "队伍名称"
+  }
+]

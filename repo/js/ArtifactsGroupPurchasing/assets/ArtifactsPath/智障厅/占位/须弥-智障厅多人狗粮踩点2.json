@@ -1,0 +1,85 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1765863037585,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "须弥-智障厅多人狗粮踩点2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5384.2529296875,
+      "y": -2456.419921875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 5347.8359375,
+      "y": -2418.6884765625
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 5347.8359375,
+      "y": -2418.6884765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 5346.1669921875,
+      "y": -2400.4140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 5319.03125,
+      "y": -2399.656626262349
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5319.03125,
+      "y": -2399.656626262349
+    },
+    {
+      "action": "combat_script",
+      "action_params": "dash,wait(0.7),keypress(s),wait(0.1),keypress(s)",
+      "id": 7,
+      "move_mode": "run",
+      "type": "path",
+      "x": 5319.3515625,
+      "y": -2330.076171875
+    }
+  ]
+}

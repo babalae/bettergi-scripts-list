@@ -1,0 +1,86 @@
+{
+    "info": {
+        "authors": [
+            {
+                "links": "https://github.com/1004452714",
+                "name": "DarkFlameMaster"
+            }
+        ],
+        "bgi_version": "0.45.0",
+        "description": "",
+        "enable_monster_loot_split": false,
+        "last_modified_time": 1784191125759,
+        "map_match_method": "",
+        "map_name": "Teyvat",
+        "name": "璃月-绝云间-1-安全运输法则-2",
+        "tags": [],
+        "type": "collect",
+        "version": "1.0"
+    },
+    "positions": [
+        {
+            "action": "",
+            "action_params": "",
+            "id": 10,
+            "locked": false,
+            "move_mode": "walk",
+            "type": "path",
+            "x": 1324.1338,
+            "y": 669.2603
+        },
+        {
+            "action": "mining",
+            "action_params": "",
+            "id": 11,
+            "move_mode": "walk",
+            "type": "path",
+            "x": 1324.1338,
+            "y": 669.2603
+        },
+        {
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(w)",
+            "id": 12,
+            "move_mode": "walk",
+            "type": "orientation",
+            "x": 1330.1055,
+            "y": 675.1133
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 13,
+            "move_mode": "walk",
+            "type": "path",
+            "x": 1330.0059,
+            "y": 676.0923
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 14,
+            "move_mode": "walk",
+            "type": "path",
+            "x": 1330.8311,
+            "y": 682.8604
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 15,
+            "move_mode": "walk",
+            "type": "path",
+            "x": 1334.9961,
+            "y": 723.8955
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 16,
+            "move_mode": "walk",
+            "type": "path",
+            "x": 1321.9512,
+            "y": 738.4658
+        }
+    ]
+}

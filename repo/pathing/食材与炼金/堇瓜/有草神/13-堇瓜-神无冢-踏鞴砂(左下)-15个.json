@@ -1,0 +1,169 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1756206175558,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "13-堇瓜-神无冢-踏鞴砂(左下)-15个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3156.2773,
+      "y": -3885.8623
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3115.7051,
+      "y": -3856.7285
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3084.3867,
+      "y": -3813.1084
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3062.4141,
+      "y": -3819.7822
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3045.5898,
+      "y": -3832.4932
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3041.5234,
+      "y": -3836.5273
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1500",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3044.8633,
+      "y": -3905.4619
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 8,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3041.5273,
+      "y": -3908.7373
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3041.5273,
+      "y": -3908.7373
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3038.3887,
+      "y": -3946.8682
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -3015.7695,
+      "y": -3979.0381
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 12,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -2991.6484,
+      "y": -3966.7891
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 13,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2984.9629,
+      "y": -3966.9609
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2984.9629,
+      "y": -3966.9609
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2972.209,
+      "y": -3963.1211
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2968.6367,
+      "y": -3953.9375
+    }
+  ]
+}

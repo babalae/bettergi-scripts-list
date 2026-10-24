@@ -1,0 +1,54 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/evildoer12138",
+        "name": "鸿羽er"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757910174158,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "霜夜灵嗣02-希汐岛南（1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10551.991,
+      "y": 1761.2268
+    },
+    {
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10577.0002,
+      "y": 1795.9823
+    },
+    {
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 10599.2504,
+      "y": 1753.2528
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 10587.25,
+      "y": 1734.2476
+    }
+  ]
+}

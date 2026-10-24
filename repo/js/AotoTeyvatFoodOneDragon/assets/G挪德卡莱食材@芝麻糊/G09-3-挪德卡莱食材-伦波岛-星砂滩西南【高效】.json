@@ -1,0 +1,107 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "芝麻糊"
+      },
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "1个薄荷；3个白灵果；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762505076999,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "G09-3-挪德卡莱食材-伦波岛-星砂滩西南【高效】",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9746.332,
+      "y": 1916.6484
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9812.0947,
+      "y": 1923.1436
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9838.7744,
+      "y": 1923.9707
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9839.8887,
+      "y": 1925.2812
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9860.5059,
+      "y": 1921.6177
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9873.1895,
+      "y": 1929.5547
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9881.5791,
+      "y": 1928.5283
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9881.6719,
+      "y": 1924.7217
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.345)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9881.501,
+      "y": 1923.4834
+    }
+  ]
+}

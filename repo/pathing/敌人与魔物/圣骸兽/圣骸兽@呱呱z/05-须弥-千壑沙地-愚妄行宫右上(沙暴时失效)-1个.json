@@ -1,0 +1,108 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/jidingcai",
+        "name": "呱呱z"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1756096108044,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "05-须弥-千壑沙地-愚妄行宫右上(沙暴时失效)-1个",
+    "tags": [
+      "精英怪",
+      "圣骸兽",
+      "等级100+"
+    ],
+    "type": "collect",
+    "version": "1.1"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4592.5049,
+      "y": -647.1694
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(w),wait(0.2),dash,keypress(VK_MBUTTON),wait(1),attack",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4610.3223,
+      "y": -657.2915
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4610.3223,
+      "y": -657.2915
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4621.0977,
+      "y": -676.2007
+    },
+    {
+      "action": "combat_script",
+      "action_params": "dash,wait(0.01),w(4),",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4624.1113,
+      "y": -729.9668
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4648.3086,
+      "y": -800.6899
+    },
+    {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4674.9053,
+      "y": -821.9004
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 8,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4695.8926,
+      "y": -836.2578
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4695.8926,
+      "y": -836.2578
+    }
+  ]
+}

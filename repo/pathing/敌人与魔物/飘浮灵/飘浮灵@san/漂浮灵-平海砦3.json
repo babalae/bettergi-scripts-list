@@ -1,0 +1,46 @@
+{
+  "info": {
+    "name": "漂浮灵-平海砦3",
+    "type": "collect",
+    "version": "1.0",
+    "description": "漂浮零",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "san"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4214.5,
+      "y": -4385.75
+    },
+    {
+      "id": 2,
+      "x": -4168.75,
+      "y": -4385.5,
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -4164.25,
+      "y": -4380.25,
+      "type": "path",
+      "move_mode": "walk"
+    },
+    {
+      "id": 4,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "path",
+      "x": -4173.5,
+      "y": -4378.0
+    }
+  ]
+}

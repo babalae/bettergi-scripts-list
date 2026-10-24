@@ -1,0 +1,31 @@
+{
+  "info": {
+    "name": "稻妻-海祇岛-清子",
+    "type": "collect",
+    "author": "小鹰划船不用桨",
+    "version": "1.0",
+    "description": "稻妻海祇岛百货商人-清子",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -755.5869140625,
+      "y": -4001.095703125,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -847.1787109375,
+      "y": -3967.7099609375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    }
+  ]
+}

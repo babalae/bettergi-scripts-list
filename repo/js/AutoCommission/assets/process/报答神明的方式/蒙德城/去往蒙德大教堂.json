@@ -1,0 +1,67 @@
+{
+  "info": {
+    "name": "惊喜大礼-蒙德城-1",
+    "type": "collect",
+    "author": "11",
+    "version": "1.0",
+    "description": "惊喜大礼-蒙德城-1",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -749.412109375,
+      "y": 2263.095458984375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -748.7392578125,
+      "y": 2263.28125,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -717.400390625,
+      "y": 2294.3359375,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -705.4072265625,
+      "y": 2355.9326171875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -696.0087890625,
+      "y": 2357.346923828125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -685.0595703125,
+      "y": 2355.038330078125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+﻿[
+    {
+        "name":  "autoRecognize",
+        "type":  "checkbox",
+        "label":  "自动识别",
+        "default":  true
+    },
+    {
+        "name":  "onlyName",
+        "type":  "checkbox",
+        "label":  "只显示角色名"
+    },
+    {
+        "name":  "useHtmlMask",
+        "type":  "checkbox",
+        "label":  "使用HTML遮罩显示结果",
+        "default":  false
+    },
+    {
+        "name":  "maskBackgroundOpacity",
+        "type":  "input-text",
+        "label":  "遮罩背景不透明度(0-1)",
+        "default":  "0.78"
+    },
+    {
+        "name":  "skipKey",
+        "type":  "input-text",
+        "label":  "跳过等待立刻识别的按键",
+        "default":  "R"
+    }
+]

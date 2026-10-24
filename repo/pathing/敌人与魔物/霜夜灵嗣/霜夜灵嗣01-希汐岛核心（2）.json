@@ -1,0 +1,106 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/evildoer12138",
+        "name": "鸿羽er"
+      }
+    ],
+    "bgi_version": "0.50.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757909722208,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "霜夜灵嗣01-希汐岛核心（2）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10749.9954,
+      "y": 2050.0839
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10745.9953,
+      "y": 2071.0767
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10786.0001,
+      "y": 2052.3729
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10755.4997,
+      "y": 2003.5074
+    },
+    {
+      "id": 5,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10750.0003,
+      "y": 2049.4858
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 10728.9999,
+      "y": 2044.4952
+    },
+    {
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10750.5006,
+      "y": 2049.9925
+    },
+    {
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10768.5,
+      "y": 2083.0007
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 10772.0,
+      "y": 2099.4986
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10783.625,
+      "y": 2101.6231
+    }
+  ]
+}

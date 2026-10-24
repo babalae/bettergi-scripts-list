@@ -1,0 +1,143 @@
+{
+    "info": {
+        "name": "狗粮-稻妻-神无冢-东-5个／6个-f",
+        "type": "collect",
+        "author": "Yang-z",
+        "version": "1.1",
+        "bgi_version": "0.42.0"
+    },
+    "positions": [
+        {
+            "x": -3393.1181640625,
+            "y": -3556.0556640625,
+            "type": "teleport",
+            "move_mode": "walk"
+        },
+        {
+            "x": -3397.0126953125,
+            "y": -3550.0146484375,
+            "type": "orientation"
+        },
+        {
+            "x": -3397.0126953125,
+            "y": -3550.0146484375,
+            "type": "path",
+            "move_mode": "walk"
+        },
+        {
+            "x": -3397.546875,
+            "y": -3547.2587890625,
+            "type": "target",
+            "move_mode": "fly",
+            "#" : "1"
+        },
+
+        {
+            "x": -3399.2900390625,
+            "y": -3543.2275390625,
+            "type": "path",
+            "move_mode": "walk"
+        },
+
+        {
+            "x": -3404.2822265625,
+            "y": -3543.5341796875,
+            "type": "target",
+            "move_mode": "walk",
+            "#" : "2"
+        },
+
+        {
+            "x": -3404.54296875,
+            "y": -3542.5107421875,
+            "type": "path",
+            "move_mode": "walk"
+        },
+
+        {
+            "x": -3405.5810546875,
+            "y": -3534.466796875,
+            "type": "target",
+            "move_mode": "walk",
+            "#" : "3"
+        },
+
+        {
+            "x": -3445.89453125,
+            "y": -3544.0205078125,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "combat_script",
+            "action_params": "keypress(VK_SPACE),wait(0.2),click",
+            "//": "stop_flying"
+        },
+        {
+            "x": -3446.6904296875,
+            "y": -3550.2265625,
+            "type": "target",
+            "move_mode": "walk"
+        },
+
+        {
+            "x": -3445.5810546875,
+            "y": -3553.40625,
+            "type": "target",
+            "move_mode": "walk",
+            "#" : "4"
+        },
+        {
+            "x": -3435.5322265625,
+            "y": -3566.9013671875,
+            "type": "target",
+            "move_mode": "run",
+            "action": "combat_script",
+            "action_params": "wait(0.5)",
+            "#" : "5"
+        }
+
+    ],
+
+    
+
+    "positions_not_actived": [
+        { "#": "后面重兵把守" },
+
+        {
+            "x": -3442.427734375,
+            "y": -3569.3125,
+            "type": "path",
+            "move_mode": "walk"
+        },
+        {
+            "x": -3437.7919921875,
+            "y": -3573.4208984375,
+            "type": "path",
+            "move_mode": "walk"
+        },
+        {
+            "x": -3427.4033203125,
+            "y": -3573.28125,
+            "type": "path",
+            "move_mode": "walk"
+        },
+        {
+            "x": -3422.0302734375,
+            "y": -3575.3935546875,
+            "type": "path",
+            "move_mode": "walk"
+        },
+        {
+            "x": -3420.580078125,
+            "y": -3574.71875,
+            "type": "target",
+            "move_mode": "walk",
+            "#" : "6"
+        },
+        {
+            "x": -3418.3681640625,
+            "y": -3574.56640625,
+            "type": "path",
+            "move_mode": "walk"
+        }
+    ]
+}

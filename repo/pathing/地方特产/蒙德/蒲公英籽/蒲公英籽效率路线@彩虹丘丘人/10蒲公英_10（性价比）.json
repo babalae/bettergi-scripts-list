@@ -1,0 +1,287 @@
+{
+  "info": {
+    "name": "10蒲公英_10（性价比）",
+    "type": "collect",
+    "version": "1.0",
+    "description": "性价比路线，要求队伍：小草神+琴团长（琴可以换万叶，不建议法器角色，可能会攻击到怪）",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "彩虹QQ人",
+        "links": "https://github.com/KRdingsan"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -321.54,
+      "y": 1473.27,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -307.2,
+      "y": 1478.31,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -283.61,
+      "y": 1484.19,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -265.68,
+      "y": 1519.7,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -254.71,
+      "y": 1533.45,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -229.92,
+      "y": 1548.63,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -174.12,
+      "y": 1540.22,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -150.99,
+      "y": 1559.28,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": -148.91,
+      "y": 1580.17,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": -130.81,
+      "y": 1587.48,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "anemo_collect",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": -132.06,
+      "y": 1600.5,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": -132.06,
+      "y": 1600.5,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "anemo_collect",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": -123.58,
+      "y": 1587.21,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": -123.58,
+      "y": 1587.21,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "anemo_collect",
+      "action_params": ""
+    },
+    {
+      "id": 15,
+      "x": -133.6,
+      "y": 1602.49,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 16,
+      "x": -111.12,
+      "y": 1638.91,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 17,
+      "x": -125.95,
+      "y": 1653.97,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 18,
+      "x": -121.49,
+      "y": 1663.28,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 19,
+      "x": -130.97,
+      "y": 1661.93,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 20,
+      "x": -132.82,
+      "y": 1666.56,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "hydro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 21,
+      "x": -167.01,
+      "y": 1649.51,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "anemo_collect",
+      "action_params": ""
+    },
+    {
+      "id": 22,
+      "x": -79.7,
+      "y": 1645.85,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 23,
+      "x": -71.02,
+      "y": 1648.56,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 24,
+      "x": -70.41,
+      "y": 1637.3,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "anemo_collect",
+      "action_params": ""
+    },
+    {
+      "id": 25,
+      "x": -47.14,
+      "y": 1641.13,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 26,
+      "x": -53.51,
+      "y": 1666.94,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "anemo_collect",
+      "action_params": ""
+    },
+    {
+      "id": 27,
+      "x": -43.91,
+      "y": 1669.98,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 28,
+      "x": -43.91,
+      "y": 1669.97,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "anemo_collect",
+      "action_params": ""
+    },
+    {
+      "id": 29,
+      "x": -54.07,
+      "y": 1677.52,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "hydro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 30,
+      "x": -56.77,
+      "y": 1672.36,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "anemo_collect",
+      "action_params": ""
+    }
+  ]
+}

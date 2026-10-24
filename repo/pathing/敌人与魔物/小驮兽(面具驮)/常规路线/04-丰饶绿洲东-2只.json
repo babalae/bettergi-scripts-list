@@ -1,0 +1,54 @@
+{
+  "info": {
+    "name": "04-丰饶绿洲东-2只",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "jay",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "驮兽",
+      "丘丘面具",
+      "兽肉",
+      "小驮兽"
+    ],
+    "last_modified_time": 1754659122008,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4451.8975,
+      "y": -2454.8408,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4411.6826,
+      "y": -2487.1279,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4352.2363,
+      "y": -2481.6104,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

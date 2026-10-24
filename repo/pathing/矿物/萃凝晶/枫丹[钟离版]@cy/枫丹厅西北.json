@@ -1,0 +1,106 @@
+{
+  "info": {
+    "name": "枫丹厅西北",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.43.0",
+    "authors": [
+      {
+        "name": "cy"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4856.25,
+      "y": 3915.2,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4920.0,
+      "y": 3902.5,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4925.0,
+      "y": 3896.0,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 4927.0,
+      "y": 3896.0,
+      "action": "combat_script",
+      "action_params": "钟离 d(0.2),e(hold)",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 4932.0,
+      "y": 3889.0,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 4950.75,
+      "y": 3872.69,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 4983.75,
+      "y": 3837.18,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 4992.5,
+      "y": 3838.68,
+      "action": "combat_script",
+      "action_params": "钟离 d(0.2),e(hold)",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 4990.25,
+      "y": 3841.43,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 4996.5,
+      "y": 3839.0,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 4992.0,
+      "y": 3837.0,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    }
+  ]
+}

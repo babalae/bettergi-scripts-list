@@ -1,0 +1,50 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/1004452714",
+        "name": "DarkFlameMaster"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1783940012076,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "枫丹-厄里那斯-临危受命",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4956.9551,
+      "y": 2760.5205
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(space),wait(3),click",
+      "id": 2,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4962.9902,
+      "y": 2661.1602
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4962.9902,
+      "y": 2661.1602
+    }
+  ]
+}

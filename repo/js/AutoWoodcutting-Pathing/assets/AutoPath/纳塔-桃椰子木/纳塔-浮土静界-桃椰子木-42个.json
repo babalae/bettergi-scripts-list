@@ -1,0 +1,166 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisakaAldrich",
+        "name": "起个名字好难的喵"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1763838216521,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "纳塔-浮土静界-桃椰子木-42个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8353.3848,
+      "y": -2842.7012
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "5",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8332.6035,
+      "y": -2825.3594
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8337.2119,
+      "y": -2812.0713
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "5",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8358.8604,
+      "y": -2805.9697
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8373.9814,
+      "y": -2778.3301
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8388.3994,
+      "y": -2764.1387
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "5",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8409.8359,
+      "y": -2738.21
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.2),moveby(0,700),wait(0.75),keypress(VK_T),wait(0.2),keypress(VK_T),wait(1)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 8403.9639,
+      "y": -2740.5312
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8410.72265625,
+      "y": -2734.60546875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(6),wait(10.5),w(0.5),keydown(VK_Q),wait(1),keyup(VK_Q)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 8418.4208984375,
+      "y": -2733.5625
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "5",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8534.4023,
+      "y": -2674.8604
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8567.582,
+      "y": -2664.6064
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "5",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8572.6689,
+      "y": -2673.9277
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "5",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8545.162109375,
+      "y": -2689.005859375
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "5",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8563.291,
+      "y": -2735.168
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "5",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8515.1396,
+      "y": -2709.4971
+    }
+  ]
+}

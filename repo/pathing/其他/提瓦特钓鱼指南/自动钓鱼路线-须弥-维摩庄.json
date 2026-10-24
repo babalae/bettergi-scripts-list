@@ -1,0 +1,70 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "TTTTFT"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758267290667,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "自动钓鱼路线-须弥-维摩庄",
+    "tags": [
+      "钓鱼",
+      "须弥"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2632.1943,
+      "y": -1016.564
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2642.4023,
+      "y": -1005.4312
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2644.9395,
+      "y": -1007.3618
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2646.3926,
+      "y": -1008.7554
+    },
+    {
+      "action": "fishing",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 2653.0898,
+      "y": -1014.957
+    }
+  ]
+}

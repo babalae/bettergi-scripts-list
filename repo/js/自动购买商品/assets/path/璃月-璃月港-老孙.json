@@ -1,0 +1,95 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgiVersion": "0.35.1",
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1785054094183,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "璃月-璃月港-老孙",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 263.5,
+      "y": -672.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 254.2285,
+      "y": -655.7949
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 254.2813,
+      "y": -629.1934
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 222.6611,
+      "y": -615.9551
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 182.0068,
+      "y": -600.6699
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 167.0898,
+      "y": -601.3799
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 162.9551,
+      "y": -604.7998
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.3),wait(0.75)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 159.9951,
+      "y": -601.2578
+    }
+  ]
+}

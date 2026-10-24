@@ -1,0 +1,72 @@
+{
+  "info": {
+    "name": "215璃月奥藏山下（600_1，200_1）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时40秒，包含2只精英，预计收入800摩拉，包含以下怪物：1只幼岩龙蜥、1只岩龙蜥。",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1602.04,
+      "y": 1039.77,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1629.5,
+      "y": 1042.5,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 1647,
+      "y": 1055.25,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "keypress(VK_SPACE),wait(4),click",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 1649,
+      "y": 1065.75,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 1641.13,
+      "y": 1097.81,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 1641.13,
+      "y": 1097.81,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(0.2)",
+      "type": "orientation"
+    }
+  ]
+}

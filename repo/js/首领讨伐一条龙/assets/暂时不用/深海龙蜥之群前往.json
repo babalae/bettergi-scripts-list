@@ -1,0 +1,77 @@
+﻿{
+  "info": {
+    "name": "深海龙蜥之群前往",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "Tool_tingsu",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1754187157192,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 285.5234375,
+      "y": 277.4205322265625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 257.4517822265625,
+      "y": 274.028564453125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 228.92626953125,
+      "y": 270.8372802734375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 216.931884765625,
+      "y": 269.5625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 210.154052734375,
+      "y": 268.6961669921875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 210.154052734375,
+      "y": 268.6961669921875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "4000"
+    }
+  ]
+}

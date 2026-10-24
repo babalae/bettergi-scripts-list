@@ -1,0 +1,86 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时120秒，包含4只精英，预计收入1200摩拉，包含以下怪物：1只深渊咏者·紫电、1只遗迹守卫、2只遗迹巡弋者。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759246405456,
+    "map_match_method": "",
+    "map_name": "Enkanomiya",
+    "name": "337【高危】稻妻渊下宫蛇心之地东（600_1，200_4）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 198.8,
+      "y": -182.98
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 170.7188,
+      "y": -200.5959
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 155.9919,
+      "y": -226.8164
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 140.47,
+      "y": -230.65
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 125.23,
+      "y": -251.92
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2.5)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 113.86,
+      "y": -236.53
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 113.86,
+      "y": -236.53
+    }
+  ]
+}

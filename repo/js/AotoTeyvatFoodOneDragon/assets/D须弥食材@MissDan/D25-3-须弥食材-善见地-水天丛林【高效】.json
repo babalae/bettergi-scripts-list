@@ -1,0 +1,49 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "3个香辛果；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762361465718,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "D25-3-须弥食材-善见地-水天丛林【高效】",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3129.001,
+      "y": -1734.3135
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "3500",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3167.5908,
+      "y": -1767.1367
+    },
+    {
+      "action": "combat_script",
+      "action_params": "j,wait(0.4)",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3168.4727,
+      "y": -1776.4541
+    }
+  ]
+}

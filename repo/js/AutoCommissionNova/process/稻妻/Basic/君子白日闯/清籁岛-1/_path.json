@@ -1,0 +1,122 @@
+{
+    "info": {
+        "authors": [
+            {
+                "links": "https://github.com/1004452714",
+                "name": "DarkFlameMaster"
+            }
+        ],
+        "bgi_version": "0.45.0",
+        "description": "",
+        "enable_monster_loot_split": false,
+        "last_modified_time": 1783839190623,
+        "map_match_method": "",
+        "map_name": "Teyvat",
+        "name": "稻妻-清籁岛-1-君子白日闯",
+        "tags": [],
+        "type": "collect",
+        "version": "1.0"
+    },
+    "positions": [
+        {
+            "action": "",
+            "action_params": "",
+            "id": 1,
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": -3891.291,
+            "y": -4389.665
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 2,
+            "move_mode": "walk",
+            "type": "path",
+            "x": -3886.1387,
+            "y": -4398.7256
+        },
+        {
+            "action": "stop_flying",
+            "action_params": "",
+            "id": 3,
+            "move_mode": "fly",
+            "type": "path",
+            "x": -3794.9434,
+            "y": -4459.0801
+        },
+        {
+            "action": "stop_flying",
+            "action_params": "",
+            "id": 4,
+            "locked": false,
+            "move_mode": "fly",
+            "type": "path",
+            "x": -3760.8789,
+            "y": -4481.0762
+        },
+        {
+            "action": "fight",
+            "action_params": "",
+            "id": 5,
+            "move_mode": "walk",
+            "type": "path",
+            "x": -3760.8789,
+            "y": -4481.0762
+        },
+        {
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(f)",
+            "id": 6,
+            "move_mode": "walk",
+            "type": "target",
+            "x": -3772.0781,
+            "y": -4480.418
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 7,
+            "move_mode": "walk",
+            "type": "path",
+            "x": -3759.1426,
+            "y": -4473.6494
+        },
+        {
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(f)",
+            "id": 8,
+            "move_mode": "walk",
+            "type": "target",
+            "x": -3762.416,
+            "y": -4465.042
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 9,
+            "move_mode": "walk",
+            "type": "path",
+            "x": -3758.9922,
+            "y": -4471.9824
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 10,
+            "move_mode": "walk",
+            "type": "path",
+            "x": -3774.375,
+            "y": -4509.8408
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 11,
+            "move_mode": "walk",
+            "type": "target",
+            "x": -3800.3359,
+            "y": -4519.9346
+        }
+    ]
+}

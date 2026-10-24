@@ -1,0 +1,40 @@
+{
+  "info": {
+    "name": "骗骗花-归离院右下2",
+    "type": "collect",
+    "version": "1.0",
+    "description": "骗骗花",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "san"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 36.25,
+      "y": 129.88
+    },
+    {
+      "id": 2,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path",
+      "x": -29.25,
+      "y": 132.01
+    },
+    {
+      "id": 3,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "path",
+      "x": -48.75,
+      "y": 143.51
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Patrick-Ze",
+        "name": "Ayaka-Main"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784352806482,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "[蒙德] 垂香木x15",
+    "tags": [
+      "王树瑞佑",
+      "伐木"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -521.62,
+      "y": 2181.33
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -537.12,
+      "y": 2175.31
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -541.74,
+      "y": 2160.89
+    }
+  ]
+}

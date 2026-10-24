@@ -1,0 +1,67 @@
+{
+    "info": {
+        "authors": [
+            {
+                "links": "https://github.com/1004452714",
+                "name": "DarkFlameMaster"
+            }
+        ],
+        "bgi_version": "0.45.0",
+        "description": "",
+        "enable_monster_loot_split": false,
+        "last_modified_time": 1784261158622,
+        "map_match_method": "",
+        "map_name": "Teyvat",
+        "name": "稻妻-神无冢-2-安全运输法则-2",
+        "tags": [],
+        "type": "collect",
+        "version": "1.0"
+    },
+    "positions": [
+        {
+            "action": "",
+            "action_params": "",
+            "id": 4,
+            "move_mode": "walk",
+            "type": "path",
+            "x": -2816.6309,
+            "y": -3581.959
+        },
+        {
+            "action": "mining",
+            "action_params": "",
+            "id": 5,
+            "move_mode": "walk",
+            "type": "target",
+            "x": -2811.6504,
+            "y": -3578.584
+        },
+        {
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(w)",
+            "id": 6,
+            "move_mode": "walk",
+            "type": "orientation",
+            "x": -2803.1738,
+            "y": -3577.0176
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 7,
+            "move_mode": "walk",
+            "type": "path",
+            "x": -2748.3555,
+            "y": -3544.6758
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 8,
+            "move_mode": "run",
+            "type": "path",
+            "x": -2690.2754,
+            "y": -3563.9033
+        }
+    ]
+}
