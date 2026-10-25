@@ -845,7 +845,7 @@ async function checkDragonEggs() {
                     { min: item.pos[0] - 46, max: item.pos[0] + 34 },
                     { min: item.pos[1] + 56, max: item.pos[1] + 83 },
                     0.8,
-                    0.6
+                    0.65
                 );
                 DragonEggs[item.index] = Number(eggNum);
                 log.info(`龙蛋[${item.index}] 库存数量：${eggNum}`);
@@ -1342,7 +1342,7 @@ function toJsArray(csList) {
                 await click(1250,50); 
                 await sleep(700);
                 for(let scroll = 0; scroll <= 10; scroll++){
-                    let welffareMeal = await findImgIcon("assets/RecognitionObject/WelffareMealHalf.png", { min: 99, max: 1295 }, { min: 104, max: 967 }, true);
+                    let welffareMeal = await findImgIcon("assets/RecognitionObject/WelffareMealHalf.png", { min: 99, max: 1295 }, { min: 104, max: 967 }, true, 0.7);
                     if (welffareMeal.success) {
                         keyDown("VK_MENU");
                         await sleep(700);
@@ -1425,17 +1425,13 @@ function toJsArray(csList) {
         // 判断背包与填写数量
         let nowDragonEggsNum = record.lastDragonEggsNum;
         log.info(`上次的龙蛋信息:${nowDragonEggsNum}`);
-        const arr1 = record.lastDragonEggsNum.match(/\d+/g)?.map(Number);
-        const arr2 = settings.dragonEggsNum.split("-").map(Number);
-        const numNotMatch = arr1?.length === 6 && arr2?.length === 6 && arr1.some((v, i) => v !== arr2[i]);
-        if (record.lastDragonEggsNum == "【山之血：0，飞澜鲨鲨：0，圣龙君临：0，太阳的轰鸣：0，献给小酒杯：0，菲耶蒂娜：0】" 
-            || settings.dragonEggsNum == "0-0-0-0-0-0"
-            || numNotMatch
-            || settings.dragonEggsNum == ""
-        ) {
+        let nowDragonEggs = [];
+        if (settings.dragonEggsNum == "0-0-0-0-0-0") {
             nowDragonEggsNum = await checkDragonEggs();
+            nowDragonEggs = nowDragonEggsNum.match(/\d+/g).map(Number);
+        } else{
+            nowDragonEggs = settings.dragonEggsNum.split('-').map(Number);
         };
-        let nowDragonEggs = nowDragonEggsNum.match(/\d+/g).map(Number);
         await genshin.returnMainUi();
         await pathingScript.runFile("assets/runJson/纳塔悠悠集市路线.json");
         await keyMouseScript.runFile("assets/runJson/滚动滚轮.json");
@@ -1539,6 +1535,13 @@ function toJsArray(csList) {
                         log.warn("嘘，快踢作者屁股，修bug！！！");
                         break;
                 };
+                keyDown("VK_MENU");
+                await sleep(1500);
+                moveMouseTo(eggCoordinates[figure][0],eggCoordinates[figure][1]);
+                leftButtonClick();
+                await sleep(800);
+                keyUp("VK_MENU");
+                await sleep(1000);
                 if (settings.notify) {
                     notification.Send(`背包龙蛋数目: 【山之血：${nowDragonEggs[0]}，飞澜鲨鲨：${nowDragonEggs[1]}，圣龙君临：${nowDragonEggs[2]}，太阳的轰鸣：${nowDragonEggs[3]}，献给小酒杯：${nowDragonEggs[4]}，菲耶蒂娜：${nowDragonEggs[5]}】`);
                 };
@@ -1546,12 +1549,6 @@ function toJsArray(csList) {
                 settings.dragonEggsNum = `${nowDragonEggs[0]}-${nowDragonEggs[1]}-${nowDragonEggs[2]}-${nowDragonEggs[3]}-${nowDragonEggs[4]}-${nowDragonEggs[5]}`;
                 record.lastDragonEggsNum = `【山之血：${nowDragonEggs[0]}，飞澜鲨鲨：${nowDragonEggs[1]}，圣龙君临：${nowDragonEggs[2]}，太阳的轰鸣：${nowDragonEggs[3]}，献给小酒杯：${nowDragonEggs[4]}，菲耶蒂娜：${nowDragonEggs[5]}】`;
                 await writeRecord();
-                keyDown("VK_MENU");
-                await sleep(1500);
-                moveMouseTo(eggCoordinates[figure][0],eggCoordinates[figure][1]);
-                leftButtonClick();
-                keyUp("VK_MENU");
-                await sleep(1000);
             } else {
                 log.info("你今天已经领取过了");
             };
@@ -2062,7 +2059,7 @@ function toJsArray(csList) {
                 await sleep(700);
                 leftButtonClick();
                 await sleep(2000);
-                let who = await performOcr(settings.selectGiveWho, dialogZone.x, dialogZone.y, false);
+                let who = await performOcr(settings.selectGiveWho1, dialogZone.x, dialogZone.y, false);
                 keyDown("VK_MENU");
                 await sleep(700);
                 moveMouseTo(who.coordinates[0], who.coordinates[1]);
