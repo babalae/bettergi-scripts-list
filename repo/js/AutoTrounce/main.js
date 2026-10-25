@@ -39,7 +39,7 @@ async function startCombat(round, token) {
               const position = await genshin.getPositionFromMap("Teyvat");
               distance = Math.hypot(boss.x - position.x, boss.y - position.y);
               const rotate = (Math.atan2(boss.y - position.y, boss.x-position.x)*180 / Math.PI + 360) % 360;
-              moveMouseBy(Math.round(10*((rotate - genshin.getCameraOrientation() + 540) % 360) - 180), 0);
+              moveMouseBy(Math.round(10 * (((rotate - genshin.getCameraOrientation() + 540) % 360) - 180)), 0);
               await sleep(500);
               keyDown("W");
               await sleep(500);
