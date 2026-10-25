@@ -15,6 +15,13 @@ const movies = {
   "万有涅槃缚境": true,
 };
 
+/**
+ * 根据当前选择的征讨领域和轮次，执行对应的开局策略（如走位、按键、寻路等）。
+ * 
+ * @param {number} round - 当前战斗轮次（从 1 开始）。
+ * @param {Object} token - 用于取消异步操作的 CancellationToken 对象。
+ * @returns {Promise<void>}
+ */
 async function startCombat(round, token) {
   switch (settings.trounce) {
     case "北风的狼王":
@@ -275,6 +282,12 @@ async function startCombat(round, token) {
   }
 }
 
+/**
+ * 执行完整的自动讨伐流程，包括：前往秘境、多轮战斗检测、寻找征讨之花并领取奖励。
+ * 
+ * @returns {Promise<boolean>} 返回 true 表示流程正常结束（包括成功领奖、树脂不足/已领取、或手动停止，无需重试）；
+ *                             返回 false 表示流程异常中断（如角色阵亡、未找到征讨之花等），需要进行重试。
+ */
 async function runTrounceFlow() {
   let cts;
   let linkedCts;
