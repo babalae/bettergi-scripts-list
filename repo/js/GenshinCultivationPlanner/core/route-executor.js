@@ -1,7 +1,8 @@
 import { collectCraftingMaterialIds } from './crafting.js';
 import { createExecutionOutcome } from './execution-outcome.js';
+import { ExecutionError } from './error-classifier.js';
 
-/** 将已发现路线转换为可执行配置；路径必须是 AutoPathing 根目录下的相对 JSON 路径。 */
+/** 将已发现路线转换为执行配置；文件路径由原生 AutoPathing 接口校验。 */
 export function buildRouteExecutionPlan(routes, settings, recipes = {}) {
   const groupedByRoute = new Map();
   for (const route of routes?.matched ?? []) {
@@ -11,10 +12,14 @@ export function buildRouteExecutionPlan(routes, settings, recipes = {}) {
       : settings.monsterTeamName?.trim();
     if (!partyName) {
       const label = route.type === 'localSpecialty' ? '采集队伍' : '怪物材料队伍';
-      throw new Error(`路线“${route.name}”未配置${label}`);
+      throw new ExecutionError(`路线“${route.name}”未配置${label}`, {
+        code: 'config_invalid', stage: 'preflight', severity: 'warning',
+      });
     }
     if (!Array.isArray(route.paths) || route.paths.length === 0) {
-      throw new Error(`路线“${route.name}”没有可执行的 JSON 文件`);
+      throw new ExecutionError(`路线“${route.name}”没有可执行的 JSON 文件`, {
+        code: 'config_invalid', stage: 'preflight', severity: 'warning',
+      });
     }
     const pathsByNormalizedName = new Map();
     for (const path of route.paths) {
@@ -80,7 +85,7 @@ export async function runSubscribedRouteFile(pathing, routePath) {
 export function applyFinalRouteInventoryGains(records, before, after, { unreliableMaterialIds = [] } = {}) {
   const unreliableIds = new Set(unreliableMaterialIds.map(String));
   return records.map((record) => {
-    const unattempted = record.stage === 'party' || record.status === 'skipped';
+    const unattempted = ['party', 'preflight'].includes(record.stage) || record.status === 'skipped';
     const routeMaterials = (record.materials ?? []).map((item) => {
       const previous = before[item.materialId];
       const current = after[item.materialId];

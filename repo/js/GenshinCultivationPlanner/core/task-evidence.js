@@ -48,7 +48,7 @@ export function collectAttemptedMaterialIds(execution, materials, recipes = {}, 
     for (const id of collectTaskMaterialIds(outcome, execution, materials, recipes, trackedIds)) ids.add(id);
   }
   for (const route of execution.routes ?? []) {
-    if (route.stage === 'party' || route.status === 'skipped') continue;
+    if (['party', 'preflight'].includes(route.stage) || route.status === 'skipped') continue;
     if (!(route.paths?.length || route.attemptedPaths?.length)) continue;
     for (const item of route.materials ?? []) ids.add(String(item.materialId));
   }

@@ -10,8 +10,15 @@ export function discoverAutoPathingRoutes({ shortages, sourceCandidates = {}, pa
     const candidate = sourceCandidates[shortage.materialId] ?? inferLocalSpecialtyCandidate(shortage);
     if (!candidate || !['localSpecialty', 'monster'].includes(candidate.type)) continue;
 
-    const overridden = normalizeOverride(routeOverrides[shortage.materialId]);
-    const paths = overridden.length > 0 ? overridden : findSubscribedPaths(candidate, pathing);
+    const rawOverride = routeOverrides[shortage.materialId];
+    const hasOverride = rawOverride != null && rawOverride !== ''
+      && !(Array.isArray(rawOverride) && rawOverride.length === 0);
+    const overridden = normalizeOverride(rawOverride);
+    // 范围和文件存在性由官方接口校验，不能仅因填写了路径就宣称可执行。
+    const invalidOverride = hasOverride && (overridden.length === 0 || overridden.some((path) => (
+      !path.toLowerCase().endsWith('.json') || !pathing?.isFile?.(path)
+    )));
+    const paths = hasOverride ? invalidOverride ? [] : overridden : findSubscribedPaths(candidate, pathing);
     const item = {
       materialId: shortage.materialId,
       name: candidate.name,
@@ -19,10 +26,12 @@ export function discoverAutoPathingRoutes({ shortages, sourceCandidates = {}, pa
       shortage: shortage.shortage,
       cultivationPriority: shortage.cultivationPriority ?? 0,
       paths,
-      source: overridden.length > 0 ? 'manualOverride' : 'autoDiscovered',
+      source: hasOverride ? 'manualOverride' : 'autoDiscovered',
     };
     if (paths.length > 0) matched.push(item);
-    else missing.push({ ...item, reason: '未在已订阅的 AutoPathing 路线中找到同名目录' });
+    else missing.push({ ...item, reason: invalidOverride
+      ? '覆盖路线不可用：请确认路径指向当前User/AutoPathing内存在的JSON文件；未改跑其他路线'
+      : '未在已订阅的 AutoPathing 路线中找到同名目录' });
   }
   return { matched, missing };
 }
@@ -122,8 +131,10 @@ function findFiles(folder, pathing, visited = new Set()) {
 }
 
 function normalizeOverride(override) {
-  if (typeof override === 'string') return [override];
-  if (Array.isArray(override)) return override.filter((path) => typeof path === 'string' && path.trim());
+  if (typeof override === 'string' && override.trim()) return [override.trim()];
+  if (Array.isArray(override) && override.every((path) => typeof path === 'string' && path.trim())) {
+    return unique(override.map((path) => path.trim()));
+  }
   return [];
 }
 

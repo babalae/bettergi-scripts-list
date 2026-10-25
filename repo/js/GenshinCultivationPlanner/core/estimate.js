@@ -19,10 +19,14 @@ export function buildCompletionEstimate({ plan, history = [], materials, recipes
     return { days: null, reason: '背包库存未确认，暂无法估算', details: [] };
   }
   const shortages = displayShortages.filter((item) => item.shortage > 0);
-  if (shortages.length === 0) return { days: 0, reason: '材料已满足', details: [] };
+  const excludedPending = displayShortages.some((item) => item.status === 'excluded'
+    && (item.owned == null || item.owned < item.required));
+  if (shortages.length === 0) return excludedPending
+    ? { days: null, reason: '可刷材料已齐；范围外材料未核对或仍不足', details: [] }
+    : { days: 0, reason: '材料已满足', details: [] };
 
   const groups = new Map();
-  const unestimatedReasons = new Set();
+  const unestimatedReasons = new Set(excludedPending ? ['范围外材料不计入完成估算'] : []);
   const failedBosses = new Set((plan.execution?.tasks ?? [])
     .filter((task) => task.taskType === 'boss' && task.status === 'failed').map((task) => task.targetName));
   for (const shortage of shortages) {

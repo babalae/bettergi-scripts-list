@@ -181,14 +181,14 @@ declare const pathingScript: {
   runFile(path: string): Promise<void>;
   /**
    * 从已订阅的内容中运行文件
-   * @param path 在 User\AutoPathing 目录下的文件路径
+   * @param path 相对于 User\AutoPathing 的路径，或仍位于该目录内的绝对路径
    */
   runFileFromUser(path: string): Promise<void>;
-  /** 判断 User\AutoPathing 下的相对路径是否存在。 */
+  /** 判断 User\AutoPathing 内的路径是否存在；也接受该目录内的绝对路径。 */
   isExists(subPath: string): boolean;
-  /** 判断 User\AutoPathing 下的相对路径是否为文件。 */
+  /** 判断 User\AutoPathing 内的路径是否为文件；范围由原生接口校验。 */
   isFile(subPath: string): boolean;
-  /** 判断 User\AutoPathing 下的相对路径是否为文件夹。 */
+  /** 判断 User\AutoPathing 内的路径是否为文件夹。 */
   isFolder(subPath: string): boolean;
   /** 非递归读取 User\AutoPathing 下的目录；路径默认为 "./"。 */
   readPathSync(subPath?: string): string[];
@@ -727,6 +727,7 @@ declare const dispatcher: {
 
 /** ClearScript 暴露的 .NET List；不是原生 JS Array，使用 Add 添加元素。 */
 interface BetterGIList<T> extends Iterable<T> {
+  [index: number]: T;
   readonly count: number;
   readonly Count: number;
   add(value: T): void;
@@ -1894,6 +1895,8 @@ declare class Mat {
    * @param sz 新的行数
    */
   resize(sz: number): void;
+  /** 返回缩放后的新图像；与仅调整矩阵行数的重载不同。 */
+  resize(size: OpenCvSharp.OpenCvSharp.Size, fx?: number, fy?: number, interpolation?: number): Mat;
   /**
    * 调整矩阵大小并用值填充
    * @param sz 新的行数
@@ -2601,7 +2604,7 @@ declare class Mat {
   // ==================== 颜色空间转换 ====================
 
   /** 颜色空间转换 */
-  cvtColor(code: number, dstCn: number): Mat;
+  cvtColor(code: number, dstCn?: number): Mat;
 
   // ==================== 图像矩与模板匹配 ====================
 
@@ -4157,11 +4160,81 @@ declare class Avatar {
   // ==== END AUTO-GENERATED ALIASES ====
 }
 
-// /**
-//  * OpenCvSharp 命名空间
-//  */
-// 为了避免与其他package中的类型冲突，这里不声明全局变量
-// declare const OpenCvSharp: any;
+/**
+ * BetterGI 0.66.0 注入的 OpenCvSharp 类型集合；此处覆盖现有脚本所用类型与枚举项。
+ * @see https://github.com/babalae/better-genshin-impact/blob/0.66.0/BetterGenshinImpact/Core/Script/EngineExtend.cs
+ */
+declare namespace OpenCvSharp {
+  namespace OpenCvSharp {
+    class Rect {
+      constructor(x: number, y: number, width: number, height: number);
+      x: number;
+      y: number;
+      width: number;
+      height: number;
+      X: number;
+      Y: number;
+      Width: number;
+      Height: number;
+    }
+    class Size {
+      constructor(width: number, height: number);
+      width: number;
+      height: number;
+      Width: number;
+      Height: number;
+    }
+    enum TemplateMatchModes {
+      SqDiff = 0,
+      SqDiffNormed = 1,
+      CCorr = 2,
+      CCorrNormed = 3,
+      CCoeff = 4,
+      CCoeffNormed = 5
+    }
+    enum ColorConversionCodes { BGR2GRAY = 6 }
+    enum ThresholdTypes { Binary = 0, BinaryInv = 1 }
+  }
+}
+
+/**
+ * 新视觉定位入口；声明覆盖提升指南实际使用的截图、文字定位、等待与点击能力。
+ * @see https://github.com/babalae/better-genshin-impact/blob/0.66.0/BetterGenshinImpact/Core/BgiVision/BvPage.cs
+ */
+declare class BvPage {
+  constructor(cancellationToken?: CancellationToken);
+  defaultTimeout: number;
+  defaultRetryInterval: number;
+  screenshot(): ImageRegion;
+  wait(milliseconds: number): Promise<BvPage>;
+  getByText(text?: string, rect?: OpenCvSharp.OpenCvSharp.Rect): BvLocator;
+  click(x: number, y: number): void;
+  declare DefaultTimeout: typeof BvPage.prototype.defaultTimeout;
+  declare DefaultRetryInterval: typeof BvPage.prototype.defaultRetryInterval;
+  declare Screenshot: typeof BvPage.prototype.screenshot;
+  declare Wait: typeof BvPage.prototype.wait;
+  declare GetByText: typeof BvPage.prototype.getByText;
+  declare Click: typeof BvPage.prototype.click;
+}
+
+/** 文字定位结果；FindAll返回.NET列表，不是JS数组。 */
+declare class BvLocator {
+  constructor(recognitionObject: RecognitionObject, cancellationToken: CancellationToken);
+  findAll(): BetterGIList<Region>;
+  isExist(): boolean;
+  click(timeout?: number | null): Promise<Region>;
+  waitFor(timeout?: number | null): Promise<BetterGIList<Region>>;
+  withRoi(rect: OpenCvSharp.OpenCvSharp.Rect): BvLocator;
+  withTimeout(timeout: number): BvLocator;
+  withRetryInterval(retryInterval: number): BvLocator;
+  declare FindAll: typeof BvLocator.prototype.findAll;
+  declare IsExist: typeof BvLocator.prototype.isExist;
+  declare Click: typeof BvLocator.prototype.click;
+  declare WaitFor: typeof BvLocator.prototype.waitFor;
+  declare WithRoi: typeof BvLocator.prototype.withRoi;
+  declare WithTimeout: typeof BvLocator.prototype.withTimeout;
+  declare WithRetryInterval: typeof BvLocator.prototype.withRetryInterval;
+}
 
 /**
  * 自动跳过剧情配置

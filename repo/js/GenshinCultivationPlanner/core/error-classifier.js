@@ -94,7 +94,7 @@ export function classifyBossTaskError(error, task, cleanup, startedAt = null) {
 /** 成功退场后仅允许已知可恢复的 Boss 失败继续路线，取消和未知异常必须停止。 */
 export function canContinueRoutesAfterResin(execution) {
   const tasks = execution?.tasks ?? [];
-  if ((execution?.routes ?? []).some((route) => route.status === 'failed' && route.stage !== 'party')) return false;
+  if ((execution?.routes ?? []).some(isUnsafeRouteFailure)) return false;
   if (tasks.some((task) => task.code === 'cancelled' || ['failed', 'cancelled'].includes(task.evidence?.cleanup?.status))) return false;
   if ((execution?.warnings ?? []).some((warning) => warning.code === 'cleanup_failed')) return false;
   if (execution?.status !== 'failed') return true;
@@ -102,4 +102,11 @@ export function canContinueRoutesAfterResin(execution) {
   return failures.length > 0 && failures.every((task) => task.taskType === 'boss'
     && ['reward_ui_timeout', 'teleport_failed', 'boss_battle_failed'].includes(task.code)
     && task.evidence?.cleanup?.status === 'succeeded');
+}
+
+/** 明确的路线配置问题尚未操作游戏；未知异常和取消仍不能继续。 */
+export function isUnsafeRouteFailure(route) {
+  if (route.code === 'cancelled') return true;
+  return route.status === 'failed' && route.stage !== 'party'
+    && !(route.stage === 'preflight' && route.code === 'config_invalid');
 }

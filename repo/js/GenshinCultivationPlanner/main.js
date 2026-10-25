@@ -42,7 +42,7 @@ import {
   createRunExecution,
   combineRunExecutions,
 } from './core/execution-outcome.js';
-import { canContinueRoutesAfterResin, classifyBossTaskError, classifyExecutionError, isCancellationError, isUnsupportedNativeTask, withExecutionContext } from './core/error-classifier.js';
+import { canContinueRoutesAfterResin, classifyBossTaskError, classifyExecutionError, isCancellationError, isUnsafeRouteFailure, isUnsupportedNativeTask, withExecutionContext } from './core/error-classifier.js';
 import {
   buildAutomaticProfileTargets,
   buildTargetSummary,
@@ -413,7 +413,7 @@ async function main() {
     let routeRecords = [];
     if (!suppressExecution && resinPolicyV2.routeTiming === 'beforeResin' && scriptSettings.routeExecutionEnabled === true) {
       routeRecords = await executeRoutesSafely(discoveredRoutes, scriptSettings, materials, recipes, partySwitchState);
-      if (routeRecords.some((route) => route.status === 'failed')) {
+      if (routeRecords.some(isUnsafeRouteFailure)) {
         execution = createRunExecution({
           status: 'failed', code: 'route_prerequisite_failed', stage: 'task',
           message: '树脂任务前的路线执行失败，已停止后续自动任务',
@@ -1070,7 +1070,11 @@ async function executeRoutesSafely(routes, settings, materials, recipes, partySw
     if (isCancellationError(error)) throw error;
     const failure = classifyExecutionError(error, { code: 'external_task_error', stage: 'task' });
     const reason = failure.message;
-    log.error('[路线执行] 初始化或收尾失败，已停止路线并继续保存报告：{reason}', reason);
+    if (failure.stage === 'preflight' && failure.code === 'config_invalid') {
+      log.warn('[路线配置] 尚未执行路线，不影响其他任务和结束背包复核：{reason}', reason);
+    } else {
+      log.error('[路线执行] 初始化或收尾失败，已停止路线并继续保存报告：{reason}', reason);
+    }
     return [{
       ...createExecutionOutcome({
         taskId: 'route:initialization', taskType: 'route', targetName: '路线任务', ...failure,
@@ -1169,7 +1173,7 @@ async function executeMatchedRoutes(routes, scriptSettings, materials, recipes, 
       routeRecord.reason = '等待全部任务结束后的统一背包复核';
     }
     records.push(routeRecord);
-    if (routeRecord.status === 'failed' && routeRecord.stage !== 'party') {
+    if (isUnsafeRouteFailure(routeRecord)) {
       const blockedRoutes = routePlan.slice(routeIndex + 1).map((item) => item.name);
       routeRecord.evidence.blockedRoutes = blockedRoutes;
       if (blockedRoutes.length > 0) routeRecord.reason += `；安全原因未执行：${blockedRoutes.join('、')}`;

@@ -195,6 +195,10 @@ export function buildRunSummary(plan, materials, {
       ? Math.max(...reliableEstimates.map((item) => item.estimatedDays)) : estimateDays, estimateReason, reliableEstimates);
   const hasUnknownMaterial = unknownMaterials.length > 0 || uncertainRemaining.length > 0;
   const materialsSatisfied = missing.length === 0 && manualWeekly.length === 0 && !hasUnknownMaterial;
+  const excludedPending = (plan.displayShortages ?? plan.shortages ?? []).filter((item) => item.status === 'excluded'
+    && (item.owned == null || item.owned < item.required));
+  const excludedNote = excludedPending.length === 0 ? ''
+    : excludedPending.some((item) => item.owned == null) ? '范围外材料未核对' : '范围外材料仍不足';
   const gains = execution?.trackedRewards && Object.keys(execution.trackedRewards).length > 0
     ? Object.entries(execution.trackedRewards).map(([name, count]) => `${name}×${count}`)
     : [];
@@ -264,7 +268,7 @@ export function buildRunSummary(plan, materials, {
           : execution?.status === 'skipped' && hasRouteExecution
             ? '已执行路线任务'
       : execution?.status === 'skipped' && materialsSatisfied
-        ? '无需执行：培养材料已满足'
+        ? excludedNote ? `无需执行：可刷材料已齐；${excludedNote}` : '无需执行：培养材料已满足'
       : execution?.status === 'skipped'
         ? `未执行：${execution.reason || '没有可执行任务'}`
         : taskResult.status;
@@ -294,7 +298,7 @@ export function buildRunSummary(plan, materials, {
     gains.length > 0 ? `\n\n确认收益${formatItems(gains, '无')}`
       : onlyArtifactTasks ? '\n\n圣遗物收益不纳入培养材料计数' : '',
     gainIssues.length > 0 ? `\n\n材料进度提醒${formatItems(gainIssues, '无')}` : '',
-    `\n\n仍缺材料${formatItems(remaining, '无')}`,
+    `\n\n仍缺材料${formatItems(remaining, excludedNote ? `可刷范围内无缺口；${excludedNote}` : '无')}`,
     estimate ? `\n\n${estimate}` : '',
     manualWeekly.length > 0
       ? `\n\n周本需手动获取${formatItems(manualWeekly, '无')}`
@@ -378,6 +382,7 @@ function formatTask(task) {
 }
 
 function formatEstimate(days, reason, details) {
+  if (reason.startsWith('可刷材料已齐；')) return '';
   if (days === 0 && reason === '材料已满足') return '';
   if (!Number.isFinite(days)) {
     if (/库存未确认/.test(reason)) return '预计：库存未确认，暂不估算';

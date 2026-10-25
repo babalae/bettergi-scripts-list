@@ -1,8 +1,7 @@
 /**
  * 为日志、调度和执行生成“实际刷取缺口”。
  *
- * 合成可行性仍由 crafting.farmRequirements 负责；这里把同一条 3:1 链的
- * 总等价值缺口从高阶到低阶拆开，以符合秘境会掉落各阶材料的实际情况。
+ * 先保留低阶需求，再把新增的高阶等价缺口拆开；高阶库存不能抵扣低阶需求。
  */
 export function buildDisplayShortages(requirements, inventory, recipes, materials) {
   const result = [];
@@ -29,19 +28,27 @@ export function buildDisplayShortages(requirements, inventory, recipes, material
       continue;
     }
 
-    const requiredValue = sumValue(familyIds, (familyId) => requirements.get(familyId) ?? 0, recipes);
-    const ownedValue = sumValue(familyIds, (familyId) => inventory[familyId] ?? 0, recipes);
-    let remainingValue = Math.max(0, requiredValue - ownedValue);
-    if (remainingValue === 0) continue;
-
-    const highToLow = [...familyIds].sort((left, right) => getBaseUnits(right, recipes) - getBaseUnits(left, recipes));
-    for (const familyId of highToLow) {
+    const lowToHigh = [...familyIds].sort((left, right) => getBaseUnits(left, recipes) - getBaseUnits(right, recipes));
+    const familyShortages = new Map();
+    let requiredValue = 0;
+    let ownedValue = 0;
+    let missingValue = 0;
+    for (const [index, familyId] of lowToHigh.entries()) {
       const unit = getBaseUnits(familyId, recipes);
-      const shortage = Math.floor(remainingValue / unit);
-      if (shortage <= 0) continue;
-      remainingValue -= shortage * unit;
-      result.push(buildShortageItem(familyId, shortage, inventory, materials));
+      requiredValue += (requirements.get(familyId) ?? 0) * unit;
+      ownedValue += inventory[familyId] * unit;
+      // 低阶已经缺少的部分不能被后面出现的高阶库存抹掉。
+      let additional = Math.max(0, requiredValue - ownedValue - missingValue);
+      missingValue += additional;
+      for (let tier = index; tier >= 0; tier--) {
+        const id = lowToHigh[tier];
+        const value = getBaseUnits(id, recipes);
+        const count = Math.floor(additional / value);
+        if (count > 0) familyShortages.set(id, (familyShortages.get(id) ?? 0) + count);
+        additional -= count * value;
+      }
     }
+    for (const [id, count] of familyShortages) result.push(buildShortageItem(id, count, inventory, materials));
   }
 
   return result.sort((left, right) => left.materialId.localeCompare(right.materialId, 'zh-Hans-CN'));
@@ -62,10 +69,6 @@ function getBaseUnits(materialId, recipes, seen = new Set()) {
   if (!recipe || recipe.inputs?.length !== 1 || recipe.resultCount !== 1) return 1;
   const input = recipe.inputs[0];
   return input.count * getBaseUnits(input.id, recipes, new Set(seen).add(id));
-}
-
-function sumValue(ids, getCount, recipes) {
-  return ids.reduce((total, id) => total + getCount(id) * getBaseUnits(id, recipes), 0);
 }
 
 function buildShortageItem(materialId, shortage, inventory, materials) {
