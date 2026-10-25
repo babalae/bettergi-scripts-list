@@ -38,8 +38,10 @@ async function startCombat(round, token) {
             try {
               const position = await genshin.getPositionFromMap("Teyvat");
               distance = Math.hypot(boss.x - position.x, boss.y - position.y);
+              //rotate为中心到角色的向量，顺时针为正
               const rotate = (Math.atan2(boss.y - position.y, boss.x-position.x)*180 / Math.PI + 360) % 360;
-              moveMouseBy(Math.round(10 * (((rotate - genshin.getCameraOrientation() + 540) % 360) - 180)), 0);
+              //旋转系数为角度的10倍左右，顺时针为右转
+              moveMouseBy(Math.round(10*((rotate - genshin.getCameraOrientation() + 360) % 360 - 180)), 0);
               await sleep(500);
               keyDown("W");
               await sleep(500);
