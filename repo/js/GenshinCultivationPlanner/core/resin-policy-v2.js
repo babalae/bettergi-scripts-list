@@ -40,7 +40,7 @@ export function compileResinPolicyV2(settings = {}) {
   const taskOrder = taskRules.map((rule) => rule.category);
   const taskLimits = Object.fromEntries(taskRules.map((rule) => [
     rule.category,
-    { maxClaims: rule.maxClaims },
+    rule.maxResin == null ? { maxClaims: rule.maxClaims } : { maxClaims: null, maxResin: rule.maxResin },
   ]));
   const routeTiming = custom ? parseRouteTiming(settings.routeTiming) : 'afterResin';
 
@@ -71,8 +71,10 @@ export function getTaskPolicyType(task = {}) {
 /** 生成设置解析后的可读摘要，日志和配置预览共用同一结果。 */
 export function formatResinPolicyPreview(policy) {
   const order = policy.taskOrder.map((category) => {
-    const limit = policy.taskLimits[category]?.maxClaims;
-    return `${TASK_CATEGORY_LABELS[category]}（${limit == null ? UNLIMITED_CLAIM_LABEL : `最多 ${limit} 次`}）`;
+    const rule = policy.taskLimits[category];
+    const limit = rule?.maxResin != null ? `最多 ${rule.maxResin} 点`
+      : rule?.maxClaims != null ? `最多 ${rule.maxClaims} 次（旧配置）` : UNLIMITED_CLAIM_LABEL;
+    return `${TASK_CATEGORY_LABELS[category]}（${limit}）`;
   }).join(' → ');
   const resinNames = [
     ['condensed', '浓缩'],
@@ -94,6 +96,9 @@ function parseTaskRules(settings) {
     const [taskLabel, inlineLimit] = splitTaskAndLimit(value);
     const category = TASK_CATEGORY_BY_LABEL[taskLabel];
     if (!category) throw new Error(`树脂任务 ${index} 无效：“${taskLabel || '未选择'}”`);
+    if (inlineLimit != null && /点/.test(inlineLimit)) {
+      return { category, maxClaims: null, maxResin: parseResinBudget(inlineLimit, category, taskLabel) };
+    }
     const maxClaims = inlineLimit == null
       ? parseClaimLimit(settings[claimLimitField(category)], TASK_CATEGORY_LABELS[category])
       : parseClaimLimit(inlineLimit.replace(/\s*次$/, ''), TASK_CATEGORY_LABELS[category]);
@@ -110,6 +115,16 @@ function parseTaskRules(settings) {
     throw new Error(`树脂任务缺少：${missing.map((value) => TASK_CATEGORY_LABELS[value]).join('、')}`);
   }
   return rules;
+}
+
+function parseResinBudget(value, category, label) {
+  const match = /^(?:最多\s*)?(\d+)\s*点$/.exec(value);
+  const points = match ? Number(match[1]) : NaN;
+  const unit = category === 'boss' ? 40 : 20;
+  if (!Number.isSafeInteger(points) || points < unit || points > 60000 || points % unit !== 0) {
+    throw new Error(`${label}树脂上限必须是${unit}到60000之间的${unit}点整数倍`);
+  }
+  return points;
 }
 
 function splitTaskAndLimit(value) {

@@ -13,7 +13,7 @@ import {
 import { collectExecutionWarningOutcomes } from './core/preflight.js';
 import { applyDomainResinPolicyToParam, buildDomainResinPolicy } from './core/resin.js';
 import { compileResinPolicyV2, formatResinPolicyPreview } from './core/resin-policy-v2.js';
-import { compileResinExecutionQueue, runBoundedResinQueue } from './core/resin-queue.js';
+import { buildResinQueueRecord, compileResinExecutionQueue, formatResinExecutionLimit, runBoundedResinQueue } from './core/resin-queue.js';
 import { normalizeRewardMap } from './core/rewards.js';
 import { applyRunRewardEvidence } from './core/task-evidence.js';
 import { applyBossCompatibility } from './core/boss-compatibility.js';
@@ -366,14 +366,7 @@ async function main() {
   } catch (error) {
     throw withExecutionContext(error, { code: 'config_invalid', stage: 'preflight' });
   }
-  plan.executionQueue = compiledQueue.entries.map(({ queueId, category, task, maxClaims, config }) => ({
-    queueId,
-    category,
-    executionType: task.executionType,
-    targetName: task.bossName ?? task.domainName ?? task.materialName,
-    maxClaims,
-    boundedResinType: config.resinPolicy?.boundedResinType ?? null,
-  }));
+  plan.executionQueue = compiledQueue.entries.map(buildResinQueueRecord);
   plan.executionQueueOmitted = compiledQueue.omitted;
   const executionWarnings = collectExecutionWarningOutcomes(plan, scriptSettings);
   runWarnings.push(...executionWarnings);
@@ -383,7 +376,7 @@ async function main() {
   const resinPolicyPreview = formatResinPolicyPreview(resinPolicyV2);
   plan.weeklyStrategy = buildWeeklyStrategy(plan.weeklyPlan, today);
   const discoveredRoutes = plan.routes;
-  log.info('[树脂] 秘境策略：指定使用={specified}；BetterGI 实际顺序={priority}；原粹/浓缩/须臾/脆弱上限={original}/{condensed}/{transient}/{fragile}',
+  log.info('[树脂] 默认授权模板（每项实际配置见执行队列）：指定使用={specified}；顺序={priority}；原粹/浓缩/须臾/脆弱上限={original}/{condensed}/{transient}/{fragile}',
     domainResinPolicy.specifyResinUse,
     domainResinPolicy.priority.join('、') || '无',
     domainResinPolicy.originalResinUseCount,
@@ -394,11 +387,8 @@ async function main() {
     resinPolicyPreview.mode, resinPolicyPreview.order, resinPolicyPreview.resinTypes, resinPolicyPreview.routeTiming);
   for (const [index, entry] of compiledQueue.entries.entries()) {
     const target = entry.task.bossName ?? entry.task.domainName ?? entry.task.materialName;
-    const limit = entry.maxClaims == null ? '使用该任务可用的剩余预算' : `最多领奖 ${entry.maxClaims} 次`;
-    const boundedResin = entry.config.resinPolicy?.boundedResinType
-      ? `；有限预算仅使用${entry.config.resinPolicy.boundedResinType}` : '';
-    log.info('[执行队列] {index}. {type}“{target}”：{limit}{boundedResin}',
-      index + 1, entry.category, target, limit, boundedResin);
+    log.info('[执行队列] {index}. {type}“{target}”：{limit}',
+      index + 1, entry.category, target, formatResinExecutionLimit(entry));
   }
   for (const omitted of compiledQueue.omitted) {
     const target = omitted.task.bossName ?? omitted.task.domainName ?? omitted.task.materialName;
@@ -561,11 +551,7 @@ async function main() {
       plan.weeklyStrategy = buildWeeklyStrategy(plan.weeklyPlan, today);
       plan.domainResinPolicy = domainResinPolicy;
       plan.resinPolicyV2 = resinPolicyV2;
-      plan.executionQueue = compiledQueue.entries.map(({ queueId, category, task, maxClaims, config }) => ({
-        queueId, category, executionType: task.executionType,
-        targetName: task.bossName ?? task.domainName ?? task.materialName,
-        maxClaims, boundedResinType: config.resinPolicy?.boundedResinType ?? null,
-      }));
+      plan.executionQueue = compiledQueue.entries.map(buildResinQueueRecord);
       plan.executionQueueOmitted = compiledQueue.omitted;
       plan.execution = execution;
     }
@@ -678,11 +664,13 @@ async function runRoleArtifactFarming() {
   const record = { schemaVersion: 1, startedAt, runPurpose: '仅刷角色圣遗物',
     recommendation, task, reportPath, execution: null, targetVerified: true,
     recommendationVerified: recommendation.source === '提升指南第一项推荐',
-    resinPolicy: compiled.entries[0].config.resinPolicy, maxClaims: compiled.entries[0].maxClaims };
+    resinPolicy: compiled.entries[0].config.resinPolicy, maxClaims: compiled.entries[0].maxClaims,
+    maxResin: compiled.entries[0].maxResin, resinBudget: compiled.entries[0].resinBudget };
   file.CreateDirectory('record/artifact-runs');
   await file.writeText(reportPath, JSON.stringify(record, null, 2), false);
   log.info('[角色圣遗物] 角色：{character}；套装：{set}；秘境：{domain}；来源：{source}',
     recommendation.characterName, recommendation.setName, task.domainName, recommendation.source);
+  log.info('[角色圣遗物] {limit}', formatResinExecutionLimit(compiled.entries[0]));
   failureNotificationState.stage = '执行角色圣遗物秘境';
   record.execution = await executeResinQueue(compiled.entries, scriptSettings, { initialized: false });
   record.endedAt = new Date().toISOString();
@@ -947,7 +935,8 @@ async function executeDomainTask(entry, partySwitchState) {
       : `培养秘境“${config.domainName}”未返回奖励识别结果`,
     rewards: taskRecognizedRewards,
     taskRecognizedRewards,
-    evidence: { taskRecognizedRewards, maxClaims: entry.maxClaims, category: entry.category },
+    evidence: { taskRecognizedRewards, maxClaims: entry.maxClaims, maxResin: entry.maxResin,
+      resinBudget: entry.resinBudget, category: entry.category },
     startedAt,
     endedAt: new Date().toISOString(),
   });
@@ -995,7 +984,8 @@ async function executeArtifactDomainTask(entry, partySwitchState) {
       ? `圣遗物秘境“${config.domainName}”任务调用结束`
       : `圣遗物秘境“${config.domainName}”未返回奖励识别结果`,
     rewards: taskRecognizedRewards, taskRecognizedRewards,
-    evidence: { taskRecognizedRewards, maxClaims: entry.maxClaims, category: entry.category },
+    evidence: { taskRecognizedRewards, maxClaims: entry.maxClaims, maxResin: entry.maxResin,
+      resinBudget: entry.resinBudget, category: entry.category },
     startedAt, endedAt: new Date().toISOString(),
   });
 }
@@ -1066,7 +1056,8 @@ async function executeBossTask(entry, partySwitchState) {
       ? `世界 Boss“${config.bossName}”任务调用结束`
       : `世界 Boss“${config.bossName}”未返回奖励识别结果`,
     rewards: taskRecognizedRewards, taskRecognizedRewards, warnings: cleanupWarnings,
-    evidence: { taskRecognizedRewards, maxClaims: entry.maxClaims, category: entry.category, cleanup },
+    evidence: { taskRecognizedRewards, maxClaims: entry.maxClaims, maxResin: entry.maxResin,
+      resinBudget: entry.resinBudget, category: entry.category, cleanup },
     startedAt, endedAt: new Date().toISOString(),
   });
 }

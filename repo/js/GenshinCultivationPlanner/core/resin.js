@@ -1,5 +1,8 @@
 const UNLIMITED_USE_COUNT = 9999;
 
+// 表示领奖的树脂等价值，不表示此时还要额外扣除同等数量的原粹树脂。
+export const RESIN_POINTS = Object.freeze({ original20: 20, original40: 40, condensed: 60, transient: 60, fragile: 60 });
+
 /**
  * 将脚本设置转换为 AutoDomainParam 可直接使用的树脂策略。
  * 指定次数使用 9999 作为“本次尽量用完该类型”的上限；BetterGI 在树脂不足时会自行退出。
@@ -84,4 +87,48 @@ export function limitDomainResinPolicy(policy, maxClaims) {
     maxClaims,
     boundedResinType: selectedName,
   };
+}
+
+/**
+ * 把点数上限预分配成原生接口分别计数的额度，各项之和不超过总预算。
+ * 不知道实际库存与消耗时，不将某一类型未用完的额度再次分给另一类型。
+ */
+export function limitDomainResinPolicyByPoints(policy, maxResin) {
+  if (!Number.isSafeInteger(maxResin) || maxResin < 20 || maxResin % 20 !== 0 || maxResin > 60000) {
+    throw new Error('秘境树脂上限必须是20到60000之间的20点整数倍');
+  }
+  const bounded = { ...policy, priority: [], originalResinUseCount: 0,
+    originalResin20UseCount: 0, originalResin40UseCount: 0,
+    condensedResinUseCount: 0, transientResinUseCount: 0, fragileResinUseCount: 0 };
+  const choices = {
+    浓缩树脂: [['condensed', 'condensedResinUseCount', '浓缩']],
+    原粹树脂: [['original40', 'originalResin40UseCount', '40点原粹'], ['original20', 'originalResin20UseCount', '20点原粹']],
+    须臾树脂: [['transient', 'transientResinUseCount', '须臾']],
+    脆弱树脂: [['fragile', 'fragileResinUseCount', '脆弱']],
+  };
+  const allocations = [];
+  let remaining = maxResin;
+  for (const name of new Set(policy.priority)) {
+    if (!choices[name]) throw new Error(`未知的秘境树脂类型：“${name}”`);
+    let used = false;
+    for (const [type, field, label] of choices[name]) {
+      // 顺序只是优先级，不代表授权；还必须检查对应的原次数配置。
+      const enabled = type.startsWith('original')
+        ? policy.originalResinUseCount > 0 || policy[field] > 0 : policy[field] > 0;
+      if (!enabled) continue;
+      const pointsPerUse = RESIN_POINTS[type];
+      const count = Math.floor(remaining / pointsPerUse);
+      if (count === 0) continue;
+      bounded[field] = count;
+      remaining -= count * pointsPerUse;
+      allocations.push({ type, label, count, pointsPerUse });
+      used = true;
+    }
+    if (used) bounded.priority.push(name);
+  }
+  if (allocations.length === 0) {
+    throw new Error(`所选秘境树脂无法执行${maxResin}点预算；请增加上限或允许使用原粹树脂`);
+  }
+  return { ...bounded, maxClaims: allocations.reduce((sum, item) => sum + item.count, 0),
+    resinBudget: { maxResin, plannedResin: maxResin - remaining, unallocatedResin: remaining, allocations } };
 }
