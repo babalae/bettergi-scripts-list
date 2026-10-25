@@ -491,26 +491,23 @@ async function runTrounceFlow() {
 
             try {
               await page.flow()
-              .keyPress("F")
-              .waitUntilText("使用原粹树脂")
-              .click()
-              .waitUntilAnyText(["退出秘境", "空白区域"])
-              .click()
-              .do(async () => {
-                log.info(`${settings.trounce}讨伐成功，已领取奖励`);
-                await genshin.returnMainUi()
-              })
-              .run();
+                .keyPress("F")
+                .waitUntilText("使用原粹树脂")
+                .click()
+                .waitUntilAnyText(["退出秘境", "空白区域"])
+                .click()
+                .run();
+			  await genshin.returnMainUi();
+              log.info(`${settings.trounce}讨伐成功，已领取奖励`);
             } catch (e) {
               const msg = String(e?.message ?? e);
-              if (/超时|timeout/i.test(msg)) {
+              if (msg.includes("使用原粹树脂") && /超时|timeout/i.test(msg)) {
                 log.warn("领奖超时（树脂不足或本周奖励已领取），停止重试。");
               } else {
                 log.error(`领奖流程发生未知异常: ${msg}`);
                 return false;
               }
             }
-
             return true;
           }
           const image = captureGameRegion();
