@@ -489,7 +489,13 @@ async function runTrounceFlow() {
               })
               .run();
             } catch (e) {
-              log.warn(`讨伐成功，但奖励未领取：${e}`);
+              const msg = String(e?.message ?? e);
+              if (/超时|timeout/i.test(msg)) {
+                log.warn("领奖超时（树脂不足或本周奖励已领取），停止重试。");
+              } else {
+                log.error(`领奖流程发生未知异常: ${msg}`);
+                return false;
+              }
             }
 
             return true;
@@ -533,7 +539,7 @@ async function runTrounceFlow() {
           }
         }
         log.warn("讨伐成功，但奖励未领取：征讨之花定位超时");
-        return true;
+        return false;
       }
     }
     return false;
