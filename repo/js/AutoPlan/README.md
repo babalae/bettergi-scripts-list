@@ -13,9 +13,9 @@
 - 设置执行优先级（数字越大越先跑）
 - 支持三种配置来源（输入 / UID专属 / bgi_tools远程）
 - 自动检测幽境开启状态
-  ![check](md/check.jpg)
+  ![check](assets/md/check.jpg)
 - 记录执行体力计划
-  ![record](md/record.jpg)
+  ![record](assets/md/record.jpg)
 ## 配置项说明
 
 脚本通过以下界面配置项进行设置（对应 settings.json）：
@@ -70,9 +70,7 @@
 | 10 |   使用脆弱树脂    |   可选   |                           启用随便填个值                            |
 | 11 |   使用须臾树脂    |   可选   |                           启用随便填个值                            |
 | 12 |   合成浓缩树脂    |   可选   |                           启用随便填个值                            |
-| 13 |   使用冒险家之书   |   可选   |                           启用随便填个值                            |
-| 14 |    详细通知     |   可选   |                           启用随便填个值                            |
-| 15 |    战斗超时     |   可选   |                          可选，默认 120                           |
+| 13 |    战斗超时     |   可选   |                          可选，默认 120                           |
 |    |             |        |                     ***`幽境类型后几位参数说明`***                      
 | 5  |   指定刷取战场    |   可选   |                    (1-3)不填使用BetterGI默认的配置                    |            1            |
 | 6  |    队伍名称     |   可选   |         BetterGI 中已保存的队伍名称（用于切换队伍）不填使用BetterGI默认的配置          |      速刷 / 雷国 / 国家队      |
@@ -80,24 +78,24 @@
 | 8  |   自定义树脂顺序   |   可选   |         原粹树脂,浓缩树脂,须臾树脂,脆弱树脂`/`分割  不填使用BetterGI默认的配置          |   原粹树脂 / 浓缩树脂 / 须臾树脂    |
 | 9  |   自定义树脂次数   |   可选   |            和自定义树脂顺序对应   `/`分割   不填使用BetterGI默认的配置            |        1 / 2 / 3        |
 |    |             |        |                    ***`Boss类型后几位参数说明`***                     
-|5|   Boss 名称   |必填|       需要在 BetterGI 自动讨伐界面中选择的 Boss 名称，大小写和标点必须与游戏内完全一致       |无相之雷、急冻树
-|6|    策略名称     |可选 |                BetterGI 中预设的战斗策略名称，留空则使用默认策略                 |速杀、国家队
-|7|   战斗策略路径    |可选 |             自定义战斗脚本路径，JS 可直接设置该路径来覆盖策略名称。普通用户可留空             |D:\scripts\boss1.txt
-|8|    队伍名称     |可选 |                   执行讨伐前需要切换到的队伍名称，留空保持当前队伍                   |雷国、永冻队
-|9|   是否指定次数    |可选 | true 或 false，不填默认视为 false（即未指定次数，刷至体力耗尽）。注意：若指定次数，必须同时填写第10项 |true
-|10|    讨伐次数     |可选 |                  当第9项为 true 时必填，成功领取奖励的目标次数                  |5
-|11 |   使用须臾树脂    |可选 |             指定次数模式下，原粹树脂不足时是否允许使用须臾树脂。true/false             |false
-|12|   使用脆弱树脂    |可选 |             指定次数模式下，原粹树脂不足时是否允许使用脆弱树脂。true/false             |false
-|13|   复活重试次数    |可选 |                角色死亡后自动回神像恢复并重试的最大次数/脚本全局 取最大值                |3
-|14|   每轮返回神像    |可选 |            true 表示每打完一轮先返回神像再重新前往 Boss。true/false            |false
-|15|    奖励识别     |可选 |            是否启用奖励名称识别（通过 OCR 校验奖励是否正确）。true/false            |false
+| 5  |   Boss 名称   |必填|       需要在 BetterGI 自动讨伐界面中选择的 Boss 名称，大小写和标点必须与游戏内完全一致       |无相之雷、急冻树
+| 6  |    策略名称     |可选 |                BetterGI 中预设的战斗策略名称，留空则使用默认策略                 |速杀、国家队
+| 7  |   战斗策略路径    |可选 |             自定义战斗脚本路径，JS 可直接设置该路径来覆盖策略名称。普通用户可留空             |D:\scripts\boss1.txt
+| 8  |    队伍名称     |可选 |                   执行讨伐前需要切换到的队伍名称，留空保持当前队伍                   |雷国、永冻队
+| 9  |   是否指定次数    |可选 | true 或 false，不填默认视为 false（即未指定次数，刷至体力耗尽）。注意：若指定次数，必须同时填写第10项 |true
+| 10 |    讨伐次数     |可选 |                  当第9项为 true 时必填，成功领取奖励的目标次数                  |5
+| 11 |   使用须臾树脂    |可选 |             指定次数模式下，原粹树脂不足时是否允许使用须臾树脂。true/false             |false
+| 12 |   使用脆弱树脂    |可选 |             指定次数模式下，原粹树脂不足时是否允许使用脆弱树脂。true/false             |false
+| 13 |   复活重试次数    |可选 |                角色死亡后自动回神像恢复并重试的最大次数/脚本全局 取最大值                |3
+| 14 |   每轮返回神像    |可选 |            true 表示每打完一轮先返回神像再重新前往 Boss。true/false            |false
+| 15 |    奖励识别     |可选 |            是否启用奖励名称识别（通过 OCR 校验奖励是否正确）。true/false            |false
 **配置示例**
 
 ```text
 秘境|0/3|9||速刷|苍白的遗荣|3|1,          # 优先级最高，周日,周三刷3轮遗荣
 秘境||5||国家队|炽烈的炎之魔女|5||,       # 优先级次之，每天刷5轮魔女
 秘境|0|2||雷国|无想之刃狭间|2|2|浓缩树脂/原粹树脂,          # 只在周日刷，优先使用浓缩树脂后使用原粹树脂，优先级较低
-地脉||1|1||蒙德|1|启示之花|||||||120, #优先级较低 刷1轮蒙德经验书
+地脉||1|1||蒙德|1|启示之花|||||120, #优先级较低 刷1轮蒙德经验书
 幽境||1||||, #幽境 默认本体配置
 幽境||1||1|队伍|1|浓缩树脂/原粹树脂|1/1, #幽境 默认自定义树脂配置 切换到 队伍 运行->浓缩树脂 1次->原粹树脂 1次
 
@@ -168,8 +166,6 @@ Boss||3||爆炎树||||false||||||                            # 最简单配置�
           "country": "",
           //地脉类型  启示之花/藏金之花
           "leyLineOutcropType": "启示之花",
-          //使用冒险家之书
-          "useAdventurerHandbook": false,
           //好感队伍名称
           "friendshipTeam": "",
           //队伍名称
@@ -181,9 +177,7 @@ Boss||3||爆炎树||||false||||||                            # 最简单配置�
           //使用脆弱树脂
           "useFragileResin": false,
           //使用须臾树脂
-          "useTransientResin": false,
-          //详细通知
-          "isNotification": false
+          "useTransientResin": false
         },
         //危战信息对象
         "autoStygianOnslaught": {
@@ -302,14 +296,12 @@ Boss||3||爆炎树||||false||||||                            # 最简单配置�
           "count": 1,
           "country": "纳塔",
           "leyLineOutcropType": "启示之花",
-          "useAdventurerHandbook": false,
           "friendshipTeam": "",
           "team": "",
           "timeout": 120,
           "isGoToSynthesizer": false,
           "useFragileResin": false,
-          "useTransientResin": false,
-          "isNotification": false
+          "useTransientResin": false
         }
       },
       {
@@ -326,7 +318,7 @@ Boss||3||爆炎树||||false||||||                            # 最简单配置�
           "runCount": 3,
           "useTransientResin": false,
           "useFragileResin": false,
-          "rviveRetryCount": 2,
+          "reviveRetryCount": 2,
           "returnToStatueAfterEachRound": true,
           "rewardRecognitionEnabled": false
         }
@@ -340,12 +332,12 @@ Boss||3||爆炎树||||false||||||                            # 最简单配置�
 
 ***`话不多说直接上图:`***
 
-![login](md/bgi-tools-login.jpg)
-![init](md/bgi-tools-config-ui-init.jpg)
-![init-api](md/bgi-tools-config-ui-init-api.jpg)
-![config](md/bgi-tools-config-ui.jpg)
-![config-01](md/bgi-tools-config-ui-01.jpg)
-![config-02](md/bgi-tools-config-ui-02.jpg)
+![login](assets/md/bgi-tools-login.jpg)
+![init](assets/md/bgi-tools-config-ui-init.jpg)
+![init-api](assets/md/bgi-tools-config-ui-init-api.jpg)
+![config](assets/md/bgi-tools-config-ui.jpg)
+![config-01](assets/md/bgi-tools-config-ui-01.jpg)
+![config-02](assets/md/bgi-tools-config-ui-02.jpg)
 
 ## 使用建议
 
@@ -382,15 +374,19 @@ Boss||3||爆炎树||||false||||||                            # 最简单配置�
 | 0.1.1 | yHlw8FHjTJAPEtpp9O+ |           0.1.5+           |
 | 0.1.2 | yHlw8FHjTJAPEtpp9O+ |           0.1.6+           |
 | 0.1.3 | 2Cbayi1S2I41BlTXb/XAmw== |           0.1.8+           |
+| 0.1.4 | 2Cbayi1S2I41BlTXb/XAmw== |           0.1.9+           |
 ---
 ## 版本历史（简要）
+### 0.1.4 2026.09.06
+- 适配bgi本体API改动
+- 修复OCR识别问题
 ### 0.1.3 2026.08.22
 - 修复幽境检查功能
 - 更新JSON格式
 ### 0.1.2 2026.07.30
 - 分离幽境检查功能
 - 新增圣遗物背包剩余空间阈值检查
-- ![holy-relic-threshold](md/holy-relic-threshold.jpg)
+- ![holy-relic-threshold](assets/md/holy-relic-threshold.jpg)
 - Boss配置加自定义战斗超时
 ### 0.1.1 2026.06.30
 - Boss常量推送和培养计划支持。
@@ -400,7 +396,7 @@ Boss||3||爆炎树||||false||||||                            # 最简单配置�
 - 修复bug
 ### 0.0.8 2026.05.29
 - 新增执行记录功能(支持多次执行计划时单个配置只执行一次)
-- ![record](md/record.jpg)
+- ![record](assets/md/record.jpg)
 ### 0.0.7 2026.05.27
 - 重构配置模块：使用新的 UID 获取方法 `genshin.uid()` 替代 OCR 识别
 - 移除对 `ocrUid`、`getDayOfWeek`、`parseInteger`、`pullJsonConfig` 和 `findStygianOnslaught` 的导入

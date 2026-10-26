@@ -33,84 +33,151 @@ issues:
     commentAnchor: issue-bot:validation
     templates:
       - key: bug
+        issueType: Bug
         detect:
           markers:
             - bug
           titlePrefixes:
             - "[bug]"
+          formSignatures:
+            - 我已搜索现有 Issue，确认没有相同问题
+            - 我已阅读相关脚本的 README 或使用说明
+            - 我已确认问题来自脚本或脚本仓库
+            - 我已移除日志、截图中的 UID、路径等隐私信息
         requiredSections:
           - id: scope
             aliases:
               - 涉及范围
+            transferExempt: true
           - id: bettergi-version
             aliases:
               - BetterGI 版本号
+              - BetterGI Version
           - id: script-name
             aliases:
               - 相关脚本名称与版本
+            transferExempt: true
           - id: environment
             aliases:
               - 运行环境与关键配置
+              - 系统环境
+              - System Environment
           - id: description
             aliases:
               - 问题描述
+              - Description of the issue
           - id: expected
             aliases:
               - 期望结果
+            transferExempt: true
           - id: steps
             aliases:
               - 复现步骤
+              - Reproduction steps
         labels:
-          whenValid:
-            - bug
+          whenValid: []
           whenInvalid:
             - 需要更多信息
       - key: feature
+        issueType: Feature
         detect:
           markers:
             - feature
           titlePrefixes:
             - "[feature]"
+          formSignatures:
+            - 我已搜索现有 Issue
+            - 我已确认当前脚本或仓库尚无等价能力
+            - 该需求不仅是个人操作习惯
+            - 我理解需求可能受兼容性和维护成本限制
         requiredSections:
           - id: scope
             aliases:
               - 涉及范围
+            transferExempt: true
           - id: request
             aliases:
               - 需求或建议
+              - 功能请求
+              - Feature Request
           - id: scenario
             aliases:
               - 使用场景
+              - Use Case
           - id: benefits
             aliases:
               - 预期收益
+              - Expected Benefit
+            transferExempt: true
           - id: constraints
             aliases:
               - 影响与约束
+            transferExempt: true
         labels:
-          whenValid:
-            - enhancement
+          whenValid: []
           whenInvalid:
             - 需要更多信息
       - key: question
+        issueType: Question
         detect:
           markers:
             - question
           titlePrefixes:
             - "[question]"
+          formSignatures:
+            - 我已搜索现有 Issue
+            - 我已阅读相关脚本 README 和 BetterGI 文档
         requiredSections:
           - id: scope
             aliases:
               - 涉及范围
+            transferExempt: true
           - id: question
             aliases:
               - 问题描述
+              - Problem Description
           - id: tried
             aliases:
               - 已尝试内容
+              - What I Tried
         labels:
-          whenValid:
-            - question
+          whenValid: []
+          whenInvalid:
+            - 需要更多信息
+      - key: suggestion
+        issueType: Suggestions
+        detect:
+          markers:
+            - suggestion
+          titlePrefixes:
+            - "[suggestion]"
+        requiredSections:
+          - id: suggestion
+            aliases:
+              - 建议内容
+              - Suggestion
+          - id: benefit
+            aliases:
+              - 预期收益
+              - Expected Benefit
+        labels:
+          whenValid: []
+          whenInvalid:
+            - 需要更多信息
+      - key: normal
+        detect:
+          markers:
+            - normal
+          titlePrefixes:
+            - "[feedback]"
+            - "[normal]"
+        requiredSections:
+          - id: description
+            aliases:
+              - 描述
+              - Description
+        labels:
+          whenValid: []
           whenInvalid:
             - 需要更多信息
     duplicateDetection:
@@ -134,9 +201,6 @@ issues:
     enabled: true
     autoCreateMissing: true
     managed:
-      - bug
-      - enhancement
-      - question
       - 需要更多信息
       - duplicate
     definitions:
@@ -237,4 +301,39 @@ pullRequests:
   labeling:
     enabled: false
   summary:
+    enabled: false
+  pathLabels:
+    enabled: true
+    managed: true
+    documentationLabel: documentation
+    commentAnchor: pull-bot:path-labels
+    rules:
+      - label: JS 脚本
+        pathPrefixes:
+          - repo/js
+      - label: 地图追踪
+        pathPrefixes:
+          - repo/pathing
+      - label: 战斗策略
+        pathPrefixes:
+          - repo/combat
+      - label: 七圣召唤
+        pathPrefixes:
+          - repo/tcg
+  locationCheck:
+    enabled: true
+    commentAnchor: pull-bot:location
+    allowedPaths:
+      - build
+      - .github
+    scriptRoots:
+      - repo/js
+    fileKindRules:
+      - category: 战斗策略
+        expectedLocation: repo/combat
+        extensions:
+          - .txt
+    rules:
+      pathingFileNamePattern: ^\d{2,3}-
+  issueLink:
     enabled: false

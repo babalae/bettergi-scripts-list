@@ -1,0 +1,67 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.63.1",
+    "description": "地区: 至冬\n类型: 垂钓点\n详细位置: 古兽冰原凝露镇东北\n鱼类: 花鳉、炭灰雪圆鳍、月光雪圆鳍、赤甜星花鱼、青仙星花鱼\n饵类: 果酿饵、闪烁饵\n附加信息: 普通",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1788980630370,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "至冬-垂钓点-古兽冰原凝露镇东北",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7141.3955,
+      "y": 7900.249
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7099.5469,
+      "y": 7880.063
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7095.3965,
+      "y": 7845.2358
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7084.5225,
+      "y": 7848.4897
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1.5),keypress(f)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7080.7207,
+      "y": 7850.0024
+    }
+  ]
+}

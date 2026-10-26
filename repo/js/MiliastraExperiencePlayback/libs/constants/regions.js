@@ -40,8 +40,8 @@ const findCloseDialog = () => {
   return iro;
 };
 /** 通用：点击空白处区域继续位置 */
-const clickToContinue = () => {
-  click(960, 1070);
+const clickToContinue = (offsetX = 0, offsetY = 0) => {
+  click(960 + offsetX, 1070 + offsetY);
 };
 /** 查找UID文本 */
 const findUidText = () => {
@@ -74,6 +74,15 @@ const findElementViewBtn = () => {
   const iro = findImageWithinBounds("assets/UI_BtnIcon_ElementView.png", 0, 0, 500, 80, {
     useMask: true,
     threshold: 0.8,
+  });
+  iro?.drawSelf("group_img");
+  return iro;
+};
+/** 查找禁止联机按钮 */
+const findSinglePlayerBtn = () => {
+  const iro = findImageWithinBounds("assets/UI_BtnIcon_SinglePlayer.png", 0, 0, 500, 80, {
+    useMask: true,
+    threshold: 0.92,
   });
   iro?.drawSelf("group_img");
   return iro;
@@ -184,7 +193,7 @@ const findEditStageSaveBtn = () => {
   return findTextWithinBounds("管理", 1220, 980, 700, 100);
 };
 /** 存档：查找存档时间占位符 */
-const saveListViewBounds = [210, 250, 1650, 710];
+const saveListViewBounds = [210, 248, 1650, 670];
 const findSaveTimePlaceholder = () => {
   const [x, y, w, h] = saveListViewBounds;
   return findTextWithinBounds("1970年", x, y, w, h, { contains: true });
@@ -230,6 +239,12 @@ const findSkipBtn = () => {
   txt?.drawSelf("group_text");
   return txt;
 };
+/** 关卡：查找绮星盛会投票按钮 */
+const findStarlitGalaVoteBtn = () => {
+  const txt = findTextWithinBounds("投票", 1180, 650, 740, 330, { contains: false });
+  txt?.drawSelf("group_text");
+  return txt;
+};
 /** 关卡：查找关卡退出按钮 */
 const findStageEscBtn = () => {
   const iro = findImageWithinBounds("assets/UI_Icon_Leave.png", 0, 0, 100, 100, {
@@ -262,13 +277,34 @@ const findBeyondBattlepassBtn = () => {
 const findBeyondBattlepassPopup = () => {
   return findTextWithinBounds("奖励一览", 0, 0, 960, 1080, { contains: true });
 };
+/** 绮星盛会：查找奖励按钮 */
+const findStarlitGalaRewardBtn = () => {
+  const txt = findTextWithinBounds("奖励", 960, 815, 960, 265, { contains: true });
+  txt?.drawSelf("group_text");
+  return txt;
+};
+/** 绮星盛会：查找奖励对话框 */
+const findStarlitGalaRewardDialog = () => {
+  const txt = findTextWithinBounds("奖励", 810, 150, 300, 230, { contains: true });
+  txt?.drawSelf("group_text");
+  return txt;
+};
+/** 绮星盛会：查找盛会人气图标 */
+const findFestiveFever = () => {
+  const iro = findImageWithinBounds("assets/UI_Icon_FestiveFever.png", 410, 160, 1100, 660, {
+    use3Channels: true,
+    threshold: 0.8,
+  });
+  iro?.drawSelf("group_img");
+  return iro;
+};
 /** 奖励：查找领取奖励按钮 */
 const findFetchRewardBtn = () => {
   const iro = findImageWithinBounds(
     "assets/UI_Img_UGCCultivateReward_FetchHint.png",
-    1550,
+    1450,
     100,
-    370,
+    470,
     880,
     {
       useMask: true,
@@ -302,6 +338,7 @@ export {
   findEnterRoomShortcut,
   findExitStageBtn,
   findExternalSaveColumnPos,
+  findFestiveFever,
   findFetchRewardBtn,
   findGoToLobbyBtn,
   findGotTeyvatBtn,
@@ -316,8 +353,12 @@ export {
   findSearchWonderlandBtn,
   findSearchWonderlandInput,
   findSetupFilterBtn,
+  findSinglePlayerBtn,
   findSkipBtn,
   findStageEscBtn,
+  findStarlitGalaRewardBtn,
+  findStarlitGalaRewardDialog,
+  findStarlitGalaVoteBtn,
   findTopNSearchResultTexts,
   findUidText,
 };

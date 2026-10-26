@@ -211,7 +211,8 @@ export async function campaignAreaMain(openKey = true) {
     await sleep(ms * 2)
     // 点击秘境征讨坐标
     // await click(xyConfig.campaignArea.x, xyConfig.campaignArea.y)
-    const find = await findTextAndClick("征讨领域");
+    //366, 168, 356, 746
+    const find = await findTextAndClick("征讨领域", 366, 168, 356, 746);
     if (find === null) {
         log.warn("未找到征讨领域")
         return
@@ -314,7 +315,7 @@ export async function dailyCommissionMain(openKey = true) {
     // 如果有每日未完成/领取/长期训练点，则记录日志并发送通知
     if (re.daily.total > re.daily.use || re.physical.total > re.physical.use || pointNumber<=4 || expireTime<=1
     ) {
-        await toMainUi()
+        // await toMainUi()
         await sendText(noticeText, title)
     }else if (findItem && findItem.text !== noticeText && findItem.title !== title) {
         title= "[重复通知-产生消耗]==>"+title

@@ -17,7 +17,7 @@ const waitForAction = async (condition, retryAction, options) => {
   const { maxAttempts = defaultMaxAttempts, retryInterval = defaultRetryInterval } = options || {};
   for (let i = 0; i < maxAttempts; i++) {
     if (i === 0 && (await condition())) return true;
-    await retryAction?.();
+    await retryAction?.(i + 1);
     await sleep(retryInterval);
     if (await condition()) return true;
   }

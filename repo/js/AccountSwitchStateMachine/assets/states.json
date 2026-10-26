@@ -299,10 +299,30 @@
           "id": "enterAccountAndPassword",
           "template": "assets/RecognitionObjects/EnterAccountAndPassword.png",
           "region": {
-            "x": 0,
-            "y": 0,
-            "width": 1920,
-            "height": 1080
+            "x": 547,
+            "y": 168,
+            "width": 825,
+            "height": 744
+          }
+        },
+        {
+          "id": "phoneLogin",
+          "template": "assets/RecognitionObjects/LoginByPhone.png",
+          "region": {
+            "x": 547,
+            "y": 168,
+            "width": 825,
+            "height": 744
+          }
+        },
+        {
+          "id": "forgotPassword",
+          "template": "assets/RecognitionObjects/ForgotPassword.png",
+          "region": {
+            "x": 547,
+            "y": 168,
+            "width": 825,
+            "height": 744
           }
         },
         {
@@ -316,7 +336,7 @@
           }
         }
       ],
-      "logic": "enterAccountAndPassword && !confirm"
+      "logic": "((enterAccountAndPassword && phoneLogin) || (enterAccountAndPassword && forgotPassword) || (phoneLogin && forgotPassword)) && !confirm"
     }
   },
   {
@@ -404,9 +424,29 @@
             "width": 439,
             "height": 116
           }
+        },
+        {
+          "id": "phoneLogin",
+          "template": "assets/RecognitionObjects/LoginByPhone.png",
+          "region": {
+            "x": 547,
+            "y": 168,
+            "width": 825,
+            "height": 744
+          }
+        },
+        {
+          "id": "forgotPassword",
+          "template": "assets/RecognitionObjects/ForgotPassword.png",
+          "region": {
+            "x": 547,
+            "y": 168,
+            "width": 825,
+            "height": 744
+          }
         }
       ],
-      "logic": "login && !enterGame && !selectAccount && !enterAccountAndPassword && !confirm"
+      "logic": "login && !enterGame && !selectAccount && !enterAccountAndPassword && !confirm && !phoneLogin && !forgotPassword"
     }
   }
 ]

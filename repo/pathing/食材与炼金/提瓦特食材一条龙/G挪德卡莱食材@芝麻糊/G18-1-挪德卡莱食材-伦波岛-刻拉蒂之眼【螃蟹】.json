@@ -13,7 +13,7 @@
     "bgi_version": "0.52.0",
     "description": "1个甜甜花；1个薄荷；5个螃蟹；",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1762505403439,
+    "last_modified_time": 1789022950480,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "G18-1-挪德卡莱食材-伦波岛-刻拉蒂之眼【螃蟹】",
@@ -28,8 +28,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 8834.002,
-      "y": 2203.6782
+      "x": 8833.998,
+      "y": 2203.6787
     },
     {
       "action": "",
@@ -37,17 +37,17 @@
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": 8837.5039,
-      "y": 2171.4956
+      "x": 8837.7363,
+      "y": 2171.7607
     },
     {
       "action": "",
       "action_params": "",
       "id": 3,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "path",
-      "x": 8814.8164,
-      "y": 2135.6296
+      "x": 8837.9316,
+      "y": 2169.6992
     },
     {
       "action": "",
@@ -55,8 +55,8 @@
       "id": 4,
       "move_mode": "dash",
       "type": "path",
-      "x": 8801.3438,
-      "y": 2116.8672
+      "x": 8815.2207,
+      "y": 2136.623
     },
     {
       "action": "",
@@ -64,8 +64,8 @@
       "id": 5,
       "move_mode": "walk",
       "type": "path",
-      "x": 8800.9883,
-      "y": 2113.1318
+      "x": 8813.6094,
+      "y": 2133.9629
     },
     {
       "action": "",
@@ -73,17 +73,17 @@
       "id": 6,
       "move_mode": "walk",
       "type": "path",
-      "x": 8800.3252,
-      "y": 2108.929
+      "x": 8802.7246,
+      "y": 2115.1563
     },
     {
       "action": "",
       "action_params": "",
       "id": 7,
-      "move_mode": "dash",
+      "move_mode": "walk",
       "type": "path",
-      "x": 8787.3545,
-      "y": 2088.4854
+      "x": 8799.2031,
+      "y": 2113.0176
     },
     {
       "action": "",
@@ -91,17 +91,35 @@
       "id": 8,
       "move_mode": "walk",
       "type": "path",
-      "x": 8783.874,
-      "y": 2083.2947
+      "x": 8788.6504,
+      "y": 2088.0332
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8783.2979,
+      "y": 2083.0664
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8776.0166,
+      "y": 2088.7861
     },
     {
       "action": "combat_script",
       "action_params": "wait(0.2)",
-      "id": 9,
+      "id": 11,
       "move_mode": "walk",
       "type": "path",
-      "x": 8776.7793,
-      "y": 2089.6606
+      "x": 8775.8984,
+      "y": 2091.7295
     }
   ]
 }
