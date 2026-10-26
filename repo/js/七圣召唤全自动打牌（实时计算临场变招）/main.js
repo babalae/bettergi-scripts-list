@@ -1,5 +1,5 @@
 "use strict";
-const TCGSelectedDeck=({"雷神柯莱刻晴（充能连爆）":"raiden","伊安珊嘉明早柚（全能速通）":"iansan","月绽放（赚骰爆发）":"moonbloom","莫娜早柚迪卢克（扩散清场）":"mozailu","爱可菲林尼水形幻人（反应快攻）":"ailin","圣骸兽（特化对单）（对单核爆）":"consecrated"})[(typeof settings==="undefined"?{}:settings).deck||"雷神柯莱刻晴（充能连爆）"];
+const TCGSelectedDeck=({"雷神柯莱刻晴（充能连爆）":"raiden","伊安珊嘉明早柚（全能速通）":"iansan","月绽放（赚骰爆发）":"moonbloom","莫娜早柚迪卢克（扩散清场）":"mozailu","爱可菲林尼水形幻人（反应快攻）":"ailin","圣骸兽（对单核爆）":"consecrated"})[(typeof settings==="undefined"?{}:settings).deck||"雷神柯莱刻晴（充能连爆）"];
 if(!TCGSelectedDeck)throw Error("未知牌组设置");
 switch(TCGSelectedDeck){
 case "raiden": {
@@ -8956,7 +8956,7 @@ globalThis.TCG.defaultStrategy="default";
   T.availableStrategies = function () { return [...strategies.keys()]; };
 })(globalThis.TCG);
 
-globalThis.TCG.deckTitle="圣骸兽（特化对单）";
+globalThis.TCG.deckTitle="圣骸兽";
 globalThis.TCG.deckLabel="对单核爆";
 
 ;
