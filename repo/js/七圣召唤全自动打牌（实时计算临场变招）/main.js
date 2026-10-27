@@ -509,21 +509,23 @@ function handInstanceFacts(h) {
     return [h.currentCost ?? null, ...["empowered", "noTuning", "effectless", "reduction", "increase"]
       .map(k => h.attachments?.[k] ?? null)];
   }
-// Quotes and failed attempts belong to one observed board, not a whole round.
+// Quotes and failed attempts share one fee context. Decks without a narrower
+// rule-defined context retain the complete observed-board key.
 // Card-fact probeKeys are independent and are never cleared here.
 function skillQuoteKey(a) { return [a.who,a.skill,a.technique ?? null].join("/"); }
+function skillCostKey(s,m) { return root.TCG.skillCostStateKey?.(s,m) ?? boardKey(s); }
 function skillQuote(s,m,a) {
-    return m.skillCosts?.key === boardKey(s) ? m.skillCosts.entries[skillQuoteKey(a)] : undefined;
+    return m.skillCosts?.key === skillCostKey(s,m) ? m.skillCosts.entries[skillQuoteKey(a)] : undefined;
   }
 function skillProbeAttempted(s,m,a) { return skillQuote(s,m,a) !== undefined; }
 function recordSkillCost(s,m,a,n,source="native-skill-preview") {
-    const key=boardKey(s);
+    const key=skillCostKey(s,m);
     if(m.skillCosts?.key!==key)m.skillCosts={key,entries:{}};
     m.skillCosts.entries[skillQuoteKey(a)]={n,source};
   }
 function clearSkillCosts(m) { m.skillCosts=null; }
 function refreshSkillCosts(m,s) {
-    if(m?.skillCosts&&m.skillCosts.key!==boardKey(s))clearSkillCosts(m);
+    if(m?.skillCosts&&m.skillCosts.key!==skillCostKey(s,m))clearSkillCosts(m);
   }
 function drawConsumptionProven(a,b,s) {
     const r=s?.drawConsumption,h=b?.hand?.[a?.index];
@@ -813,8 +815,8 @@ function actionRefused(s, m, action) {
     actionRerollGoal,rerollCounter,enemyCount,gamblerRemaining,skillElement,dendroReaction,sproutAvailable,activeKeqingInfusion,damageAgainst };
 })(globalThis);
 
-globalThis.TCG.version="2.0.0";
-globalThis.TCG.sharedVersion="2.0.0";
+globalThis.TCG.version="2.0.16";
+globalThis.TCG.sharedVersion="2.0.16";
 globalThis.TCG.deckId="raiden";
 globalThis.TCG.defaultStrategy="default";
 (function (T) {
@@ -1421,21 +1423,23 @@ function handInstanceFacts(h) {
     return [h.currentCost ?? null, ...["empowered", "noTuning", "effectless", "reduction", "increase"]
       .map(k => h.attachments?.[k] ?? null)];
   }
-// Quotes and failed attempts belong to one observed board, not a whole round.
+// Quotes and failed attempts share one fee context. Decks without a narrower
+// rule-defined context retain the complete observed-board key.
 // Card-fact probeKeys are independent and are never cleared here.
 function skillQuoteKey(a) { return [a.who,a.skill,a.technique ?? null].join("/"); }
+function skillCostKey(s,m) { return root.TCG.skillCostStateKey?.(s,m) ?? boardKey(s); }
 function skillQuote(s,m,a) {
-    return m.skillCosts?.key === boardKey(s) ? m.skillCosts.entries[skillQuoteKey(a)] : undefined;
+    return m.skillCosts?.key === skillCostKey(s,m) ? m.skillCosts.entries[skillQuoteKey(a)] : undefined;
   }
 function skillProbeAttempted(s,m,a) { return skillQuote(s,m,a) !== undefined; }
 function recordSkillCost(s,m,a,n,source="native-skill-preview") {
-    const key=boardKey(s);
+    const key=skillCostKey(s,m);
     if(m.skillCosts?.key!==key)m.skillCosts={key,entries:{}};
     m.skillCosts.entries[skillQuoteKey(a)]={n,source};
   }
 function clearSkillCosts(m) { m.skillCosts=null; }
 function refreshSkillCosts(m,s) {
-    if(m?.skillCosts&&m.skillCosts.key!==boardKey(s))clearSkillCosts(m);
+    if(m?.skillCosts&&m.skillCosts.key!==skillCostKey(s,m))clearSkillCosts(m);
   }
 function drawConsumptionProven(a,b,s) {
     const r=s?.drawConsumption,h=b?.hand?.[a?.index];
@@ -2544,8 +2548,8 @@ function actionRefused(s, m, action) {
   };
 })(globalThis);
 
-globalThis.TCG.version="2.0.0";
-globalThis.TCG.sharedVersion="2.0.0";
+globalThis.TCG.version="2.0.16";
+globalThis.TCG.sharedVersion="2.0.16";
 globalThis.TCG.deckId="iansan";
 globalThis.TCG.defaultStrategy="default";
 (function (T) {
@@ -4485,21 +4489,23 @@ function handInstanceFacts(h) {
     return [h.currentCost ?? null, ...["empowered", "noTuning", "effectless", "reduction", "increase"]
       .map(k => h.attachments?.[k] ?? null)];
   }
-// Quotes and failed attempts belong to one observed board, not a whole round.
+// Quotes and failed attempts share one fee context. Decks without a narrower
+// rule-defined context retain the complete observed-board key.
 // Card-fact probeKeys are independent and are never cleared here.
 function skillQuoteKey(a) { return [a.who,a.skill,a.technique ?? null].join("/"); }
+function skillCostKey(s,m) { return root.TCG.skillCostStateKey?.(s,m) ?? boardKey(s); }
 function skillQuote(s,m,a) {
-    return m.skillCosts?.key === boardKey(s) ? m.skillCosts.entries[skillQuoteKey(a)] : undefined;
+    return m.skillCosts?.key === skillCostKey(s,m) ? m.skillCosts.entries[skillQuoteKey(a)] : undefined;
   }
 function skillProbeAttempted(s,m,a) { return skillQuote(s,m,a) !== undefined; }
 function recordSkillCost(s,m,a,n,source="native-skill-preview") {
-    const key=boardKey(s);
+    const key=skillCostKey(s,m);
     if(m.skillCosts?.key!==key)m.skillCosts={key,entries:{}};
     m.skillCosts.entries[skillQuoteKey(a)]={n,source};
   }
 function clearSkillCosts(m) { m.skillCosts=null; }
 function refreshSkillCosts(m,s) {
-    if(m?.skillCosts&&m.skillCosts.key!==boardKey(s))clearSkillCosts(m);
+    if(m?.skillCosts&&m.skillCosts.key!==skillCostKey(s,m))clearSkillCosts(m);
   }
 function drawConsumptionProven(a,b,s) {
     const r=s?.drawConsumption,h=b?.hand?.[a?.index];
@@ -4862,18 +4868,20 @@ function actionRefused(s, m, action) {
       ...(!certain?{canopyChecks,researchCheck}:{})};
   }
   function drawPaymentMatches(before,a,after,m,cost,exactPaid){
-    if(cardTriggers(before.hand[a.index],m).total===0&&exactPaid)return true;
+    const triggers=cardTriggers(before.hand[a.index],m);
+    if(triggers.total===0&&exactPaid)return true;
     if(!countdownFamily.includes(a.id))return false;
-    const receipt=after.choiceReceipt,paid=size(cost),remaining=total(before.dice)-paid;
-    // Unknown research/refunds are not guessed. This branch only proves the
-    // observed no-net-refund case with a source-bound native payment exit.
+    const receipt=after.choiceReceipt,paid=size(cost),remaining=total(before.dice)-paid,
+      refunded=triggers.known?triggers.total:0;
+    // Countdown converts the paid balance to Omni, then known card triggers
+    // return basic dice. Unknown triggers retain only the no-net-refund proof.
     // More non-Omni dice disappeared than the fee could consume: payment alone
-    // cannot explain the resulting all-Omni vector. Shared host rechecks it twice.
+    // cannot explain this conversion. Shared host rechecks the resource vector.
     return receipt?.origin===actionKey(a)+"/"+boardKey(before)&&receipt.id===a.id&&
       receipt.kind==="payment"&&receipt.exited===true&&receipt.unresolved!==true&&
       !!payment(before.dice,cost,team[before.active].element)&&
       total(before.dice)-(before.dice.Omni||0)>paid&&remaining>0&&
-      (after.dice.Omni||0)===remaining&&diceOrder.every(e=>e==="Omni"||(after.dice[e]||0)===0);
+      (after.dice.Omni||0)===remaining&&total(after.dice)===remaining+refunded;
   }
   function knownAttachmentKinds(hand) {
     const kinds=new Set();
@@ -4959,7 +4967,7 @@ function actionRefused(s, m, action) {
         return modified?changedReduction(h):h;
       });
       if(generates||topdecks||draws)return {mode:"full",expectedCount:null,refreshAfterConsumption:generates||draws,
-        ...(!topdecks?{retainedHand:indexedHand(hand.filter((_,i)=>i!==kernelIndex)),
+        ...(!topdecks?{retainedHand:indexedHand(hand.filter((_,i)=>i!==kernelIndex)),retainedHandOrder:true,
           ...(!draws?{retainedVariantFamilies:[countdownFamily]}:{})}:{})};
       return {mode:"unchanged",hand};
   }
@@ -5007,7 +5015,7 @@ function actionRefused(s, m, action) {
     const c=a.type==="card"?byId[a.id]:null;
     return {mode:"full",expectedCount:null,refreshAfterConsumption:a.type==="card",
       ...(c&&!["legend","branch","adventure","choice-option","unimplemented"].includes(c.type)?
-        {retainedHand:indexedHand(s.hand.filter((_,i)=>i!==a.index)).map(h=>a.id==="upgrade"&&h.attachments?.empowered!==true?
+        {retainedHandOrder:true,retainedHand:indexedHand(s.hand.filter((_,i)=>i!==a.index)).map(h=>a.id==="upgrade"&&h.attachments?.empowered!==true?
             {...h,attachments:{...h.attachments,empowered:null},canTune:false}:h),
           ...(["upgrade","meditation"].includes(c.id)&&
             !(m.supports.includes("lumen")&&!m.lumenUsed&&m.lumenCards===2)
@@ -5277,8 +5285,8 @@ function actionRefused(s, m, action) {
       "heal-dice":["请选择一个角色","对所选角色生效"],heal:["请选择一个角色","对所选角色生效"]}};
 })(globalThis);
 
-globalThis.TCG.version="2.0.0";
-globalThis.TCG.sharedVersion="2.0.0";
+globalThis.TCG.version="2.0.16";
+globalThis.TCG.sharedVersion="2.0.16";
 globalThis.TCG.deckId="moonbloom";
 globalThis.TCG.defaultStrategy="default";
 (function (T) {
@@ -5306,6 +5314,7 @@ globalThis.TCG.deckLabel="赚骰爆发";
   const skill = (who,name) => ({type:"skill",who,skill:name});
   const switchFee=m=>m.freeSwitch||m.fanSwitch?0:1;
   const switchEffort=m=>switchFee(m)?14:4;
+  const riskyRelay=(s,m,who)=>!m.fastSwitch&&s.characters[who].hp<=3;
   function freeSwitchPreparation(s,m,action,switchCost,costOf) {
   if(action.type!=="switch"||T.size(switchCost)===0)return null;
   for(const h of s.hand)if(h.id==="shift"){
@@ -5356,13 +5365,14 @@ globalThis.TCG.deckLabel="赚骰爆发";
     const hit=p.hit,damage=hit?Math.min(hit.direct,hit.target?.hp??hit.direct):0,
       defeats=hit?.target&&hit.direct>=hit.target.hp&&hit.direct>0?1:0,
       terminal=defeats&&T.enemyCount(s)===1,
+      relayRisk=a.type==="switch"?riskyRelay(s,m,a.target):!!node.relayRisk,
       exposure=p.combat&&s.characters[s.active].hp<=3&&!defeats?15:0,
       health=p.state.characters.reduce((n,c,i)=>n+Math.max(0,c.hp-s.characters[i].hp)*6,0);
     return {...p,sequence:node.sequence.concat(a),
       ledger:node.ledger.concat({action:T.actionKey(a),paid:p.paid,remaining:p.state.dice,
         energy:p.state.characters.map(c=>c.energy),seeds:T.seeds(p.state).map(h=>T.currentCost(h)),
         damage,boundary:p.boundary,randomDice:p.refund||0}),
-      damageValue:node.damageValue+damage*10*Math.pow(.9,node.turns),defeats:node.defeats+defeats,
+      damageValue:node.damageValue+damage*10*Math.pow(.9,node.turns),defeats:node.defeats+(relayRisk?0:defeats),relayRisk,
       // Preserve paid-relay caution. A proved free switch must not carry the
       // same friction; its extra combat turn is still discounted below.
       paid:node.paid+p.paid,effort:node.effort+(p.combat?0:a.type==="switch"?switchEffort(m):4)+exposure,
@@ -5370,7 +5380,7 @@ globalThis.TCG.deckLabel="赚骰爆发";
       refunds:node.refunds+(p.refund||0)*4,casts:node.casts+(p.combat?1:0),
       boundaryValue:a.type==="skill"&&a.who===T.role("菈乌玛")&&a.skill==="Q"?burstResources(s,m).value:0,
       turns:node.turns+(p.combat||a.type==="switch"&&!m.fastSwitch?1:0),
-      nominalTerminal:terminal,terminal:terminal&&hit.guaranteedDirect>=hit.target.hp};
+      nominalTerminal:terminal,terminal:terminal&&!relayRisk&&hit.guaranteedDirect>=hit.target.hp};
   }
   function scoreRoute(s,m,node) {
     // A route ending the duel has no future charge, discount or refund payoff.
@@ -5645,10 +5655,22 @@ globalThis.TCG.deckLabel="赚骰爆发";
           discount=follow&&T.alive(s.characters[nefer])&&!s.characters[nefer].frozen?
             Math.max(0,...T.seeds(follow).filter(h=>T.cardLegal(follow,card(follow,h),plan.memory))
               .map(h=>Math.min(2,T.currentCost(s.hand[h.index>=a.index?h.index+1:h.index])||0))):0;
-        value=discount>0&&m.sleepy===0&&s.hand.length<=8?40+Math.max(0,discount-paid)*6:0;
+        value=discount>0&&m.sleepy===0?40+Math.max(0,discount-paid)*6:0;
         // Play bloom before granting the one-shot noninitial discount when affordable.
         if(value&&s.hand.some(x=>x.id==="overgrow"&&T.cardLegal(s,card(s,x),m))&&!m.supports.includes("overgrow")&&budget>=2)value=30;
         if(!seeds.length&&m.sleepy===0&&s.hand.length<=8&&budget>=3)value=24;
+        // Compare the same old kernel after the known discount. The generated
+        // choice supplies no predicted card/resources; only this next hit counts.
+        if(discount>0&&m.sleepy===0){
+          const hit=Math.max(0,...T.seeds(follow).filter(h=>T.cardLegal(follow,card(follow,h),plan.memory)&&
+            !blocked(follow,plan.memory,card(follow,h))).map(h=>{
+              const damage=T.damageEstimate(follow,plan.memory,nefer,"NA",true),
+                conditionalDefeat=s.active!==nefer&&riskyRelay(s,m,nefer)&&damage.target&&damage.direct>=damage.target.hp;
+              return hitScore(follow,plan.memory,nefer,"NA",h)-T.size(T.cardCost(follow,card(follow,h),plan.memory))*2-
+                (conditionalDefeat?100:0);
+            }));
+          value=Math.max(value,hit-4-(s.active===nefer?0:switchEffort(m)+switchFee(m)*2));
+        }
         break;
       }
       case "canopy":value=m.canopyPoints.length<2&&s.hand.some(x=>T.byId[x.id]&&T.nonInitial(T.byId[x.id])&&T.currentCost(x)>=1)?44:drawUseful(s)&&m.canopyPoints.length<2?20:0;break;
@@ -5743,11 +5765,28 @@ globalThis.TCG.deckLabel="赚骰爆发";
         reason:"补读「"+T.byId[owner.id].name+"」所需的手牌事实"});
       return true;
     };
-    for(const owner of s.hand.filter(h=>["research","cleaning","seedbox","lens"].includes(h.id))){
+    for(const owner of s.hand.filter(h=>["research","cleaning","seedbox","lens","meditation"].includes(h.id))){
       const a=card(s,owner);
       if(blocked(s,m,a)||m.probeKeys.includes(T.cardProbeKey(s,owner))||T.cardContextError(s,a,m)!==null||
         owner.id==="research"&&m.researchRemaining!==0||owner.id==="cleaning"&&T.total(s.dice)>=16)continue;
       const remaining=s.hand.filter(h=>h.index!==owner.index);
+      if(owner.id==="meditation"){
+        const nefer=T.role("奈芙尔");
+        if(m.sleepy!==0||!T.alive(s.characters[nefer])||s.characters[nefer].frozen||!T.cardLegal(s,a,m))continue;
+        const plan=T.projectResources(s,m,a),change=plan&&T.payment(plan.state.dice,
+          {any:s.active===nefer?0:switchFee(m)},"Dendro"),
+          follow=change&&{...plan.state,active:nefer,dice:change.remaining};
+        if(!follow||T.seeds(follow).some(h=>T.cardLegal(follow,card(follow,h),plan.memory)&&
+          !blocked(follow,plan.memory,card(follow,h))))continue;
+        // The discounted kernel can be affordable only through its unread
+        // empowerment. Inspect that existing card before spending the window
+        // on optional support; do not require Nefer to take the field first.
+        T.seeds(follow).filter(h=>typeof h.attachments?.empowered!=="boolean"&&
+          T.currentCost(h)!==null&&T.payment(follow.dice,{any:T.currentCost(h)})&&
+          !blocked(follow,plan.memory,card(follow,h)))
+          .some(h=>add(s.hand[h.index>=owner.index?h.index+1:h.index],"payment",owner));
+        continue;
+      }
       if(owner.id==="cleaning"&&T.knownAttachmentKinds(remaining)===0){
         const requirement="empowerment-row",key=T.cardProbeKey(s,owner,requirement);
         if(!m.probeKeys.includes(key)){
@@ -5823,6 +5862,10 @@ globalThis.TCG.deckLabel="赚骰爆发";
     const fee=switchFee(m),active=s.characters[s.active];
     const safeTargets=s.characters.map((ch,i)=>({ch,i})).filter(({ch,i})=>i!==s.active&&T.alive(ch)&&!ch.frozen);
     const safest=safeTargets.sort((a,b)=>b.ch.hp-a.ch.hp||a.i-b.i)[0];
+    // Without a funded attack this is tanking, not an offensive relay. Keep
+    // Nefer's prepared kernels/weapon behind a viable helper instead.
+    const tank=safeTargets.filter(({ch})=>active.frozen||active.hp<=3&&ch.hp>=active.hp+2)
+      .sort((a,b)=>Number(a.i===T.role("奈芙尔"))-Number(b.i===T.role("奈芙尔"))||b.ch.hp-a.ch.hp||a.i-b.i)[0];
     const finishRank=hit=>hit.target&&hit.direct>0&&hit.direct>=hit.target.hp?
       hit.guaranteedDirect>=hit.target.hp?2:1:0;
     const activeFinish=Math.max(0,...out.filter(a=>a.type==="skill"||a.type==="card"&&a.id==="seed")
@@ -5838,11 +5881,15 @@ globalThis.TCG.deckLabel="赚骰爆发";
       const followHits=attackCandidates(next,m),attacks=followHits.map(a=>({score:a.score,finish:finishRank(T.damageEstimate(next,m,who,a.skill))}));
       if(T.team[who].name==="奈芙尔")for(const h of T.seeds(next))if(T.cardLegal(next,card(next,h),m)&&!blocked(next,m,card(next,h)))
         attacks.push({score:hitScore(next,m,who,"NA",h)-T.size(T.cardCost(next,card(next,h),m))*2,finish:finishRank(T.damageEstimate(next,m,who,"NA",true))});
-      const retreat=safest?.i===who&&(active.frozen||active.hp<=3&&safest.ch.hp>=active.hp+2);
+      const shelter=attacks.length?safest:tank,
+        retreat=shelter?.i===who&&(active.frozen||active.hp<=3&&shelter.ch.hp>=active.hp+2);
       // Rank the payable next hit against current actions, not a difference of scores
       // against the same current actions a second time (which trapped the first role).
       const sameFinish=T.enemyCount(s)===1&&activeFinish>0&&activeFinish>=Math.max(0,...attacks.map(a=>a.finish));
-      const follow=attacks.length?Math.max(...attacks.map(a=>a.score)):0;
+      // A low-HP attacker may lose this hit during a non-fast relay. Keep its
+      // damage candidate, but award its defeat only after that relay.
+      const relayRisk=riskyRelay(s,m,who),
+        follow=attacks.length?Math.max(...attacks.map(a=>a.score-(relayRisk&&a.finish?100:0))):0;
       let score=follow?follow-switchEffort(m)-fee*2:0;
       // Movement friction ranks alternatives, but must not turn a funded
       // positive hit/energy gain into an empty end-turn. Once switched, the
@@ -5971,7 +6018,7 @@ globalThis.TCG.deckLabel="赚骰爆发";
         if(p.combat&&child.score>0)routes.push(child);
         if(p.boundary||child.nominalTerminal||
           p.combat&&T.enemyCount(p.state)>0&&p.state.characters[p.state.active].hp<=3||T.enemyCount(p.state)===0)continue;
-        const key=T.boardKey(p.state)+JSON.stringify({...p.memory,played:p.memory.played.slice().sort()})+child.casts;
+        const key=T.boardKey(p.state)+JSON.stringify({...p.memory,played:p.memory.played.slice().sort()})+child.casts+Number(child.relayRisk);
         const previous=seen.get(key);
         if(previous&&previous.score>=child.score&&previous.depth<=child.sequence.length)continue;
         seen.set(key,{score:child.score,depth:child.sequence.length});
@@ -6108,21 +6155,23 @@ function handInstanceFacts(h) {
     return [h.currentCost ?? null, ...["empowered", "noTuning", "effectless", "reduction", "increase"]
       .map(k => h.attachments?.[k] ?? null)];
   }
-// Quotes and failed attempts belong to one observed board, not a whole round.
+// Quotes and failed attempts share one fee context. Decks without a narrower
+// rule-defined context retain the complete observed-board key.
 // Card-fact probeKeys are independent and are never cleared here.
 function skillQuoteKey(a) { return [a.who,a.skill,a.technique ?? null].join("/"); }
+function skillCostKey(s,m) { return root.TCG.skillCostStateKey?.(s,m) ?? boardKey(s); }
 function skillQuote(s,m,a) {
-    return m.skillCosts?.key === boardKey(s) ? m.skillCosts.entries[skillQuoteKey(a)] : undefined;
+    return m.skillCosts?.key === skillCostKey(s,m) ? m.skillCosts.entries[skillQuoteKey(a)] : undefined;
   }
 function skillProbeAttempted(s,m,a) { return skillQuote(s,m,a) !== undefined; }
 function recordSkillCost(s,m,a,n,source="native-skill-preview") {
-    const key=boardKey(s);
+    const key=skillCostKey(s,m);
     if(m.skillCosts?.key!==key)m.skillCosts={key,entries:{}};
     m.skillCosts.entries[skillQuoteKey(a)]={n,source};
   }
 function clearSkillCosts(m) { m.skillCosts=null; }
 function refreshSkillCosts(m,s) {
-    if(m?.skillCosts&&m.skillCosts.key!==boardKey(s))clearSkillCosts(m);
+    if(m?.skillCosts&&m.skillCosts.key!==skillCostKey(s,m))clearSkillCosts(m);
   }
 function drawConsumptionProven(a,b,s) {
     const r=s?.drawConsumption,h=b?.hand?.[a?.index];
@@ -6370,6 +6419,9 @@ function actionRefused(s, m, action) {
         alive(c)&&typeof c.frozen==="boolean"&&known(c.energy)&&c.energy<=team[i].maxEnergy));
   }
   function switchCost(m){return {any:m.freeSwitch?0:1};}
+  function skillCostStateKey(s,m) {
+    return JSON.stringify([m.round,s.active,m.artifactKinds,m.troupe,m.talents,m.dilucE]);
+  }
   function skillCost(who,skill,m,s=null) {
     const base=skill==="NA"?{element:team[who].element,n:1,any:2}:{element:team[who].element,n:who===2&&skill==="Q"?4:3};
     if(skill==="E")base.n=Math.max(0,base.n-(m.troupe[who]||0)-(who===2&&m.talents[2]&&[1,2].includes(m.dilucE)?1:0));
@@ -6543,9 +6595,24 @@ function actionRefused(s, m, action) {
     if(!a||!b||!c)return false;if(c.result)return true;
     if(a.type==="end")return c.turn==="enemy"||["roll","settlement"].includes(c.phase);
     if(a.type==="switch")return c.active===a.target&&b.active!==a.target;
-    if(a.type==="skill")return transition||c.turn==="enemy"||!!c.dice&&(total(c.dice)<total(b.dice)||
-      known(c.characters?.[a.who]?.energy)&&c.characters[a.who].energy!==b.characters[a.who].energy||
-      enemyCount(c)!==null&&JSON.stringify(c.enemies.map(e=>e.hp))!==JSON.stringify(b.enemies.map(e=>e.hp)));
+    if(a.type==="skill") {
+      const paid=b.diceKnown===true&&c.diceKnown===true&&total(c.dice)<total(b.dice),basis=a.skillCostBasis,
+        bound=basis?.actionKey===actionKey(a)&&basis.beforeKey===boardKey(b);
+      if(paid)return true;
+      if(bound&&basis.cost>0) {
+        // A previous kick/charge/turn change is not this cast's payment. Only
+        // an equipped Gambler's observed defeats can explain no net dice loss.
+        const g=basis.gambler,count=enemyCount(c),defeats=g&&count!==null?Math.max(0,g.enemies-count):0;
+        return b.diceKnown===true&&c.diceKnown===true&&g?.owner===c.active&&
+          Array.from({length:Math.min(g?.remaining||0,defeats)},(_,i)=>
+            Math.min(16,total(b.dice)-basis.cost+2*(i+1))).includes(total(c.dice));
+      }
+      const old=b.characters?.[a.who],now=c.characters?.[a.who],
+        charged=alive(now)&&known(old?.energy)&&known(now.energy)&&
+          (a.skill==="Q"?now.energy<old.energy:now.energy>old.energy);
+      return charged||bound&&basis.cost===0&&(transition||c.turn==="enemy"||
+        enemyCount(c)!==null&&JSON.stringify(c.enemies.map(e=>e.hp))!==JSON.stringify(b.enemies.map(e=>e.hp)));
+    }
     if(a.type==="tune")return c.turn==="user"&&removedOne(b.hand,c.hand,a.id)&&total(c.dice)===total(b.dice)&&(c.dice[a.element]||0)===(b.dice[a.element]||0)+1;
     if(a.type!=="card"||!c.hand)return false;
     if(drawConsumptionProven(a,b,c))return true;
@@ -6609,7 +6676,7 @@ function actionRefused(s, m, action) {
   root.TCG={team,cards,byId,norm,identify,observedCard,handCardKnown,indexedHand,reconcileHand,actionRefused,blockAction,
     skillQuote,skillProbeAttempted,recordSkillCost,clearSkillCosts,refreshSkillCosts,drawConsumptionProven,characterName,diceOrder,
     known,alive,total,size,payment,boardKey,actionKey,freshMemory,nextRound,OpeningFlow,legalState,freshActionBoard,
-    switchCost,skillCost,skillLegal,cardPrice,cardCost,cardLegal,cardRefund,generateDice,enemyCount,elementReaction,damageAgainst,handVariantProof,
+    switchCost,skillCostStateKey,skillCost,skillLegal,cardPrice,cardCost,cardLegal,cardRefund,generateDice,enemyCount,elementReaction,damageAgainst,handVariantProof,
     gamblerRemaining,noteBoard,commit,deferUncertain,rejectAction,handPlan,verify,verifyResynchronized:(a,b,c,t)=>legalState(c)&&verify(a,b,c,t),
     emptyHandEffect,removalEffect:()=>false,openingSetting,openingContext,keepOpening,openingPlan,rerollPlan,rerollCounter,
     drawPayment:(s,a,m)=>byId[a.id]?.type==="draw"||byId[a.id]?.type==="support"&&handPlan(a,s,m).mode==="full"
@@ -6618,8 +6685,8 @@ function actionRefused(s, m, action) {
     refusalCost:(s,m,a)=>a.type==="skill"?skillCost(a.who,a.skill,m,s):a.type==="card"?cardCost(a.id,a.target,m,s):a.type==="switch"?switchCost(m):{}};
 })(globalThis);
 
-globalThis.TCG.version="2.0.0";
-globalThis.TCG.sharedVersion="2.0.0";
+globalThis.TCG.version="2.0.16";
+globalThis.TCG.sharedVersion="2.0.16";
 globalThis.TCG.deckId="mozailu";
 globalThis.TCG.defaultStrategy="default";
 (function (T) {
@@ -6683,6 +6750,9 @@ globalThis.TCG.deckLabel="扩散清场";
   function carry(s,m) {
     const order=living(s).length>1?[1,2,0]:[2,1,0];
     return order.find(i=>T.alive(s.characters[i])&&!s.characters[i].frozen)??s.active;
+  }
+  function wolfInvestment(s,m,who) {
+    return (who===carry(s,m)?2.5:1.1)*s.characters[who].hp/10;
   }
   function artifactValue(s,m,who) {
     const id=m.artifactKinds[who];
@@ -6872,7 +6942,7 @@ globalThis.TCG.deckLabel="扩散清场";
       }
       // Only the future investment credit scales with remaining HP. Damage from
       // an immediately affordable equipped attack is still counted in full.
-      if(a.id==="wolf")value+=(a.target===focus?2.5:1.1)*s.characters[a.target].hp/10;
+      if(a.id==="wolf")value+=wolfInvestment(s,m,a.target);
       if(a.id==="gilded") {
         const output=s.active===0&&m.used[0]===0?0:focus;
         const useful=e=>e==="Omni"||e===T.team[output].element;
@@ -6908,6 +6978,16 @@ globalThis.TCG.deckLabel="扩散清场";
     // Value the change in equipment, not each equip event. Removing an artifact
     // loses its value; a neutral Lyre/re-equip cycle cannot farm that bonus.
     if(c?.type==="artifact"||a.id==="lyre")value+=artifactValue(s,v,a.target)-artifactValue(s,m,a.target);
+    if(cast) {
+      // Value one already-funded basic follow-up, not just the first hit.
+      // It is conditional output capacity: no future reaction, charge, refund
+      // or extra search branch, and this projection still stops at this cast.
+      const fundedBase=Math.max(0,...["NA","E"].filter(skill=>
+        T.skillLegal(n,{who:cast.who,skill},v)&&!T.actionRefused(n,v,{type:"skill",who:cast.who,skill}))
+        .map(skill=>damageEstimate(n,v,cast.who,skill).base));
+      estimate.fundedFollowup=Math.min(fundedBase,Math.max(0,living(s).reduce((hp,e)=>hp+e.hp,0)-estimate.total))*.55;
+      value+=estimate.fundedFollowup;
+    }
     if(stop)value+=reserveValue(n,v);
     // Random cards have investment value, not spendable attack resources.
     // Only flag a definite loss of funds: even perfect colour tuning could not
@@ -6935,7 +7015,13 @@ globalThis.TCG.deckLabel="扩散清场";
         a.type==="switch"&&!(node.state.active===0&&!node.memory.monaFastUsed);
       const paymentUncertain=!!node.paymentUncertain||p.conditionalPayment,
         terminal=p.terminal&&!opponentReply&&!paymentUncertain,
-        score=node.value+p.value-(p.terminal&&!terminal?100:0)-
+        // A development route may credit future equipment. A route ending in
+        // an attack must not use another character's unused weapon credit to
+        // outbid output. Equipping then attacking with its wearer keeps it.
+        caster=p.estimate?(a.type==="skill"?a.who:T.byId[a.id].combatSkill.who):null,
+        unusedInvestment=p.estimate?sequence.filter(x=>x.type==="card"&&x.id==="wolf"&&x.target!==caster)
+          .reduce((v,x)=>v+wolfInvestment(s,m,x.target),0):0,
+        score=node.value+p.value-unusedInvestment-(p.terminal&&!terminal?100:0)-
           (opponentReply&&p.estimate?Math.max(0,p.value-(p.terminal?100:0))*.25:0);
       const candidate={action:sequence[0],score,sequence,estimate:p.estimate,terminal,paymentUncertain,
         attackReserveLost:p.attackReserveLost};
@@ -7052,11 +7138,15 @@ globalThis.TCG.deckLabel="扩散清场";
         return {...d,planning:{sequence:[T.actionKey(d)],terminal:false,reason:"partner-before-retrieval"},
           projections:{used,limit:320,exhausted:used>=320}};
     }
-    // A skill whose estimated discount is insufficient gets one existing read-only probe.
-    if(best.action.type==="end")for(const skill of ["E","Q"]) {
-      const a={type:"probe",who:s.active,skill};
-      if(!s.characters[s.active].frozen&&(skill!=="Q"||s.characters[s.active].energy===T.team[s.active].maxEnergy)&&
-        T.total(s.dice)>0&&!T.skillProbeAttempted(s,m,a)&&!T.actionRefused(s,m,a))return a;
+    // Only uncertain backstage Troupe stacks can improve this deck's rule
+    // price. Probe E only if its best possible discount is fundable now.
+    if(best.action.type==="end"&&m.artifactKinds[s.active]==="troupe"&&(m.troupe[s.active]||0)<2) {
+      const a={type:"probe",who:s.active,skill:"E"},element=T.team[s.active].element,
+        minimum=Math.max(0,1-(s.active===2&&m.talents[2]&&[1,2].includes(m.dilucE)?1:0)),
+        good=(s.dice[element]||0)+(s.dice.Omni||0),
+        tunes=Math.min(3,s.hand.filter(h=>h.canTune!==false&&!h.attachments?.noTuning).length,T.total(s.dice)-good);
+      if(!s.characters[s.active].frozen&&good+tunes>=minimum&&
+        !T.skillProbeAttempted(s,m,a)&&!T.actionRefused(s,m,a))return a;
     }
     return {...best.action,planning:{score:best.score,sequence:best.sequence.map(T.actionKey),terminal:!!best.terminal,
       estimate:best.estimate,conditionalPayment:!!best.paymentUncertain,...(best.reason?{reason:best.reason}:{})},
@@ -7156,21 +7246,23 @@ function handInstanceFacts(h) {
     return [h.currentCost ?? null, ...["empowered", "noTuning", "effectless", "reduction", "increase"]
       .map(k => h.attachments?.[k] ?? null)];
   }
-// Quotes and failed attempts belong to one observed board, not a whole round.
+// Quotes and failed attempts share one fee context. Decks without a narrower
+// rule-defined context retain the complete observed-board key.
 // Card-fact probeKeys are independent and are never cleared here.
 function skillQuoteKey(a) { return [a.who,a.skill,a.technique ?? null].join("/"); }
+function skillCostKey(s,m) { return root.TCG.skillCostStateKey?.(s,m) ?? boardKey(s); }
 function skillQuote(s,m,a) {
-    return m.skillCosts?.key === boardKey(s) ? m.skillCosts.entries[skillQuoteKey(a)] : undefined;
+    return m.skillCosts?.key === skillCostKey(s,m) ? m.skillCosts.entries[skillQuoteKey(a)] : undefined;
   }
 function skillProbeAttempted(s,m,a) { return skillQuote(s,m,a) !== undefined; }
 function recordSkillCost(s,m,a,n,source="native-skill-preview") {
-    const key=boardKey(s);
+    const key=skillCostKey(s,m);
     if(m.skillCosts?.key!==key)m.skillCosts={key,entries:{}};
     m.skillCosts.entries[skillQuoteKey(a)]={n,source};
   }
 function clearSkillCosts(m) { m.skillCosts=null; }
 function refreshSkillCosts(m,s) {
-    if(m?.skillCosts&&m.skillCosts.key!==boardKey(s))clearSkillCosts(m);
+    if(m?.skillCosts&&m.skillCosts.key!==skillCostKey(s,m))clearSkillCosts(m);
   }
 function drawConsumptionProven(a,b,s) {
     const r=s?.drawConsumption,h=b?.hand?.[a?.index];
@@ -7658,8 +7750,8 @@ function actionRefused(s, m, action) {
     refusalCost:(s,m,a)=>a.type==="skill"?skillCost(a.who,a.skill,m,s):a.type==="card"?cardCost(a.id,a.target,m):a.type==="switch"?switchCost(m):{}};
 })(globalThis);
 
-globalThis.TCG.version="2.0.0";
-globalThis.TCG.sharedVersion="2.0.0";
+globalThis.TCG.version="2.0.16";
+globalThis.TCG.sharedVersion="2.0.16";
 globalThis.TCG.deckId="ailin";
 globalThis.TCG.defaultStrategy="default";
 (function (T) {
@@ -7708,7 +7800,7 @@ globalThis.TCG.deckLabel="反应快攻";
     if(a.who===0&&a.skill==="E")value+=m.coldSummon===0?2.2:.2;
     if(a.who===1&&["CA","Q"].includes(a.skill))value+=(T.known(m.catSummon)&&m.catSummon<2?1:0)+(T.known(m.props)&&m.props<3?.4:0);
     if(a.who===1&&a.skill==="E"&&T.known(m.props))value+=Math.min(m.props,Math.max(0,10+m.extraMaxHp[1]-s.characters[1].hp))*.6;
-    if(a.who===0&&a.skill==="Q")value+=s.characters.reduce((n,c,i)=>n+Math.min(2,Math.max(0,T.team[i].maxHp+m.extraMaxHp[i]-c.hp))*.55,0);
+    if(a.who===0&&a.skill==="Q")value+=s.characters.reduce((n,c,i)=>n+(T.alive(c)?Math.min(2,Math.max(0,T.team[i].maxHp+m.extraMaxHp[i]-c.hp))*.55:0),0);
     if(a.skill==="Q")value-=.15;
     return value-.05;
   }
@@ -7718,7 +7810,7 @@ globalThis.TCG.deckLabel="反应快攻";
       if(m.artifactKinds[a.target]===id)return -Infinity;
       // Gladiator's discount earns priority with an actually funded followup,
       // not a fixed bonus for putting it on an off-field Lyney near the finish.
-      return id==="heart"?(a.target===s.active?1.25:.1):id==="gladiator"?.1:
+      return id==="heart"?(a.target===s.active?1.25:.1):id==="gladiator"?-Infinity:
         a.target===s.active&&T.enemyCount(s)>1&&s.enemies.some(e=>T.alive(e)&&e.hp<=5)?1.3:.05;
     }
     if(id==="teaParty")return skillValue(s,m,{who:0,skill:"E"})+(m.talents[0]?-.8:1.5);
@@ -8084,21 +8176,23 @@ function handInstanceFacts(h) {
     return [h.currentCost ?? null, ...["empowered", "noTuning", "effectless", "reduction", "increase"]
       .map(k => h.attachments?.[k] ?? null)];
   }
-// Quotes and failed attempts belong to one observed board, not a whole round.
+// Quotes and failed attempts share one fee context. Decks without a narrower
+// rule-defined context retain the complete observed-board key.
 // Card-fact probeKeys are independent and are never cleared here.
 function skillQuoteKey(a) { return [a.who,a.skill,a.technique ?? null].join("/"); }
+function skillCostKey(s,m) { return root.TCG.skillCostStateKey?.(s,m) ?? boardKey(s); }
 function skillQuote(s,m,a) {
-    return m.skillCosts?.key === boardKey(s) ? m.skillCosts.entries[skillQuoteKey(a)] : undefined;
+    return m.skillCosts?.key === skillCostKey(s,m) ? m.skillCosts.entries[skillQuoteKey(a)] : undefined;
   }
 function skillProbeAttempted(s,m,a) { return skillQuote(s,m,a) !== undefined; }
 function recordSkillCost(s,m,a,n,source="native-skill-preview") {
-    const key=boardKey(s);
+    const key=skillCostKey(s,m);
     if(m.skillCosts?.key!==key)m.skillCosts={key,entries:{}};
     m.skillCosts.entries[skillQuoteKey(a)]={n,source};
   }
 function clearSkillCosts(m) { m.skillCosts=null; }
 function refreshSkillCosts(m,s) {
-    if(m?.skillCosts&&m.skillCosts.key!==boardKey(s))clearSkillCosts(m);
+    if(m?.skillCosts&&m.skillCosts.key!==skillCostKey(s,m))clearSkillCosts(m);
   }
 function drawConsumptionProven(a,b,s) {
     const r=s?.drawConsumption,h=b?.hand?.[a?.index];
@@ -8414,6 +8508,7 @@ const projectionBudget = (() => {
     if (c.type==="support" && !supportRoom(s)) return false;
     if (c.type==="legend" && m.legendUsed!==false) return false;
     if (a.id==="stars" && !(s.characters?.[s.active]?.energy<team[s.active].maxEnergy)) return false;
+    if (a.id==="shift" && !s.characters.some((c,who)=>who!==s.active&&alive(c))) return false;
     if (a.id==="block" && (m.blockPlayed!==false || !blockDiscards(s.hand,a.index).known)) return false;
     return !!payment(s.dice,cardCost(s,a,m),team[s.active].element);
   }
@@ -8437,12 +8532,12 @@ const projectionBudget = (() => {
   // it proves their ranking without proving any other attachment property.
   function discardCost(h) {
     const c=byId[h?.id], a=h?.attachments;
-    if (!c) return null;
-    if (["native","private-rules"].includes(a?.source) && known(a.reduction) && known(a.increase))
+    if (c && ["native","private-rules"].includes(a?.source) && known(a.reduction) && known(a.increase))
       return Math.max(0,size(c.cost)-a.reduction+a.increase);
-    if (c.type!=="talent" && known(h.currentCost) &&
+    if (c?.type!=="talent" && known(h?.currentCost) &&
       ["native-folded-cost-markers","native-expanded-cost-markers","native-selected-card-cost"].includes(h.costSource)
       ) return h.currentCost;
+    if (!c) return null;
     // Every generated block is the same zero-cost card. This fixed deck has
     // no effect that changes its cost; a positive native modifier above still
     // wins. A missing price digit is not a reason to inspect each copy.
@@ -8781,14 +8876,16 @@ const projectionBudget = (() => {
   }
   function handPlan(action,before,m) {
     if (action.type==="probe") return {mode:"unchanged",hand:before.hand};
-    // These actions cannot introduce a new countdown stage into the hand.
-    // Still read current costs and the whole row; only a matching native
-    // family count can reuse its already-read stage, via the shared reader.
-    const retained={mode:"full",retainedHand:before.hand,retainedVariantFamilies:[countdownFamily]};
+    // Surviving old cards keep their relative order. Prices are refreshed by
+    // the host independently; only new/changed identities need another scan.
+    const retained={mode:"full",retainedHand:before.hand,retainedHandOrder:true,retainedVariantFamilies:[countdownFamily]};
+    // Crocodile E bottoms a highest-cost card before generating a block. An
+    // equal final count cannot establish retention of the original whole hand.
+    if (action.type==="skill"&&action.who===2&&action.skill==="E")return {mode:"full"};
     if (action.type==="switch" || action.type==="skill" && !(action.who===1&&action.skill==="E"))
       return action.type==="skill"&&action.skill==="Q"?
         {...retained,retainedHand:before.hand.filter(h=>h.id!=="block")}:retained;
-    if (action.type==="skill") return {mode:"full",retainedHand:before.hand};
+    if (action.type==="skill") return {mode:"full",retainedHand:before.hand,retainedHandOrder:true};
     if (action.type==="end") return {mode:"full"};
     if (!["card","tune"].includes(action.type) || before.hand?.[action.index]?.id!==action.id)
       return {mode:"full"};
@@ -8798,14 +8895,14 @@ const projectionBudget = (() => {
     const c=byId[action.id];
     // Talent verify proves the exact old-card bag plus its generated block.
     // That complete result has no delayed draw left to scan a second time.
-    if (c.id==="block"&&blockEffects("play",before,m)?.draw===0) {
-      const discarded=blockDiscards(before.hand,action.index);
+    if (c.id==="block") {
+      const discarded=blockDiscards(before.hand,action.index),draws=blockEffects("play",before,m)?.draw!==0;
       // Random highest-cost discard may remove any tied candidate. Only the
       // other cards have a retention guarantee; do not carry discarded facts.
-      return discarded.known?{...retained,
+      return discarded.known?{...retained,refreshAfterConsumption:draws,
         retainedHand:before.hand.filter((_,i)=>i!==action.index&&!discarded.indices.includes(i)),
-        retainedVariantFamilies:discarded.indices.some(i=>countdownFamily.includes(before.hand[i].id))?[]:[countdownFamily]}:
-        {mode:"full"};
+        retainedVariantFamilies:draws||discarded.indices.some(i=>countdownFamily.includes(before.hand[i].id))?[]:[countdownFamily]}:
+        {mode:"full",refreshAfterConsumption:draws};
     }
     if (c.type==="talent" || ["lair","nre"].includes(c.id))
       return {...retained,refreshAfterConsumption:c.id==="lair"||c.id==="nre",retainedHand:removed.hand.map(h=>
@@ -8815,11 +8912,11 @@ const projectionBudget = (() => {
     // Keep that identity evidence; the shared reader still requires the
     // complete current family count, so a newly drawn variant is not guessed.
     if (c.type==="draw")
-      return {mode:"full",refreshAfterConsumption:true,retainedHand:removed.hand};
-    if (c.type==="legend" || c.id==="block")
+      return {mode:"full",refreshAfterConsumption:true,retainedHand:removed.hand,retainedHandOrder:true};
+    if (c.type==="legend")
       return {mode:"full",refreshAfterConsumption:true};
     if (c.type==="food" && (!m.supportStateKnown || m.supports.some(x=>x.id==="nre" && x.foodDrawUsed!==true)))
-      return {mode:"full",refreshAfterConsumption:true};
+      return {mode:"full",refreshAfterConsumption:true,retainedHand:removed.hand,retainedHandOrder:true};
     return removed;
   }
   function rerollPlan(items,m) {
@@ -8937,8 +9034,8 @@ const projectionBudget = (() => {
     refusalCost:(s,m,a)=>a.type==="skill"?skillCost(a.who,a.skill,m,s):a.type==="card"?cardCost(s,a,m):a.type==="switch"?switchCost(m):{}};
 })(globalThis);
 
-globalThis.TCG.version="2.0.0";
-globalThis.TCG.sharedVersion="2.0.0";
+globalThis.TCG.version="2.0.16";
+globalThis.TCG.sharedVersion="2.0.16";
 globalThis.TCG.deckId="consecrated";
 globalThis.TCG.defaultStrategy="default";
 (function (T) {
@@ -9142,6 +9239,13 @@ globalThis.TCG.deckLabel="对单核爆";
         const route={first:head||action,terminal:action,steps:steps+tunes+1,drawRoom:10-funded.hand.length,
           spent:spent+T.size(T.skillCost(who,skill,policy,funded)),hit,conditional,
           remainingDice:T.total(remaining),followupDamage:0};
+        // Include known quick charging and the actual switch fee in the same
+        // startup budget. Optional supports must not split a funded charge/retreat.
+        if (who===1 && skill!=="Q" && funded.characters[1].energy>=1 && !conditional) {
+          const helper=tank(funded,policy),retreat=helper===undefined?null:
+            T.switchBudget({...funded,dice:remaining},helper,policy);
+          if (retreat) route.chargeRetreatCost=route.spent+retreat.cost;
+        }
         routes.push(route);
         if(hit.reachesTarget)finishes.push({route,state:funded,memory:policy,remaining,action});
       }
@@ -9251,6 +9355,7 @@ globalThis.TCG.deckLabel="对单核爆";
     return Number(a.conditional)-Number(b.conditional) || a.spent-b.spent || a.steps-b.steps ||
       Number(b.hit.provenTargetDefeat)-Number(a.hit.provenTargetDefeat);
   }
+  const routeEffort=r=>1+Number(r.conditional)+.25*Math.max(0,r.steps-1-Number(r.conditional));
   function routeAction(route,reason) {
     return {...route.first,reason,plan:{steps:route.steps,spent:route.spent,terminal:route.terminal,
       estimate:route.hit,remainingDice:route.remainingDice,followupDamage:route.followupDamage,
@@ -9366,13 +9471,13 @@ globalThis.TCG.deckLabel="对单核爆";
     return T.projectionBudget.run(240,()=>{
       if (!T.legalState(s) || T.enemyCount(s)===null || !target(s)) return {type:"stop",reason:"当前局面不完整，不能选择动作"};
       // A switch hands the opponent an action before the target can attack.
-      // Do not buy a conditional route by exposing an even weaker pressured
-      // attacker while the current character can still act.
-      const routes=attackRoutes(s,m).filter(r=>!r.conditional||!pressure(s,r.terminal.who)||
+      // Keep current defeat routes in the comparison even for a low-HP relay.
+      // Ordinary development still avoids exposing a weaker pressured actor.
+      const routes=attackRoutes(s,m).filter(r=>r.hit.reachesTarget||!r.conditional||!pressure(s,r.terminal.who)||
         s.characters[r.terminal.who].hp>=s.characters[s.active].hp),afterBurst=m.bursts[1]>0;
       // A payable direct finish avoids an extra enemy handoff. Compare the
       // health of attackers only among routes with the same handoff count.
-      const survivalRisk=r=>Number(s.characters.filter(T.alive).length<=2&&pressure(s,r.terminal.who));
+      const survivalRisk=r=>Number(pressure(s,r.terminal.who));
       const finish=routes.filter(r=>r.hit.reachesTarget).sort((a,b)=>Number(a.conditional)-Number(b.conditional)||
         survivalRisk(a)-survivalRisk(b)||b.followupDamage-a.followupDamage||a.spent-b.spent||routeOrder(a,b));
       // Inspect missing discard facts only when a surplus block can fund two
@@ -9397,7 +9502,7 @@ globalThis.TCG.deckLabel="对单核爆";
         // Compare at most one conditional trap trigger, never all future uses
         // as immediate damage or as proof of killing the current opponent.
         const value=r=>(r.hit.direct+r.hit.splash+(!alive&&r.hit.conditionalTrap?1:0))/
-          (1+Number(r.conditional)+.25*Math.max(0,r.steps-1-Number(r.conditional)));
+          routeEffort(r);
         attacks.sort((a,b)=>value(b)-value(a)||Number(a.conditional)-Number(b.conditional)||
           survivalRisk(a)-survivalRisk(b)||routeOrder(a,b));
         if (attacks.length) return routeAction(attacks[0],!alive?"飞蛇阵亡，转现有辅助技能与陷阱收尾":"已知最后回合，比较当前可兑现伤害");
@@ -9410,13 +9515,12 @@ globalThis.TCG.deckLabel="对单核爆";
         (s.characters[1].hp<T.team[1].maxHp || !needCharge)) ?
         s.characters.map((c,who)=>({c,who})).filter(({c,who})=>who!==s.active&&T.alive(c)&&
           (s.characters[s.active].frozen || c.hp>s.characters[s.active].hp)).sort((a,b)=>b.c.hp-a.c.hp)[0]?.who:undefined;
-      const canRelay=endTarget!==undefined&&T.actionLegal(s,{type:"switch",target:endTarget},m);
       if (afterBurst && attacks.length) {
         // Fast funding is not another enemy handoff. Two tunes that buy E's
         // extra damage/draw should not lose to a switch plus a weaker NA.
         const value=r=>(Math.min(r.hit.direct,target(s).hp)+r.hit.splash+
           (r.terminal.who===1&&r.terminal.skill==="E"&&r.drawRoom>0?.5:0))/
-          (1+Number(r.conditional)+.25*Math.max(0,r.steps-1-Number(r.conditional)));
+          routeEffort(r);
         const follow=attacks.filter(r=>r.hit.direct>0&&!pressure(s,r.terminal.who)).sort((a,b)=>
           value(b)-value(a)||Number(a.conditional)-Number(b.conditional)||
           survivalRisk(a)-survivalRisk(b)||routeOrder(a,b));
@@ -9427,14 +9531,18 @@ globalThis.TCG.deckLabel="对单核爆";
         // energy draw attacks. Low HP must not strand a large usable burst.
         const burst=routes.filter(r=>r.terminal.who===1&&r.terminal.skill==="Q").sort((a,b)=>b.hit.direct-a.hit.direct||routeOrder(a,b));
         const ordinary=Math.max(0,...routes.filter(r=>r.terminal.who===1&&r.terminal.skill!=="Q").map(r=>r.hit.direct));
-        if (burst.length && (helper===undefined||!canRelay&&(s.characters[1].hp<=2||pressed&&burst[0].hit.direct>ordinary)))
-          return routeAction(burst[0],"飞蛇已受压且无可支付撤回，先兑现现有爆发伤害");
+        if (burst.length && (helper===undefined||pressed&&burst[0].hit.direct>ordinary))
+          return routeAction(burst[0],"飞蛇已受压，先兑现强于普通攻击的现有爆发，再补能或交给队友接力");
       }
       // Once useful output is unavailable, hand the remaining enemy actions
       // to a healthier teammate before declaring end. Reserve only the switch
-      // fee from optional development; attack/finisher routes above stay first.
+      // fee and any fully funded charge/retreat from optional development;
+      // attack/finisher routes above stay first.
+      const chargeReserve=needCharge&&s.active===1?
+        Math.min(...routes.flatMap(r=>r.chargeRetreatCost===undefined?[]:[r.chargeRetreatCost])):Infinity;
       const reserve=Math.max(needCharge&&s.active===1?Math.min(3,T.total(s.dice)):0,
-        endTarget!==undefined?Math.min(T.switchCost(m).any,T.total(s.dice)):0);
+        endTarget!==undefined?Math.min(T.switchCost(m).any,T.total(s.dice)):0,
+        Number.isFinite(chargeReserve)?chargeReserve:0);
       // A confirmed Shift has already paid for a retreat. Finish that relay
       // before optional paid supports, then use the actual remaining dice.
       // Do not spend them all assuming the native switch must be free.
@@ -9467,7 +9575,9 @@ globalThis.TCG.deckLabel="对单核爆";
         // reason to switch it back into combat before the burst is ready.
         const draw=routes.filter(r=>!r.conditional&&r.terminal.who===1&&r.terminal.skill==="E"&&r.drawRoom>0&&!pressed).sort(routeOrder);
         const burst=routes.filter(r=>r.terminal.who===1&&r.terminal.skill==="Q")
-          .sort((a,b)=>b.hit.direct/(b.steps+.5)-a.hit.direct/(a.steps+.5)||routeOrder(a,b));
+          // Fast preparation uses the same operation cost as post-burst
+          // output. A zero-fee Cleanup is not another whole combat action.
+          .sort((a,b)=>b.hit.direct/routeEffort(b)-a.hit.direct/routeEffort(a)||routeOrder(a,b));
         const ordinary=Math.max(0,...routes.filter(r=>r.terminal.who===1&&r.terminal.skill!=="Q").map(r=>r.hit.direct));
         if (burst.length && burst[0].hit.direct>ordinary && (s.characters[0].dead===true || s.hand.length===10&&!draw.length))
           return routeAction(burst[0],"现有爆发强于普通攻击，供块中断或满手无法补牌，先开大再补能续攻");
@@ -10891,14 +11001,28 @@ function panelRegion(layoutKey, panel, rect, observed = false) {
       // A temporarily unreadable outer card must not shrink a 4-card team to
       // its readable middle pair (or a 3-card team to its middle card).
       for (const row of observations.filter((r) => r.count > best.count))
-        if (
-          row.cards.some(
-            (c, i) =>
-              (TCG.alive(c) || c.dead === true) &&
-              !best.xs.some((x) => Math.abs(x - row.xs[i]) <= 12),
-          )
-        )
-          return unknown();
+        for (let i = 0; i < row.count; i++) {
+          const c = row.cards[i], x = row.xs[i];
+          if (!(TCG.alive(c) || c.dead === true) || best.xs.some(bx => Math.abs(bx - x) <= 12)) continue;
+          // A candidate HP crop can cross an admitted card's aura strip.
+          // Native Cryo was read as8 inside the four-slot layout while the
+          // complete one-slot layout correctly read44. Attribute a matched
+          // elemental glyph to that card, not to an extra enemy. Real outer
+          // HP and death markers still prevent shrinking a partial team.
+          const y = c.active ? 212 : 170;
+          const hpArea = this.roi("board", this.precisionBoard ? [x,y-6,62,52] : [x+8,y,44,40]).rect;
+          const overlaps = (a,b) => a[0]<b[0]+b[2] && b[0]<a[0]+a[2] &&
+            a[1]<b[1]+b[3] && b[1]<a[1]+a[3];
+          const auraDigit = c.dead !== true && best.cards.some((card,j) => {
+            if (card.dead === true) return false;
+            const area = this.roi("board", [best.xs[j]+60,(card.active?212:170)-70,95,62]);
+            if (!overlaps(hpArea,area.rect)) return false;
+            return ["Cryo","Hydro","Pyro","Electro","Dendro"].some(element =>
+              this.matches(f,"state/State"+element,area,0.8,true).some(g =>
+                overlaps(hpArea,[g.x,g.y,g.w,g.h])));
+          });
+          if (!auraDigit) return unknown();
+        }
       return best.cards.map((c, i) => {
         // Freeze, like aura, does not select a layout. Read only admitted slots
         // in this same frame, after overlap and unreadable-outer-card checks.
@@ -11134,7 +11258,9 @@ function panelRegion(layoutKey, panel, rect, observed = false) {
         }
         if (slot?.id) {
           if (slot.id !== action.id)
-            await this.refreshHandBeforeInput("目标槽牌面已变化，重新核对手牌");
+            await this.refreshHandBeforeInput("目标槽牌面已变化，重新核对手牌", {
+              count: before.hand.length, card: TCG.observedCard(TCG.byId[slot.id].name, action.index),
+            });
           this.trace("hand-input-artwork", { id:action.id,index:action.index,additionalInputs:0 });
           return slot.point;
         }
@@ -11143,10 +11269,15 @@ function panelRegion(layoutKey, panel, rect, observed = false) {
       if (!raw) {
         // The target may have left after a delayed effect. A board-only
         // refresh would keep selecting the same cached, nonexistent card.
-        await this.refreshHandBeforeInput("目标手牌标题为空，重新读取当前手牌");
+        await this.refreshHandBeforeInput("目标手牌标题为空，重新读取当前手牌", {
+          count: before?.hand.length ?? null, card: null,
+        });
       }
-      if (TCG.observedCard(raw, action.index)?.id !== action.id)
-        await this.refreshHandBeforeInput("目标手牌卡名校验失败，重新核对手牌");
+      const card = TCG.observedCard(raw, action.index);
+      if (card?.id !== action.id)
+        await this.refreshHandBeforeInput("目标手牌卡名校验失败，重新核对手牌", {
+          count: before?.hand.length ?? null, card,
+        });
     }
     takePreparedHandInput(action, before) {
       const prepared = this.preparedHandInput;
@@ -11168,7 +11299,7 @@ function panelRegion(layoutKey, panel, rect, observed = false) {
       // A new direct target may keep the fan only with a definite current
       // native count. Missing count falls back to the full board/input path.
       if (!sameSlot && !inspecting && count !== before.hand.length) return null;
-      const viewOnly = inspecting || !sameSlot;
+      const viewOnly = prepared.viewOnly === true || inspecting || !sameSlot;
       this.trace("hand-input-inspection-reused", { id:action.id, index:action.index,
         viewOnly, additionalInputs:0 });
       // View authority carries no selected position, identity, price or count
@@ -11647,6 +11778,20 @@ function panelRegion(layoutKey, panel, rect, observed = false) {
         if (scan.cards && scan.cards.length !== n) scan.titleCandidates = null;
         const hand = scan.cards?.length === n ? scan.cards : Array(n).fill(null);
         scan.cards = hand;
+        // The input check already read this slot. Apply it once to the current
+        // row, not through the old retention contract or a fresh false artwork hit.
+        const identity = scan.handIdentity;
+        scan.handIdentity = null;
+        if (identity?.card && identity.count === n)
+          hand[identity.card.index] = identity.card;
+        // A folded count can be unavailable until handCount opens the fan.
+        // Use that newly measured count too, not another round of title reads.
+        // Keep any current slot facts; a positive identity conflict still scans.
+        if (n > 0 && scan.retainedHandOrder === true && scan.retainedHand?.length === n &&
+            hand.every((card, i) => !card || card.id === scan.retainedHand[i].id)) {
+          for (let i = 0; i < n; i++) if (!hand[i]) hand[i] = { ...scan.retainedHand[i], index: i };
+          scan.route = "retained-order-native-count";
+        }
         // Establish the expanded fan once. Selecting a card only raises that
         // card; it does not require resetting/re-expanding the whole hand.
         if (n > 0 && !hand.every(Boolean) && !this.handFanReady) {
@@ -11917,7 +12062,7 @@ function panelRegion(layoutKey, panel, rect, observed = false) {
       if (p && (p.phase !== "board" || p.turn !== "user")) return { ...p, hand: null };
       let hand = null;
       const scanBefore = this.handScanSerial;
-      const handScan = { titles: 0 };
+      const handScan = { titles: 0, handIdentity: plan?.handIdentity };
       // One recovery budget per pending action, not per 45-second poll.
       const recovery = this.confirmationSession
         ? (this.confirmationSession.handRecovery ||= { failures:0 })
@@ -12879,10 +13024,13 @@ function panelRegion(layoutKey, panel, rect, observed = false) {
       if (!Number.isInteger(action.target) || action.target < 0 || action.target > 2 ||
           action.target === before.active || before.characters[action.target].dead !== false)
         throw new Error("切换目标非法");
-      // Opening details verifies the target before the payment overlay.
-      const raw = await this.titleAt(charX[action.target], 720, false, false, "character", action.target, true);
+      // The observed own-character layout already identifies this fixed slot.
+      // Select it directly; a missing detail title must not block switching.
+      this.clickAt(...this.point("board",charX[action.target],720));
+      this.handNeedsReset = true;
+      this.handFanReady = false;
+      await sleep(120);
       this.requireHandObservation(this.phase(), "before-switch-payment");
-      if (TCG.characterName(raw) !== action.target) throw new Error("切换目标角色标题未核实");
       this.clickAt(...this.point("bottom",1820,958));
       await sleep(120);
       const preview = await this.requireSwitchPreview(action, memory);
@@ -12895,11 +13043,33 @@ function panelRegion(layoutKey, panel, rect, observed = false) {
       });
     }
     async inputEnd() {
-      await this.clickButton("回合结束", this.roi("viewport", [0, 0, 384, 1080]));
-      // Official RoundEnd waits 1000ms for the popup animation. clickButton
-      // already waited 200ms; confirm inside the native five-second window.
-      await sleep(800);
-      if (this.phase().turn === "user") await this.clickButton("回合结束", this.roi("viewport", [0, 0, 384, 1080]));
+      let button;
+      const phase = this.phase((f, p) => {
+        if (p.phase === "board" && p.turn === "user")
+          button = this.matches(f, "core/回合结束", this.roi("viewport", [0, 0, 384, 1080]))[0];
+      });
+      if (!button) {
+        this.autoRisk = true;
+        const error = new Error("结束回合入口已变化，重新观察当前页面");
+        error.code = phase.phase === "board" && phase.turn === "user"
+          ? "TCG_STATE_REFRESH" : "TCG_OBSERVATION_INTERRUPTED";
+        error.phase = phase;
+        throw error;
+      }
+      const point = [button.x + button.w / 2, button.y + button.h / 2];
+      this.clickAt(...point);
+      this.trace("button-clicked", { asset: "回合结束", point });
+      // Official RoundEnd reuses the opener position after its 1000ms popup.
+      // The turn icon can outlive confirmation; it does not prove a miss.
+      await sleep(1000);
+      const next = this.phase();
+      if (next.phase === "board" && next.turn === "user") {
+        this.clickAt(...point);
+        this.trace("button-clicked", { asset: "回合结束", point });
+        await sleep(200);
+      }
+      // A submitted click now belongs to confirmPending, including a delayed
+      // handoff or defeat pick. Do not resubmit because the old icon remains.
     }
     async prepareHandInput(expected, priceIndex = null, requireReusableCount = false, deferToTitle = false) {
       // execute already normalized and verified the board; do not blank-click
@@ -12970,14 +13140,16 @@ function panelRegion(layoutKey, panel, rect, observed = false) {
         Date.now() - at >= 0 && Date.now() - at <= 5000)
         ? { count: expected, stableReads: 2, source: stableSamples[0].source, reads, sources } : null;
     }
-    async refreshHandBeforeInput(reason) {
+    async refreshHandBeforeInput(reason, identity = null) {
       // No card was submitted: a delayed insertion changes positions, not the
       // preceding action's guarantee that its old cards stayed in the hand.
-      this.invalidateHand(reason, this.handContinuation);
+      // Quantity changes can retain old cards; a contradicted identity cannot.
+      this.invalidateHand(reason, identity ? null : this.handContinuation);
       this.requireHandObservation(this.phase(), "before-cache-refresh-reset");
       await this.reset();
       const error = new Error(reason);
       error.code = "TCG_HAND_REFRESH";
+      if (identity) error.handIdentity = identity;
       throw error;
     }
     async confirm(action, before, memory = TCG.freshMemory()) {
@@ -14159,7 +14331,8 @@ case "raiden": {
         this.notice("resync", "[调整] 牌面发生变化，重新同步后继续。");
           let refreshed;
           try { refreshed = await host.observe(true, error.code === "TCG_HAND_REFRESH"
-            ? { mode: "full", ...host.handContinuation } : { mode: "unchanged", hand: state.hand });
+            ? { mode: "full", ...host.handContinuation, handIdentity: error.handIdentity }
+            : { mode: "unchanged", hand: state.hand });
           } catch (e) {
             await this.defer(e, [...BOARD_RETRIES, "TCG_HAND_RETRY"], "execution-resync-deferred", "牌桌重新同步超时（60秒）");
             return;
@@ -15403,7 +15576,8 @@ case "iansan": {
         this.notice("resync", "[调整] 牌面发生变化，重新同步后继续。");
           let refreshed;
           try { refreshed = await host.observe(true, error.code === "TCG_HAND_REFRESH"
-            ? { mode: "full", ...host.handContinuation } : { mode: "unchanged", hand: state.hand });
+            ? { mode: "full", ...host.handContinuation, handIdentity: error.handIdentity }
+            : { mode: "unchanged", hand: state.hand });
           } catch (e) {
             await this.defer(e, [...BOARD_RETRIES, "TCG_HAND_RETRY"], "execution-resync-deferred", "牌桌重新同步超时（60秒）");
             return;
@@ -15678,17 +15852,24 @@ case "moonbloom": {
       const cost=selected?detail.cost:this.feeSample?.costs?.[h.index]??null;
       const attachments=selected?detail.attachments:{source:"unknown",empowered:null},
         badge=!selected&&this.feeSample?.empowered?.[h.index]===true;
-      return {...h,currentCost:cost,costSource:cost===null?"unknown":selected?"native-selected-card-cost":this.feeSample?.source||"native-expanded-cost-markers",
+      return {...h,currentCost:cost,costSource:cost===null?"unknown":selected?detail.costSource||"native-selected-card-cost":this.feeSample?.source||"native-expanded-cost-markers",
         attachments:badge?{...attachments,source:"native",empowered:true}:attachments,canTune:selected&&detail.canTune};
     }
     readSelectedCardFacts(f,card,x){
-      const cost=this.selectedCardCostIn(f,x),a=this.currentAction,
+      const selectedCost=this.selectedCardCostIn(f,x),a=this.currentAction,
         prior=a?.id===card.id?this.handCache?.[a.index]:null,
-        retain=prior?.id===card.id&&Math.abs(this.handPoints(this.handCache.length)[a.index]-x)<=8&&
+        sameSlot=prior?.id===card.id&&Math.abs(this.handPoints(this.handCache.length)[a.index]-x)<=8,
+        // Selecting this same card changes only the view. A missing digit does
+        // not revoke its current native quote; a newly read price still wins.
+        quoted=sameSlot&&T.known(prior.currentCost)&&
+          ["native-folded-cost-markers","native-expanded-cost-markers","native-selected-card-cost"].includes(prior.costSource),
+        cost=selectedCost??(quoted?prior.currentCost:null),
+        costSource=selectedCost!==null?"native-selected-card-cost":quoted?prior.costSource:"unknown",
+        retain=sameSlot&&
           prior.currentCost===cost&&T.cardFactsKnown(prior,a.type==="tune"?"tuning":a.requirement),
         attachments=retain?prior.attachments:attachmentFacts(
           this.ocrRows(f,this.roi("details", [270,165,510,700])),cost,card,this.ocrRows(f,this.roi("details", [680,100,355,620])));
-      this.cardDetails.set(x,{id:card.id,cost,attachments,
+      this.cardDetails.set(x,{id:card.id,cost,costSource,attachments,
         canTune:attachments.source==="native"&&typeof attachments.empowered==="boolean"&&attachments.noTuning===false&&
           !["branch","choice-option"].includes(card.type)&&card.id!=="bloom"});
     }
@@ -15721,13 +15902,21 @@ case "moonbloom": {
     }
     async probeCard(a,before,memory,prepared=null){
       const markerOnly=a.requirement==="empowerment-row";
-      let sourceCount=prepared&&!prepared.viewOnly?prepared.sourceCount:
-        await this.prepareHandInput(before.hand.length,markerOnly?null:a.index,!markerOnly),
-        points=this.handPoints(before.hand.length);
       const after={...before,hand:before.hand.slice(),probed:true,confirmed:false};
       if(markerOnly){
-        await this.prepareHandObservation(before.hand.length);
-        after.hand=this.finishHandObservation(after.hand,{retainedHand:before.hand});
+        const empowered=this.frame(f=>{
+          this.requireHandObservation(this.phaseIn(f),"hand-attachment-markers");
+          const layout=this.handFanReady?this.handCostLayoutIn(f,before.hand.length):this.collapsedLayoutIn(f),
+            markers=this.handFanReady?layout?.markers:
+              layout?.status==="readable"&&layout.count===before.hand.length?layout.slots.map(s=>s.marker):null;
+          return markers?this.handEmpowermentIn(f,markers):[];
+        });
+        // This is a marker read, not another hand/price transaction. Preserve
+        // every existing quote and attachment except a positively seen badge.
+        after.hand=after.hand.map(h=>empowered[h.index]===true?
+          {...h,attachments:{...h.attachments,source:"native",empowered:true},
+            canTune:h.attachments?.noTuning===false&&!!T.byId[h.id]&&
+              !["branch","choice-option"].includes(T.byId[h.id].type)&&h.id!=="bloom"}:h);
         for(const key of [a.key,T.cardProbeKey(after,after.hand[a.index],a.requirement)])
           if(!memory.probeKeys.includes(key))memory.probeKeys.push(key);
         // Like checkCardInput, publish observed hand facts to this read-only
@@ -15735,11 +15924,15 @@ case "moonbloom": {
         before.hand=after.hand;
         this.acceptHand(after.hand,"hand-attachment-markers");
         this.trace("hand-attachment-markers",{empowered:after.hand.filter(h=>h.attachments?.empowered===true).map(h=>h.index),
-          count:after.hand.length,detailInputs:0});
-        await this.reset();await this.requireUnchangedBoard(before);
-        this.trace("card-probe-completed",{reads:0,markerRow:true,fanRetained:false});
+          count:after.hand.length,detailInputs:0,view:this.handFanReady?"expanded":"folded"});
+        if(prepared)this.preparedHandInput={viewOnly:true,beforeKey:T.boardKey(after),
+          revision:this.inputRevision,at:Date.now()};
+        this.trace("card-probe-completed",{reads:0,markerRow:true,fanRetained:!!this.preparedHandInput});
         return after;
       }
+      let sourceCount=prepared&&!prepared.viewOnly?prepared.sourceCount:
+        await this.prepareHandInput(before.hand.length,a.index,true),
+        points=this.handPoints(before.hand.length);
       let request=a,observed,x,inspected=false,reads=0;
       do {
         // Reuse the fan, not the previous slot's preselection price proof.
@@ -15765,10 +15958,10 @@ case "moonbloom": {
           attachments:observed.attachments,dependency:request.dependency,batchRead:reads});
         request=a.dependency!==undefined?T.dependencyProbes(after,memory).find(p=>p.dependency===a.dependency):null;
       }while(request);
-      if(inspected&&sourceCount){
-        // Inspection changes no game resources. Any next known card target may
-        // keep the fan; only the same slot may keep its selected identity.
-        this.preparedHandInput={id:observed.id,index:observed.index,x,sourceCount,
+      if(sourceCount){
+        // A price-only result still leaves the same fan open. Carry its view,
+        // but only an inspected slot can carry a selected card identity.
+        this.preparedHandInput={id:observed.id,index:observed.index,x,sourceCount,viewOnly:!inspected,
           beforeKey:T.boardKey(after),revision:this.inputRevision,at:Date.now()};
       }else{await this.reset();await this.requireUnchangedBoard(before);}
       this.trace("card-probe-completed",{reads,fanRetained:!!this.preparedHandInput});
@@ -16000,7 +16193,18 @@ case "moonbloom": {
       return super.inputSkill(a,before);
     }
     adoptObservedState(state,reason){super.adoptObservedState(state,reason);this.expectedDice=null;this.gamblerBudget=null;}
-    async confirm(a,before,m){return super.confirm(combatConfirmation(a,before),before,m);}
+    async confirm(a,before,m=T.freshMemory()){
+      const after=await super.confirm(combatConfirmation(a,before),before,m),
+        lumenDraw=m.supports.includes("lumen")&&!m.lumenUsed&&m.lumenCards===2,
+        replaced=["sand","upgrade","meditation","razor"].includes(a.id)&&after.hand?.length>=before.hand.length,
+        enemyOnly=a.id==="sand"&&after.choiceReceipt?.kind==="sand"&&after.choiceReceipt.id==="disperse";
+      // These effects replace the source with a completed one-card result (or
+      // leave only its removal). Unlike draw-two/kernel effects, an equal native
+      // count is already the finished hand, not grounds to scan it once more.
+      if(after.confirmed&&after.handRead==="full"&&!lumenDraw&&(replaced||enemyOnly))
+        return {...after,handRefreshRequired:false};
+      return after;
+    }
     async forcedActionProof(a,before){return super.forcedActionProof(combatConfirmation(a,before),before);}
   }
   root.TCGBetterGI={...root.TCGBetterGI,BetterGIHost:MoonHost};
@@ -16366,7 +16570,8 @@ case "moonbloom": {
         this.notice("resync", "[调整] 牌面发生变化，重新同步后继续。");
           let refreshed;
           try { refreshed = await host.observe(true, error.code === "TCG_HAND_REFRESH"
-            ? { mode: "full", ...host.handContinuation } : { mode: "unchanged", hand: state.hand });
+            ? { mode: "full", ...host.handContinuation, handIdentity: error.handIdentity }
+            : { mode: "unchanged", hand: state.hand });
           } catch (e) {
             await this.defer(e, [...BOARD_RETRIES, "TCG_HAND_RETRY"], "execution-resync-deferred", "牌桌重新同步超时（60秒）");
             return;
@@ -16804,6 +17009,8 @@ case "mozailu": {
       const wearer=a.type==="switch"?a.target:b.active;
       this.gamblerBudget=m.artifactKinds[wearer]==="gambler"?
         {owner:wearer,remaining:TCG.gamblerRemaining(m,wearer),enemies:TCG.enemyCount(b)}:null;
+      if(a.type==="skill")a.skillCostBasis={actionKey:TCG.actionKey(a),beforeKey:TCG.boardKey(b),cost,
+        gambler:this.gamblerBudget&&{...this.gamblerBudget}};
       m.fastSwitch=b.active===0&&!m.monaFastUsed;
       this.boardReady=false;
       if(a.type==="card"||a.type==="tune")await this.inputHand(a,b,m);
@@ -17223,7 +17430,8 @@ case "mozailu": {
         this.notice("resync", "[调整] 牌面发生变化，重新同步后继续。");
           let refreshed;
           try { refreshed = await host.observe(true, error.code === "TCG_HAND_REFRESH"
-            ? { mode: "full", ...host.handContinuation } : { mode: "unchanged", hand: state.hand });
+            ? { mode: "full", ...host.handContinuation, handIdentity: error.handIdentity }
+            : { mode: "unchanged", hand: state.hand });
           } catch (e) {
             await this.defer(e, [...BOARD_RETRIES, "TCG_HAND_RETRY"], "execution-resync-deferred", "牌桌重新同步超时（60秒）");
             return;
@@ -18335,7 +18543,8 @@ case "ailin": {
         this.notice("resync", "[调整] 牌面发生变化，重新同步后继续。");
           let refreshed;
           try { refreshed = await host.observe(true, error.code === "TCG_HAND_REFRESH"
-            ? { mode: "full", ...host.handContinuation } : { mode: "unchanged", hand: state.hand });
+            ? { mode: "full", ...host.handContinuation, handIdentity: error.handIdentity }
+            : { mode: "unchanged", hand: state.hand });
           } catch (e) {
             await this.defer(e, [...BOARD_RETRIES, "TCG_HAND_RETRY"], "execution-resync-deferred", "牌桌重新同步超时（60秒）");
             return;
@@ -18668,6 +18877,17 @@ case "consecrated": {
         return sample?{...sample,source:"native-expanded-cost-markers"}:null;
       });
       if (this.feeSample) this.feeSample.points=points;
+    }
+    refreshHandFacts(hand) {
+      if (!hand.length) return hand;
+      // Reusing identities does not reuse their prices. Read the current
+      // folded digits through the same fact assembler as a full hand read.
+      this.feeSample=this.frame(f=>{
+        this.requireHandObservation(this.phaseIn(f),"retained-discard-cost-row");
+        const layout=this.collapsedLayoutIn(f);
+        return layout.status==="readable"&&layout.count===hand.length?this.foldedHandCostsIn(f,layout):null;
+      });
+      return this.finishHandObservation(hand,{retainedHand:hand});
     }
     finishHandObservation(hand,scan={}) {
       const observed=hand.map(h=>{
@@ -19208,7 +19428,8 @@ case "consecrated": {
         this.notice("resync", "[调整] 牌面发生变化，重新同步后继续。");
           let refreshed;
           try { refreshed = await host.observe(true, error.code === "TCG_HAND_REFRESH"
-            ? { mode: "full", ...host.handContinuation } : { mode: "unchanged", hand: state.hand });
+            ? { mode: "full", ...host.handContinuation, handIdentity: error.handIdentity }
+            : { mode: "unchanged", hand: state.hand });
           } catch (e) {
             await this.defer(e, [...BOARD_RETRIES, "TCG_HAND_RETRY"], "execution-resync-deferred", "牌桌重新同步超时（60秒）");
             return;
@@ -19567,6 +19788,8 @@ case "consecrated": {
     if(!bank||!Number.isFinite(bank.scoreFloor)||bank.scoreFloor<=0||bank.scoreFloor>1||
       bank.runnerUpGap!==.20||!Array.isArray(bank.entries))
       throw Error("手牌识别库格式不正确");
+    if(bank.searchPadding!==undefined&&(!Number.isInteger(bank.searchPadding)||bank.searchPadding<0||bank.searchPadding>8))
+      throw Error("牌面搜索边距不正确");
     for(const entry of bank.entries){
       if(!entry.name||!T.byId[entry.id]||T.norm(entry.name)!==T.norm(T.byId[entry.id].name))
         throw Error("手牌识别库与牌组身份不匹配："+entry.id);
@@ -19657,7 +19880,7 @@ case "consecrated": {
         return this.memoFrame(f,"collapsed/identities",()=>{
           const read=C.identify(this.collapsedLayoutIn(f),bank,(slot,p,filename)=>{
           const [dx,dy,w,h]=p;
-          return score(this,env,f,slot.marker.x+dx,slot.marker.y+dy,w,h,filename,2);
+          return score(this,env,f,slot.marker.x+dx,slot.marker.y+dy,w,h,filename,bank.searchPadding??2);
           });
           // Report native rejection once per row; external diagnostics own images.
           const missing=read.slots.filter(s=>!s.id&&!s.titleCandidates);
@@ -19693,7 +19916,7 @@ case "consecrated": {
         const slots=layout.markers.map((marker,index)=>({index,marker,point:layout.points[index]}));
         const read=C.identify({status:"readable",count,slots:targetIndex===null?slots:slots.filter(s=>s.index===targetIndex)},
           bank.expanded,(slot,p,filename)=>score(this,env,f,Math.round(slot.marker.x)+p[0],
-            Math.round(slot.marker.y)+p[1],p[2],p[3],filename,2,
+            Math.round(slot.marker.y)+p[1],p[2],p[3],filename,bank.expanded.searchPadding??2,
             this.observedRoi("handExpanded",[Math.round(slot.marker.x)+p[0],Math.round(slot.marker.y)+p[1],p[2],p[3]])));
         if(read.slots.every(s=>!s.id)&&!this.diagnosticKeys.has("expanded-art-miss")){
           this.diagnosticKeys.add("expanded-art-miss");
@@ -19741,6 +19964,32 @@ case "consecrated": {
         // Equal counts plus a unique identity or an explicit relative-order
         // contract resolve old members; new family members still need titles.
         if(!retainedHand)return;
+        // Bind surviving identities to this row, not their old slot numbers.
+        // New cards may be inserted anywhere. Reuse a missing identity only
+        // when every order-preserving placement of the survivors agrees.
+        if(retainedOrder&&retainedHand.length&&cards.some(c=>!c)){
+          const placements=[];
+          const place=(old,from,indices)=>{
+            if(old===retainedHand.length){placements.push(indices);return;}
+            for(let i=from;i<=cards.length-(retainedHand.length-old);i++){
+              const id=cards[i]?.id||slots[i].id,candidates=slots[i].titleCandidates,want=retainedHand[old].id;
+              if(id?id!==want:candidates&&!candidates.includes(want))continue;
+              place(old+1,i+1,indices.concat(i));
+            }
+          };
+          place(0,0,[]);
+          const reused=[];
+          for(let i=0;i<cards.length&&placements.length;i++)if(!cards[i]){
+            const ids=new Set(placements.map(indices=>{
+              const old=indices.indexOf(i);return old<0?null:retainedHand[old].id;
+            }));
+            if(ids.size!==1||ids.has(null))continue;
+            const id=ids.values().next().value;
+            cards[i]=T.observedCard(T.byId[id].name,i);reused.push(i);
+          }
+          if(reused.length)this.trace("hand-retained-reused",{count:reused.length,handCount:cards.length,indices:reused,
+            proof:"retained-order-and-unambiguous-current-row",titleInputs:0});
+        }
         // Folded and expanded readers fill the same observation. An identity
         // already read in the folded row is not lost when its expanded art
         // misses; use the combined current evidence for family counting.
