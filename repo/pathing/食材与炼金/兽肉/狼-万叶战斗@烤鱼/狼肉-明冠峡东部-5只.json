@@ -1,0 +1,103 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "烤鱼"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1790868361081,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "狼肉-明冠峡东部-5只",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -748.8242,
+      "y": 2887.7539
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -717.543,
+      "y": 2862.5293
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -673.6328,
+      "y": 2801.7988
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(e),wait(3)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -673.6328,
+      "y": 2801.7988
+    },
+    {
+      "action": "pick_up_collect",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -673.6328,
+      "y": 2801.7988
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -673.6328,
+      "y": 2801.7988
+    },
+    {
+      "action": "pick_around",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -673.6328,
+      "y": 2801.7988
+    },
+    {
+      "action": "pick_around",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -667.1309,
+      "y": 2802.1055
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -657.7129,
+      "y": 2784.9004
+    }
+  ]
+}

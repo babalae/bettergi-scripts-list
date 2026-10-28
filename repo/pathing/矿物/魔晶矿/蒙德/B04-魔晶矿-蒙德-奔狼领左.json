@@ -7,9 +7,9 @@
       }
     ],
     "bgi_version": "0.52.0",
-    "description": "",
+    "description": "改過，改沖、挖礡前等待5秒脫戰",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1783089902642,
+    "last_modified_time": 1791532745981,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B04-魔晶矿-蒙德-奔狼领左",
@@ -31,7 +31,7 @@
       "action": "",
       "action_params": "",
       "id": 2,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
       "x": -167.9512,
       "y": 1970.0811
@@ -40,17 +40,26 @@
       "action": "",
       "action_params": "",
       "id": 3,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
       "x": -50.0158,
       "y": 2029.7285
     },
     {
-      "action": "mining",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(5)",
       "id": 4,
       "locked": false,
-      "move_mode": "walk",
+      "move_mode": "dash",
+      "type": "path",
+      "x": -38.1899,
+      "y": 2070.1674
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
       "type": "target",
       "x": -38.1899,
       "y": 2070.1674
@@ -58,7 +67,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(2)",
-      "id": 5,
+      "id": 6,
       "move_mode": "walk",
       "type": "target",
       "x": -38.1899,
