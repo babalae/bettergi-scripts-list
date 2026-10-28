@@ -311,6 +311,7 @@ pullRequests:
       - label: JS 脚本
         pathPrefixes:
           - repo/js
+        requireSubdirectory: true
       - label: 地图追踪
         pathPrefixes:
           - repo/pathing
@@ -329,8 +330,10 @@ pullRequests:
     scriptRoots:
       - repo/js
     fileKindRules:
-      - category: 战斗策略
-        expectedLocation: repo/combat
+      - category: 策略文件
+        expectedLocations:
+          - repo/combat
+          - repo/tcg
         extensions:
           - .txt
     rules:
