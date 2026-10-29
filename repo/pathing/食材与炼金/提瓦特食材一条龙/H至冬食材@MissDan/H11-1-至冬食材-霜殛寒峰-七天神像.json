@@ -1,0 +1,149 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "10个冰醋栗；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1789828948730,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "H11-1-至冬食材-霜殛寒峰-七天神像",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 6652.9199,
+      "y": 8321.6719
+    },
+    {
+      "action": "log_output",
+      "action_params": "-白雾边缘路线有概率卡死-",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6654.1387,
+      "y": 8332.2676
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6678.334,
+      "y": 8339.0781
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6685.2881,
+      "y": 8349.0459
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6699.8613,
+      "y": 8359.5527
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6700.7676,
+      "y": 8363.9072
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 6706.9668,
+      "y": 8363.5869
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6738.5615,
+      "y": 8352.0439
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 6740.667,
+      "y": 8348.8506
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 6741.8525,
+      "y": 8348.0879
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6741.8525,
+      "y": 8348.0879
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 6741.7461,
+      "y": 8348.3438
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 6743.875,
+      "y": 8346.5137
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(7.8),wait(0.8),w(0.3),wait(0.8),a(0.3),wait(0.8),w(0.3),wait(0.8),w(0.3),wait(0.8),a(0.3),wait(0.8),s(0.3),wait(0.8),s(0.3),wait(0.8),s(0.3),wait(0.8)",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6743.875,
+      "y": 8346.5137
+    }
+  ]
+}

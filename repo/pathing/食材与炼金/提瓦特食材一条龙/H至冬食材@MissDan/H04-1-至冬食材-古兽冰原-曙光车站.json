@@ -1,0 +1,130 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "10个冰醋栗；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1789827198724,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "H04-1-至冬食材-古兽冰原-曙光车站",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7813.7529,
+      "y": 8520.4854
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7850.0293,
+      "y": 8516.4531
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 7874.9727,
+      "y": 8532.4824
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7961.1689,
+      "y": 8592.3516
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 8029.501,
+      "y": 8557.1172
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8046.6885,
+      "y": 8549.8838
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8048.0771,
+      "y": 8535.6465
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(4)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 8073.0146,
+      "y": 8532.2764
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8073.0146,
+      "y": 8532.2764
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8075.4531,
+      "y": 8527.0986
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8087.627,
+      "y": 8541.5195
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8088.5615,
+      "y": 8543.752
+    }
+  ]
+}

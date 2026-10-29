@@ -1,0 +1,112 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "5个松果；2个雪球花；5个冰星果；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1789922283742,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "H21-1-至冬食材-永凝冻土-列车墓地",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7798.7627,
+      "y": 8955.0547
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7831.6396,
+      "y": 8993.2617
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7833.6396,
+      "y": 8995.6807
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7835.6279,
+      "y": 8998.1221
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7837.4443,
+      "y": 9000.4746
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7820.0176,
+      "y": 9028.7158
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7806.9111,
+      "y": 9036.4766
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7802.8428,
+      "y": 9048.832
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7796.1045,
+      "y": 9053.6631
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.3),wait(0.2)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7795.0254,
+      "y": 9053.3857
+    }
+  ]
+}
