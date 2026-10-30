@@ -1,0 +1,20 @@
+{
+    "manifest_version": 1,
+    "name": "树脂统计（OCR）",
+    "version": "6.1",
+    "bgi_version": "0.66.0",
+    "description": "打开秘境页读原粹/浓缩，点「+」读须臾/脆弱，附 UID 与名称，退出界面后发通知；靠 OCR + 图标模板定位，不写死像素坐标",
+    "authors": [
+        {
+            "name": "风铃",
+            "links": "https://github.com/zephyr-bell"
+        },
+        {
+            "name": "羊汪汪",
+            "links": "https://github.com/ColinXHL"
+        }
+    ],
+    "allow_js_notification": true,
+    "settings_ui": "settings.json",
+    "main": "main.js"
+}
