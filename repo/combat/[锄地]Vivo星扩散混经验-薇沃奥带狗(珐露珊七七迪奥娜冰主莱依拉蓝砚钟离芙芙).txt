@@ -1,0 +1,56 @@
+//作者：忆雪晴-828632080
+//描述：{收益!}[至冬混经验系列]锄地大小怪等效每个角色省下40体力的摩拉和经验.4x40体力是160体力恐怖如斯.我老粉已经爽一年了,懂都懂.非打桩非效率最大化,走位捡材料,实测覆盖95%怪,远程弓箭手或者追100%覆盖的加芙芙即可.
+//适配版本:BGI 0.66 alpha内测版[注意0.66版本CD技能让主C跳过有Bug等正式更新和我后续谁拍,虽然现在也能凑活用](老粉注意:战斗系统迭代好几个版本了) 
+//[先行版!65&66版引入CD判定没开关把脚本整瘸了,先凑合用,等后续更新]
+//超时：42秒
+//应用：纯锄地用途,e.g.挂机2拖2or3带1混经验。稳健第一,目压手调Q躲技能,和小范围位移最大化全覆盖,余下蚊子腿儿可以弃了,超时走人.不追求打桩伤害最大化,追求打桩副本环境的,角色EQ稳健轴连放自己写写就行了.或者引用其他脚本即可.
+//更新: 
+//武器：三带一,带狗角色优先西风,润滑全队.钟离老爷子省时间不放Q武器随意推荐西风.其他输出配置自己斟酌,高压环境不死人就合格.
+//测试组队：靠冻结保生存!73级薇斯娜0+1,71级沃雅妮莎0+讨龙,81级奥黛塔0+0,50级珐露珊(珐姐当狗位),带混子推荐冰或者盾位.
+//BGI战斗配置(重要!)：
+//1)行走位设置为奥黛塔如2,或者为空.!(重要).
+//2)更快速触发战斗结束检测参数[21]
+//3)生存位:沃雅妮莎(循环CD6秒,为覆盖BGI机制提高触发频率);
+//4)尝试面敌[开];Q前检测[关]
+
+//版本: 26年10月 Version 1.1
+//问题反馈友好交流QQ: 3896156927,[此为先行版!65&66版引入CD判定没开关把脚本整瘸了,先凑合用,等后续更新]请一定注明BGI脚本问题讨论,打招呼直接问你问题,无商单,不伺候巨婴.
+
+//-------盾位or挂水减抗起手(沃雅妮莎)-------
+沃雅妮莎 attack(0.2),keypress(e)
+莱依拉 e,attack(0.4),keypress(q)
+钟离 attack(0.2),e(hold)
+迪奥娜 attack(0.2),e,keypress(q),attack(0.2)
+蓝砚 e,attack(0.4),keypress(q)
+
+//---------挂冰+产球-------------
+奥黛塔 attack(0.2),keypress(e),wait(0.1),keypress(e)
+空 e,attack,charge(0.5),keypress(q),ready
+荧 e,attack,charge(0.5),keypress(q),ready
+
+//--------能耗大户吃球-----
+珐露珊 attack(0.2),keypress(q),ready,keypress(e),attack(0.2),keypress(e),attack(0.2),keypress(q),ready
+迪奥娜 attack(0.2),keypress(e),attack(0.2),keypress(q),attack(0.2),keypress(q)
+芙宁娜 e,attack(0.6),keypress(q),s(0.2)  //attack(0.5）贪刀+
+
+//---------天鹅第二E----------
+奥黛塔 attack(0.2),keypress(q),ready,attack(0.2),keypress(e),attack(0.2),keypress(e)
+
+//------减抗位(沃雅妮莎补buff冗余,正视角加容错)----------
+沃雅妮莎 attack(0.2),click(middle),keypress(e),attack(0.1)
+蓝砚 attack(0.2),keypress(e),attack(0.4),keypress(q)
+砂糖 attack(0.2),click(middle),keypress(e),attack(0.1),attack(0.2),keypress(q)
+//---------薇斯纳输出-------------
+
+薇斯纳 e,attack(0.2),keypress(e),attack(0.2),q,ready
+薇斯纳 e,attack(0.3),charge(0.4),attack(0.3),charge(0.4),e,q,ready
+薇斯纳 e,attack(0.3),charge(0.4),attack(0.3),charge(0.4),e,q,ready
+薇斯纳 e,attack(0.3),charge(0.4),attack(0.3),charge(0.4)
+薇斯纳 e,attack(0.3),charge(0.4),attack(0.3),charge(0.4),e
+薇斯纳 attack(0.3),keypress(e),attack(0.3),keypress(e)
+
+//-------Bug反馈测试区[请无视]-----------------
+//高级语法暴力打6套，按12次E看能出几个？(含6x薇斯纳attack(0.2),keypress(e),attack(0.3),charge(0.4),keypress(e))
+//薇斯纳 attack(0.2),keypress(e),attack(0.2),keypress(e),attack(0.2),keypress(q),attack(0.2),keypress(e),attack(0.3),charge(0.4),keypress(e),attack(0.2),keypress(e),attack(0.3),charge(0.4),keypress(e),attack(0.2),keypress(e),attack(0.3),charge(0.4),keypress(e),attack(0.2),keypress(e),attack(0.3),charge(0.4),keypress(e),attack(0.2),keypress(e),attack(0.3),charge(0.4),keypress(e)
+//高级语法暴力打6套，按12次E看能出几个？(含6x薇斯纳attack(0.2),keypress(e),attack(0.3),keypress(e),attack(0.2),keypress(q),ready)
+//薇斯纳 attack(0.2),keypress(e),attack(0.3),keypress(e),attack(0.2),keypress(q),ready,attack(0.2),keypress(e),attack(0.3),keypress(e),attack(0.2),keypress(q),ready,attack(0.2),keypress(e),attack(0.3),keypress(e),attack(0.2),keypress(q),ready,attack(0.2),keypress(e),attack(0.3),keypress(e),attack(0.2),keypress(q),ready,attack(0.2),keypress(e),attack(0.3),keypress(e),attack(0.2),keypress(q),ready,attack(0.2),keypress(e),attack(0.3),keypress(e),attack(0.2),keypress(q) 
