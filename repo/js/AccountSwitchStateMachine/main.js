@@ -40,6 +40,42 @@ async function emergencyStopConfigGroup(reason) {
     throw new Error(`[CONFIG_GROUP_STOPPED] ${reason}`);
 }
 
+/**
+ * 检查目标账号图片是否存在且可正常读取
+ * 说明：readImageMatSync 在文件缺失时不会抛异常，而是返回空 Mat，
+ * 因此必须通过 Mat 是否为空来判断文件是否真正可用。
+ * @returns {boolean} 图片是否可用
+ */
+function isAccountImageAvailable() {
+    const imagePath = `accounts/${settings.targetUid}.png`;
+
+    try {
+        const mat = file.ReadImageMatSync(imagePath);
+
+        if (!mat) {
+            log.warn(`账号图片检查失败：${imagePath}，读取结果为空`);
+            return false;
+        }
+
+        if (typeof mat.empty === 'function' && mat.empty()) {
+            log.warn(`账号图片检查失败：${imagePath}，图片内容为空`);
+            return false;
+        }
+
+        const width = Number(mat.width);
+        const height = Number(mat.height);
+        if (!isNaN(width) && !isNaN(height) && (width <= 0 || height <= 0)) {
+            log.warn(`账号图片检查失败：${imagePath}，图片尺寸无效（${mat.width}x${mat.height}）`);
+            return false;
+        }
+
+        return true;
+    } catch (e) {
+        log.warn(`账号图片检查异常：${imagePath}，错误：${e.message}`);
+        return false;
+    }
+}
+
 // 主逻辑
 (async function () {
     // 只有当未开启截图模式时，才检查 verifyUid 和 targetUid
@@ -89,6 +125,27 @@ async function emergencyStopConfigGroup(reason) {
         }
     }
 
+    const accountImageAvailable = isAccountImageAvailable();
+    const hasPasswordFallback = !!(settings.account && String(settings.account).trim() && settings.password && String(settings.password).trim());
+
+    if (!accountImageAvailable && !hasPasswordFallback) {
+        const reason = `账号图片 accounts/${settings.targetUid}.png 不存在或无法读取，且未配置账号密码，无法切换到目标账号`;
+        log.error(reason);
+
+        // 账号图片缺失且未配置账号密码，无法切换，直接终止
+        // 若开启了 UID 不匹配自动停止，则模拟按下停止键终止整个配置组
+        if (settings.uidMismatchAutoStop) {
+            await emergencyStopConfigGroup(reason);
+            return;
+        }
+
+        throw new Error(`[CONFIG_GROUP_STOPPED] ${reason}`);
+    }
+
+    if (!accountImageAvailable) {
+        log.warn(`账号图片 accounts/${settings.targetUid}.png 不存在或无法读取，将使用账号密码方式登录`);
+    }
+
     // 根据是否开启UID校验决定最大尝试次数
     let attempts = 0;
     const maxAttempts = settings.verifyUid ? 2 : 1;
@@ -113,11 +170,16 @@ async function emergencyStopConfigGroup(reason) {
 
             try {
                 accountImageMat = file.ReadImageMatSync(accountImagePath);
-                log.info(`成功预加载账号图片：${accountImagePath}`);
             } catch (e) {
-                log.warn(`预加载账号图片失败：${accountImagePath}，错误：${e.message}`);
+                log.warn(`预加载账号图片异常：${accountImagePath}，错误：${e.message}`);
+            }
+
+            if (!accountImageMat || (typeof accountImageMat.empty === 'function' && accountImageMat.empty())) {
+                log.warn(`账号图片无效：${accountImagePath}`);
                 log.warn('将使用账号密码方式登录');
                 useAccountPassword = true;
+            } else {
+                log.info(`成功预加载账号图片：${accountImagePath}`);
             }
 
             // 如果图片预加载成功，尝试使用图片查找方式
