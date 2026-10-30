@@ -1,0 +1,18 @@
+{
+  "manifest_version": 1,
+  "name": "药品消耗统计",
+  "version": "1.0",
+  "bgi_version": "0.54",
+  "description": "基于勺子佬的营养袋吃药统计拓展，本脚本用于自动记录并统计角色使用的回血药与复活药数量，支持初始化记录、纯记录、记录以及消耗计算三种工作方式，适合单账号或多账号长期使用。",
+  "authors": [
+    {
+      "name": "爱丽丝",
+      "links": "https://github.com/itslyh"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js",
+  "saved_files": [
+    "assets/*.txt"
+  ]
+}

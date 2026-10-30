@@ -1,0 +1,42 @@
+{
+  "info": {
+    "name": "13-赤念果-吞羊岩-1个",
+    "type": "collect",
+    "country": "须弥",
+    "version": "1.0",
+    "description": "需要纳西妲",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "½",
+        "links": "https://github.com/Traveler07"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4790.37,
+      "y": -3183.41,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4827.69,
+      "y": -3105.34,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4905.66,
+      "y": -3061.77,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "target"
+    }
+  ]
+}

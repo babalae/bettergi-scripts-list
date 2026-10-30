@@ -1,0 +1,160 @@
+{
+  "info": {
+    "name": "深邃拟覆叶10-5个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "夜雨轩烛"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9813.5,
+      "y": -372.2,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 9777.68,
+      "y": -379.09,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 9702.8,
+      "y": -378.71,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 9702.8,
+      "y": -378.71,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 9735.31,
+      "y": -381.62,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 9735.31,
+      "y": -381.62,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 9721.14,
+      "y": -377.71,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 9705.01,
+      "y": -399.0,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 9664.2,
+      "y": -421.41,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 9671.37,
+      "y": -454.11,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 9678.53,
+      "y": -440.02,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 9672.54,
+      "y": -444.16,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "click(middle),wait(0.5),keypress(T)",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 9669.03,
+      "y": -453.37,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(F)",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 9562.81,
+      "y": -475.6,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "mousedown,wait(5),mouseup,keydown(Q),wait(1),keyup(Q),click",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 9517.01,
+      "y": -486.7,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 9503.56,
+      "y": -481.53,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

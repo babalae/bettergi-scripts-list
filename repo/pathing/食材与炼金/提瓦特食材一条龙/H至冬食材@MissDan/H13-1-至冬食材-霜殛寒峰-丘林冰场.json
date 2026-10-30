@@ -1,0 +1,86 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "6个红甜菜；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1789746616449,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "H13-1-至冬食材-霜殛寒峰-丘林冰场",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 6075.9186,
+      "y": 8675.2372
+    },
+    {
+      "action": "log_output",
+      "action_params": "-白雾边缘路线有概率卡死-",
+      "id": 2,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 6087.5878,
+      "y": 8681.4477
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6087.5878,
+      "y": 8681.4477
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 6076.3984,
+      "y": 8679.4844
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 6068.75,
+      "y": 8678.7969
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 6070.4287,
+      "y": 8688.9457
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 6072.3594,
+      "y": 8688.5078
+    }
+  ]
+}

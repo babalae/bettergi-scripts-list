@@ -1,0 +1,127 @@
+{
+  "info": {
+    "name": "7020稻妻清濑岛02",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "mfkvfhpdx",
+        "links": "https://github.com/mfkvfhpdx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -4251.89,
+      "y": -4785.47,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -4217.91,
+      "y": -4992.28,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keydown(SPACE),wait(4.8)",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": -4217.91,
+      "y": -4992.28,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": -4217.91,
+      "y": -4992.28,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -4243.43,
+      "y": -4987.29,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -4256.18,
+      "y": -4985.6,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -4292.77,
+      "y": -5011.55,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -4300.22,
+      "y": -5027.5,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": -4314.39,
+      "y": -5053.83,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": -4307.41,
+      "y": -5063.46,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": -4282.08,
+      "y": -5082.32,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": -4248.91,
+      "y": -5096.05,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+// 描述：茜特菈莉带祭礼，有条件带千岩三精 爱可菲适当堆充能 芙宁娜带输出武器如静水有乐绿剑水管 配置组设置-战斗配置-自动检测战斗结束-更快检测战斗结束启用并填1，检查战斗结束的延时改为0.4
+// 作者： mno
+茜特菈莉 attack(0.1),e,keypress(q),wait(0.1),ready,attack,keypress(e),keypress(q),wait(0.1),keypress(q),wait(0.15),ready,keypress(e)
+芙宁娜 e,wait(0.4),keypress(q),wait(0.1),keypress(q),wait(0.1),keypress(q),wait(0.2),ready
+爱可菲 e,wait(0.55),keypress(q),wait(0.1),keypress(q),wait(0.2),ready,keypress(e)
+枫原万叶 ready,keypress(q),wait(0.1),keypress(q),wait(0.1),keypress(q),wait(0.2),ready,attack,keydown(E),wait(0.48),keyup(E),attack(0.3)
+芙宁娜 e,wait(0.4),keypress(q),wait(0.1),keypress(q),wait(0.1),keypress(q),wait(0.2),ready
+爱可菲 e,wait(0.55),keypress(q),wait(0.1),keypress(q),wait(0.2),ready,keypress(e)
+枫原万叶 ready,keypress(q),wait(0.1),keypress(q),wait(0.1),keypress(q),wait(0.2),ready,attack,keydown(E),wait(0.48),keyup(E),attack(0.3),wait(0.6)

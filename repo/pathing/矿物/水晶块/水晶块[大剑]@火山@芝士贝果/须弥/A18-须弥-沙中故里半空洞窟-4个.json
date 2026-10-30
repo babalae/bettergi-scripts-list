@@ -1,0 +1,157 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/cheese-bagel",
+        "name": "芝士贝果"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1791045775681,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A18-须弥-沙中故里半空洞窟-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3844.2217,
+      "y": -573.187
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "orientation",
+      "x": 3792.4453,
+      "y": -597.2183
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 3792.4453,
+      "y": -597.2183
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.1)",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "orientation",
+      "x": 3816.5703,
+      "y": -592.8428
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "target",
+      "x": 3816.5703,
+      "y": -592.8428
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.1)",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "orientation",
+      "x": 3823.0605,
+      "y": -568.6602
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3823.0605,
+      "y": -568.6602
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3827.6309,
+      "y": -552.813
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3824.4658,
+      "y": -535.7822
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3829.5215,
+      "y": -532.0664
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 3816.5625,
+      "y": -536.1724
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3813.4824,
+      "y": -532.9507
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3811.5762,
+      "y": -528.2891
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3813.7764,
+      "y": -530.6426
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3814.124,
+      "y": -529.0405
+    }
+  ]
+}

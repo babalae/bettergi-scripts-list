@@ -1,0 +1,161 @@
+[
+  {
+    "name": "ifCheck",
+    "type": "checkbox",
+    "label": "── 基础设置 ──\n\n我已阅读 README 和注意事项，并已完成必要设置"
+  },
+  {
+    "name": "username",
+    "type": "input-text",
+    "label": "账户名称（单账户可留空）"
+  },
+  {
+    "name": "ifZBY",
+    "type": "checkbox",
+    "label": "── 参量质变仪 ──\n\n启用参量质变仪"
+  },
+  {
+    "name": "Material",
+    "type": "select",
+    "label": "投入材料",
+    "options": [
+      "牛角",
+      "苹果",
+      "日落果",
+      "泡泡桔",
+      "白铁块",
+      "薄荷",
+      "菜",
+      "鸡腿",
+      "蘑菇",
+      "鸟蛋",
+      "兽肉",
+      "水晶块",
+      "甜甜花"
+    ],
+    "default": "薄荷"
+  },
+  {
+    "name": "zbyChargingMethod",
+    "type": "select",
+    "label": "充能方式",
+    "options": [
+      "电气水晶充能",
+      "法器角色充能"
+    ],
+    "default": "电气水晶充能"
+  },
+  {
+    "name": "ZBYTeamName",
+    "type": "input-text",
+    "label": "使用队伍（选择法器角色充能时必填）"
+  },
+  {
+    "name": "ifAkf",
+    "type": "checkbox",
+    "label": "── 爱可菲料理机关 ──\n\n启用爱可菲任务"
+  },
+  {
+    "name": "akfChargingMethod",
+    "type": "select",
+    "label": "充能方式",
+    "options": [
+      "电气水晶充能",
+      "法器角色充能"
+    ],
+    "default": "电气水晶充能"
+  },
+  {
+    "name": "AKFTeamName",
+    "type": "input-text",
+    "label": "使用队伍（启用爱可菲任务时必填）"
+  },
+  {
+    "name": "skipCookingWhenBattlePassFull",
+    "type": "checkbox",
+    "label": "── 纪行满级跳过 ──\n\n跳过每周做菜"
+  },
+  {
+    "name": "skipForgingWhenBattlePassFull",
+    "type": "checkbox",
+    "label": "跳过每周锻造"
+  },
+  {
+    "name": "skipBossWhenBattlePassFull",
+    "type": "checkbox",
+    "label": "跳过每周首领"
+  },
+  {
+    "name": "skipDomainWhenBattlePassFull",
+    "type": "checkbox",
+    "label": "跳过每周秘境"
+  },
+  {
+    "name": "ifCooking",
+    "type": "checkbox",
+    "label": "── 每周做菜 ──\n\n启用每周做菜"
+  },
+  {
+    "name": "food",
+    "type": "input-text",
+    "label": "料理名称（需已解锁自动烹饪）",
+    "default": "提瓦特煎蛋"
+  },
+  {
+    "name": "cookCount",
+    "type": "input-text",
+    "label": "制作数量（请确保材料充足）",
+    "default": "20"
+  },
+  {
+    "name": "ifduanZao",
+    "type": "checkbox",
+    "label": "── 每周锻造 ──\n\n启用每周锻造"
+  },
+  {
+    "name": "mineral",
+    "type": "select",
+    "label": "锻造矿石（固定锻造 20 次）",
+    "options": [
+      "锻造水晶块",
+      "锻造紫晶块",
+      "锻造萃凝晶"
+    ],
+    "default": "锻造水晶块"
+  },
+  {
+    "name": "BossPartyName",
+    "type": "input-text",
+    "label": "── 每周战斗 ──\n\n战斗队伍（首领和秘境共用）"
+  },
+  {
+    "name": "ifShouling",
+    "type": "checkbox",
+    "label": "启用每周首领"
+  },
+  {
+    "name": "ifMijing",
+    "type": "checkbox",
+    "label": "启用每周秘境"
+  },
+  {
+    "name": "ifbuyNet",
+    "type": "checkbox",
+    "label": "── 每周购买与提交 ──\n\n购买四方八方之网"
+  },
+  {
+    "name": "ifbuyTzq",
+    "type": "checkbox",
+    "label": "提交投资券"
+  },
+  {
+    "name": "ifPink",
+    "type": "checkbox",
+    "label": "── 每月兑换 ──\n\n兑换粉球"
+  },
+  {
+    "name": "ifBlue",
+    "type": "checkbox",
+    "label": "兑换蓝球"
+  }
+]

@@ -1,0 +1,68 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/1004452714",
+        "name": "DarkFlameMaster"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784300157098,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "稻妻-鹤观-插电战斗方案",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2556.2129,
+      "y": -6007.4863
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -2591.9297,
+      "y": -5999.1719
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -2611.1445,
+      "y": -5991.918
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -2627.498,
+      "y": -5999.3418
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)",
+      "id": 5,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -2624.002,
+      "y": -6004.6406
+    }
+  ]
+}

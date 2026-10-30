@@ -1,0 +1,86 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时89秒，包含3只精英与7只小怪，预计收入41864.5摩拉，包含以下怪物：2只大型水史莱姆、1只丘丘人、1只打手丘丘人、1只射手丘丘人、1只火箭丘丘人、1只冰箭丘丘人、1只火斧丘丘暴徒、1只丘丘岩盔王、1只丘丘水行游侠。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1760032640104,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "507枫丹幽林雾道（600_1，200_2）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3592.75,
+      "y": 3258.0
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3534.79,
+      "y": 3295.63
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3531.4004,
+      "y": 3292.0117
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3494.2734,
+      "y": 3234.145
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3453.084,
+      "y": 3190.9436
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3450.1367,
+      "y": 3193.8875
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3461.2441,
+      "y": 3167.2109
+    }
+  ]
+}

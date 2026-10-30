@@ -1,0 +1,60 @@
+{
+  "info": {
+    "name": "601纳塔奥奇（600_1）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时56秒，包含1只精英，预计收入600摩拉，包含以下怪物：1只遗迹重机。",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "map_name": "Teyvat",
+    "tags": [],
+    "last_modified_time": 1754754460189,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 10070.24,
+      "y": 25.66,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 10060.2499,
+      "y": 79.2505,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 10035.6904,
+      "y": 115.0063,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 10035.6904,
+      "y": 115.0063,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(0.2)",
+      "type": "orientation"
+    }
+  ]
+}

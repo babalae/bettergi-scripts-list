@@ -1,0 +1,41 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/1004452714",
+        "name": "无激情非少年"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1756957996510,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "风起地七天神像path",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1266.39453125,
+      "y": 1936.5986328125
+    },
+    {
+      "action": "anemo_collect",
+      "action_params": "",
+      "id": 2,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -1265.99609375,
+      "y": 1929.73974609375
+    }
+  ]
+}

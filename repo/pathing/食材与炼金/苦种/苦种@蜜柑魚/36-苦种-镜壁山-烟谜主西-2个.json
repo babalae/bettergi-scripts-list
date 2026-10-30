@@ -1,0 +1,94 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1776968051133,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "36-苦种-镜壁山-烟谜主西-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "action_params": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9971.4336,
+      "y": -1605.0762
+    },
+    {
+      "id": 2,
+      "action": "",
+      "action_params": "",
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9960.0771,
+      "y": -1579.3008
+    },
+    {
+      "id": 3,
+      "action": "",
+      "action_params": "",
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9937.2881,
+      "y": -1552.1211
+    },
+    {
+      "id": 4,
+      "action": "combat_script",
+      "action_params": "wait(0.345)",
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9935.0781,
+      "y": -1550.0332
+    },
+    {
+      "id": 5,
+      "action": "",
+      "action_params": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9782.6904,
+      "y": -1764.3193
+    },
+    {
+      "id": 6,
+      "action": "",
+      "action_params": "",
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9828.1846,
+      "y": -1764.1338
+    },
+    {
+      "id": 7,
+      "action": "",
+      "action_params": "",
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9866.1025,
+      "y": -1772.9668
+    },
+    {
+      "id": 8,
+      "action": "combat_script",
+      "action_params": "wait(0.345)",
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9861.8535,
+      "y": -1756.2354
+    }
+  ]
+}

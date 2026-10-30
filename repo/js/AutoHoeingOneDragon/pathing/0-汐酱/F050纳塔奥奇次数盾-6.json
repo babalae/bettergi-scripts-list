@@ -1,0 +1,56 @@
+{
+  "info": {
+    "name": "F050纳塔奥奇次数盾-6",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时70秒，包含以下怪物：1只深邃拟覆叶。",
+    "hash_res": "15158327",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9757.93,
+      "y": -613.62
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9767.55,
+      "y": -603.87
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1700",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9802.44,
+      "y": -609.74
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9825.85,
+      "y": -632.36
+    }
+  ]
+}

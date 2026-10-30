@@ -1,0 +1,89 @@
+{
+  "info": {
+    "name": "07蒲公英_2",
+    "type": "collect",
+    "version": "1.0",
+    "description": "性价比路线，要求队伍：小草神+琴团长（琴可以换万叶，不建议法器角色，可能会攻击到怪）",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "彩虹QQ人",
+        "links": "https://github.com/KRdingsan"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -386.25,
+      "y": 2297.58,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -386.43,
+      "y": 2301.84,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -380.3,
+      "y": 2305.28,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -370.29,
+      "y": 2339.07,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -344.09,
+      "y": 2353.28,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -341.66,
+      "y": 2344.51,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -354.82,
+      "y": 2331.78,
+      "type": "target",
+      "move_mode": "run",
+      "action": "anemo_collect",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -354.74,
+      "y": 2327.28,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "anemo_collect",
+      "action_params": ""
+    }
+  ]
+}

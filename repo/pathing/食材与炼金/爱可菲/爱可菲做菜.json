@@ -1,0 +1,45 @@
+{
+  "info": {
+    "name": "爱可菲做菜",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "HZYgrandma",
+        "links": "https://github.com/HZYgrandma"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 836.69,
+      "y": 241.11,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 840.51,
+      "y": 224.12,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 835.52,
+      "y": 217.71,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "爱可菲 e(hold), wait(60)"
+    }
+  ]
+}

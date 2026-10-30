@@ -1,0 +1,73 @@
+{
+  "info": {
+    "name": "金鱼草-宝玦口左侧-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "曦",
+        "links": "https://github.com/cx05121"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2462.77,
+      "y": 1801.63,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 2470.84,
+      "y": 1802.56,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 2549.79,
+      "y": 1800.13,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 2639.0,
+      "y": 1766.0,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 5,
+      "x": 2640.64,
+      "y": 1779.27,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 2673.95,
+      "y": 1791.04,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 2705.05,
+      "y": 1799.04,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target"
+    }
+  ]
+}

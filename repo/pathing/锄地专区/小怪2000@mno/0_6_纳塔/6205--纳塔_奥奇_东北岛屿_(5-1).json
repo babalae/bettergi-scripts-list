@@ -1,0 +1,121 @@
+{
+  "info": {
+    "name": "6205--纳塔_奥奇_东北岛屿_(5-1)",
+    "type": "collect",
+    "author": "Demo&汐@mno",
+    "version": "1.3",
+    "description": "  路线信息：该路线预计用时180.67秒，包含6只小怪，预计收入445.5摩拉，包含以下怪物：1只幼绒翼龙、5只绒翼龙。",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "Demo"
+      },
+      {
+        "name": "汐@mno"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9676.98,
+      "y": 235.8,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 9677.08,
+      "y": 243.43,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 9666.71,
+      "y": 259.62,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "1500",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 9666.71,
+      "y": 259.62,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 9670.07,
+      "y": 171.37,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 6,
+      "x": 9704.03,
+      "y": 155.31,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 9711.56,
+      "y": 150.16,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 9710.95,
+      "y": 162.6,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 9698.93,
+      "y": 168.24,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 9687.26,
+      "y": 162.67,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 11,
+      "x": 9687.26,
+      "y": 162.67,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.1)",
+      "type": "orientation"
+    }
+  ]
+}

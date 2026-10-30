@@ -1,0 +1,146 @@
+{
+  "info": {
+    "name": "中央实验室基地东南",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.43.0",
+    "authors": [
+      {
+        "name": "cy"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3628.52,
+      "y": 4447.65,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3628.53,
+      "y": 4447.58,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3634.75,
+      "y": 4473.54,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3622.23,
+      "y": 4494.82,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 3636.45,
+      "y": 4510.32,
+      "action": "combat_script",
+      "action_params": "钟离 d(0.2),e(hold)",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 3637.88,
+      "y": 4508.87,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 3637.3,
+      "y": 4514.69,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 3636.45,
+      "y": 4509.84,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 3612.27,
+      "y": 4546.97,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 3623.94,
+      "y": 4553.95,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 3624.69,
+      "y": 4559.41,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 3627.31,
+      "y": 4562.55,
+      "action": "combat_script",
+      "action_params": "钟离 d(0.2),e(hold)",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 3632.01,
+      "y": 4564.02,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 3622.94,
+      "y": 4562.16,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 3619.3,
+      "y": 4562.64,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 3624.04,
+      "y": 4564.2,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    }
+  ]
+}

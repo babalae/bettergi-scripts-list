@@ -1,0 +1,152 @@
+{
+  "info": {
+    "name": "6708--纳塔_踞石山_彩石顶3_(6-9)",
+    "type": "collect",
+    "author": "Demo&汐&mno",
+    "version": "1.2",
+    "description": "  路线信息：该路线预计用时139.66秒，包含14只小怪，预计收入769.5摩拉，包含以下怪物：2只丘丘人、1只打手丘丘人、1只冲锋丘丘人、2只射手丘丘人、3只幼匿叶龙、5只匿叶龙。",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "Demo"
+      },
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      },
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 8201.82,
+      "y": -2288.8,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 8174.83,
+      "y": -2266.56,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 8174.83,
+      "y": -2265.56,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 8176.21,
+      "y": -2243.92,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 8214.6,
+      "y": -2216.15,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 8187.02,
+      "y": -2212.93,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 8151,
+      "y": -2208,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.3),keydown(a),wait(1.5),keyup(a)",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": 8133.77,
+      "y": -2203.26,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 8113.47,
+      "y": -2210.91,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 8119.15,
+      "y": -2207.91,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 8106.76,
+      "y": -2151.27,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 8130.72,
+      "y": -2143.15,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 8128.72,
+      "y": -2145.15,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 8128.72,
+      "y": -2145.15,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.1)",
+      "type": "orientation"
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/xd1145",
+        "name": "小大"
+      },
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1764002013361,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "12-青蜜莓-奥奇卡纳塔-9个",
+    "tags": [],
+    "type": "collect",
+    "version": "2.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10166.0195,
+      "y": -395.2793
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10237.9727,
+      "y": -362.8857
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10241.2559,
+      "y": -361.9458
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10243.1504,
+      "y": -364.043
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10243.6387,
+      "y": -362.0698
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10242.9941,
+      "y": -356.0898
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.6)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10246.9326,
+      "y": -343.2061
+    }
+  ]
+}

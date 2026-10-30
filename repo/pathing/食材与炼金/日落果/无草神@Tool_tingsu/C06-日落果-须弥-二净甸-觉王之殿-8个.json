@@ -1,0 +1,98 @@
+{
+  "info": {
+    "name": "C06-日落果-须弥-二净甸-觉王之殿-8个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3591.66,
+      "y": -787.72,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3504.41,
+      "y": -774.64,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3469.97,
+      "y": -778.56,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3465.32,
+      "y": -766.29,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.8),keypress(VK_SPACE),wait(0.8),keypress(VK_SPACE)",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 3705.62,
+      "y": -497.5,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 6,
+      "x": 3549.13,
+      "y": -584.77,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "1500",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": 3553.35,
+      "y": -601.97,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 3547.05,
+      "y": -616.66,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 3549.96,
+      "y": -620.15,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.8),keypress(VK_SPACE),wait(0.8),keypress(VK_SPACE)"
+    }
+  ]
+}

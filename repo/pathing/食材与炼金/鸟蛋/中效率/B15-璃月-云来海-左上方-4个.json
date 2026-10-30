@@ -1,0 +1,121 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.54.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766986882322,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B15-璃月-云来海-左上方-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 255.87,
+      "y": -12.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 273.92,
+      "y": 4.68
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 288.22,
+      "y": 66.21
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1.5)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 311.84,
+      "y": 94.56
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 321.24,
+      "y": 115.11
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 321.24,
+      "y": 115.11
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(x)",
+      "id": 7,
+      "move_mode": "jump",
+      "type": "orientation",
+      "x": 332.37,
+      "y": 117.48
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "jump",
+      "type": "target",
+      "x": 332.37,
+      "y": 117.48
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 334.71,
+      "y": 115.25
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 350.88,
+      "y": 126.79
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 350.88,
+      "y": 126.79
+    }
+  ]
+}

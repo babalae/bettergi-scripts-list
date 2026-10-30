@@ -1,0 +1,96 @@
+{
+  "info": {
+    "name": "03-烬芯花-硫晶支脉-3个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "感谢 @曦 老师的路线脚本",
+    "bgi_version": "0.42.3",
+    "tags": [
+      "单手剑角色",
+      "大剑角色",
+      "长枪角色"
+    ],
+    "authors": [
+      {
+        "name": "Tool_tingsu",
+        "links": "https://github.com/Tooltingsu"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 8400.63,
+      "y": -1221.35,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 8380.34,
+      "y": -1228.09,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 8321.03,
+      "y": -1230.58,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 8288.91,
+      "y": -1186.05,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "attack(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": 8400.63,
+      "y": -1221.34,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 6,
+      "x": 8382.91,
+      "y": -1273.86,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 8364.47,
+      "y": -1304.34,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "attack(0.2)",
+      "type": "target"
+    },
+    {
+      "id": 8,
+      "x": 8375.35,
+      "y": -1339.96,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 8376.57,
+      "y": -1381.59,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "target"
+    }
+  ]
+}

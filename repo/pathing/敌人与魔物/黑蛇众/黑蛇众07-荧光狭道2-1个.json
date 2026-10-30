@@ -1,0 +1,99 @@
+{
+  "info": {
+    "name": "黑蛇众07-荧光狭道2-1个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "TheChasm",
+    "bgi_version": "0.47.2",
+    "authors": [
+      {
+        "name": "Tool_tingsu",
+        "links": "https://github.com/Tooltingsu"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 596.83,
+      "y": 211.75,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 602.59,
+      "y": 191.21,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 602.91,
+      "y": 172.01,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 612.49,
+      "y": 156.34,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 622.69,
+      "y": 145.35,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 639.05,
+      "y": 138.98,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "2000",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 624.68,
+      "y": 141.84,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "4000",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 608.04,
+      "y": 143.63,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "3000",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 612.27,
+      "y": 127.29,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}
