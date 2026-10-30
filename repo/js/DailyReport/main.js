@@ -936,7 +936,7 @@ async function checkDailyCommissionFlow(isDebug) {
                 primogem: primogemCount || null,
                 encounter: encounterPointsText || "未识别",
                 uid: uidText || null,
-                time: getShanghaiTimeStr()
+                time: getBeijingTimeStr()
             };
 
             file.WriteTextSync(cachePath, JSON.stringify(cache, null, 2));
@@ -954,9 +954,9 @@ async function checkDailyCommissionFlow(isDebug) {
     }
 }
 
-// 生成当前上海（北京）时间的带时区信息字符串，如 "2026-10-31T02:16:31+08:00"
+// 生成当前北京时间（UTC+8）的带时区信息字符串，如 "2026-10-31T02:16:31+08:00"
 // 无论运行机器在哪个时区，new Date() 都能正确解析，不受本地时区影响
-function getShanghaiTimeStr() {
+function getBeijingTimeStr() {
     const now = new Date();
     const fmt = new Intl.DateTimeFormat("en-CA", {
         timeZone: "Asia/Shanghai",
@@ -969,23 +969,28 @@ function getShanghaiTimeStr() {
     return `${get('year')}-${get('month')}-${get('day')}T${get('hour')}:${get('minute')}:${get('second')}+08:00`;
 }
 
-// 解析缓存记录时间，返回 Date（缓存使用带 +08:00 的上海时间字符串，任何时区解析一致）
+// 解析缓存记录时间，返回 Date（缓存使用带 +08:00 的北京时间字符串，任何时区解析一致）
 function parseCacheTime(timeStr) {
     if (!timeStr) return null;
     const t = new Date(timeStr);
     return isNaN(t.getTime()) ? null : t;
 }
 
-// 计算当前原神每日周期的起止时间（每日 4:00 刷新，按上海时间）
+// 计算当前原神每日周期的起止时间（每日 4:00 刷新，按北京时间）
 function getCurrentCycle() {
-    const now = parseCacheTime(getShanghaiTimeStr());
-    const start = new Date(now);
-    start.setHours(4, 0, 0, 0);
-    if (now.getHours() < 4) {
-        start.setDate(start.getDate() - 1);
-    }
-    const end = new Date(start);
-    end.setDate(end.getDate() + 1);
+    // 直接取北京当前的 年/月/日/时，不依赖运行机器本地时区
+    const fmt = new Intl.DateTimeFormat("en-CA", {
+        timeZone: "Asia/Shanghai",
+        year: "numeric", month: "2-digit", day: "2-digit",
+        hour: "2-digit", hour12: false
+    });
+    const parts = fmt.formatToParts(new Date());
+    const get = (t) => parts.find(p => p.type === t)?.value;
+    const hour = Number(get('hour')) % 24; // 防御 hour12:false 可能的 "24" 情形
+    // 北京 4:00 的绝对时刻作为周期起点；现在早于 4:00 则属于前一天开始的周期
+    const todayStart = new Date(`${get('year')}-${get('month')}-${get('day')}T04:00:00+08:00`);
+    const start = hour < 4 ? new Date(todayStart.getTime() - 86400000) : todayStart;
+    const end = new Date(start.getTime() + 86400000);
     return { start, end };
 }
 
