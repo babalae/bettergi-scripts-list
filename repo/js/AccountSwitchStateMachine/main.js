@@ -139,6 +139,7 @@ function isAccountImageAvailable() {
             return;
         }
 
+        notification.error(reason);
         throw new Error(`[CONFIG_GROUP_STOPPED] ${reason}`);
     }
 
