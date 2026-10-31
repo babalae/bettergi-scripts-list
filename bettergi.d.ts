@@ -181,14 +181,42 @@ declare const pathingScript: {
   runFile(path: string): Promise<void>;
   /**
    * 从已订阅的内容中运行文件
-   * @param path 在 User\AutoPathing 目录下的文件路径
+   * @param path 相对于 User\AutoPathing 的路径，或仍位于该目录内的绝对路径
    */
   runFileFromUser(path: string): Promise<void>;
+  /** 判断 User\AutoPathing 内的路径是否存在；也接受该目录内的绝对路径。 */
+  isExists(subPath: string): boolean;
+  /** 判断 User\AutoPathing 内的路径是否为文件；范围由原生接口校验。 */
+  isFile(subPath: string): boolean;
+  /** 判断 User\AutoPathing 内的路径是否为文件夹。 */
+  isFolder(subPath: string): boolean;
+  /** 非递归读取 User\AutoPathing 下的目录；路径默认为 "./"。 */
+  readPathSync(subPath?: string): string[];
+  /** 同步读取 User\AutoPathing 下相对路径对应的文本。 */
+  readTextSync(subPath: string): string;
   // ==== BEGIN AUTO-GENERATED ALIASES ====
   Run: typeof pathingScript.run;
   RunFile: typeof pathingScript.runFile;
   RunFileFromUser: typeof pathingScript.runFileFromUser;
+  IsExists: typeof pathingScript.isExists;
+  IsFile: typeof pathingScript.isFile;
+  IsFolder: typeof pathingScript.isFolder;
+  ReadPathSync: typeof pathingScript.readPathSync;
+  ReadTextSync: typeof pathingScript.readTextSync;
   // ==== END AUTO-GENERATED ALIASES ====;
+};
+
+/**
+ * 角色养成识别入口（BetterGI 0.66.0）。
+ * categories 使用分号分隔“属性”“武器”“天赋”；省略或传 null 表示全部。
+ * 未请求或未识别的结果字段可能为 null，不应当作已完成或零级。
+ * @see https://github.com/babalae/better-genshin-impact/blob/0.66.0/BetterGenshinImpact/GameTask/CharacterDevelopment/CharacterDevelopmentTask.cs
+ */
+declare const characterDevelopmentTask: {
+  getCharacter(characterName: string, categories?: string | null): Promise<CharacterDevelopmentResult>;
+  getMultiCharacters(characterNames: readonly string[] | BetterGIList<string>, categories?: string | null): Promise<BetterGIList<CharacterDevelopmentResult>>;
+  GetCharacter: typeof characterDevelopmentTask.getCharacter;
+  GetMultiCharacters: typeof characterDevelopmentTask.getMultiCharacters;
 };
 
 /**
@@ -450,6 +478,12 @@ declare const log: {
  * 受限文件操作
  */
 declare const file: {
+  /** 在当前 JS 脚本根目录内创建相对目录，返回是否成功。 */
+  createDirectory(folderPath: string): boolean;
+  /** 判断当前 JS 脚本根目录内的相对路径是否为文件。 */
+  isFile(path: string): boolean;
+  /** 判断当前 JS 脚本根目录内的相对路径是否存在。 */
+  isExists(path: string): boolean;
   /**
    * 读取指定文件夹内所有文件和文件夹的路径（非递归）
    * @param folderPath 文件夹路径（相对于根目录）
@@ -530,6 +564,9 @@ declare const file: {
   readImageMatWithResizeSync(path: string, width: number, height: number, interpolation?: number): Mat;
   // ==== BEGIN AUTO-GENERATED ALIASES ====
   ReadPathSync: typeof file.readPathSync;
+  CreateDirectory: typeof file.createDirectory;
+  IsFile: typeof file.isFile;
+  IsExists: typeof file.isExists;
   IsFolder: typeof file.isFolder;
   ReadTextSync: typeof file.readTextSync;
   ReadText: typeof file.readText;
@@ -638,7 +675,7 @@ declare const dispatcher: {
    * @param param 秘境任务参数
    * @param customCt 自定义取消令牌（可选）
    */
-  runAutoDomainTask(param: AutoDomainParam, customCt?: CancellationToken | null): Promise<void>;
+  runAutoDomainTask(param: AutoDomainParam, customCt?: CancellationToken | null): Promise<BetterGIRewardDictionary>;
   /**
    * 运行自动战斗任务
    * @param param 战斗任务参数
@@ -662,7 +699,13 @@ declare const dispatcher: {
    * @param param
    * @param customCt
    */
-  runAutoBossTask(param: AutoBossParam, customCt?: CancellationToken | null): Promise<void>;
+  runAutoBossTask(param: AutoBossParam, customCt?: CancellationToken | null): Promise<BetterGIRewardDictionary>;
+
+  /**
+   * 读取背包目标物品，返回名称到数量的脚本对象（BetterGI 0.66.0）。
+   * 未找到的名称可能不在结果中；空结果不代表所有目标都已成功读为零。
+   */
+  runCountInventoryItemTask(param: CountInventoryItemParam, customCt?: CancellationToken | null): Promise<BetterGIInventoryCounts>;
 
   // ==== BEGIN AUTO-GENERATED ALIASES ====
   AddTimer: typeof dispatcher.addTimer;
@@ -676,10 +719,135 @@ declare const dispatcher: {
   RunAutoLeyLineOutcropTask: typeof dispatcher.runAutoLeyLineOutcropTask;
   RunAutoStygianOnslaughtTask: typeof dispatcher.runAutoStygianOnslaughtTask;
   RunAutoBossTask: typeof dispatcher.runAutoBossTask;
+  RunCountInventoryItemTask: typeof dispatcher.runCountInventoryItemTask;
   // ==== END AUTO-GENERATED ALIASES ====;
 };
 
 // ==================== 类型定义 ====================
+
+/** ClearScript 暴露的 .NET List；不是原生 JS Array，使用 Add 添加元素。 */
+interface BetterGIList<T> extends Iterable<T> {
+  [index: number]: T;
+  readonly count: number;
+  readonly Count: number;
+  add(value: T): void;
+  Add(value: T): void;
+  clear(): void;
+  Clear(): void;
+  get_Item(index: number): T;
+  set_Item(index: number, value: T): void;
+}
+
+/** .NET 字典枚举结果；大小写成员绑定与 BetterGI 脚本引擎保持一致。 */
+interface BetterGIRewardEntry {
+  readonly key: string;
+  readonly Key: string;
+  readonly value: number;
+  readonly Value: number;
+}
+
+interface BetterGIRewardEnumerator {
+  readonly current: BetterGIRewardEntry;
+  readonly Current: BetterGIRewardEntry;
+  moveNext(): boolean;
+  MoveNext(): boolean;
+  dispose(): void;
+  Dispose(): void;
+}
+
+/**
+ * 秘境、首领奖励识别返回的 .NET Dictionary<string, int>。
+ * 使用 Keys/get_Item 或 GetEnumerator 读取；不是 JS Map，也不是 Promise<void>。
+ * @see https://github.com/babalae/better-genshin-impact/blob/0.66.0/BetterGenshinImpact/Core/Script/Dependence/Dispatcher.cs
+ */
+interface BetterGIRewardDictionary {
+  readonly count: number;
+  readonly Count: number;
+  readonly keys: Iterable<string>;
+  readonly Keys: Iterable<string>;
+  get_Item(itemName: string): number;
+  getEnumerator(): BetterGIRewardEnumerator;
+  GetEnumerator(): BetterGIRewardEnumerator;
+}
+
+/** 背包计数接口返回的脚本对象；缺少键时取值为 undefined。 */
+interface BetterGIInventoryCounts {
+  [itemName: string]: number | undefined;
+}
+
+/** 角色养成识别结果；此类型仅描述返回值，没有可供 JS new 的全局构造器。 */
+interface CharacterDevelopmentResult {
+  characterName: string;
+  elementType: string | null;
+  level: number | null;
+  levelLimit: number | null;
+  weaponName: string | null;
+  weaponLevel: number | null;
+  weaponLevelLimit: number | null;
+  attackLevel: number | null;
+  attackHasBonus: boolean | null;
+  skillLevel: number | null;
+  skillHasBonus: boolean | null;
+  burstLevel: number | null;
+  burstHasBonus: boolean | null;
+  CharacterName: CharacterDevelopmentResult['characterName'];
+  ElementType: CharacterDevelopmentResult['elementType'];
+  Level: CharacterDevelopmentResult['level'];
+  LevelLimit: CharacterDevelopmentResult['levelLimit'];
+  WeaponName: CharacterDevelopmentResult['weaponName'];
+  WeaponLevel: CharacterDevelopmentResult['weaponLevel'];
+  WeaponLevelLimit: CharacterDevelopmentResult['weaponLevelLimit'];
+  AttackLevel: CharacterDevelopmentResult['attackLevel'];
+  AttackHasBonus: CharacterDevelopmentResult['attackHasBonus'];
+  SkillLevel: CharacterDevelopmentResult['skillLevel'];
+  SkillHasBonus: CharacterDevelopmentResult['skillHasBonus'];
+  BurstLevel: CharacterDevelopmentResult['burstLevel'];
+  BurstHasBonus: CharacterDevelopmentResult['burstHasBonus'];
+}
+
+/** 背包及物品网格页面名称，与 BetterGI 0.66.0 的同名枚举一致。 */
+declare enum GridScreenName {
+  Weapons = 0,
+  Artifacts = 1,
+  CharacterDevelopmentItems = 2,
+  Food = 3,
+  Materials = 4,
+  Gadget = 5,
+  Quest = 6,
+  PreciousItems = 7,
+  Furnishings = 8,
+  ArtifactSalvage = 9,
+  ArtifactSetFilter = 10,
+  Crafting = 11,
+  PartySetupCharacters = 12
+}
+
+/** 背包图标模型；Item 为 ItemV2 物品图标模型。 */
+declare enum ItemIconRecognitionMode {
+  GridIcon = 0,
+  Item = 1
+}
+
+/**
+ * 背包物品计数参数（BetterGI 0.66.0）。
+ * 不指定页面时按物品所属页面自动分组；必须通过 ItemNames 提供目标名称。
+ * @see https://github.com/babalae/better-genshin-impact/blob/0.66.0/BetterGenshinImpact/GameTask/Common/Job/CountInventoryItemParam.cs
+ */
+declare class CountInventoryItemParam {
+  constructor();
+  gridScreenName: GridScreenName | null;
+  itemNames: BetterGIList<string>;
+  /** 默认值来自 BetterGI 当前背包图标识别配置。 */
+  iconRecognitionMode: ItemIconRecognitionMode;
+  /** 是否按物品排序提前结束本页；默认 false。 */
+  stopByItemSort: boolean;
+  validate(): void;
+  declare GridScreenName: typeof CountInventoryItemParam.prototype.gridScreenName;
+  declare ItemNames: typeof CountInventoryItemParam.prototype.itemNames;
+  declare IconRecognitionMode: typeof CountInventoryItemParam.prototype.iconRecognitionMode;
+  declare StopByItemSort: typeof CountInventoryItemParam.prototype.stopByItemSort;
+  declare Validate: typeof CountInventoryItemParam.prototype.validate;
+}
 
 /**
  * 实时任务触发器
@@ -933,12 +1101,18 @@ declare class AutoDomainParam {
   resinPriorityList: string[];
   /** 使用原粹树脂次数 */
   originalResinUseCount: number;
+  /** 原粹树脂20点领奖次数，在指定树脂模式下生效。 */
+  originalResin20UseCount: number;
+  /** 原粹树脂40点领奖次数，在指定树脂模式下生效。 */
+  originalResin40UseCount: number;
   /** 使用浓缩树脂次数 */
   condensedResinUseCount: number;
   /** 使用须臾树脂次数 */
   transientResinUseCount: number;
   /** 使用脆弱树脂次数 */
   fragileResinUseCount: number;
+  /** 是否启用奖励名称识别，默认 false。 */
+  rewardRecognitionEnabled: boolean;
   /** 游戏文化信息 */
   gameCultureInfo: any;
   /** 字符串本地化器 */
@@ -974,9 +1148,12 @@ declare class AutoDomainParam {
   declare SpecifyResinUse: typeof AutoDomainParam.prototype.specifyResinUse;
   declare ResinPriorityList: typeof AutoDomainParam.prototype.resinPriorityList;
   declare OriginalResinUseCount: typeof AutoDomainParam.prototype.originalResinUseCount;
+  declare OriginalResin20UseCount: typeof AutoDomainParam.prototype.originalResin20UseCount;
+  declare OriginalResin40UseCount: typeof AutoDomainParam.prototype.originalResin40UseCount;
   declare CondensedResinUseCount: typeof AutoDomainParam.prototype.condensedResinUseCount;
   declare TransientResinUseCount: typeof AutoDomainParam.prototype.transientResinUseCount;
   declare FragileResinUseCount: typeof AutoDomainParam.prototype.fragileResinUseCount;
+  declare RewardRecognitionEnabled: typeof AutoDomainParam.prototype.rewardRecognitionEnabled;
   declare GameCultureInfo: typeof AutoDomainParam.prototype.gameCultureInfo;
   declare StringLocalizer: typeof AutoDomainParam.prototype.stringLocalizer;
   declare SetDefault: typeof AutoDomainParam.prototype.setDefault;
@@ -1236,7 +1413,7 @@ declare class AutoBossParam {
   /** 指定讨伐次数模式下，原粹树脂不足时是否允许使用脆弱树脂补充。*/
   useFragileResin: boolean;
   /** 检测到角色死亡后，回神像恢复并重试当前首领讨伐的最大次数。*/
-  rviveRetryCount: number;
+  reviveRetryCount: number;
   /** 每轮领奖后是否先返回七天神像，再重新前往 Boss。*/
   returnToStatueAfterEachRound: boolean;
   /** 是否启用奖励名称识别。默认关闭。*/
@@ -1260,7 +1437,7 @@ declare class AutoBossParam {
   declare RunCount: typeof AutoBossParam.prototype.runCount;
   declare UseTransientResin: typeof AutoBossParam.prototype.useTransientResin;
   declare UseFragileResin: typeof AutoBossParam.prototype.useFragileResin;
-  declare RviveRetryCount: typeof AutoBossParam.prototype.rviveRetryCount;
+  declare ReviveRetryCount: typeof AutoBossParam.prototype.reviveRetryCount;
   declare ReturnToStatueAfterEachRound: typeof AutoBossParam.prototype.returnToStatueAfterEachRound;
   declare RewardRecognitionEnabled: typeof AutoBossParam.prototype.rewardRecognitionEnabled;
   declare SetDefault: typeof AutoBossParam.prototype.setDefault;
@@ -1718,6 +1895,8 @@ declare class Mat {
    * @param sz 新的行数
    */
   resize(sz: number): void;
+  /** 返回缩放后的新图像；与仅调整矩阵行数的重载不同。 */
+  resize(size: OpenCvSharp.OpenCvSharp.Size, fx?: number, fy?: number, interpolation?: number): Mat;
   /**
    * 调整矩阵大小并用值填充
    * @param sz 新的行数
@@ -2425,7 +2604,7 @@ declare class Mat {
   // ==================== 颜色空间转换 ====================
 
   /** 颜色空间转换 */
-  cvtColor(code: number, dstCn: number): Mat;
+  cvtColor(code: number, dstCn?: number): Mat;
 
   // ==================== 图像矩与模板匹配 ====================
 
@@ -4427,11 +4606,81 @@ declare class Avatar {
   // ==== END AUTO-GENERATED ALIASES ====
 }
 
-// /**
-//  * OpenCvSharp 命名空间
-//  */
-// 为了避免与其他package中的类型冲突，这里不声明全局变量
-// declare const OpenCvSharp: any;
+/**
+ * BetterGI 0.66.0 注入的 OpenCvSharp 类型集合；此处覆盖现有脚本所用类型与枚举项。
+ * @see https://github.com/babalae/better-genshin-impact/blob/0.66.0/BetterGenshinImpact/Core/Script/EngineExtend.cs
+ */
+declare namespace OpenCvSharp {
+  namespace OpenCvSharp {
+    class Rect {
+      constructor(x: number, y: number, width: number, height: number);
+      x: number;
+      y: number;
+      width: number;
+      height: number;
+      X: number;
+      Y: number;
+      Width: number;
+      Height: number;
+    }
+    class Size {
+      constructor(width: number, height: number);
+      width: number;
+      height: number;
+      Width: number;
+      Height: number;
+    }
+    enum TemplateMatchModes {
+      SqDiff = 0,
+      SqDiffNormed = 1,
+      CCorr = 2,
+      CCorrNormed = 3,
+      CCoeff = 4,
+      CCoeffNormed = 5
+    }
+    enum ColorConversionCodes { BGR2GRAY = 6 }
+    enum ThresholdTypes { Binary = 0, BinaryInv = 1 }
+  }
+}
+
+/**
+ * 新视觉定位入口；声明覆盖提升指南实际使用的截图、文字定位、等待与点击能力。
+ * @see https://github.com/babalae/better-genshin-impact/blob/0.66.0/BetterGenshinImpact/Core/BgiVision/BvPage.cs
+ */
+declare class BvPage {
+  constructor(cancellationToken?: CancellationToken);
+  defaultTimeout: number;
+  defaultRetryInterval: number;
+  screenshot(): ImageRegion;
+  wait(milliseconds: number): Promise<BvPage>;
+  getByText(text?: string, rect?: OpenCvSharp.OpenCvSharp.Rect): BvLocator;
+  click(x: number, y: number): void;
+  declare DefaultTimeout: typeof BvPage.prototype.defaultTimeout;
+  declare DefaultRetryInterval: typeof BvPage.prototype.defaultRetryInterval;
+  declare Screenshot: typeof BvPage.prototype.screenshot;
+  declare Wait: typeof BvPage.prototype.wait;
+  declare GetByText: typeof BvPage.prototype.getByText;
+  declare Click: typeof BvPage.prototype.click;
+}
+
+/** 文字定位结果；FindAll返回.NET列表，不是JS数组。 */
+declare class BvLocator {
+  constructor(recognitionObject: RecognitionObject, cancellationToken: CancellationToken);
+  findAll(): BetterGIList<Region>;
+  isExist(): boolean;
+  click(timeout?: number | null): Promise<Region>;
+  waitFor(timeout?: number | null): Promise<BetterGIList<Region>>;
+  withRoi(rect: OpenCvSharp.OpenCvSharp.Rect): BvLocator;
+  withTimeout(timeout: number): BvLocator;
+  withRetryInterval(retryInterval: number): BvLocator;
+  declare FindAll: typeof BvLocator.prototype.findAll;
+  declare IsExist: typeof BvLocator.prototype.isExist;
+  declare Click: typeof BvLocator.prototype.click;
+  declare WaitFor: typeof BvLocator.prototype.waitFor;
+  declare WithRoi: typeof BvLocator.prototype.withRoi;
+  declare WithTimeout: typeof BvLocator.prototype.withTimeout;
+  declare WithRetryInterval: typeof BvLocator.prototype.withRetryInterval;
+}
 
 /**
  * 自动跳过剧情配置
