@@ -174,12 +174,15 @@ async function openCodeUI() {
                 return;
             }
 
-            // 时间检查（仅当用户信任过期时间时才跳过）
+            // 时间检查（仅当用户信任过期时间时才跳过，过期超过一天才跳过）
             if (trust_expire_time && deadline) {
                 const deadlineDate = new Date(deadline);
-                if (!isNaN(deadlineDate.getTime()) && new Date() > deadlineDate) {
-                    log.info(`兑换码【${code}】已超过截止时间，跳过`);
-                    return;
+                if (!isNaN(deadlineDate.getTime())) {
+                    const buffered = new Date(deadlineDate.getTime() + 24 * 60 * 60 * 1000);
+                    if (new Date() > buffered) {
+                        log.info(`兑换码【${code}】已超过截止时间，跳过`);
+                        return;
+                    }
                 }
             }
 
