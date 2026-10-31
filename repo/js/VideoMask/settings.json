@@ -1,0 +1,446 @@
+[
+  {
+    "type": "separator"
+  },
+  {
+    "name": "videoFile",
+    "type": "input-text",
+    "label": "默认本地视频文件名（可留空。放 mp4 到 assets/videos/ 后，侧栏「本地视频」里会自动列出来，点一下就能播）",
+    "default": ""
+  },
+  {
+    "name": "videoUrl",
+    "type": "input-text",
+    "label": "在线视频 BV号 / B站链接（填了就优先用在线，不下载）",
+    "default": ""
+  },
+  {
+    "name": "startBlank",
+    "type": "checkbox",
+    "label": "启动先显示引导页（有上次观看记录会直接续播；没有记录则显示半透明的「打开节目单」引导页）",
+    "default": true
+  },
+  {
+    "name": "upMid",
+    "type": "input-text",
+    "label": "侧栏 UP 主 mid（默认你的影月月 431073645）",
+    "default": "431073645"
+  },
+  {
+    "name": "showSidebar",
+    "type": "checkbox",
+    "label": "显示合集侧栏",
+    "default": true
+  },
+  {
+    "name": "autoLoadCollections",
+    "type": "checkbox",
+    "label": "启动时自动加载合集列表（需要 JS HTTP 权限）",
+    "default": true
+  },
+  {
+    "name": "catalogOn",
+    "type": "checkbox",
+    "label": "启用地区分类（侧栏「分」：把各系列的视频按枫丹/须弥/璃月…归到一起）",
+    "default": true
+  },
+  {
+    "name": "catalogDeep",
+    "type": "checkbox",
+    "label": "分类里包含「世界任务/传说任务」大合集（较慢，但主线在这些合集里）",
+    "default": true
+  },
+  {
+    "name": "catalogDays",
+    "type": "input-text",
+    "label": "分类索引缓存天数（到点自动重建，默认 7）",
+    "default": "7"
+  },
+  {
+    "name": "showSubtitle",
+    "type": "checkbox",
+    "label": "显示字幕（方向关键词会带箭头）",
+    "default": true
+  },
+  {
+    "name": "sessdata",
+    "type": "input-text",
+    "label": "B站 SESSDATA（可选，字幕/方向提示需要）",
+    "default": ""
+  },
+  {
+    "name": "videoQn",
+    "type": "select",
+    "label": "在线清晰度（直链自播只支持这两档）",
+    "options": [
+      "720P",
+      "360P"
+    ],
+    "default": "720P"
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "autoPause",
+    "type": "checkbox",
+    "label": "视频跳步时自动暂停（实验中，默认关：会误停，介意就别开）",
+    "default": false
+  },
+  {
+    "name": "autoPauseMode",
+    "type": "select",
+    "label": "自动暂停方式（cut=只在场景突变时暂停，off=只播不停）",
+    "options": [
+      "cut",
+      "off"
+    ],
+    "default": "cut"
+  },
+  {
+    "name": "autoPauseCut",
+    "type": "input-text",
+    "label": "场景突变阈值 0.2~0.8（越大越不敏感，默认 0.45）",
+    "default": "0.45"
+  },
+  {
+    "name": "autoPauseFight",
+    "type": "input-text",
+    "label": "高出基线多少倍算「正在打怪」（倍数越大越容易暂停，默认 2.0）",
+    "default": "2.0"
+  },
+  {
+    "name": "marksOn",
+    "type": "checkbox",
+    "label": "打怪点到点自动暂停（播到「该你打怪」的时刻自动停住；全集 566 集训练出来的点）",
+    "default": true
+  },
+  {
+    "name": "markGap",
+    "type": "input-text",
+    "label": "暂停点最小间隔（秒）：同一集里两个点隔得比这个近就合并成一个，避免连着停两次。填 0 = 不合并，全部保留",
+    "default": "20"
+  },
+  {
+    "name": "voiceGate",
+    "type": "checkbox",
+    "label": "主播在讲话时不要因为画面换场地而暂停（仅上面的自动暂停开启时生效）",
+    "default": true
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "bgiKeepPick",
+    "type": "checkbox",
+    "label": "让 BGI 的自动拾取跟浮窗一起用（BGI 跑 JS 脚本前会把它自己的实时触发关掉，这里替你挂回来。BGI 设置里本来就关着的不受影响）",
+    "default": true
+  },
+  {
+    "name": "bgiKeepSkip",
+    "type": "checkbox",
+    "label": "让 BGI 的自动剧情跟浮窗一起用（同上。注意浮窗如果压在对话选项上会挡住识别，把窗口挪开或换 WindowsGraphicsCapture 截图方式）",
+    "default": true
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "combatPause",
+    "type": "checkbox",
+    "label": "检测到战斗自动暂停视频（用 BGI 的 OCR 识别，不需要模板）",
+    "default": false
+  },
+  {
+    "name": "combatDry",
+    "type": "checkbox",
+    "label": "战斗检测试运行（只记日志不暂停，先验证再关）",
+    "default": true
+  },
+  {
+    "name": "combatMode",
+    "type": "select",
+    "label": "战斗检测方式",
+    "options": [
+      "ocr",
+      "template"
+    ],
+    "default": "ocr"
+  },
+  {
+    "name": "combatMinText",
+    "type": "input-text",
+    "label": "OCR 至少读到几个字才算有怪",
+    "default": "2"
+  },
+  {
+    "name": "combatRoi",
+    "type": "input-text",
+    "label": "检测区域 x,y,w,h（默认屏幕上方正中）",
+    "default": "660,20,600,70"
+  },
+  {
+    "name": "combatResumeSec",
+    "type": "input-text",
+    "label": "战斗结束后多少秒继续播放",
+    "default": "8"
+  },
+  {
+    "name": "combatTemplate",
+    "type": "input-text",
+    "label": "模板模式下用的血条图",
+    "default": "assets/combat/enemy.png"
+  },
+  {
+    "name": "combatScore",
+    "type": "input-text",
+    "label": "模板模式匹配阈值 0~1",
+    "default": "0.75"
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "hotkeySafe",
+    "type": "checkbox",
+    "label": "热键避开浮窗内置浏览器的快捷键（强烈建议开启：否则 F12 会弹开发者工具、F5 会刷新页面）",
+    "default": true
+  },
+  {
+    "name": "hkPlayPause",
+    "type": "input-text",
+    "label": "热键：播放/暂停（默认 ~ 波浪号 —— Esc 下面那颗键。笔记本的 F9 常被亮度/音量键占用，按下去脚本收不到，所以不再用 F9；写 ~ 或 ` 都算同一颗）",
+    "default": "~"
+  },
+  {
+    "name": "hkBack",
+    "type": "input-text",
+    "label": "热键：快退",
+    "default": ""
+  },
+  {
+    "name": "hkForward",
+    "type": "input-text",
+    "label": "热键：快进",
+    "default": ""
+  },
+  {
+    "name": "hkSlower",
+    "type": "input-text",
+    "label": "热键：减速",
+    "default": ""
+  },
+  {
+    "name": "hkFaster",
+    "type": "input-text",
+    "label": "热键：加速",
+    "default": ""
+  },
+  {
+    "name": "hkOpacityDown",
+    "type": "input-text",
+    "label": "热键：更透明",
+    "default": ""
+  },
+  {
+    "name": "hkOpacityUp",
+    "type": "input-text",
+    "label": "热键：更清晰",
+    "default": ""
+  },
+  {
+    "name": "hkToggleHide",
+    "type": "input-text",
+    "label": "热键：隐藏/显示画面",
+    "default": ""
+  },
+  {
+    "name": "hkToggleInteractive",
+    "type": "input-text",
+    "label": "热键：鼠标穿透/可拖动（需开启下面的键盘热键）",
+    "default": ""
+  },
+  {
+    "name": "hkResizeMode",
+    "type": "input-text",
+    "label": "热键：缩放模式开关（默认 Insert；F12 已不可用——那是浮窗浏览器的开发者工具键）",
+    "default": "Insert"
+  },
+  {
+    "name": "hkLogin",
+    "type": "input-text",
+    "label": "热键：开/关 B 站登录窗（登录窗全屏盖住画面，按钮点不到，只能靠它关）",
+    "default": "End"
+  },
+  {
+    "name": "hkClose",
+    "type": "input-text",
+    "label": "热键：关闭",
+    "default": ""
+  },
+  {
+    "name": "hkPrevVideo",
+    "type": "input-text",
+    "label": "热键：上一集",
+    "default": ""
+  },
+  {
+    "name": "hkNextVideo",
+    "type": "input-text",
+    "label": "热键：下一集",
+    "default": ""
+  },
+  {
+    "name": "hkMark",
+    "type": "input-text",
+    "label": "热键：在当前时刻打一个打怪点",
+    "default": ""
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "mkPlayPause",
+    "type": "input-text",
+    "label": "鼠标键：播放/暂停（mouse4 / mouse5，留空不启用）",
+    "default": ""
+  },
+  {
+    "name": "mkToggleInteractive",
+    "type": "input-text",
+    "label": "鼠标键：穿透切换（mouse4 / mouse5，留空不启用）",
+    "default": ""
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "opacity",
+    "type": "input-text",
+    "label": "初始透明度 0.2~1.0",
+    "default": "1.0"
+  },
+  {
+    "name": "speed",
+    "type": "input-text",
+    "label": "初始播放速度",
+    "default": "1.0"
+  },
+  {
+    "name": "volume",
+    "type": "input-text",
+    "label": "初始音量 0~1",
+    "default": "1.0"
+  },
+  {
+    "name": "seekStep",
+    "type": "input-text",
+    "label": "快进快退步长（秒）",
+    "default": "5"
+  },
+  {
+    "name": "speedStep",
+    "type": "input-text",
+    "label": "变速步长",
+    "default": "0.25"
+  },
+  {
+    "name": "opacityStep",
+    "type": "input-text",
+    "label": "透明度步长",
+    "default": "0.1"
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "autoNext",
+    "type": "checkbox",
+    "label": "看完自动播下一集：一集播完倒计时几秒，自动切下一个分P（没有就接同类的下一个视频）。改完重开脚本生效",
+    "default": true
+  },
+  {
+    "name": "autoNextSec",
+    "type": "input-text",
+    "label": "自动续播倒计时秒数 3~30（默认 10）。改完重开脚本生效；也可以在浮窗 ⚙ 里点秒数即时改",
+    "default": "10"
+  },
+  {
+    "name": "autoplay",
+    "type": "checkbox",
+    "label": "打开就自动播放",
+    "default": true
+  },
+  {
+    "name": "resume",
+    "type": "checkbox",
+    "label": "记住播放进度，下次接着看",
+    "default": true
+  },
+  {
+    "name": "interactiveAtStart",
+    "type": "checkbox",
+    "label": "启动时就可交互（会一直吃鼠标点击）",
+    "default": false
+  },
+  {
+    "name": "scrubZone",
+    "type": "checkbox",
+    "label": "鼠标移到画面底部就能拖进度条（只这一条暂时取消穿透，移开就恢复）。注意：开着会在鼠标路过时抢前台焦点，可能导致 BGI 自带的「自动剧情」失效——建议关掉，拖进度条改按住 Alt",
+    "default": false
+  },
+  {
+    "name": "hoverMode",
+    "type": "checkbox",
+    "label": "鼠标悬停到视频上才可拖动（部分环境不工作；同样会抢前台焦点，过剧情时建议别开）",
+    "default": false
+  },
+  {
+    "name": "holdKey",
+    "type": "input-text",
+    "label": "按住哪个键临时接管鼠标（拖进度条 / 点暂停；松开立刻还给游戏）。默认 Alt —— 原神里 Alt 本来就是「显示鼠标」，按住它正好用鼠标点浮窗。留空 = 关掉，只靠缩放热键",
+    "default": "Alt"
+  },
+  {
+    "name": "arrowGlobal",
+    "type": "checkbox",
+    "label": "方向键全局生效：←/→ 快退快进、↑/↓ 调音量（不用先按 F9；注意 BGI 自己的「暂停/取消任务」默认也是 ↑↓，撞了就改那边）",
+    "default": true
+  },
+  {
+    "name": "hoverExitMs",
+    "type": "input-text",
+    "label": "鼠标移开后多久恢复穿透（毫秒）",
+    "default": "900"
+  },
+  {
+    "name": "startupInteractiveSec",
+    "type": "input-text",
+    "label": "启动后可拖动多少秒（默认 0 = 不抢前台。填大于 0 会让浮窗启动时抢焦点，可能导致 BGI 自动过剧情失效；想摆位置按 Insert 就行）",
+    "default": "0"
+  },
+  {
+    "name": "enableHotkeys",
+    "type": "checkbox",
+    "label": "启用键盘热键（默认开；填了键才生效）。关掉 = 只保留 Insert 缩放 / End 登录 / F9 播放暂停，其它动作键一律不注册",
+    "default": true
+  },
+  {
+    "name": "showTip",
+    "type": "checkbox",
+    "label": "启动时在屏幕底部显示热键提示",
+    "default": true
+  },
+  {
+    "name": "fitRes",
+    "type": "checkbox",
+    "label": "分辨率自适应（按比例记住位置和大小，切全屏 / 换分辨率后自动摆回原处）",
+    "default": true
+  },
+  {
+    "name": "resetLayout",
+    "type": "checkbox",
+    "label": "重置窗口位置和大小",
+    "default": false
+  }
+]
