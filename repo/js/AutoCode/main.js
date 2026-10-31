@@ -3,6 +3,10 @@ let use_bgi_code_source = settings.use_bgi_code_source || false;
 let server = settings.server || "";
 let trust_expire_time = settings.trust_expire_time || false;
 
+// 服务器选项映射为内部标识
+const serverMap = { "国服": "cn", "国际服（测试）": "global" };
+server = serverMap[server] || "";
+
 async function* getCodeFromFile() {
     const content = file.readTextSync("codes.txt");
     const codes = content.split("\n");

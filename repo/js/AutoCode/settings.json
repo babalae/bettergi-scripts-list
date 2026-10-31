@@ -15,11 +15,11 @@
     "type": "select",
     "label": "服务器\n选择当前账号所在服务器，用于过滤兑换码\n不区分：全部尝试，与原逻辑一致",
     "options": [
-      {"label": "不区分", "value": ""},
-      {"label": "国服", "value": "cn"},
-      {"label": "国际服（测试）", "value": "global"}
+      "不区分",
+      "国服",
+      "国际服（测试）"
     ],
-    "default": "cn"
+    "default": "不区分"
   },
   {
     "name": "trust_expire_time",
