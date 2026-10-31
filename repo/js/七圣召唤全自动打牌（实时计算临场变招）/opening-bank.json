@@ -1,0 +1,3680 @@
+{
+  "decks": {
+    "raiden": {
+      "schemaVersion": 1,
+      "patches": [
+        [
+          -45,
+          445,
+          90,
+          85
+        ],
+        [
+          -45,
+          575,
+          90,
+          85
+        ]
+      ],
+      "scoreFloor": 0.95,
+      "runnerUpGap": 0.2,
+      "stableScore": 0.9999,
+      "entries": [
+        {
+          "id": "calx",
+          "name": "白垩之术",
+          "views": [
+            {
+              "name": "native-61a1bf4b4c-f0",
+              "patches": [
+                "assets/opening/raiden-白垩之术-v01-p01.png",
+                "assets/opening/raiden-白垩之术-v01-p02.png"
+              ]
+            },
+            {
+              "name": "native-61a1bf4b4c-f1",
+              "patches": [
+                "assets/opening/raiden-白垩之术-v01-p01.png",
+                "assets/opening/raiden-白垩之术-v01-p02.png"
+              ]
+            }
+          ],
+          "scoreFloor": 0.9
+        },
+        {
+          "id": "companion",
+          "name": "最好的伙伴！",
+          "patches": [
+            "assets/opening/raiden-最好的伙伴-v01-p01.png",
+            "assets/opening/raiden-最好的伙伴-v01-p02.png"
+          ]
+        },
+        {
+          "id": "draw",
+          "name": "运筹帷幄",
+          "patches": [
+            "assets/opening/raiden-运筹帷幄-v01-p01.png",
+            "assets/opening/raiden-运筹帷幄-v01-p02.png"
+          ]
+        },
+        {
+          "id": "edict",
+          "name": "赦免宣告",
+          "patches": [
+            "assets/opening/raiden-赦免宣告-v01-p01.png",
+            "assets/opening/raiden-赦免宣告-v01-p02.png"
+          ]
+        },
+        {
+          "id": "exile",
+          "name": "流放者头冠",
+          "patches": [
+            "assets/opening/raiden-流放者头冠-v01-p01.png",
+            "assets/opening/raiden-流放者头冠-v01-p02.png"
+          ]
+        },
+        {
+          "id": "fast",
+          "name": "交给我吧！",
+          "patches": [
+            "assets/opening/raiden-交给我吧-v01-p01.png",
+            "assets/opening/raiden-交给我吧-v01-p02.png"
+          ]
+        },
+        {
+          "id": "gambler",
+          "name": "赌徒的耳环",
+          "patches": [
+            "assets/opening/raiden-赌徒的耳环-v01-p01.png",
+            "assets/opening/raiden-赌徒的耳环-v01-p02.png"
+          ]
+        },
+        {
+          "id": "hashbrown",
+          "name": "蒙德土豆饼",
+          "patches": [
+            "assets/opening/raiden-蒙德土豆饼-v01-p01.png",
+            "assets/opening/raiden-蒙德土豆饼-v01-p02.png"
+          ]
+        },
+        {
+          "id": "lost",
+          "name": "本大爷还没有输！",
+          "patches": [
+            "assets/opening/raiden-本大爷还没有输-v01-p01.png",
+            "assets/opening/raiden-本大爷还没有输-v01-p02.png"
+          ]
+        },
+        {
+          "id": "lotus",
+          "name": "莲花酥",
+          "patches": [
+            "assets/opening/raiden-莲花酥-v01-p01.png",
+            "assets/opening/raiden-莲花酥-v01-p02.png"
+          ]
+        },
+        {
+          "id": "penance",
+          "name": "抵天雷罚",
+          "views": [
+            {
+              "name": "native-d2e526eed6-f0",
+              "patches": [
+                "assets/opening/raiden-抵天雷罚-v01-p01.png",
+                "assets/opening/raiden-抵天雷罚-v01-p02.png"
+              ]
+            },
+            {
+              "name": "native-d2e526eed6-f1",
+              "patches": [
+                "assets/opening/raiden-抵天雷罚-v02-p01.png",
+                "assets/opening/raiden-抵天雷罚-v02-p02.png"
+              ]
+            }
+          ],
+          "scoreFloor": 0.9,
+          "animated": true
+        },
+        {
+          "id": "shift",
+          "name": "换班时间",
+          "patches": [
+            "assets/opening/raiden-换班时间-v01-p01.png",
+            "assets/opening/raiden-换班时间-v01-p02.png"
+          ]
+        },
+        {
+          "id": "smoked",
+          "name": "北地烟熏鸡",
+          "views": [
+            {
+              "name": "native-af36c13628-f0",
+              "patches": [
+                "assets/opening/raiden-北地烟熏鸡-v01-p01.png",
+                "assets/opening/raiden-北地烟熏鸡-v01-p02.png"
+              ]
+            },
+            {
+              "name": "native-af36c13628-f1",
+              "patches": [
+                "assets/opening/raiden-北地烟熏鸡-v02-p01.png",
+                "assets/opening/raiden-北地烟熏鸡-v02-p02.png"
+              ]
+            }
+          ],
+          "scoreFloor": 0.87,
+          "animated": true
+        },
+        {
+          "id": "stars",
+          "name": "星天之兆",
+          "views": [
+            {
+              "name": "native-3123c4864d-f0",
+              "patches": [
+                "assets/opening/raiden-星天之兆-v01-p01.png",
+                "assets/opening/raiden-星天之兆-v01-p02.png"
+              ]
+            },
+            {
+              "name": "native-3123c4864d-f1",
+              "patches": [
+                "assets/opening/raiden-星天之兆-v01-p01.png",
+                "assets/opening/raiden-星天之兆-v01-p02.png"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "floralSidewinder",
+          "name": "飞叶迴斜",
+          "views": [
+            {
+              "name": "native-2c298cebc8-f0",
+              "patches": [
+                "assets/opening/raiden-飞叶迴斜-v01-p01.png",
+                "assets/opening/raiden-飞叶迴斜-v01-p02.png"
+              ]
+            },
+            {
+              "name": "native-2c298cebc8-f1",
+              "patches": [
+                "assets/opening/raiden-飞叶迴斜-v02-p01.png",
+                "assets/opening/raiden-飞叶迴斜-v02-p02.png"
+              ]
+            }
+          ],
+          "scoreFloor": 0.92,
+          "animated": true
+        },
+        {
+          "id": "toss",
+          "name": "一掷乾坤",
+          "patches": [
+            "assets/opening/raiden-一掷乾坤-v01-p01.png",
+            "assets/opening/raiden-一掷乾坤-v01-p02.png"
+          ]
+        },
+        {
+          "id": "voltage",
+          "name": "元素共鸣：强能之雷",
+          "patches": [
+            "assets/opening/raiden-元素共鸣-强能之雷-v01-p01.png",
+            "assets/opening/raiden-元素共鸣-强能之雷-v01-p02.png"
+          ]
+        },
+        {
+          "id": "wovenThunder",
+          "name": "元素共鸣：交织之雷",
+          "patches": [
+            "assets/opening/raiden-元素共鸣-交织之雷-v01-p01.png",
+            "assets/opening/raiden-元素共鸣-交织之雷-v01-p02.png"
+          ]
+        }
+      ],
+      "atlas": {
+        "assets/opening/raiden-白垩之术-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            2380,
+            90,
+            85
+          ],
+          "sourceSha256": "a179b073b60c8f500d886b76eb719980c2d557b7fb42cd52824a599bbb0aae0c"
+        },
+        "assets/opening/raiden-白垩之术-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            2380,
+            90,
+            85
+          ],
+          "sourceSha256": "88534115387eacbbe5cf0c90b783bb5d41584e8c49df8b3c3a11ac3d55b3c755"
+        },
+        "assets/opening/raiden-最好的伙伴-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            2295,
+            90,
+            85
+          ],
+          "sourceSha256": "d50597e4edeea99bf7a773e81d415be1a82df008d0e49961881cf30b1a7ef2d6"
+        },
+        "assets/opening/raiden-最好的伙伴-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            2295,
+            90,
+            85
+          ],
+          "sourceSha256": "33948a0d783398e765983d901606b6598516fcf9c6f5848f9db6dbf61cb012c2"
+        },
+        "assets/opening/raiden-运筹帷幄-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            2550,
+            90,
+            85
+          ],
+          "sourceSha256": "12a77437894a2332261f68f6e6e1e72b2ae77a62918ab6c1f3bc17e80f3396f6"
+        },
+        "assets/opening/raiden-运筹帷幄-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            2550,
+            90,
+            85
+          ],
+          "sourceSha256": "a3047fa1881e693bfd0685a6e895dea4836174dd49b5f9215776259c07bbc3d3"
+        },
+        "assets/opening/raiden-赦免宣告-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            2550,
+            90,
+            85
+          ],
+          "sourceSha256": "8b2685013121619c947e7c19a6dca6e0191e61f4ae3daccd6f5e80efeaf0eb94"
+        },
+        "assets/opening/raiden-赦免宣告-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            2550,
+            90,
+            85
+          ],
+          "sourceSha256": "74c31adc8a9a72b4561a120b61351751f0c1253bb09976dd4490b2f2816c6287"
+        },
+        "assets/opening/raiden-流放者头冠-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            2380,
+            90,
+            85
+          ],
+          "sourceSha256": "4c3e7badb6a50c9656b195b99977cadceac1af464836d00d48bf9baa363dc28c"
+        },
+        "assets/opening/raiden-流放者头冠-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            2380,
+            90,
+            85
+          ],
+          "sourceSha256": "56e5197917869221cdd4818938704d33cf69f8daeec7271f9ba23ac71c328937"
+        },
+        "assets/opening/raiden-交给我吧-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            1955,
+            90,
+            85
+          ],
+          "sourceSha256": "4a17961b11eeb4a2cb9136889189f9a3e2f1accb78fe564005fcbf62e855a394"
+        },
+        "assets/opening/raiden-交给我吧-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            2040,
+            90,
+            85
+          ],
+          "sourceSha256": "cd4e403a955ed951fffc5158c83fb57e3196492dfd84659059aac4260c51bcc4"
+        },
+        "assets/opening/raiden-赌徒的耳环-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            2465,
+            90,
+            85
+          ],
+          "sourceSha256": "7eb1048ecf82244c5c271c633cb9a6194edf14d91e2ab23a188d65c900af617b"
+        },
+        "assets/opening/raiden-赌徒的耳环-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            2550,
+            90,
+            85
+          ],
+          "sourceSha256": "6d66d8041a1cde7716c4c78f9aab245e9190a244354db0282e1419333eb60335"
+        },
+        "assets/opening/raiden-蒙德土豆饼-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            2465,
+            90,
+            85
+          ],
+          "sourceSha256": "51c356bfec224fda53e6532c3b4945403db84070cee32656a17bdc1f323679a3"
+        },
+        "assets/opening/raiden-蒙德土豆饼-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            2465,
+            90,
+            85
+          ],
+          "sourceSha256": "f806c1e367e5177b179d8a1f7fbdfff31f210cb1d3a2650dd47aaacdb80daa67"
+        },
+        "assets/opening/raiden-本大爷还没有输-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            2295,
+            90,
+            85
+          ],
+          "sourceSha256": "dbc5ddeb59b15186a2cddc602c5a494d216fb4395dac4c79b8d8955adc47c34a"
+        },
+        "assets/opening/raiden-本大爷还没有输-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            2380,
+            90,
+            85
+          ],
+          "sourceSha256": "27e5952dc8214af67323d1664bf3c510279895e33e49e147e6257887c78c01e2"
+        },
+        "assets/opening/raiden-莲花酥-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            2465,
+            90,
+            85
+          ],
+          "sourceSha256": "10d52648376765b2f4762019f06bd5692b92c68b72949b5579d09771afd62b93"
+        },
+        "assets/opening/raiden-莲花酥-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            2465,
+            90,
+            85
+          ],
+          "sourceSha256": "cd18ac90ee4ab708c04c54940143533e055b6f125374e6446d2424087e95e1a1"
+        },
+        "assets/opening/raiden-抵天雷罚-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            2125,
+            90,
+            85
+          ],
+          "sourceSha256": "9b71c83742e2a3db0d5a9ab8ffaa347970a7a7c77cffc363ab0a01c9afe51b57"
+        },
+        "assets/opening/raiden-抵天雷罚-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            2210,
+            90,
+            85
+          ],
+          "sourceSha256": "4640bd8796a389bf3836e576eb6975fcbe602fbea2004086dc4b3f80651b69b5"
+        },
+        "assets/opening/raiden-抵天雷罚-v02-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            2210,
+            90,
+            85
+          ],
+          "sourceSha256": "212f884a8e89e8e55793ad9b4e9eeeac935bf81adedc549a24eb832140682f04"
+        },
+        "assets/opening/raiden-抵天雷罚-v02-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            2210,
+            90,
+            85
+          ],
+          "sourceSha256": "e129489a8116f55f886d21f3717d929455fe17e4dcc970731a0f6afb1e8ae4fe"
+        },
+        "assets/opening/raiden-换班时间-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            2210,
+            90,
+            85
+          ],
+          "sourceSha256": "90a1433dff01dfec45514fb96b330be013439eba63a420b197759368bb228bdb"
+        },
+        "assets/opening/raiden-换班时间-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            2210,
+            90,
+            85
+          ],
+          "sourceSha256": "00a661cf89f54a6d01f88b02aa14bd27f32de093df817716d9a9ce478aacde85"
+        },
+        "assets/opening/raiden-北地烟熏鸡-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            2125,
+            90,
+            85
+          ],
+          "sourceSha256": "1b903b5f5dfab1efe96ed7064cf91d1f692d453ea974df423917cc0bd6ecba75"
+        },
+        "assets/opening/raiden-北地烟熏鸡-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            2125,
+            90,
+            85
+          ],
+          "sourceSha256": "0fd57c2d940494feef9a22f1d8784e7151f0d53cf78da11c1413b6fdde7ccfd0"
+        },
+        "assets/opening/raiden-北地烟熏鸡-v02-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            2125,
+            90,
+            85
+          ],
+          "sourceSha256": "8ff6640866517cdb50c4501f6e29ed4ebd56ff236783ac235a1a72d943dded2a"
+        },
+        "assets/opening/raiden-北地烟熏鸡-v02-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            2125,
+            90,
+            85
+          ],
+          "sourceSha256": "86c913208e787f036dc37edc0c8c996554acb2485681d572cdba19acb08a7abd"
+        },
+        "assets/opening/raiden-星天之兆-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            2295,
+            90,
+            85
+          ],
+          "sourceSha256": "55d8e44823758f3e43877c081b152bf24691b1063a87638a8cf0a0637575c9fa"
+        },
+        "assets/opening/raiden-星天之兆-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            2295,
+            90,
+            85
+          ],
+          "sourceSha256": "cf502acbbd7817482f712fd3366058e26956768da5210d5ba6287c312a9f7bcd"
+        },
+        "assets/opening/raiden-飞叶迴斜-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            2635,
+            90,
+            85
+          ],
+          "sourceSha256": "21313bdd99187ff4b4bdb50db4ce1fe198ad2bca456981549f2c872c0a25ba17"
+        },
+        "assets/opening/raiden-飞叶迴斜-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            2635,
+            90,
+            85
+          ],
+          "sourceSha256": "949306f51c34297f7034c9235f3830e04e668869a31df023a0246e0f13147fe1"
+        },
+        "assets/opening/raiden-飞叶迴斜-v02-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            2635,
+            90,
+            85
+          ],
+          "sourceSha256": "ffcbe05b660c2ec75ab400d054eb1ac21020241774f30de7dbe7d07b21abf4ce"
+        },
+        "assets/opening/raiden-飞叶迴斜-v02-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            2635,
+            90,
+            85
+          ],
+          "sourceSha256": "f125f970f13c9af306de58f87012a4e7feaa51e30863b4e6540118e817af242e"
+        },
+        "assets/opening/raiden-一掷乾坤-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            1955,
+            90,
+            85
+          ],
+          "sourceSha256": "3b9a10eaf0b2cc842589c1eb09bd9d8da7c4cb39a478656b5b5a228571a00c45"
+        },
+        "assets/opening/raiden-一掷乾坤-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            1955,
+            90,
+            85
+          ],
+          "sourceSha256": "d7ab7d24e6aa4beb12b0dc016f417a49150f7ec9bdcba488866f294edb4e1d4f"
+        },
+        "assets/opening/raiden-元素共鸣-强能之雷-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            2040,
+            90,
+            85
+          ],
+          "sourceSha256": "decd398a0acecec63d1553f5f71e56fc4b376f9545181d1cba71f8cf78145544"
+        },
+        "assets/opening/raiden-元素共鸣-强能之雷-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            2040,
+            90,
+            85
+          ],
+          "sourceSha256": "2b7b42bd3c10e94eea644eac72017ef0b7d81930854951994f698c944d01c670"
+        },
+        "assets/opening/raiden-元素共鸣-交织之雷-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            2040,
+            90,
+            85
+          ],
+          "sourceSha256": "532e94a09b1a0f9a50bea5208ddc151fa004d3f47b34ba65277639a9b6eb6460"
+        },
+        "assets/opening/raiden-元素共鸣-交织之雷-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            2040,
+            90,
+            85
+          ],
+          "sourceSha256": "21d5f51dba61b702cf3678dca4657a9e92f12e4753d43f0b34fb03aeb3f4bbd5"
+        }
+      }
+    },
+    "iansan": {
+      "schemaVersion": 1,
+      "patches": [
+        [
+          -45,
+          445,
+          90,
+          85
+        ],
+        [
+          -45,
+          575,
+          90,
+          85
+        ]
+      ],
+      "scoreFloor": 0.93,
+      "runnerUpGap": 0.2,
+      "stableScore": 0.9999,
+      "entries": [
+        {
+          "id": "boar",
+          "name": "野猪公主",
+          "patches": [
+            "assets/opening/iansan-野猪公主-v01-p01.png",
+            "assets/opening/iansan-野猪公主-v01-p02.png"
+          ]
+        },
+        {
+          "id": "draw",
+          "name": "运筹帷幄",
+          "patches": [
+            "assets/opening/iansan-运筹帷幄-v01-p01.png",
+            "assets/opening/iansan-运筹帷幄-v01-p02.png"
+          ]
+        },
+        {
+          "id": "gambler",
+          "name": "赌徒的耳环",
+          "patches": [
+            "assets/opening/iansan-赌徒的耳环-v01-p01.png",
+            "assets/opening/iansan-赌徒的耳环-v01-p02.png"
+          ]
+        },
+        {
+          "id": "garden",
+          "name": "旧时庭园",
+          "patches": [
+            "assets/opening/iansan-旧时庭园-v01-p01.png",
+            "assets/opening/iansan-旧时庭园-v01-p02.png"
+          ]
+        },
+        {
+          "id": "gilded",
+          "name": "饰金之梦",
+          "patches": [
+            "assets/opening/iansan-饰金之梦-v01-p01.png",
+            "assets/opening/iansan-饰金之梦-v01-p02.png"
+          ]
+        },
+        {
+          "id": "heart",
+          "name": "灵光明烁之心",
+          "patches": [
+            "assets/opening/iansan-灵光明烁之心-v01-p01.png",
+            "assets/opening/iansan-灵光明烁之心-v01-p02.png"
+          ]
+        },
+        {
+          "id": "house",
+          "name": "黄金屋",
+          "patches": [
+            "assets/opening/iansan-黄金屋-v01-p01.png",
+            "assets/opening/iansan-黄金屋-v01-p02.png"
+          ]
+        },
+        {
+          "id": "lyre",
+          "name": "琴音之诗",
+          "patches": [
+            "assets/opening/iansan-琴音之诗-v01-p01.png",
+            "assets/opening/iansan-琴音之诗-v01-p02.png"
+          ]
+        },
+        {
+          "id": "moon",
+          "name": "贯月矢",
+          "patches": [
+            "assets/opening/iansan-贯月矢-v01-p01.png",
+            "assets/opening/iansan-贯月矢-v01-p02.png"
+          ]
+        },
+        {
+          "id": "opera",
+          "name": "欧庇克莱歌剧院",
+          "patches": [
+            "assets/opening/iansan-欧庇克莱歌剧院-v01-p01.png",
+            "assets/opening/iansan-欧庇克莱歌剧院-v01-p02.png"
+          ]
+        },
+        {
+          "id": "revel",
+          "name": "「狂欢节奏」",
+          "patches": [
+            "assets/opening/iansan-狂欢节奏-v01-p01.png",
+            "assets/opening/iansan-狂欢节奏-v01-p02.png"
+          ]
+        },
+        {
+          "id": "shift",
+          "name": "换班时间",
+          "patches": [
+            "assets/opening/iansan-换班时间-v01-p01.png",
+            "assets/opening/iansan-换班时间-v01-p02.png"
+          ]
+        },
+        {
+          "id": "sing",
+          "name": "纵声欢唱",
+          "patches": [
+            "assets/opening/iansan-纵声欢唱-v01-p01.png",
+            "assets/opening/iansan-纵声欢唱-v01-p02.png"
+          ]
+        },
+        {
+          "id": "soup",
+          "name": "奇瑰之汤",
+          "patches": [
+            "assets/opening/iansan-奇瑰之汤-v01-p01.png",
+            "assets/opening/iansan-奇瑰之汤-v01-p02.png"
+          ]
+        },
+        {
+          "id": "skivingNewAndImproved",
+          "name": "偷懒的新方法",
+          "patches": [
+            "assets/opening/iansan-偷懒的新方法-v01-p01.png",
+            "assets/opening/iansan-偷懒的新方法-v01-p02.png"
+          ],
+          "views": [
+            {
+              "name": "original",
+              "patches": [
+                "assets/opening/iansan-偷懒的新方法-v01-p01.png",
+                "assets/opening/iansan-偷懒的新方法-v01-p02.png"
+              ]
+            },
+            {
+              "name": "native-fed54f1d3b-f0",
+              "patches": [
+                "assets/opening/iansan-偷懒的新方法-v02-p01.png",
+                "assets/opening/iansan-偷懒的新方法-v02-p02.png"
+              ]
+            },
+            {
+              "name": "native-fed54f1d3b-f1",
+              "patches": [
+                "assets/opening/iansan-偷懒的新方法-v03-p01.png",
+                "assets/opening/iansan-偷懒的新方法-v03-p02.png"
+              ]
+            }
+          ],
+          "scoreFloor": 0.9,
+          "animated": true
+        },
+        {
+          "id": "troupe",
+          "name": "黄金剧团的奖赏",
+          "patches": [
+            "assets/opening/iansan-黄金剧团的奖赏-v01-p01.png",
+            "assets/opening/iansan-黄金剧团的奖赏-v01-p02.png"
+          ]
+        },
+        {
+          "id": "wolf",
+          "name": "狼的末路",
+          "patches": [
+            "assets/opening/iansan-狼的末路-v01-p01.png",
+            "assets/opening/iansan-狼的末路-v01-p02.png"
+          ]
+        }
+      ],
+      "atlas": {
+        "assets/opening/iansan-野猪公主-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            1020,
+            90,
+            85
+          ],
+          "sourceSha256": "b0e7767ecfeca224fba3f1719077ebbef38fded93c2206c8591e9bc81d1693ea"
+        },
+        "assets/opening/iansan-野猪公主-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            1105,
+            90,
+            85
+          ],
+          "sourceSha256": "610e7cd96489187d267556a78ef2a710da8b4252ba986f9defdeacf1a1359743"
+        },
+        "assets/opening/iansan-运筹帷幄-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            2550,
+            90,
+            85
+          ],
+          "sourceSha256": "12a77437894a2332261f68f6e6e1e72b2ae77a62918ab6c1f3bc17e80f3396f6"
+        },
+        "assets/opening/iansan-运筹帷幄-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            2550,
+            90,
+            85
+          ],
+          "sourceSha256": "a3047fa1881e693bfd0685a6e895dea4836174dd49b5f9215776259c07bbc3d3"
+        },
+        "assets/opening/iansan-赌徒的耳环-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            2465,
+            90,
+            85
+          ],
+          "sourceSha256": "7eb1048ecf82244c5c271c633cb9a6194edf14d91e2ab23a188d65c900af617b"
+        },
+        "assets/opening/iansan-赌徒的耳环-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            2550,
+            90,
+            85
+          ],
+          "sourceSha256": "6d66d8041a1cde7716c4c78f9aab245e9190a244354db0282e1419333eb60335"
+        },
+        "assets/opening/iansan-旧时庭园-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            765,
+            90,
+            85
+          ],
+          "sourceSha256": "5699ba7928cd9c4570ba28cb5db4108aa0df48d26fe79c44b397bafce6141e56"
+        },
+        "assets/opening/iansan-旧时庭园-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            765,
+            90,
+            85
+          ],
+          "sourceSha256": "6e9cb447b540687cb1d1bb2eaf2f346acc486937e2700db27d2f08d328eec623"
+        },
+        "assets/opening/iansan-饰金之梦-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            1105,
+            90,
+            85
+          ],
+          "sourceSha256": "0bb856b419b662244441f804c38a1b1680cdedb41abfb49549009640f2793792"
+        },
+        "assets/opening/iansan-饰金之梦-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            1105,
+            90,
+            85
+          ],
+          "sourceSha256": "7eee89219e46103686c74244d8aea5f7726af48615484bea1787a7fd48b65289"
+        },
+        "assets/opening/iansan-灵光明烁之心-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            850,
+            90,
+            85
+          ],
+          "sourceSha256": "f8ee0516cc08df3646f152a69fa917d8005538c40ddd78b66459857335c4491f"
+        },
+        "assets/opening/iansan-灵光明烁之心-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            850,
+            90,
+            85
+          ],
+          "sourceSha256": "850e842c1c7d40d1685376910ec4b70393f41b81ba20f1c268cff5d26b963413"
+        },
+        "assets/opening/iansan-黄金屋-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            1190,
+            90,
+            85
+          ],
+          "sourceSha256": "20661c2770a23725b4f85c61273ae90c40db752fa5f2621f6c91f577fcb30858"
+        },
+        "assets/opening/iansan-黄金屋-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            1190,
+            90,
+            85
+          ],
+          "sourceSha256": "585c4560c4b29b927dbfc35f11f8adf56bab6fce9c9ad060360b8cf707f890a3"
+        },
+        "assets/opening/iansan-琴音之诗-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            935,
+            90,
+            85
+          ],
+          "sourceSha256": "864094e44898b3600c7d78fc3fb932a2a429dd4187edc1598d7a5bcc69e7f94b"
+        },
+        "assets/opening/iansan-琴音之诗-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            935,
+            90,
+            85
+          ],
+          "sourceSha256": "9099bc3d70eceb82c6ea4e794eeb94e014865a487f2d3d0aaa7c1f0ee15d80b6"
+        },
+        "assets/opening/iansan-贯月矢-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            1020,
+            90,
+            85
+          ],
+          "sourceSha256": "acc0fc70a15a297468606935e1bcb9bc6bae23ef8406b1768a08ccc6af493815"
+        },
+        "assets/opening/iansan-贯月矢-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            1020,
+            90,
+            85
+          ],
+          "sourceSha256": "50d0e3dfb187f59010f59c753780e65804fc684430abffca89e84eb9f68973a1"
+        },
+        "assets/opening/iansan-欧庇克莱歌剧院-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            850,
+            90,
+            85
+          ],
+          "sourceSha256": "55ad86463d53ea9e66a2f02672c0e606d509010e38e86862faee6be2bde36c47"
+        },
+        "assets/opening/iansan-欧庇克莱歌剧院-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            850,
+            90,
+            85
+          ],
+          "sourceSha256": "71fdce25059aef386e830ba6e2b69ed1437de696286354f92c85f483d86d8d08"
+        },
+        "assets/opening/iansan-狂欢节奏-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            850,
+            90,
+            85
+          ],
+          "sourceSha256": "0d7f1417a176e1b5de46f95fda1444430c9ac913d6d847f1e3800d84d12227a4"
+        },
+        "assets/opening/iansan-狂欢节奏-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            935,
+            90,
+            85
+          ],
+          "sourceSha256": "1ca2bf5d813a64216671abfe859e94dfe83c62a7862816a420121cf947517f88"
+        },
+        "assets/opening/iansan-换班时间-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            2210,
+            90,
+            85
+          ],
+          "sourceSha256": "90a1433dff01dfec45514fb96b330be013439eba63a420b197759368bb228bdb"
+        },
+        "assets/opening/iansan-换班时间-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            2210,
+            90,
+            85
+          ],
+          "sourceSha256": "00a661cf89f54a6d01f88b02aa14bd27f32de093df817716d9a9ce478aacde85"
+        },
+        "assets/opening/iansan-纵声欢唱-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            1020,
+            90,
+            85
+          ],
+          "sourceSha256": "10da2e1debcdf992c1cfc5af0b60c29dc00ee9aebe4a1d14d8c54f6227f02544"
+        },
+        "assets/opening/iansan-纵声欢唱-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            1020,
+            90,
+            85
+          ],
+          "sourceSha256": "11a5bf30ca7c7438fbe305d2dffb00094f9152ac7563641a21b6cef3a255d76e"
+        },
+        "assets/opening/iansan-奇瑰之汤-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            765,
+            90,
+            85
+          ],
+          "sourceSha256": "323d9c34729c04cf987f59a68e35b22ef2b7300b169129b004939d5c42ad22f3"
+        },
+        "assets/opening/iansan-奇瑰之汤-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            765,
+            90,
+            85
+          ],
+          "sourceSha256": "c1c5413ed2cccf758f2c2bae84b4d3781d68a6f16176fcd953213aac2fe1c8c8"
+        },
+        "assets/opening/iansan-偷懒的新方法-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            680,
+            90,
+            85
+          ],
+          "sourceSha256": "4b765953e0a0b10541437193f145a0bb5c2b39db36f8a525c7396c5c19fe56d8"
+        },
+        "assets/opening/iansan-偷懒的新方法-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            680,
+            90,
+            85
+          ],
+          "sourceSha256": "d2a0647af31656198855cec4c08a2ffd199159b4a2a9826b3284b41336853152"
+        },
+        "assets/opening/iansan-偷懒的新方法-v02-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            680,
+            90,
+            85
+          ],
+          "sourceSha256": "6f546cb5af2c24179a956a66253d60a9663ce33aac31d4bbdd8e8a90c82147fe"
+        },
+        "assets/opening/iansan-偷懒的新方法-v02-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            680,
+            90,
+            85
+          ],
+          "sourceSha256": "a8ac1d9345ea6cb70c8cfda6083d45ac9fdd426fe380775f6227b4cbd0c5e970"
+        },
+        "assets/opening/iansan-偷懒的新方法-v03-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            680,
+            90,
+            85
+          ],
+          "sourceSha256": "aeb914b89cc55cf762ea807311a1eae6bb84d623712412ee22a6ec693a03b6d8"
+        },
+        "assets/opening/iansan-偷懒的新方法-v03-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            765,
+            90,
+            85
+          ],
+          "sourceSha256": "f6da5458a0b0d519febe2d8c7fe7e04bb07337a323495f20cb23a91ec74d129f"
+        },
+        "assets/opening/iansan-黄金剧团的奖赏-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            1105,
+            90,
+            85
+          ],
+          "sourceSha256": "3825f05bcf2598301b67a60ae111e961bc176e03d4bde6a47ee5e900307c2940"
+        },
+        "assets/opening/iansan-黄金剧团的奖赏-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            1105,
+            90,
+            85
+          ],
+          "sourceSha256": "ba7715e0b090985b17582c71c4e34c558f1b1ae39b74b32f6a87b74a8479b972"
+        },
+        "assets/opening/iansan-狼的末路-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            935,
+            90,
+            85
+          ],
+          "sourceSha256": "59e78be7d0e5ffc23761e6e39de28f6e1b7a807f82a5cc9e75a633baf60cd07b"
+        },
+        "assets/opening/iansan-狼的末路-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            935,
+            90,
+            85
+          ],
+          "sourceSha256": "348958933e51602800e8c113ad78bcf42f31f9f3c5b3aef009103caf90f04a00"
+        }
+      }
+    },
+    "moonbloom": {
+      "schemaVersion": 1,
+      "patches": [
+        [
+          -45,
+          445,
+          90,
+          85
+        ],
+        [
+          -45,
+          575,
+          90,
+          85
+        ]
+      ],
+      "scoreFloor": 0.95,
+      "runnerUpGap": 0.2,
+      "stableScore": 0.9999,
+      "entries": [
+        {
+          "id": "calx",
+          "name": "白垩之术",
+          "views": [
+            {
+              "name": "native-61a1bf4b4c-f0",
+              "patches": [
+                "assets/opening/moonbloom-白垩之术-v01-p01.png",
+                "assets/opening/moonbloom-白垩之术-v01-p02.png"
+              ]
+            },
+            {
+              "name": "native-61a1bf4b4c-f1",
+              "patches": [
+                "assets/opening/moonbloom-白垩之术-v01-p01.png",
+                "assets/opening/moonbloom-白垩之术-v01-p02.png"
+              ]
+            }
+          ],
+          "scoreFloor": 0.9
+        },
+        {
+          "id": "draw",
+          "name": "运筹帷幄",
+          "patches": [
+            "assets/opening/moonbloom-运筹帷幄-v01-p01.png",
+            "assets/opening/moonbloom-运筹帷幄-v01-p02.png"
+          ]
+        },
+        {
+          "id": "gambler",
+          "name": "赌徒的耳环",
+          "patches": [
+            "assets/opening/moonbloom-赌徒的耳环-v01-p01.png",
+            "assets/opening/moonbloom-赌徒的耳环-v01-p02.png"
+          ]
+        },
+        {
+          "id": "shift",
+          "name": "换班时间",
+          "patches": [
+            "assets/opening/moonbloom-换班时间-v01-p01.png",
+            "assets/opening/moonbloom-换班时间-v01-p02.png"
+          ]
+        },
+        {
+          "id": "canopy",
+          "name": "「悬木人」",
+          "views": [
+            {
+              "name": "native-d1a525abb8-0",
+              "patches": [
+                "assets/opening/moonbloom-悬木人-v01-p01.png",
+                "assets/opening/moonbloom-悬木人-v01-p02.png"
+              ]
+            },
+            {
+              "name": "native-d1a525abb8-1",
+              "patches": [
+                "assets/opening/moonbloom-悬木人-v02-p01.png",
+                "assets/opening/moonbloom-悬木人-v02-p02.png"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sand",
+          "name": "「沙中遗事」",
+          "views": [
+            {
+              "name": "native-f8245637fe-0",
+              "patches": [
+                "assets/opening/moonbloom-沙中遗事-v01-p01.png",
+                "assets/opening/moonbloom-沙中遗事-v01-p02.png"
+              ]
+            },
+            {
+              "name": "native-f8245637fe-1",
+              "patches": [
+                "assets/opening/moonbloom-沙中遗事-v02-p01.png",
+                "assets/opening/moonbloom-沙中遗事-v02-p02.png"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "wovenWeeds",
+          "name": "元素共鸣：交织之草",
+          "views": [
+            {
+              "name": "native-c7aa88f642-0",
+              "patches": [
+                "assets/opening/moonbloom-元素共鸣-交织之草-v01-p01.png",
+                "assets/opening/moonbloom-元素共鸣-交织之草-v01-p02.png"
+              ]
+            },
+            {
+              "name": "native-c7aa88f642-1",
+              "patches": [
+                "assets/opening/moonbloom-元素共鸣-交织之草-v02-p01.png",
+                "assets/opening/moonbloom-元素共鸣-交织之草-v01-p02.png"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "razor",
+          "name": "藏锋何处",
+          "views": [
+            {
+              "name": "native-32beb2c1af-0",
+              "patches": [
+                "assets/opening/moonbloom-藏锋何处-v01-p01.png",
+                "assets/opening/moonbloom-藏锋何处-v01-p02.png"
+              ]
+            },
+            {
+              "name": "native-32beb2c1af-1",
+              "patches": [
+                "assets/opening/moonbloom-藏锋何处-v01-p01.png",
+                "assets/opening/moonbloom-藏锋何处-v01-p02.png"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "meditation",
+          "name": "困困冥想术",
+          "views": [
+            {
+              "name": "native-aa33bc3652-0",
+              "patches": [
+                "assets/opening/moonbloom-困困冥想术-v01-p01.png",
+                "assets/opening/moonbloom-困困冥想术-v01-p02.png"
+              ]
+            },
+            {
+              "name": "native-aa33bc3652-1",
+              "patches": [
+                "assets/opening/moonbloom-困困冥想术-v02-p01.png",
+                "assets/opening/moonbloom-困困冥想术-v02-p02.png"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sashimi",
+          "name": "刺身拼盘",
+          "views": [
+            {
+              "name": "native-14b0432dc4-0",
+              "patches": [
+                "assets/opening/moonbloom-刺身拼盘-v01-p01.png",
+                "assets/opening/moonbloom-刺身拼盘-v01-p02.png"
+              ]
+            },
+            {
+              "name": "native-14b0432dc4-1",
+              "patches": [
+                "assets/opening/moonbloom-刺身拼盘-v02-p01.png",
+                "assets/opening/moonbloom-刺身拼盘-v01-p02.png"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "countdown3",
+          "name": "幻戏倒计时：3",
+          "views": [
+            {
+              "name": "native-74c06360bf-0",
+              "patches": [
+                "assets/opening/moonbloom-幻戏倒计时-3-v01-p01.png",
+                "assets/opening/moonbloom-幻戏倒计时-3-v01-p02.png"
+              ]
+            },
+            {
+              "name": "native-74c06360bf-1",
+              "patches": [
+                "assets/opening/moonbloom-幻戏倒计时-3-v02-p01.png",
+                "assets/opening/moonbloom-幻戏倒计时-3-v01-p02.png"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "upgrade",
+          "name": "天才的改造法",
+          "views": [
+            {
+              "name": "native-9b294a1175-0",
+              "patches": [
+                "assets/opening/moonbloom-天才的改造法-v01-p01.png",
+                "assets/opening/moonbloom-天才的改造法-v01-p02.png"
+              ]
+            },
+            {
+              "name": "native-9b294a1175-1",
+              "patches": [
+                "assets/opening/moonbloom-天才的改造法-v02-p01.png",
+                "assets/opening/moonbloom-天才的改造法-v01-p02.png"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "cleaning",
+          "name": "清扫时间",
+          "views": [
+            {
+              "name": "native-ed60de95b6-0",
+              "patches": [
+                "assets/opening/moonbloom-清扫时间-v01-p01.png",
+                "assets/opening/moonbloom-清扫时间-v01-p02.png"
+              ]
+            },
+            {
+              "name": "native-ed60de95b6-1",
+              "patches": [
+                "assets/opening/moonbloom-清扫时间-v02-p01.png",
+                "assets/opening/moonbloom-清扫时间-v02-p02.png"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "gleam",
+          "name": "月兆·满辉",
+          "views": [
+            {
+              "name": "native-2e3757fa7a-0",
+              "patches": [
+                "assets/opening/moonbloom-月兆-满辉-v01-p01.png",
+                "assets/opening/moonbloom-月兆-满辉-v01-p02.png"
+              ]
+            },
+            {
+              "name": "native-2e3757fa7a-1",
+              "patches": [
+                "assets/opening/moonbloom-月兆-满辉-v02-p01.png",
+                "assets/opening/moonbloom-月兆-满辉-v01-p02.png"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "fruit",
+          "name": "盈满之实",
+          "views": [
+            {
+              "name": "native-12565cc736-0",
+              "patches": [
+                "assets/opening/moonbloom-盈满之实-v01-p01.png",
+                "assets/opening/moonbloom-盈满之实-v01-p02.png"
+              ]
+            },
+            {
+              "name": "native-12565cc736-1",
+              "patches": [
+                "assets/opening/moonbloom-盈满之实-v01-p01.png",
+                "assets/opening/moonbloom-盈满之实-v01-p02.png"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "research",
+          "name": "科研的动力",
+          "views": [
+            {
+              "name": "native-9b35d89b3c-0",
+              "patches": [
+                "assets/opening/moonbloom-科研的动力-v01-p01.png",
+                "assets/opening/moonbloom-科研的动力-v01-p02.png"
+              ]
+            },
+            {
+              "name": "native-9b35d89b3c-1",
+              "patches": [
+                "assets/opening/moonbloom-科研的动力-v02-p01.png",
+                "assets/opening/moonbloom-科研的动力-v02-p02.png"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "adventure",
+          "name": "水仙十字大冒险",
+          "views": [
+            {
+              "name": "native-7d5ad1f67c-0",
+              "patches": [
+                "assets/opening/moonbloom-水仙十字大冒险-v01-p01.png",
+                "assets/opening/moonbloom-水仙十字大冒险-v01-p02.png"
+              ]
+            },
+            {
+              "name": "native-7d5ad1f67c-1",
+              "patches": [
+                "assets/opening/moonbloom-水仙十字大冒险-v01-p01.png",
+                "assets/opening/moonbloom-水仙十字大冒险-v01-p02.png"
+              ]
+            }
+          ]
+        }
+      ],
+      "atlas": {
+        "assets/opening/moonbloom-白垩之术-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            2380,
+            90,
+            85
+          ],
+          "sourceSha256": "a179b073b60c8f500d886b76eb719980c2d557b7fb42cd52824a599bbb0aae0c"
+        },
+        "assets/opening/moonbloom-白垩之术-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            2380,
+            90,
+            85
+          ],
+          "sourceSha256": "88534115387eacbbe5cf0c90b783bb5d41584e8c49df8b3c3a11ac3d55b3c755"
+        },
+        "assets/opening/moonbloom-运筹帷幄-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            2550,
+            90,
+            85
+          ],
+          "sourceSha256": "12a77437894a2332261f68f6e6e1e72b2ae77a62918ab6c1f3bc17e80f3396f6"
+        },
+        "assets/opening/moonbloom-运筹帷幄-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            2550,
+            90,
+            85
+          ],
+          "sourceSha256": "a3047fa1881e693bfd0685a6e895dea4836174dd49b5f9215776259c07bbc3d3"
+        },
+        "assets/opening/moonbloom-赌徒的耳环-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            2465,
+            90,
+            85
+          ],
+          "sourceSha256": "7eb1048ecf82244c5c271c633cb9a6194edf14d91e2ab23a188d65c900af617b"
+        },
+        "assets/opening/moonbloom-赌徒的耳环-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            2550,
+            90,
+            85
+          ],
+          "sourceSha256": "6d66d8041a1cde7716c4c78f9aab245e9190a244354db0282e1419333eb60335"
+        },
+        "assets/opening/moonbloom-换班时间-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            2210,
+            90,
+            85
+          ],
+          "sourceSha256": "90a1433dff01dfec45514fb96b330be013439eba63a420b197759368bb228bdb"
+        },
+        "assets/opening/moonbloom-换班时间-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            2210,
+            90,
+            85
+          ],
+          "sourceSha256": "00a661cf89f54a6d01f88b02aa14bd27f32de093df817716d9a9ce478aacde85"
+        },
+        "assets/opening/moonbloom-悬木人-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            1445,
+            90,
+            85
+          ],
+          "sourceSha256": "c653930df0d15cf71e6c194e8aa8051e0f475a2213ca6f37d4fbab57eca76f57"
+        },
+        "assets/opening/moonbloom-悬木人-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            1445,
+            90,
+            85
+          ],
+          "sourceSha256": "18f554b488a79e17ef064e142b8ccd7935ce1a59c2a32f5e98fc0f8555600fad"
+        },
+        "assets/opening/moonbloom-悬木人-v02-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            1530,
+            90,
+            85
+          ],
+          "sourceSha256": "bec23310409648ac63d6d2911eee9a071f9c999f975be8ab84c111b25c8216c7"
+        },
+        "assets/opening/moonbloom-悬木人-v02-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            1530,
+            90,
+            85
+          ],
+          "sourceSha256": "929aba682a2426030a32e32431008b58ea2a889d75a4966022258f6acd4e9c74"
+        },
+        "assets/opening/moonbloom-沙中遗事-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            1615,
+            90,
+            85
+          ],
+          "sourceSha256": "750da33003e4c1cdb5c8179b45df4e6512797ab6e53c56ade3a91ac3ba9d5836"
+        },
+        "assets/opening/moonbloom-沙中遗事-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            1615,
+            90,
+            85
+          ],
+          "sourceSha256": "c0c6e108f45e089ad520a1a4efa0a132a906cec8085dea26db4ccf3a90fa9a02"
+        },
+        "assets/opening/moonbloom-沙中遗事-v02-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            1615,
+            90,
+            85
+          ],
+          "sourceSha256": "55e7ca12f9e356cc1428704732fdd8043a113ad3677edb940765507135641a0a"
+        },
+        "assets/opening/moonbloom-沙中遗事-v02-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            1700,
+            90,
+            85
+          ],
+          "sourceSha256": "88bccc7e4cbedf53e30ed572afb07709737b9c3f94a6a3c39e6740f305d0f933"
+        },
+        "assets/opening/moonbloom-元素共鸣-交织之草-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            1190,
+            90,
+            85
+          ],
+          "sourceSha256": "8ea151e516f237ad277cc044ab18757f9672ee6742aeb7c524e124e3fe747b57"
+        },
+        "assets/opening/moonbloom-元素共鸣-交织之草-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            1190,
+            90,
+            85
+          ],
+          "sourceSha256": "d8117b55f99f41300787a68b0b3ccc99d7ac7bd92600fbc4d377010c22287e11"
+        },
+        "assets/opening/moonbloom-元素共鸣-交织之草-v02-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            1190,
+            90,
+            85
+          ],
+          "sourceSha256": "1048985c457989d58eb80823e3bb1ea22755616faeb105d5c9b4115427808c1e"
+        },
+        "assets/opening/moonbloom-藏锋何处-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            1870,
+            90,
+            85
+          ],
+          "sourceSha256": "e728ec19153a968bb8c69040c87fac563f899c27e11c7a348cf79ac0544d70be"
+        },
+        "assets/opening/moonbloom-藏锋何处-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            1870,
+            90,
+            85
+          ],
+          "sourceSha256": "40e6a3cfa25d6a92d2d9bb9b27228fc43d69d864c8e8f4e06ae5ce1fc56a3cb5"
+        },
+        "assets/opening/moonbloom-困困冥想术-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            1275,
+            90,
+            85
+          ],
+          "sourceSha256": "9a64979471b20d14da06a25c9c8146c0a1135855420735c434af1ee06c3e3d4e"
+        },
+        "assets/opening/moonbloom-困困冥想术-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            1275,
+            90,
+            85
+          ],
+          "sourceSha256": "31f694a1bca4f18a3366865231e02498fa5b81c62f17e197b95ab1119cb1ff85"
+        },
+        "assets/opening/moonbloom-困困冥想术-v02-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            1360,
+            90,
+            85
+          ],
+          "sourceSha256": "798fdd7ae4882942b03fd394431d35e06be01ce8aff4433b487d3b947ed2915a"
+        },
+        "assets/opening/moonbloom-困困冥想术-v02-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            1360,
+            90,
+            85
+          ],
+          "sourceSha256": "7e70bb9842fd9d9f1001f778e56224505d4ece7f28a7e3a96106da8b22ea0a3d"
+        },
+        "assets/opening/moonbloom-刺身拼盘-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            1275,
+            90,
+            85
+          ],
+          "sourceSha256": "b72aee6129a2f307d607062b836a3e264372c4398db586a93853c5bd9654233d"
+        },
+        "assets/opening/moonbloom-刺身拼盘-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            1275,
+            90,
+            85
+          ],
+          "sourceSha256": "5a208752079b2ddf1b01bbb42c4139dd58a6202227b96bf4fe433473ab32e8df"
+        },
+        "assets/opening/moonbloom-刺身拼盘-v02-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            1275,
+            90,
+            85
+          ],
+          "sourceSha256": "721d9cd3eb4d0536d4abfbf9f93193bb37e07e0bcf2bf0a69da8cd0d9e3fe05d"
+        },
+        "assets/opening/moonbloom-幻戏倒计时-3-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            1445,
+            90,
+            85
+          ],
+          "sourceSha256": "b523993e449123b381973ef14c8a438295dd24d073a8f842b1d7f82caec458c5"
+        },
+        "assets/opening/moonbloom-幻戏倒计时-3-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            1445,
+            90,
+            85
+          ],
+          "sourceSha256": "c4ff29d6310d59e41edb3988e274b96c729a979d8ea5633a5facc8f87567890a"
+        },
+        "assets/opening/moonbloom-幻戏倒计时-3-v02-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            1445,
+            90,
+            85
+          ],
+          "sourceSha256": "33b47505d01df5e0fb2a6af1b83a45173905c51276f987ad0ffa3eff934b1ecf"
+        },
+        "assets/opening/moonbloom-天才的改造法-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            1360,
+            90,
+            85
+          ],
+          "sourceSha256": "928cdca1a15334e5701baa6ceebb7371ce85f54aacc4036ea360efe1807f59cc"
+        },
+        "assets/opening/moonbloom-天才的改造法-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            1360,
+            90,
+            85
+          ],
+          "sourceSha256": "0a2b1c837c41979406717e04cd74e5f47d841061af99e8fc69c47ae3e252532f"
+        },
+        "assets/opening/moonbloom-天才的改造法-v02-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            1360,
+            90,
+            85
+          ],
+          "sourceSha256": "83e98b4298a96b595d8b57ff0420552b19699a6b5680b360f27e726eca1d332f"
+        },
+        "assets/opening/moonbloom-清扫时间-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            1700,
+            90,
+            85
+          ],
+          "sourceSha256": "2e59541487d339046bfdbf22dad88da4fd18150635d8222844abb517df08a633"
+        },
+        "assets/opening/moonbloom-清扫时间-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            1700,
+            90,
+            85
+          ],
+          "sourceSha256": "91fd5fa92da12319a3f8dc7288af5366352c51cab5c94e6da55057cdca2e1bae"
+        },
+        "assets/opening/moonbloom-清扫时间-v02-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            1700,
+            90,
+            85
+          ],
+          "sourceSha256": "383f3b14aa7ec5a8b9b81bfc5e4d0e21b5205c422d892f0db195738110c6fccd"
+        },
+        "assets/opening/moonbloom-清扫时间-v02-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            1700,
+            90,
+            85
+          ],
+          "sourceSha256": "9edecb684443799940a3d7b3a37e3052fe1905d014783d7572a1652f700088f8"
+        },
+        "assets/opening/moonbloom-月兆-满辉-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            1530,
+            90,
+            85
+          ],
+          "sourceSha256": "a08c6041e8bb74cabefbc6afa26172f827e741cd4001f39c8b0198511c6b2a15"
+        },
+        "assets/opening/moonbloom-月兆-满辉-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            1530,
+            90,
+            85
+          ],
+          "sourceSha256": "08457559814f320f35c5db8083ffbfafc9b852610a208d2c8208fab9aaf928d5"
+        },
+        "assets/opening/moonbloom-月兆-满辉-v02-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            1530,
+            90,
+            85
+          ],
+          "sourceSha256": "eb75871305c613b5b4a5173168357b936fb5e13cdca9a6969b5c2e7ec913bdb3"
+        },
+        "assets/opening/moonbloom-盈满之实-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            1785,
+            90,
+            85
+          ],
+          "sourceSha256": "0d56692eff503027b38269e957b8f20b1398394fc5eb0b5b388075dfa0a0b00c"
+        },
+        "assets/opening/moonbloom-盈满之实-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            1785,
+            90,
+            85
+          ],
+          "sourceSha256": "5ba65ef6788a63f365ba90d1174512fefb9fea5776b7dd4887164e88b9cb7a49"
+        },
+        "assets/opening/moonbloom-科研的动力-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            1785,
+            90,
+            85
+          ],
+          "sourceSha256": "6d62254c1149cffb3520f78a3b32c20585771b9a76cb8f0e56f27c51b44b942f"
+        },
+        "assets/opening/moonbloom-科研的动力-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            1785,
+            90,
+            85
+          ],
+          "sourceSha256": "afd105fed2c7924f232c42fd6bc7da39edf6e92932f0d2eac2d9e29eb9ffc820"
+        },
+        "assets/opening/moonbloom-科研的动力-v02-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            1785,
+            90,
+            85
+          ],
+          "sourceSha256": "c1511cc1e36db888fa6076f25ece0e81990f5fd7ae6ddbefd1886c85c8501909"
+        },
+        "assets/opening/moonbloom-科研的动力-v02-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            1870,
+            90,
+            85
+          ],
+          "sourceSha256": "fa2ece2c0038d0b25bf6090cc4a7c463e367aa214c5f0cf6a5cb3a8a9f169a8e"
+        },
+        "assets/opening/moonbloom-水仙十字大冒险-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            1615,
+            90,
+            85
+          ],
+          "sourceSha256": "ae8dcd6994fa33150d299eb1aca040654579fb6df2ec6fc4771dfe92f1e0053c"
+        },
+        "assets/opening/moonbloom-水仙十字大冒险-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            1615,
+            90,
+            85
+          ],
+          "sourceSha256": "bf594983c909325c6f57187c933029dd8e64c5423e821ae1095ba9b45955af08"
+        }
+      }
+    },
+    "mozailu": {
+      "schemaVersion": 1,
+      "patches": [
+        [
+          -45,
+          445,
+          90,
+          85
+        ],
+        [
+          -45,
+          575,
+          90,
+          85
+        ]
+      ],
+      "scoreFloor": 0.93,
+      "runnerUpGap": 0.2,
+      "stableScore": 0.9999,
+      "entries": [
+        {
+          "id": "skivingNewAndImproved",
+          "name": "偷懒的新方法",
+          "patches": [
+            "assets/opening/mozailu-偷懒的新方法-v01-p01.png",
+            "assets/opening/mozailu-偷懒的新方法-v01-p02.png"
+          ],
+          "views": [
+            {
+              "name": "original",
+              "patches": [
+                "assets/opening/mozailu-偷懒的新方法-v01-p01.png",
+                "assets/opening/mozailu-偷懒的新方法-v01-p02.png"
+              ]
+            },
+            {
+              "name": "native-fed54f1d3b-f0",
+              "patches": [
+                "assets/opening/mozailu-偷懒的新方法-v02-p01.png",
+                "assets/opening/mozailu-偷懒的新方法-v02-p02.png"
+              ]
+            },
+            {
+              "name": "native-fed54f1d3b-f1",
+              "patches": [
+                "assets/opening/mozailu-偷懒的新方法-v03-p01.png",
+                "assets/opening/mozailu-偷懒的新方法-v03-p02.png"
+              ]
+            }
+          ],
+          "scoreFloor": 0.9,
+          "animated": true
+        },
+        {
+          "id": "wolf",
+          "name": "狼的末路",
+          "patches": [
+            "assets/opening/mozailu-狼的末路-v01-p01.png",
+            "assets/opening/mozailu-狼的末路-v01-p02.png"
+          ],
+          "scoreFloor": 0.93
+        },
+        {
+          "id": "gambler",
+          "name": "赌徒的耳环",
+          "patches": [
+            "assets/opening/mozailu-赌徒的耳环-v01-p01.png",
+            "assets/opening/mozailu-赌徒的耳环-v01-p02.png"
+          ],
+          "scoreFloor": 0.93
+        },
+        {
+          "id": "gilded",
+          "name": "饰金之梦",
+          "patches": [
+            "assets/opening/mozailu-饰金之梦-v01-p01.png",
+            "assets/opening/mozailu-饰金之梦-v01-p02.png"
+          ],
+          "scoreFloor": 0.93
+        },
+        {
+          "id": "troupe",
+          "name": "黄金剧团的奖赏",
+          "patches": [
+            "assets/opening/mozailu-黄金剧团的奖赏-v01-p01.png",
+            "assets/opening/mozailu-黄金剧团的奖赏-v01-p02.png"
+          ],
+          "scoreFloor": 0.93
+        },
+        {
+          "id": "house",
+          "name": "黄金屋",
+          "patches": [
+            "assets/opening/mozailu-黄金屋-v01-p01.png",
+            "assets/opening/mozailu-黄金屋-v01-p02.png"
+          ],
+          "scoreFloor": 0.93
+        },
+        {
+          "id": "garden",
+          "name": "旧时庭园",
+          "patches": [
+            "assets/opening/mozailu-旧时庭园-v01-p01.png",
+            "assets/opening/mozailu-旧时庭园-v01-p02.png"
+          ],
+          "scoreFloor": 0.93
+        },
+        {
+          "id": "shift",
+          "name": "换班时间",
+          "patches": [
+            "assets/opening/mozailu-换班时间-v01-p01.png",
+            "assets/opening/mozailu-换班时间-v01-p02.png"
+          ],
+          "scoreFloor": 0.93
+        },
+        {
+          "id": "draw",
+          "name": "运筹帷幄",
+          "patches": [
+            "assets/opening/mozailu-运筹帷幄-v01-p01.png",
+            "assets/opening/mozailu-运筹帷幄-v01-p02.png"
+          ],
+          "scoreFloor": 0.93
+        },
+        {
+          "id": "lyre",
+          "name": "琴音之诗",
+          "patches": [
+            "assets/opening/mozailu-琴音之诗-v01-p01.png",
+            "assets/opening/mozailu-琴音之诗-v01-p02.png"
+          ],
+          "scoreFloor": 0.93
+        },
+        {
+          "id": "boar",
+          "name": "野猪公主",
+          "patches": [
+            "assets/opening/mozailu-野猪公主-v01-p01.png",
+            "assets/opening/mozailu-野猪公主-v01-p02.png"
+          ],
+          "scoreFloor": 0.93
+        },
+        {
+          "id": "countdown3",
+          "name": "幻戏倒计时：3",
+          "views": [
+            {
+              "name": "native-74c06360bf-0",
+              "patches": [
+                "assets/opening/mozailu-幻戏倒计时-3-v01-p01.png",
+                "assets/opening/mozailu-幻戏倒计时-3-v01-p02.png"
+              ]
+            },
+            {
+              "name": "native-74c06360bf-1",
+              "patches": [
+                "assets/opening/mozailu-幻戏倒计时-3-v02-p01.png",
+                "assets/opening/mozailu-幻戏倒计时-3-v01-p02.png"
+              ]
+            }
+          ],
+          "scoreFloor": 0.95
+        },
+        {
+          "id": "timaeus",
+          "name": "蒂玛乌斯",
+          "patches": [
+            "assets/opening/mozailu-蒂玛乌斯-v01-p01.png",
+            "assets/opening/mozailu-蒂玛乌斯-v01-p02.png"
+          ],
+          "views": [
+            {
+              "name": "reviewed-opening1600",
+              "patches": [
+                "assets/opening/mozailu-蒂玛乌斯-v01-p01.png",
+                "assets/opening/mozailu-蒂玛乌斯-v01-p02.png"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "dunyarzad",
+          "name": "迪娜泽黛",
+          "patches": [
+            "assets/opening/mozailu-迪娜泽黛-v01-p01.png",
+            "assets/opening/mozailu-迪娜泽黛-v01-p02.png"
+          ],
+          "views": [
+            {
+              "name": "user-opening1600-0f9ad7a09f",
+              "patches": [
+                "assets/opening/mozailu-迪娜泽黛-v01-p01.png",
+                "assets/opening/mozailu-迪娜泽黛-v01-p02.png"
+              ]
+            }
+          ]
+        }
+      ],
+      "atlas": {
+        "assets/opening/mozailu-偷懒的新方法-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            680,
+            90,
+            85
+          ],
+          "sourceSha256": "4b765953e0a0b10541437193f145a0bb5c2b39db36f8a525c7396c5c19fe56d8"
+        },
+        "assets/opening/mozailu-偷懒的新方法-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            680,
+            90,
+            85
+          ],
+          "sourceSha256": "d2a0647af31656198855cec4c08a2ffd199159b4a2a9826b3284b41336853152"
+        },
+        "assets/opening/mozailu-偷懒的新方法-v02-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            680,
+            90,
+            85
+          ],
+          "sourceSha256": "6f546cb5af2c24179a956a66253d60a9663ce33aac31d4bbdd8e8a90c82147fe"
+        },
+        "assets/opening/mozailu-偷懒的新方法-v02-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            680,
+            90,
+            85
+          ],
+          "sourceSha256": "a8ac1d9345ea6cb70c8cfda6083d45ac9fdd426fe380775f6227b4cbd0c5e970"
+        },
+        "assets/opening/mozailu-偷懒的新方法-v03-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            680,
+            90,
+            85
+          ],
+          "sourceSha256": "aeb914b89cc55cf762ea807311a1eae6bb84d623712412ee22a6ec693a03b6d8"
+        },
+        "assets/opening/mozailu-偷懒的新方法-v03-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            765,
+            90,
+            85
+          ],
+          "sourceSha256": "f6da5458a0b0d519febe2d8c7fe7e04bb07337a323495f20cb23a91ec74d129f"
+        },
+        "assets/opening/mozailu-狼的末路-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            935,
+            90,
+            85
+          ],
+          "sourceSha256": "59e78be7d0e5ffc23761e6e39de28f6e1b7a807f82a5cc9e75a633baf60cd07b"
+        },
+        "assets/opening/mozailu-狼的末路-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            935,
+            90,
+            85
+          ],
+          "sourceSha256": "348958933e51602800e8c113ad78bcf42f31f9f3c5b3aef009103caf90f04a00"
+        },
+        "assets/opening/mozailu-赌徒的耳环-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            2465,
+            90,
+            85
+          ],
+          "sourceSha256": "7eb1048ecf82244c5c271c633cb9a6194edf14d91e2ab23a188d65c900af617b"
+        },
+        "assets/opening/mozailu-赌徒的耳环-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            2550,
+            90,
+            85
+          ],
+          "sourceSha256": "6d66d8041a1cde7716c4c78f9aab245e9190a244354db0282e1419333eb60335"
+        },
+        "assets/opening/mozailu-饰金之梦-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            1105,
+            90,
+            85
+          ],
+          "sourceSha256": "0bb856b419b662244441f804c38a1b1680cdedb41abfb49549009640f2793792"
+        },
+        "assets/opening/mozailu-饰金之梦-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            1105,
+            90,
+            85
+          ],
+          "sourceSha256": "7eee89219e46103686c74244d8aea5f7726af48615484bea1787a7fd48b65289"
+        },
+        "assets/opening/mozailu-黄金剧团的奖赏-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            1105,
+            90,
+            85
+          ],
+          "sourceSha256": "3825f05bcf2598301b67a60ae111e961bc176e03d4bde6a47ee5e900307c2940"
+        },
+        "assets/opening/mozailu-黄金剧团的奖赏-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            1105,
+            90,
+            85
+          ],
+          "sourceSha256": "ba7715e0b090985b17582c71c4e34c558f1b1ae39b74b32f6a87b74a8479b972"
+        },
+        "assets/opening/mozailu-黄金屋-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            1190,
+            90,
+            85
+          ],
+          "sourceSha256": "20661c2770a23725b4f85c61273ae90c40db752fa5f2621f6c91f577fcb30858"
+        },
+        "assets/opening/mozailu-黄金屋-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            1190,
+            90,
+            85
+          ],
+          "sourceSha256": "585c4560c4b29b927dbfc35f11f8adf56bab6fce9c9ad060360b8cf707f890a3"
+        },
+        "assets/opening/mozailu-旧时庭园-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            765,
+            90,
+            85
+          ],
+          "sourceSha256": "5699ba7928cd9c4570ba28cb5db4108aa0df48d26fe79c44b397bafce6141e56"
+        },
+        "assets/opening/mozailu-旧时庭园-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            765,
+            90,
+            85
+          ],
+          "sourceSha256": "6e9cb447b540687cb1d1bb2eaf2f346acc486937e2700db27d2f08d328eec623"
+        },
+        "assets/opening/mozailu-换班时间-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            2210,
+            90,
+            85
+          ],
+          "sourceSha256": "90a1433dff01dfec45514fb96b330be013439eba63a420b197759368bb228bdb"
+        },
+        "assets/opening/mozailu-换班时间-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            2210,
+            90,
+            85
+          ],
+          "sourceSha256": "00a661cf89f54a6d01f88b02aa14bd27f32de093df817716d9a9ce478aacde85"
+        },
+        "assets/opening/mozailu-运筹帷幄-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            2550,
+            90,
+            85
+          ],
+          "sourceSha256": "12a77437894a2332261f68f6e6e1e72b2ae77a62918ab6c1f3bc17e80f3396f6"
+        },
+        "assets/opening/mozailu-运筹帷幄-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            2550,
+            90,
+            85
+          ],
+          "sourceSha256": "a3047fa1881e693bfd0685a6e895dea4836174dd49b5f9215776259c07bbc3d3"
+        },
+        "assets/opening/mozailu-琴音之诗-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            935,
+            90,
+            85
+          ],
+          "sourceSha256": "864094e44898b3600c7d78fc3fb932a2a429dd4187edc1598d7a5bcc69e7f94b"
+        },
+        "assets/opening/mozailu-琴音之诗-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            935,
+            90,
+            85
+          ],
+          "sourceSha256": "9099bc3d70eceb82c6ea4e794eeb94e014865a487f2d3d0aaa7c1f0ee15d80b6"
+        },
+        "assets/opening/mozailu-野猪公主-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            1020,
+            90,
+            85
+          ],
+          "sourceSha256": "b0e7767ecfeca224fba3f1719077ebbef38fded93c2206c8591e9bc81d1693ea"
+        },
+        "assets/opening/mozailu-野猪公主-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            1105,
+            90,
+            85
+          ],
+          "sourceSha256": "610e7cd96489187d267556a78ef2a710da8b4252ba986f9defdeacf1a1359743"
+        },
+        "assets/opening/mozailu-幻戏倒计时-3-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            1445,
+            90,
+            85
+          ],
+          "sourceSha256": "b523993e449123b381973ef14c8a438295dd24d073a8f842b1d7f82caec458c5"
+        },
+        "assets/opening/mozailu-幻戏倒计时-3-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            1445,
+            90,
+            85
+          ],
+          "sourceSha256": "c4ff29d6310d59e41edb3988e274b96c729a979d8ea5633a5facc8f87567890a"
+        },
+        "assets/opening/mozailu-幻戏倒计时-3-v02-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            1445,
+            90,
+            85
+          ],
+          "sourceSha256": "33b47505d01df5e0fb2a6af1b83a45173905c51276f987ad0ffa3eff934b1ecf"
+        },
+        "assets/opening/mozailu-蒂玛乌斯-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            1870,
+            90,
+            85
+          ],
+          "sourceSha256": "1592bc2bd4743cefe01ad817e1c90dd3dddf7f9bf60df41ff984a3d0d2c8ad5f"
+        },
+        "assets/opening/mozailu-蒂玛乌斯-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            1870,
+            90,
+            85
+          ],
+          "sourceSha256": "9963db98f3764ff48d8faad30dbebef539322105700e62397ea4d421a16b038d"
+        },
+        "assets/opening/mozailu-迪娜泽黛-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            1955,
+            90,
+            85
+          ],
+          "sourceSha256": "b7a6a155ee2bfafb01dce901764e9d5c83c296b2b0db18304b33740b5b0d192b"
+        },
+        "assets/opening/mozailu-迪娜泽黛-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            1955,
+            90,
+            85
+          ],
+          "sourceSha256": "63660e0a04bd817ad6b8efa62d47b12bf25c1e0990ccc1baf77401c594ed7d4f"
+        }
+      }
+    },
+    "ailin": {
+      "schemaVersion": 1,
+      "patches": [
+        [
+          -45,
+          445,
+          90,
+          85
+        ],
+        [
+          -45,
+          575,
+          90,
+          85
+        ]
+      ],
+      "scoreFloor": 0.93,
+      "runnerUpGap": 0.2,
+      "stableScore": 0.9999,
+      "entries": [
+        {
+          "id": "gambler",
+          "name": "赌徒的耳环",
+          "patches": [
+            "assets/opening/ailin-赌徒的耳环-v01-p01.png",
+            "assets/opening/ailin-赌徒的耳环-v01-p02.png"
+          ],
+          "scoreFloor": 0.93
+        },
+        {
+          "id": "heart",
+          "name": "灵光明烁之心",
+          "patches": [
+            "assets/opening/ailin-灵光明烁之心-v01-p01.png",
+            "assets/opening/ailin-灵光明烁之心-v01-p02.png"
+          ],
+          "scoreFloor": 0.93
+        },
+        {
+          "id": "dunyarzad",
+          "name": "迪娜泽黛",
+          "patches": [
+            "assets/opening/ailin-迪娜泽黛-v01-p01.png",
+            "assets/opening/ailin-迪娜泽黛-v01-p02.png"
+          ],
+          "views": [
+            {
+              "name": "user-opening1600-0f9ad7a09f",
+              "patches": [
+                "assets/opening/ailin-迪娜泽黛-v01-p01.png",
+                "assets/opening/ailin-迪娜泽黛-v01-p02.png"
+              ]
+            }
+          ],
+          "scoreFloor": 0.93
+        },
+        {
+          "id": "companion",
+          "name": "最好的伙伴！",
+          "patches": [
+            "assets/opening/ailin-最好的伙伴-v01-p01.png",
+            "assets/opening/ailin-最好的伙伴-v01-p02.png"
+          ],
+          "scoreFloor": 0.95
+        },
+        {
+          "id": "toss",
+          "name": "一掷乾坤",
+          "patches": [
+            "assets/opening/ailin-一掷乾坤-v01-p01.png",
+            "assets/opening/ailin-一掷乾坤-v01-p02.png"
+          ],
+          "scoreFloor": 0.95
+        },
+        {
+          "id": "draw",
+          "name": "运筹帷幄",
+          "patches": [
+            "assets/opening/ailin-运筹帷幄-v01-p01.png",
+            "assets/opening/ailin-运筹帷幄-v01-p02.png"
+          ],
+          "scoreFloor": 0.93,
+          "views": [
+            {
+              "name": "original",
+              "patches": [
+                "assets/opening/ailin-运筹帷幄-v01-p01.png",
+                "assets/opening/ailin-运筹帷幄-v01-p02.png"
+              ]
+            },
+            {
+              "name": "user-3490b82a6e",
+              "patches": [
+                "assets/opening/ailin-运筹帷幄-v02-p01.png",
+                "assets/opening/ailin-运筹帷幄-v02-p02.png"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "boar",
+          "name": "野猪公主",
+          "patches": [
+            "assets/opening/ailin-野猪公主-v01-p01.png",
+            "assets/opening/ailin-野猪公主-v01-p02.png"
+          ],
+          "scoreFloor": 0.93
+        },
+        {
+          "id": "soup",
+          "name": "奇瑰之汤",
+          "patches": [
+            "assets/opening/ailin-奇瑰之汤-v01-p01.png",
+            "assets/opening/ailin-奇瑰之汤-v01-p02.png"
+          ],
+          "scoreFloor": 0.93
+        },
+        {
+          "id": "chef",
+          "name": "卯师傅",
+          "patches": [
+            "assets/opening/ailin-卯师傅-v01-p01.png",
+            "assets/opening/ailin-卯师傅-v01-p02.png"
+          ]
+        },
+        {
+          "id": "pilgrimage",
+          "name": "归火圣夜巡礼",
+          "patches": [
+            "assets/opening/ailin-归火圣夜巡礼-v01-p01.png",
+            "assets/opening/ailin-归火圣夜巡礼-v01-p02.png"
+          ]
+        },
+        {
+          "id": "teaParty",
+          "name": "虹彩缤纷的甜点茶话",
+          "patches": [
+            "assets/opening/ailin-虹彩缤纷的甜点茶话-v01-p01.png",
+            "assets/opening/ailin-虹彩缤纷的甜点茶话-v01-p02.png"
+          ]
+        },
+        {
+          "id": "silver",
+          "name": "西尔弗和迈勒斯",
+          "patches": [
+            "assets/opening/ailin-西尔弗和迈勒斯-v01-p01.png",
+            "assets/opening/ailin-西尔弗和迈勒斯-v01-p02.png"
+          ]
+        },
+        {
+          "id": "dragon",
+          "name": "「邪龙」的苏醒",
+          "patches": [
+            "assets/opening/ailin-邪龙-的苏醒-v01-p01.png",
+            "assets/opening/ailin-邪龙-的苏醒-v01-p02.png"
+          ]
+        },
+        {
+          "id": "gladiator",
+          "name": "角斗士的凯旋",
+          "patches": [
+            "assets/opening/ailin-角斗士的凯旋-v01-p01.png",
+            "assets/opening/ailin-角斗士的凯旋-v01-p02.png"
+          ]
+        },
+        {
+          "id": "blessingM",
+          "name": "「魔女M的祝福」",
+          "patches": [
+            "assets/opening/ailin-魔女M的祝福-v01-p01.png",
+            "assets/opening/ailin-魔女M的祝福-v01-p02.png"
+          ]
+        },
+        {
+          "id": "surf",
+          "name": "强劲冲浪拍档！",
+          "patches": [
+            "assets/opening/ailin-强劲冲浪拍档-v01-p01.png",
+            "assets/opening/ailin-强劲冲浪拍档-v01-p02.png"
+          ]
+        }
+      ],
+      "atlas": {
+        "assets/opening/ailin-赌徒的耳环-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            2465,
+            90,
+            85
+          ],
+          "sourceSha256": "7eb1048ecf82244c5c271c633cb9a6194edf14d91e2ab23a188d65c900af617b"
+        },
+        "assets/opening/ailin-赌徒的耳环-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            2550,
+            90,
+            85
+          ],
+          "sourceSha256": "6d66d8041a1cde7716c4c78f9aab245e9190a244354db0282e1419333eb60335"
+        },
+        "assets/opening/ailin-灵光明烁之心-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            850,
+            90,
+            85
+          ],
+          "sourceSha256": "f8ee0516cc08df3646f152a69fa917d8005538c40ddd78b66459857335c4491f"
+        },
+        "assets/opening/ailin-灵光明烁之心-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            850,
+            90,
+            85
+          ],
+          "sourceSha256": "850e842c1c7d40d1685376910ec4b70393f41b81ba20f1c268cff5d26b963413"
+        },
+        "assets/opening/ailin-迪娜泽黛-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            1955,
+            90,
+            85
+          ],
+          "sourceSha256": "b7a6a155ee2bfafb01dce901764e9d5c83c296b2b0db18304b33740b5b0d192b"
+        },
+        "assets/opening/ailin-迪娜泽黛-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            1955,
+            90,
+            85
+          ],
+          "sourceSha256": "63660e0a04bd817ad6b8efa62d47b12bf25c1e0990ccc1baf77401c594ed7d4f"
+        },
+        "assets/opening/ailin-最好的伙伴-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            2295,
+            90,
+            85
+          ],
+          "sourceSha256": "d50597e4edeea99bf7a773e81d415be1a82df008d0e49961881cf30b1a7ef2d6"
+        },
+        "assets/opening/ailin-最好的伙伴-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            2295,
+            90,
+            85
+          ],
+          "sourceSha256": "33948a0d783398e765983d901606b6598516fcf9c6f5848f9db6dbf61cb012c2"
+        },
+        "assets/opening/ailin-一掷乾坤-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            1955,
+            90,
+            85
+          ],
+          "sourceSha256": "3b9a10eaf0b2cc842589c1eb09bd9d8da7c4cb39a478656b5b5a228571a00c45"
+        },
+        "assets/opening/ailin-一掷乾坤-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            1955,
+            90,
+            85
+          ],
+          "sourceSha256": "d7ab7d24e6aa4beb12b0dc016f417a49150f7ec9bdcba488866f294edb4e1d4f"
+        },
+        "assets/opening/ailin-运筹帷幄-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            2550,
+            90,
+            85
+          ],
+          "sourceSha256": "12a77437894a2332261f68f6e6e1e72b2ae77a62918ab6c1f3bc17e80f3396f6"
+        },
+        "assets/opening/ailin-运筹帷幄-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            2550,
+            90,
+            85
+          ],
+          "sourceSha256": "a3047fa1881e693bfd0685a6e895dea4836174dd49b5f9215776259c07bbc3d3"
+        },
+        "assets/opening/ailin-运筹帷幄-v02-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            170,
+            90,
+            85
+          ],
+          "sourceSha256": "9ea93296816dc80344237dfd25df4f59f8b9b7b032dd04db9c272dd36ebe2c33"
+        },
+        "assets/opening/ailin-运筹帷幄-v02-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            170,
+            90,
+            85
+          ],
+          "sourceSha256": "67d378779957280afbd0a4bf8035e54f9d0f17b0bd8825d00df95083f8dbd5d4"
+        },
+        "assets/opening/ailin-野猪公主-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            1020,
+            90,
+            85
+          ],
+          "sourceSha256": "b0e7767ecfeca224fba3f1719077ebbef38fded93c2206c8591e9bc81d1693ea"
+        },
+        "assets/opening/ailin-野猪公主-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            1105,
+            90,
+            85
+          ],
+          "sourceSha256": "610e7cd96489187d267556a78ef2a710da8b4252ba986f9defdeacf1a1359743"
+        },
+        "assets/opening/ailin-奇瑰之汤-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            765,
+            90,
+            85
+          ],
+          "sourceSha256": "323d9c34729c04cf987f59a68e35b22ef2b7300b169129b004939d5c42ad22f3"
+        },
+        "assets/opening/ailin-奇瑰之汤-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            765,
+            90,
+            85
+          ],
+          "sourceSha256": "c1c5413ed2cccf758f2c2bae84b4d3781d68a6f16176fcd953213aac2fe1c8c8"
+        },
+        "assets/opening/ailin-卯师傅-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            0,
+            90,
+            85
+          ],
+          "sourceSha256": "081d68ab3f5fdcb9dd91444da3ceb01f67455afbc6f589a53024ff00758602f2"
+        },
+        "assets/opening/ailin-卯师傅-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            0,
+            90,
+            85
+          ],
+          "sourceSha256": "8cfcd36371c890c3e9bea1617871515f4284adca8c84ed9cfaca1591cd64aa0f"
+        },
+        "assets/opening/ailin-归火圣夜巡礼-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            0,
+            90,
+            85
+          ],
+          "sourceSha256": "9d82500e244fb06c462369726fc38572485fa456749395bb3e534b1434015b98"
+        },
+        "assets/opening/ailin-归火圣夜巡礼-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            85,
+            90,
+            85
+          ],
+          "sourceSha256": "93cc82d865a597a4139ba21c5263ef3d9f178b49413dd2480656a808de863806"
+        },
+        "assets/opening/ailin-虹彩缤纷的甜点茶话-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            85,
+            90,
+            85
+          ],
+          "sourceSha256": "fd707c55954ca0e4bb1aa042e1178063ff492f2ef63dc3c0ff6cfe9906aaf729"
+        },
+        "assets/opening/ailin-虹彩缤纷的甜点茶话-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            85,
+            90,
+            85
+          ],
+          "sourceSha256": "2cd7bdf44a35cec190357c6f9a60d7778a5d3dfafe3444b1ae81197bbdd2392e"
+        },
+        "assets/opening/ailin-西尔弗和迈勒斯-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            85,
+            90,
+            85
+          ],
+          "sourceSha256": "7169d5cd1b2d222dd17c8f00b9d8edfd30a65bb3dac35652243e1dd35396dc7c"
+        },
+        "assets/opening/ailin-西尔弗和迈勒斯-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            85,
+            90,
+            85
+          ],
+          "sourceSha256": "39cd7f48d3d901ffe54a7eb523091cbb64d7ef5498abeba30699fb0a48504e5b"
+        },
+        "assets/opening/ailin-邪龙-的苏醒-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            170,
+            90,
+            85
+          ],
+          "sourceSha256": "7c2f1077199ec6fc74d680b7035fd0e16211008b40a6dc8beb52bf787bdd3b99"
+        },
+        "assets/opening/ailin-邪龙-的苏醒-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            255,
+            90,
+            85
+          ],
+          "sourceSha256": "826034dbf44380c16bd7cbd8bd20363b3ee3882a788795c64a7db82169d46b8a"
+        },
+        "assets/opening/ailin-角斗士的凯旋-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            170,
+            90,
+            85
+          ],
+          "sourceSha256": "c4bc09a7248568144c043cf3b8860068fe517f61df13b89c8e6001cf350994f8"
+        },
+        "assets/opening/ailin-角斗士的凯旋-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            170,
+            90,
+            85
+          ],
+          "sourceSha256": "65e35df0ff2d58a7f98703e105bf7b3802a697e9d9ef55059d50d85e775ae418"
+        },
+        "assets/opening/ailin-魔女M的祝福-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            255,
+            90,
+            85
+          ],
+          "sourceSha256": "f0d719324da96091b6c28d4d4ea50f2f381577e53be177068b32d418745d533f"
+        },
+        "assets/opening/ailin-魔女M的祝福-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            255,
+            90,
+            85
+          ],
+          "sourceSha256": "6c874b2b0d86ca94986115456fbe7f0ca1c6a0c947e3c52260d639a1bb56ca10"
+        },
+        "assets/opening/ailin-强劲冲浪拍档-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            0,
+            90,
+            85
+          ],
+          "sourceSha256": "4ea27e3cfe704ec5e924cec88f7670f22f92fcb58362db4f4622f02b15d2a7f9"
+        },
+        "assets/opening/ailin-强劲冲浪拍档-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            0,
+            90,
+            85
+          ],
+          "sourceSha256": "3fcc6db50d02525947e7bd0c062ba7a52de14f366cf46f6ff1820147933adec6"
+        }
+      }
+    },
+    "consecrated": {
+      "schemaVersion": 1,
+      "patches": [
+        [
+          -45,
+          445,
+          90,
+          85
+        ],
+        [
+          -45,
+          575,
+          90,
+          85
+        ]
+      ],
+      "scoreFloor": 0.95,
+      "runnerUpGap": 0.2,
+      "stableScore": 0.9999,
+      "entries": [
+        {
+          "id": "sand",
+          "name": "「沙中遗事」",
+          "views": [
+            {
+              "name": "native-f8245637fe-0",
+              "patches": [
+                "assets/opening/consecrated-沙中遗事-v01-p01.png",
+                "assets/opening/consecrated-沙中遗事-v01-p02.png"
+              ]
+            },
+            {
+              "name": "native-f8245637fe-1",
+              "patches": [
+                "assets/opening/consecrated-沙中遗事-v02-p01.png",
+                "assets/opening/consecrated-沙中遗事-v02-p02.png"
+              ]
+            }
+          ],
+          "scoreFloor": 0.95
+        },
+        {
+          "id": "shift",
+          "name": "换班时间",
+          "patches": [
+            "assets/opening/consecrated-换班时间-v01-p01.png",
+            "assets/opening/consecrated-换班时间-v01-p02.png"
+          ],
+          "scoreFloor": 0.93
+        },
+        {
+          "id": "draw",
+          "name": "运筹帷幄",
+          "patches": [
+            "assets/opening/consecrated-运筹帷幄-v01-p01.png",
+            "assets/opening/consecrated-运筹帷幄-v01-p02.png"
+          ],
+          "scoreFloor": 0.93,
+          "views": [
+            {
+              "name": "original",
+              "patches": [
+                "assets/opening/consecrated-运筹帷幄-v01-p01.png",
+                "assets/opening/consecrated-运筹帷幄-v01-p02.png"
+              ]
+            },
+            {
+              "name": "user-2c4016e157",
+              "patches": [
+                "assets/opening/consecrated-运筹帷幄-v02-p01.png",
+                "assets/opening/consecrated-运筹帷幄-v02-p02.png"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "stars",
+          "name": "星天之兆",
+          "views": [
+            {
+              "name": "native-3123c4864d-f0",
+              "patches": [
+                "assets/opening/consecrated-星天之兆-v01-p01.png",
+                "assets/opening/consecrated-星天之兆-v01-p02.png"
+              ]
+            },
+            {
+              "name": "native-3123c4864d-f1",
+              "patches": [
+                "assets/opening/consecrated-星天之兆-v01-p01.png",
+                "assets/opening/consecrated-星天之兆-v01-p02.png"
+              ]
+            }
+          ],
+          "scoreFloor": 0.95
+        },
+        {
+          "id": "countdown3",
+          "name": "幻戏倒计时：3",
+          "views": [
+            {
+              "name": "native-74c06360bf-0",
+              "patches": [
+                "assets/opening/consecrated-幻戏倒计时-3-v01-p01.png",
+                "assets/opening/consecrated-幻戏倒计时-3-v01-p02.png"
+              ]
+            },
+            {
+              "name": "native-74c06360bf-1",
+              "patches": [
+                "assets/opening/consecrated-幻戏倒计时-3-v02-p01.png",
+                "assets/opening/consecrated-幻戏倒计时-3-v01-p02.png"
+              ]
+            }
+          ],
+          "scoreFloor": 0.95
+        },
+        {
+          "id": "revel",
+          "name": "「狂欢节奏」",
+          "patches": [
+            "assets/opening/consecrated-狂欢节奏-v01-p01.png",
+            "assets/opening/consecrated-狂欢节奏-v01-p02.png"
+          ],
+          "scoreFloor": 0.93
+        },
+        {
+          "id": "emblem",
+          "name": "绝缘之旗印",
+          "patches": [
+            "assets/opening/consecrated-绝缘之旗印-v01-p01.png",
+            "assets/opening/consecrated-绝缘之旗印-v01-p02.png"
+          ]
+        },
+        {
+          "id": "harbor",
+          "name": "璃月港口",
+          "patches": [
+            "assets/opening/consecrated-璃月港口-v01-p01.png",
+            "assets/opening/consecrated-璃月港口-v01-p02.png"
+          ]
+        },
+        {
+          "id": "nre",
+          "name": "便携营养袋",
+          "patches": [
+            "assets/opening/consecrated-便携营养袋-v01-p01.png",
+            "assets/opening/consecrated-便携营养袋-v01-p02.png"
+          ]
+        },
+        {
+          "id": "scorpionTalent",
+          "name": "亡雷凝蓄",
+          "patches": [
+            "assets/opening/consecrated-亡雷凝蓄-v01-p01.png",
+            "assets/opening/consecrated-亡雷凝蓄-v01-p02.png"
+          ]
+        },
+        {
+          "id": "lair",
+          "name": "风龙废墟",
+          "patches": [
+            "assets/opening/consecrated-风龙废墟-v01-p01.png",
+            "assets/opening/consecrated-风龙废墟-v01-p02.png"
+          ]
+        },
+        {
+          "id": "serpentTalent",
+          "name": "亡风啸卷",
+          "patches": [
+            "assets/opening/consecrated-亡风啸卷-v01-p01.png",
+            "assets/opening/consecrated-亡风啸卷-v01-p02.png"
+          ]
+        },
+        {
+          "id": "whiteGlove",
+          "name": "白手套和渔夫",
+          "patches": [
+            "assets/opening/consecrated-白手套和渔夫-v01-p01.png",
+            "assets/opening/consecrated-白手套和渔夫-v01-p02.png"
+          ]
+        },
+        {
+          "id": "crocodileTalent",
+          "name": "亡水溢流",
+          "patches": [
+            "assets/opening/consecrated-亡水溢流-v01-p01.png",
+            "assets/opening/consecrated-亡水溢流-v01-p02.png"
+          ]
+        },
+        {
+          "id": "liben",
+          "name": "立本",
+          "patches": [
+            "assets/opening/consecrated-立本-v01-p01.png",
+            "assets/opening/consecrated-立本-v01-p02.png"
+          ]
+        },
+        {
+          "id": "adeptus",
+          "name": "仙跳墙",
+          "patches": [
+            "assets/opening/consecrated-仙跳墙-v01-p01.png",
+            "assets/opening/consecrated-仙跳墙-v01-p02.png"
+          ]
+        }
+      ],
+      "atlas": {
+        "assets/opening/consecrated-沙中遗事-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            1615,
+            90,
+            85
+          ],
+          "sourceSha256": "750da33003e4c1cdb5c8179b45df4e6512797ab6e53c56ade3a91ac3ba9d5836"
+        },
+        "assets/opening/consecrated-沙中遗事-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            1615,
+            90,
+            85
+          ],
+          "sourceSha256": "c0c6e108f45e089ad520a1a4efa0a132a906cec8085dea26db4ccf3a90fa9a02"
+        },
+        "assets/opening/consecrated-沙中遗事-v02-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            1615,
+            90,
+            85
+          ],
+          "sourceSha256": "55e7ca12f9e356cc1428704732fdd8043a113ad3677edb940765507135641a0a"
+        },
+        "assets/opening/consecrated-沙中遗事-v02-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            1700,
+            90,
+            85
+          ],
+          "sourceSha256": "88bccc7e4cbedf53e30ed572afb07709737b9c3f94a6a3c39e6740f305d0f933"
+        },
+        "assets/opening/consecrated-换班时间-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            2210,
+            90,
+            85
+          ],
+          "sourceSha256": "90a1433dff01dfec45514fb96b330be013439eba63a420b197759368bb228bdb"
+        },
+        "assets/opening/consecrated-换班时间-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            2210,
+            90,
+            85
+          ],
+          "sourceSha256": "00a661cf89f54a6d01f88b02aa14bd27f32de093df817716d9a9ce478aacde85"
+        },
+        "assets/opening/consecrated-运筹帷幄-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            2550,
+            90,
+            85
+          ],
+          "sourceSha256": "12a77437894a2332261f68f6e6e1e72b2ae77a62918ab6c1f3bc17e80f3396f6"
+        },
+        "assets/opening/consecrated-运筹帷幄-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            2550,
+            90,
+            85
+          ],
+          "sourceSha256": "a3047fa1881e693bfd0685a6e895dea4836174dd49b5f9215776259c07bbc3d3"
+        },
+        "assets/opening/consecrated-运筹帷幄-v02-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            595,
+            90,
+            85
+          ],
+          "sourceSha256": "e869518164fe867e46c9329ff78f08ac03677608f3ba27a9a1cd82a28873e3ca"
+        },
+        "assets/opening/consecrated-运筹帷幄-v02-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            595,
+            90,
+            85
+          ],
+          "sourceSha256": "afff7c3057626a13335bf3f3e0c74335026099629b6523594f8ab5c8045e644a"
+        },
+        "assets/opening/consecrated-星天之兆-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            2295,
+            90,
+            85
+          ],
+          "sourceSha256": "55d8e44823758f3e43877c081b152bf24691b1063a87638a8cf0a0637575c9fa"
+        },
+        "assets/opening/consecrated-星天之兆-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            2295,
+            90,
+            85
+          ],
+          "sourceSha256": "cf502acbbd7817482f712fd3366058e26956768da5210d5ba6287c312a9f7bcd"
+        },
+        "assets/opening/consecrated-幻戏倒计时-3-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            1445,
+            90,
+            85
+          ],
+          "sourceSha256": "b523993e449123b381973ef14c8a438295dd24d073a8f842b1d7f82caec458c5"
+        },
+        "assets/opening/consecrated-幻戏倒计时-3-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            1445,
+            90,
+            85
+          ],
+          "sourceSha256": "c4ff29d6310d59e41edb3988e274b96c729a979d8ea5633a5facc8f87567890a"
+        },
+        "assets/opening/consecrated-幻戏倒计时-3-v02-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            1445,
+            90,
+            85
+          ],
+          "sourceSha256": "33b47505d01df5e0fb2a6af1b83a45173905c51276f987ad0ffa3eff934b1ecf"
+        },
+        "assets/opening/consecrated-狂欢节奏-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            850,
+            90,
+            85
+          ],
+          "sourceSha256": "0d7f1417a176e1b5de46f95fda1444430c9ac913d6d847f1e3800d84d12227a4"
+        },
+        "assets/opening/consecrated-狂欢节奏-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            935,
+            90,
+            85
+          ],
+          "sourceSha256": "1ca2bf5d813a64216671abfe859e94dfe83c62a7862816a420121cf947517f88"
+        },
+        "assets/opening/consecrated-绝缘之旗印-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            510,
+            90,
+            85
+          ],
+          "sourceSha256": "bafaf54656ca656dd6a1ce1d45e424d9787e77c1f430ee1e1b0d7b1c4f45d1a0"
+        },
+        "assets/opening/consecrated-绝缘之旗印-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            595,
+            90,
+            85
+          ],
+          "sourceSha256": "1d1988bba3588ce7fba4884592a81d0f4b10852183e3ba1ac644dbfd81ff8132"
+        },
+        "assets/opening/consecrated-璃月港口-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            425,
+            90,
+            85
+          ],
+          "sourceSha256": "9eacd3dc137a67cb54fee868e3e384fc4d4d6f6851c2330a1c8dd1fef7167169"
+        },
+        "assets/opening/consecrated-璃月港口-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            425,
+            90,
+            85
+          ],
+          "sourceSha256": "ffabccc93b59a96dd2d12dc564d8478b29765a63f76eb77c8c22ea9554c22c4e"
+        },
+        "assets/opening/consecrated-便携营养袋-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            425,
+            90,
+            85
+          ],
+          "sourceSha256": "efbd96b14f029f8a038da381a29450cacc27eb1ae8e84efbdc484c4b13880686"
+        },
+        "assets/opening/consecrated-便携营养袋-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            425,
+            90,
+            85
+          ],
+          "sourceSha256": "56e04b95a5f59b56c579bb1cf96aa0719645cd8ad07b64a4d3375982fc7ee09a"
+        },
+        "assets/opening/consecrated-亡雷凝蓄-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            340,
+            90,
+            85
+          ],
+          "sourceSha256": "1942653a88306a31a1b5cdfd1b2633068c71c253fd50cb9028830c1480275efe"
+        },
+        "assets/opening/consecrated-亡雷凝蓄-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            340,
+            90,
+            85
+          ],
+          "sourceSha256": "0937bf34d1de4dd3caf6f351b841d75c8598b36789d75929ed473fa74198cb0b"
+        },
+        "assets/opening/consecrated-风龙废墟-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            595,
+            90,
+            85
+          ],
+          "sourceSha256": "da737a0247738e5baad54c06621f439ec356529ef894ed41f98709bdcd109029"
+        },
+        "assets/opening/consecrated-风龙废墟-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            595,
+            90,
+            85
+          ],
+          "sourceSha256": "62abec10183a105c20b34ee3cdf63df910ec08a90e8bef90d51d5ce4b29eff3f"
+        },
+        "assets/opening/consecrated-亡风啸卷-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            340,
+            90,
+            85
+          ],
+          "sourceSha256": "060ab9568ea1b870629119792078065a966ea4476b14c2131afb3e43dd3fb35c"
+        },
+        "assets/opening/consecrated-亡风啸卷-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            340,
+            90,
+            85
+          ],
+          "sourceSha256": "0c29f5eeeb11471c215a8b90a48741316564a0ca438d85c10ba45f3e70f603cf"
+        },
+        "assets/opening/consecrated-白手套和渔夫-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            510,
+            90,
+            85
+          ],
+          "sourceSha256": "eeef8c47290126c91351dab54d9e4786f0087f6c6b8329c26465d78c408e4f01"
+        },
+        "assets/opening/consecrated-白手套和渔夫-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            90,
+            510,
+            90,
+            85
+          ],
+          "sourceSha256": "98b1c0be2f6db96f488c4d9f180e2013c07ae19050e2880206b44b93957d82d2"
+        },
+        "assets/opening/consecrated-亡水溢流-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            255,
+            90,
+            85
+          ],
+          "sourceSha256": "f560e4624585a82adab5dea021027714a6c96c5e43083488d33c4db7bd576321"
+        },
+        "assets/opening/consecrated-亡水溢流-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            255,
+            90,
+            85
+          ],
+          "sourceSha256": "1660e6ad6f369eee3ca6b13a0494c1ba31d9ab33522beeac71c6bb756504a3ea"
+        },
+        "assets/opening/consecrated-立本-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            180,
+            510,
+            90,
+            85
+          ],
+          "sourceSha256": "ad9c02739a5b5e18c7d78b3a483de4c6d9764e8c1893765a87f87aeea4525bfa"
+        },
+        "assets/opening/consecrated-立本-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            270,
+            510,
+            90,
+            85
+          ],
+          "sourceSha256": "a304826dfadd839bd2fd955b1f5a33be64ac090ba5a06b9f9159ddb5dc4fec31"
+        },
+        "assets/opening/consecrated-仙跳墙-v01-p01.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            360,
+            340,
+            90,
+            85
+          ],
+          "sourceSha256": "91abe08eedac6bacc8b7a2c5415c64791ce76132feafbc45ccc34ccd5492b157"
+        },
+        "assets/opening/consecrated-仙跳墙-v01-p02.png": {
+          "file": "assets/card-atlas/hand.png",
+          "rect": [
+            0,
+            425,
+            90,
+            85
+          ],
+          "sourceSha256": "2006d42436569eabcbdec554452a8b4831d24a43a58df2107e8407b6e0496411"
+        }
+      }
+    }
+  }
+}
