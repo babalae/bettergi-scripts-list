@@ -134,6 +134,8 @@ export const UI_REGIONS = {
     COMMISSION_TAB: new rect(260, 317, 89, 47),
     /** 每日委托奖励区域 */
     DAILY_COMMISSION_REWARD: new rect(427, 345, 142, 36),
+    /** 每日委托奖励进度区域（包含标签与 n/4，排除左侧奖励图标） */
+    DAILY_COMMISSION_REWARD_PROGRESS: new rect(427, 342, 297, 47),
     /** 冒险历练启用状态判断区域：检测"长效历练点" */
     ADVENTURE_ENCOUNTERS_ENABLED_INDICATOR: new rect(759, 817, 125, 47),
     /** 冒险历练点数 OCR 区域 */
