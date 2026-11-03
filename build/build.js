@@ -498,7 +498,7 @@ function extractInfoFromCombatJsonFile(filePath) {
         obj = JSON.parse(content);
     } catch (e) {
         return {
-            author: '', authors: null, description: '', tags: [],
+            authors: null, description: '', tags: [],
             version: '', lastUpdated: ''
         };
     }
@@ -518,7 +518,6 @@ function extractInfoFromCombatJsonFile(filePath) {
     const version = gitTimestamp ? formatTime(gitTimestamp) : '';
 
     return {
-        author: processAuthorInfo(authorName) || '',
         authors: processDetailedAuthorInfo(authorName),
         description: convertNewlines(config['介绍'] || config.description || info.Description || ''),
         tags: prioritizeVersionTag(filterLongTags(characters)),
