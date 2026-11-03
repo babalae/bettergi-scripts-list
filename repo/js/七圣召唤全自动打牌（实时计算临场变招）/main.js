@@ -815,8 +815,8 @@ function actionRefused(s, m, action) {
     actionRerollGoal,rerollCounter,enemyCount,gamblerRemaining,skillElement,dendroReaction,sproutAvailable,activeKeqingInfusion,damageAgainst };
 })(globalThis);
 
-globalThis.TCG.version="2.1.0";
-globalThis.TCG.sharedVersion="2.1.0";
+globalThis.TCG.version="2.1.1";
+globalThis.TCG.sharedVersion="2.1.1";
 globalThis.TCG.deckId="raiden";
 globalThis.TCG.defaultStrategy="default";
 (function (T) {
@@ -2554,8 +2554,8 @@ function actionRefused(s, m, action) {
   };
 })(globalThis);
 
-globalThis.TCG.version="2.1.0";
-globalThis.TCG.sharedVersion="2.1.0";
+globalThis.TCG.version="2.1.1";
+globalThis.TCG.sharedVersion="2.1.1";
 globalThis.TCG.deckId="iansan";
 globalThis.TCG.defaultStrategy="default";
 (function (T) {
@@ -5287,8 +5287,8 @@ function actionRefused(s, m, action) {
       "heal-dice":["请选择一个角色","对所选角色生效"],heal:["请选择一个角色","对所选角色生效"]}};
 })(globalThis);
 
-globalThis.TCG.version="2.1.0";
-globalThis.TCG.sharedVersion="2.1.0";
+globalThis.TCG.version="2.1.1";
+globalThis.TCG.sharedVersion="2.1.1";
 globalThis.TCG.deckId="moonbloom";
 globalThis.TCG.defaultStrategy="default";
 (function (T) {
@@ -6687,8 +6687,8 @@ function actionRefused(s, m, action) {
     refusalCost:(s,m,a)=>a.type==="skill"?skillCost(a.who,a.skill,m,s):a.type==="card"?cardCost(a.id,a.target,m,s):a.type==="switch"?switchCost(m):{}};
 })(globalThis);
 
-globalThis.TCG.version="2.1.0";
-globalThis.TCG.sharedVersion="2.1.0";
+globalThis.TCG.version="2.1.1";
+globalThis.TCG.sharedVersion="2.1.1";
 globalThis.TCG.deckId="mozailu";
 globalThis.TCG.defaultStrategy="default";
 (function (T) {
@@ -7761,8 +7761,8 @@ function actionRefused(s, m, action) {
     refusalCost:(s,m,a)=>a.type==="skill"?skillCost(a.who,a.skill,m,s):a.type==="card"?cardCost(a.id,a.target,m):a.type==="switch"?switchCost(m):{}};
 })(globalThis);
 
-globalThis.TCG.version="2.1.0";
-globalThis.TCG.sharedVersion="2.1.0";
+globalThis.TCG.version="2.1.1";
+globalThis.TCG.sharedVersion="2.1.1";
 globalThis.TCG.deckId="ailin";
 globalThis.TCG.defaultStrategy="default";
 (function (T) {
@@ -9046,8 +9046,8 @@ const projectionBudget = (() => {
     refusalCost:(s,m,a)=>a.type==="skill"?skillCost(a.who,a.skill,m,s):a.type==="card"?cardCost(s,a,m):a.type==="switch"?switchCost(m):{}};
 })(globalThis);
 
-globalThis.TCG.version="2.1.0";
-globalThis.TCG.sharedVersion="2.1.0";
+globalThis.TCG.version="2.1.1";
+globalThis.TCG.sharedVersion="2.1.1";
 globalThis.TCG.deckId="consecrated";
 globalThis.TCG.defaultStrategy="default";
 (function (T) {
@@ -12731,57 +12731,6 @@ function panelRegion(layoutKey, panel, rect, observed = false) {
         throw e;
       }
     }
-    async requireSwitchPreview(action, memory) {
-      // Native normal switching has NO bottom action label. Only the fast
-      // status displays 快速行动; absence alone never identifies this overlay.
-      const expectedSpeed = memory.fastSwitch ? "快速行动" : "";
-      for (let attempt = 0; attempt < 10; attempt++) {
-        const sampledAt = Date.now();
-        const preview = this.frame((f) => ({
-          phase: this.phaseIn(f),
-          banner: this.ocr(f, this.roi("phase", [700, 508, 580, 65])),
-          control: this.ocr(f, this.roi("bottom", [1720, 835, 195, 75])),
-          speed: this.ocr(f, this.roi("bottom", [850, 972, 260, 60])),
-          warning: this.warnings(f),
-        }));
-        await this.requireNoWarning(preview.warning);
-        this.requireHandObservation(preview.phase, "switch-preview");
-        const matched =
-          preview.phase.phase === "unknown" &&
-          preview.phase.turn === "none" &&
-          TCG.norm(preview.banner) === "将所选角色切换为出战角色" &&
-          TCG.norm(preview.control) === "切换角色" &&
-          ["", "快速行动"].includes(TCG.norm(preview.speed));
-        this.trace("switch-preview", {
-          attempt,
-          target: action.target,
-          expectedSpeed,
-          matched,
-          ...preview,
-        });
-        if (preview.phase.phase === "board" && preview.phase.turn === "user" &&
-            TCG.norm(preview.banner) === "元素骰子不足") {
-          const error = new Error("游戏拒绝动作：" + preview.banner);
-          error.code = "TCG_NATIVE_REJECTION";
-          throw error;
-        }
-        const actualSpeed = TCG.norm(preview.speed);
-        if (matched) return { fast: actualSpeed === "快速行动", speed: actualSpeed };
-        if (preview.phase.phase === "board" && preview.phase.turn === "user" &&
-            !TCG.norm(preview.banner) && !TCG.norm(preview.control)) {
-          // The first click did not open payment (native handoff was still
-          // running). Nothing was submitted: return to the existing state
-          // owner, rather than polling a nonexistent overlay or confirming it.
-          this.autoRisk = true;
-          const error = new Error("切换付款页未打开，交回当前牌桌重新决策");
-          error.code = "TCG_STATE_REFRESH";
-          throw error;
-        }
-        const remaining = 300 - (Date.now() - sampledAt);
-        if (attempt < 9 && remaining > 0) await sleep(remaining);
-      }
-      throw new Error("切换确认页未核实横幅、控件与行动类型");
-    }
     
     boardsMatch(before, after, purpose = "observation", _action = null) {
       const key=s=>JSON.stringify([s.phase,s.turn,s.active,TCG.diceOrder.map(e=>s.dice?.[e]||0),s.characters,s.enemies,
@@ -12968,13 +12917,19 @@ function panelRegion(layoutKey, panel, rect, observed = false) {
       await sleep(120);
       this.requireHandObservation(this.phase(), "before-switch-payment");
       this.clickAt(...this.point("bottom",1820,958));
-      await sleep(120);
-      const preview = await this.requireSwitchPreview(action, memory);
+      // Official switching allows 800ms for payment to open before confirming.
+      await sleep(800);
+      const preview = this.frame(f => ({
+        phase: this.phaseIn(f), warning: this.warnings(f),
+        banner: this.ocr(f, this.roi("phase", [700, 508, 580, 65])),
+      }));
+      this.requireHandObservation(preview.phase, "before-switch-confirm");
+      await this.requireNoWarning({ lack: preview.warning.lack,
+        text: preview.warning.text + "\n" + preview.banner });
       this.clickAt(...this.point("bottom",1820,958));
       this.trace("switch-confirm-clicked", {
         target: action.target,
         point: this.point("bottom",1820,958),
-        fast: preview.fast,
         predictedFast: memory.fastSwitch,
       });
     }
