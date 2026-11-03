@@ -280,7 +280,7 @@ const projectionBudget = (() => {
   }
   function skillLegal(s, action, m) {
     const who = action.who;
-    if (s.active !== who || !alive(s.characters[who]) || s.characters[who].frozen !== false) return false;
+    if (s.active !== who || !team[who]?.skills[action.skill] || !alive(s.characters[who]) || s.characters[who].frozen !== false) return false;
     if (action.skill === "Q" && (!known(s.characters[who].energy) || s.characters[who].energy < team[who].maxEnergy)) return false;
     return !!payment(s.dice, skillCost(who, action.skill, m,s), team[who].element);
   }
@@ -815,8 +815,8 @@ function actionRefused(s, m, action) {
     actionRerollGoal,rerollCounter,enemyCount,gamblerRemaining,skillElement,dendroReaction,sproutAvailable,activeKeqingInfusion,damageAgainst };
 })(globalThis);
 
-globalThis.TCG.version="2.0.16";
-globalThis.TCG.sharedVersion="2.0.16";
+globalThis.TCG.version="2.1.0";
+globalThis.TCG.sharedVersion="2.1.0";
 globalThis.TCG.deckId="raiden";
 globalThis.TCG.defaultStrategy="default";
 (function (T) {
@@ -996,7 +996,7 @@ globalThis.TCG.deckLabel="充能连爆";
     const next=copy(s),mem=copy(m),cost=actionCost(a,s,m),
       pay=T.payment(s.dice,cost,T.team[a.type==="switch"?a.target:s.active].element);
     if(!pay)return null;
-    next.dice=pay.remaining;let benefit=0,combat=false,leaf=false,guaranteedCombat=true;
+    next.dice=pay.remaining;let benefit=0,combat=false,leaf=false;
     const active=next.characters[s.active];
     function gain(who,amount){const x=next.characters[who];if(T.alive(x))x.energy=Math.min(T.team[who].maxEnergy,x.energy+amount);}
     if(a.type==="switch") {
@@ -1041,7 +1041,6 @@ globalThis.TCG.deckLabel="充能连爆";
     if(cast){
       combat=true;const who=cast.who,skill=cast.skill;next.active=who;
       const d=damageEstimate(s,m,who,skill,a.type==="card"&&a.id==="floralSidewinder");
-      guaranteedCombat=!d.uncertainReaction;
       // Credit HP actually removed, not overkill. Unknown enemy replies and
       // replacement choices end this branch instead of inventing a new target.
       benefit+=(d.target?Math.min(d.target.hp,d.direct):d.direct*.5)*.95;
@@ -1096,9 +1095,8 @@ globalThis.TCG.deckLabel="充能连爆";
       if(d.coreConsumed)next.dendroCore={known:true,charges:0};
     }
     T.commit(mem,a,s,next);
-    const provenFinish=guaranteedCombat&&T.enemyCount(s)>0&&T.enemyCount(next)===0&&
-      s.enemies.filter(T.alive).every(e=>e.defenseKnown===true&&e.auraKnown===true);
-    return {state:next,memory:mem,benefit,combat,leaf,provenFinish,
+    const estimatedFinish=T.enemyCount(s)>0&&T.enemyCount(next)===0;
+    return {state:next,memory:mem,benefit,combat,leaf,estimatedFinish,
       passesTurn:combat || a.type==="switch"&&!m.fastSwitch};
   }
   function evaluation(s,m,baseline){
@@ -1118,10 +1116,10 @@ globalThis.TCG.deckLabel="充能连爆";
   }
   function betterPlan(candidate,best) {
     if(!best)return true;
-    const finish=candidate.provenFinish===true,previousFinish=best.provenFinish===true;
+    const finish=candidate.estimatedFinish===true,previousFinish=best.estimatedFinish===true;
     if(finish!==previousFinish)return finish;
     // Score estimates may reward healing or setup earlier in the path. A
-    // known finish has no such future; choose fewer real inputs before value.
+    // projected finish has no such future; choose fewer real inputs before value.
     if(finish && candidate.path.length!==best.path.length)return candidate.path.length<best.path.length;
     return candidate.value>best.value;
   }
@@ -1241,7 +1239,7 @@ globalThis.TCG.deckLabel="充能连爆";
     const worthwhile=best && (best.value>.08 || T.enemyCount(best.state)===0),
       status=!T.projectionBudget.available()?"budget-exhausted":worthwhile?"action":"no-worthwhile-action";
     if(!worthwhile)return {action:null,status,expanded};
-    return {action:best.path[0],status,sequence:best.path,value:best.value,expanded,terminal:best.provenFinish===true};
+    return {action:best.path[0],status,sequence:best.path,value:best.value,expanded,terminal:best.estimatedFinish===true};
   }
   function needProbe(s,m){
     if(!["shatterbolt","sharpkernel"].includes(m.thundergrassSupport) || s.quicken?.known)return null;
@@ -1263,9 +1261,17 @@ globalThis.TCG.deckLabel="充能连爆";
     if(!T.legalState(s))return {type:"stop",reason:"回合、手牌、血量、状态或充能存在未知值，禁止猜测执行"};
     const probe=needProbe(s,m);if(probe)return probe;
     const p=plan(s,m);
-    if(p.action)return {...p.action,score:Math.round(p.value*10),planning:{depth:6,expanded:p.expanded,status:p.status,
-      value:Number(p.value.toFixed(3)),sequence:p.sequence.map(a=>T.actionKey(a)),terminal:p.terminal===true},
-      reason:"比较出牌/调和/切人/技能组合，选择当前可核实收益最高的首步"};
+    if(p.action){
+      const casts=p.sequence.map(a=>cardSkill(a,s)).filter(Boolean),first=casts[0],
+        intent=p.terminal?"当前路线准备收尾，先把伤害兑现，省去多余铺垫":
+          casts.filter(a=>a.skill==="Q").length>1?"把已经衔接起来的大招依次打出去，形成全队接力爆发":
+          first?.who===0?(first.skill==="Q"?"先用雷神大招给后台补能，把输出交给后续角色":"先完成雷神的启动与充能，为全队大招接力铺垫"):
+          first?.who===1?"让柯莱接上草伤，为后续雷伤与激化铺垫":
+          first?.who===2?"让刻晴接手雷伤，把当前附魔与充能转成持续输出":null;
+      return {...p.action,intent,score:Math.round(p.value*10),planning:{depth:6,expanded:p.expanded,status:p.status,
+        value:Number(p.value.toFixed(3)),sequence:p.sequence.map(a=>T.actionKey(a)),terminal:p.terminal===true},
+        reason:"比较出牌/调和/切人/技能组合，选择当前可核实收益最高的首步"};
+    }
     return {type:"end",planning:{depth:6,expanded:p.expanded,status:p.status},
       reason:p.status==="budget-exhausted"?"搜索预算用尽，已完整评估的路线中没有值得执行的动作，结束本轮":"没有可支付且值得执行的动作，结束本轮"};
   }
@@ -2548,8 +2554,8 @@ function actionRefused(s, m, action) {
   };
 })(globalThis);
 
-globalThis.TCG.version="2.0.16";
-globalThis.TCG.sharedVersion="2.0.16";
+globalThis.TCG.version="2.1.0";
+globalThis.TCG.sharedVersion="2.1.0";
 globalThis.TCG.deckId="iansan";
 globalThis.TCG.defaultStrategy="default";
 (function (T) {
@@ -3388,10 +3394,7 @@ globalThis.TCG.deckLabel="全能速通";
   }
   function terminalFinisher(s, m) {
     if (!T.legalState(s) || !(T.enemyCount(s) > 0)) return null;
-    if (!s.enemies.filter(T.alive).every(e => e.defenseKnown === true && e.auraKnown === true)) return null;
-    // Only currently legal immediate damage, including the native return
-    // after a paid/fast Gaming switch. Prepared/end-phase estimates cannot
-    // prove a terminal state; simulate never applies those delayed hits.
+    // Compare immediate projected damage; prepared/end-phase hits stay delayed.
     const order = (a) => (a.type === "skill" ? ["NA", "E", "Q"].indexOf(a.skill) : 3);
     const candidates = enumerate(s, m).filter(
         (a) => a.type === "skill" || (a.type === "switch" && a.target === 1 && m.gamingReturn),
@@ -3678,8 +3681,7 @@ globalThis.TCG.deckLabel="全能速通";
           ),
         );
     const consider = (node) => {
-      const terminal = T.enemyCount(s) > 0 && T.enemyCount(node.state) === 0 &&
-        s.enemies.filter(T.alive).every(e => e.defenseKnown === true && e.auraKnown === true);
+      const terminal = T.enemyCount(s) > 0 && T.enemyCount(node.state) === 0;
       // Keep unfinished relay prefixes in the beam, but never select them as
       // payoff. Bare NA must actually reach E/Q, finish a target, add damage,
       // or unlock output that the former active role could not afford.
@@ -5285,8 +5287,8 @@ function actionRefused(s, m, action) {
       "heal-dice":["请选择一个角色","对所选角色生效"],heal:["请选择一个角色","对所选角色生效"]}};
 })(globalThis);
 
-globalThis.TCG.version="2.0.16";
-globalThis.TCG.sharedVersion="2.0.16";
+globalThis.TCG.version="2.1.0";
+globalThis.TCG.sharedVersion="2.1.0";
 globalThis.TCG.deckId="moonbloom";
 globalThis.TCG.defaultStrategy="default";
 (function (T) {
@@ -6685,8 +6687,8 @@ function actionRefused(s, m, action) {
     refusalCost:(s,m,a)=>a.type==="skill"?skillCost(a.who,a.skill,m,s):a.type==="card"?cardCost(a.id,a.target,m,s):a.type==="switch"?switchCost(m):{}};
 })(globalThis);
 
-globalThis.TCG.version="2.0.16";
-globalThis.TCG.sharedVersion="2.0.16";
+globalThis.TCG.version="2.1.0";
+globalThis.TCG.sharedVersion="2.1.0";
 globalThis.TCG.deckId="mozailu";
 globalThis.TCG.defaultStrategy="default";
 (function (T) {
@@ -6961,7 +6963,7 @@ globalThis.TCG.deckLabel="扩散清场";
       const all=living(s);
       terminal=all.length>0&&all.every(e=>{
         const d=e===estimate.target?estimate:estimate.splash.find(x=>s.enemies[x.index]===e);
-        return d?.guaranteed!==null&&d?.guaranteed>=e.hp;
+        return d?.direct>=e.hp;
       });
       if(estimate.direct>=estimate.target?.hp)value+=1.2;
       if(terminal)value+=100;
@@ -7025,7 +7027,15 @@ globalThis.TCG.deckLabel="扩散清场";
           (opponentReply&&p.estimate?Math.max(0,p.value-(p.terminal?100:0))*.25:0);
       const candidate={action:sequence[0],score,sequence,estimate:p.estimate,terminal,paymentUncertain,
         attackReserveLost:p.attackReserveLost};
-      if((p.stop||sequence.length===5)&&(!best||score>best.score))best=candidate;
+      if(p.stop||sequence.length===5){
+        let better=!best;
+        if(best){
+          if(terminal!==best.terminal)better=terminal;
+          else if(terminal&&sequence.length!==best.sequence.length)better=sequence.length<best.sequence.length;
+          else better=score>best.score;
+        }
+        if(better)best=candidate;
+      }
       if(p.estimate&&!opponentReply&&(!combat||score>combat.score))combat=candidate;
       if(p.estimate?.hydroSetup&&!sequence.some(x=>x.type==="switch")&&(!setup||score>setup.score))setup=candidate;
       // Slot10 delayed a payable Timaeus until round3, though playing it in
@@ -7486,7 +7496,7 @@ function actionRefused(s, m, action) {
       enemyAliveCount:null,skillCosts:null,probeKeys:[],uncertainActions:[],refusedActions:[]};
   }
   function nextRound(m){
-    m.round++;m.gladiatorUsed=[false,false,false];m.gamblerUsed=[0,0,0];m.food=[false,false,false];
+    m.round++;m.gladiatorUsed=[false,false,false];m.food=[false,false,false];
     m.soupDiscount=[0,0,0];m.soupDamage=[0,0,0];m.gildedDamage=[0,0,0];
     m.talentColdUsed=false;m.boar=0;m.freeSwitch=false;
     if(m.round>1){m.coldSummon=Math.max(0,m.coldSummon-1);m.catSummon=Math.max(0,m.catSummon-1);}
@@ -7619,6 +7629,7 @@ function actionRefused(s, m, action) {
       if(c.type==="artifact"){
         if(m.boar>0&&m.artifactKinds[a.target])m.boar--;
         m.artifactKinds[a.target]=a.id;
+        if(a.id==="gambler")m.gamblerUsed[a.target]=0;
       }
       if(c.type==="talent")m.talents[0]=true;
       if(c.type==="support"){
@@ -7750,8 +7761,8 @@ function actionRefused(s, m, action) {
     refusalCost:(s,m,a)=>a.type==="skill"?skillCost(a.who,a.skill,m,s):a.type==="card"?cardCost(a.id,a.target,m):a.type==="switch"?switchCost(m):{}};
 })(globalThis);
 
-globalThis.TCG.version="2.0.16";
-globalThis.TCG.sharedVersion="2.0.16";
+globalThis.TCG.version="2.1.0";
+globalThis.TCG.sharedVersion="2.1.0";
 globalThis.TCG.deckId="ailin";
 globalThis.TCG.defaultStrategy="default";
 (function (T) {
@@ -7964,7 +7975,7 @@ globalThis.TCG.deckLabel="反应快攻";
       return e.guaranteed!==null&&e.guaranteed>=activeEnemy(s)?.hp||
         T.enemyCount(s)===1&&e.direct>=activeEnemy(s)?.hp;
     });
-    if(finish)return finish;
+    if(finish)return {...finish,intent:"当前输出足够补刀，省下额外的装备和调和步骤"};
     const list=direct.concat(attackPreparations(s,m,direct),fundedAttacks(s,m)).sort((a,b)=>b.value-a.value),actor=s.active;
     let best=list[0];
     // Optional development must not spend the last payable attack. Compare
@@ -7986,13 +7997,13 @@ globalThis.TCG.deckLabel="反应快攻";
           const cost=goal.type==="skill"?T.skillCost(c.who,c.skill,memory,next):T.cardCost(goal.id,goal.target,memory);
           return remaining>=T.size(cost);
         });
-        if(!canStillFund)best=output;
+        if(!canStillFund)best={...output,intent:"把骰子留给这一轮的攻击，付费过牌和铺场先缓一缓"};
       }
     }
     // Use the opening the guide describes only while it can still be paid.
     if(actor===0&&m.used[0]===0){
       const setup=list.find(a=>{const goal=a.followup||a;return goal.type==="card"&&goal.id==="teaParty"||goal.type==="skill"&&goal.skill==="E";});
-      if(setup)return setup;
+      if(setup)return {...setup,intent:"先铺好冰召唤物，再让后续普攻与火伤接上"};
     }
     // The guide's startup is E -> Lyney charged arrow, not repeated physical
     // attacks while the cold summon ticks away. A one-hit ranking charges the
@@ -8006,12 +8017,13 @@ globalThis.TCG.deckLabel="反应快攻";
       if(paid){
         const relay={...s,active:1,dice:paid.remaining},available=candidates(relay,m),
           plans=available.concat(attackPreparations(relay,m,available),fundedAttacks(relay,m));
-        if(plans.some(a=>{const goal=a.followup||a;return a.value>0&&goal.type==="skill"&&goal.skill==="CA";}))
-          return {type:"switch",target:1};
+        const relayPlan=plans.find(a=>{const goal=a.followup||a;return a.value>0&&goal.type==="skill"&&goal.skill==="CA";});
+        if(relayPlan)return {type:"switch",target:1,followup:relayPlan,intent:"冰召唤物已经铺好，骰子也够林尼接重击，换他上来衔接火伤"};
       }
     }
     const next=carryPlan(s,m);
-    if(next.who!==actor&&(!best||best.value-standingRisk(s,actor)<next.value))return {type:"switch",target:next.who};
+    if(next.who!==actor&&(!best||best.value-standingRisk(s,actor)<next.value))return {type:"switch",target:next.who,
+      intent:s.characters[actor].hp<=3?"当前角色血线受压，把进攻交给队友，保留后续接力":"把出战位交给当前输出更合适的队友，接着组织进攻"};
     if(best&&best.value>0)return best;
     return {type:"end",reason:"当前资源没有可兑现的行动"};
   }
@@ -8466,7 +8478,7 @@ const projectionBudget = (() => {
   }
   function skillLegal(s,a,m=null) {
     const c=s.characters?.[a.who];
-    return a.who===s.active && alive(c) && c.frozen===false &&
+    return a.who===s.active && !!team[a.who]?.skills[a.skill] && alive(c) && c.frozen===false &&
       (a.skill!=="Q" || c.energy>=team[a.who].maxEnergy) &&
       !!payment(s.dice,skillCost(a.who,a.skill,m,s));
   }
@@ -8672,7 +8684,7 @@ const projectionBudget = (() => {
     return alive(s.characters?.[0]) ? {pileBlocks:{count:2,placement:"top-10"},handBlocks:0} : null;
   }
   function switchBudget(s,target,m) {
-    if (target===s.active || !alive(s.characters?.[target])) return null;
+    if (!Number.isInteger(target) || target<0 || target>2 || target===s.active || !alive(s.characters?.[target])) return null;
     const paid=payment(s.dice,switchCost(m),team[target].element);
     if (!paid) return null; // A post-switch refund cannot fund this switch.
     return {cost:m.freeSwitch===true?0:1,remaining:paid.remaining,fast:false,
@@ -9034,8 +9046,8 @@ const projectionBudget = (() => {
     refusalCost:(s,m,a)=>a.type==="skill"?skillCost(a.who,a.skill,m,s):a.type==="card"?cardCost(s,a,m):a.type==="switch"?switchCost(m):{}};
 })(globalThis);
 
-globalThis.TCG.version="2.0.16";
-globalThis.TCG.sharedVersion="2.0.16";
+globalThis.TCG.version="2.1.0";
+globalThis.TCG.sharedVersion="2.1.0";
 globalThis.TCG.deckId="consecrated";
 globalThis.TCG.defaultStrategy="default";
 (function (T) {
@@ -9865,6 +9877,13 @@ function panelRegion(layoutKey, panel, rect, observed = false) {
     const changed=Object.entries(fields).filter(([,read])=>JSON.stringify(read(before))!==JSON.stringify(read(after)));
     return details ? Object.fromEntries(changed.map(([name,read])=>[name,{before:read(before),after:read(after)}])) : changed.map(([name])=>name);
   }
+  const skillOrders = TCG.team.map(actor => {
+    const order = actor.skillOrder || ["NA", "E", "Q"];
+    if (![3,4].includes(order.length) || new Set(order).size !== order.length ||
+        order.some(skill => !actor.skills[skill]))
+      throw new Error("角色技能槽位配置不正确：" + actor.name);
+    return order;
+  });
   class BetterGIHost {
     constructor(options) {
       this.options = options;
@@ -9930,8 +9949,6 @@ function panelRegion(layoutKey, panel, rect, observed = false) {
     moveTo(x, y) {
       const point = mousePoint(x, y, this.captureGeometry?.frameSize);
       this.requireMatchTime();
-      // Recheck actual geometry even if the last OCR frame has the same size.
-      // This also guards each interpolation step of a held drag, without OCR.
       this.checkInputGeometry();
       this.requireMatchTime();
       GameCaptureRegion.GameRegion1080PPosMove(point[0], point[1]);
@@ -10769,17 +10786,15 @@ function panelRegion(layoutKey, panel, rect, observed = false) {
     }
     
     skillX(action) {
-      const actor=TCG.team[action.who],order=actor?.skillOrder||["NA","E","Q"],index=order.indexOf(action.skill);
-      if(!actor||![3,4].includes(order.length)||new Set(order).size!==order.length||
-        order.some(skill=>!actor.skills[skill])||index<0)
-        throw new Error("技能槽位或当前出战角色不符");
+      const order=skillOrders[action.who],index=order.indexOf(action.skill);
       // Skills stay right-aligned. Lyney's second normal attack adds one slot
       // on the left; E/Q retain the existing calibrated positions.
       return 1824-108*(order.length-1-index);
     }
     async probeSkill(action,before,memory) {
+      if(action.who!==before.active||!TCG.team[action.who]?.skills[action.skill])
+        throw new Error("费用检视只能用于当前角色的固定技能槽");
       const x=this.skillX(action);
-      if(action.who!==before.active)throw new Error("费用检视只能用于当前角色的固定技能槽");
       this.clickAt(...this.point("bottom",x,957));await sleep(1200);
       let fee=null,last=null,stable=0;
       for(let i=0;i<4;i++){
@@ -11004,24 +11019,7 @@ function panelRegion(layoutKey, panel, rect, observed = false) {
         for (let i = 0; i < row.count; i++) {
           const c = row.cards[i], x = row.xs[i];
           if (!(TCG.alive(c) || c.dead === true) || best.xs.some(bx => Math.abs(bx - x) <= 12)) continue;
-          // A candidate HP crop can cross an admitted card's aura strip.
-          // Native Cryo was read as8 inside the four-slot layout while the
-          // complete one-slot layout correctly read44. Attribute a matched
-          // elemental glyph to that card, not to an extra enemy. Real outer
-          // HP and death markers still prevent shrinking a partial team.
-          const y = c.active ? 212 : 170;
-          const hpArea = this.roi("board", this.precisionBoard ? [x,y-6,62,52] : [x+8,y,44,40]).rect;
-          const overlaps = (a,b) => a[0]<b[0]+b[2] && b[0]<a[0]+a[2] &&
-            a[1]<b[1]+b[3] && b[1]<a[1]+a[3];
-          const auraDigit = c.dead !== true && best.cards.some((card,j) => {
-            if (card.dead === true) return false;
-            const area = this.roi("board", [best.xs[j]+60,(card.active?212:170)-70,95,62]);
-            if (!overlaps(hpArea,area.rect)) return false;
-            return ["Cryo","Hydro","Pyro","Electro","Dendro"].some(element =>
-              this.matches(f,"state/State"+element,area,0.8,true).some(g =>
-                overlaps(hpArea,[g.x,g.y,g.w,g.h])));
-          });
-          if (!auraDigit) return unknown();
+          if (!this.enemyHpIsAura(f, x, c, best)) return unknown();
         }
       return best.cards.map((c, i) => {
         // Freeze, like aura, does not select a layout. Read only admitted slots
@@ -11030,6 +11028,22 @@ function panelRegion(layoutKey, panel, rect, observed = false) {
         const frozen = c.dead !== true &&
           this.has(f, "state/StateFreeze", this.roi("board", [best.xs[i] + 17, 105, 167, 382]), 0.9);
         return { ...c, aura, auraKnown: aura.length > 0 && aura.length <= 2, frozen: frozen ? true : null };
+      });
+    }
+    enemyHpIsAura(f, x, candidate, layout) {
+      if (candidate.dead === true) return false;
+      // Only an overlapping native elemental glyph can explain an extra HP digit.
+      const y = candidate.active ? 212 : 170;
+      const hpArea = this.roi("board", this.precisionBoard ? [x,y-6,62,52] : [x+8,y,44,40]).rect;
+      const overlaps = (a,b) => a[0]<b[0]+b[2] && b[0]<a[0]+a[2] &&
+        a[1]<b[1]+b[3] && b[1]<a[1]+a[3];
+      return layout.cards.some((card,j) => {
+        if (card.dead === true) return false;
+        const area = this.roi("board", [layout.xs[j]+60,(card.active?212:170)-70,95,62]);
+        if (!overlaps(hpArea,area.rect)) return false;
+        return ["Cryo","Hydro","Pyro","Electro","Dendro"].some(element =>
+          this.matches(f,"state/State"+element,area,0.8,true).some(g =>
+            overlaps(hpArea,[g.x,g.y,g.w,g.h])));
       });
     }
     auraIn(f, hpX, hpY) {
@@ -11153,9 +11167,8 @@ function panelRegion(layoutKey, panel, rect, observed = false) {
       // The native control is a toggle. Card selection does not close the fan;
       // never click that control again while the same layout remains ready.
       const readView = f => {
-        if (!this.raisedHandIn) return null;
-        if (this.raisedHandIn(f)) return "expanded";
-        return this.collapsedLayoutIn(f).status === "readable" ? "folded" : null;
+        if (this.collapsedLayoutIn(f).status === "readable") return "folded";
+        return this.raisedHandIn(f) ? "expanded" : null;
       };
       let needsReset;
       let view = this.frame(f => {
@@ -11238,7 +11251,7 @@ function panelRegion(layoutKey, panel, rect, observed = false) {
     async inspectHandCard(action, x, before = null) {
       // A fresh native artwork identity is sufficient for ordinary input.
       // Details are only opened for unknown identities or actual deck facts.
-      if (before && !this.needsCardDetails?.(action, before) && this.expandedHandIn) {
+      if (before && !this.needsCardDetails?.(action, before)) {
         let slot;
         try {
           slot=this.frame(f => {
@@ -11767,7 +11780,7 @@ function panelRegion(layoutKey, panel, rect, observed = false) {
       try {
         // One owner for the read transaction. The artwork adapter only seeds
         // identities/count; it cannot finish a second title/reset lifecycle.
-        if (!scan.cards && this.readFoldedHand)
+        if (!scan.cards)
           evidence = await this.readFoldedHand(expected, evidence, scan);
         // Evidence passed here was obtained in this very observation, not an
         // estimated count or the previous action's projected hand.
@@ -11792,19 +11805,31 @@ function panelRegion(layoutKey, panel, rect, observed = false) {
           for (let i = 0; i < n; i++) if (!hand[i]) hand[i] = { ...scan.retainedHand[i], index: i };
           scan.route = "retained-order-native-count";
         }
-        // Establish the expanded fan once. Selecting a card only raises that
-        // card; it does not require resetting/re-expanding the whole hand.
+        // Unknown identities need the fan; the folded recovery below may finish
+        // them without any title clicks.
         if (n > 0 && !hand.every(Boolean) && !this.handFanReady) {
           await this.expand();
         }
         this.handScanSerial++;
-        // Copy all positions before the first title click invalidates the proof.
-        // Selection raises one card but does not reorder the rest of this fan.
-        const points = this.handPoints(n);
-        await this.prepareHandObservation?.(n);
         if (!scan.route) scan.route = "expanded-artwork-fallback";
         this.trace("hand-scan", { count: n, expected, reusedCount: !!evidence, route: scan.route });
-        await this.fillHandArtwork?.(hand, scan);
+        await this.fillHandArtwork(hand, scan);
+        if (n > 1 && hand.every(card => !card) && !scan.titleCandidates?.some(Boolean) &&
+            this.handFanReady && !scan.foldedAfterExpanded) {
+          scan.foldedAfterExpanded = true;
+          this.requireHandObservation(this.phase(), "before-folded-hand-recheck");
+          await this.reset();
+          const foldedScan = { ...scan, cards: null };
+          await this.readFoldedHand(null, null, foldedScan);
+          if (foldedScan.cards?.length === n) {
+            hand.splice(0, n, ...foldedScan.cards);
+            Object.assign(scan, foldedScan, { cards: hand });
+          }
+          if (!hand.every(Boolean)) await this.expand();
+        }
+        // Bind positions and card facts to the view used for the remaining titles.
+        const points = this.handPoints(n);
+        await this.prepareHandObservation?.(n);
         await this.readHandTitles(hand, points, scan);
         observed = this.finishHandObservation ? this.finishHandObservation(hand, scan) : hand;
         if (this.handFanReady || this.handNeedsReset) {
@@ -11839,7 +11864,7 @@ function panelRegion(layoutKey, panel, rect, observed = false) {
           this.requireHandObservation(this.phaseIn(f), "before-retained-hand-reuse");
           const native = this.handCountIn(f);
           if (native !== null || this.handFanReady || this.handNeedsReset) return native;
-          const row = this.collapsedLayoutIn?.(f);
+          const row = this.collapsedLayoutIn(f);
           if (row?.status !== "readable") return null;
           this.lastHandCountSource = "full-folded-layout";
           return row.count;
@@ -11951,7 +11976,7 @@ function panelRegion(layoutKey, panel, rect, observed = false) {
         const {count,row}=this.frame(f=>({count:this.handCountIn(f),
           row:!plan&&this.handContinuation&&!(this.handContinuation.retainedHandOrder===true&&
             this.handContinuation.retainedHand?.length===cached.length)&&!this.handFanReady&&!this.handNeedsReset
-            ?this.collapsedIn?.(f):null}));
+            ?this.collapsedIn(f):null}));
         const changed=row?.status==="readable"&&(row.count!==cached.length||
           row.slots.some(s=>s.id&&s.id!==cached[s.index]?.id));
         if (!changed && (count === null || count === cached.length)) {
@@ -12327,93 +12352,7 @@ function panelRegion(layoutKey, panel, rect, observed = false) {
       throw new Error("初始手牌确认未生效：未进入稳定的选人或掷骰页");
     }
     async opening() {
-      const startingXs = [383, 665, 960, 1248, 1535];
-      if (TCG.openingSetting(this.options.mulligan) === "全部保留") {
-        await this.confirmOpening({
-          policy: "confirm-current",
-          reason: "keep-setting",
-          selectedByScript: [],
-        });
-        return;
-      }
-      // User and native tests confirmed hover does not reveal these titles.
-      // One click reads a title AND toggles replacement; track the actual
-      // marker, then adjust only the final mismatches. No hover probe.
-      const original = await this.openingSelections(startingXs);
-      let selected = original.slice(), pendingInspection = null;
-      const cards = [];
-      const recordInput = (index, purpose, observed) => {
-        const verified = !!observed && observed.every((value, i) => value === (i === index ? !selected[i] : selected[i]));
-        this.trace("opening-card-input", {index, purpose, before:selected[index], after:observed?.[index]??null, verified});
-        return verified;
-      };
-      const toggle = async (index, purpose) => {
-        // First card's centre is covered by its own left detail panel.
-        this.clickAt(...this.point("opening",startingXs[index]+70,540));
-        await sleep(350);
-        let observed;
-        try { observed = await this.openingSelections(startingXs); }
-        catch (error) { recordInput(index, purpose, null); throw error; }
-        if (!recordInput(index, purpose, observed)) {
-          throw new Error("起手置换标记未证实，不重复点击第" + (index + 1) + "张牌");
-        }
-        selected = observed;
-      };
-      try {
-        for (let i = 0; i < 5; i++) {
-          pendingInspection = i;
-          const raw = await this.titleAt(startingXs[i] + 70, 540, true, false);
-          let observed;
-          try { observed = await this.openingSelections(startingXs); }
-          catch (error) { recordInput(i, "inspect-unknown", null); pendingInspection = null; throw error; }
-          const verified = recordInput(i, "inspect-unknown", observed); pendingInspection = null;
-          if (!verified) {
-            throw new Error("起手读牌后的置换标记不符，不猜测选择状态");
-          }
-          selected = observed;
-          const c = TCG.observedCard(raw, i);
-          if (!c) throw new Error("第" + (i + 1) + "张初始牌标题未读清，不自动确认开局");
-          cards.push(c);
-          this.trace("opening-title-method", { index: i, method: "click", selectionChanged: true });
-        }
-      } catch (error) {
-        // Recover only when the actual marker can still be read. Do not
-        // confirm a game whose initial cards or selected replacements are unknown.
-        let observed;
-        try { observed = await this.openingSelections(startingXs); }
-        catch (failure) { if(pendingInspection!==null)recordInput(pendingInspection,"inspect-unknown",null); throw failure; }
-        if(pendingInspection!==null)recordInput(pendingInspection,"inspect-unknown",observed);
-        selected = observed;
-        for (let i = 0; i < 5; i++) if (selected[i] !== original[i]) await toggle(i, "rollback");
-        throw error;
-      }
-      this.trace("opening", cards);
-      const context = TCG.openingContext({});
-      const plan = TCG.openingPlan(cards, original, context);
-      this.openingCards = plan.keep;
-      const wanted = plan.replace;
-      this.trace("opening-plan", {
-        cards,
-        keep: cards.filter((h) => !wanted[h.index]).map((h) => h.id),
-        replace: cards.filter((h) => wanted[h.index]).map((h) => h.id),
-        replaceIndices: wanted.map((v, i) => (v ? i : -1)).filter((i) => i >= 0),
-        duplicateWeaponIndices: plan.duplicateWeapons,
-        context,
-      });
-      const final = wanted;
-      // Settle kept inspection marks first; no undo after final replacements start.
-      for (let i = 0; i < 5; i++) if (selected[i] && !final[i]) await toggle(i, "reconcile");
-      for (let i = 0; i < 5; i++) if (!selected[i] && final[i]) await toggle(i, "reconcile");
-      this.moveTo(1791, 860);
-      this.trace("opening-selection-verified", {
-        original,
-        selected,
-        proof: "two-stable-native-replace-labels-per-input",
-      });
-      await this.confirmOpening({
-        policy: "known-priority",
-        selectedByScript: selected.map((s, i) => (s ? i : -1)).filter((i) => i >= 0),
-      });
+      return root.TCGOpeningHand.opening(this, TCG, sleep);
     }
     async openingSelections(xs) {
       let previous = "",
@@ -12709,13 +12648,12 @@ function panelRegion(layoutKey, panel, rect, observed = false) {
       return last;
     }
     async drag(x, y, toX, toY) {
-      // Validate BOTH endpoints before any movement or button press.
+      this.checkInputGeometry();
       const size = this.captureGeometry?.frameSize;
       const start = mousePoint(x, y, size), end = mousePoint(toX, toY, size);
-      this.moveTo(start[0], start[1]);
+      GameCaptureRegion.GameRegion1080PPosMove(start[0], start[1]);
       await sleep(60);
       this.requireMatchTime();
-      this.checkInputGeometry();
       leftButtonDown();
       this.inputRevision++;
       this.handPositionProof = null;
@@ -12724,7 +12662,11 @@ function panelRegion(layoutKey, panel, rect, observed = false) {
         // Match official tuning's down/arrival holds; do not retry the drag.
         await sleep(100);
         for (let i = 1; i <= 10; i++) {
-          this.moveTo(start[0] + (end[0] - start[0]) * i / 10, start[1] + (end[1] - start[1]) * i / 10);
+          this.requireMatchTime();
+          // Interpolation stays inside the two validated endpoints.
+          GameCaptureRegion.GameRegion1080PPosMove(
+            Math.round(start[0] + (end[0] - start[0]) * i / 10),
+            Math.round(start[1] + (end[1] - start[1]) * i / 10));
           await sleep(15);
         }
         await sleep(100);
@@ -13005,10 +12947,7 @@ function panelRegion(layoutKey, panel, rect, observed = false) {
       throw error;
     }
     async inputSkill(action, before) {
-      // executeInput already verified the current actor, board and resources.
-      // Fixed role + fixed slot identifies the skill; no title/type OCR.
       const x = this.skillX(action);
-      if (action.who !== before.active) throw new Error("技能槽位或当前出战角色不符");
       this.clickAt(...this.point("bottom",x,957));
       await sleep(1200);
       const preview = this.frame(f => ({ phase:this.phaseIn(f), warning:this.warnings(f) }));
@@ -13021,10 +12960,7 @@ function panelRegion(layoutKey, panel, rect, observed = false) {
     }
     
     async inputSwitch(action,before,memory) {
-      if (!Number.isInteger(action.target) || action.target < 0 || action.target > 2 ||
-          action.target === before.active || before.characters[action.target].dead !== false)
-        throw new Error("切换目标非法");
-      // The observed own-character layout already identifies this fixed slot.
+            // The observed own-character layout already identifies this fixed slot.
       // Select it directly; a missing detail title must not block switching.
       this.clickAt(...this.point("board",charX[action.target],720));
       this.handNeedsReset = true;
@@ -13041,6 +12977,11 @@ function panelRegion(layoutKey, panel, rect, observed = false) {
         fast: preview.fast,
         predictedFast: memory.fastSwitch,
       });
+    }
+    requireSwitchTarget(action, before) {
+      if (!Number.isInteger(action.target) || action.target < 0 || action.target > 2 ||
+          action.target === before.active || before.characters[action.target].dead !== false)
+        throw new Error("切换目标非法");
     }
     async inputEnd() {
       let button;
@@ -13683,6 +13624,7 @@ case "raiden": {
       }
     }
     async executeInput(action, before, memory) {
+      if(action.type==="switch")this.requireSwitchTarget(action,before);
       if(action.type==="card") {
         const reason=TCG.cardInputError(before,action,memory);
         if(reason)throw new Error(reason);
@@ -13760,6 +13702,7 @@ case "raiden": {
     lotus: "为下一次受伤提供减伤",
     smoked: "为下一次普通攻击减费",
     mint: "为本回合普通攻击减费",
+    edict: "恢复目标角色生命，保留后续接力输出",
   };
 
   const OPENING_DEFAULT = "全部保留";
@@ -13863,7 +13806,7 @@ case "raiden": {
 
   // Formatter adapted from Iansan/Gaming/Sayu 0.1.9. Estimates are labelled;
   // observed facts, selected intentions and successful effects stay separate.
-  function actionCommentary(action, state, memory) {
+  function actionDescription(action, state, memory) {
     const who = T.team[action.who]?.name || "角色",
       target = T.team[action.target]?.name || "角色";
     const skill = { NA: "普通攻击", E: "元素战技", Q: "元素爆发" }[action.skill] || "技能";
@@ -13943,16 +13886,11 @@ case "raiden": {
             "。"
           );
         if (["shift", "fast"].includes(action.id)) {
-          const nextSwitch = sequence.slice(1).some((a) => a.type === "switch");
           return (
             "准备使用「" +
             card +
             "」" +
-            (nextSwitch
-              ? action.id === "shift"
-                ? "，为接下来的切换减费"
-                : "，准备快速切换"
-              : "") +
+            (action.id === "shift" ? "，为接下来的切换减费" : "，准备快速切换") +
             finish +
             "。"
           );
@@ -14211,7 +14149,7 @@ case "raiden": {
       this.progress();
     }
     async observe() {
-      const host = this.host, start = Date.now(), metrics = host.metricSnapshot?.(),
+      const host = this.host, start = Date.now(), metrics = host.metricSnapshot(),
         reused = !!this.readyState;
       host.runStage = "observation";
       let state, outcome = "failed", failure = null, readError = null;
@@ -14245,7 +14183,7 @@ case "raiden": {
         try {
           host.trace("observation-timing", { ms: Date.now() - start, reused, outcome,
             handRead: state?.handRead, code: readError?.code, missing: readError?.missing,
-            recognition: host.metricDelta?.(metrics) });
+            recognition: host.metricDelta(metrics) });
         } catch (e) { if (!failure) throw e; } // Secondary diagnostic failure must not replace the original error.
       }
     }
@@ -14351,7 +14289,7 @@ case "raiden": {
     async act() {
       const state = await this.observe();
       if (!state) return;
-      const host = this.host, memory = this.memory, started = Date.now(), metrics = host.metricSnapshot?.();
+      const host = this.host, memory = this.memory, started = Date.now(), metrics = host.metricSnapshot();
       let action, inputAt = null, confirmationAt = null, postActionAt = null,
         outcome = "failed", confirmed = false, failure = null;
       host.runStage = "planning";
@@ -14412,7 +14350,7 @@ case "raiden": {
             inputMs: (confirmationAt ?? ended) - (inputAt ?? ended),
             settlementMs: (postActionAt ?? ended) - (confirmationAt ?? ended),
             postActionMs: ended - (postActionAt ?? ended), totalMs: ended - started,
-            recognition: host.metricDelta?.(metrics), scope: "actual-runtime-not-offline-estimate" });
+            recognition: host.metricDelta(metrics), scope: "actual-runtime-not-offline-estimate" });
         } catch (e) { if (!failure) throw e; } // Keep cancellation/program errors intact.
       }
     }
@@ -14453,6 +14391,103 @@ case "raiden": {
       }
     }
   }
+  const TACTICAL_REASONS={
+  "opening-water-before-dry-relay":"先让莫娜挂水，再把扩散或蒸发接上",
+  "opening-development-preserves-water":"先发展伙伴和手牌，同时留够莫娜战技的骰子",
+  "paid-draw-preserves-last-attack":"把骰子留给这回合的攻击，付费过牌先缓一缓",
+  "equipment-loss-insurance":"先铺野猪公主，让接下来的装备替换接上返骰",
+  "partner-before-retrieval":"先用迪娜泽黛减费和检索，再接其他伙伴",
+  "同一已选装备先兑现可验证的零费减费；全段索引和支付已重算":"先把装备减费铺好，省下的骰子接到后续输出",
+  "本回合已无可支付输出，回合末交接保护站场输出位；下轮按真实骰子重算":"这轮输出已经打完，换队友承伤，保留主攻角色下一轮接力",
+  "优先兑现已确认交接的输出任务；后续仍按真实牌面重算":"接力已经到位，先兑现这次输出",
+  "已选付费切换，先用已知零费换班；确认后重算":"先用换班省下切换骰子，再把出战位交出去",
+  "先欢唱过牌并保留已知启动预算，不要求狂欢或装备对提前齐全；抽到什么再重算":"先用欢唱补充手牌，同时留够伊安珊的启动骰子",
+  "欢唱后先用现有运筹铺垫，仍保留战技预算；不猜抽牌和狂欢返骰":"欢唱已经铺好，接运筹补牌，继续留住战技的骰子",
+  "至少两张实际装备允许狂欢搏上限；只用已知返骰下界保留战技预算，随后转输出":"装备组件已经到手，用狂欢接过牌与返骰，随后转入输出",
+  "给当前出战飞蛇快速补能":"先补齐飞蛇的充能，把攻击机会留给爆发",
+  "后台亡雷建立抽牌或补齐现有块对":"启动毒蝎的供块与抽牌联动，为飞蛇攒成对能量块",
+  "亡风补块并保留后续切换收益":"补齐能量块，同时为后面的切换准备返骰",
+  "后台亡水补块并建立打出能量块后的额外治疗":"补齐能量块，并让后续打块接上角鳄治疗",
+  "在当前输出预算之外装备飞蛇，保留后续爆发收益":"当前攻击的骰子已经留好，用余下资源给飞蛇增伤",
+  "现有块配料理可达到名义血量；料理检索后先重读，不预测新牌":"手里的能量块配上料理增伤，可以争取这一轮补刀",
+  "有空间时即时过牌，抽到后重算":"手牌还有空间，先过牌寻找充能和爆发组件",
+  "有空间且先付得起倒计时，再按真实新手牌行动":"用倒计时补牌，把空出的手牌位置利用起来",
+  "狂欢按全额付款；不预支抽牌后的返骰":"先补充手牌，寻找下一步的进攻资源",
+  "空支援位用于后续抽牌；不保证回合末所有抽牌都有空间":"利用空支援位铺过牌，为后续回合接续资源",
+  "缺天赋时检索，不猜会抽到哪张":"先检索天赋，把供块与爆发组件补起来",
+  "有空位时准备后续清洁牌库收益":"趁支援区还有空位，准备清洁工作给后续攻击增伤",
+  "扣除现有立本竞争后，余下不同色骰仍可推进新实例":"余下的不同色骰还能供立本收集，换取后续骰子与手牌",
+  "已知料理库存且不占最后关键支援位时检索":"牌库里还有料理，先把爆发增伤检索到手",
+  "最高费并列最差结果可接受，过量倍率可换产骰、治疗或抽牌；只正常打出一次块":"拿多余能量块换资源，把骰子、抽牌与治疗接到这一轮进攻",
+  "块还没成对，先把拥挤的天赋、增伤和多余过牌换底，寻找启动资源":"能量块还没成对，先换掉拥挤的铺垫牌，寻找启动资源",
+  "过量块产骰可补足两次续攻资金，先读缺失的最高费弃牌事实":"准备把多余能量块换成续攻骰子，先看清这次会舍弃哪张牌",
+  "已知防御下达到当前血量；同样击倒优先保留续攻资源":"先争取击倒当前目标，同时留出后续进攻的资源",
+  "名义伤害达到当前血量；同样击倒优先保留续攻资源":"先争取击倒当前目标，同时留出后续进攻的资源",
+  "飞蛇阵亡，转现有辅助技能与陷阱收尾":"飞蛇已经退场，改由毒蝎、角鳄和陷阱接着打",
+  "已知最后回合，比较当前可兑现伤害":"已经到了最后一轮，把当前能打出的伤害集中兑现",
+  "继续用能承接行动的角色输出；飞蛇受压时交给健康队友接力，准备下一轮爆发":"爆发后继续进攻，让能承接行动的队友补伤害",
+  "飞蛇已受压，先兑现强于普通攻击的现有爆发，再补能或交给队友接力":"飞蛇血线已经受压，先打出更强的现有爆发，再安排补能和接力",
+  "飞蛇优先少准备地补能；同等操作优先战技伤害与抽牌":"先给飞蛇攒充能，用战技同时补伤害和手牌",
+  "现有爆发强于普通攻击，供块中断或满手无法补牌，先开大再补能续攻":"继续等牌的收益已经不高，先把更强的大招打出去，再靠攻击补能续攻",
+  "飞蛇已满能但组件不足且无有效发育动作，用可支付战技补伤抽牌后重算":"飞蛇已经满能，先保留大招，用战技补伤害、找齐爆发组件",
+  "现有资源可切回飞蛇补能，交棒后重新观察":"现在的资源够飞蛇接着补能，切回去为爆发蓄势",
+  "结束前调位先用现有零费换班，不白交切换骰子":"先用手里的换班省骰，再完成这一轮的承伤交接",
+  "本轮已无有效输出，结束前换健康队友承伤；本回合只做一次结束调位":"这轮已经没有合适的输出，换健康队友承伤，保住下一轮的进攻",
+  "最后一人仍有合法正伤害动作，不因低血评分空过":"只剩最后一名角色，抓住当前机会继续打伤害"
+};
+function commentaryStep(step){
+  if(typeof step!=="string")return step;
+  const [type,id,skill,technique]=step.split(":");
+  if(type==="skill")return {type,who:Number(id),skill,technique};
+  if(type==="switch")return {type,target:Number(id)};
+  return {type,id};
+}
+function commentaryStepLabel(a){
+  if(a.type==="skill")return T.team[a.who].name+"的「"+(a.skill==="T"?T.techniques[a.technique].name:T.team[a.who].skills[a.skill])+"」";
+  if(a.type==="switch")return "切换"+T.team[a.target].name;
+  if(a.type==="end")return "结束回合";
+  return (a.type==="tune"?"调和":"使用")+"「"+T.byId[a.id].name+"」";
+}
+function actionCommentary(a,s,m){
+  const planning=a.planning||a.search,parts=[actionDescription(a,s,m)],
+    reason=a.intent||TACTICAL_REASONS[a.reason||planning?.reason];
+  if(reason)parts.push(reason+"。");
+  const objective=planning?.objective;
+  if(!reason&&a.type!=="end"&&!planning?.terminal&&!planning?.retreat&&objective){
+    if(objective.task==="native-return")parts.push("嘉明的回场追击已经备好，准备接上踏云献瑞。");
+    else if(objective.phase==="develop")parts.push("先完成启动与交接，把输出条件铺给"+T.team[objective.carry].name+"。");
+    else parts.push("这一轮围绕"+T.team[objective.carry].name+"持续输出，资源优先接到他的出手上。");
+  }
+  if(!reason&&a.axis&&a.type!=="end"&&!planning?.terminal){
+    const direction={burst:"核与充能已经成形，把这轮资源集中到爆发上",fallback:"组件还没齐，先用手里的核与技能续上伤害",reaction:"先把元素反应接起来，为核减费和后续爆发铺垫",
+      relay:"把出战位交给哥伦比娅接力，延续当前反应与输出",sustain:"对手血量还多，先稳住循环，用核与技能持续压血",cleanup:"进入补刀阶段，优先兑现当前伤害"}[a.axis];
+    parts.push(direction+"。");
+  }
+  let steps=(planning?.sequence||[]).map(commentaryStep);
+  if(!steps.length){
+    steps=[a];
+    const next=a.followup||(a.funding?.goal?commentaryStep(a.funding.goal):a.plan?.terminal);
+    if(next&&T.actionKey(next)!==T.actionKey(a)){
+      steps.push(next);
+      if(next.followup)steps.push(next.followup);
+    }
+  }
+  if(!planning?.terminal){
+    const burst=steps.slice(1).find(step=>step.type==="skill"&&step.skill==="Q");
+    if(burst){
+      const need=T.team[burst.who].maxEnergy-s.characters[burst.who].energy;
+      if(need>0)parts.push(T.team[burst.who].name+"还差"+need+"点充能，先补齐再接大招。");
+    }
+  }
+  const seeds=planning?.ledger?.[0]?.seeds;
+  if(seeds&&a.type==="card"&&T.byId[a.id].type==="attachment"){
+    const free=seeds.filter(cost=>cost===0).length;
+    if(free>0)parts.push("这步之后预计有"+free+"张零费核，把减费接到后续输出。");
+  }
+  if(a.plan?.followupDamage>0)parts.push("这条路线还留出"+a.plan.remainingDice+"颗骰子，准备继续补伤害。");
+  if(steps.length>1)parts.push("接下来准备："+steps.slice(1,4).map(commentaryStepLabel).join(" → ")+"。");
+  return parts.join(" ");
+}
   root.TCGPlayer = { Player, playerOptions, actionCommentary };
 })(globalThis);
 
@@ -14976,6 +15011,7 @@ case "iansan": {
     
     
     async executeInput(action, before, memory) {
+      if(action.type==="switch")this.requireSwitchTarget(action,before);
       if (action.type === "card" && !TCG.byId[action.id]) throw new Error("未支持的卡牌禁止出牌");
       this.memory = memory;
       this.soupReceipt = null;
@@ -15190,7 +15226,7 @@ case "iansan": {
 
   // Separate observed facts, selected intentions and explicitly labelled estimates.
   // This formatter performs no recognition and does not modify the plan.
-  function actionCommentary(action, state, memory) {
+  function actionDescription(action, state, memory) {
     const who = T.team[action.who]?.name || "角色";
     const target = T.team[action.target]?.name || "角色";
     const skill = { NA: "普通攻击", E: "元素战技", Q: "元素爆发" }[action.skill];
@@ -15449,7 +15485,7 @@ case "iansan": {
     }
 
     async observe() {
-      const host = this.host, start = Date.now(), metrics = host.metricSnapshot?.(),
+      const host = this.host, start = Date.now(), metrics = host.metricSnapshot(),
         reused = !!this.readyState;
       host.runStage = "observation";
       let state, outcome = "failed", failure = null, readError = null;
@@ -15483,7 +15519,7 @@ case "iansan": {
         try {
           host.trace("observation-timing", { ms: Date.now() - start, reused, outcome,
             handRead: state?.handRead, code: readError?.code, missing: readError?.missing,
-            recognition: host.metricDelta?.(metrics) });
+            recognition: host.metricDelta(metrics) });
         } catch (e) { if (!failure) throw e; } // Secondary diagnostic failure must not replace the original error.
       }
     }
@@ -15646,7 +15682,7 @@ case "iansan": {
     async act() {
       const state = await this.observe();
       if (!state) return;
-      const host = this.host, memory = this.memory, started = Date.now(), metrics = host.metricSnapshot?.();
+      const host = this.host, memory = this.memory, started = Date.now(), metrics = host.metricSnapshot();
       let action, inputAt = null, confirmationAt = null, postActionAt = null,
         outcome = "failed", confirmed = false, failure = null;
       host.runStage = "planning";
@@ -15707,7 +15743,7 @@ case "iansan": {
             inputMs: (confirmationAt ?? ended) - (inputAt ?? ended),
             settlementMs: (postActionAt ?? ended) - (confirmationAt ?? ended),
             postActionMs: ended - (postActionAt ?? ended), totalMs: ended - started,
-            recognition: host.metricDelta?.(metrics), scope: "actual-runtime-not-offline-estimate" });
+            recognition: host.metricDelta(metrics), scope: "actual-runtime-not-offline-estimate" });
         } catch (e) { if (!failure) throw e; } // Keep cancellation/program errors intact.
       }
     }
@@ -15749,6 +15785,103 @@ case "iansan": {
       }
     }
   }
+  const TACTICAL_REASONS={
+  "opening-water-before-dry-relay":"先让莫娜挂水，再把扩散或蒸发接上",
+  "opening-development-preserves-water":"先发展伙伴和手牌，同时留够莫娜战技的骰子",
+  "paid-draw-preserves-last-attack":"把骰子留给这回合的攻击，付费过牌先缓一缓",
+  "equipment-loss-insurance":"先铺野猪公主，让接下来的装备替换接上返骰",
+  "partner-before-retrieval":"先用迪娜泽黛减费和检索，再接其他伙伴",
+  "同一已选装备先兑现可验证的零费减费；全段索引和支付已重算":"先把装备减费铺好，省下的骰子接到后续输出",
+  "本回合已无可支付输出，回合末交接保护站场输出位；下轮按真实骰子重算":"这轮输出已经打完，换队友承伤，保留主攻角色下一轮接力",
+  "优先兑现已确认交接的输出任务；后续仍按真实牌面重算":"接力已经到位，先兑现这次输出",
+  "已选付费切换，先用已知零费换班；确认后重算":"先用换班省下切换骰子，再把出战位交出去",
+  "先欢唱过牌并保留已知启动预算，不要求狂欢或装备对提前齐全；抽到什么再重算":"先用欢唱补充手牌，同时留够伊安珊的启动骰子",
+  "欢唱后先用现有运筹铺垫，仍保留战技预算；不猜抽牌和狂欢返骰":"欢唱已经铺好，接运筹补牌，继续留住战技的骰子",
+  "至少两张实际装备允许狂欢搏上限；只用已知返骰下界保留战技预算，随后转输出":"装备组件已经到手，用狂欢接过牌与返骰，随后转入输出",
+  "给当前出战飞蛇快速补能":"先补齐飞蛇的充能，把攻击机会留给爆发",
+  "后台亡雷建立抽牌或补齐现有块对":"启动毒蝎的供块与抽牌联动，为飞蛇攒成对能量块",
+  "亡风补块并保留后续切换收益":"补齐能量块，同时为后面的切换准备返骰",
+  "后台亡水补块并建立打出能量块后的额外治疗":"补齐能量块，并让后续打块接上角鳄治疗",
+  "在当前输出预算之外装备飞蛇，保留后续爆发收益":"当前攻击的骰子已经留好，用余下资源给飞蛇增伤",
+  "现有块配料理可达到名义血量；料理检索后先重读，不预测新牌":"手里的能量块配上料理增伤，可以争取这一轮补刀",
+  "有空间时即时过牌，抽到后重算":"手牌还有空间，先过牌寻找充能和爆发组件",
+  "有空间且先付得起倒计时，再按真实新手牌行动":"用倒计时补牌，把空出的手牌位置利用起来",
+  "狂欢按全额付款；不预支抽牌后的返骰":"先补充手牌，寻找下一步的进攻资源",
+  "空支援位用于后续抽牌；不保证回合末所有抽牌都有空间":"利用空支援位铺过牌，为后续回合接续资源",
+  "缺天赋时检索，不猜会抽到哪张":"先检索天赋，把供块与爆发组件补起来",
+  "有空位时准备后续清洁牌库收益":"趁支援区还有空位，准备清洁工作给后续攻击增伤",
+  "扣除现有立本竞争后，余下不同色骰仍可推进新实例":"余下的不同色骰还能供立本收集，换取后续骰子与手牌",
+  "已知料理库存且不占最后关键支援位时检索":"牌库里还有料理，先把爆发增伤检索到手",
+  "最高费并列最差结果可接受，过量倍率可换产骰、治疗或抽牌；只正常打出一次块":"拿多余能量块换资源，把骰子、抽牌与治疗接到这一轮进攻",
+  "块还没成对，先把拥挤的天赋、增伤和多余过牌换底，寻找启动资源":"能量块还没成对，先换掉拥挤的铺垫牌，寻找启动资源",
+  "过量块产骰可补足两次续攻资金，先读缺失的最高费弃牌事实":"准备把多余能量块换成续攻骰子，先看清这次会舍弃哪张牌",
+  "已知防御下达到当前血量；同样击倒优先保留续攻资源":"先争取击倒当前目标，同时留出后续进攻的资源",
+  "名义伤害达到当前血量；同样击倒优先保留续攻资源":"先争取击倒当前目标，同时留出后续进攻的资源",
+  "飞蛇阵亡，转现有辅助技能与陷阱收尾":"飞蛇已经退场，改由毒蝎、角鳄和陷阱接着打",
+  "已知最后回合，比较当前可兑现伤害":"已经到了最后一轮，把当前能打出的伤害集中兑现",
+  "继续用能承接行动的角色输出；飞蛇受压时交给健康队友接力，准备下一轮爆发":"爆发后继续进攻，让能承接行动的队友补伤害",
+  "飞蛇已受压，先兑现强于普通攻击的现有爆发，再补能或交给队友接力":"飞蛇血线已经受压，先打出更强的现有爆发，再安排补能和接力",
+  "飞蛇优先少准备地补能；同等操作优先战技伤害与抽牌":"先给飞蛇攒充能，用战技同时补伤害和手牌",
+  "现有爆发强于普通攻击，供块中断或满手无法补牌，先开大再补能续攻":"继续等牌的收益已经不高，先把更强的大招打出去，再靠攻击补能续攻",
+  "飞蛇已满能但组件不足且无有效发育动作，用可支付战技补伤抽牌后重算":"飞蛇已经满能，先保留大招，用战技补伤害、找齐爆发组件",
+  "现有资源可切回飞蛇补能，交棒后重新观察":"现在的资源够飞蛇接着补能，切回去为爆发蓄势",
+  "结束前调位先用现有零费换班，不白交切换骰子":"先用手里的换班省骰，再完成这一轮的承伤交接",
+  "本轮已无有效输出，结束前换健康队友承伤；本回合只做一次结束调位":"这轮已经没有合适的输出，换健康队友承伤，保住下一轮的进攻",
+  "最后一人仍有合法正伤害动作，不因低血评分空过":"只剩最后一名角色，抓住当前机会继续打伤害"
+};
+function commentaryStep(step){
+  if(typeof step!=="string")return step;
+  const [type,id,skill,technique]=step.split(":");
+  if(type==="skill")return {type,who:Number(id),skill,technique};
+  if(type==="switch")return {type,target:Number(id)};
+  return {type,id};
+}
+function commentaryStepLabel(a){
+  if(a.type==="skill")return T.team[a.who].name+"的「"+(a.skill==="T"?T.techniques[a.technique].name:T.team[a.who].skills[a.skill])+"」";
+  if(a.type==="switch")return "切换"+T.team[a.target].name;
+  if(a.type==="end")return "结束回合";
+  return (a.type==="tune"?"调和":"使用")+"「"+T.byId[a.id].name+"」";
+}
+function actionCommentary(a,s,m){
+  const planning=a.planning||a.search,parts=[actionDescription(a,s,m)],
+    reason=a.intent||TACTICAL_REASONS[a.reason||planning?.reason];
+  if(reason)parts.push(reason+"。");
+  const objective=planning?.objective;
+  if(!reason&&a.type!=="end"&&!planning?.terminal&&!planning?.retreat&&objective){
+    if(objective.task==="native-return")parts.push("嘉明的回场追击已经备好，准备接上踏云献瑞。");
+    else if(objective.phase==="develop")parts.push("先完成启动与交接，把输出条件铺给"+T.team[objective.carry].name+"。");
+    else parts.push("这一轮围绕"+T.team[objective.carry].name+"持续输出，资源优先接到他的出手上。");
+  }
+  if(!reason&&a.axis&&a.type!=="end"&&!planning?.terminal){
+    const direction={burst:"核与充能已经成形，把这轮资源集中到爆发上",fallback:"组件还没齐，先用手里的核与技能续上伤害",reaction:"先把元素反应接起来，为核减费和后续爆发铺垫",
+      relay:"把出战位交给哥伦比娅接力，延续当前反应与输出",sustain:"对手血量还多，先稳住循环，用核与技能持续压血",cleanup:"进入补刀阶段，优先兑现当前伤害"}[a.axis];
+    parts.push(direction+"。");
+  }
+  let steps=(planning?.sequence||[]).map(commentaryStep);
+  if(!steps.length){
+    steps=[a];
+    const next=a.followup||(a.funding?.goal?commentaryStep(a.funding.goal):a.plan?.terminal);
+    if(next&&T.actionKey(next)!==T.actionKey(a)){
+      steps.push(next);
+      if(next.followup)steps.push(next.followup);
+    }
+  }
+  if(!planning?.terminal){
+    const burst=steps.slice(1).find(step=>step.type==="skill"&&step.skill==="Q");
+    if(burst){
+      const need=T.team[burst.who].maxEnergy-s.characters[burst.who].energy;
+      if(need>0)parts.push(T.team[burst.who].name+"还差"+need+"点充能，先补齐再接大招。");
+    }
+  }
+  const seeds=planning?.ledger?.[0]?.seeds;
+  if(seeds&&a.type==="card"&&T.byId[a.id].type==="attachment"){
+    const free=seeds.filter(cost=>cost===0).length;
+    if(free>0)parts.push("这步之后预计有"+free+"张零费核，把减费接到后续输出。");
+  }
+  if(a.plan?.followupDamage>0)parts.push("这条路线还留出"+a.plan.remainingDice+"颗骰子，准备继续补伤害。");
+  if(steps.length>1)parts.push("接下来准备："+steps.slice(1,4).map(commentaryStepLabel).join(" → ")+"。");
+  return parts.join(" ");
+}
   root.TCGPlayer = {Player, playerOptions, actionCommentary};
   Object.assign(T, { Player, playerOptions, actionCommentary, version: VERSION });
 })(globalThis);
@@ -16140,6 +16273,7 @@ case "moonbloom": {
       return {...state,choiceReceipt:this.choiceReceipt};
     }
     async executeInput(a,before,memory){
+      if(a.type==="switch")this.requireSwitchTarget(a,before);
       let prepared=this.takePreparedHandInput(a,before);
       if(!prepared||prepared.viewOnly&&!this.handFanReady){
         prepared=null;await this.requireUnchangedBoard(before);
@@ -16445,7 +16579,7 @@ case "moonbloom": {
       this.progress();
     }
     async observe() {
-      const host = this.host, start = Date.now(), metrics = host.metricSnapshot?.(),
+      const host = this.host, start = Date.now(), metrics = host.metricSnapshot(),
         reused = !!this.readyState;
       host.runStage = "observation";
       let state, outcome = "failed", failure = null, readError = null;
@@ -16479,7 +16613,7 @@ case "moonbloom": {
         try {
           host.trace("observation-timing", { ms: Date.now() - start, reused, outcome,
             handRead: state?.handRead, code: readError?.code, missing: readError?.missing,
-            recognition: host.metricDelta?.(metrics) });
+            recognition: host.metricDelta(metrics) });
         } catch (e) { if (!failure) throw e; } // Secondary diagnostic failure must not replace the original error.
       }
     }
@@ -16625,7 +16759,7 @@ case "moonbloom": {
     async act() {
       const state = await this.observe();
       if (!state) return;
-      const host = this.host, memory = this.memory, started = Date.now(), metrics = host.metricSnapshot?.();
+      const host = this.host, memory = this.memory, started = Date.now(), metrics = host.metricSnapshot();
       let action, inputAt = null, confirmationAt = null, postActionAt = null,
         outcome = "failed", confirmed = false, failure = null;
       host.runStage = "planning";
@@ -16686,21 +16820,14 @@ case "moonbloom": {
             inputMs: (confirmationAt ?? ended) - (inputAt ?? ended),
             settlementMs: (postActionAt ?? ended) - (confirmationAt ?? ended),
             postActionMs: ended - (postActionAt ?? ended), totalMs: ended - started,
-            recognition: host.metricDelta?.(metrics), scope: "actual-runtime-not-offline-estimate" });
+            recognition: host.metricDelta(metrics), scope: "actual-runtime-not-offline-estimate" });
         } catch (e) { if (!failure) throw e; } // Keep cancellation/program errors intact.
       }
     }
   }
-  const axisNames={burst:"爆发兑现",fallback:"低组件保底",reaction:"补反应铺垫",relay:"少女接力",sustain:"持续输出",cleanup:"残局收尾"};
+  const axisNames={burst:"爆发兑现",fallback:"资源周转",reaction:"反应铺垫",relay:"少女接力",sustain:"持续输出",cleanup:"残局收尾"};
   const skillNames={NA:"普攻",E:"战技",Q:"爆发",T:"特技"};
-  function plannedActionLabel(key){
-    const [type,id,name,technique]=key.split(":");
-    if(type==="skill")return T.team[Number(id)].name+(name==="T"?"的「"+T.techniques[technique].name+"」":skillNames[name]);
-    if(type==="switch")return "切换"+T.team[Number(id)].name;
-    if(type==="card")return "使用「"+T.byId[id].name+"」";
-    return "调和「"+T.byId[id].name+"」";
-  }
-  function actionCommentary(a,s,m){
+  function actionDescription(a,s,m){
     const prefix="【"+axisNames[a.axis||T.axis(s,m)]+"】";
     let text;
     if(a.type==="probe")text=a.scope==="card"?"查看「"+T.byId[a.id].name+"」，安排手牌的使用顺序":
@@ -16711,7 +16838,7 @@ case "moonbloom": {
       if(hit.direct>0)text+="，预计造成"+hit.direct+"点伤害";
       else text+="，优先为后续反应与资源转换铺垫";
     }else if(a.type==="switch")text="准备切换"+T.team[a.target].name+"接力";
-    else if(a.type==="tune")text="调和「"+T.byId[a.id].name+"」"+(a.funding?"，为"+plannedActionLabel(a.funding.goal)+"筹集有效骰":"，将无效骰转换为当前角色所需元素");
+    else if(a.type==="tune")text="调和「"+T.byId[a.id].name+"」"+(a.funding?"，为"+commentaryStepLabel(commentaryStep(a.funding.goal))+"筹集有效骰":"，将无效骰转换为当前角色所需元素");
     else if(a.type==="card"){
       const c=T.byId[a.id],purpose={weapon:"准备武器与后续输出",artifact:"准备后续资源收益",support:"铺设后续资源转换",legend:"按当前资源选择生成牌",
         attachment:"调整手牌附着与费用",switch:"准备免费切换",draw:"补充手牌",energy:"转移充能，为爆发创造条件",
@@ -16720,10 +16847,106 @@ case "moonbloom": {
         technique:"装备特技，准备后续输出","heal-dice":"兼顾续航与骰子资源",heal:"恢复生命，保留后续接力"}[c.type];
       text="准备使用「"+c.name+"」"+(T.characterTarget(c)?"，目标"+T.team[a.target].name:"")+"，"+purpose;
     }else text="结束回合，准备下一轮";
-    if(a.planning?.sequence.length>1)text+="；接下来准备："+a.planning.sequence.slice(1,4).map(plannedActionLabel).join(" → ");
     if(a.planning?.terminal)text+="；争取这一轮收尾";
     return prefix+text+"。";
   }
+  const TACTICAL_REASONS={
+  "opening-water-before-dry-relay":"先让莫娜挂水，再把扩散或蒸发接上",
+  "opening-development-preserves-water":"先发展伙伴和手牌，同时留够莫娜战技的骰子",
+  "paid-draw-preserves-last-attack":"把骰子留给这回合的攻击，付费过牌先缓一缓",
+  "equipment-loss-insurance":"先铺野猪公主，让接下来的装备替换接上返骰",
+  "partner-before-retrieval":"先用迪娜泽黛减费和检索，再接其他伙伴",
+  "同一已选装备先兑现可验证的零费减费；全段索引和支付已重算":"先把装备减费铺好，省下的骰子接到后续输出",
+  "本回合已无可支付输出，回合末交接保护站场输出位；下轮按真实骰子重算":"这轮输出已经打完，换队友承伤，保留主攻角色下一轮接力",
+  "优先兑现已确认交接的输出任务；后续仍按真实牌面重算":"接力已经到位，先兑现这次输出",
+  "已选付费切换，先用已知零费换班；确认后重算":"先用换班省下切换骰子，再把出战位交出去",
+  "先欢唱过牌并保留已知启动预算，不要求狂欢或装备对提前齐全；抽到什么再重算":"先用欢唱补充手牌，同时留够伊安珊的启动骰子",
+  "欢唱后先用现有运筹铺垫，仍保留战技预算；不猜抽牌和狂欢返骰":"欢唱已经铺好，接运筹补牌，继续留住战技的骰子",
+  "至少两张实际装备允许狂欢搏上限；只用已知返骰下界保留战技预算，随后转输出":"装备组件已经到手，用狂欢接过牌与返骰，随后转入输出",
+  "给当前出战飞蛇快速补能":"先补齐飞蛇的充能，把攻击机会留给爆发",
+  "后台亡雷建立抽牌或补齐现有块对":"启动毒蝎的供块与抽牌联动，为飞蛇攒成对能量块",
+  "亡风补块并保留后续切换收益":"补齐能量块，同时为后面的切换准备返骰",
+  "后台亡水补块并建立打出能量块后的额外治疗":"补齐能量块，并让后续打块接上角鳄治疗",
+  "在当前输出预算之外装备飞蛇，保留后续爆发收益":"当前攻击的骰子已经留好，用余下资源给飞蛇增伤",
+  "现有块配料理可达到名义血量；料理检索后先重读，不预测新牌":"手里的能量块配上料理增伤，可以争取这一轮补刀",
+  "有空间时即时过牌，抽到后重算":"手牌还有空间，先过牌寻找充能和爆发组件",
+  "有空间且先付得起倒计时，再按真实新手牌行动":"用倒计时补牌，把空出的手牌位置利用起来",
+  "狂欢按全额付款；不预支抽牌后的返骰":"先补充手牌，寻找下一步的进攻资源",
+  "空支援位用于后续抽牌；不保证回合末所有抽牌都有空间":"利用空支援位铺过牌，为后续回合接续资源",
+  "缺天赋时检索，不猜会抽到哪张":"先检索天赋，把供块与爆发组件补起来",
+  "有空位时准备后续清洁牌库收益":"趁支援区还有空位，准备清洁工作给后续攻击增伤",
+  "扣除现有立本竞争后，余下不同色骰仍可推进新实例":"余下的不同色骰还能供立本收集，换取后续骰子与手牌",
+  "已知料理库存且不占最后关键支援位时检索":"牌库里还有料理，先把爆发增伤检索到手",
+  "最高费并列最差结果可接受，过量倍率可换产骰、治疗或抽牌；只正常打出一次块":"拿多余能量块换资源，把骰子、抽牌与治疗接到这一轮进攻",
+  "块还没成对，先把拥挤的天赋、增伤和多余过牌换底，寻找启动资源":"能量块还没成对，先换掉拥挤的铺垫牌，寻找启动资源",
+  "过量块产骰可补足两次续攻资金，先读缺失的最高费弃牌事实":"准备把多余能量块换成续攻骰子，先看清这次会舍弃哪张牌",
+  "已知防御下达到当前血量；同样击倒优先保留续攻资源":"先争取击倒当前目标，同时留出后续进攻的资源",
+  "名义伤害达到当前血量；同样击倒优先保留续攻资源":"先争取击倒当前目标，同时留出后续进攻的资源",
+  "飞蛇阵亡，转现有辅助技能与陷阱收尾":"飞蛇已经退场，改由毒蝎、角鳄和陷阱接着打",
+  "已知最后回合，比较当前可兑现伤害":"已经到了最后一轮，把当前能打出的伤害集中兑现",
+  "继续用能承接行动的角色输出；飞蛇受压时交给健康队友接力，准备下一轮爆发":"爆发后继续进攻，让能承接行动的队友补伤害",
+  "飞蛇已受压，先兑现强于普通攻击的现有爆发，再补能或交给队友接力":"飞蛇血线已经受压，先打出更强的现有爆发，再安排补能和接力",
+  "飞蛇优先少准备地补能；同等操作优先战技伤害与抽牌":"先给飞蛇攒充能，用战技同时补伤害和手牌",
+  "现有爆发强于普通攻击，供块中断或满手无法补牌，先开大再补能续攻":"继续等牌的收益已经不高，先把更强的大招打出去，再靠攻击补能续攻",
+  "飞蛇已满能但组件不足且无有效发育动作，用可支付战技补伤抽牌后重算":"飞蛇已经满能，先保留大招，用战技补伤害、找齐爆发组件",
+  "现有资源可切回飞蛇补能，交棒后重新观察":"现在的资源够飞蛇接着补能，切回去为爆发蓄势",
+  "结束前调位先用现有零费换班，不白交切换骰子":"先用手里的换班省骰，再完成这一轮的承伤交接",
+  "本轮已无有效输出，结束前换健康队友承伤；本回合只做一次结束调位":"这轮已经没有合适的输出，换健康队友承伤，保住下一轮的进攻",
+  "最后一人仍有合法正伤害动作，不因低血评分空过":"只剩最后一名角色，抓住当前机会继续打伤害"
+};
+function commentaryStep(step){
+  if(typeof step!=="string")return step;
+  const [type,id,skill,technique]=step.split(":");
+  if(type==="skill")return {type,who:Number(id),skill,technique};
+  if(type==="switch")return {type,target:Number(id)};
+  return {type,id};
+}
+function commentaryStepLabel(a){
+  if(a.type==="skill")return T.team[a.who].name+"的「"+(a.skill==="T"?T.techniques[a.technique].name:T.team[a.who].skills[a.skill])+"」";
+  if(a.type==="switch")return "切换"+T.team[a.target].name;
+  if(a.type==="end")return "结束回合";
+  return (a.type==="tune"?"调和":"使用")+"「"+T.byId[a.id].name+"」";
+}
+function actionCommentary(a,s,m){
+  const planning=a.planning||a.search,parts=[actionDescription(a,s,m)],
+    reason=a.intent||TACTICAL_REASONS[a.reason||planning?.reason];
+  if(reason)parts.push(reason+"。");
+  const objective=planning?.objective;
+  if(!reason&&a.type!=="end"&&!planning?.terminal&&!planning?.retreat&&objective){
+    if(objective.task==="native-return")parts.push("嘉明的回场追击已经备好，准备接上踏云献瑞。");
+    else if(objective.phase==="develop")parts.push("先完成启动与交接，把输出条件铺给"+T.team[objective.carry].name+"。");
+    else parts.push("这一轮围绕"+T.team[objective.carry].name+"持续输出，资源优先接到他的出手上。");
+  }
+  if(!reason&&a.axis&&a.type!=="end"&&!planning?.terminal){
+    const direction={burst:"核与充能已经成形，把这轮资源集中到爆发上",fallback:"组件还没齐，先用手里的核与技能续上伤害",reaction:"先把元素反应接起来，为核减费和后续爆发铺垫",
+      relay:"把出战位交给哥伦比娅接力，延续当前反应与输出",sustain:"对手血量还多，先稳住循环，用核与技能持续压血",cleanup:"进入补刀阶段，优先兑现当前伤害"}[a.axis];
+    parts.push(direction+"。");
+  }
+  let steps=(planning?.sequence||[]).map(commentaryStep);
+  if(!steps.length){
+    steps=[a];
+    const next=a.followup||(a.funding?.goal?commentaryStep(a.funding.goal):a.plan?.terminal);
+    if(next&&T.actionKey(next)!==T.actionKey(a)){
+      steps.push(next);
+      if(next.followup)steps.push(next.followup);
+    }
+  }
+  if(!planning?.terminal){
+    const burst=steps.slice(1).find(step=>step.type==="skill"&&step.skill==="Q");
+    if(burst){
+      const need=T.team[burst.who].maxEnergy-s.characters[burst.who].energy;
+      if(need>0)parts.push(T.team[burst.who].name+"还差"+need+"点充能，先补齐再接大招。");
+    }
+  }
+  const seeds=planning?.ledger?.[0]?.seeds;
+  if(seeds&&a.type==="card"&&T.byId[a.id].type==="attachment"){
+    const free=seeds.filter(cost=>cost===0).length;
+    if(free>0)parts.push("这步之后预计有"+free+"张零费核，把减费接到后续输出。");
+  }
+  if(a.plan?.followupDamage>0)parts.push("这条路线还留出"+a.plan.remainingDice+"颗骰子，准备继续补伤害。");
+  if(steps.length>1)parts.push("接下来准备："+steps.slice(1,4).map(commentaryStepLabel).join(" → ")+"。");
+  return parts.join(" ");
+}
   root.TCGPlayer={Player,playerOptions,actionCommentary};
 })(globalThis);
 
@@ -16999,6 +17222,7 @@ case "mozailu": {
       }
     }
     async executeInput(a,b,m) {
+      if(a.type==="switch")this.requireSwitchTarget(a,b);
       if(a.type==="card"&&!TCG.cardLegal(b,a,m))throw new Error("卡牌费用、目标或前置条件不合法");
       if(a.type==="skill"&&!TCG.skillLegal(b,a,m))throw new Error("技能资源或充能不足");
       await this.requireUnchangedBoard(b);
@@ -17075,19 +17299,43 @@ case "mozailu": {
     Geo: "岩",
     Omni: "万能",
   };
-  function actionCommentary(a,s,m) {
+  const CARD_PURPOSES={
+    flowingFlame:"装备迪卢克天赋并发动战技，准备连续战技输出",
+    skivingNewAndImproved:"装备早柚天赋并发动战技，接续准备踢与扩散",
+    wolf:"提高后续攻击伤害，强化低血量目标的补刀",gambler:"准备击倒后的返骰，衔接下一次攻击",
+    gilded:"补充元素骰，准备反应后的过牌",troupe:"让后台角色积蓄战技减费",
+    house:"为后续装备减费",timaeus:"积累材料，为圣遗物减费并补牌",
+    liben:"收集回合末余骰，为后续补骰与过牌准备",dunyarzad:"为后续伙伴减费并检索伙伴",
+    garden:"为接下来的装备减费",shift:"省下接力所需的切换骰子",draw:"补充手牌，寻找装备与输出组件",
+    lyre:"回收圣遗物，为下一张圣遗物减费",boar:"准备替换装备时返骰",
+    countdown3:"补充手牌，寻找后续资源",countdown2:"补充手牌，寻找后续资源",
+    countdown1:"补充手牌，寻找后续资源",show:"补充手牌，衔接后续进攻"
+  };
+  const SKILL_PURPOSES=[
+    {NA:"挂水补伤害，为后续反应铺垫",E:"挂水并留下虚影，为接力反应铺垫",Q:"留下泡影，放大后续角色攻击的伤害"},
+    {NA:"用普攻补伤害",E:"发动战技，接续风风轮舞踢",Q:"召唤不倒貉貉，接续伤害与治疗"},
+    {NA:"用普攻衔接输出",E:"用战技衔接输出",Q:"集中打出火伤并获得火附魔，准备后续进攻"}
+  ];
+  function attackPurpose(s,m,who,skill){
+    const hit=T.damageEstimate(s,m,who,skill),reasons=[SKILL_PURPOSES[who][skill]],
+      reaction={swirl:"扩散",vaporize:"蒸发",freeze:"冻结"}[hit.reaction.name];
+    if(hit.target&&hit.direct>=hit.target.hp)return "对手只剩"+hit.target.hp+"点生命，优先用这次攻击补刀";
+    if(reaction)reasons.push("借当前附着打"+reaction);
+    if(who===2&&skill==="E"&&m.dilucE===2)reasons.push("打出第三段战技的额外伤害");
+    if(skill!=="Q"&&s.characters[who].energy<T.team[who].maxEnergy)
+      reasons.push(s.characters[who].energy===T.team[who].maxEnergy-1?"用这次攻击补齐充能，准备接大招":"积累充能，为大招做准备");
+    return reasons.join("，");
+  }
+  function actionDescription(a,s,m) {
     let text;
     if(a.type==="skill") {
       text=T.team[a.who].name+"使用「"+T.team[a.who].skills[a.skill]+"」";
-      const purpose={"0:E":"先挂水，为后续扩散或蒸发铺垫", "1:E":"衔接扩散与风风轮舞踢", "2:E":"用战技衔接输出"}[a.who+":"+a.skill];
-      if(purpose)text+="，"+purpose;
+      text+="，"+attackPurpose(s,m,a.who,a.skill);
     }else if(a.type==="switch")text="切换"+T.team[a.target].name+"接力";
-    else if(a.type==="card")text="使用「"+T.byId[a.id].name+"」"+(a.target!=null?"，目标"+T.team[a.target].name:"");
+    else if(a.type==="card")text="使用「"+T.byId[a.id].name+"」"+(a.target!=null?"，目标"+T.team[a.target].name:"")+"，"+CARD_PURPOSES[a.id];
     else if(a.type==="tune")text="调和「"+(T.byId[a.id]?.name||s.hand[a.index].name)+"」，补充"+(ELEMENT_NAMES[a.element]||"当前角色所需元素")+"骰";
     else if(a.type==="probe")return "查看技能费用，安排接下来的输出。";
     else return "结束回合，准备下一轮。";
-    const next=a.planning?.sequence?.slice(1).find(key=>key.startsWith("skill:"));
-    if(next){const [,who,skill]=next.split(":");text+="。接下来准备让"+T.team[who].name+"使用「"+T.team[who].skills[skill]+"」";}
     return text+"。";
   }
   // One owner for lifecycle/progress. Host owns native evidence and input;
@@ -17310,7 +17558,7 @@ case "mozailu": {
       this.progress();
     }
     async observe() {
-      const host = this.host, start = Date.now(), metrics = host.metricSnapshot?.(),
+      const host = this.host, start = Date.now(), metrics = host.metricSnapshot(),
         reused = !!this.readyState;
       host.runStage = "observation";
       let state, outcome = "failed", failure = null, readError = null;
@@ -17344,7 +17592,7 @@ case "mozailu": {
         try {
           host.trace("observation-timing", { ms: Date.now() - start, reused, outcome,
             handRead: state?.handRead, code: readError?.code, missing: readError?.missing,
-            recognition: host.metricDelta?.(metrics) });
+            recognition: host.metricDelta(metrics) });
         } catch (e) { if (!failure) throw e; } // Secondary diagnostic failure must not replace the original error.
       }
     }
@@ -17450,7 +17698,7 @@ case "mozailu": {
     async act() {
       const state = await this.observe();
       if (!state) return;
-      const host = this.host, memory = this.memory, started = Date.now(), metrics = host.metricSnapshot?.();
+      const host = this.host, memory = this.memory, started = Date.now(), metrics = host.metricSnapshot();
       let action, inputAt = null, confirmationAt = null, postActionAt = null,
         outcome = "failed", confirmed = false, failure = null;
       host.runStage = "planning";
@@ -17511,7 +17759,7 @@ case "mozailu": {
             inputMs: (confirmationAt ?? ended) - (inputAt ?? ended),
             settlementMs: (postActionAt ?? ended) - (confirmationAt ?? ended),
             postActionMs: ended - (postActionAt ?? ended), totalMs: ended - started,
-            recognition: host.metricDelta?.(metrics), scope: "actual-runtime-not-offline-estimate" });
+            recognition: host.metricDelta(metrics), scope: "actual-runtime-not-offline-estimate" });
         } catch (e) { if (!failure) throw e; } // Keep cancellation/program errors intact.
       }
     }
@@ -17552,6 +17800,103 @@ case "mozailu": {
       }
     }
   }
+  const TACTICAL_REASONS={
+  "opening-water-before-dry-relay":"先让莫娜挂水，再把扩散或蒸发接上",
+  "opening-development-preserves-water":"先发展伙伴和手牌，同时留够莫娜战技的骰子",
+  "paid-draw-preserves-last-attack":"把骰子留给这回合的攻击，付费过牌先缓一缓",
+  "equipment-loss-insurance":"先铺野猪公主，让接下来的装备替换接上返骰",
+  "partner-before-retrieval":"先用迪娜泽黛减费和检索，再接其他伙伴",
+  "同一已选装备先兑现可验证的零费减费；全段索引和支付已重算":"先把装备减费铺好，省下的骰子接到后续输出",
+  "本回合已无可支付输出，回合末交接保护站场输出位；下轮按真实骰子重算":"这轮输出已经打完，换队友承伤，保留主攻角色下一轮接力",
+  "优先兑现已确认交接的输出任务；后续仍按真实牌面重算":"接力已经到位，先兑现这次输出",
+  "已选付费切换，先用已知零费换班；确认后重算":"先用换班省下切换骰子，再把出战位交出去",
+  "先欢唱过牌并保留已知启动预算，不要求狂欢或装备对提前齐全；抽到什么再重算":"先用欢唱补充手牌，同时留够伊安珊的启动骰子",
+  "欢唱后先用现有运筹铺垫，仍保留战技预算；不猜抽牌和狂欢返骰":"欢唱已经铺好，接运筹补牌，继续留住战技的骰子",
+  "至少两张实际装备允许狂欢搏上限；只用已知返骰下界保留战技预算，随后转输出":"装备组件已经到手，用狂欢接过牌与返骰，随后转入输出",
+  "给当前出战飞蛇快速补能":"先补齐飞蛇的充能，把攻击机会留给爆发",
+  "后台亡雷建立抽牌或补齐现有块对":"启动毒蝎的供块与抽牌联动，为飞蛇攒成对能量块",
+  "亡风补块并保留后续切换收益":"补齐能量块，同时为后面的切换准备返骰",
+  "后台亡水补块并建立打出能量块后的额外治疗":"补齐能量块，并让后续打块接上角鳄治疗",
+  "在当前输出预算之外装备飞蛇，保留后续爆发收益":"当前攻击的骰子已经留好，用余下资源给飞蛇增伤",
+  "现有块配料理可达到名义血量；料理检索后先重读，不预测新牌":"手里的能量块配上料理增伤，可以争取这一轮补刀",
+  "有空间时即时过牌，抽到后重算":"手牌还有空间，先过牌寻找充能和爆发组件",
+  "有空间且先付得起倒计时，再按真实新手牌行动":"用倒计时补牌，把空出的手牌位置利用起来",
+  "狂欢按全额付款；不预支抽牌后的返骰":"先补充手牌，寻找下一步的进攻资源",
+  "空支援位用于后续抽牌；不保证回合末所有抽牌都有空间":"利用空支援位铺过牌，为后续回合接续资源",
+  "缺天赋时检索，不猜会抽到哪张":"先检索天赋，把供块与爆发组件补起来",
+  "有空位时准备后续清洁牌库收益":"趁支援区还有空位，准备清洁工作给后续攻击增伤",
+  "扣除现有立本竞争后，余下不同色骰仍可推进新实例":"余下的不同色骰还能供立本收集，换取后续骰子与手牌",
+  "已知料理库存且不占最后关键支援位时检索":"牌库里还有料理，先把爆发增伤检索到手",
+  "最高费并列最差结果可接受，过量倍率可换产骰、治疗或抽牌；只正常打出一次块":"拿多余能量块换资源，把骰子、抽牌与治疗接到这一轮进攻",
+  "块还没成对，先把拥挤的天赋、增伤和多余过牌换底，寻找启动资源":"能量块还没成对，先换掉拥挤的铺垫牌，寻找启动资源",
+  "过量块产骰可补足两次续攻资金，先读缺失的最高费弃牌事实":"准备把多余能量块换成续攻骰子，先看清这次会舍弃哪张牌",
+  "已知防御下达到当前血量；同样击倒优先保留续攻资源":"先争取击倒当前目标，同时留出后续进攻的资源",
+  "名义伤害达到当前血量；同样击倒优先保留续攻资源":"先争取击倒当前目标，同时留出后续进攻的资源",
+  "飞蛇阵亡，转现有辅助技能与陷阱收尾":"飞蛇已经退场，改由毒蝎、角鳄和陷阱接着打",
+  "已知最后回合，比较当前可兑现伤害":"已经到了最后一轮，把当前能打出的伤害集中兑现",
+  "继续用能承接行动的角色输出；飞蛇受压时交给健康队友接力，准备下一轮爆发":"爆发后继续进攻，让能承接行动的队友补伤害",
+  "飞蛇已受压，先兑现强于普通攻击的现有爆发，再补能或交给队友接力":"飞蛇血线已经受压，先打出更强的现有爆发，再安排补能和接力",
+  "飞蛇优先少准备地补能；同等操作优先战技伤害与抽牌":"先给飞蛇攒充能，用战技同时补伤害和手牌",
+  "现有爆发强于普通攻击，供块中断或满手无法补牌，先开大再补能续攻":"继续等牌的收益已经不高，先把更强的大招打出去，再靠攻击补能续攻",
+  "飞蛇已满能但组件不足且无有效发育动作，用可支付战技补伤抽牌后重算":"飞蛇已经满能，先保留大招，用战技补伤害、找齐爆发组件",
+  "现有资源可切回飞蛇补能，交棒后重新观察":"现在的资源够飞蛇接着补能，切回去为爆发蓄势",
+  "结束前调位先用现有零费换班，不白交切换骰子":"先用手里的换班省骰，再完成这一轮的承伤交接",
+  "本轮已无有效输出，结束前换健康队友承伤；本回合只做一次结束调位":"这轮已经没有合适的输出，换健康队友承伤，保住下一轮的进攻",
+  "最后一人仍有合法正伤害动作，不因低血评分空过":"只剩最后一名角色，抓住当前机会继续打伤害"
+};
+function commentaryStep(step){
+  if(typeof step!=="string")return step;
+  const [type,id,skill,technique]=step.split(":");
+  if(type==="skill")return {type,who:Number(id),skill,technique};
+  if(type==="switch")return {type,target:Number(id)};
+  return {type,id};
+}
+function commentaryStepLabel(a){
+  if(a.type==="skill")return T.team[a.who].name+"的「"+(a.skill==="T"?T.techniques[a.technique].name:T.team[a.who].skills[a.skill])+"」";
+  if(a.type==="switch")return "切换"+T.team[a.target].name;
+  if(a.type==="end")return "结束回合";
+  return (a.type==="tune"?"调和":"使用")+"「"+T.byId[a.id].name+"」";
+}
+function actionCommentary(a,s,m){
+  const planning=a.planning||a.search,parts=[actionDescription(a,s,m)],
+    reason=a.intent||TACTICAL_REASONS[a.reason||planning?.reason];
+  if(reason)parts.push(reason+"。");
+  const objective=planning?.objective;
+  if(!reason&&a.type!=="end"&&!planning?.terminal&&!planning?.retreat&&objective){
+    if(objective.task==="native-return")parts.push("嘉明的回场追击已经备好，准备接上踏云献瑞。");
+    else if(objective.phase==="develop")parts.push("先完成启动与交接，把输出条件铺给"+T.team[objective.carry].name+"。");
+    else parts.push("这一轮围绕"+T.team[objective.carry].name+"持续输出，资源优先接到他的出手上。");
+  }
+  if(!reason&&a.axis&&a.type!=="end"&&!planning?.terminal){
+    const direction={burst:"核与充能已经成形，把这轮资源集中到爆发上",fallback:"组件还没齐，先用手里的核与技能续上伤害",reaction:"先把元素反应接起来，为核减费和后续爆发铺垫",
+      relay:"把出战位交给哥伦比娅接力，延续当前反应与输出",sustain:"对手血量还多，先稳住循环，用核与技能持续压血",cleanup:"进入补刀阶段，优先兑现当前伤害"}[a.axis];
+    parts.push(direction+"。");
+  }
+  let steps=(planning?.sequence||[]).map(commentaryStep);
+  if(!steps.length){
+    steps=[a];
+    const next=a.followup||(a.funding?.goal?commentaryStep(a.funding.goal):a.plan?.terminal);
+    if(next&&T.actionKey(next)!==T.actionKey(a)){
+      steps.push(next);
+      if(next.followup)steps.push(next.followup);
+    }
+  }
+  if(!planning?.terminal){
+    const burst=steps.slice(1).find(step=>step.type==="skill"&&step.skill==="Q");
+    if(burst){
+      const need=T.team[burst.who].maxEnergy-s.characters[burst.who].energy;
+      if(need>0)parts.push(T.team[burst.who].name+"还差"+need+"点充能，先补齐再接大招。");
+    }
+  }
+  const seeds=planning?.ledger?.[0]?.seeds;
+  if(seeds&&a.type==="card"&&T.byId[a.id].type==="attachment"){
+    const free=seeds.filter(cost=>cost===0).length;
+    if(free>0)parts.push("这步之后预计有"+free+"张零费核，把减费接到后续输出。");
+  }
+  if(a.plan?.followupDamage>0)parts.push("这条路线还留出"+a.plan.remainingDice+"颗骰子，准备继续补伤害。");
+  if(steps.length>1)parts.push("接下来准备："+steps.slice(1,4).map(commentaryStepLabel).join(" → ")+"。");
+  return parts.join(" ");
+}
   root.TCGPlayer = { Player, playerOptions, actionCommentary };
 })(globalThis);
 
@@ -18125,6 +18470,7 @@ case "ailin": {
       const e=Error("召唤物目标或确认控件仍待核实");e.code="TCG_CHOICE_RETRY";throw e;
     }
     async executeInput(a,b,m){
+      if(a.type==="switch")this.requireSwitchTarget(a,b);
       this.soupReceipt=null;this.summonReceipt=null;
       if(a.type==="skill"&&!TCG.skillLegal(b,a,m))throw Error("技能资源/充能预检失败");
       if(a.type==="card"&&!TCG.cardLegal(b,a,m))throw Error("卡牌目标、费用或前置条件不合法");
@@ -18190,18 +18536,51 @@ case "ailin": {
     Geo: "岩",
     Omni: "万能",
   };
-  function actionCommentary(a,s,m) {
+  const CARD_PURPOSES={
+    teaParty:"装备爱可菲天赋并发动低温烹饪，铺好后台冰伤与普攻联动",
+    gambler:"准备击倒后的返骰，接着打输出",heart:"准备出战受伤后的过牌",
+    gladiator:"为少手牌时的普攻减费",chef:"让后续料理接上补骰与过牌",
+    dunyarzad:"为后续伙伴减费并检索伙伴",silver:"通过元素伤害积累后续过牌资源",
+    pilgrimage:"布置生之火，积累后续资源",companion:"将杂色骰转为万能骰，补齐输出费用",
+    toss:"重投不合用的骰子，寻找输出所需元素",draw:"补充手牌，寻找下一步的输出组件",
+    boar:"准备替换圣遗物时返骰",surf:"利用场上的召唤物集中打伤害",
+    dragon:"增加召唤物，为后续追加伤害铺垫",blessingM:"弃置目标召唤物，换取返骰与治疗",
+    soup:"挑选适合当前血线与输出的料理效果",gildedHall:"提高下一次攻击的伤害",
+    autumnFrost:"提高生命上限并恢复生命，保留后续接力",
+    wavekissedSands:"为全队接下来的技能减费",verdantGift:"提高全队下一次攻击的伤害"
+  };
+  const SKILL_PURPOSES=[
+    {NA:"用普攻压低血线",E:"挂冰并铺设低温冷藏机关，准备后台冰伤",Q:"补冰伤并治疗我方角色，为后续接力续航"},
+    {NA:"用普攻补伤害",CA:"挂火并积累隐具余数，准备战技与猫猫帽输出",E:"消耗隐具余数集中输出，并恢复林尼生命",Q:"集中打出火伤，补充隐具余数与猫猫帽"},
+    {NA:"挂水补伤害，为后续反应铺垫",E:"打水伤并带动召唤物追加输出",Q:"集中打出水伤，带动场上的召唤物继续输出"}
+  ];
+  function attackPurpose(s,m,who,skill){
+    const hit=T.damageEstimate(s,m,who,skill),enemy=s.enemies.find(e=>e.active&&T.alive(e)),
+      reasons=[SKILL_PURPOSES[who][skill]],reaction={vaporize:"蒸发",melt:"融化",freeze:"冻结"}[hit.reaction.name];
+    if(enemy&&hit.direct>=enemy.hp)return "对手只剩"+enemy.hp+"点生命，优先用这次攻击补刀";
+    if(reaction)reasons.push("借当前附着打"+reaction);
+    if(who===1&&skill==="E"&&m.props>0)reasons.push("兑现"+m.props+"层隐具余数");
+    if(skill!=="Q"&&s.characters[who].energy<T.team[who].maxEnergy)
+      reasons.push(s.characters[who].energy===T.team[who].maxEnergy-1?"用这次攻击补齐充能，准备接大招":"积累充能，为大招做准备");
+    return reasons.join("，");
+  }
+  function actionDescription(a,s,m) {
     let text;
     if(a.type==="skill") {
       text=T.team[a.who].name+"使用「"+T.team[a.who].skills[a.skill]+"」";
-      const purpose={"0:E":"挂冰并铺设低温冷藏机关", "1:CA":"积累隐具余数，为战技做准备", "1:E":"释放积攒的隐具余数，集中打伤害"}[a.who+":"+a.skill];
-      if(purpose)text+="，"+purpose;
-    }else if(a.type==="switch")text="切换"+T.team[a.target].name+"接力";
-    else if(a.type==="card")text="使用「"+T.byId[a.id].name+"」"+(a.target!=null?"，目标"+T.team[a.target].name:"");
+      text+="，"+attackPurpose(s,m,a.who,a.skill);
+    }else if(a.type==="switch"){
+      text="切换"+T.team[a.target].name+"，"+["接手冰伤与治疗，维持接力","接手火伤，衔接反应输出","接手水伤与召唤物联动"][a.target];
+      if(a.target===1&&m.coldSummon>0)text+="，冷藏机关已经铺好，接上冰火配合";
+      if(s.characters[s.active].hp<=3)text+="，让"+T.team[s.active].name+"退到后台，保留后续接力";
+    }
+    else if(a.type==="card"){
+      text="使用「"+T.byId[a.id].name+"」"+(a.target!=null?"，目标"+T.team[a.target].name:"")+"，"+CARD_PURPOSES[a.id];
+      if(a.id==="blessingM")text+="，选择第"+(a.summonIndex+1)+"个「"+a.summonName+"」";
+    }
     else if(a.type==="tune")text="调和「"+(T.byId[a.id]?.name||s.hand[a.index].name)+"」，补充"+(ELEMENT_NAMES[a.element]||"当前角色所需元素")+"骰";
     else if(a.type==="probe")return a.scope==="card"?"查看「"+T.byId[a.id].name+"」的费用与效果，安排接下来的出牌。":"查看技能费用，安排接下来的输出。";
     else return "结束回合，准备下一轮。";
-    if(a.followup?.type==="skill")text+="。接下来准备让"+T.team[a.followup.who].name+"使用「"+T.team[a.followup.who].skills[a.followup.skill]+"」";
     return text+"。";
   }
   // One owner for lifecycle/progress. Host owns native evidence and input;
@@ -18423,7 +18802,7 @@ case "ailin": {
       this.progress();
     }
     async observe() {
-      const host = this.host, start = Date.now(), metrics = host.metricSnapshot?.(),
+      const host = this.host, start = Date.now(), metrics = host.metricSnapshot(),
         reused = !!this.readyState;
       host.runStage = "observation";
       let state, outcome = "failed", failure = null, readError = null;
@@ -18457,7 +18836,7 @@ case "ailin": {
         try {
           host.trace("observation-timing", { ms: Date.now() - start, reused, outcome,
             handRead: state?.handRead, code: readError?.code, missing: readError?.missing,
-            recognition: host.metricDelta?.(metrics) });
+            recognition: host.metricDelta(metrics) });
         } catch (e) { if (!failure) throw e; } // Secondary diagnostic failure must not replace the original error.
       }
     }
@@ -18563,7 +18942,7 @@ case "ailin": {
     async act() {
       const state = await this.observe();
       if (!state) return;
-      const host = this.host, memory = this.memory, started = Date.now(), metrics = host.metricSnapshot?.();
+      const host = this.host, memory = this.memory, started = Date.now(), metrics = host.metricSnapshot();
       let action, inputAt = null, confirmationAt = null, postActionAt = null,
         outcome = "failed", confirmed = false, failure = null;
       host.runStage = "planning";
@@ -18624,7 +19003,7 @@ case "ailin": {
             inputMs: (confirmationAt ?? ended) - (inputAt ?? ended),
             settlementMs: (postActionAt ?? ended) - (confirmationAt ?? ended),
             postActionMs: ended - (postActionAt ?? ended), totalMs: ended - started,
-            recognition: host.metricDelta?.(metrics), scope: "actual-runtime-not-offline-estimate" });
+            recognition: host.metricDelta(metrics), scope: "actual-runtime-not-offline-estimate" });
         } catch (e) { if (!failure) throw e; } // Keep cancellation/program errors intact.
       }
     }
@@ -18665,6 +19044,103 @@ case "ailin": {
       }
     }
   }
+  const TACTICAL_REASONS={
+  "opening-water-before-dry-relay":"先让莫娜挂水，再把扩散或蒸发接上",
+  "opening-development-preserves-water":"先发展伙伴和手牌，同时留够莫娜战技的骰子",
+  "paid-draw-preserves-last-attack":"把骰子留给这回合的攻击，付费过牌先缓一缓",
+  "equipment-loss-insurance":"先铺野猪公主，让接下来的装备替换接上返骰",
+  "partner-before-retrieval":"先用迪娜泽黛减费和检索，再接其他伙伴",
+  "同一已选装备先兑现可验证的零费减费；全段索引和支付已重算":"先把装备减费铺好，省下的骰子接到后续输出",
+  "本回合已无可支付输出，回合末交接保护站场输出位；下轮按真实骰子重算":"这轮输出已经打完，换队友承伤，保留主攻角色下一轮接力",
+  "优先兑现已确认交接的输出任务；后续仍按真实牌面重算":"接力已经到位，先兑现这次输出",
+  "已选付费切换，先用已知零费换班；确认后重算":"先用换班省下切换骰子，再把出战位交出去",
+  "先欢唱过牌并保留已知启动预算，不要求狂欢或装备对提前齐全；抽到什么再重算":"先用欢唱补充手牌，同时留够伊安珊的启动骰子",
+  "欢唱后先用现有运筹铺垫，仍保留战技预算；不猜抽牌和狂欢返骰":"欢唱已经铺好，接运筹补牌，继续留住战技的骰子",
+  "至少两张实际装备允许狂欢搏上限；只用已知返骰下界保留战技预算，随后转输出":"装备组件已经到手，用狂欢接过牌与返骰，随后转入输出",
+  "给当前出战飞蛇快速补能":"先补齐飞蛇的充能，把攻击机会留给爆发",
+  "后台亡雷建立抽牌或补齐现有块对":"启动毒蝎的供块与抽牌联动，为飞蛇攒成对能量块",
+  "亡风补块并保留后续切换收益":"补齐能量块，同时为后面的切换准备返骰",
+  "后台亡水补块并建立打出能量块后的额外治疗":"补齐能量块，并让后续打块接上角鳄治疗",
+  "在当前输出预算之外装备飞蛇，保留后续爆发收益":"当前攻击的骰子已经留好，用余下资源给飞蛇增伤",
+  "现有块配料理可达到名义血量；料理检索后先重读，不预测新牌":"手里的能量块配上料理增伤，可以争取这一轮补刀",
+  "有空间时即时过牌，抽到后重算":"手牌还有空间，先过牌寻找充能和爆发组件",
+  "有空间且先付得起倒计时，再按真实新手牌行动":"用倒计时补牌，把空出的手牌位置利用起来",
+  "狂欢按全额付款；不预支抽牌后的返骰":"先补充手牌，寻找下一步的进攻资源",
+  "空支援位用于后续抽牌；不保证回合末所有抽牌都有空间":"利用空支援位铺过牌，为后续回合接续资源",
+  "缺天赋时检索，不猜会抽到哪张":"先检索天赋，把供块与爆发组件补起来",
+  "有空位时准备后续清洁牌库收益":"趁支援区还有空位，准备清洁工作给后续攻击增伤",
+  "扣除现有立本竞争后，余下不同色骰仍可推进新实例":"余下的不同色骰还能供立本收集，换取后续骰子与手牌",
+  "已知料理库存且不占最后关键支援位时检索":"牌库里还有料理，先把爆发增伤检索到手",
+  "最高费并列最差结果可接受，过量倍率可换产骰、治疗或抽牌；只正常打出一次块":"拿多余能量块换资源，把骰子、抽牌与治疗接到这一轮进攻",
+  "块还没成对，先把拥挤的天赋、增伤和多余过牌换底，寻找启动资源":"能量块还没成对，先换掉拥挤的铺垫牌，寻找启动资源",
+  "过量块产骰可补足两次续攻资金，先读缺失的最高费弃牌事实":"准备把多余能量块换成续攻骰子，先看清这次会舍弃哪张牌",
+  "已知防御下达到当前血量；同样击倒优先保留续攻资源":"先争取击倒当前目标，同时留出后续进攻的资源",
+  "名义伤害达到当前血量；同样击倒优先保留续攻资源":"先争取击倒当前目标，同时留出后续进攻的资源",
+  "飞蛇阵亡，转现有辅助技能与陷阱收尾":"飞蛇已经退场，改由毒蝎、角鳄和陷阱接着打",
+  "已知最后回合，比较当前可兑现伤害":"已经到了最后一轮，把当前能打出的伤害集中兑现",
+  "继续用能承接行动的角色输出；飞蛇受压时交给健康队友接力，准备下一轮爆发":"爆发后继续进攻，让能承接行动的队友补伤害",
+  "飞蛇已受压，先兑现强于普通攻击的现有爆发，再补能或交给队友接力":"飞蛇血线已经受压，先打出更强的现有爆发，再安排补能和接力",
+  "飞蛇优先少准备地补能；同等操作优先战技伤害与抽牌":"先给飞蛇攒充能，用战技同时补伤害和手牌",
+  "现有爆发强于普通攻击，供块中断或满手无法补牌，先开大再补能续攻":"继续等牌的收益已经不高，先把更强的大招打出去，再靠攻击补能续攻",
+  "飞蛇已满能但组件不足且无有效发育动作，用可支付战技补伤抽牌后重算":"飞蛇已经满能，先保留大招，用战技补伤害、找齐爆发组件",
+  "现有资源可切回飞蛇补能，交棒后重新观察":"现在的资源够飞蛇接着补能，切回去为爆发蓄势",
+  "结束前调位先用现有零费换班，不白交切换骰子":"先用手里的换班省骰，再完成这一轮的承伤交接",
+  "本轮已无有效输出，结束前换健康队友承伤；本回合只做一次结束调位":"这轮已经没有合适的输出，换健康队友承伤，保住下一轮的进攻",
+  "最后一人仍有合法正伤害动作，不因低血评分空过":"只剩最后一名角色，抓住当前机会继续打伤害"
+};
+function commentaryStep(step){
+  if(typeof step!=="string")return step;
+  const [type,id,skill,technique]=step.split(":");
+  if(type==="skill")return {type,who:Number(id),skill,technique};
+  if(type==="switch")return {type,target:Number(id)};
+  return {type,id};
+}
+function commentaryStepLabel(a){
+  if(a.type==="skill")return T.team[a.who].name+"的「"+(a.skill==="T"?T.techniques[a.technique].name:T.team[a.who].skills[a.skill])+"」";
+  if(a.type==="switch")return "切换"+T.team[a.target].name;
+  if(a.type==="end")return "结束回合";
+  return (a.type==="tune"?"调和":"使用")+"「"+T.byId[a.id].name+"」";
+}
+function actionCommentary(a,s,m){
+  const planning=a.planning||a.search,parts=[actionDescription(a,s,m)],
+    reason=a.intent||TACTICAL_REASONS[a.reason||planning?.reason];
+  if(reason)parts.push(reason+"。");
+  const objective=planning?.objective;
+  if(!reason&&a.type!=="end"&&!planning?.terminal&&!planning?.retreat&&objective){
+    if(objective.task==="native-return")parts.push("嘉明的回场追击已经备好，准备接上踏云献瑞。");
+    else if(objective.phase==="develop")parts.push("先完成启动与交接，把输出条件铺给"+T.team[objective.carry].name+"。");
+    else parts.push("这一轮围绕"+T.team[objective.carry].name+"持续输出，资源优先接到他的出手上。");
+  }
+  if(!reason&&a.axis&&a.type!=="end"&&!planning?.terminal){
+    const direction={burst:"核与充能已经成形，把这轮资源集中到爆发上",fallback:"组件还没齐，先用手里的核与技能续上伤害",reaction:"先把元素反应接起来，为核减费和后续爆发铺垫",
+      relay:"把出战位交给哥伦比娅接力，延续当前反应与输出",sustain:"对手血量还多，先稳住循环，用核与技能持续压血",cleanup:"进入补刀阶段，优先兑现当前伤害"}[a.axis];
+    parts.push(direction+"。");
+  }
+  let steps=(planning?.sequence||[]).map(commentaryStep);
+  if(!steps.length){
+    steps=[a];
+    const next=a.followup||(a.funding?.goal?commentaryStep(a.funding.goal):a.plan?.terminal);
+    if(next&&T.actionKey(next)!==T.actionKey(a)){
+      steps.push(next);
+      if(next.followup)steps.push(next.followup);
+    }
+  }
+  if(!planning?.terminal){
+    const burst=steps.slice(1).find(step=>step.type==="skill"&&step.skill==="Q");
+    if(burst){
+      const need=T.team[burst.who].maxEnergy-s.characters[burst.who].energy;
+      if(need>0)parts.push(T.team[burst.who].name+"还差"+need+"点充能，先补齐再接大招。");
+    }
+  }
+  const seeds=planning?.ledger?.[0]?.seeds;
+  if(seeds&&a.type==="card"&&T.byId[a.id].type==="attachment"){
+    const free=seeds.filter(cost=>cost===0).length;
+    if(free>0)parts.push("这步之后预计有"+free+"张零费核，把减费接到后续输出。");
+  }
+  if(a.plan?.followupDamage>0)parts.push("这条路线还留出"+a.plan.remainingDice+"颗骰子，准备继续补伤害。");
+  if(steps.length>1)parts.push("接下来准备："+steps.slice(1,4).map(commentaryStepLabel).join(" → ")+"。");
+  return parts.join(" ");
+}
   root.TCGPlayer = { Player, playerOptions, actionCommentary };
 })(globalThis);
 
@@ -19062,26 +19538,38 @@ case "consecrated": {
     Geo: "岩",
     Omni: "万能",
   };
-  function actionCommentary(a,s,m) {
+  function actionDescription(a,s,m) {
     let text;
     if(a.type==="skill") {
+      const blocks=s.hand.filter(h=>h.id==="block").length;
       text=T.team[a.who].name+"使用「"+T.team[a.who].skills[a.skill]+"」";
       if(a.who===1&&a.skill==="E")text+="，补伤害、抽牌"+(s.characters[1].energy<2?"，为爆发积累充能":"");
-      else if(a.who===1&&a.skill==="Q")text+="，消耗能量块集中打出爆发伤害";
+      else if(a.who===1&&a.skill==="Q"){
+        text+=blocks>0?"，消耗"+blocks+"张能量块，集中打出爆发伤害":"，兑现现有爆发，接着补能续攻";
+      }
       else if(a.skill==="NA")text+="，压低对手血线"+(s.characters[a.who].energy<T.team[a.who].maxEnergy?"并积累充能":"");
+      else if(a.who===0&&a.skill==="E")text+="，补雷伤并向牌库前段补入能量块，准备后续供块";
+      else if(a.who===0&&a.skill==="Q")text+=blocks>0?"，消耗"+Math.min(3,blocks)+"张能量块布置雷锥，接着靠陷阱补伤害":"，先打出雷伤，接续当前进攻";
+      else if(a.who===2&&a.skill==="E")text+="，打水伤、置底最高费手牌并补充能量块";
+      else if(a.who===2&&a.skill==="Q")text+=blocks>0?"，用水伤续攻并消耗能量块，为受伤队友治疗、提高生命上限":"，直接用水伤接续当前进攻";
     }else if(a.type==="switch")text="切换"+T.team[a.target].name+(a.endTurnRelay?"承伤，让当前角色留在后台休整":"接力");
     else if(a.type==="card") {
       const purpose={scorpionTalent:"补充能量块，启动毒蝎的抽牌联动",serpentTalent:"补充能量块，为后续切换准备返骰",
         crocodileTalent:"补充能量块，准备打块后的治疗",emblem:"提高飞蛇的爆发伤害",adeptus:"为接下来的爆发增伤",
         stars:"补充出战角色的充能",block:"用能量块换取万能骰",harbor:"为后续回合补充手牌",lair:"检索天赋牌",
-        whiteGlove:"准备清洁工作，为后续攻击增伤",cleanup:"提高下一次攻击的伤害",liben:"收集回合末剩余骰子，准备后续资源",draw:"补充手牌",revel:"补充手牌",shift:"省下接力所需的切换骰子"}[a.id];
+        whiteGlove:"准备清洁工作，为后续攻击增伤",cleanup:"提高下一次攻击的伤害",liben:"收集回合末剩余骰子，准备后续资源",draw:"补充手牌",revel:"补充手牌",shift:"省下接力所需的切换骰子",
+        nre:"检索料理，为后续增伤与过牌准备",sand:"选择检索关键组件或换掉当前不合用的手牌",
+        countdown3:"补充手牌，寻找充能与爆发组件",countdown2:"补充手牌，寻找充能与爆发组件",
+        countdown1:"补充手牌，寻找充能与爆发组件",show:"补充手牌，衔接后续输出",
+        disperse:"检索天赋与秘传，补齐启动组件",sanctify:"将不合用的手牌换底，重新寻找输出组件"}[a.id];
       text="使用「"+T.byId[a.id].name+"」"+(a.target!=null?"，目标"+T.team[a.target].name:"")+(purpose?"，"+purpose:"");
     }else if(a.type==="tune")text="调和「"+(T.byId[a.id]?.name||s.hand[a.index].name)+"」，补充"+(ELEMENT_NAMES[a.element]||"当前角色所需元素")+"骰";
     else if(a.type==="probe")return a.scope==="card"?"查看「"+T.byId[a.id].name+"」的费用，安排能量块的弃牌与产骰。":"查看技能费用，安排接下来的输出。";
-    else return "结束回合，准备下一轮。";
-    const next=a.followup||a.plan?.terminal;
-    if(next?.type==="skill"&&!(a.type==="skill"&&a.who===next.who&&a.skill===next.skill))
-      text+="。接下来准备让"+T.team[next.who].name+"使用「"+T.team[next.who].skills[next.skill]+"」";
+    else {
+      if(T.alive(s.characters[1])&&m.bursts[1]===0)
+        return s.characters[1].energy===2?"结束回合，飞蛇已满能，继续攒块准备下一轮爆发。":"结束回合，下一轮继续为飞蛇补能、攒块，准备爆发。";
+      return "结束回合，准备下一轮。";
+    }
     if(a.type==="skill"&&Number.isFinite(a.plan?.estimate?.direct))text+="，预计造成"+a.plan.estimate.direct+"点伤害";
     return text+"。";
   }
@@ -19303,7 +19791,7 @@ case "consecrated": {
       this.progress();
     }
     async observe() {
-      const host = this.host, start = Date.now(), metrics = host.metricSnapshot?.(),
+      const host = this.host, start = Date.now(), metrics = host.metricSnapshot(),
         reused = !!this.readyState;
       host.runStage = "observation";
       let state, outcome = "failed", failure = null, readError = null;
@@ -19337,7 +19825,7 @@ case "consecrated": {
         try {
           host.trace("observation-timing", { ms: Date.now() - start, reused, outcome,
             handRead: state?.handRead, code: readError?.code, missing: readError?.missing,
-            recognition: host.metricDelta?.(metrics) });
+            recognition: host.metricDelta(metrics) });
         } catch (e) { if (!failure) throw e; } // Secondary diagnostic failure must not replace the original error.
       }
     }
@@ -19443,7 +19931,7 @@ case "consecrated": {
     async act() {
       const state = await this.observe();
       if (!state) return;
-      const host = this.host, memory = this.memory, started = Date.now(), metrics = host.metricSnapshot?.();
+      const host = this.host, memory = this.memory, started = Date.now(), metrics = host.metricSnapshot();
       let action, inputAt = null, confirmationAt = null, postActionAt = null,
         outcome = "failed", confirmed = false, failure = null;
       host.runStage = "planning";
@@ -19504,7 +19992,7 @@ case "consecrated": {
             inputMs: (confirmationAt ?? ended) - (inputAt ?? ended),
             settlementMs: (postActionAt ?? ended) - (confirmationAt ?? ended),
             postActionMs: ended - (postActionAt ?? ended), totalMs: ended - started,
-            recognition: host.metricDelta?.(metrics), scope: "actual-runtime-not-offline-estimate" });
+            recognition: host.metricDelta(metrics), scope: "actual-runtime-not-offline-estimate" });
         } catch (e) { if (!failure) throw e; } // Keep cancellation/program errors intact.
       }
     }
@@ -19546,6 +20034,103 @@ case "consecrated": {
     }
     reportResult(p) {log.info(p.result==="win"?"对局胜利":"对局失败");}
   }
+  const TACTICAL_REASONS={
+  "opening-water-before-dry-relay":"先让莫娜挂水，再把扩散或蒸发接上",
+  "opening-development-preserves-water":"先发展伙伴和手牌，同时留够莫娜战技的骰子",
+  "paid-draw-preserves-last-attack":"把骰子留给这回合的攻击，付费过牌先缓一缓",
+  "equipment-loss-insurance":"先铺野猪公主，让接下来的装备替换接上返骰",
+  "partner-before-retrieval":"先用迪娜泽黛减费和检索，再接其他伙伴",
+  "同一已选装备先兑现可验证的零费减费；全段索引和支付已重算":"先把装备减费铺好，省下的骰子接到后续输出",
+  "本回合已无可支付输出，回合末交接保护站场输出位；下轮按真实骰子重算":"这轮输出已经打完，换队友承伤，保留主攻角色下一轮接力",
+  "优先兑现已确认交接的输出任务；后续仍按真实牌面重算":"接力已经到位，先兑现这次输出",
+  "已选付费切换，先用已知零费换班；确认后重算":"先用换班省下切换骰子，再把出战位交出去",
+  "先欢唱过牌并保留已知启动预算，不要求狂欢或装备对提前齐全；抽到什么再重算":"先用欢唱补充手牌，同时留够伊安珊的启动骰子",
+  "欢唱后先用现有运筹铺垫，仍保留战技预算；不猜抽牌和狂欢返骰":"欢唱已经铺好，接运筹补牌，继续留住战技的骰子",
+  "至少两张实际装备允许狂欢搏上限；只用已知返骰下界保留战技预算，随后转输出":"装备组件已经到手，用狂欢接过牌与返骰，随后转入输出",
+  "给当前出战飞蛇快速补能":"先补齐飞蛇的充能，把攻击机会留给爆发",
+  "后台亡雷建立抽牌或补齐现有块对":"启动毒蝎的供块与抽牌联动，为飞蛇攒成对能量块",
+  "亡风补块并保留后续切换收益":"补齐能量块，同时为后面的切换准备返骰",
+  "后台亡水补块并建立打出能量块后的额外治疗":"补齐能量块，并让后续打块接上角鳄治疗",
+  "在当前输出预算之外装备飞蛇，保留后续爆发收益":"当前攻击的骰子已经留好，用余下资源给飞蛇增伤",
+  "现有块配料理可达到名义血量；料理检索后先重读，不预测新牌":"手里的能量块配上料理增伤，可以争取这一轮补刀",
+  "有空间时即时过牌，抽到后重算":"手牌还有空间，先过牌寻找充能和爆发组件",
+  "有空间且先付得起倒计时，再按真实新手牌行动":"用倒计时补牌，把空出的手牌位置利用起来",
+  "狂欢按全额付款；不预支抽牌后的返骰":"先补充手牌，寻找下一步的进攻资源",
+  "空支援位用于后续抽牌；不保证回合末所有抽牌都有空间":"利用空支援位铺过牌，为后续回合接续资源",
+  "缺天赋时检索，不猜会抽到哪张":"先检索天赋，把供块与爆发组件补起来",
+  "有空位时准备后续清洁牌库收益":"趁支援区还有空位，准备清洁工作给后续攻击增伤",
+  "扣除现有立本竞争后，余下不同色骰仍可推进新实例":"余下的不同色骰还能供立本收集，换取后续骰子与手牌",
+  "已知料理库存且不占最后关键支援位时检索":"牌库里还有料理，先把爆发增伤检索到手",
+  "最高费并列最差结果可接受，过量倍率可换产骰、治疗或抽牌；只正常打出一次块":"拿多余能量块换资源，把骰子、抽牌与治疗接到这一轮进攻",
+  "块还没成对，先把拥挤的天赋、增伤和多余过牌换底，寻找启动资源":"能量块还没成对，先换掉拥挤的铺垫牌，寻找启动资源",
+  "过量块产骰可补足两次续攻资金，先读缺失的最高费弃牌事实":"准备把多余能量块换成续攻骰子，先看清这次会舍弃哪张牌",
+  "已知防御下达到当前血量；同样击倒优先保留续攻资源":"先争取击倒当前目标，同时留出后续进攻的资源",
+  "名义伤害达到当前血量；同样击倒优先保留续攻资源":"先争取击倒当前目标，同时留出后续进攻的资源",
+  "飞蛇阵亡，转现有辅助技能与陷阱收尾":"飞蛇已经退场，改由毒蝎、角鳄和陷阱接着打",
+  "已知最后回合，比较当前可兑现伤害":"已经到了最后一轮，把当前能打出的伤害集中兑现",
+  "继续用能承接行动的角色输出；飞蛇受压时交给健康队友接力，准备下一轮爆发":"爆发后继续进攻，让能承接行动的队友补伤害",
+  "飞蛇已受压，先兑现强于普通攻击的现有爆发，再补能或交给队友接力":"飞蛇血线已经受压，先打出更强的现有爆发，再安排补能和接力",
+  "飞蛇优先少准备地补能；同等操作优先战技伤害与抽牌":"先给飞蛇攒充能，用战技同时补伤害和手牌",
+  "现有爆发强于普通攻击，供块中断或满手无法补牌，先开大再补能续攻":"继续等牌的收益已经不高，先把更强的大招打出去，再靠攻击补能续攻",
+  "飞蛇已满能但组件不足且无有效发育动作，用可支付战技补伤抽牌后重算":"飞蛇已经满能，先保留大招，用战技补伤害、找齐爆发组件",
+  "现有资源可切回飞蛇补能，交棒后重新观察":"现在的资源够飞蛇接着补能，切回去为爆发蓄势",
+  "结束前调位先用现有零费换班，不白交切换骰子":"先用手里的换班省骰，再完成这一轮的承伤交接",
+  "本轮已无有效输出，结束前换健康队友承伤；本回合只做一次结束调位":"这轮已经没有合适的输出，换健康队友承伤，保住下一轮的进攻",
+  "最后一人仍有合法正伤害动作，不因低血评分空过":"只剩最后一名角色，抓住当前机会继续打伤害"
+};
+function commentaryStep(step){
+  if(typeof step!=="string")return step;
+  const [type,id,skill,technique]=step.split(":");
+  if(type==="skill")return {type,who:Number(id),skill,technique};
+  if(type==="switch")return {type,target:Number(id)};
+  return {type,id};
+}
+function commentaryStepLabel(a){
+  if(a.type==="skill")return T.team[a.who].name+"的「"+(a.skill==="T"?T.techniques[a.technique].name:T.team[a.who].skills[a.skill])+"」";
+  if(a.type==="switch")return "切换"+T.team[a.target].name;
+  if(a.type==="end")return "结束回合";
+  return (a.type==="tune"?"调和":"使用")+"「"+T.byId[a.id].name+"」";
+}
+function actionCommentary(a,s,m){
+  const planning=a.planning||a.search,parts=[actionDescription(a,s,m)],
+    reason=a.intent||TACTICAL_REASONS[a.reason||planning?.reason];
+  if(reason)parts.push(reason+"。");
+  const objective=planning?.objective;
+  if(!reason&&a.type!=="end"&&!planning?.terminal&&!planning?.retreat&&objective){
+    if(objective.task==="native-return")parts.push("嘉明的回场追击已经备好，准备接上踏云献瑞。");
+    else if(objective.phase==="develop")parts.push("先完成启动与交接，把输出条件铺给"+T.team[objective.carry].name+"。");
+    else parts.push("这一轮围绕"+T.team[objective.carry].name+"持续输出，资源优先接到他的出手上。");
+  }
+  if(!reason&&a.axis&&a.type!=="end"&&!planning?.terminal){
+    const direction={burst:"核与充能已经成形，把这轮资源集中到爆发上",fallback:"组件还没齐，先用手里的核与技能续上伤害",reaction:"先把元素反应接起来，为核减费和后续爆发铺垫",
+      relay:"把出战位交给哥伦比娅接力，延续当前反应与输出",sustain:"对手血量还多，先稳住循环，用核与技能持续压血",cleanup:"进入补刀阶段，优先兑现当前伤害"}[a.axis];
+    parts.push(direction+"。");
+  }
+  let steps=(planning?.sequence||[]).map(commentaryStep);
+  if(!steps.length){
+    steps=[a];
+    const next=a.followup||(a.funding?.goal?commentaryStep(a.funding.goal):a.plan?.terminal);
+    if(next&&T.actionKey(next)!==T.actionKey(a)){
+      steps.push(next);
+      if(next.followup)steps.push(next.followup);
+    }
+  }
+  if(!planning?.terminal){
+    const burst=steps.slice(1).find(step=>step.type==="skill"&&step.skill==="Q");
+    if(burst){
+      const need=T.team[burst.who].maxEnergy-s.characters[burst.who].energy;
+      if(need>0)parts.push(T.team[burst.who].name+"还差"+need+"点充能，先补齐再接大招。");
+    }
+  }
+  const seeds=planning?.ledger?.[0]?.seeds;
+  if(seeds&&a.type==="card"&&T.byId[a.id].type==="attachment"){
+    const free=seeds.filter(cost=>cost===0).length;
+    if(free>0)parts.push("这步之后预计有"+free+"张零费核，把减费接到后续输出。");
+  }
+  if(a.plan?.followupDamage>0)parts.push("这条路线还留出"+a.plan.remainingDice+"颗骰子，准备继续补伤害。");
+  if(steps.length>1)parts.push("接下来准备："+steps.slice(1,4).map(commentaryStepLabel).join(" → ")+"。");
+  return parts.join(" ");
+}
   root.TCGPlayer={Player,playerOptions,actionCommentary};
 })(globalThis);
 
@@ -19615,17 +20200,16 @@ case "consecrated": {
     if(layout.status!=="readable")return layout;
     const views=bank.entries.flatMap(entry=>(entry.views??[{name:"original",patches:entry.patches}]).map(view=>({
       id:entry.id,name:view.name??"original",scoreFloor:scoreFloor(entry,bank),titleCandidates:entry.titleCandidates,
-      patches:Array.isArray(view.patches)&&view.patches.length===bank.patches.length
-        ?Array.from(view.patches,file=>typeof file==="string"?file:null):[]
+      patches:view.patches
     })));
     return {...layout,slots:layout.slots.map(slot=>{
       // A view owns a complete pair. Never splice the best individual patches
       // of different views; runner-up is another identity, not the same card.
       const identities=new Map();
       for(const view of views){
-          const scores=view.patches.map((file,k)=>file===null?NaN:score(slot,bank.patches[k],file));
+          const scores=view.patches.map((file,k)=>score(slot,bank.patches[k],file));
           const rank={id:view.id,view:view.name,scores,scoreFloor:view.scoreFloor,titleCandidates:view.titleCandidates,
-            score:scores.length===bank.patches.length&&scores.length>0&&scores.every(Number.isFinite)?Math.min(...scores):-1};
+            score:scores.every(Number.isFinite)?Math.min(...scores):-1};
           // Explicit same-art variants (such as countdown stages) compete as
           // one unresolved family. Distinct artwork competes by exact card ID.
           const identity=view.titleCandidates?"family:"+view.titleCandidates.slice().sort().join("/"):view.id;
@@ -19700,9 +20284,12 @@ case "consecrated": {
     if(remaining>0)await env.sleep(remaining);
     const second=sample();return second?second.map(slot=>slot.id):null;
   }
-  async function opening(host,T,sleep,ids){
+  async function opening(host,T,sleep,ids=Array(5).fill(null)){
+    if(T.openingSetting(host.options.mulligan)==="全部保留")
+      return host.confirmOpening({policy:"confirm-current",reason:"keep-setting",selectedByScript:[]});
     const original=await host.openingSelections(xs);
-    let selected=original.slice(),pendingInspection=null;
+    let selected=original.slice();
+    const fromArtwork=ids.some(Boolean);
     const cards=ids.map((id,index)=>id&&T.byId[id]?T.observedCard(T.byId[id].name,index):null);
     const recordInput=(index,purpose,actual)=>{
       const verified=!!actual&&actual.every((v,i)=>v===(i===index?!selected[i]:selected[i]));
@@ -19712,8 +20299,8 @@ case "consecrated": {
     const verify=async(index,purpose)=>{
       let actual;
       try{actual=await host.openingSelections(xs);}
-      catch(error){recordInput(index,purpose,null);pendingInspection=null;throw error;}
-      const verified=recordInput(index,purpose,actual);pendingInspection=null;
+      catch(error){recordInput(index,purpose,null);throw error;}
+      const verified=recordInput(index,purpose,actual);
       if(!verified)
         throw Error("起手置换标记未证实，不重复点击第"+(index+1)+"张牌");
       selected=actual;
@@ -19722,23 +20309,14 @@ case "consecrated": {
       if(host.phase().phase!=="opening")throw Error("起手置换前页面已改变");
       host.clickAt(...host.point("opening",xs[index]+70,540));await sleep(350);await verify(index,purpose);
     };
-    try{
-      for(let i=0;i<cards.length;i++)if(!cards[i]){
-        if(host.phase().phase!=="opening")throw Error("起手补读前页面已改变");
-        pendingInspection=i;
-        const raw=await host.titleAt(xs[i]+70,540,true,false);
-        await verify(i,"inspect-unknown");cards[i]=T.observedCard(raw,i);
-        if(!cards[i])throw Error("第"+(i+1)+"张初始牌标题未读清，不自动确认开局");
-        host.trace("opening-title-method",{index:i,method:"unknown-only",selectionChanged:true});
-      }
-    }catch(error){
-      let actual;
-      try{actual=await host.openingSelections(xs);}
-      catch(failure){if(pendingInspection!==null)recordInput(pendingInspection,"inspect-unknown",null);throw failure;}
-      if(pendingInspection!==null)recordInput(pendingInspection,"inspect-unknown",actual);
-      selected=actual;
-      for(let i=0;i<5;i++)if(selected[i]!==original[i])await toggle(i,"rollback");
-      throw error;
+    // Inspection toggles replacement too. Failed reads leave the native page
+    // intact and propagate the error; cancellation must not trigger rollback input.
+    for(let i=0;i<cards.length;i++)if(!cards[i]){
+      if(host.phase().phase!=="opening")throw Error("起手补读前页面已改变");
+      const raw=await host.titleAt(xs[i]+70,540,true,false);
+      await verify(i,"inspect-unknown");cards[i]=T.observedCard(raw,i);
+      if(!cards[i])throw Error("第"+(i+1)+"张初始牌标题未读清，不自动确认开局");
+      host.trace("opening-title-method",{index:i,method:fromArtwork?"unknown-only":"click",selectionChanged:true});
     }
     const context=T.openingContext({}),plan=T.openingPlan(cards,original,context);
     host.openingCards=plan.keep;
@@ -19751,7 +20329,7 @@ case "consecrated": {
     for(let i=0;i<5;i++)if(selected[i]&&!plan.replace[i])await toggle(i,"reconcile");
     for(let i=0;i<5;i++)if(!selected[i]&&plan.replace[i])await toggle(i,"reconcile");
     host.trace("opening-selection-verified",{original,selected,proof:"two-stable-native-replace-labels-per-input"});
-    return host.confirmOpening({policy:"known-priority",recognition:"direct-art-unknown-title-fallback",
+    return host.confirmOpening({policy:"known-priority",recognition:fromArtwork?"direct-art-unknown-title-fallback":"title-only",
       selectedByScript:selected.flatMap((v,i)=>v?[i]:[])});
   }
   root.TCGOpeningHand={xs,artXs,rank,read,opening};
@@ -19786,7 +20364,7 @@ case "consecrated": {
   }
   function checkedBank(T,bank){
     if(!bank||!Number.isFinite(bank.scoreFloor)||bank.scoreFloor<=0||bank.scoreFloor>1||
-      bank.runnerUpGap!==.20||!Array.isArray(bank.entries))
+      bank.runnerUpGap!==.20||!Array.isArray(bank.entries)||!Array.isArray(bank.patches))
       throw Error("手牌识别库格式不正确");
     if(bank.searchPadding!==undefined&&(!Number.isInteger(bank.searchPadding)||bank.searchPadding<0||bank.searchPadding>8))
       throw Error("牌面搜索边距不正确");
@@ -19802,7 +20380,7 @@ case "consecrated": {
       if(entry.animated!==undefined&&typeof entry.animated!=="boolean")
         throw Error("动态牌面标记不正确："+entry.id);
       const views=entry.views??[{patches:entry.patches}];
-      if(!views.length||views.some(view=>!Array.isArray(view.patches)||
+      if(!views.length||views.some(view=>!Array.isArray(view.patches)||!view.patches.length||
         view.patches.length!==bank.patches.length||view.patches.some(file=>typeof file!=="string")))
         throw Error("牌面完整视图不正确："+entry.id);
     }
