@@ -4,20 +4,16 @@
       {
         "links": "https://github.com/Litmi7",
         "name": "穹"
-      },
-      {
-        "links": "https://github.com/Traveler07",
-        "name": "½"
       }
     ],
     "bgi_version": "0.52.0",
     "country": "须弥",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1793472036992,
+    "last_modified_time": 1793480382154,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "09-赤念果-丰饶绿洲东 -2个",
+    "name": "10-赤念果-丰饶绿洲南-3个",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -28,24 +24,24 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 4451.1,
-      "y": -2455.68
+      "x": 4795.12,
+      "y": -2577.16
     },
     {
       "action": "",
       "id": 2,
       "move_mode": "walk",
       "type": "path",
-      "x": 4459.99,
-      "y": -2488.1
+      "x": 4781.79,
+      "y": -2608.34
     },
     {
-      "action": "stop_flying",
+      "action": "",
       "id": 3,
-      "move_mode": "fly",
+      "move_mode": "walk",
       "type": "path",
-      "x": 4461.4974,
-      "y": -2500.0913
+      "x": 4741.1862,
+      "y": -2634.9428
     },
     {
       "action": "",
@@ -53,8 +49,26 @@
       "id": 4,
       "move_mode": "walk",
       "type": "target",
-      "x": 4470.8512,
-      "y": -2493.7
+      "x": 4744.6985,
+      "y": -2642.2866
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4739.9091,
+      "y": -2656.9742
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "jump",
+      "type": "target",
+      "x": 4737.5,
+      "y": -2652.0
     }
   ]
 }

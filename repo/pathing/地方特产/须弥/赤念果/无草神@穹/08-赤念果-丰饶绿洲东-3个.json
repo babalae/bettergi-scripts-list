@@ -14,10 +14,10 @@
     "country": "须弥",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1793472015307,
+    "last_modified_time": 1793715270043,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "07-赤念果-丰饶绿洲东北 -3个",
+    "name": "08-赤念果-丰饶绿洲东-3个",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -28,42 +28,66 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 4691.22,
-      "y": -2345.83
+      "x": 4451.95,
+      "y": -2454.03
     },
     {
       "action": "",
-      "action_params": "",
       "id": 2,
-      "move_mode": "jump",
-      "type": "target",
-      "x": 4697.1534,
-      "y": -2334.4381
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4424.3839,
+      "y": -2462.0725
     },
     {
       "action": "",
       "id": 3,
       "move_mode": "walk",
-      "type": "path",
-      "x": 4728.2322,
-      "y": -2366.1204
-    },
-    {
-      "action": "",
-      "id": 4,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 4764.1388,
-      "y": -2443.0632
+      "type": "target",
+      "x": 4405.5814,
+      "y": -2464.5
     },
     {
       "action": "",
       "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4409.5988,
+      "y": -2489.5305
+    },
+    {
+      "action": "",
       "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4422.27,
+      "y": -2514.11
+    },
+    {
+      "action": "stop_flying",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4436.11,
+      "y": -2527.38
+    },
+    {
+      "action": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4432.8438,
+      "y": -2520.1484
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
       "move_mode": "jump",
       "type": "target",
-      "x": 4767.7597,
-      "y": -2462.9777
+      "x": 4433.436,
+      "y": -2517.2903
     }
   ]
 }
