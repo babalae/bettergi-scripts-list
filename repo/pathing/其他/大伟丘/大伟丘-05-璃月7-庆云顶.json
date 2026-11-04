@@ -1,0 +1,49 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "伏羲的小屋"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "大伟丘",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1774126786052,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "大伟丘-05-璃月7-庆云顶",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1433.7021,
+      "y": 837.3877
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1500",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1466.1855,
+      "y": 844.9541
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1466.1855,
+      "y": 844.9541
+    }
+  ]
+}
