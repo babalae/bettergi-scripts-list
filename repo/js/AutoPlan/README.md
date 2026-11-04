@@ -375,8 +375,11 @@ Boss||3||爆炎树||||false||||||                            # 最简单配置�
 | 0.1.2 | yHlw8FHjTJAPEtpp9O+ |           0.1.6+           |
 | 0.1.3 | 2Cbayi1S2I41BlTXb/XAmw== |           0.1.8+           |
 | 0.1.4 | 2Cbayi1S2I41BlTXb/XAmw== |           0.1.9+           |
+| 0.1.5 | 2Cbayi1S2I41BlTXb/XAmw== |           0.1.9+           |
 ---
 ## 版本历史（简要）
+### 0.1.5 2026.09.26
+- 适配新BOSS
 ### 0.1.4 2026.09.06
 - 适配bgi本体API改动
 - 修复OCR识别问题
