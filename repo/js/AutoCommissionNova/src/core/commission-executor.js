@@ -91,9 +91,10 @@ async function updateBranchCompletion(commissionName, context) {
  * 每个委托支持重试机制，执行完成后检查状态。
  *
  * @param {Object} stepRegistry - 步骤处理器注册表
+ * @param {number|null} [requiredSuccesses=null] - 本次还需成功完成的委托数；null 表示不限制
  * @returns {Promise<boolean>} 是否有委托执行成功
  */
-export async function executeCommissionTracking(stepRegistry) {
+export async function executeCommissionTracking(stepRegistry, requiredSuccesses = null) {
     try {
         log.debug("开始执行委托追踪");
         await genshin.returnMainUi();
@@ -161,6 +162,10 @@ export async function executeCommissionTracking(stepRegistry) {
                 log.warn("委托 {name} 共 {total} 次尝试后仍未完成，跳过该委托", comm.name, totalAttempts);
             } else {
                 log.info(`委托执行成功：${comm.name}`);
+                if (requiredSuccesses !== null && successCount >= requiredSuccesses) {
+                    log.info("已完成每日奖励所需的 {count} 个委托，停止继续执行", requiredSuccesses);
+                    break;
+                }
             }
             await sleep(1);
         }
