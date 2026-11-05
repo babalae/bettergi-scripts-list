@@ -1,0 +1,10 @@
+// 作者:Liku
+// 描述:刚需兹白与满辉buff，可与钟离/哥伦比娅/莉奈娅/叶洛亚/行秋组队
+
+钟离 s(0.2), e(hold), wait(0.2), w(0.2), wait(0.1), keypress(q), wait(0.1),keypress(q),ready
+行秋 attack,wait(0.2),e,wait(0.4),keypress(q),wait(0.2),keypress(q),attack,wait(0.2),keypress(q),wait(0.2),keypress(q),wait(0.6),attack,wait(0.2)
+哥伦比娅 e,keypress(q),attack(0.3),keypress(q),attack(0.3),keypress(q)
+莉奈娅 attack(0.1), keypress(q), wait(0.1), keypress(q), wait(0.1), keypress(q), wait(0.1), ready, check, wait(0.4), keydown(E), wait(0.05), attack(0.82), keyup(E), wait(1)
+叶洛亚 e,wait(0.2),keypress(q),attack(0.3),keypress(q),attack(0.3),keypress(q)
+行秋 e,wait(0.4),keypress(q),wait(0.2),attack,wait(0.3)
+兹白 w(0.1),e,wait(0.3),attack(2),e,wait(0.5),check,attack(2),e,wait(0.5),check,attack(2),e,wait(0.5),check,keypress(q),attack,keypress(q),attack,keypress(q),ready,check,attack(1.5),e,wait(0.5)
