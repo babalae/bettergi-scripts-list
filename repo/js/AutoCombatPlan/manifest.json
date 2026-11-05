@@ -1,0 +1,22 @@
+{
+  "manifest_version": 1,
+  "name": "自动战斗计划",
+  "version": "0.3.88",
+  "bgi_version": "0.66.0",
+  "description": "按 UID 取配置，自动安排体力去向：地脉双倍 → 幽境危战 → 秘境兜底耗尽",
+  "authors": [
+    {
+      "name": "风铃"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js",
+  "allow_js_notification": true,
+  "saved_files": [
+    "config/*.json"
+  ],
+  "library": [
+    ".",
+    "src"
+  ]
+}

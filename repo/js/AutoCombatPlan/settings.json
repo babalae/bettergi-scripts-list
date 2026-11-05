@@ -1,0 +1,28 @@
+[
+  {
+    "name": "mode",
+    "type": "select",
+    "label": "运行模式",
+    "options": [
+      "直接运行",
+      "打开配置面板"
+    ],
+    "default": "打开配置面板"
+  },
+  {
+    "name": "uid",
+    "type": "select",
+    "label": "账号 UID（账号配置文件名，脚本只按它定位）",
+    "options": [],
+    "default": ""
+  },
+  {
+    "name": "developer",
+    "type": "checkbox",
+    "label": "开发者选项（解锁「默认」模板的编辑；默认锁定）",
+    "default": false
+  },
+  {
+    "type": "separator"
+  }
+]
