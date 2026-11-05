@@ -61,19 +61,37 @@ function loadDb() {
   return { domains, openGroups };
 }
 
-const DB = loadDb();
+/**
+ * 候选库惰性读：模块顶层**不碰** `file`。
+ *
+ * 单文件产物只有一个 chunk，rollup 会把动态 import 进来的模块铺平到顶层——
+ * 面板前端在浏览器里加载时，这里若直接 `loadDb()`，那里既没有 `file` 也没有 `log`，
+ * 整页当场抛错。改成第一次用到才读，在线（node 侧）与离线（页面里）都能安全求值。
+ * 读库的时机从「模块加载」挪到「第一次排班」，对调用方没有可见差别。
+ */
+let DB = null;
+let MM = null;
+
+function db() {
+  if (!DB) DB = loadDb();
+  return DB;
+}
 
 /** 秘境名 → 基本信息（类型 / 国家 / 奖励） */
-export const DOMAINS = DB.domains;
+function domains() {
+  return db().domains;
+}
 
 /** 秘境名 → { 组号: 材料名 }，来自库里的 `groups` 字段，不手抄 */
-export const OPEN_GROUPS = DB.openGroups;
+function openGroups() {
+  return db().openGroups;
+}
 
 /** 材料名 → { domain, group }：由组号表反推，配置里写材料也能直接认 */
-function buildMaterialMap(openGroups) {
+function buildMaterialMap(of) {
   const m = {};
-  for (const name of Object.keys(openGroups)) {
-    const sch = openGroups[name];
+  for (const name of Object.keys(of)) {
+    const sch = of[name];
     for (const g of [1, 2, 3]) {
       if (sch[g]) m[sch[g]] = { domain: name, group: g };
     }
@@ -81,11 +99,14 @@ function buildMaterialMap(openGroups) {
   return m;
 }
 
-export const MATERIAL_MAP = buildMaterialMap(OPEN_GROUPS);
+function materialMap() {
+  if (!MM) MM = buildMaterialMap(openGroups());
+  return MM;
+}
 
 /** 本的类型：weapon / talent / artifact；认不出返回空串 */
 export function domainCat(name) {
-  const d = DOMAINS[name];
+  const d = domains()[name];
   return d ? TYPE_CAT[d.type] || "" : "";
 }
 
@@ -108,9 +129,9 @@ export function todayGroup(day) {
 export function resolveTarget(raw) {
   const s = String(raw === null || raw === undefined ? "" : raw).trim();
   if (!s) return null;
-  const hit = MATERIAL_MAP[s];
+  const hit = materialMap()[s];
   if (hit) return { name: hit.domain, material: s, group: hit.group, known: true };
-  return { name: s, material: "", group: 0, known: Object.prototype.hasOwnProperty.call(OPEN_GROUPS, s) };
+  return { name: s, material: "", group: 0, known: Object.prototype.hasOwnProperty.call(openGroups(), s) };
 }
 
 /**
@@ -161,7 +182,7 @@ export function materialToDomain(input) {
   if (needsMaterial(t)) {
     return fail(`「${t.name}」是天赋 / 武器本，要写材料名——今天出哪份由组号定`);
   }
-  if (!DOMAINS[t.name]) {
+  if (!domains()[t.name]) {
     return fail(`未收录：「${String(s.target)}」不在 ${OPTIONS_FILE} 里`);
   }
 
