@@ -955,24 +955,21 @@ async function checkDailyCommissionFlow(isDebug) {
 }
 
 // 生成当前北京时间（UTC+8）的带时区信息字符串，如 "2026-10-31T02:16:31+08:00"
-// 无论运行机器在哪个时区，new Date() 都能正确解析，不受本地时区影响
+// 在 UTC 基础上自行加 8 小时计算，不依赖 Intl 的 hourCycle 行为，避免午夜把 "00" 格式化成 "24" 产生非法时间串
 function getBeijingTimeStr() {
-    const now = new Date();
-    const fmt = new Intl.DateTimeFormat("en-CA", {
-        timeZone: "Asia/Shanghai",
-        year: "numeric", month: "2-digit", day: "2-digit",
-        hour: "2-digit", minute: "2-digit", second: "2-digit",
-        hour12: false
-    });
-    const parts = fmt.formatToParts(now);
-    const get = (t) => parts.find(p => p.type === t)?.value;
-    return `${get('year')}-${get('month')}-${get('day')}T${get('hour')}:${get('minute')}:${get('second')}+08:00`;
+    const pad = (n) => String(n).padStart(2, "0");
+    const t = new Date(Date.now() + 8 * 3600 * 1000);
+    return `${t.getUTCFullYear()}-${pad(t.getUTCMonth() + 1)}-${pad(t.getUTCDate())}` +
+        `T${pad(t.getUTCHours())}:${pad(t.getUTCMinutes())}:${pad(t.getUTCSeconds())}+08:00`;
 }
 
 // 解析缓存记录时间，返回 Date（缓存使用带 +08:00 的北京时间字符串，任何时区解析一致）
+// 兼容历史缓存里被错误写成 "T24:xx:xx" 的午夜记录：ISO 规则下 24 作小时不合法，会得到 Invalid Date，
+// 这里把同一天的 "24 点" 归一化为当天的 "00 点"（该错误仅影响小时位，日期仍是实际扫码当天）
 function parseCacheTime(timeStr) {
     if (!timeStr) return null;
-    const t = new Date(timeStr);
+    const s = String(timeStr).replace(/T24(?=:[0-5]\d:[0-5]\d)/, "T00");
+    const t = new Date(s);
     return isNaN(t.getTime()) ? null : t;
 }
 
