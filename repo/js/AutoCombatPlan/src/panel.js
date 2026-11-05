@@ -61,11 +61,39 @@ function dayInfo() {
 /** 打开面板时带的 uid，只用作个人页的默认选中项 */
 let activeUid = "";
 
+/** 离线编辑器没有 openPanel 那段前置流程，选中项由宿主直接给定 */
+export function setActiveUid(v) {
+  activeUid = String(v || "");
+}
+
 /**
  * 这次打开面板时识别到的「当前登录账号」（genshin.uid() 的 9 位结果，识别失败为空）。
  * 两个用途：左栏里排到最前、settings.json 的 UID 下拉里排第一。
  */
 let currentUid = "";
+
+/** 离线编辑器按导入的文件判断「当前账号」，没有 OCR 这一步 */
+export function setCurrentUid(v) {
+  currentUid = String(v || "");
+}
+
+/**
+ * 关窗动作由宿主决定：在线关 htmlMask 窗口，离线（浏览器里的编辑器）没有窗口可关。
+ * 整个后端只有 `/panel/close` 用到窗口，所以注入点就这一个。
+ */
+let hostClose = (win) => htmlMask.close(win);
+
+export function setHostClose(fn) {
+  hostClose = typeof fn === "function" ? fn : () => {};
+}
+
+/**
+ * 面板后端的统一入口：在线窗口循环（`reply`）与离线编辑器都调它。
+ * 入参与窗口消息同形，返回的就是发回去的那个回包对象。
+ */
+export function handle(url, data) {
+  return route(null, url, normalize(data));
+}
 
 export async function openPanel(uid) {
   if (typeof htmlMask === "undefined" || !htmlMask) {
@@ -324,7 +352,7 @@ function route(win, url, data) {
       return { ok: true, uid: cfg.uid, accounts: accountsForPanel(), msg: `已新建账号 ${cfg.uid}` };
     }
     case "/panel/close":
-      htmlMask.close(win);
+      hostClose(win);
       return { ok: true };
     default:
       return { ok: false, msg: `未知请求：${url}` };
