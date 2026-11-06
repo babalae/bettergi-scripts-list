@@ -1,0 +1,20 @@
+[
+    {
+        "name": "notify",
+        "type": "checkbox",
+        "label": "完成后发送通知（含失败）",
+        "default": true
+    },
+    {
+        "name": "nickname",
+        "type": "input-text",
+        "label": "昵称（通知里显示，留空用「旅行者」）",
+        "default": ""
+    },
+    {
+        "name": "debug",
+        "type": "checkbox",
+        "label": "详细日志（OCR 原文、模板得分、坐标、点击结果）",
+        "default": false
+    }
+]
