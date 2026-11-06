@@ -1,0 +1,53 @@
+[
+  {
+    "name": "disclaimer_accepted",
+    "type": "checkbox",
+    "label": "我同意不传播、不跳脸、不商用！！！",
+    "default": false
+  },
+  {
+    "name": "disclaimer_confirm_text",
+    "type": "input-text",
+    "label": "请输入'同意'以确认免责声明",
+    "default": "纳西妲世界第一"
+  },
+  {
+    "name": "process_selector",
+    "type": "select",
+    "label": "可执行剧情列表",
+    "options": [
+      "刷新剧情列表",
+      "馋馋你们-5.x主线 第五章 第五幕",
+      "馋馋你们-6.0主线 第一章 雪浪与苍林之舞",
+      "馋馋你们-6.0主线 第二章 尘与灯的挽歌",
+      "馋馋你们-6.0活动铛铛铛，大危机",
+      "馋馋你们-用不了馋馋你们，这个星野怎么这么坏"
+    ],
+    "default": "刷新剧情列表"
+  },
+  {
+    "name": "team",
+    "type": "input-text",
+    "label": "战斗的队伍名称，不填表示不切换队伍"
+  },
+  {
+    "name": "elementTeam",
+    "type": "input-text",
+    "label": "元素采集的队伍名称"
+  },
+  {
+    "name": "pause",
+    "type": "input-text",
+    "label": "暂停键VK_字符"
+  },
+  {
+    "name": "noSkip",
+    "type": "checkbox",
+    "label": "关闭自动拾取"
+  },
+  {
+    "name": "noEat",
+    "type": "checkbox",
+    "label": "关闭自动吃药"
+  }
+]

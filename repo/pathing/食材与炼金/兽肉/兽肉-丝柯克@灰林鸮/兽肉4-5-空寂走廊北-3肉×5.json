@@ -1,0 +1,274 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Strix-nivicolum",
+        "name": "灰林鸮"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1767163463037,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "兽肉4-5-空寂走廊北-3肉×5",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9191.6904,
+      "y": 2852.1069
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9173.9561,
+      "y": 2839.1123
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9168.4893,
+      "y": 2843.491
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9091.9873,
+      "y": 2857.3799
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9046.7568,
+      "y": 2826.666
+    },
+    {
+      "action": "combat_script",
+      "action_params": "丝柯克 q",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9032.4697,
+      "y": 2815.9839
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9030.8203,
+      "y": 2812.5142
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9027.8311,
+      "y": 2812.7734
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9029.0518,
+      "y": 2811.8955
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9034.29,
+      "y": 2779.9004
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9059.1221,
+      "y": 2721.4082
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9067.875,
+      "y": 2710.938
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9099.1553,
+      "y": 2715.7422
+    },
+    {
+      "action": "combat_script",
+      "action_params": "丝柯克 q",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9103.4932,
+      "y": 2712.5103
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9109.1553,
+      "y": 2717.0596
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9110.3408,
+      "y": 2716.2922
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9107.8428,
+      "y": 2707.8
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9109.7461,
+      "y": 2706.3049
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(4.5),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9107.7334,
+      "y": 2706.6277
+    },
+    {
+      "action": "combat_script",
+      "action_params": "丝柯克 q",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9101.2295,
+      "y": 2703.8257
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9102.4658,
+      "y": 2701.5378
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.4)",
+      "id": 22,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9100.8789,
+      "y": 2700.1553
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 23,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9094.2627,
+      "y": 2695.8167
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 24,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9095.4766,
+      "y": 2698.3628
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 25,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9114.9277,
+      "y": 2717.1741
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(3.5),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 26,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9114.0654,
+      "y": 2719.6672
+    },
+    {
+      "action": "combat_script",
+      "action_params": "丝柯克 q",
+      "id": 27,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9108.8584,
+      "y": 2726.5435
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 28,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9103.748,
+      "y": 2731.8953
+    }
+  ]
+}

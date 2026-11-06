@@ -1,0 +1,96 @@
+{
+  "info": {
+    "name": "自动钓鱼路线-枫丹-厄里那斯·东侧浅滩",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.43.0",
+    "authors": [
+      {
+        "name": "鸿羽er",
+        "links": "https://github.com/evildoer12138"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4747.01,
+      "y": 2641.21,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4730.5,
+      "y": 2681.88,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4692.12,
+      "y": 2692.0,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4658.0,
+      "y": 2714.25,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 4634.19,
+      "y": 2746.75,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 4629.5,
+      "y": 2744.25,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 4627.12,
+      "y": 2742.88,
+      "type": "path",
+      "move_mode": "climb"
+    },
+    {
+      "id": 8,
+      "x": 4624.75,
+      "y": 2741.5,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": 4607.44,
+      "y": 2731.48,
+      "action": "fishing",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    }
+  ]
+}

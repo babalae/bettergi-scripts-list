@@ -1,0 +1,85 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1785414116635,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "13-莲蓬-璃月-归离原东-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 341.5039,
+      "y": 548.4902
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 322.2207,
+      "y": 556.9043
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 265.334,
+      "y": 559.0049
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1);迪希雅 keypress(VK_E),wait(0.2),keypress(VK_E);",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 237.9561,
+      "y": 516.3628
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 235.25,
+      "y": 512.187
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1);迪希雅 keypress(VK_E),wait(0.2),keypress(VK_E);",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 240.585,
+      "y": 505.2393
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 244.3809,
+      "y": 506.9971
+    }
+  ]
+}

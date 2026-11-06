@@ -1,0 +1,75 @@
+{
+  "info": {
+    "name": "21-泡泡桔-苍晶区中-6个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "白白喵",
+        "links": "https://github.com/taotao568685"
+      }
+    ],
+    "version": "1.0",
+    "description": "带万叶摘泡泡桔",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1754663544259,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4955.1738,
+      "y": 2760.3921,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4948.2178,
+      "y": 2699.0115,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "4400",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4944.9131,
+      "y": 2688.7998,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "枫原万叶 wait(0.1),e(hold),attack,wait(2)"
+    },
+    {
+      "id": 4,
+      "x": 4962.5938,
+      "y": 2695.1331,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 4988.896,
+      "y": 2693.187,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 4990.8647,
+      "y": 2697.1382,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "枫原万叶 wait(0.1),e(hold),attack,wait(2)"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "info": {
+    "name": "枫丹地脉花-路线1 厄里那斯-点2：厄里那斯神像右下1",
+    "type": "collect",
+    "author": "平面镜&LCB茶包",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.44.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4689.61181640625,
+      "y": 2429.431884765625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4631.0048828125,
+      "y": 2468.979736328125,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4653.67138671875,
+      "y": 2531.894287109375,
+      "move_mode": "dash",
+      "type": "target"
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "info": {
+    "name": "10-鱼肉-稻妻-九条阵屋右-3",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "authors": [
+      {
+        "name": "火山",
+        "links": "https://github.com/RRRR623"
+      }
+    ],
+    "last_modified_time": 1751628175207
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -3436.92,
+      "y": -3319.66,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -3449.2,
+      "y": -3320.6,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -3464.4,
+      "y": -3327.44,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -3471.56,
+      "y": -3322.07,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -3472.6,
+      "y": -3324.92,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -3487.16,
+      "y": -3327,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": -3501.61,
+      "y": -3343.25,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": -3501.61,
+      "y": -3343.25,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": -3501.61,
+      "y": -3343.25,
+      "action": "pick_around",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

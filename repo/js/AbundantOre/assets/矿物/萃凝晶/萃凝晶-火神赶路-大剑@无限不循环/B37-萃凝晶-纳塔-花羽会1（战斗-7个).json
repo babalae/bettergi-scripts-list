@@ -1,0 +1,212 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/non-repeating001",
+        "name": "无限不循环"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758655406416,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B37-萃凝晶-纳塔-花羽会1（战斗-7个)",
+    "tags": [
+      "双手剑"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "id": 1,
+      "move_mode": "fly",
+      "type": "teleport",
+      "x": 9587.31,
+      "y": -1278.58
+    },
+    {
+      "action": "combat_script",
+      "action_params": "玛薇卡 w(0.1),attack(0.3),e(hold),keydown(VK_W),dash(2.6),attack,wait(1.5),keyup(VK_W),wait(0.5),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9618.56,
+      "y": -1315.73
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1500",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9618.56,
+      "y": -1315.73
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9620.85,
+      "y": -1309.66
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9620.85,
+      "y": -1309.66
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9627.3,
+      "y": -1310.14
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9626.98,
+      "y": -1307.67
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9626.98,
+      "y": -1307.67
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9625.24,
+      "y": -1304.36
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9625.24,
+      "y": -1304.36
+    },
+    {
+      "action": "combat_script",
+      "action_params": "玛薇卡 w(0.1),attack(0.3),e(hold),keydown(VK_W),wait(0.5),dash(3.7),attack,wait(0.8),keyup(VK_W),wait(0.5),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9678.67,
+      "y": -1349.69
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9678.67,
+      "y": -1349.69
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9679.67,
+      "y": -1349.69
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9681.92,
+      "y": -1347.1
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9681.92,
+      "y": -1347.1
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9687.11,
+      "y": -1350.56
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9685.35,
+      "y": -1348.18
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9685.35,
+      "y": -1348.18
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9690.36,
+      "y": -1347.03
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9689.46,
+      "y": -1345.44
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 21,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9689.46,
+      "y": -1345.44
+    }
+  ]
+}

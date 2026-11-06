@@ -1,0 +1,103 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Strix-nivicolum",
+        "name": "灰林鸮"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766867968715,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "兽肉2-10-禅那园西-4肉×2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3397.9111,
+      "y": -1174.229
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3396.1396,
+      "y": -1169.6577
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3398.2734,
+      "y": -1145.8623
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3443.6924,
+      "y": -1124.437
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3443.0254,
+      "y": -1092.3008
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3504.6035,
+      "y": -1056.5854
+    },
+    {
+      "action": "combat_script",
+      "action_params": "丝柯克 q",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3514.1816,
+      "y": -1050.6196
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3518.5,
+      "y": -1050.5967
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3515.8906,
+      "y": -1044.1528
+    }
+  ]
+}

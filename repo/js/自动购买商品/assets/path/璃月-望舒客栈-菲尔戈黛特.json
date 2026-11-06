@@ -1,0 +1,95 @@
+﻿{
+  "info": {
+    "name": "菲尔戈黛特",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "小鹰划船不用桨",
+        "links": ""
+      }
+    ],
+    "tags": [],
+    "last_modified_time": 1755787602123,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 328.9580078125,
+      "y": 873.63818359375,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 324.8349609375,
+      "y": 883.72021484375,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 324.8349609375,
+      "y": 883.72021484375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 334.140625,
+      "y": 890.552734375,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 342.5732421875,
+      "y": 892.7685546875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 345.8505859375,
+      "y": 905.4677734375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 346.7978515625,
+      "y": 909.10205078125,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 347.021484375,
+      "y": 909.1572265625,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

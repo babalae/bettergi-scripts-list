@@ -1,0 +1,69 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "一只低熵体"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "特殊招募计划任务入口近路；未解锁入口时脚本会改走普通锚点路线。\n冬契军训练场1人\n雅洛维娅",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1790493498092,
+    "map_match_method": "TemplateMatch",
+    "map_name": "Teyvat",
+    "name": "12-冰造物点赞-至冬-冬契军训练场-备用路线-2赞",
+    "tags": [
+      "点赞=2"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 6451.5954,
+      "y": 9626.6375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6463.3235,
+      "y": 9613.5141
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6454.579,
+      "y": 9607.0539
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 6442.8295,
+      "y": 9615.7199
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 6425.9686,
+      "y": 9633.637
+    }
+  ]
+}

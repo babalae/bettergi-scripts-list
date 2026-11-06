@@ -1,0 +1,40 @@
+{
+  "info": {
+    "name": "两个怪2 2",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "jsp"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8581.99,
+      "y": -2675.21
+    },
+    {
+      "id": 2,
+      "x": 8504.16,
+      "y": -2739.24,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 8500.76,
+      "y": -2807.91,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}

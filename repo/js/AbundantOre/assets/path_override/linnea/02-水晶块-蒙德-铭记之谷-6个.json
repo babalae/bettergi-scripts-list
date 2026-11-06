@@ -1,0 +1,139 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/RRRR623",
+        "name": "火山"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1787689544728,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "02-水晶块-蒙德-铭记之谷-6个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.1"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -663.63,
+      "y": 1709.65
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -666.25,
+      "y": 1700.93
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -665.87,
+      "y": 1700
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -664.64,
+      "y": 1696.8
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -663.79,
+      "y": 1694
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -712.5,
+      "y": 1677.42
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -715.15,
+      "y": 1675.73
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.05),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 8,
+      "move_mode": "run",
+      "type": "path",
+      "x": -706.3026,
+      "y": 1676.4727
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "run",
+      "type": "path",
+      "x": -710.3672,
+      "y": 1676.1216
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.05),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 10,
+      "move_mode": "run",
+      "type": "path",
+      "x": -710.4791,
+      "y": 1679.1975
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.05),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 11,
+      "move_mode": "run",
+      "type": "path",
+      "x": -720.7911,
+      "y": 1674.6878
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -714.998,
+      "y": 1669.0996
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.05),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 13,
+      "move_mode": "run",
+      "type": "path",
+      "x": -719.9023,
+      "y": 1667.3478
+    }
+  ]
+}

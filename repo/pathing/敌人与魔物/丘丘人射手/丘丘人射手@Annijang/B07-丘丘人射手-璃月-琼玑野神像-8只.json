@@ -1,0 +1,176 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Annijang",
+        "name": "Annijang"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766466174208,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B07-丘丘人射手-璃月-琼玑野神像-8只",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -257.1836,
+      "y": 622.5439
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -257.1836,
+      "y": 622.5439
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "2000",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -190.6797,
+      "y": 489.1523
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -190.6797,
+      "y": 489.1523
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -139.3125,
+      "y": 491.9951
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(3);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -113.9023,
+      "y": 472.7153
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -69.209,
+      "y": 447.7827
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -74.5605,
+      "y": 441.3311
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -71.834,
+      "y": 405.7539
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -64.5078,
+      "y": 409.9746
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -70.5371,
+      "y": 426.9453
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -28.7324,
+      "y": 431.4375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -39.416,
+      "y": 430.9434
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -50.3027,
+      "y": 451.7979
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(3)",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -17.752,
+      "y": 480.4004
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 46.8672,
+      "y": 536.127
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 68.9648,
+      "y": 558.5493
+    }
+  ]
+}

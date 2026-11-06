@@ -1,0 +1,66 @@
+{
+    "info": {
+        "name": "稻妻-野伏众-鸣神岛镇守之森东南-4个",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.0",
+        "description": "野伏众-4个\n稻妻-鸣神岛镇守之森东南",
+        "bgi_version": "0.39.1"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "x": -4429.52,
+            "y": -2797.91,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "teleport"
+        },
+        {
+            "id": 2,
+            "x": -4450.5,
+            "y": -2803.0,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 3,
+            "x": -4462.25,
+            "y": -2819.0,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 4,
+            "x": -4495.76,
+            "y": -2852.08,
+            "action": "stop_flying",
+            "move_mode": "fly",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 5,
+            "x": -4543.28,
+            "y": -2849.08,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 6,
+            "x": -4569.75,
+            "y": -2828.75,
+            "action": "fight",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "target"
+        }
+    ]
+}

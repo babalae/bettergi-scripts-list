@@ -1,0 +1,103 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1774898302102,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "05-琉鳞石-火山南-7个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.1"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10369.4277,
+      "y": -3319.5479
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.2),keypress(t),click(middle),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T)",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10341.1152,
+      "y": -3316.9121
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 3,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 10348.5029,
+      "y": -3313.1328
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 10346.8984,
+      "y": -3322.6602
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 10332.0508,
+      "y": -3318.1367
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10267.2822,
+      "y": -3324.5098
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 10251.1953,
+      "y": -3324.6133
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.7),keydown(e),attack(1.8),keyup(e)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 10247.4238,
+      "y": -3324.1309
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3),wait(1)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10245.4805,
+      "y": -3323.5156
+    }
+  ]
+}

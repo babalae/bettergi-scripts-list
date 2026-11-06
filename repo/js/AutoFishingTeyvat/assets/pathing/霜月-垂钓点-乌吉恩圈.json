@@ -1,0 +1,67 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.63.0",
+    "description": "地区: 霜月\\n类型: 垂钓点\\n详细位置: 乌吉恩圈\\n鱼类: 花鳉、冷冽巨斧鱼、蓝昼明眼鱼、夜色明眼鱼\\n饵类: 果酿饵、槲梭饵、清白饵\\n附加信息: 普通",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1786430394133,
+    "map_match_method": "",
+    "map_name": "MoonCanon",
+    "name": "霜月-垂钓点-乌吉恩圈",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1491.9746,
+      "y": -631.2539
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": -1506.4326,
+      "y": -636.6343
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1000",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1588.3057,
+      "y": -775.7983
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -1587.2021,
+      "y": -767.1968
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.8),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1586.4326,
+      "y": -764.3228
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "info": {
+    "name": "黄金王兽3只",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "baixi",
+        "links": "https://github.com/baixi232310"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2598.39,
+      "y": -6690.45,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -2608.65,
+      "y": -6698.8,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -2629.28,
+      "y": -6712.64,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -2653.75,
+      "y": -6717.74,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

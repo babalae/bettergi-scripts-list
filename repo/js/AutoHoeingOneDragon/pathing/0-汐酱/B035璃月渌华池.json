@@ -1,0 +1,96 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时76秒，包含以下怪物：2只岩盾丘丘人、1只冰箭丘丘人、1只水深渊法师、1只愚人众·火之债务处理人、1只遗迹守卫。",
+    "enable_monster_loot_split": false,
+    "hash_res": "36199556",
+    "last_modified_time": 1774337476285,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B035璃月渌华池",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 489.29,
+      "y": 222.24
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 488.33,
+      "y": 242.05
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2.5)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 489.3,
+      "y": 251.03
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 489.3,
+      "y": 251.03
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 489.29,
+      "y": 222.24
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 499.39,
+      "y": 208.7
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 475.52,
+      "y": 204.49
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 464.86,
+      "y": 222.59
+    }
+  ]
+}

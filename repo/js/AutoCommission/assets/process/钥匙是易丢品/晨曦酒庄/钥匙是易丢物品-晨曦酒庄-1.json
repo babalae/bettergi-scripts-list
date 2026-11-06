@@ -1,0 +1,68 @@
+{
+  "info": {
+    "name": "钥匙是易丢物品-晨曦酒庄-1",
+    "type": "collect",
+    "author": "11",
+    "version": "1.0",
+    "description": "钥匙是易丢物品2",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -578.76171875,
+      "y": 1853.5517578125,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -555.89453125,
+      "y": 1844.61572265625,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -495.7841796875,
+      "y": 1822.93310546875,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": -488.7841796875,
+      "y": 1820.93310546875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -456.9140625,
+      "y": 1808.41552734375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "100"
+    },
+    {
+      "id": 6,
+      "x": -442.2568359375,
+      "y": 1790.41357421875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.55.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1769360189555,
+    "map_match_method": "",
+    "map_name": "AncientSacredMountain",
+    "name": "08-澄晶实-远古圣山-加向逆心東-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 108.2365,
+      "y": 307.9119
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 80.4989,
+      "y": 313.1572
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 46.0688,
+      "y": 283.7174
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -0.4998,
+      "y": 277.875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -16.0437,
+      "y": 300.6584
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -24.0369,
+      "y": 289.7373
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";纳西妲 e;wait(0.3);",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -19.1689,
+      "y": 287.6437
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -27.0232,
+      "y": 290.5679
+    }
+  ]
+}

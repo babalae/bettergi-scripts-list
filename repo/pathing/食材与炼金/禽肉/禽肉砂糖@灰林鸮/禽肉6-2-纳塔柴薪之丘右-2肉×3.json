@@ -1,0 +1,144 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Strix-nivicolum",
+        "name": "灰林鸮"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "1、砂糖行走位，且队伍里带着绮良良或埃洛伊。别带双风跑图；2、不需要生存位，生存位放技能容易惊动鸟；3、运行其它地图追踪会吓跑这里的鸟，建议优先运行此追踪；4、杀死的鸟在12小时后刷新，被吓跑的鸟0点或12点刷新，1肉鸟和2肉鸟每日上限各200只。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766122617849,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "禽肉6-2-纳塔柴薪之丘右-2肉×3",
+    "tags": [
+      "砂糖",
+      "禽肉",
+      "绮良良",
+      "埃洛伊"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8706.49,
+      "y": -1575.11
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8650.08,
+      "y": -1624.89
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8615.49,
+      "y": -1689.08
+    },
+    {
+      "action": "combat_script",
+      "action_params": "砂糖 e",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8597.59,
+      "y": -1685.27
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8591.05,
+      "y": -1682.52
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8587.92,
+      "y": -1688.61
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8593.6953,
+      "y": -1681.5435
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8590.59,
+      "y": -1689.1
+    },
+    {
+      "action": "combat_script",
+      "action_params": "砂糖 e",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8565.45,
+      "y": -1680.1
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8557.96,
+      "y": -1676.85
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8561.61,
+      "y": -1680.28
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8556.85,
+      "y": -1678.09
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8559.99,
+      "y": -1681.09
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "info": {
+    "name": "02-劫波莲-桓那兰那左侧-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "jbcaaa",
+        "links": "https://github.com/jbcaaa"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4041.36,
+      "y": -238.58
+    },
+    {
+      "id": 2,
+      "x": 3961.0,
+      "y": -224.0,
+      "move_mode": "fly",
+      "type": "path",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 3889.0,
+      "y": -213.0,
+      "move_mode": "fly",
+      "type": "path",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 3807.0,
+      "y": -200.0,
+      "move_mode": "fly",
+      "type": "path",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": 3729.26,
+      "y": -188.92,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 6,
+      "x": 3737.99,
+      "y": -193.92,
+      "type": "target",
+      "move_mode": "fly",
+      "action": ""
+    }
+  ]
+}

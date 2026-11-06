@@ -1,0 +1,49 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "b2-1-寻路淮安"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1783553934398,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "b2-3-拾取剩余木板",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 352.2021,
+      "y": 433.4844
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 355.9307,
+      "y": 434.9722
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 356.791,
+      "y": 432.1919
+    }
+  ]
+}

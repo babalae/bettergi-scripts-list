@@ -1,0 +1,104 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1781890902839,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "413须弥-阿如村西2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4402.7373,
+      "y": -1870.8101
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4375.5629,
+      "y": -1898.1876
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.35),j,wait(2),j",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4361.377,
+      "y": -1911.2559
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4358.0508,
+      "y": -1908.1299
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),attack(0.03);迪希雅 e;芙宁娜 e;万叶 attack(0.08),keydown(e),wait(0.51),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 5,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 4358.7656,
+      "y": -1909.6094
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4368.813,
+      "y": -1928.3475
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4339.5625,
+      "y": -1955.3748
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),attack(0.03);万叶 attack(0.08),keydown(E),wait(0.51),keyup(E),keydown(a),attack(0.2),keyup(a),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "id": 8,
+      "move_mode": "swim",
+      "type": "target",
+      "x": 4337.6876,
+      "y": -1956.1251
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4336.5723,
+      "y": -1958.8457
+    }
+  ]
+}

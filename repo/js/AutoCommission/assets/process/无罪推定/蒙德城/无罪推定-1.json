@@ -1,0 +1,78 @@
+{
+  "info": {
+    "name": "无罪推定-1",
+    "type": "collect",
+    "author": "云闲vsv",
+    "version": "1.0",
+    "description": "无罪推定-1",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751174414919
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -749.3759765625,
+      "y": 2263.08056640625,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -747.703125,
+      "y": 2264.46875,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -718.234375,
+      "y": 2298.04931640625,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -708.998046875,
+      "y": 2331.755126953125,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -688.638671875,
+      "y": 2340.424560546875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -683.9326171875,
+      "y": 2342.660888671875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -682.419921875,
+      "y": 2340.1435546875,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

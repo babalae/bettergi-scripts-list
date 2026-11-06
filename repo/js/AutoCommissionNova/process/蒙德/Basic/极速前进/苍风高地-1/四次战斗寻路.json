@@ -1,0 +1,51 @@
+{
+    "info": {
+        "name": "四次战斗寻路",
+        "type": "collect",
+        "author": "星野",
+        "version": "1.0",
+        "description": "",
+        "map_name": "Teyvat",
+        "bgi_version": "0.45.0",
+        "tags": [],
+        "last_modified_time": 1752243918114
+    },
+    "positions": [
+        {
+            "id": 1,
+            "x": -377.810546875,
+            "y": 1911.63330078125,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 2,
+            "x": -369.71875,
+            "y": 1907.26416015625,
+            "action": "",
+            "move_mode": "fly",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 3,
+            "x": -319.4765625,
+            "y": 1888.70068359375,
+            "action": "stop_flying",
+            "move_mode": "fly",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 4,
+            "x": -316.4765625,
+            "y": 1886.70068359375,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "path"
+        }
+    ]
+}

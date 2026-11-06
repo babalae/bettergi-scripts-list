@@ -1,0 +1,58 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.63.1",
+    "description": "地区: 至冬\n类型: 垂钓点\n详细位置: 霜殛寒峰汐歌洞窟西\n鱼类: 花鳉、炭灰雪圆鳍、月光雪圆鳍、赤甜星花鱼、虹晶星花鱼\n饵类: 果酿饵、闪烁饵\n附加信息: 普通",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1788981022903,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "至冬-垂钓点-霜殛寒峰汐歌洞窟西",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 6646.6699,
+      "y": 7770.5815
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6644.6475,
+      "y": 7809.1382
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6645.5449,
+      "y": 7812.082
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1.5),keypress(f)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 6649.4355,
+      "y": 7810.7539
+    }
+  ]
+}

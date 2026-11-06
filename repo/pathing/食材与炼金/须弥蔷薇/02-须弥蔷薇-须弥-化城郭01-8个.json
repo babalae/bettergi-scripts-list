@@ -1,0 +1,57 @@
+{
+  "info": {
+    "version": "1.0",
+    "name": "02-须弥蔷薇-须弥-化城郭01-8个",
+    "description": "",
+    "type": "collect",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "不瘦五十斤不改名",
+        "links": "https://github.com/PanZic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2631.92,
+      "y": -1016.86,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 2,
+      "x": 2595.76,
+      "y": -979.06,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 2556.85,
+      "y": -962.96,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 2507.5,
+      "y": -979.63,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    },
+    {
+      "id": 5,
+      "x": 2486.59,
+      "y": -977.94,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "nahida_collect"
+    }
+  ]
+}

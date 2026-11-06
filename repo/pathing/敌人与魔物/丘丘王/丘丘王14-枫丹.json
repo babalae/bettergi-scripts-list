@@ -1,0 +1,90 @@
+{
+  "info": {
+    "name": "丘丘王14-枫丹",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "XS",
+        "links": "https://github.com/xwsqy6"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3383.39,
+      "y": 2692.15,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 3375.61,
+      "y": 2697.68,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3373.14,
+      "y": 2696.14,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3357.58,
+      "y": 2683.56,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 3329.55,
+      "y": 2659.96,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 3292.33,
+      "y": 2626.64,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 3299.55,
+      "y": 2600.12,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "wait(0.7),keypress(VK_SPACE),wait(2.3),click",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 3297.13,
+      "y": 2603.15,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 3276.71,
+      "y": 2604.97,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "path"
+    }
+  ]
+}

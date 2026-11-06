@@ -1,0 +1,103 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777452906376,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E11-松茸-枫丹-新枫丹科学院1-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4434.6318,
+      "y": 5092.0068
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4449.2832,
+      "y": 5123.1001
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(2.5),wait(0.5),s(3)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4441.1874,
+      "y": 5133.9062
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4479.4707,
+      "y": 5098.4902
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.05)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4478.7959,
+      "y": 5104.4688
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4479.1035,
+      "y": 5089.124
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.05)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4475.8867,
+      "y": 5091.6143
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4475.9404,
+      "y": 5082.3555
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.321)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4456.5801,
+      "y": 5085.9648
+    }
+  ]
+}

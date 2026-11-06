@@ -1,0 +1,131 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时140秒，包含以下怪物：2只水史莱姆、1只大型水史莱姆、2只丘丘人、3只打手丘丘人、1只冲锋丘丘人、2只火斧丘丘暴徒、1只水丘丘萨满、1只丘丘水行游侠。",
+    "enable_monster_loot_split": false,
+    "hash_res": "96522963",
+    "last_modified_time": 1773927002869,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "F052纳塔悠悠集市东-1",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 13629.662109375,
+      "y": 379.52734375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 13638.1396484375,
+      "y": 371.52880859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 13632.1640625,
+      "y": 274.826171875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 13614.017578125,
+      "y": 223.841796875
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1500",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 13608.562210038568,
+      "y": 211.93776559695198
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 13603.140625,
+      "y": 199.1904296875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 13603.140625,
+      "y": 199.1904296875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 13607.443359375,
+      "y": 198.8828125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 13594.837890625,
+      "y": 119.7158203125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 13594.837890625,
+      "y": 119.7158203125
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 13537.51171875,
+      "y": 101.18017578125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 13537.51171875,
+      "y": 101.18017578125
+    }
+  ]
+}

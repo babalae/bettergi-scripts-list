@@ -1,0 +1,76 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777055019212,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "03-苦种-彩石顶南-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8286.3574,
+      "y": -2521.0566
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8296.6992,
+      "y": -2515.8398
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8321.29,
+      "y": -2527.5938
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 8339.0742,
+      "y": -2549.9775
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8375.2422,
+      "y": -2635.7695
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.456)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8387.4199,
+      "y": -2641.1143
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1775942988381,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "蒙德-风车镇-本瑟姆",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -154.65234375,
+      "y": 3084.41015625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -156.94921875,
+      "y": 3079.93701171875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -146.046875,
+      "y": 3076.943359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -145.583984375,
+      "y": 3086.70458984375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.25)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -142.685546875,
+      "y": 3085.73193359375
+    }
+  ]
+}

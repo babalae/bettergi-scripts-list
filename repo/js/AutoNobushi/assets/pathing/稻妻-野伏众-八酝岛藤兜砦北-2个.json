@@ -1,0 +1,39 @@
+{
+    "info": {
+        "name": "稻妻-野伏众-八酝岛藤兜砦北-2个",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.0",
+        "description": "野伏众-2个\n稻妻-八酝岛藤兜砦北",
+        "bgi_version": "0.39.1"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": -2198.5,
+            "y": -3486.5,
+            "action_params": ""
+        },
+        {
+            "id": 2,
+            "action": "fight",
+            "move_mode": "walk",
+            "type": "path",
+            "x": -2161,
+            "y": -3456.5,
+            "action_params": ""
+        },
+        {
+            "id": 3,
+            "action": "fight",
+            "move_mode": "walk",
+            "type": "target",
+            "x": -2169,
+            "y": -3410,
+            "action_params": ""
+        }
+    ]
+}

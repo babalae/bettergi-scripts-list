@@ -1,0 +1,157 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.63.1",
+    "description": "  路线信息：该路线预计用时42秒，包含以下怪物：1只兽怪敲打者、2只嵌合翼象兽、4只嵌合梭地兽、2只嵌合角熊。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1789153210002,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "H017至冬列车总站西北",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7658.1953,
+      "y": 9466.0518
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7640.9697,
+      "y": 9476.2402
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 6937.1709,
+      "y": 9524.8809
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6973.1162,
+      "y": 9494.0859
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7005.125,
+      "y": 9491.6895
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7026.8682,
+      "y": 9500.7168
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 7081.8777,
+      "y": 9533.0554
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7125.7881,
+      "y": 9566.7646
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";茜特菈莉 attack(0.05),keypress(E),wait(0.1),keypress(E);莱依拉 attack(0.05),keypress(E),wait(0.1),keypress(E);伊涅芙 attack(0.05),keypress(E),wait(0.1),keypress(E);尼可 attack(0.05),keypress(E),wait(0.1),keypress(E);attack(0.5)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7169.8145,
+      "y": 9533.1797
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";万叶 attack(0.08),keydown(E),wait(0.8),keyup(E),attack(0.2),wait(0.5),keypress(Q),wait(0.1),keypress(Q); ;",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7206.5332,
+      "y": 9559.3018
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7206.5332,
+      "y": 9559.3018
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7206.0005,
+      "y": 9505.4891
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1000",
+      "id": 13,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 7206.9346,
+      "y": 9483.168
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";茜特菈莉 attack(0.05),keypress(E),wait(0.1),keypress(E);莱依拉 attack(0.05),keypress(E),wait(0.1),keypress(E);伊涅芙 attack(0.05),keypress(E),wait(0.1),keypress(E);尼可 attack(0.05),keypress(E),wait(0.1),keypress(E);attack(0.5)",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7208.7217,
+      "y": 9394.0918
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7216.9512,
+      "y": 9409.834
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Hijiwos",
+        "name": "提瓦特钓鱼玳师"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1768791235489,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "挪德卡莱-垂钓点-虚海望皮拉米达城南-花鳉_无奇巨斧鱼_冷冽巨斧鱼_素素凶凶鲨_虹光凶凶鲨-果酿饵_槲梭饵_清白饵-普通",
+    "tags": [],
+    "type": "collect",
+    "version": "1.1"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9637.7734375,
+      "y": 4976.1689453125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9616.47265625,
+      "y": 4993.7705078125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9616.515625,
+      "y": 4972.326171875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9500.498046875,
+      "y": 4945.158203125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "swim",
+      "type": "path",
+      "x": 9462.9326171875,
+      "y": 4938.2626953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9393.3984375,
+      "y": 4996.67236328125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9403.97265625,
+      "y": 5012.14599609375
+    }
+  ]
+}

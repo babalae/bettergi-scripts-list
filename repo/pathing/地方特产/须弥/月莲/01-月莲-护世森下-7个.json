@@ -1,0 +1,163 @@
+{
+  "info": {
+    "name": "01-月莲-护世森下-7个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "芙宁娜"
+    ],
+    "last_modified_time": 1751163119957,
+    "authors": [
+      {
+        "name": "tignioj"
+      },
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2531.97,
+      "y": -144.74,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": 2552.37,
+      "y": -204.17,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 2586.51,
+      "y": -257.07,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 2649.9,
+      "y": -289.4,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 2649.9,
+      "y": -289.4,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "芙宁娜 attack,charge(1),e(wait)",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 2644.25,
+      "y": -285.29,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 2621.07,
+      "y": -263.45,
+      "action": "",
+      "move_mode": "swim",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 8,
+      "x": 2589.75,
+      "y": -288.13,
+      "action": "",
+      "move_mode": "swim",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": 2591.75,
+      "y": -302.94,
+      "action": "",
+      "move_mode": "swim",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 10,
+      "x": 2554.55,
+      "y": -320.98,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 11,
+      "x": 2532.74,
+      "y": -331.14,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 12,
+      "x": 2503.69,
+      "y": -303.32,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 13,
+      "x": 2500.67,
+      "y": -298.86,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 14,
+      "x": 2493.58,
+      "y": -314.65,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 15,
+      "x": 2457.29,
+      "y": -297.75,
+      "action": "",
+      "move_mode": "walk",
+      "type": "target",
+      "locked": false
+    }
+  ]
+}

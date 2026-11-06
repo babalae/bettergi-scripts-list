@@ -1,0 +1,102 @@
+{
+  "info": {
+    "name": "B09-璃月-琼玑野-瑶光滩-4个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.54.0",
+    "tags": [],
+    "last_modified_time": 1752214844323,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -255.99,
+      "y": 628.83,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -292.45,
+      "y": 644.88,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -304.28,
+      "y": 650.04,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -323.07,
+      "y": 665.47,
+      "action": "nahida_collect",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -255.99,
+      "y": 628.83,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 6,
+      "x": -268.81,
+      "y": 623.83,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -288.65,
+      "y": 575.47,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -289.64,
+      "y": 562.4,
+      "action": "combat_script",
+      "move_mode": "jump",
+      "action_params": "attack(0.3)",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -296.8,
+      "y": 564.03,
+      "action": "nahida_collect",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

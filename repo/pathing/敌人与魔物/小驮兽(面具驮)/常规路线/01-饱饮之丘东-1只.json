@@ -1,0 +1,45 @@
+{
+  "info": {
+    "name": "01-饱饮之丘东-1只",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "jay",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "驮兽",
+      "丘丘面具",
+      "兽肉",
+      "小驮兽"
+    ],
+    "last_modified_time": 1754659102487,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5049.5225,
+      "y": -1796.1182,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 5064.2129,
+      "y": -1886.6548,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

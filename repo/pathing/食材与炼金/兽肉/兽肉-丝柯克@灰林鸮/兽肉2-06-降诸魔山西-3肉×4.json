@@ -1,0 +1,175 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Strix-nivicolum",
+        "name": "灰林鸮"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766866032033,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "兽肉2-06-降诸魔山西-3肉×4",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2567.9004,
+      "y": -1423.8315
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2566.8711,
+      "y": -1422.0527
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2536.1328,
+      "y": -1369.7959
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2537.1387,
+      "y": -1361.7085
+    },
+    {
+      "action": "combat_script",
+      "action_params": "丝柯克 q",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2543.166,
+      "y": -1329.5898
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2541.9492,
+      "y": -1325.9844
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2540.334,
+      "y": -1323.8062
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(6.8),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2537.4082,
+      "y": -1320.689
+    },
+    {
+      "action": "combat_script",
+      "action_params": "丝柯克 q",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2532.2139,
+      "y": -1315.501
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.6),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2529.8691,
+      "y": -1311.6431
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(6),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2541.7988,
+      "y": -1303.1245
+    },
+    {
+      "action": "combat_script",
+      "action_params": "丝柯克 q",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2550.1367,
+      "y": -1297.3887
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.6),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2553.0859,
+      "y": -1296.5371
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(6),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2549.3223,
+      "y": -1286.7222
+    },
+    {
+      "action": "combat_script",
+      "action_params": "丝柯克 q",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2544.7256,
+      "y": -1276.125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2540.0195,
+      "y": -1270.7227
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2543.1504,
+      "y": -1270.3164
+    }
+  ]
+}

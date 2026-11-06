@@ -1,0 +1,98 @@
+{
+  "info": {
+    "name": "自动钓鱼路线-璃月-沉玉谷上谷·东侧水域",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.43.0",
+    "authors": [
+      {
+        "name": "鸿羽er",
+        "links": "https://github.com/evildoer12138"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1108.0,
+      "y": 1945.03,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1127.62,
+      "y": 1952.25,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 1135.75,
+      "y": 1921.75,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 1130.13,
+      "y": 1893.63,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 1123.0,
+      "y": 1861.62,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 1112.19,
+      "y": 1857.81,
+      "move_mode": "climb",
+      "type": "path",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 1109.12,
+      "y": 1861.5,
+      "move_mode": "climb",
+      "type": "path",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 1106.31,
+      "y": 1865.19,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": 1094.18,
+      "y": 1881.09,
+      "action": "fishing",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    }
+  ]
+}

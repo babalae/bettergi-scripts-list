@@ -1,0 +1,103 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1785333575470,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "08-莲蓬-璃月-灵矩关-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1043.4658,
+      "y": -557.7266
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1136.4258,
+      "y": -519.3027
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1159.46,
+      "y": -513.0547
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1167.8867,
+      "y": -503.876
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.001)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1175.9277,
+      "y": -504.9551
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1169.873,
+      "y": -500.4209
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1170.8115,
+      "y": -483.3379
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1166.7441,
+      "y": -473.8789
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.15)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1165.7373,
+      "y": -470.9414
+    }
+  ]
+}

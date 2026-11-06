@@ -1,0 +1,95 @@
+{
+    "info": {
+        "authors": [
+            {
+                "links": "https://github.com/1004452714",
+                "name": "DarkFlameMaster"
+            }
+        ],
+        "bgi_version": "0.45.0",
+        "description": "",
+        "enable_monster_loot_split": false,
+        "last_modified_time": 1784028848581,
+        "map_match_method": "",
+        "map_name": "Teyvat",
+        "name": "稻妻-无名砦-2-固若金汤",
+        "tags": [],
+        "type": "collect",
+        "version": "1.0"
+    },
+    "positions": [
+        {
+            "action": "",
+            "action_params": "",
+            "id": 1,
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": -1963.8281,
+            "y": -3576.1641
+        },
+        {
+            "action": "stop_flying",
+            "action_params": "",
+            "id": 2,
+            "move_mode": "fly",
+            "type": "path",
+            "x": -1909.0605,
+            "y": -3601.8437
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 3,
+            "move_mode": "fly",
+            "type": "path",
+            "x": -1898.252,
+            "y": -3618.6289
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 4,
+            "move_mode": "fly",
+            "type": "path",
+            "x": -1869.7012,
+            "y": -3641.3945
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 5,
+            "move_mode": "walk",
+            "type": "path",
+            "x": -1839.9297,
+            "y": -3719.7891
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 6,
+            "move_mode": "walk",
+            "type": "path",
+            "x": -1812.9414,
+            "y": -3751.7695
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 7,
+            "move_mode": "walk",
+            "type": "path",
+            "x": -1789.1641,
+            "y": -3790.8193
+        },
+        {
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(f)",
+            "id": 8,
+            "locked": false,
+            "move_mode": "walk",
+            "type": "target",
+            "x": -1771.5801,
+            "y": -3807.0078
+        }
+    ]
+}

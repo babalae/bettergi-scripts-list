@@ -1,0 +1,59 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Hijiwos",
+        "name": "提瓦特钓鱼玳师"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1768098952903,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "01-澄晶实-涌流地-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8664.165,
+      "y": -2742.9277
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8659.7451,
+      "y": -2737.7881
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8652.1299,
+      "y": -2725.5508
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8652.1299,
+      "y": -2725.5508
+    }
+  ]
+}

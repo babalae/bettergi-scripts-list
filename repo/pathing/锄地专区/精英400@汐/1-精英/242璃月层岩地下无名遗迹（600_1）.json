@@ -1,0 +1,69 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时53秒，包含1只精英，预计收入600摩拉，包含以下怪物：1只黯色空壳·近卫。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758036392767,
+    "map_match_method": "",
+    "map_name": "TheChasm",
+    "name": "242璃月层岩地下无名遗迹（600_1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 522.56,
+      "y": 528.85
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 538.5325,
+      "y": 502.4441
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 590.5135,
+      "y": 419.4242
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 598.1407,
+      "y": 406.8447
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 598.1407,
+      "y": 406.8447
+    }
+  ]
+}

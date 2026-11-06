@@ -1,0 +1,92 @@
+{
+  "info": {
+    "name": "B009璃月沉玉谷隐山猊兽南",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时96秒，包含以下怪物：1只射手丘丘人、6只玄文兽。",
+    "hash_res": "19218537",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2208.06,
+      "y": 1245
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2160.58,
+      "y": 1217.25
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2171,
+      "y": 1169.38
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2198.5,
+      "y": 1148.25
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2216.62,
+      "y": 1142.38
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1904.54,
+      "y": 1196.94
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "2300",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1881.87,
+      "y": 1205.42
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1857.97,
+      "y": 1186.87
+    }
+  ]
+}

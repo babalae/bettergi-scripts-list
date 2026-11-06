@@ -1,0 +1,37 @@
+{
+    "info": {
+        "authors": [
+            {
+                "links": "https://github.com/1004452714",
+                "name": "DarkFlameMaster"
+            }
+        ],
+        "bgi_version": "0.52.0",
+        "description": "",
+        "map_match_method": "TemplateMatch",
+        "map_name": "Teyvat",
+        "name": "攀高危险-1",
+        "type": "collect",
+        "version": "1.0"
+    },
+    "positions": [
+        {
+            "action": "",
+            "action_params": "",
+            "id": 1,
+            "move_mode": "walk",
+            "type": "target",
+            "x": 10045.7949,
+            "y": 1555.4727
+        },
+        {
+            "action": "combat_script",
+            "action_params": "keydown(w)",
+            "id": 2,
+            "move_mode": "walk",
+            "type": "orientation",
+            "x": 10046.5898,
+            "y": 1548.771
+        }
+    ]
+}

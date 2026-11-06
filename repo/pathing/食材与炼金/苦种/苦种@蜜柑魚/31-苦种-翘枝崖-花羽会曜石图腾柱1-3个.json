@@ -1,0 +1,104 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1776965688744,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "31-苦种-翘枝崖-花羽会曜石图腾柱1-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9485.5615,
+      "y": -1205.1646
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9501.71,
+      "y": -1212.8691
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9494.7109,
+      "y": -1207.0811
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9480.543,
+      "y": -1214.3633
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9494.7109,
+      "y": -1207.0811
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9488.6846,
+      "y": -1184.9873
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 9490.9922,
+      "y": -1176.2637
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9484.916,
+      "y": -1161.3203
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.345)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9454.7686,
+      "y": -1163.0596
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "info": {
+    "name": "314稻妻平海砦北（200_3）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时32秒，包含3只精英，预计收入600摩拉，包含以下怪物：1只遗迹巡弋者、2只遗迹侦察者。",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "map_name": "Teyvat",
+    "tags": [],
+    "last_modified_time": 1755623689247,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -4184.75,
+      "y": -4244.77,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -4162.4688,
+      "y": -4225.876,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -4136.4941,
+      "y": -4232.5264,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -4120.125,
+      "y": -4241.0625,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -4096.19,
+      "y": -4229.44,
+      "action": "fight",
+      "move_mode": "dash",
+      "type": "path"
+    }
+  ]
+}

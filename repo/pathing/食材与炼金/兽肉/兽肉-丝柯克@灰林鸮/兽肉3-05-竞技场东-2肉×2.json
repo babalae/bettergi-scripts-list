@@ -1,0 +1,85 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Strix-nivicolum",
+        "name": "灰林鸮"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1766860152999,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "兽肉3-05-竞技场东-2肉×2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8738.5625,
+      "y": -1857.1904
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8735.0488,
+      "y": -1859.3213
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8707.3857,
+      "y": -1873.1714
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1),keydown(e),wait(0.3),keyup(e),wait(0.1),keypress(e)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8667.9551,
+      "y": -1893.6299
+    },
+    {
+      "action": "combat_script",
+      "action_params": "丝柯克 q",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8657.5479,
+      "y": -1899.3438
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8651.417,
+      "y": -1900.4131
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8653.9551,
+      "y": -1903.6133
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.63.1",
+    "description": "  路线信息：该路线预计用时148秒，包含以下怪物：3只先驱秘源统辖阵列、1只凌晶·霜夜灵嗣。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1788025472913,
+    "map_match_method": "SIFT",
+    "map_name": "MoonCanon",
+    "name": "ZG002月球伊比尼伯龙之眼西南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2544.9785,
+      "y": -1449.2095
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2519.4687,
+      "y": -1427.7187
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.5)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2471.8535,
+      "y": -1435.3848
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2460.0693,
+      "y": -1438.0146
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -2454.3574,
+      "y": -1448.2271
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2484.8828,
+      "y": -1511.6232
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "point_ext_params": {
+        "auto_fight": {
+          "reward_type": "experience"
+        }
+      },
+      "type": "path",
+      "x": -2504.1796,
+      "y": -1569.6748
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "point_ext_params": {
+        "auto_fight": {
+          "reward_type": "experience"
+        }
+      },
+      "type": "path",
+      "x": -2566.5459,
+      "y": -1597.4199
+    }
+  ]
+}

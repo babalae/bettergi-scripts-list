@@ -1,0 +1,161 @@
+{
+  "info": {
+    "name": "05-临时主矿道东x3",
+    "type": "collect",
+    "version": "V1-领队版",
+    "description": "[无须战斗][周一、四定期挖矿]钟离无柱阻挡挖矿，解决全命座柱子卡人问题。刚需钟离，录制队友无任何加速效果，如双风，佳明，迪希雅，罗莎莉亚等。  地图追踪需要关闭钟离生存位的可能，需要在设置组选择中规避钟离不定时开盾。//鸣谢: 白可佬儿  V1-25年五月28",
+    "map_name": "TheChasm",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "钟离",
+      "钟离无阻挡挖矿",
+      "无战斗挖矿",
+      "挖矿懒人包",
+      "高效线路",
+      "周一四刷矿",
+      "高危挖矿"
+    ],
+    "last_modified_time": 1748445389863,
+    "authors": [
+      {
+        "name": "忆雪晴-828632080"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 663.83,
+      "y": 1058.84,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 669.86,
+      "y": 1070.85,
+      "action": "log_output",
+      "move_mode": "run",
+      "action_params": "========= ============可选战斗，默认关闭========= ========= ========= ============可选战斗，默认关闭========= ========= ========= ============可选战斗，默认关闭========= ========= ========= ============可选战斗，默认关闭========= ========= ========= ============可选战斗，默认关闭========= =========",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 654.55,
+      "y": 1076.62,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 643.15,
+      "y": 1079.81,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 624.48,
+      "y": 1080.37,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 585.19,
+      "y": 1098.22,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 583.56,
+      "y": 1101.09,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 581.51,
+      "y": 1103.93,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "钟离 d(0.2),e(hold)",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 552.16,
+      "y": 1134.04,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "钟离 d(0.2),e",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 554.77,
+      "y": 1143.26,
+      "action": "log_output",
+      "move_mode": "dash",
+      "action_params": "========= ============可选战斗，默认关闭========= ========= ========= ============可选战斗，默认关闭========= ========= ========= ============可选战斗，默认关闭========= ========= ========= ============可选战斗，默认关闭========= ========= ========= ============可选战斗，默认关闭========= =========",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 562.23,
+      "y": 1138.31,
+      "action": "mining",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 565.03,
+      "y": 1137.09,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 13,
+      "x": 562.32,
+      "y": 1132.94,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 14,
+      "x": 556.6,
+      "y": 1134.86,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 15,
+      "x": 560.19,
+      "y": 1143.42,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}
