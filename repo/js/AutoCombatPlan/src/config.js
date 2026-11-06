@@ -72,9 +72,10 @@ export function defaultAccount(uid, name) {
     name: name || "",
     /**
      * 队伍与战斗策略：**四行同构**，`global` 是默认值，场景行为空时逐字段回落它。
-     * 现阶段只落 `global`；`leyline` / `stygian` / `domain` 三个场景键还没有入口，
-     * 加的时候要同时改 `pickAccountFields`——它对 `teams` 是整段替换，白名单漏了会被清空。
-     * `friendship` 只有 `global` 有（本体只在地脉参数给了 `FriendshipTeam`）。
+     * 场景行（`leyline` / `stygian` / `domain`）**键存在即这一行存在**：面板靠键判断显示哪几行，
+     * 所以「删掉一行」= 删这个键，读盘时**不补空键**。加键要同时改 `pickAccountFields`——
+     * 它对 `teams` 是整段替换，白名单漏了会被清空。
+     * `friendship` 只有 `global` 与 `leyline` 有（本体只在地脉参数给了 `FriendshipTeam`）。
      */
     teams: {
       global: {
@@ -194,13 +195,7 @@ export function pickAccountFields(cfg) {
   return {
     uid: str(c.uid),
     name: c.name || "",
-    teams: {
-      global: {
-        combat: str(c.teams && c.teams.global && c.teams.global.combat),
-        friendship: str(c.teams && c.teams.global && c.teams.global.friendship),
-        strategy: str(c.teams && c.teams.global && c.teams.global.strategy)
-      }
-    },
+    teams: pickTeams(c.teams),
     leyline: {
       type: str(c.leyline && c.leyline.type),
       country: str(c.leyline && c.leyline.country)
@@ -221,6 +216,37 @@ export function pickAccountFields(cfg) {
     // 只有明确写成 false 才关；缺字段按开
     resinAfterRun: !(c.resinAfterRun === false)
   };
+}
+
+/** 场景行的键名＝`step.type`（`src/plan.js` 三处构造），顺序也是面板的固定行序 */
+export const TEAM_SCENES = ["leyline", "stygian", "domain"];
+
+/** 有「好感度队伍」这一列的场景：本体只在地脉参数给了 `FriendshipTeam` */
+export const FRIENDSHIP_SCENES = ["leyline"];
+
+/**
+ * 队伍整段清洗。`global` 恒写；场景行**按「键存在」原样保留**——
+ * 键在 = 面板有这一行，键不在 = 用户没加、或者加了又删掉。
+ * 不补空键：补了面板就分不清「加了没填」和「从没加过」，空行会在重开时自己长回来。
+ */
+function pickTeams(raw) {
+  const t = raw && typeof raw === "object" && !Array.isArray(raw) ? raw : {};
+  const out = { global: pickTeamRow(t.global, true) };
+  for (const k of TEAM_SCENES) {
+    const row = t[k];
+    if (!row || typeof row !== "object" || Array.isArray(row)) continue;
+    out[k] = pickTeamRow(row, FRIENDSHIP_SCENES.indexOf(k) >= 0);
+  }
+  return out;
+}
+
+/** 单行清洗：`friendship` 只在有这一列的场景里保留，其余场景的碎键顺手丢掉 */
+function pickTeamRow(row, withFriendship) {
+  const r = row && typeof row === "object" ? row : {};
+  const out = { combat: str(r.combat) };
+  if (withFriendship) out.friendship = str(r.friendship);
+  out.strategy = str(r.strategy);
+  return out;
 }
 
 function cleanBoss(v) {
@@ -336,11 +362,12 @@ function openClockFor(clocks, startDate, versionStart, index, onWarn) {
 
 /**
  * 老形状搬迁（幂等）：`teams.{combat,friendship}` 两个字符串 + 顶层 `strategy`
- * → `teams.global.{combat,friendship,strategy}`。已经是新形状就原样吐回来。
+ * → `teams.global.{combat,friendship,strategy}`。场景行原样带走，**缺的不补**。
  *
- * 必须放在 `deepMerge(模板, 全局, 账号)` **之后**：模板给一半、账号给一半时，
- * 合并结果会同时带 `teams.combat` 与 `teams.global`，只有这里能收干净。
+ * 调用点在合并**之前**：`loadConfig` 对模板与账号各自跑 `migratedAccount` 再 `deepMerge`，
+ * 所以合并结果不会同时带平铺键与 `global`；写盘前 `accountOut` 对整份再迁一次（幂等）。
  * 新形状优先：两处都有值时取 `global` 里的。
+ * 平铺老键不另行删除——返回值只装 `global` 与已知场景行，它们自然落不进来。
  */
 function migrateTeams(raw) {
   const src = raw && typeof raw === "object" ? raw : {};
@@ -348,13 +375,20 @@ function migrateTeams(raw) {
   const g = t.global && typeof t.global === "object" ? t.global : {};
   /** 新形状有非空值就用它，否则退回老键 */
   const pick = (a, b) => (typeof a === "string" && a !== "" ? a : typeof b === "string" ? b : "");
-  return {
+  const out = {
     global: {
       combat: pick(g.combat, t.combat),
       friendship: pick(g.friendship, t.friendship),
       strategy: pick(g.strategy, src.strategy)
     }
   };
+  // 场景行：键在就留着，只洗字段。已经洗过的行原样吐回来，所以幂等
+  for (const k of TEAM_SCENES) {
+    const row = t[k];
+    if (!row || typeof row !== "object" || Array.isArray(row)) continue;
+    out[k] = pickTeamRow(row, FRIENDSHIP_SCENES.indexOf(k) >= 0);
+  }
+  return out;
 }
 
 /** 整份账号的搬迁入口：把 `teams` 换成新形状，其余键原样带走 */
