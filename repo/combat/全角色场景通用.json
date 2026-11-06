@@ -1,0 +1,1339 @@
+{
+ "Info": {
+  "Name": "全角色场景通用",
+  "Author": "kawayiYokami",
+  "Config": {
+   "介绍": "任何场景、任何配队通用：锄大地、日常、幽境危战、深境螺旋等均可直接使用。每轮按优先级从高到低扫描，执行第一个条件成立的角色的整条动作，然后重新扫描。遇到异常场景或配队，请到 https://github.com/kawayiYokami/bgi-combat-gen 提 issue 或 PR。",
+   "相关角色": [
+    "七七",
+    "丝柯克",
+    "丽莎",
+    "久岐忍",
+    "九条裟罗",
+    "云堇",
+    "五郎",
+    "伊安珊",
+    "伊法",
+    "伊涅芙",
+    "优菈",
+    "克洛琳德",
+    "八重神子",
+    "兹白",
+    "凝光",
+    "凯亚",
+    "刻晴",
+    "北斗",
+    "千织",
+    "卡维",
+    "卡齐娜",
+    "可莉",
+    "叶洛亚",
+    "哥伦比娅",
+    "嘉明",
+    "坎蒂丝",
+    "埃洛伊",
+    "基尼奇",
+    "塔利雅",
+    "夏沃蕾",
+    "夏洛蒂",
+    "多莉",
+    "夜兰",
+    "奈芙尔",
+    "奥黛塔",
+    "妮露",
+    "娜维娅",
+    "安柏",
+    "宵宫",
+    "尼可",
+    "布伦妮",
+    "希格雯",
+    "希诺宁",
+    "恰斯卡",
+    "托马",
+    "提纳里",
+    "早柚",
+    "杜林",
+    "林尼",
+    "枫原万叶",
+    "柯莱",
+    "桑多涅",
+    "梦见月瑞希",
+    "欧洛伦",
+    "沃雅妮莎",
+    "法尔伽",
+    "洛恩",
+    "流浪者",
+    "温迪",
+    "烟绯",
+    "爱可菲",
+    "爱诺",
+    "玛拉妮",
+    "玛薇卡",
+    "珊瑚宫心海",
+    "珐露珊",
+    "班尼特",
+    "琳妮特",
+    "琴",
+    "瑶瑶",
+    "瓦雷莎",
+    "甘雨",
+    "申鹤",
+    "白术",
+    "砂糖",
+    "神里绫人",
+    "神里绫华",
+    "米卡",
+    "纳西妲",
+    "绮良良",
+    "罗莎莉亚",
+    "胡桃",
+    "艾尔海森",
+    "艾梅莉埃",
+    "芙宁娜",
+    "芭芭拉",
+    "茜特菈莉",
+    "荒泷一斗",
+    "莉奈娅",
+    "莫娜",
+    "莱依拉",
+    "莱欧斯利",
+    "菈乌玛",
+    "菲林斯",
+    "菲米尼",
+    "菲谢尔",
+    "蓝砚",
+    "薇斯纳",
+    "行秋",
+    "诺艾尔",
+    "赛索斯",
+    "赛诺",
+    "辛焱",
+    "达达利亚",
+    "迪卢克",
+    "迪奥娜",
+    "迪希雅",
+    "那维莱特",
+    "重云",
+    "钟离",
+    "闲云",
+    "阿罗夏",
+    "阿蕾奇诺",
+    "阿贝多",
+    "雅珂达",
+    "雷泽",
+    "雷电将军",
+    "香菱",
+    "魈",
+    "鹿野院平藏"
+   ]
+  }
+ },
+ "Actions": [
+  {
+   "Name": "钟离",
+   "Character": "钟离",
+   "Index": 10,
+   "Condition": {
+    "Expression": "e-ready(钟离) && since(钟离) > 12"
+   },
+   "Action": "e(hold), wait(0.3), q"
+  },
+  {
+   "Name": "托马",
+   "Character": "托马",
+   "Index": 20,
+   "Condition": {
+    "Expression": "e-ready(托马) && since(托马) > 15"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "白术",
+   "Character": "白术",
+   "Index": 30,
+   "Condition": {
+    "Expression": "e-ready(白术) && since(白术) > 20"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "尼可",
+   "Character": "尼可",
+   "Index": 40,
+   "Condition": {
+    "Expression": "e-ready(尼可) && since(尼可) > 16"
+   },
+   "Action": "keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1)"
+  },
+  {
+   "Name": "伊涅芙",
+   "Character": "伊涅芙",
+   "Index": 50,
+   "Condition": {
+    "Expression": "e-ready(伊涅芙) && since(伊涅芙) > 16"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "蓝砚",
+   "Character": "蓝砚",
+   "Index": 60,
+   "Condition": {
+    "Expression": "e-ready(蓝砚) && since(蓝砚) > 16"
+   },
+   "Action": "e, wait(0.3), e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "茜特菈莉",
+   "Character": "茜特菈莉",
+   "Index": 70,
+   "Condition": {
+    "Expression": "e-ready(茜特菈莉) && since(茜特菈莉) > 16"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "莱依拉",
+   "Character": "莱依拉",
+   "Index": 80,
+   "Condition": {
+    "Expression": "e-ready(莱依拉) && since(莱依拉) > 12"
+   },
+   "Action": "keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q, e, wait(0.3)"
+  },
+  {
+   "Name": "绮良良",
+   "Character": "绮良良",
+   "Index": 90,
+   "Condition": {
+    "Expression": "e-ready(绮良良) && since(绮良良) > 12"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "辛焱",
+   "Character": "辛焱",
+   "Index": 100,
+   "Condition": {
+    "Expression": "e-ready(辛焱) && since(辛焱) > 18"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "迪奥娜",
+   "Character": "迪奥娜",
+   "Index": 110,
+   "Condition": {
+    "Expression": "e-ready(迪奥娜) && since(迪奥娜) > 15"
+   },
+   "Action": "e(hold), wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "诺艾尔",
+   "Character": "诺艾尔",
+   "Index": 120,
+   "Condition": {
+    "Expression": "e-ready(诺艾尔) && since(诺艾尔) > 24"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q, attack(0.4), dash, attack(0.4), dash, attack(0.4)"
+  },
+  {
+   "Name": "芙宁娜",
+   "Character": "芙宁娜",
+   "Index": 130,
+   "Condition": {
+    "Expression": "since(芙宁娜) > 20"
+   },
+   "Action": "e, dash, keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "阿蕾奇诺E起手",
+   "Character": "阿蕾奇诺",
+   "Index": 140,
+   "Condition": {
+    "Expression": "e-ready(阿蕾奇诺)"
+   },
+   "Action": "e"
+  },
+  {
+   "Name": "玛薇卡E起手",
+   "Character": "玛薇卡",
+   "Index": 150,
+   "Condition": {
+    "Expression": "e-ready(玛薇卡)"
+   },
+   "Action": "e"
+  },
+  {
+   "Name": "妮露",
+   "Character": "妮露",
+   "Index": 160,
+   "Condition": {
+    "Expression": "e-ready(妮露) && since(妮露) > 12"
+   },
+   "Action": "keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1)"
+  },
+  {
+   "Name": "珐露珊",
+   "Character": "珐露珊",
+   "Index": 170,
+   "Condition": {
+    "Expression": "e-ready(珐露珊) && since(珐露珊) > 12"
+   },
+   "Action": "e, wait(0.3), q"
+  },
+  {
+   "Name": "行秋",
+   "Character": "行秋",
+   "Index": 180,
+   "Condition": {
+    "Expression": "e-ready(行秋) && since(行秋) > 21"
+   },
+   "Action": "keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), dash, keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1)"
+  },
+  {
+   "Name": "雷电将军E起手",
+   "Character": "雷电将军",
+   "Index": 190,
+   "Condition": {
+    "Expression": "e-ready(雷电将军)"
+   },
+   "Action": "e"
+  },
+  {
+   "Name": "七七",
+   "Character": "七七",
+   "Index": 200,
+   "Condition": {
+    "Expression": "e-ready(七七) && since(七七) > 15"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "芭芭拉Q奶",
+   "Character": "芭芭拉",
+   "Index": 210,
+   "Condition": {
+    "Expression": "q-ready(芭芭拉)"
+   },
+   "Action": "keypress(VK_Q), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_Q), wait(0.1)"
+  },
+  {
+   "Name": "芭芭拉E奶",
+   "Character": "芭芭拉",
+   "Index": 211,
+   "Condition": {
+    "Expression": "e-ready(芭芭拉) && since(芭芭拉E奶) > 25"
+   },
+   "Action": "keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1)"
+  },
+  {
+   "Name": "爱可菲",
+   "Character": "爱可菲",
+   "Index": 220,
+   "Condition": {
+    "Expression": "e-ready(爱可菲) && since(爱可菲) > 15"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "希诺宁",
+   "Character": "希诺宁",
+   "Index": 230,
+   "Condition": {
+    "Expression": "e-ready(希诺宁) && since(希诺宁) > 15"
+   },
+   "Action": "e, wait(0.3), attack(0.4)"
+  },
+  {
+   "Name": "希格雯奶",
+   "Character": "希格雯",
+   "Index": 240,
+   "Condition": {
+    "Expression": "e-ready(希格雯) && since(希格雯奶) > 18"
+   },
+   "Action": "e, wait(0.3)"
+  },
+  {
+   "Name": "闲云",
+   "Character": "闲云",
+   "Index": 250,
+   "Condition": {
+    "Expression": "e-ready(闲云) && since(闲云) > 18"
+   },
+   "Action": "keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "夏洛蒂",
+   "Character": "夏洛蒂",
+   "Index": 260,
+   "Condition": {
+    "Expression": "e-ready(夏洛蒂) && since(夏洛蒂) > 20"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "米卡",
+   "Character": "米卡",
+   "Index": 270,
+   "Condition": {
+    "Expression": "e-ready(米卡) && since(米卡) > 18"
+   },
+   "Action": "keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q, e(hold), wait(0.3)"
+  },
+  {
+   "Name": "瑶瑶奶",
+   "Character": "瑶瑶",
+   "Index": 280,
+   "Condition": {
+    "Expression": "e-ready(瑶瑶) && since(瑶瑶奶) > 15"
+   },
+   "Action": "e, wait(0.3)"
+  },
+  {
+   "Name": "多莉",
+   "Character": "多莉",
+   "Index": 290,
+   "Condition": {
+    "Expression": "e-ready(多莉) && since(多莉) > 20"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "心海奶",
+   "Character": "珊瑚宫心海",
+   "Index": 300,
+   "Condition": {
+    "Expression": "e-ready(珊瑚宫心海) && since(心海奶) > 20"
+   },
+   "Action": "e, wait(0.3)"
+  },
+  {
+   "Name": "班尼特",
+   "Character": "班尼特",
+   "Index": 310,
+   "Condition": {
+    "Expression": "e-ready(班尼特) && since(班尼特) > 15"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "莉奈娅Q奶",
+   "Character": "莉奈娅",
+   "Index": 320,
+   "Condition": {
+    "Expression": "q-ready(莉奈娅) && min(since(莉奈娅Q奶), since(莉奈娅E奶)) > 15"
+   },
+   "Action": "keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_Q), wait(0.1)"
+  },
+  {
+   "Name": "莉奈娅E奶",
+   "Character": "莉奈娅",
+   "Index": 321,
+   "Condition": {
+    "Expression": "e-ready(莉奈娅) && min(since(莉奈娅Q奶), since(莉奈娅E奶)) > 15"
+   },
+   "Action": "keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1)"
+  },
+  {
+   "Name": "纳西妲",
+   "Character": "纳西妲",
+   "Index": 330,
+   "Condition": {
+    "Expression": "e-ready(纳西妲) && since(纳西妲) > 12"
+   },
+   "Action": "keydown(VK_E), wait(0.25), moveby(2100, 0), wait(0.05), moveby(2100, 0), wait(0.05), moveby(2100, 0), wait(0.05), moveby(2100, 0), wait(0.05), moveby(2100, 0), wait(0.05), keyup(VK_E), wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "阿贝多",
+   "Character": "阿贝多",
+   "Index": 340,
+   "Condition": {
+    "Expression": "e-ready(阿贝多) && since(阿贝多) > 12"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "八重神子QEEE",
+   "Character": "八重神子",
+   "Index": 350,
+   "Condition": {
+    "Expression": "e-ready(八重神子) && min(since(八重神子EEE), since(八重神子QEEE)) > 12 && min(since(八重神子EEE), since(八重神子QEEE)) < 22 && since(八重神子QEEE) > 12"
+   },
+   "Action": "keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q, keydown(VK_S), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keyup(VK_S), keydown(VK_S), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keyup(VK_S), keydown(VK_W), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keyup(VK_W), dash"
+  },
+  {
+   "Name": "八重神子EEE",
+   "Character": "八重神子",
+   "Index": 351,
+   "Condition": {
+    "Expression": "e-ready(八重神子) && min(since(八重神子EEE), since(八重神子QEEE)) > 22 && since(八重神子EEE) > 12"
+   },
+   "Action": "keydown(VK_S), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keyup(VK_S), keydown(VK_S), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keyup(VK_S), keydown(VK_W), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keyup(VK_W), dash"
+  },
+  {
+   "Name": "夏沃蕾",
+   "Character": "夏沃蕾",
+   "Index": 360,
+   "Condition": {
+    "Expression": "e-ready(夏沃蕾) && since(夏沃蕾) > 12"
+   },
+   "Action": "keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q, e(hold), wait(0.3)"
+  },
+  {
+   "Name": "久岐忍",
+   "Character": "久岐忍",
+   "Index": 370,
+   "Condition": {
+    "Expression": "e-ready(久岐忍) && since(久岐忍) > 12"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "申鹤",
+   "Character": "申鹤",
+   "Index": 380,
+   "Condition": {
+    "Expression": "e-ready(申鹤) && since(申鹤) > 12"
+   },
+   "Action": "keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), q"
+  },
+  {
+   "Name": "夜兰",
+   "Character": "夜兰",
+   "Index": 390,
+   "Condition": {
+    "Expression": "e-ready(夜兰) && since(夜兰) > 12"
+   },
+   "Action": "keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1)"
+  },
+  {
+   "Name": "北斗",
+   "Character": "北斗",
+   "Index": 400,
+   "Condition": {
+    "Expression": "e-ready(北斗) && since(北斗) > 12"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "香菱",
+   "Character": "香菱",
+   "Index": 410,
+   "Condition": {
+    "Expression": "e-ready(香菱) && since(香菱) > 12"
+   },
+   "Action": "keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q, e, wait(0.3)"
+  },
+  {
+   "Name": "爱诺",
+   "Character": "爱诺",
+   "Index": 420,
+   "Condition": {
+    "Expression": "e-ready(爱诺) && since(爱诺) > 12"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "菈乌玛",
+   "Character": "菈乌玛",
+   "Index": 430,
+   "Condition": {
+    "Expression": "e-ready(菈乌玛) && since(菈乌玛) > 12"
+   },
+   "Action": "keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), q"
+  },
+  {
+   "Name": "塔利雅",
+   "Character": "塔利雅",
+   "Index": 440,
+   "Condition": {
+    "Expression": "e-ready(塔利雅) && since(塔利雅) > 12"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "欧洛伦",
+   "Character": "欧洛伦",
+   "Index": 450,
+   "Condition": {
+    "Expression": "e-ready(欧洛伦) && since(欧洛伦) > 12"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "艾梅莉埃",
+   "Character": "艾梅莉埃",
+   "Index": 460,
+   "Condition": {
+    "Expression": "e-ready(艾梅莉埃) && since(艾梅莉埃) > 12"
+   },
+   "Action": "keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q, e, wait(0.3)"
+  },
+  {
+   "Name": "千织",
+   "Character": "千织",
+   "Index": 470,
+   "Condition": {
+    "Expression": "e-ready(千织) && since(千织) > 12"
+   },
+   "Action": "keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q, e, wait(0.3), wait(0.6), e, wait(0.3)"
+  },
+  {
+   "Name": "卡维",
+   "Character": "卡维",
+   "Index": 480,
+   "Condition": {
+    "Expression": "e-ready(卡维) && since(卡维) > 12"
+   },
+   "Action": "keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q, e, wait(0.3), attack(1)"
+  },
+  {
+   "Name": "迪希雅",
+   "Character": "迪希雅",
+   "Index": 490,
+   "Condition": {
+    "Expression": "e-ready(迪希雅) && since(迪希雅) > 12"
+   },
+   "Action": "e, wait(0.3), e, wait(0.3)"
+  },
+  {
+   "Name": "坎蒂丝",
+   "Character": "坎蒂丝",
+   "Index": 500,
+   "Condition": {
+    "Expression": "e-ready(坎蒂丝) && since(坎蒂丝) > 12"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "云堇",
+   "Character": "云堇",
+   "Index": 510,
+   "Condition": {
+    "Expression": "e-ready(云堇) && since(云堇) > 12"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "五郎",
+   "Character": "五郎",
+   "Index": 520,
+   "Condition": {
+    "Expression": "e-ready(五郎) && since(五郎) > 12"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "菲谢尔",
+   "Character": "菲谢尔",
+   "Index": 530,
+   "Condition": {
+    "Expression": "e-ready(菲谢尔) && since(菲谢尔) > 12"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "柯莱",
+   "Character": "柯莱",
+   "Index": 540,
+   "Condition": {
+    "Expression": "e-ready(柯莱) && since(柯莱) > 12"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "埃洛伊",
+   "Character": "埃洛伊",
+   "Index": 550,
+   "Condition": {
+    "Expression": "e-ready(埃洛伊) && since(埃洛伊) > 12"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "罗莎莉亚",
+   "Character": "罗莎莉亚",
+   "Index": 560,
+   "Condition": {
+    "Expression": "e-ready(罗莎莉亚) && since(罗莎莉亚) > 12"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "重云",
+   "Character": "重云",
+   "Index": 570,
+   "Condition": {
+    "Expression": "e-ready(重云) && since(重云) > 12"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "安柏",
+   "Character": "安柏",
+   "Index": 580,
+   "Condition": {
+    "Expression": "e-ready(安柏) && since(安柏) > 12"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "凯亚",
+   "Character": "凯亚",
+   "Index": 590,
+   "Condition": {
+    "Expression": "e-ready(凯亚) && since(凯亚) > 12"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "丽莎",
+   "Character": "丽莎",
+   "Index": 600,
+   "Condition": {
+    "Expression": "e-ready(丽莎) && since(丽莎) > 12"
+   },
+   "Action": "e(hold), wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "奥黛塔",
+   "Character": "奥黛塔",
+   "Index": 610,
+   "Condition": {
+    "Expression": "e-ready(奥黛塔) && since(奥黛塔) > 12"
+   },
+   "Action": "keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1)"
+  },
+  {
+   "Name": "阿罗夏",
+   "Character": "阿罗夏",
+   "Index": 620,
+   "Condition": {
+    "Expression": "e-ready(阿罗夏) && since(阿罗夏) > 12"
+   },
+   "Action": "e, wait(0.3), q"
+  },
+  {
+   "Name": "布伦妮",
+   "Character": "布伦妮",
+   "Index": 630,
+   "Condition": {
+    "Expression": "e-ready(布伦妮) && since(布伦妮) > 12"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "叶洛亚",
+   "Character": "叶洛亚",
+   "Index": 640,
+   "Condition": {
+    "Expression": "e-ready(叶洛亚) && since(叶洛亚) > 12"
+   },
+   "Action": "e, wait(0.3), keypress(VK_Q), wait(0.1), keypress(VK_Q), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "哥伦比娅",
+   "Character": "哥伦比娅",
+   "Index": 650,
+   "Condition": {
+    "Expression": "e-ready(哥伦比娅) && since(哥伦比娅) > 12"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q, attack(0.3)"
+  },
+  {
+   "Name": "雅珂达",
+   "Character": "雅珂达",
+   "Index": 660,
+   "Condition": {
+    "Expression": "e-ready(雅珂达) && since(雅珂达) > 12"
+   },
+   "Action": "attack(0.2), attack(0.2), keydown(VK_E), w(0.1), a(0.1), s(0.1), d(0.1), w(0.1), a(0.1), s(0.1), d(0.1), w(0.1), a(0.1), s(0.1), d(0.1), w(0.1), a(0.1), s(0.1), d(0.1), w(0.1), a(0.1), s(0.1), d(0.1), keyup(VK_E), attack(0.2), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "杜林",
+   "Character": "杜林",
+   "Index": 670,
+   "Condition": {
+    "Expression": "e-ready(杜林) && since(杜林) > 12"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "伊安珊",
+   "Character": "伊安珊",
+   "Index": 680,
+   "Condition": {
+    "Expression": "e-ready(伊安珊) && since(伊安珊) > 12"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "卡齐娜",
+   "Character": "卡齐娜",
+   "Index": 690,
+   "Condition": {
+    "Expression": "e-ready(卡齐娜) && since(卡齐娜) > 12"
+   },
+   "Action": "s(0.2), e, wait(0.3), wait(1), e, wait(0.3), wait(0.5), w(0.5), attack(5), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "甘雨",
+   "Character": "甘雨",
+   "Index": 700,
+   "Condition": {
+    "Expression": "e-ready(甘雨)"
+   },
+   "Action": "e, wait(0.3), q"
+  },
+  {
+   "Name": "温迪",
+   "Character": "温迪",
+   "Index": 710,
+   "Condition": {
+    "Expression": "e-ready(温迪) && since(温迪) > 12"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "琳妮特",
+   "Character": "琳妮特",
+   "Index": 720,
+   "Condition": {
+    "Expression": "e-ready(琳妮特) && since(琳妮特) > 12"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "早柚",
+   "Character": "早柚",
+   "Index": 730,
+   "Condition": {
+    "Expression": "e-ready(早柚) && since(早柚) > 12"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "琴",
+   "Character": "琴",
+   "Index": 740,
+   "Condition": {
+    "Expression": "e-ready(琴) && since(琴) > 12"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "鹿野院平藏",
+   "Character": "鹿野院平藏",
+   "Index": 750,
+   "Condition": {
+    "Expression": "e-ready(鹿野院平藏) && since(鹿野院平藏) > 12"
+   },
+   "Action": "attack, charge(0.8), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q, e, wait(0.3)"
+  },
+  {
+   "Name": "枫原万叶",
+   "Character": "枫原万叶",
+   "Index": 760,
+   "Condition": {
+    "Expression": "e-ready(枫原万叶) && since(枫原万叶) > 9"
+   },
+   "Action": "keydown(VK_E), wait(0.6), keyup(VK_E), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), wait(0.2), q"
+  },
+  {
+   "Name": "砂糖",
+   "Character": "砂糖",
+   "Index": 770,
+   "Condition": {
+    "Expression": "e-ready(砂糖) && since(砂糖) > 12"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "莫娜",
+   "Character": "莫娜",
+   "Index": 780,
+   "Condition": {
+    "Expression": "e-ready(莫娜) && since(莫娜) > 12"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "沃雅妮莎",
+   "Character": "沃雅妮莎",
+   "Index": 790,
+   "Condition": {
+    "Expression": "e-ready(沃雅妮莎) && since(沃雅妮莎) > 12"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1)"
+  },
+  {
+   "Name": "九条裟罗",
+   "Character": "九条裟罗",
+   "Index": 800,
+   "Condition": {
+    "Expression": "e-ready(九条裟罗) && since(九条裟罗) > 12"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "玛薇卡Q下场",
+   "Character": "玛薇卡",
+   "Index": 810,
+   "Condition": {
+    "Expression": "q-ready(玛薇卡) && (in-party(丝柯克) || in-party(伊法) || in-party(优菈) || in-party(克洛琳德) || in-party(兹白) || in-party(凝光) || in-party(刻晴) || in-party(可莉) || in-party(嘉明) || in-party(基尼奇) || in-party(奈芙尔) || in-party(娜维娅) || in-party(宵宫) || in-party(希格雯) || in-party(恰斯卡) || in-party(提纳里) || in-party(林尼) || in-party(桑多涅) || in-party(梦见月瑞希) || in-party(法尔伽) || in-party(洛恩) || in-party(流浪者) || in-party(烟绯) || in-party(玛拉妮) || in-party(珊瑚宫心海) || in-party(瑶瑶) || in-party(瓦雷莎) || in-party(神里绫人) || in-party(神里绫华) || in-party(胡桃) || in-party(艾尔海森) || in-party(荒泷一斗) || in-party(莱欧斯利) || in-party(菲林斯) || in-party(菲米尼) || in-party(赛索斯) || in-party(赛诺) || in-party(达达利亚) || in-party(迪卢克) || in-party(那维莱特) || in-party(阿蕾奇诺) || in-party(雷泽) || in-party(雷电将军) || in-party(魈) || in-party(甘雨) || in-party(薇斯纳))"
+   },
+   "Action": "q"
+  },
+  {
+   "Name": "玛薇卡转圈",
+   "Character": "玛薇卡",
+   "Index": 811,
+   "Condition": {
+    "Expression": "q-ready(玛薇卡)"
+   },
+   "Action": "q, charge(9)"
+  },
+  {
+   "Name": "雷电将军",
+   "Character": "雷电将军",
+   "Index": 820,
+   "Condition": {
+    "Expression": "q-ready(雷电将军)"
+   },
+   "Action": "dash, keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1)"
+  },
+  {
+   "Name": "薇斯纳",
+   "Character": "薇斯纳",
+   "Index": 830,
+   "Condition": {
+    "Expression": "e-ready(薇斯纳)"
+   },
+   "Action": "keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1)"
+  },
+  {
+   "Name": "桑多涅",
+   "Character": "桑多涅",
+   "Index": 840,
+   "Condition": {
+    "Expression": "e-ready(桑多涅)"
+   },
+   "Action": "e, wait(0.3), q, charge(15)"
+  },
+  {
+   "Name": "洛恩",
+   "Character": "洛恩",
+   "Index": 850,
+   "Condition": {
+    "Expression": "e-ready(洛恩)"
+   },
+   "Action": "attack(0.8), e, wait(0.3)"
+  },
+  {
+   "Name": "法尔伽",
+   "Character": "法尔伽",
+   "Index": 860,
+   "Condition": {
+    "Expression": "e-ready(法尔伽)"
+   },
+   "Action": "attack(0.05), e, wait(0.3), attack(0.2), e, wait(0.3), attack(0.1), e, wait(0.3), attack(0.05), e, wait(0.3), keydown(s), attack(1), keyup(s), attack(2.1), keydown(w), e, wait(0.3), attack(0.05), e, wait(0.3), attack(0.05), e, wait(0.3), attack(0.2), e, wait(0.3), keyup(w), keydown(s), attack(0.5), e, wait(0.3), attack(0.5), e, wait(0.3), keyup(s), attack(0.05), e, wait(0.3), attack(0.05), e, wait(0.3), attack(0.1), e, wait(0.3), attack(0.1), e, wait(0.3), attack(0.35), q"
+  },
+  {
+   "Name": "兹白",
+   "Character": "兹白",
+   "Index": 870,
+   "Condition": {
+    "Expression": "e-ready(兹白)"
+   },
+   "Action": "keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_E), wait(0.1), q, keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1)"
+  },
+  {
+   "Name": "奈芙尔",
+   "Character": "奈芙尔",
+   "Index": 880,
+   "Condition": {
+    "Expression": "e-ready(奈芙尔)"
+   },
+   "Action": "attack(0.08), keydown(VK_LBUTTON), keydown(E), wait(0.015), keyup(E), wait(0.95), keydown(VK_RBUTTON), wait(0.015), keyup(VK_RBUTTON), keydown(S), wait(0.015), keyup(S), wait(0.25), keydown(W), wait(0.015), keyup(W), wait(0.85), keydown(VK_RBUTTON), wait(0.015), keyup(VK_RBUTTON), keydown(S), wait(0.015), keyup(S), wait(0.25), keydown(W), wait(0.015), keyup(W), wait(0.85), keydown(VK_RBUTTON), wait(0.015), keyup(VK_RBUTTON), keydown(S), wait(0.015), keyup(S), wait(0.25), keydown(W), wait(0.015), keyup(W), wait(0.5), keyup(VK_LBUTTON)"
+  },
+  {
+   "Name": "菲林斯",
+   "Character": "菲林斯",
+   "Index": 890,
+   "Condition": {
+    "Expression": "e-ready(菲林斯)"
+   },
+   "Action": "e, wait(0.3), attack, e, wait(0.3), q, attack(2.0)"
+  },
+  {
+   "Name": "丝柯克",
+   "Character": "丝柯克",
+   "Index": 900,
+   "Condition": {
+    "Expression": "e-ready(丝柯克)"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), charge(0.8), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), charge(0.8)"
+  },
+  {
+   "Name": "伊法",
+   "Character": "伊法",
+   "Index": 910,
+   "Condition": {
+    "Expression": "e-ready(伊法)"
+   },
+   "Action": "e, wait(0.3), q, attack(12)"
+  },
+  {
+   "Name": "瓦雷莎",
+   "Character": "瓦雷莎",
+   "Index": 920,
+   "Condition": {
+    "Expression": "e-ready(瓦雷莎)"
+   },
+   "Action": "e, wait(0.3), attack, j, attack, e, wait(0.3), attack, j, attack, q"
+  },
+  {
+   "Name": "梦见月瑞希",
+   "Character": "梦见月瑞希",
+   "Index": 930,
+   "Condition": {
+    "Expression": "e-ready(梦见月瑞希)"
+   },
+   "Action": "wait(0.3), keypress(VK_E), keydown(VK_W), wait(0.1), keypress(VK_Q), wait(0.1), keyup(VK_W), keydown(VK_D), wait(0.1), keypress(VK_Q), wait(0.1), keyup(VK_D), keydown(VK_S), wait(0.1), keypress(VK_Q), wait(0.1), keyup(VK_S), keydown(VK_A), wait(0.1), keypress(VK_Q), wait(0.1), keyup(VK_A), keydown(VK_W), wait(0.1), keypress(VK_Q), wait(0.1), keyup(VK_W), keydown(VK_D), wait(0.1), keypress(VK_Q), wait(0.1), keyup(VK_D), keydown(VK_S), wait(0.1), keypress(VK_Q), wait(0.1), keyup(VK_S), keydown(VK_A), wait(0.1), keypress(VK_Q), wait(0.1), keyup(VK_A), keydown(VK_W), wait(0.1), keypress(VK_Q), wait(0.1), keyup(VK_W), keydown(VK_D), wait(0.1), keypress(VK_Q), wait(0.1), keyup(VK_D), keydown(VK_S), wait(0.1), keypress(VK_Q), wait(0.1), keyup(VK_S), keydown(VK_A), wait(0.1), keypress(VK_Q), wait(0.1), keyup(VK_A), keydown(VK_W), wait(0.1), keypress(VK_Q), wait(0.1), keyup(VK_W), keydown(VK_D), wait(0.1), keypress(VK_Q), wait(0.1), keyup(VK_D), keydown(VK_S), wait(0.1), keypress(VK_Q), wait(0.1), keyup(VK_S), keydown(VK_A), wait(0.1), keypress(VK_Q), wait(0.1), keyup(VK_A), keydown(VK_W), wait(0.1), keypress(VK_Q), wait(0.1), keyup(VK_W), keydown(VK_D), wait(0.1), keypress(VK_Q), wait(0.1), keyup(VK_D), keydown(VK_S), wait(0.1), keypress(VK_Q), wait(0.1), keyup(VK_S), keydown(VK_A), wait(0.1), keypress(VK_Q), wait(0.1), keyup(VK_A), keydown(VK_W), wait(0.1), keyup(VK_W), keydown(VK_D), wait(0.1), keyup(VK_D), keydown(VK_S), wait(0.1), keyup(VK_S), keydown(VK_A), wait(0.1), keyup(VK_A), keydown(VK_W), wait(0.1), keyup(VK_W), keydown(VK_D), wait(0.1), keyup(VK_D), keydown(VK_S), wait(0.1), keyup(VK_S), keydown(VK_A), wait(0.1), keyup(VK_A), keydown(VK_W), wait(0.1), keyup(VK_W), keydown(VK_D), wait(0.1), keyup(VK_D), keydown(VK_S), wait(0.1), keyup(VK_S), keydown(VK_A), wait(0.1), keyup(VK_A), keydown(VK_W), wait(0.1), keyup(VK_W), keydown(VK_D), wait(0.1), keyup(VK_D), keydown(VK_S), wait(0.1), keyup(VK_S), keydown(VK_A), wait(0.1), keyup(VK_A), keydown(VK_W), wait(0.1), keyup(VK_W), keydown(VK_D), wait(0.1), keyup(VK_D), keydown(VK_S), wait(0.1), keyup(VK_S), keydown(VK_A), wait(0.1), keyup(VK_A), keydown(VK_W), wait(0.1), keyup(VK_W), keydown(VK_D), wait(0.1), keyup(VK_D), keydown(VK_S), wait(0.1), keyup(VK_S), keydown(VK_A), wait(0.1), keyup(VK_A), keydown(VK_W), wait(0.1), keyup(VK_W), keydown(VK_D), wait(0.1), keyup(VK_D), keydown(VK_S), wait(0.1), keyup(VK_S), keydown(VK_A), wait(0.1), keyup(VK_A), keydown(VK_W), wait(0.1), keyup(VK_W), keydown(VK_D), wait(0.1), keyup(VK_D), keydown(VK_S), wait(0.1), keyup(VK_S), keydown(VK_A), wait(0.1), keyup(VK_A), keydown(VK_W), wait(0.1), keyup(VK_W), keydown(VK_D), wait(0.1), keyup(VK_D), keydown(VK_S), wait(0.1), keyup(VK_S), keydown(VK_A), wait(0.1), keyup(VK_A), keydown(VK_W), wait(0.1), keyup(VK_W), keydown(VK_D), wait(0.1), keyup(VK_D), keydown(VK_S), wait(0.1), keyup(VK_S), keydown(VK_A), wait(0.1), keyup(VK_A), keydown(VK_W), wait(0.1), keyup(VK_W), keydown(VK_D), wait(0.1), keyup(VK_D), keydown(VK_S), wait(0.1), keyup(VK_S), keydown(VK_A), wait(0.1), keyup(VK_A), keydown(VK_W), wait(0.1), keyup(VK_W), keydown(VK_D), wait(0.1), keyup(VK_D), keydown(VK_S), wait(0.1), keyup(VK_S), keydown(VK_A), wait(0.1), keyup(VK_A), keydown(VK_W), wait(0.1), keyup(VK_W), keydown(VK_D), wait(0.1), keyup(VK_D), keydown(VK_S), wait(0.1), keyup(VK_S), keydown(VK_A), wait(0.1), keyup(VK_A), keydown(VK_W), wait(0.1), keyup(VK_W), keydown(VK_D), wait(0.1), keyup(VK_D), keydown(VK_S), wait(0.1), keyup(VK_S), keydown(VK_A), wait(0.1), keyup(VK_A), keydown(VK_W), wait(0.1), keyup(VK_W), keydown(VK_D), wait(0.1), keyup(VK_D), keydown(VK_S), wait(0.1), keyup(VK_S), keydown(VK_A), wait(0.1), keyup(VK_A)"
+  },
+  {
+   "Name": "恰斯卡",
+   "Character": "恰斯卡",
+   "Index": 940,
+   "Condition": {
+    "Expression": "e-ready(恰斯卡)"
+   },
+   "Action": "e, wait(0.3), q"
+  },
+  {
+   "Name": "玛拉妮",
+   "Character": "玛拉妮",
+   "Index": 950,
+   "Condition": {
+    "Expression": "e-ready(玛拉妮)"
+   },
+   "Action": "e, wait(0.3), keydown(VK_W), wait(0.2), keyup(VK_W), attack, keydown(VK_W), wait(0.2), keyup(VK_W), keydown(VK_S), wait(0.2), keyup(VK_S), keydown(VK_W), wait(0.2), keyup(VK_W), keydown(VK_S), wait(0.2), keyup(VK_S), keydown(VK_W), wait(0.2), keyup(VK_W), keydown(VK_S), wait(0.2), keyup(VK_S), keydown(VK_W), wait(0.2), keyup(VK_W), keydown(VK_S), wait(0.2), keyup(VK_S), keydown(VK_W), wait(0.2), keyup(VK_W), keydown(VK_S), wait(0.2), keyup(VK_S), keydown(VK_W), wait(0.2), keyup(VK_W), attack, keydown(VK_W), wait(0.2), keyup(VK_W), keydown(VK_S), wait(0.2), keyup(VK_S), keydown(VK_W), wait(0.2), keyup(VK_W), keydown(VK_S), wait(0.2), keyup(VK_S), keydown(VK_W), wait(0.2), keyup(VK_W), keydown(VK_S), wait(0.2), keyup(VK_S), keydown(VK_W), wait(0.2), keyup(VK_W), keydown(VK_S), wait(0.2), keyup(VK_S), keydown(VK_W), wait(0.2), keyup(VK_W), keydown(VK_S), wait(0.2), keyup(VK_S), keydown(VK_W), wait(0.2), keyup(VK_W), attack, keydown(VK_W), wait(0.2), keyup(VK_W), keydown(VK_S), wait(0.2), keyup(VK_S), keydown(VK_W), wait(0.2), keyup(VK_W), keydown(VK_S), wait(0.2), keyup(VK_S), keydown(VK_W), wait(0.2), keyup(VK_W), keydown(VK_S), wait(0.2), keyup(VK_S), keydown(VK_W), wait(0.2), keyup(VK_W), keydown(VK_S), wait(0.2), keyup(VK_S), keydown(VK_W), wait(0.2), keyup(VK_W), keydown(VK_S), wait(0.2), keyup(VK_S), keydown(VK_W), wait(0.2), keyup(VK_W), attack"
+  },
+  {
+   "Name": "基尼奇",
+   "Character": "基尼奇",
+   "Index": 960,
+   "Condition": {
+    "Expression": "e-ready(基尼奇)"
+   },
+   "Action": "keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1)"
+  },
+  {
+   "Name": "克洛琳德",
+   "Character": "克洛琳德",
+   "Index": 970,
+   "Condition": {
+    "Expression": "e-ready(克洛琳德)"
+   },
+   "Action": "e, wait(0.3), q, attack(0.4), e, wait(0.3), attack(0.4), e, wait(0.3), attack(0.4), e, wait(0.3), attack(0.4), e, wait(0.3)"
+  },
+  {
+   "Name": "赛索斯",
+   "Character": "赛索斯",
+   "Index": 980,
+   "Condition": {
+    "Expression": "e-ready(赛索斯)"
+   },
+   "Action": "e, wait(0.3), q, keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1)"
+  },
+  {
+   "Name": "阿蕾奇诺重击",
+   "Character": "阿蕾奇诺",
+   "Index": 990,
+   "Condition": {
+    "Expression": "since(阿蕾奇诺E起手)>4"
+   },
+   "Action": "charge, keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1)"
+  },
+  {
+   "Name": "嘉明",
+   "Character": "嘉明",
+   "Index": 1000,
+   "Condition": {
+    "Expression": "e-ready(嘉明)"
+   },
+   "Action": "q, e, wait(0.3), wait(0.87), j, attack, e, wait(0.3), wait(0.87), j, attack, e, wait(0.3), wait(0.87), j, attack, e, wait(0.3), wait(0.87), j, attack, e, wait(0.3), wait(0.87), j, attack"
+  },
+  {
+   "Name": "娜维娅",
+   "Character": "娜维娅",
+   "Index": 1010,
+   "Condition": {
+    "Expression": "e-ready(娜维娅)"
+   },
+   "Action": "keydown(VK_E), wait(0.4), keyup(VK_E), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keydown(VK_E), wait(0.4), keyup(VK_E), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1)"
+  },
+  {
+   "Name": "那维莱特Q重",
+   "Character": "那维莱特",
+   "Index": 1020,
+   "Condition": {
+    "Expression": "q-ready(那维莱特)"
+   },
+   "Action": "q, charge(3)"
+  },
+  {
+   "Name": "那维莱特E重",
+   "Character": "那维莱特",
+   "Index": 1021,
+   "Condition": {
+    "Expression": "e-ready(那维莱特)"
+   },
+   "Action": "e, wait(0.3), charge(3)"
+  },
+  {
+   "Name": "莱欧斯利",
+   "Character": "莱欧斯利",
+   "Index": 1030,
+   "Condition": {
+    "Expression": "e-ready(莱欧斯利)"
+   },
+   "Action": "e, wait(0.3), attack(0.4), charge(0.87), attack(0.4), charge(0.87), attack(0.4), charge(0.87), attack(0.4), charge(0.87), attack(0.4), charge(0.87), attack(0.4), charge(0.87), q"
+  },
+  {
+   "Name": "菲米尼",
+   "Character": "菲米尼",
+   "Index": 1040,
+   "Condition": {
+    "Expression": "e-ready(菲米尼)"
+   },
+   "Action": "e, wait(0.3), q, attack(0.2), e, wait(0.3), attack(0.2), e, wait(0.3), attack(0.2), e, wait(0.3), attack(0.2), e, wait(0.3)"
+  },
+  {
+   "Name": "林尼",
+   "Character": "林尼",
+   "Index": 1050,
+   "Condition": {
+    "Expression": "e-ready(林尼)"
+   },
+   "Action": "q, e, wait(0.3)"
+  },
+  {
+   "Name": "艾尔海森",
+   "Character": "艾尔海森",
+   "Index": 1060,
+   "Condition": {
+    "Expression": "e-ready(艾尔海森)"
+   },
+   "Action": "e, wait(0.3), attack(0.4), charge(1), attack(0.4), q"
+  },
+  {
+   "Name": "流浪者",
+   "Character": "流浪者",
+   "Index": 1070,
+   "Condition": {
+    "Expression": "e-ready(流浪者)"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "赛诺",
+   "Character": "赛诺",
+   "Index": 1080,
+   "Condition": {
+    "Expression": "e-ready(赛诺)"
+   },
+   "Action": "e, wait(0.3), q, attack(1.0), e, wait(0.3), attack(1.0)"
+  },
+  {
+   "Name": "提纳里",
+   "Character": "提纳里",
+   "Index": 1090,
+   "Condition": {
+    "Expression": "e-ready(提纳里)"
+   },
+   "Action": "e, wait(0.3), charge(0.6), wait(0.3), q, charge(0.6), wait(0.3), q, charge(0.6), wait(0.3), q"
+  },
+  {
+   "Name": "神里绫人",
+   "Character": "神里绫人",
+   "Index": 1100,
+   "Condition": {
+    "Expression": "e-ready(神里绫人)"
+   },
+   "Action": "q, e, wait(0.3), attack(5.5)"
+  },
+  {
+   "Name": "荒泷一斗",
+   "Character": "荒泷一斗",
+   "Index": 1110,
+   "Condition": {
+    "Expression": "e-ready(荒泷一斗)"
+   },
+   "Action": "attack, q, attack, e, wait(0.3), attack(0.2), charge(1.8), attack(0.6), charge(1.8), e, wait(0.3), charge(1)"
+  },
+  {
+   "Name": "优菈",
+   "Character": "优菈",
+   "Index": 1120,
+   "Condition": {
+    "Expression": "e-ready(优菈)"
+   },
+   "Action": "e, wait(0.3), q, attack(0.6), e(hold), wait(0.3), wait(0.1), attack(0.6)"
+  },
+  {
+   "Name": "宵宫",
+   "Character": "宵宫",
+   "Index": 1130,
+   "Condition": {
+    "Expression": "e-ready(宵宫)"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "烟绯",
+   "Character": "烟绯",
+   "Index": 1140,
+   "Condition": {
+    "Expression": "e-ready(烟绯)"
+   },
+   "Action": "attack, e, wait(0.3), q, attack(0.4), charge(1.32), attack(0.4), charge(1.32), attack(0.4), charge(1.32), attack, e, wait(0.3), charge(1.32)"
+  },
+  {
+   "Name": "胡桃",
+   "Character": "胡桃",
+   "Index": 1150,
+   "Condition": {
+    "Expression": "e-ready(胡桃) && since(胡桃) > 16"
+   },
+   "Action": "e, wait(0.4), keydown(VK_A), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keydown(VK_LBUTTON), wait(0.9), keyup(VK_LBUTTON), keyup(VK_A), keydown(VK_D), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keydown(VK_LBUTTON), wait(0.9), keyup(VK_LBUTTON), keyup(VK_D), keydown(VK_A), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keydown(VK_LBUTTON), wait(0.9), keyup(VK_LBUTTON), keyup(VK_A), keydown(VK_D), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keydown(VK_LBUTTON), wait(0.9), keyup(VK_LBUTTON), keyup(VK_D), keydown(VK_A), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keydown(VK_LBUTTON), wait(0.9), keyup(VK_LBUTTON), keyup(VK_A), keydown(VK_D), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keydown(VK_LBUTTON), wait(0.9), keyup(VK_LBUTTON), keyup(VK_D), q"
+  },
+  {
+   "Name": "刻晴",
+   "Character": "刻晴",
+   "Index": 1160,
+   "Condition": {
+    "Expression": "e-ready(刻晴)"
+   },
+   "Action": "e, wait(0.3), q, e, wait(0.3), attack, charge(0.6), attack, charge(0.6), attack, charge(0.6), attack, charge(0.6), attack, charge(0.6)"
+  },
+  {
+   "Name": "甘雨主C",
+   "Character": "甘雨",
+   "Index": 1170,
+   "Condition": {
+    "Expression": "e-ready(甘雨)"
+   },
+   "Action": "keypress(VK_R), wait(0.4), keydown(VK_LBUTTON), wait(1.6), keyup(VK_LBUTTON), wait(0.4), keydown(VK_LBUTTON), wait(1.6), keyup(VK_LBUTTON), wait(0.4), keydown(VK_LBUTTON), wait(1.6), keyup(VK_LBUTTON), wait(0.4)"
+  },
+  {
+   "Name": "达达利亚",
+   "Character": "达达利亚",
+   "Index": 1180,
+   "Condition": {
+    "Expression": "e-ready(达达利亚)"
+   },
+   "Action": "e, wait(0.3), attack(0.2), charge(0.92), attack(0.2), charge(0.92), attack(0.2), charge(0.92), q, e, wait(0.3)"
+  },
+  {
+   "Name": "可莉",
+   "Character": "可莉",
+   "Index": 1190,
+   "Condition": {
+    "Expression": "e-ready(可莉)"
+   },
+   "Action": "e, wait(0.3), e, wait(0.3), q, keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1)"
+  },
+  {
+   "Name": "凝光",
+   "Character": "凝光",
+   "Index": 1200,
+   "Condition": {
+    "Expression": "e-ready(凝光)"
+   },
+   "Action": "attack, e, wait(0.3), dash, attack, charge(0.87), q, charge(0.87), attack(0.2), charge(0.87)"
+  },
+  {
+   "Name": "魈",
+   "Character": "魈",
+   "Index": 1210,
+   "Condition": {
+    "Expression": "e-ready(魈)"
+   },
+   "Action": "e, wait(0.3), wait(0.42), q, j, attack, j, attack, j, attack, j, attack, j, attack"
+  },
+  {
+   "Name": "雷泽",
+   "Character": "雷泽",
+   "Index": 1220,
+   "Condition": {
+    "Expression": "e-ready(雷泽)"
+   },
+   "Action": "e, wait(0.3), q, keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1)"
+  },
+  {
+   "Name": "迪卢克",
+   "Character": "迪卢克",
+   "Index": 1230,
+   "Condition": {
+    "Expression": "e-ready(迪卢克)"
+   },
+   "Action": "q, attack(0.2), e, wait(0.3), attack(0.2), e, wait(0.3), attack(0.2), e, wait(0.3), attack(0.2)"
+  },
+  {
+   "Name": "神里绫华",
+   "Character": "神里绫华",
+   "Index": 1240,
+   "Condition": {
+    "Expression": "e-ready(神里绫华)"
+   },
+   "Action": "keypress(VK_Q), keypress(VK_E), dash, keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), charge, wait(0.55), keypress(VK_Q), keypress(VK_E), dash, keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), charge, wait(0.55), keypress(VK_Q), keypress(VK_E), dash, keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), charge, wait(0.55), keypress(VK_Q), keypress(VK_E), dash, keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), charge, wait(0.55), keypress(VK_Q), keypress(VK_E), dash, keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), charge, wait(0.55)"
+  },
+  {
+   "Name": "希格雯主C",
+   "Character": "希格雯",
+   "Index": 1250,
+   "Condition": {
+    "Expression": "q-ready(希格雯) && since(希格雯主C) > 12"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q"
+  },
+  {
+   "Name": "瑶瑶主C",
+   "Character": "瑶瑶",
+   "Index": 1260,
+   "Condition": {
+    "Expression": "q-ready(瑶瑶) && since(瑶瑶主C) > 12"
+   },
+   "Action": "e, wait(0.3), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), q, j, j, j"
+  },
+  {
+   "Name": "心海主C",
+   "Character": "珊瑚宫心海",
+   "Index": 1270,
+   "Condition": {
+    "Expression": "q-ready(珊瑚宫心海) && since(心海主C) > 12"
+   },
+   "Action": "q, keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_LBUTTON), wait(0.1)"
+  },
+  {
+   "Name": "温迪站场",
+   "Character": "温迪",
+   "Index": 1280,
+   "Condition": {
+    "Expression": "t > 0"
+   },
+   "Action": "keypress(VK_E), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_LBUTTON), wait(0.1)"
+  },
+  {
+   "Name": "通用兜底",
+   "Character": "",
+   "Index": 1290,
+   "Condition": {
+    "Expression": ""
+   },
+   "Action": "keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E), wait(0.1), keypress(VK_LBUTTON), wait(0.1), keypress(VK_Q), wait(0.1), keypress(VK_E)"
+  }
+ ]
+}
