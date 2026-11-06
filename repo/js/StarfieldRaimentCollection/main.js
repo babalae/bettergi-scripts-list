@@ -254,7 +254,23 @@
                     return false;
                 } else if (ocrResult[i].text.includes("前往大厅")) {
                     ocrResult[i].Click();
-                    await sleep(5000);
+                    await sleep(3000); 
+                    // 轮询确认大厅是否加载完毕
+                    for (let j = 0; j < 20; j++) { //最多再等 10 秒
+                        await sleep(500);
+                        const pollResult = await Ocr(1110, 889, 637, 91, true);
+                        if (pollResult) {
+                            let isLoaded = false;
+                            for (let k = 0; k < pollResult.length; k++) {
+                                if (pollResult[k].text.includes("开始游戏") || pollResult[k].text.includes("单人挑战")) {
+                                    isLoaded = true;
+                                    break;
+                                }
+                            }
+                            if (isLoaded) break; // 识别到目标文字即加载完成，跳出轮询
+                        }
+                    }
+                    
                     return true;
                 }
             }

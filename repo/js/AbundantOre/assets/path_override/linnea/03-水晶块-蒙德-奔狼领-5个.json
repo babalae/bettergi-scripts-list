@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1790690577024,
+    "last_modified_time": 1792609298304,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "03-水晶块-蒙德-奔狼领-5个",
@@ -31,7 +31,7 @@
       "action": "",
       "action_params": "",
       "id": 2,
-      "move_mode": "walk",
+      "move_mode": "dash",
       "type": "path",
       "x": -548.2461,
       "y": 2168.1191
@@ -47,7 +47,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "莉奈娅 w(1),wait(0.3),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "action_params": "莉奈娅 w(0.5),wait(0.3),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
       "id": 4,
       "move_mode": "walk",
       "type": "orientation",

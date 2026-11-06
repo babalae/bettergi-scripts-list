@@ -418,8 +418,7 @@ async function tpEndDetection() {
 const cardPlayerRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/cardPlayer.png"));
 const detectCardPlayer = async () => {
     // 定义要检测的6个点位及对应的处理函数
-    let i = 0;
-    let findNum = 0;
+    const matchedPoints = [];
     const checkPoints = [
         { x: 1475, y: 730, action: async () => await gotoTable1() }, // 1号桌
         { x: 1680, y: 780, action: async () => await gotoTable2() }, // 2号桌
@@ -434,44 +433,49 @@ const detectCardPlayer = async () => {
     await genshin.setBigMapZoomLevel(1.0); //放大地图
     await sleep(300);
 
-    await dragTemplateToPosition("assets/dragToVerify.png", // 模板图片路径
+    const mapAligned = await dragTemplateToPosition("assets/dragToVerify.png", // 模板图片路径
         1449,                    // 目标X坐标
         988,                    // 目标Y坐标
         3                       // 最大尝试次数
     );
 
+    if (!mapAligned) {
+        keyPress("ESCAPE");
+        await sleep(1500);
+        log.warn("地图定位失败，保留待挑战名单并重试");
+        return false;
+    }
+
     // 获取游戏区域截图
     const captureRegion = captureGameRegion();
 
-    for (const point of checkPoints) {
-        i++;
-        // 遍历所有检测点位
-        const cropRegion = captureRegion.DeriveCrop(point.x, point.y, 160, 160);
-
-        // 在裁剪区域中查找卡片
-        const result = cropRegion.Find(cardPlayerRo);
-
-        // 如果找到卡片
-        if (!result.IsEmpty()) {
-            findNum++;
-            if (findNum - skipNum == 1) {
-                log.info(`在点位${i}找到玩家，执行对应操作`);
-                await sleep(1000);
-                keyPress("ESCAPE");
-                await sleep(1500);
-                await point.action(); // 调用该点位对应的函数
-                captureRegion.dispose();
+    try {
+        for (let i = 0; i < checkPoints.length; i++) {
+            const point = checkPoints[i];
+            const cropRegion = captureRegion.DeriveCrop(point.x, point.y, 160, 160);
+            try {
+                if (!cropRegion.Find(cardPlayerRo).IsEmpty()) {
+                    matchedPoints.push({ point, number: i + 1 });
+                }
+            } finally {
                 cropRegion.dispose();
-                return true; // 返回true表示已找到并处理
             }
         }
-        cropRegion.dispose();
+    } finally {
+        captureRegion.dispose();
     }
-    captureRegion.dispose();
-    // 所有点位都未找到
-    log.info("未在任何检测点找到玩家");
-    textArray.length = 0;
-    return false;
+
+    keyPress("ESCAPE");
+    await sleep(1500);
+    // 地图识别失败不能作为周常已完成的依据。
+    if (matchedPoints.length === 0) {
+        log.warn("未在任何检测点找到玩家，保留待挑战名单并重试");
+        return false;
+    }
+    const selected = matchedPoints[skipNum % matchedPoints.length];
+    log.info(`在点位${selected.number}找到玩家，执行对应操作`);
+    await selected.point.action();
+    return true;
 };
 
 //获取挑战对象名称
@@ -688,7 +692,6 @@ async function searchCharAndPlayCards() {
             charOcrPos = res;
             charName = textArray[charIndex].text;
             log.info(`找到文本: ${resText} (匹配到牌手: ${charName})`);
-            skipNum = 0;
             break;
         } else {
             log.debug("resText={0} 无任何匹配牌手", resText);
@@ -712,6 +715,7 @@ async function searchCharAndPlayCards() {
         await reportEfficiencyIfEnabled(charName, charName, success, duration);
     }
     if (success) {
+        skipNum = 0;
         textArray.splice(charIndex, 1);
         return true;
     }
@@ -792,9 +796,15 @@ async function searchCharAndPlayCards() {
         updateRunRecord(charName, strategyName, success);
     }
 
-    // 从数组中移除已对战过的牌手
-    textArray.splice(charIndex, 1);
-    return true;
+    // 只有获胜才移除牌手，失败时保留名单并轮换到下一张牌桌。
+    if (success) {
+        skipNum = 0;
+        textArray.splice(charIndex, 1);
+    } else {
+        log.warn("与{0}对战未成功，保留待挑战名单", charName);
+        skipNum++;
+    }
+    return success;
 }
 
 /**
@@ -1153,24 +1163,34 @@ async function main() {
         log.info("未启用备用策略");
     }
 
-    if (textArray.length != 0) {
-        await detectCardPlayer();
-        await searchCharAndPlayCards();
-    }
-    for (let i = 0; i < 20; i++) {
+    let mapMisses = 0;
+    for (let i = 0; i < 21; i++) {
         //循环兜底，避免角色未到达指定位置
         if (textArray.length === 0) break;
-        await gotoTavern();
-        await detectCardPlayer();
+        if (i > 0) await gotoTavern();
+        if (!await detectCardPlayer()) {
+            skipNum = 0;
+            if (++mapMisses >= 3) break;
+            continue;
+        }
+        mapMisses = 0;
         await searchCharAndPlayCards();
+        // 对局结束后以七日历练的实际状态更新名单，避免提前结束。
+        await genshin.returnMainUi();
+        await getRemainingChallengeGuests();
     }
     await genshin.returnMainUi();
     await getRemainingChallengeGuests();
-    notification.send(`打牌结束、剩余挑战人数:${textArray.length}`);
-    // 更新最后完成时间
-    if (textArray.length === 0) {
-        await file.writeText("assets/weekly.txt", nowTime.toISOString());
+    if (textArray.length > 0) {
+        const message = `打牌尚未完成，剩余${textArray.length}人：${textArray.map(item => item.text).join("、")}；未写入本周完成记录，请检查地图识别或打牌策略后重试`;
+        log.warn(message);
+        notification.send(message);
+        throw new Error(message);
     }
+    log.info("打牌完成，剩余挑战人数:0");
+    notification.send("打牌完成，剩余挑战人数:0");
+    // 仅在七日历练确认全部完成后更新最后完成时间。
+    await file.writeText("assets/weekly.txt", nowTime.toISOString());
 }
 
 (async function () {

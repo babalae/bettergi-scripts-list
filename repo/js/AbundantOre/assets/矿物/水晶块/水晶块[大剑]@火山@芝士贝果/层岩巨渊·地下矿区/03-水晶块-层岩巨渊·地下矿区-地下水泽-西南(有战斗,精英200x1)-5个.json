@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1791633979212,
+    "last_modified_time": 1792607460202,
     "map_match_method": "",
     "map_name": "TheChasm",
     "name": "03-水晶块-层岩巨渊·地下矿区-地下水泽-西南(有战斗,精英200x1)-5个",
@@ -31,6 +31,15 @@
       "action": "",
       "action_params": "",
       "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 668.9235,
+      "y": 707.9711
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
       "move_mode": "fly",
       "type": "path",
       "x": 678.99,
@@ -39,7 +48,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 3,
+      "id": 4,
       "move_mode": "climb",
       "type": "path",
       "x": 681.93,
@@ -48,7 +57,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 4,
+      "id": 5,
       "move_mode": "dash",
       "type": "path",
       "x": 668.23,
@@ -57,7 +66,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 5,
+      "id": 6,
       "move_mode": "dash",
       "type": "path",
       "x": 669.77,
@@ -66,7 +75,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 6,
+      "id": 7,
       "move_mode": "dash",
       "type": "path",
       "x": 665.66,
@@ -75,7 +84,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 7,
+      "id": 8,
       "move_mode": "walk",
       "type": "path",
       "x": 666.5,
@@ -84,7 +93,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 8,
+      "id": 9,
       "move_mode": "dash",
       "point_ext_params": {
         "description": "遗迹机兵*1",
@@ -104,7 +113,7 @@
     {
       "action": "mining",
       "action_params": "",
-      "id": 9,
+      "id": 10,
       "move_mode": "walk",
       "type": "target",
       "x": 656.48,
@@ -113,7 +122,7 @@
     {
       "action": "mining",
       "action_params": "",
-      "id": 10,
+      "id": 11,
       "move_mode": "walk",
       "type": "target",
       "x": 658.77,
@@ -122,7 +131,7 @@
     {
       "action": "mining",
       "action_params": "",
-      "id": 11,
+      "id": 12,
       "move_mode": "walk",
       "type": "target",
       "x": 663.76,
@@ -131,7 +140,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 12,
+      "id": 13,
       "move_mode": "run",
       "type": "path",
       "x": 659.97,
@@ -140,7 +149,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 13,
+      "id": 14,
       "move_mode": "dash",
       "type": "path",
       "x": 677.13,
@@ -149,7 +158,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 14,
+      "id": 15,
       "move_mode": "walk",
       "type": "target",
       "x": 688.53,
@@ -158,7 +167,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 15,
+      "id": 16,
       "move_mode": "fly",
       "type": "path",
       "x": 727.98,
@@ -167,7 +176,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 16,
+      "id": 17,
       "move_mode": "dash",
       "type": "path",
       "x": 717.2788,
@@ -176,7 +185,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 17,
+      "id": 18,
       "move_mode": "dash",
       "type": "path",
       "x": 717.0587,
@@ -185,7 +194,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 18,
+      "id": 19,
       "move_mode": "fly",
       "type": "path",
       "x": 739.78,
@@ -194,7 +203,7 @@
     {
       "action": "mining",
       "action_params": "",
-      "id": 19,
+      "id": 20,
       "move_mode": "dash",
       "type": "target",
       "x": 737.78,
@@ -203,7 +212,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.3)",
-      "id": 20,
+      "id": 21,
       "move_mode": "walk",
       "type": "path",
       "x": 740.07,
@@ -212,7 +221,7 @@
     {
       "action": "mining",
       "action_params": "",
-      "id": 21,
+      "id": 22,
       "move_mode": "walk",
       "type": "target",
       "x": 737.66,
@@ -221,7 +230,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.5)",
-      "id": 22,
+      "id": 23,
       "move_mode": "walk",
       "type": "path",
       "x": 737.35,

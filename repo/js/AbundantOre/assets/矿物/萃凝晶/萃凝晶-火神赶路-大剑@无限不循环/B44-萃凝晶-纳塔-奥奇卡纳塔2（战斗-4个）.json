@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1758655256750,
+    "last_modified_time": 1792609477790,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B44-萃凝晶-纳塔-奥奇卡纳塔2（战斗-4个）",
@@ -31,11 +31,11 @@
       "y": -401.05
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "w(0.17)",
       "id": 2,
       "move_mode": "run",
-      "type": "path",
+      "type": "orientation",
       "x": 9883.83,
       "y": -432.98
     },
@@ -45,8 +45,8 @@
       "id": 3,
       "move_mode": "run",
       "type": "path",
-      "x": 9905.98,
-      "y": -424.45
+      "x": 9883.83,
+      "y": -432.98
     },
     {
       "action": "",
@@ -54,8 +54,8 @@
       "id": 4,
       "move_mode": "run",
       "type": "path",
-      "x": 9908.11,
-      "y": -398.69
+      "x": 9905.98,
+      "y": -424.45
     },
     {
       "action": "combat_script",
