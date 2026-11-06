@@ -1,3 +1,4 @@
+import {recordRecognition} from "./recognitionResult.js";
 import {sendText} from "./notice";
 import {drawBox, toMainUi} from "./tool";
 const ocrRegionConfig = {
@@ -139,6 +140,10 @@ export async function mapMission(list = [], toOpenMap = true) {
     await sleep(ms * 2);
     let keyJsonList = await ocrMapMission(list);
     keyJsonList = keyJsonList.filter(item => item.ok)
+    // 保存本次匹配到的任务；空结果只代表本次没有观测到匹配项。
+    await recordRecognition("mapMission", {requested: list, matches: keyJsonList},
+        keyJsonList.length > 0 ? "observed" : "unknown",
+        "仅记录匹配文本；未匹配不证明任务不存在，分页扫描不保证完整");
     log.info(`识别到地图任务数量:${keyJsonList.length}`)
     if (keyJsonList.length <= 0) {
         log.warn(`未识别到地图任务`)
