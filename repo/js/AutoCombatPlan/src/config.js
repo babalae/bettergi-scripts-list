@@ -61,7 +61,7 @@ export const ARTIFACT_STARS = ["", "1", "2", "3", "4"];
 
 /**
  * 秘境组号（BGI 的 SundaySelectedValue）：材料本分 1/2/3 组，圣遗物本没有组。
- * 空 = 不指定，交给 BGI 自选；「其他」区的兜底副本用它指定打哪一组材料。
+ * 空 = 不指定，交给 BGI 自选；「其他」区的补刷副本用它指定打哪一组材料。
  */
 export const DOMAIN_PICKS = ["", "1", "2", "3"];
 
@@ -111,9 +111,9 @@ export function defaultAccount(uid, name) {
      */
     salvage: { on: false, maxStar: "4" },
     /**
-     * 地脉条目的收尾兜底副本（任意秘境，不限圣遗物）：
+     * 地脉条目的收尾补刷副本（任意秘境，不限圣遗物）：
      * `domain` = 打哪个本；`pick` = 材料本打第几组（"1"–"3"，空 = 由 BGI 自选，圣遗物本不认）。
-     * **`domain` 为空时整段不落盘**——没配兜底就没有这个键，不留半截。
+     * **`domain` 为空时整段不落盘**——没配补刷就没有这个键，不留半截。
      */
     fallback: { domain: "", pick: "" },
     /** 幽境打第几场；**空 = 不使用幽境**；开放期取全局 */
@@ -416,7 +416,7 @@ function accountOut(raw) {
   for (const k of Object.keys(known)) out[k] = known[k];
   // 树脂顺序已无配置入口，旧存档的键不随白名单带下去
   delete out.resinOrder;
-  // 兜底副本没选本 = 没配：整段不落键，否则会留下 {domain:"",pick:"2"} 这种半截
+  // 补刷副本没选本 = 没配：整段不落键，否则会留下 {domain:"",pick:"2"} 这种半截
   if (!out.fallback || !str(out.fallback.domain)) delete out.fallback;
   return out;
 }
@@ -1254,7 +1254,7 @@ export function createAccount(uid, name) {
   const cfg = loadTemplate();
   cfg.uid = u;
   cfg.name = String(name || "").trim();
-  // 兜底本初值 = 祝圣套装，只在这一刻对齐，之后改一个不动另一个（design §4.5）
+  // 补刷本初值 = 祝圣套装，只在这一刻对齐，之后改一个不动另一个（design §4.5）
   if (!cfg.fallback || typeof cfg.fallback !== "object") cfg.fallback = { domain: "", pick: "" };
   if (!str(cfg.fallback.domain)) cfg.fallback.domain = str(cfg.artifact && cfg.artifact.domain);
   writeJson(configPath(u), accountOut(cfg));
