@@ -1,4 +1,4 @@
-// 入口编排（design §2）：判日子 → 打双倍 → 重读树脂 → 打日常 → 收尾兜底。
+// 入口编排（design §2）：判日子 → 打双倍 → 重读树脂 → 打日常 → 收尾补刷。
 //
 // 边界：判断只在 `plan.js`，BGI 参数只在 `tasks.js`，识别只在 `resinReader/`，本文件不碰它们内部；
 // 通知只在结束或失败时发一条（§2.8），中间过程只进日志。
@@ -161,6 +161,11 @@ async function run() {
   }
 
   // ---- 5. 双倍 / 幽境阶段 ----
+  // 幽境打完直接收尾或补刷，不再进轮换（见下面 stygian 分支）
+  let skipDaily = false;
+  // 地脉 / 幽境后那次全读若已是终点（后面没再打任何一场），最终读数就不重复读——finishRemaining 里置位
+  let resinEndDone = false;
+
   if (first.stage === "double") {
     const d = planDouble(planCtx());
     if (!d.step) {
@@ -192,37 +197,48 @@ async function run() {
   } else if (first.stage === "stygian") {
     const st = planStygian(planCtx());
     if (!st.step) {
-      log.info(`幽境跳过：${st.skip}`);
+      // 场次空 = 今天不做幽境：退化成普通日流程，照常走轮换
+      log.info(`幽境跳过：${st.skip}（按轮换走）`);
     } else {
-      await exec(st.step);
-    }
-    // 幽境后不再重读：通知里的 y 只认终点那次读数（最终读数或地脉后，§2.6.1），中途值一概不进通知
-  }
-
-  // ---- 6. 日常分析（§2.4：阶段 1 → 轮换 → 兜底） ----
-  // 地脉后那次全读若已是终点（后面没再打任何一场），最终读数就不重复读——afterLeyline 里置位
-  let resinEndDone = false;
-  try {
-    const d = planDaily(planCtx());
-    if (!d.step) {
-      log.info(`日常阶段没有目标：${d.skip}`);
-    } else {
-      const r = await exec(d.step);
-      if (!r.ok) {
-        log.error("日常阶段失败，当日结束（§2.7：不换下一个条目，否则「只打第一个」会变成隐式轮换）");
-      } else if (d.source === "rotation" && d.rotate) {
-        // 成功打完才写盘（§4.4）：没打成不该算用掉一次
-        const next = markPlayed(d.rotate.basePlayed, d.rotate.target);
-        saveState(uid, next, account.rotation);
-        log.info(`轮换已记录：${d.rotate.target.material || d.rotate.target.domain || d.rotate.target.type || ""}`);
-
-        // 只有「轮换取到地脉」这条路要兜底：地脉不保证把树脂打干净（reusable §4）
-        if (d.step.type === "leyline") resinEndDone = await afterLeyline();
+      // 先置位再判定：即便下面抛异常，也不回头进轮换（幽境已经打过一场）
+      skipDaily = true;
+      try {
+        await exec(st.step);
+        // 幽境同样走耗尽语义（`SpecifyResinUse = false`），打完剩的树脂与「地脉之后」是同一个问题：
+        // 打不动就收尾、还打得动就用补刷本补尾。与轮换取一条秘境打到耗尽等效，但不会白跑一趟
+        resinEndDone = await finishRemaining("幽境");
+      } catch (e) {
+        ctx.failed.push({ label: "幽境收尾", error: e && e.message ? e.message : String(e) });
+        log.error(`幽境阶段异常：${e && e.message ? e.message : e}`);
       }
     }
-  } catch (e) {
-    ctx.failed.push({ label: "日常阶段", error: e && e.message ? e.message : String(e) });
-    log.error(`日常阶段异常：${e && e.message ? e.message : e}`);
+  }
+
+  // ---- 6. 日常分析（§2.4：阶段 1 → 轮换 → 补刷） ----
+  // 幽境打完已由 finishRemaining 收尾，这里整段跳过
+  if (!skipDaily) {
+    try {
+      const d = planDaily(planCtx());
+      if (!d.step) {
+        log.info(`日常阶段没有目标：${d.skip}`);
+      } else {
+        const r = await exec(d.step);
+        if (!r.ok) {
+          log.error("日常阶段失败，当日结束（§2.7：不换下一个条目，否则「只打第一个」会变成隐式轮换）");
+        } else if (d.source === "rotation" && d.rotate) {
+          // 成功打完才写盘（§4.4）：没打成不该算用掉一次
+          const next = markPlayed(d.rotate.basePlayed, d.rotate.target);
+          saveState(uid, next, account.rotation);
+          log.info(`轮换已记录：${d.rotate.target.material || d.rotate.target.domain || d.rotate.target.type || ""}`);
+
+          // 只有「轮换取到地脉」这条路要补刷：地脉不保证把树脂打干净（reusable §4）
+          if (d.step.type === "leyline") resinEndDone = await finishRemaining("地脉");
+        }
+      }
+    } catch (e) {
+      ctx.failed.push({ label: "日常阶段", error: e && e.message ? e.message : String(e) });
+      log.error(`日常阶段异常：${e && e.message ? e.message : e}`);
+    }
   }
 
   /** 把一次全读快照写成终点（`ctx.resin.after` + `full` + 一行日志）。开关关着整段不写，通知口径不变（§2.6.1） */
@@ -242,48 +258,50 @@ async function run() {
   }
 
   /**
-   * 地脉之后：全读四项，还打得动就用兜底本补尾（§2.5）。
+   * 打完地脉 / 幽境之后：全读四项，还打得动就用补刷本补尾（§2.5）。
    * 这次读数兼任终点：原粹+浓缩喂 `spendable`（按「浓缩先于原粹」的顺位判，两项都得读），
    * 反正都要开弹窗，须臾/脆弱顺带读齐——后面没再打任何一场的话，它就是终点，最终读数不再读（§2.6.1）。
+   * 幽境走的是同一段判定：两者都是耗尽语义，打完剩多少树脂是同一个问题。
+   * @param source 「地脉」/「幽境」——只进日志与补刷的 reason，判定逻辑完全相同
    * @returns true = 已有终点（最终读数可跳过）；false = 之后还有战斗或快照残缺，最终读数照旧读
    */
-  async function afterLeyline() {
+  async function finishRemaining(source = "地脉") {
     let snap = null;
     try {
       snap = await collectResin();
     } catch (e) {
-      log.warn(`地脉后重读树脂失败：${e && e.message ? e.message : e}`);
+      log.warn(`${source}后重读树脂失败：${e && e.message ? e.message : e}`);
     }
 
     const can = spendable(snap);
     if (can === false) {
       // 已耗尽，后面没有战斗了：这次读数就是终点
-      recordEndResin(snap, "地脉后读数");
-      log.info("地脉完成后树脂已耗尽，跳过补刷");
+      recordEndResin(snap, `${source}后读数`);
+      log.info(`${source}完成后树脂已耗尽，跳过补刷`);
       return true;
     }
-    if (can === null) log.warn("树脂读数不完整，按「仍有剩余」处理，照常补刷（§2.6：以清空为先，可接受一次空传送）");
+    if (can === null) log.warn("树脂读数不完整，按「仍有剩余」处理，照常补刷（§2.6：以清空为先，可接受一趟进本空跑）");
 
-    const fb = planFallback(planCtx());
+    const fb = planFallback(planCtx(), source);
     if (!fb.step) {
       log.info(`补刷跳过：${fb.skip}`);
-      // 判得动、又没兜底可打：同样没有后续战斗，这次读数就是终点。
+      // 判得动、又没补刷可打：同样没有后续战斗，这次读数就是终点。
       // 判不了（can===null）时快照可能残缺，交给最终读数再补一次全读，别拿残缺值当终点
       if (can === true) {
-        recordEndResin(snap, "地脉后读数");
+        recordEndResin(snap, `${source}后读数`);
         return true;
       }
       return false;
     }
     await exec(fb.step);
-    return false; // 兜底又打了一场，树脂变了，终点由最终读数给
+    return false; // 补刷又打了一场，树脂变了，终点由最终读数给
   }
 
   // ---- 6.5 最终读数：所有战斗结束后读一次真值（§2.6.1） ----
-  // 这是 ctx.resin.after 的默认来源；地脉后那次全读若已是终点（resinEndDone），这里不再读。
+  // 这是 ctx.resin.after 的默认来源；地脉 / 幽境后那次全读若已是终点（resinEndDone），这里不再读。
   // 开关取账户 json 的 resinAfterRun（界面「结束后树脂通知」勾选框）；一次都没打成功就不白跑这一趟。
   if (resinEndDone) {
-    log.info("跳过最终读数：地脉后那次已是终点");
+    log.info("跳过最终读数：未触发补刷");
   } else if (ctx.runs.length > 0 && account.resinAfterRun !== false) {
     try {
       // 全读四项（不传 flags）：reference §2.6.1 的成文约定
