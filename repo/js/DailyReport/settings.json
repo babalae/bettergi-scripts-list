@@ -1,0 +1,49 @@
+[
+  {
+    "name": "checkResin",
+    "type": "checkbox",
+    "label": "识别树脂",
+    "default": false
+  },
+  {
+    "name": "isDebug",
+    "type": "checkbox",
+    "label": "调试模式",
+    "default": false
+  },
+  {
+    "name": "accountName",
+    "type": "input-text",
+    "label": "账号备注名（缓存总开关，为空则不启用缓存）",
+    "default": ""
+  },
+  {
+    "name": "separator",
+    "type": "separator",
+    "label": "                  以下选项需要启用缓存才能使用"
+  },
+  {
+    "name": "checkUid",
+    "type": "checkbox",
+    "label": "识别UID",
+    "default": false
+  },
+  {
+    "name": "verifyUid",
+    "type": "checkbox",
+    "label": "校验UID（需要启用识别UID）",
+    "default": false
+  },
+  {
+    "name": "expectedUid",
+    "type": "input-text",
+    "label": "期望UID（校验UID启用时填写）",
+    "default": ""
+  },
+  {
+    "name": "isOverviewMode",
+    "type": "checkbox",
+    "label": "总览模式（读取缓存生成总览，不执行其他操作）",
+    "default": false
+  }
+]
