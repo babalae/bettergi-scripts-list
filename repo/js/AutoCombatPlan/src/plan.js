@@ -1,7 +1,7 @@
 // 决策（design §2 / §3.6）：只回答「下一步打什么」，不执行、不读盘、不碰游戏。
 //
 // 一条运行里要做的决定只有四种：今天从哪个阶段开始、双倍阶段打哪个本、
-// 日常阶段打哪个本、地脉之后补不补兜底。这里全部做成纯函数，输入是已经算好的
+// 日常阶段打哪个本、地脉之后补不补补刷。这里全部做成纯函数，输入是已经算好的
 // 日型、账户、已打列表与树脂快照，输出是一个「步骤描述符」——交给 main 去执行。
 //
 // 描述符里不带任何 BGI 参数名（那是 tasks 的事，§3.4），只带语义：
@@ -379,18 +379,20 @@ function entryStep(entry, account, today) {
 }
 
 // ---------------------------------------------------------------------------
-// 收尾兜底（§2.5）
+// 收尾补刷（§2.5）
 // ---------------------------------------------------------------------------
 
 /**
- * 只在「打过地脉、且重读树脂后还打得动」时调用（判据在 main 用 `spendable`）。
- * 兜底**不消耗轮换位**，打完就结束。
+ * 只在「打完地脉 / 幽境、且重读树脂后还打得动」时调用（判据在 main 用 `spendable`）。
+ * 补刷**不消耗轮换位**，打完就结束。
  *
- * 兜底副本不限圣遗物本：材料本要传组号才可控，组号取 `fallback.pick`；
- * 空则交给 BGI 自选那一组——兜底场景没有「材料」输入，脚本无从反查。
+ * 补刷副本不限圣遗物本：材料本要传组号才可控，组号取 `fallback.pick`；
+ * 空则交给 BGI 自选那一组——补刷场景没有「材料」输入，脚本无从反查。
  * 没配本时 `account.fallback` 整段不存在。
+ *
+ * @param source 「地脉」/「幽境」——只用于 reason 文案，判定不看它
  */
-export function planFallback(ctx) {
+export function planFallback(ctx, source) {
   const account = ctx.account || {};
   const fb = account.fallback && typeof account.fallback === "object" ? account.fallback : {};
   const domain = String(fb.domain || "").trim();
@@ -404,7 +406,7 @@ export function planFallback(ctx) {
       pick: isMaterial ? String(fb.pick || "") || null : null,
       exhaust: true,
       tag: "fallback",
-      reason: "地脉未耗尽树脂，以秘境补尾（不占轮换位）"
+      reason: `${source || "地脉"}未耗尽树脂，以秘境补尾（不占轮换位）`
     }),
     skip: null
   };
@@ -418,7 +420,7 @@ export function planFallback(ctx) {
  * 今天要不要执行圣遗物分解、按几星。
  *
  * 口径：**本日打过圣遗物本或幽境危战就拆**。圣遗物本不看 tag——轮换（daily）、
- * 双倍祝圣（double）、兜底（fallback）都算，判据统一看 `run.cat === "artifact"`
+ * 双倍祝圣（double）、补刷（fallback）都算，判据统一看 `run.cat === "artifact"`
  * （三类步骤都由 `domainStep` 构造，cat 必带）；双倍地脉 / 盛材（cat 为空）不拆。
  *
  * 三道闸，任一不过就不拆：
@@ -462,7 +464,7 @@ const RESIN_SEQ = ["condensed", "original"];
  * - `true`  打得动
  * - `false` 打不动了
  * - `null`  **判不了**（读数失败、或顺位里那一种没读到）——调用方按 §2.6 处理：
- *           地脉之后的兜底**无条件跑**，宁可多一趟空传送，也不要剩着树脂不用
+ *           地脉之后的补刷**无条件跑**，宁可多一趟空传送，也不要剩着树脂不用
  */
 export function spendable(snap) {
   if (!snap || snap.ok !== true || !snap.resin) return null;
