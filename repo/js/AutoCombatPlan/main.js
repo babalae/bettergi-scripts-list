@@ -88,19 +88,29 @@ async function run() {
   // ---- 3. 决策用的上下文（每次现算，`now` 固定为开跑那一刻） ----
   const now = new Date();
   const played = loadState(uid);
-  // 队伍与策略都在 `teams.global` 下（`accountOut` 读盘时已把老形状搬过来）
+  // 队伍与策略：`teams.global` 是每一行的默认值，场景行按 `step.type` 覆盖
+  // （`accountOut` 读盘时已把老形状搬进来，场景行的键存在即那一行存在）
   const g = (account.teams && account.teams.global) || {};
-  const opts = {
-    combatTeam: String(g.combat || ""),
-    friendshipTeam: String(g.friendship || ""),
-    strategy: String(g.strategy || "")
-  };
+
+  /**
+   * 某一步要用的队伍与策略：先取场景行，字段为空再回落 `global`，都空就是空串。
+   * 逐字段回落而不是整行回落——只填了策略的场景，队伍仍走全局那一套。
+   * 空串交给本体：队伍按「不指定」处理（本体判空跳过），策略回退 BGI 当前设置。
+   */
+  function optsFor(step) {
+    const t = (account.teams && account.teams[step.type]) || {};
+    return {
+      combatTeam: String(t.combat || g.combat || ""),
+      friendshipTeam: String(t.friendship || g.friendship || ""),
+      strategy: String(t.strategy || g.strategy || "")
+    };
+  }
   const planCtx = () => ({ now, today: day, cal, account, played });
 
   /** 打一次步骤，成功记 runs、失败记 failed（不重试、不换下一条，§2.7） */
   async function exec(step) {
     log.info(`▶ ${step.label}（${step.reason}）`);
-    const r = await runStep(step, opts);
+    const r = await runStep(step, optsFor(step));
     if (r.ok) {
       // cat 进 runs：planSalvage 靠它判「本日打过圣遗物本」（幽境看 tag）。
       // 只在成功时记，失败的场次不进分解判据。
