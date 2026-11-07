@@ -1,0 +1,4695 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VideoMask Player</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: transparent;
+      font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+      cursor: default;
+    }
+
+    /* ---------- 视频舞台 ---------- */
+    #stage {
+      position: fixed;
+      left: 16px;
+      top: 470px;
+      width: 360px;
+      height: 203px;
+      background: #000;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 6px 28px rgba(0, 0, 0, .55);
+      transition: opacity .12s linear;
+      container-type: inline-size;
+    }
+
+    #stage.dragging,
+    #stage.resizing {
+      box-shadow: 0 10px 36px rgba(0, 0, 0, .7), 0 0 0 2px #6cf;
+    }
+
+    #v {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #000;
+      pointer-events: none;
+    }
+
+    /* 检测到「视频跳步」时在画面上闪一下红框，比 toast 更直观 */
+    #cutFlash {
+      position: absolute;
+      inset: 0;
+      border: 3px solid #ff4d6d;
+      border-radius: 8px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .14s linear;
+    }
+
+    #cutFlash.on {
+      opacity: 1;
+    }
+
+    /* ---------- 加载/错误提示 ---------- */
+    #overlay {
+      position: absolute;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 18px;
+      color: #dfe7f2;
+      font-size: 13px;
+      line-height: 1.7;
+      background: rgba(12, 14, 18, .92);
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    #overlay.show {
+      display: flex;
+    }
+
+    /* 错误/提示层的纵向容器：文字在上、重试按钮在下 */
+    #overlay .ov-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      max-width: 100%;
+    }
+
+    /* ---------- 启动空白页（v1.6.8） ----------
+       不放视频，只告诉你下一步点哪。
+       v1.6.25：原来整块纯黑（#07090d），别人第一次用会以为脚本坏了。
+       改成半透明深色 + 轻模糊，游戏画面能透出来，"这是个引导页"而不是"黑屏卡死"。
+       点这块 = 打开系列栏（前提是鼠标已经被 Insert 接住）。 */
+    #overlay.blank {
+      background: rgba(7, 9, 13, .68);
+      backdrop-filter: blur(3px);
+      color: #fff;
+      font-size: 13px;
+      line-height: 2.05;
+      letter-spacing: .3px;
+      cursor: pointer;
+      word-break: normal;
+      flex-direction: column;
+      /* 顶端对齐 + 可滚：带续播卡时内容比 203px 高，居中会把上下都裁掉，
+         而"接着上次看"这个按钮恰恰在最上面。 */
+      justify-content: flex-start;
+      overflow-y: auto;
+      gap: 2px;
+      padding: 12px;
+    }
+
+    /* 有续播卡时：字缩小一档、左对齐（卡片本身是块，居中会显得歪） */
+    #overlay.blank.tight {
+      line-height: 1.72;
+      align-items: stretch;
+      text-align: left;
+    }
+
+    #overlay.blank.tight .bt {
+      font-size: 14px;
+      margin-bottom: 2px;
+    }
+
+    #overlay.blank.tight .bd {
+      margin-top: 4px;
+    }
+
+    #overlay.blank .bt {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    #overlay.blank .bs {
+      color: #cfd9e6;
+    }
+
+    #overlay.blank .bs i {
+      font-style: normal;
+      color: #ffd166;
+    }
+
+    #overlay.blank .bs b {
+      font-weight: 700;
+      color: #ffd166;
+    }
+
+    #overlay.blank .bd {
+      margin-top: 10px;
+      color: #9aa6b6;
+      font-size: 11px;
+      letter-spacing: 0;
+    }
+
+    /* v1.6.25：空白页/错误页上的主按钮。以前只有一行小字"点黑屏"，没人知道能点。 */
+    #overlay .bk {
+      display: inline-block;
+      align-self: flex-start;
+      margin: 6px 0 8px;
+      padding: 8px 18px;
+      border: none;
+      border-radius: 8px;
+      background: #ffd166;
+      color: #1a1a1a;
+      font-size: 13px;
+      font-weight: 700;
+      font-family: inherit;
+      letter-spacing: .5px;
+      cursor: pointer;
+    }
+
+    #overlay.blank .bk:hover {
+      background: #ffdd8a;
+    }
+
+    #overlay.blank.tight .bk {
+      margin: 2px 0 4px;
+      padding: 6px 14px;
+      font-size: 12px;
+    }
+
+    /* ---------- 续播卡（v1.6.22） ----------
+       看完一集退出去，下次进来先问一句"要不要接着上次"。只在真看过一段
+       （>5 秒且没看到结尾）时才出现，刚点开就退的不会来烦人。 */
+    #overlay.blank .rz {
+      margin: 0 0 10px;
+      padding: 9px 11px;
+      border-radius: 8px;
+      background: rgba(86, 211, 255, .10);
+      border: 1px solid rgba(86, 211, 255, .38);
+      cursor: default;
+      word-break: break-all;
+    }
+
+    #overlay.blank .rz .rt {
+      color: #eaf6ff;
+      font-weight: 700;
+      line-height: 1.55;
+    }
+
+    #overlay.blank .rz .rs2 {
+      margin-top: 2px;
+      color: #8fa6bd;
+      font-size: 11px;
+      line-height: 1.5;
+      letter-spacing: 0;
+    }
+
+    #overlay.blank .rz .rb {
+      display: flex;
+      gap: 8px;
+      margin-top: 9px;
+    }
+
+    #overlay.blank .rz button {
+      font: inherit;
+      font-size: 12px;
+      line-height: 1;
+      padding: 6px 13px;
+      border-radius: 6px;
+      cursor: pointer;
+      border: 1px solid rgba(86, 211, 255, .55);
+      background: rgba(86, 211, 255, .20);
+      color: #dff3ff;
+    }
+
+    #overlay.blank .rz button:hover {
+      background: rgba(86, 211, 255, .34);
+    }
+
+    #overlay.blank .rz button.ghost {
+      border-color: rgba(255, 255, 255, .18);
+      background: transparent;
+      color: #9fb0c4;
+    }
+
+    #overlay.blank .rz button.ghost:hover {
+      background: rgba(255, 255, 255, .07);
+    }
+
+    /* 空白态没有时长也没有打怪点，进度条先藏起来，别在纯黑上留一根线 */
+    #stage.blank #progress,
+    #stage.blank #markTicks,
+    #stage.blank #scrubTip {
+      display: none;
+    }
+
+    /* ---------- 控制条 ---------- */
+    #bar {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: none;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 8px;
+      padding-right: 26px;
+      background: linear-gradient(to top, rgba(0, 0, 0, .82), rgba(0, 0, 0, .45));
+      backdrop-filter: blur(6px);
+      font-size: 12px;
+      color: #eaeef5;
+      overflow: hidden;
+    }
+
+    #bar.show {
+      display: flex;
+    }
+
+    #bar .grow {
+      flex: 1;
+    }
+
+    #bar .lbl {
+      opacity: .8;
+      padding: 0 2px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ---------- 设置面板（⚙） ----------
+       小窗口（默认 360px 宽）里控制条塞不下变速/透明度/自动暂停这些按钮，
+       统一收进这个面板：点 ⚙ 打开，点画面任意空白处收起。 */
+    #gear {
+      position: absolute;
+      right: 6px;
+      bottom: 36px;
+      width: 238px;
+      max-height: calc(100% - 42px);
+      overflow-y: auto;
+      display: none;
+      flex-direction: column;
+      gap: 2px;
+      padding: 6px 8px;
+      border-radius: 8px;
+      background: rgba(16, 18, 24, .95);
+      border: 1px solid rgba(255, 255, 255, .12);
+      box-shadow: 0 8px 26px rgba(0, 0, 0, .6);
+      color: #dfe7f2;
+      font-size: 12px;
+      z-index: 12;
+    }
+
+    #gear.show {
+      display: flex;
+    }
+
+    #gear .gr {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    #gear .gn {
+      width: 48px;
+      flex: none;
+      opacity: .72;
+      font-size: 11px;
+    }
+
+    #gear .gv {
+      min-width: 44px;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+      font-size: 11px;
+      font-weight: normal;
+    }
+
+    #gear input[type=range] {
+      flex: 1;
+      min-width: 0;
+      height: 16px;
+      margin: 0;
+      accent-color: #6cf;
+    }
+
+    #gear button {
+      height: 20px;
+      min-width: 24px;
+      padding: 0 6px;
+      font-size: 11px;
+    }
+
+    #gear .gp {
+      gap: 3px;
+    }
+
+    #gear .gp button {
+      flex: 1;
+      min-width: 0;
+      padding: 0 2px;
+    }
+
+    #gear .gp button.on,
+    #gear .sw.on {
+      background: #2d6fa8;
+    }
+
+    #gear .sw {
+      min-width: 40px;
+    }
+
+    /* 续播秒数：数字宽度会变（3s / 10s / 30s），用等宽数字别让按钮抖 */
+    #gear .sw.sec {
+      min-width: 44px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    #gear .gtip {
+      opacity: .55;
+      font-size: 10px;
+      line-height: 1.45;
+      padding-top: 1px;
+    }
+
+    /* 真正退出浮窗的按钮放在面板最底下 —— ✕ 已经改成"收起"了，
+       要彻底关掉脚本得来这里（或者按设置里配的热键）。 */
+    #gear .gq {
+      padding-top: 3px;
+      border-top: 1px solid rgba(255, 255, 255, .1);
+    }
+
+    #gear .gq button {
+      width: 100%;
+      background: rgba(192, 57, 43, .28);
+    }
+
+    button {
+      appearance: none;
+      border: 0;
+      background: rgba(255, 255, 255, .1);
+      color: #eaeef5;
+      border-radius: 5px;
+      height: 24px;
+      min-width: 26px;
+      padding: 0 7px;
+      font-size: 12px;
+      line-height: 1;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    button:hover {
+      background: rgba(255, 255, 255, .22);
+    }
+
+    button:active {
+      background: rgba(255, 255, 255, .32);
+    }
+
+    button.danger:hover {
+      background: #c0392b;
+    }
+
+    /* 进度条贴在画面最下方（v1.6.4 从顶部挪到底部） */
+    #progress {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 3px;
+      background: rgba(255, 255, 255, .12);
+      cursor: pointer;
+      touch-action: none;
+      z-index: 8;
+      transition: bottom .12s linear;
+    }
+
+    /* 控制条出来的时候把进度条顶上去，别被那排按钮压住 */
+    #stage.barOn #progress {
+      bottom: 36px;
+    }
+
+    /* 条本身只有 3px 高，小窗口里根本点不中。
+       用伪元素把可点击/可拖动的范围往上撑到 16px，视觉上还是细的一根。 */
+    #progress::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: -15px;
+      height: 18px;
+    }
+
+    #progress:hover {
+      height: 5px;
+    }
+
+    #progress>i {
+      display: block;
+      height: 100%;
+      width: 0;
+      background: #6cf;
+      pointer-events: none;
+    }
+
+    /* 拖进度条时跟着手走的时间气泡（在条上方弹出） */
+    #scrubTip {
+      position: absolute;
+      bottom: 12px;
+      transform: translateX(-50%);
+      padding: 1px 5px;
+      border-radius: 3px;
+      background: rgba(0, 0, 0, .8);
+      color: #fff;
+      font-size: 10px;
+      font-weight: normal;
+      line-height: 1.5;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .1s;
+      z-index: 9;
+    }
+
+    #scrubTip.on {
+      opacity: 1;
+    }
+
+    /* ---------- 打怪点刻度（视频进度条上的红点） ---------- */
+    #markTicks {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 9px;
+      pointer-events: none;
+      z-index: 9;
+      display: none;
+      transition: bottom .12s linear;
+    }
+
+    #stage.barOn #markTicks {
+      bottom: 36px;
+    }
+
+    #markTicks.on {
+      display: block;
+    }
+
+    #markTicks i {
+      position: absolute;
+      bottom: 0;
+      width: 2px;
+      height: 9px;
+      margin-left: -1px;
+      background: #ff5f5f;
+      box-shadow: 0 0 4px rgba(255, 95, 95, .85);
+    }
+
+    /* 挑战/打boss：整段看完再停，用青点区分 */
+    #markTicks i.w {
+      height: 13px;
+      width: 3px;
+      background: #56d3ff;
+      box-shadow: 0 0 5px rgba(86, 211, 255, .9);
+    }
+
+    /* ---------- 四角缩放手柄（画中画式） ---------- */
+    .rz {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      display: none;
+      z-index: 7;
+    }
+
+    .rz.show {
+      display: block;
+    }
+
+    #rz-tl {
+      left: 0;
+      top: 0;
+      cursor: nwse-resize;
+    }
+
+    #rz-tr {
+      right: 0;
+      top: 0;
+      cursor: nesw-resize;
+    }
+
+    #rz-bl {
+      left: 0;
+      bottom: 0;
+      cursor: nesw-resize;
+    }
+
+    #rz-br {
+      right: 0;
+      bottom: 0;
+      cursor: nwse-resize;
+      background: linear-gradient(135deg, transparent 0 45%, #6cf 45% 55%, transparent 55% 70%, #6cf 70% 80%, transparent 80%);
+      opacity: .85;
+    }
+
+    /* ---------- 侧栏：合集 / 分集 ---------- */
+    #side {
+      position: fixed;
+      width: 300px;
+      display: none;
+      flex-direction: column;
+      background: rgba(16, 18, 24, .93);
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 8px;
+      overflow: hidden;
+      color: #dfe7f2;
+      font-size: 12px;
+      box-shadow: 0 6px 28px rgba(0, 0, 0, .55);
+      z-index: 10;
+    }
+
+    #side.show {
+      display: flex;
+    }
+
+    #sideHead {
+      display: flex;
+      gap: 4px;
+      padding: 6px;
+      background: rgba(255, 255, 255, .04);
+    }
+
+    #collSel {
+      flex: 1;
+      min-width: 0;
+      height: 24px;
+      background: rgba(255, 255, 255, .08);
+      color: #eaeef5;
+      border: 0;
+      border-radius: 5px;
+      font-size: 12px;
+      font-family: inherit;
+      padding: 0 4px;
+    }
+
+    #collSel option,
+    #collSel optgroup {
+      background: #1b1e26;
+      color: #eaeef5;
+    }
+
+    #epList {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 4px;
+    }
+
+    /* ---------- 分类视图（地区 → 一条龙/宝箱/神瞳/主线） ---------- */
+    #crumb {
+      display: none;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 8px;
+      background: rgba(108, 204, 255, .12);
+      border-bottom: 1px solid rgba(255, 255, 255, .08);
+      font-size: 12px;
+      cursor: pointer;
+      user-select: none;
+      flex: 0 0 auto;
+    }
+
+    #crumb.show {
+      display: flex;
+    }
+
+    #crumb:hover {
+      background: rgba(108, 204, 255, .22);
+    }
+
+    #crumb .ar {
+      color: #6cf;
+      font-size: 13px;
+    }
+
+    #crumb .who {
+      color: #6cf;
+      font-weight: 600;
+    }
+
+    #crumb .hint {
+      margin-left: auto;
+      font-size: 10px;
+      opacity: .5;
+    }
+
+    /* ---------- 当前视频标题条（v1.6.10） ----------
+       以前这一集的完整标题混在分P列表里，一条能占两三行，
+       31 个分P 只看得到三四条。现在它固定在面包屑下面，列表里每行只留一行。 */
+    #nowBar {
+      display: none;
+      align-items: baseline;
+      gap: 6px;
+      padding: 5px 8px;
+      background: rgba(255, 255, 255, .07);
+      border-bottom: 1px solid rgba(255, 255, 255, .08);
+      font-size: 11px;
+      flex: 0 0 auto;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    #nowBar.show {
+      display: flex;
+    }
+
+    #nowBar .lb {
+      flex: 0 0 auto;
+      color: #6cf;
+      font-weight: 600;
+    }
+
+    #nowBar .ti {
+      flex: 1;
+      min-width: 0;
+      color: #dbe7f5;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    /* 点一下展开全文（标题实在太长时用） */
+    #nowBar.open .ti {
+      white-space: normal;
+      word-break: break-all;
+      line-height: 1.5;
+      max-height: 78px;
+      overflow-y: auto;
+    }
+
+    #catList {
+      display: none;
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 6px;
+    }
+
+    #catList.show {
+      display: block;
+    }
+
+    #catList::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    #catList::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, .18);
+      border-radius: 4px;
+    }
+
+    .cat {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      padding: 7px 9px;
+      margin-bottom: 5px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, .06);
+      border: 1px solid rgba(255, 255, 255, .07);
+      cursor: pointer;
+    }
+
+    .cat:hover {
+      background: rgba(108, 204, 255, .16);
+      border-color: rgba(108, 204, 255, .35);
+    }
+
+    .cat .row1 {
+      display: flex;
+      align-items: baseline;
+      gap: 5px;
+    }
+
+    .cat .nm {
+      font-size: 13px;
+      font-weight: 600;
+      color: #eaf3ff;
+    }
+
+    .cat .pa {
+      font-size: 10px;
+      opacity: .5;
+    }
+
+    .cat .ct {
+      margin-left: auto;
+      font-size: 11px;
+      opacity: .6;
+    }
+
+    .cat .kd {
+      font-size: 10px;
+      opacity: .55;
+      line-height: 1.5;
+    }
+
+    /* 二级视图（一条龙卡片）复用 .cat，这里只把预览标题压一行 */
+    #epList .cat {
+      margin-bottom: 5px;
+    }
+
+    #epList .cat .kd {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    /* 同一个 BV 下的多个分P（合集里常见：31 个 P 共用一个 BV）。
+       v1.6.10：标题改成单行后这里能放更多条，高度从 130 提到 170（约 8 条）。 */
+    #sidePages {
+      display: none;
+      flex: 0 1 auto;
+      max-height: 170px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 4px;
+      border-bottom: 1px solid rgba(255, 255, 255, .08);
+      background: rgba(108, 204, 255, .05);
+    }
+
+    #sidePages.show {
+      display: block;
+    }
+
+    /* 第四层（看分P）：这一层侧栏里只有分P，让它撑满整块，
+       一屏能看到十几个 P（前三层不会出现这一栏） */
+    #side[data-lv="3"] #sidePages {
+      max-height: none;
+      flex: 1 1 auto;
+    }
+
+    #sidePages .ph {
+      font-size: 11px;
+      opacity: .55;
+      padding: 2px 5px;
+    }
+
+    #sidePages::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    #sidePages::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, .18);
+      border-radius: 4px;
+    }
+
+    /* ---------- 收起态：只留一条控制条 ----------
+       点 ✕ 不再把整个浮窗关掉（那样还得重新跑脚本），只把画面收起来，
+       留下边栏那几个键（播放/快进/倍速/收起）。 */
+    #stage.folded {
+      background: transparent;
+      border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, .5);
+    }
+
+    #stage.folded #v,
+    #stage.folded #progress,
+    #stage.folded #markTicks,
+    #stage.folded #cutFlash,
+    #stage.folded #overlay,
+    #stage.folded .rz {
+      display: none !important;
+    }
+
+    #stage.folded #bar {
+      padding: 5px 8px;
+    }
+
+    /* 收起后横向空间紧张：侧栏、打点按钮先让位，把时间显示出来 */
+    #stage.folded #btnSide,
+    #stage.folded #btnMark {
+      display: none;
+    }
+
+    #stage.folded #lblTime {
+      display: inline;
+      font-size: 11px;
+    }
+
+    /* 弹幕带、字幕、热键提示都是配合画面的，收起时一起藏掉 */
+    body.folded #dm,
+    body.folded #sub,
+    body.folded #hint {
+      display: none !important;
+    }
+
+    #epList::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    #epList::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, .18);
+      border-radius: 4px;
+    }
+
+    .ep {
+      padding: 5px 7px;
+      border-radius: 5px;
+      cursor: pointer;
+      line-height: 1.35;
+      display: flex;
+      gap: 6px;
+      align-items: baseline;
+    }
+
+    .ep:hover {
+      background: rgba(108, 204, 255, .16);
+    }
+
+    .ep.cur {
+      background: rgba(108, 204, 255, .26);
+      box-shadow: inset 2px 0 0 #6cf;
+    }
+
+    .ep .no {
+      opacity: .55;
+      font-variant-numeric: tabular-nums;
+      flex: 0 0 auto;
+    }
+
+    /* 每行标题只占一行（超出省略，鼠标停上去看全文）。
+       v1.6.10：以前最多两行，「至冬7.0 一条龙」这种长标题一条就吃掉三行，
+       分P 列表一屏只看得到三四条。 */
+    .ep .ti {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .ep .du {
+      opacity: .5;
+      flex: 0 0 auto;
+      font-variant-numeric: tabular-nums;
+    }
+
+    #sideFoot {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      padding: 5px 6px;
+      background: rgba(255, 255, 255, .04);
+    }
+
+    #sideMsg {
+      flex: 1;
+      opacity: .6;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    /* ---------- 按键设置面板（v1.6.15，盖在侧栏上面） ---------- */
+    #keysPanel {
+      position: absolute;
+      inset: 0;
+      display: none;
+      flex-direction: column;
+      background: rgba(13, 15, 21, .98);
+      z-index: 6;
+    }
+
+    #keysPanel.show {
+      display: flex;
+    }
+
+    #keysPanel .kp-h {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 8px;
+      font-size: 12px;
+      background: rgba(108, 204, 255, .13);
+      border-bottom: 1px solid rgba(255, 255, 255, .08);
+    }
+
+    #keysPanel .kp-h b {
+      flex: 1;
+      font-weight: 600;
+    }
+
+    #keysPanel .kp-h button {
+      width: 22px;
+      height: 20px;
+      padding: 0;
+      font-size: 13px;
+      line-height: 1;
+      border: 0;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, .1);
+      color: #eaeef5;
+      cursor: pointer;
+    }
+
+    #keysPanel .kp-t {
+      padding: 4px 8px 2px;
+      font-size: 11px;
+      line-height: 1.5;
+      opacity: .62;
+    }
+
+    #keysList {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 2px 6px 6px;
+    }
+
+    #keysList::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    #keysList::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, .16);
+      border-radius: 3px;
+    }
+
+    .kr {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 1px 4px;
+      border-radius: 4px;
+    }
+
+    .kr:nth-child(odd) {
+      background: rgba(255, 255, 255, .03);
+    }
+
+    .kr .kl {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-size: 12px;
+    }
+
+    .kr .kb {
+      min-width: 64px;
+      height: 20px;
+      padding: 0 6px;
+      font-size: 11px;
+      font-family: inherit;
+      border: 1px solid rgba(255, 255, 255, .16);
+      border-radius: 4px;
+      background: rgba(255, 255, 255, .1);
+      color: #eaeef5;
+      cursor: pointer;
+    }
+
+    .kr .kb:hover {
+      background: rgba(108, 204, 255, .22);
+      border-color: rgba(108, 204, 255, .5);
+    }
+
+    .kr .kb.none {
+      opacity: .45;
+    }
+
+    .kr .kb.want {
+      background: #2d6ea8;
+      border-color: #6cf;
+      animation: kblink 1s linear infinite;
+    }
+
+    @keyframes kblink {
+      50% {
+        opacity: .5;
+      }
+    }
+
+    .kr .kx {
+      width: 18px;
+      height: 18px;
+      padding: 0;
+      font-size: 12px;
+      line-height: 1;
+      border: 0;
+      border-radius: 4px;
+      background: transparent;
+      color: rgba(255, 255, 255, .45);
+      cursor: pointer;
+    }
+
+    .kr .kx:hover {
+      background: rgba(255, 90, 90, .25);
+      color: #fff;
+    }
+
+    #keysPanel .kp-f {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 6px;
+      background: rgba(255, 255, 255, .04);
+      font-size: 11px;
+    }
+
+    #keysPanel .kp-f button {
+      height: 22px;
+      padding: 0 7px;
+      font-size: 11px;
+      font-family: inherit;
+      border: 1px solid rgba(255, 255, 255, .14);
+      border-radius: 4px;
+      background: rgba(255, 255, 255, .08);
+      color: #dfe7f2;
+      cursor: pointer;
+    }
+
+    #keysMsg {
+      flex: 1;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      opacity: .65;
+    }
+
+    /* ---------- 弹幕投影（屏幕最上方一条横带） ---------- */
+    #dm {
+      position: fixed;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 25;
+      display: none;
+      border-radius: 6px;
+    }
+
+    #dm.show {
+      display: block;
+    }
+
+    .dmi {
+      position: absolute;
+      left: 100%;
+      white-space: nowrap;
+      font-size: 17px;
+      font-weight: 600;
+      line-height: 1.2;
+      text-shadow: 0 0 3px #000, 0 0 6px #000, 1px 1px 2px #000;
+      animation-name: dmscroll;
+      animation-timing-function: linear;
+      animation-fill-mode: forwards;
+      will-change: left;
+    }
+
+    @keyframes dmscroll {
+      from {
+        left: 100%;
+      }
+
+      to {
+        left: -100%;
+      }
+    }
+
+    /* ---------- 字幕 / 方向提示 ---------- */
+    #sub {
+      position: fixed;
+      left: 50%;
+      bottom: 64px;
+      transform: translateX(-50%);
+      max-width: 86vw;
+      padding: 6px 16px;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, .68);
+      color: #fff;
+      font-size: 17px;
+      font-weight: 600;
+      line-height: 1.4;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .18s;
+      z-index: 26;
+      text-shadow: 0 1px 2px #000;
+    }
+
+    #sub.show {
+      opacity: 1;
+    }
+
+    #sub .arw {
+      color: #6cf;
+      margin-right: 8px;
+      font-size: 20px;
+    }
+
+    /* ---------- 飘字 / 提示 ---------- */
+    #toast {
+      position: fixed;
+      left: 50%;
+      top: 18px;
+      transform: translateX(-50%) translateY(-8px);
+      padding: 7px 16px;
+      border-radius: 18px;
+      background: rgba(0, 0, 0, .72);
+      color: #fff;
+      font-size: 14px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .18s, transform .18s;
+      white-space: nowrap;
+      z-index: 30;
+    }
+
+    #toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    #hint {
+      position: fixed;
+      left: 50%;
+      bottom: 10px;
+      transform: translateX(-50%);
+      max-width: 92vw;
+      padding: 6px 14px;
+      border-radius: 14px;
+      background: rgba(0, 0, 0, .62);
+      color: #d8e2ee;
+      font-size: 12px;
+      line-height: 1.5;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s;
+      z-index: 30;
+    }
+
+    #hint.show {
+      opacity: 1;
+    }
+
+    /* ---------- 看完自动续播（v1.6.16，v1.6.18 精简） ----------
+       一集放完，倒计时 N 秒（默认 10）自动切下一个。
+       卡片只有一行：剩余秒数 + 立即 / 取消，底下一条进度条；
+       不显示下一个是什么（v1.6.18 起去掉「接下来播放 · 下一个分P」和标题行）。 */
+    #nx {
+      position: absolute;
+      left: 6px;
+      right: 6px;
+      bottom: 6px;
+      display: none;
+      padding: 5px 8px 6px;
+      border-radius: 7px;
+      background: rgba(8, 10, 14, .88);
+      border: 1px solid rgba(108, 204, 255, .30);
+      color: #e8eef7;
+      font-size: 12px;
+      line-height: 1.35;
+      z-index: 14;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, .5);
+    }
+
+    #nx.show {
+      display: block;
+    }
+
+    #nx .nx-b {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    #nx .nx-c {
+      flex: 1;
+      min-width: 0;
+      color: #b9cee3;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    #nx .nx-c b {
+      color: #6cf;
+    }
+
+    #nx button {
+      flex: 0 0 auto;
+      height: 20px;
+      padding: 0 7px;
+      font-size: 11px;
+      color: #cfe0f2;
+      background: rgba(255, 255, 255, .09);
+      border: 1px solid rgba(255, 255, 255, .16);
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    #nx button:hover {
+      background: rgba(108, 204, 255, .22);
+      color: #fff;
+    }
+
+    #nx .nx-bar {
+      display: block;
+      height: 2px;
+      margin-top: 6px;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, .14);
+      overflow: hidden;
+    }
+
+    #nx .nx-bar b {
+      display: block;
+      height: 100%;
+      width: 100%;
+      background: #6cf;
+    }
+
+    /* 收起态（只剩一条控制条）时不显示 */
+    #stage.folded #nx {
+      display: none;
+    }
+
+    /* 视频拖窄时按宽度自动丢次要按钮，保证关闭键永远点得到 */
+    @container (max-width: 640px) {
+      #lblTime {
+        display: none;
+      }
+    }
+
+    @container (max-width: 430px) {
+
+      #btnPrev,
+      #btnNext {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="stage">
+    <video id="v" playsinline preload="metadata" crossorigin="anonymous"></video>
+    <div id="cutFlash"></div>
+    <div id="progress"><i></i><b id="scrubTip"></b></div>
+    <div id="markTicks"></div>
+    <div id="overlay"></div>
+
+    <!-- 看完自动续播（v1.6.16）：一集播完在这里倒计时，5 秒后自动切下一个 -->
+    <div id="nx">
+      <div class="nx-b">
+        <span class="nx-c"><b id="nxLeft">10</b> 秒后自动切换</span>
+        <button id="btnNxGo" title="不用等，马上播下一个">立即</button>
+        <button id="btnNxNo" title="不切了，停在这一集">取消</button>
+      </div>
+      <i class="nx-bar"><b id="nxFill"></b></i>
+    </div>
+
+    <div id="bar">
+      <button id="btnSide" title="显示/隐藏合集侧栏">☰</button>
+      <button id="btnPrev" title="上一个">|◀</button>
+      <button id="btnBack" title="后退">◀◀</button>
+      <button id="btnPlay" title="播放/暂停">▶</button>
+      <button id="btnFwd" title="前进">▶▶</button>
+      <button id="btnNext" title="下一个">▶|</button>
+      <span class="lbl" id="lblTime">00:00 / 00:00</span>
+      <span class="grow"></span>
+      <button id="btnMark" title="打怪点：在当前时刻打点（靠近已有的点就移动它，Shift+点击删除）">＋怪</button>
+      <button id="btnGear" title="设置：自动暂停 / 打怪点 / 透明度 / 倍速">⚙</button>
+      <button id="btnFold" title="收起，只留下边栏（不退出脚本）">▾</button>
+    </div>
+
+    <!-- 设置面板：小窗口下（360px）控制条放不下这么多按钮，统一收进这里 -->
+    <div id="gear">
+      <div class="gr">
+        <span class="gn">自动暂停</span>
+        <button id="btnAn" class="sw" title="视频侧自动暂停（实验，默认关）：画面跳步时自动停，有误停可能">关</button>
+      </div>
+      <div class="gr">
+        <span class="gn">打怪点</span>
+        <button id="btnMarkOn" class="sw" title="播到打怪点自动暂停，让你自己打完再点继续（打怪点由 UP 主全集 4950 分钟字幕统计出来的，不是见宝箱就停）">开</button>
+      </div>
+      <div class="gr">
+        <span class="gn">看完续播</span>
+        <button id="btnAutoNext" class="sw" title="一集播完 10 秒后自动切下一个：优先下一个分P，没有就接同类里的下一个视频">开</button>
+        <button id="btnNextSec" class="sw sec" title="倒计时秒数：点一下换一档（3 / 5 / 10 / 15 / 20 / 30），立刻生效并存进设置">10s</button>
+      </div>
+      <div class="gr">
+        <span class="gn">透明度</span>
+        <input id="gOpacity" type="range" min="20" max="100" step="5" title="画面透明度" />
+        <b class="gv" id="lblAlpha">100%</b>
+      </div>
+      <div class="gr">
+        <span class="gn">倍速</span>
+        <button id="gSpeedDown" title="减速 0.25">－</button>
+        <b class="gv" id="lblSpeed">1.00×</b>
+        <button id="gSpeedUp" title="加速 0.25">＋</button>
+      </div>
+      <div class="gr gp">
+        <span class="gn"></span>
+        <button data-sp="0.5">0.5</button>
+        <button data-sp="0.75">0.75</button>
+        <button data-sp="1">1</button>
+        <button data-sp="1.25">1.25</button>
+        <button data-sp="1.5">1.5</button>
+        <button data-sp="2">2</button>
+      </div>
+      <div class="gr">
+        <span class="gn">其它</span>
+        <button id="btnMute" title="静音/取消静音">🔊</button>
+        <button id="btnHide" title="隐藏画面（声音继续）">隐藏</button>
+        <button id="btnLogin2" title="登录 B 站，提高清晰度">登录</button>
+      </div>
+      <div class="gtip">登录窗是全屏的，会盖住画面；登录完按 <b id="gLoginKey">End</b> 关掉</div>
+      <div class="gq">
+        <button id="btnQuit" class="danger" title="真的关掉浮窗（结束脚本）">关闭浮窗（退出）</button>
+      </div>
+    </div>
+    <div id="rz-tl" class="rz" data-d="tl"></div>
+    <div id="rz-tr" class="rz" data-d="tr"></div>
+    <div id="rz-bl" class="rz" data-d="bl"></div>
+    <div id="rz-br" class="rz" data-d="br"></div>
+  </div>
+
+  <div id="dm"></div>
+
+  <div id="side">
+    <div id="sideHead">
+      <select id="collSel" title="合集 / 系列 / 收藏"></select>
+      <button id="btnCat" title="按地区分类浏览（枫丹 / 须弥 / 璃月…）">分</button>
+      <button id="btnRefresh" title="重新拉取列表">↻</button>
+      <button id="btnFav" title="收藏/取消收藏当前视频">☆</button>
+      <button id="btnDm" title="弹幕投影开关">弹</button>
+    </div>
+    <div id="crumb" title="点这里返回上一层">
+      <span class="ar">←</span>
+      <span>返回</span>
+      <span class="who" id="crumbWho"></span>
+      <span class="hint" id="crumbHint">回到分类</span>
+    </div>
+    <!-- v1.6.10：正在看的这一集单独一行（从分P列表里挪出来）。
+         列表里每行标题只留一行，31 个分P 就能多看到好几条；点这条展开/收起全文。 -->
+    <div id="nowBar" title="正在播放的这一集，点一下展开/收起完整标题">
+      <span class="lb">当前</span>
+      <span class="ti" id="nowTi"></span>
+    </div>
+    <div id="catList"></div>
+    <div id="sidePages"></div>
+    <div id="epList"></div>
+    <div id="sideFoot">
+      <button id="btnPagePrev" title="上一页">‹</button>
+      <span id="sideMsg">未加载</span>
+      <button id="btnPageNext" title="下一页">›</button>
+      <button id="btnStats" title="肝度报告">肝</button>
+      <button id="btnKeys" title="按键设置：播放暂停 / Insert / Alt 这些都能自己改">键</button>
+      <button id="btnSnap" title="保存当前游戏画面（校准战斗检测用）">截</button>
+      <button id="btnLogin" title="在独立窗口登录 B 站">登录</button>
+    </div>
+
+    <!-- 按键设置（v1.6.15）：点一行 → 按一个键 → 立刻生效并写回设置。
+         是一个盖在侧栏上的整页，不挤占分P 列表的位置。 -->
+    <div id="keysPanel">
+      <div class="kp-h">
+        <b>按键设置</b>
+        <button id="btnKeysClose" title="关掉">×</button>
+      </div>
+      <div class="kp-t">点右边的键位，然后按你想用的键（Esc 取消）。同一个键只干一件事，被顶掉的动作会自动清空。</div>
+      <div id="keysList"></div>
+      <div class="kp-f">
+        <button id="btnKeysReset" title="恢复成 ~ / Insert / Alt / End">恢复默认</button>
+        <span id="keysMsg"></span>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+  <div id="hint"></div>
+  <div id="sub"></div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      /* ================= 状态 ================= */
+      var S = {
+        x: 16, y: 470, w: 360, h: 203,
+        // 分辨率自适应：位置/尺寸除了绝对像素，再记一份相对视口的比例，
+        // 换分辨率或切全屏后按比例还原（详见下面的 fitBox/fitToViewport）
+        fitRes: true,
+        rx: 0.01, ry: 0.52, rw: 0.225, ar: 203 / 360,
+        vw: 0, vh: 0,
+        metric: null,          // 上一次收到的游戏分辨率 [w,h,dpi]
+        fitAt: 0,              // 上次因视口变化重排的时间（防止和 /metric 叠着缩两次）
+        needDefault: false,    // 首次启动没存过位置 → 摆右上角
+        opacity: 1, speed: 1, volume: 1,
+        interactive: false, hidden: false,
+        file: "", urlOverride: "",
+        // 在线：B 站直链自播（不再是跨域 iframe）
+        isBili: false, bvid: "", page: 1, cid: "",
+        pages: [], qn: 64, fetching: false, retried: 0,
+        pendingSeek: 0, seekTimer: null,
+        // 视频侧自动暂停（画面跳步检测）—— 默认关，判据还不太成熟
+        anOn: false, anMode: "cut", cutTh: 0.45, fightRatio: 2.0,
+        anBase: 0, anN: 0, anCool: 0, anWarm: 0,
+        scrubCool: 0,
+        // 打怪点：视频里「这一段要自己打怪」的时间点，播到就停
+        marks: [], marksOn: false, markPrev: -1, markCool: 0,
+        // 人声：主播在讲解时不因为画面换场地而暂停
+        voiceGate: true,
+        // 侧栏
+        showSide: true, sidePinned: false, upMid: "",
+        // 系列栏的屏幕矩形（v1.6.28）：随 /geom 报给主脚本，用来判断"鼠标还在不在浮窗上"
+        sideX: 0, sideY: 0, sideW: 0, sideH: 0, sideShown: false,
+        // 设置里「显示合集侧栏」：每次变可交互时是否自动把系列栏摆出来
+        sideHome: false,
+        collections: null, curKind: "", curId: "", epPage: 1, epTotal: 0,
+        // 分类视图（四级钻取：地区 → 类型 → 版本视频 → 分P）
+        view: "catalog",          // catalog=按合集分类（默认） / series=按 B 站系列
+        catGroups: [], catSel: "", catKind: "", catItems: [], catTotal: 0,
+        catBvid: "",              // 第四级：点进某一集才填，这时才显示「当前 P2」和分P 列表
+        catBusy: false, catMsg: "",
+        // 本地视频（主脚本扫 assets/videos 得到），用来在侧栏里直接点播自己加的视频
+        locals: [], catLocal: false,
+        epLast: null,            // 上一次的合集分集数据（切回系列视图时直接重画）
+        // 当前视频标题条（v1.6.10）：面包屑下面单独一行，点一下展开全文
+        nowTitle: "", nowOpen: false,
+        // 上次看到哪（主脚本从设置里带过来）＋ 上报节流
+        last: null, lastSentAt: 0,
+        // 弹幕 / 收藏 / 统计
+        dmOn: false, dmList: [], dmCursor: 0, dmLastT: -1, dmNodes: 0,
+        curTitle: "",
+        fav: [], stats: {},
+        subs: [], subOn: true, subIdx: -1,
+        autoPicked: false,       // 仅保留字段（v1.6.8 起不再自动选片）
+        // 卡住检测（v1.6.26）：取地址 / 视频起播 各自记一个开始时间，
+        // 超过阈值还没动静就弹「重试」，别让人对着转圈干等。
+        fetchAt: 0, loadAt: 0, videoReady: false, retryFn: null,
+        // 通用
+        resumeAt: 0, autoplay: true,
+        blank: false,             // 启动空白态：还没有选视频，整块黑底白字（v1.6.8）
+        duration: 0, cur: 0, playing: false,
+        // 收起态：只留一条控制条（点 ▾ 收起，点 ⤢ 展开）
+        collapsed: false, hPrev: 0,
+        gearOn: false, loginKey: "End",
+        // 方向键全局由主脚本接管（收到 init 的 keysGlobal 才置 true，默认这里留 false，
+        // 万一钩子挂了页面这边还能自己处理）
+        keyGlobal: false, holdKeyLabel: "",
+        // 键位表（v1.6.15）：主脚本下发，侧栏「键」面板按它渲染
+        keys: [], keysCap: "",
+        hotkeyTip: "",
+        // 看完自动续播（v1.6.16）：一集播完倒计时 N 秒切下一个
+        autoNext: true, autoNextSec: 10,   // v1.6.17：默认 10 秒（5 秒太赶）
+        nxTarget: null, nxAt: 0, nxTimer: null, nxTotal: 0
+      };
+
+      var stage = document.getElementById("stage");
+      var v = document.getElementById("v");
+      var cutFlash = document.getElementById("cutFlash");
+      var bar = document.getElementById("bar");
+      var markTicks = document.getElementById("markTicks");
+      var rzList = Array.prototype.slice.call(document.querySelectorAll(".rz"));
+      var overlay = document.getElementById("overlay");
+      var side = document.getElementById("side");
+      var dmLayer = document.getElementById("dm");
+      var subEl = document.getElementById("sub");
+      var collSel = document.getElementById("collSel");
+      var epList = document.getElementById("epList");
+      var catList = document.getElementById("catList");
+      var crumb = document.getElementById("crumb");
+      var crumbWho = document.getElementById("crumbWho");
+      var crumbHint = document.getElementById("crumbHint");
+      var sideMsg = document.getElementById("sideMsg");
+      var progress = document.querySelector("#progress > i");
+      var toastEl = document.getElementById("toast");
+      var hintEl = document.getElementById("hint");
+      var lblTime = document.getElementById("lblTime");
+      var lblSpeed = document.getElementById("lblSpeed");
+      var lblAlpha = document.getElementById("lblAlpha");
+      var btnPlay = document.getElementById("btnPlay");
+      var btnMute = document.getElementById("btnMute");
+      var gearEl = document.getElementById("gear");
+
+      /* ================= 与 BetterGI 通信 ================= */
+      var channelWired = false;
+
+      function post(url, data) {
+        var payload;
+        try { payload = JSON.stringify({ url: url, data: data || {} }); } catch (e) { return; }
+        try {
+          if (window.chrome && window.chrome.webview && window.chrome.webview.postMessage) {
+            window.chrome.webview.postMessage(payload);
+            return;
+          }
+        } catch (e) { }
+        if (window.htmlMask && typeof window.htmlMask.postMessage === "function") {
+          try { window.htmlMask.postMessage(payload); return; } catch (e) { }
+        }
+        console.log("[VideoMask] 无法回传：" + payload);
+      }
+
+      /* 键盘焦点上报：现在只当诊断用。
+         实测这个 WebView2（BGI 的 HtmlMaskWindow）里，主脚本那句 Activate() 并不会让页面
+         拿到键盘焦点 —— 得点一下页面（或用方向键之前先点一下）才会触发这个 focus 事件。
+         所以主脚本【不再】根据它判断"要不要把鼠标还给游戏"：v1.6.5 那么干的后果是
+         按一下 Insert 进缩放模式，1.2 秒后鼠标自己跳回游戏中心。留着只为了确认焦点事件
+         到底有没有发生（真拿到焦点时主脚本日志会打一行）。 */
+      window.addEventListener("focus", function () { post("/focus", { on: true }); });
+      window.addEventListener("blur", function () {
+        post("/focus", { on: false });
+        // v1.6.28：焦点回到游戏（人已经"进游戏界面"了）→ 系列栏顺手收回。
+        // 注意 closeSideIfOpen 定义在后面，这里的闭包在事件触发时才求值，没问题。
+        if (S.interactive && S.showSide) closeSideIfOpen();
+      });
+
+      function tryHtmlMaskChannel() {
+        if (!window.htmlMask) return false;
+        try {
+          var fn = function (msg) { onMessage(msg); };
+          window.htmlMask.onMessage = fn;
+          if (window.htmlMask.onMessage === fn) return true;
+        } catch (e) { }
+        return false;
+      }
+
+      function tryWebViewChannel() {
+        try {
+          if (window.chrome && window.chrome.webview && window.chrome.webview.addEventListener) {
+            window.chrome.webview.addEventListener("message", function (ev) {
+              var m = null;
+              try { m = JSON.parse(ev.data); } catch (e) { return; }
+              onMessage(m);
+            });
+            return true;
+          }
+        } catch (e) { }
+        return false;
+      }
+
+      function wireChannel() {
+        if (channelWired) return true;
+        if (tryHtmlMaskChannel() || tryWebViewChannel()) {
+          channelWired = true;
+          return true;
+        }
+        return false;
+      }
+
+      function onMessage(msg) {
+        if (!msg || !msg.url) return;
+        var d = msg.data || {};
+        switch (msg.url) {
+          case "/init": applyInit(d); break;
+          case "/cmd": applyCmd(d.a, d.v); break;
+          case "/collections": renderCollections(d); break;
+          case "/episodes": renderEpisodes(d); break;
+          case "/catalog-index": onCatalogIndex(d); break;
+          case "/catalog-region": onCatalogRegion(d); break;
+          case "/catalog-find": onCatalogFind(d); break;
+          case "/catalog-state": onCatalogState(d); break;
+          case "/danmaku": onDanmaku(d); break;
+          case "/meta": onMeta(d); break;
+          case "/marks":
+            S.marks = (d.list && d.list.length !== undefined) ? d.list.slice() : [];
+            renderMarks();
+            break;
+          case "/playurl": onPlayurl(d); break;
+          case "/local":
+            S.locals = (d.files && d.files.length) ? d.files.slice() : [];
+            if (S.view === "catalog" && !S.catSel) renderCatList();
+            break;
+          case "/subtitle": onSubtitle(d); break;
+          case "/metric": onMetric(d); break;
+          case "/keys": onKeys(d); break;
+          case "/keycap": onKeyCap(d); break;
+          case "/autonext":
+            // 主脚本回话：同步开关与秒数（秒数可能是设置里改过的 7/10）
+            S.autoNext = d.on !== false;
+            S.autoNextSec = clamp(num(d.sec, S.autoNextSec || 10), 3, 30);
+            syncAutoNextBtn();
+            break;
+          default: break;
+        }
+      }
+
+      /* ================= 工具 ================= */
+      function num(v, def) {
+        var n = Number(v);
+        return isFinite(n) ? n : def;
+      }
+      function clamp(v, a, b) { return v < a ? a : (v > b ? b : v); }
+      function fmt(sec) {
+        sec = Math.max(0, Math.floor(sec || 0));
+        var h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
+        var mm = (m < 10 ? "0" + m : m), ss = (s < 10 ? "0" + s : s);
+        return (h > 0 ? (h + ":") : "") + mm + ":" + ss;
+      }
+      function el(tag, cls, text) {
+        var e = document.createElement(tag);
+        if (cls) e.className = cls;
+        if (text != null) e.textContent = text;
+        return e;
+      }
+
+      /* ================= 初始化 ================= */
+      function applyInit(d) {
+        if (d.layout) {
+          S.x = num(d.layout.x, S.x);
+          S.y = num(d.layout.y, S.y);
+          S.w = num(d.layout.w, S.w);
+          S.h = num(d.layout.h, S.h);
+        }
+        S.fitRes = d.fitRes !== false;
+        S.needDefault = (S.x < 0 || S.y < 0);
+        restoreSaved(d);
+        S.opacity = clamp(num(d.opacity, 1), 0.05, 1);
+        S.speed = clamp(num(d.speed, 1), 0.25, 4);
+        S.volume = clamp(num(d.volume, 1), 0, 1);
+        S.hotkeyTip = d.hotkeyTip || "";
+        S.upMid = d.upMid || "";
+        S.sideHome = (d.sidebar !== false);
+        S.showSide = S.sideHome;
+        if (d.locals && d.locals.length !== undefined) S.locals = d.locals.slice();
+        if (d.fav && d.fav.length !== undefined) S.fav = d.fav;
+        if (d.stats && typeof d.stats === "object") S.stats = d.stats;
+        S.subOn = d.showSubtitle !== false;
+        S.qn = (num(d.qn, 64) === 16) ? 16 : 64;
+        S.anOn = d.autoPause === true;        // 设置没给 / 给 false → 一律关（默认关）
+        S.anMode = String(d.autoPauseMode || "cut");
+        S.cutTh = clamp(num(d.autoPauseCut, 0.45), 0.2, 0.8);
+        S.fightRatio = clamp(num(d.autoPauseFight, 2.0), 1.2, 3.5);
+        S.marksOn = d.marksOn === true;      // 设置没给 / 给 false → 一律关（v1.6.22 起默认关）
+        // 看完自动续播（v1.6.16）：默认开，秒数取设置（3~30，默认 5）
+        S.autoNext = d.autoNext !== false;
+        S.autoNextSec = clamp(num(d.autoNextSec, 10), 3, 30);
+        S.voiceGate = d.voiceGate !== false;
+        S.loginKey = d.loginKey ? String(d.loginKey) : "End";
+        // 方向键归主脚本的全局钩子处理（v1.6.14）→ 页面自己别再动，否则浮窗有焦点时跳两下
+        S.keyGlobal = d.keysGlobal === true;
+        S.holdKeyLabel = d.holdKeyLabel ? String(d.holdKeyLabel) : "";
+        // 键位表：主脚本启动时下发，侧栏「键」面板用它渲染（v1.6.15）
+        S.keys = (d.keys && d.keys.length !== undefined) ? d.keys.slice() : S.keys;
+        if (!S.voiceGate || !S.anOn) voiceKill("设置里关掉了");
+        if (d.marks && d.marks.length !== undefined) S.marks = d.marks.slice();
+        S.last = (d.lastWatch && typeof d.lastWatch === "object") ? d.lastWatch : null;
+        renderMarks();
+        syncAnBtn();
+        setInteractive(d.interactive === true);
+        applyLayout();
+        applyOpacity();
+        applyVolume();
+        syncGear();
+        if (d.showTip !== false) showHint(S.hotkeyTip, 14000);
+        wireChannel();
+        applySource(d.src || null, num(d.resume, 0), d.autoplay !== false);
+        // 默认进「合集」视图：侧栏一打开就是枫丹/须弥这些卡片，点进去才是一条龙
+        if (S.view === "catalog") openCatalog();
+        layoutSide();
+      }
+
+      function applySource(src, resume, autoplay) {
+        cancelAutoNext();        // 换源了，上一集的续播倒计时作废（v1.6.16）
+        if (!src) {
+          // v1.6.8：启动不再自动放视频，先给一张"先选地图"的黑屏提示。
+          showBlank();
+          return;
+        }
+        S.blank = false;
+        stage.classList.remove("blank");
+        S.autoplay = autoplay !== false;
+        S.resumeAt = num(resume, 0);
+        hideOverlay();
+        // 换视频了：标题条先清空，等分P/元数据回来再填（免得上面挂着上一集的标题）
+        S.curTitle = "";
+        S.nowTitle = "";
+        S.nowOpen = false;
+        syncNowBar();
+
+        if (src.kind === "bili") {
+          S.isBili = true;
+          S.bvid = src.bvid;
+          S.page = num(src.page, 1) || 1;
+          S.retried = 0;
+          S.pages = [];
+          renderPages();
+          // 换视频时重新试一次带 CORS 抓帧（上次可能只是网络抖动导致降级）
+          S.noCors = false;
+          try { v.setAttribute("crossorigin", "anonymous"); } catch (e) { }
+          var t0 = S.resumeAt > 1 ? S.resumeAt : num(src.t, 0);
+          requestPlayurl(t0, autoplay !== false);
+          markCurrentEpisode();
+          updateFavStar();
+          // 弹幕按需拉（默认关，跑图用不上，省两个请求）
+          S.dmList = []; S.dmCursor = 0; S.dmLastT = -1;
+          if (S.dmOn) post("/api/danmaku", { bvid: S.bvid });
+          S.subs = []; S.subIdx = -1;
+          post("/api/subtitle", { bvid: S.bvid });
+          // 打怪点等 /playurl 回来后再要（那时才确定是第几P）
+          S.marks = []; S.markPrev = -1; renderMarks();
+          return;
+        }
+
+        S.isBili = false;
+        S.pages = [];
+        renderPages();
+        if (src.kind === "url") loadVideo("", src.url, resume, autoplay);
+        else loadVideo(src.file || "", "", resume, autoplay);
+      }
+
+      /* ==========================================================================
+       * 在线：B 站直链自播
+       *
+       * 以前用 player.bilibili.com 的 iframe，跨域导致：拿不到进度、拖不了进度条、
+       * 改不了倍速、抓不到画面、也不知道视频播到哪一帧。现在脚本侧调
+       * x/player/playurl 取一整个 mp4 直链（platform=html5 给的是单文件、不是 DASH），
+       * 直接塞进 <video>，上面这些能力就全回来了。
+       *
+       * 直链大约 2 小时过期，所以 error 时要能自己重新取一条并接着播。
+       * ========================================================================== */
+
+      function requestPlayurl(t, autoplay) {
+        if (!S.bvid) return;
+        S.fetching = true;
+        S.fetchAt = Date.now();          // 卡住检测的起点
+        S.wantPlay = autoplay !== false;
+        showOverlay("正在取视频地址…");
+        post("/api/playurl", {
+          bvid: S.bvid,
+          page: S.page,
+          t: Math.round(Math.max(0, num(t, 0))),
+          qn: S.qn
+        });
+      }
+
+      function onPlayurl(d) {
+        if (!d || !d.bvid || d.bvid !== S.bvid) return;     // 已经切走了
+        S.fetching = false;
+
+        if (d.error) {
+          const e = String(d.error);
+          // 按错误类型给对策，别一律甩"去勾权限"——412 是 B 站风控，跟权限无关，
+          // 那句话只会把人带到沟里。
+          let hint = "";
+          if (/412/.test(e)) {
+            hint = "412 是 B 站风控，不是权限问题。\n脚本已自动补 buvid3 重试过；仍失败就在设置里填 SESSDATA。";
+          } else if (/不允许请求|权限|HTTP 权限/.test(e)) {
+            hint = "到 BetterGI 设置 → 通用 勾上「JS HTTP 权限」，然后重新启用一次本脚本。";
+          } else if (/DASH/.test(e)) {
+            hint = "这个视频只提供 DASH 流，没有单文件 mp4，暂时播不了。";
+          } else if (/HTTP 403|HTTP 404/.test(e)) {
+            hint = "视频可能已失效，或者需要大会员画质。";
+          }
+          showOverlay("取不到播放地址：\n" + e + (hint ? "\n\n" + hint : ""));
+          post("/log", { msg: "取直链失败：" + e });
+          return;
+        }
+
+        S.cid = d.cid || "";
+        S.pages = (d.pages && d.pages.length) ? d.pages : [];
+        S.quality = num(d.quality, S.qn);
+        hideOverlay();
+        renderPages();
+
+        pendingResume = Math.max(0, num(d.t, 0));
+        pendingAutoplay = S.wantPlay !== false;
+        S.retried = 0;
+        // 分P 换了，打怪点跟着换（按 bvid + 分P 各存一份）
+        S.marks = []; S.markPrev = -1;
+        if (num(d.page, S.page) !== S.page) S.page = num(d.page, S.page);
+        renderMarks();
+        post("/api/marks", { bvid: S.bvid, page: S.page });
+        v.src = d.url || "";
+        S.loadAt = Date.now();
+        S.videoReady = false;
+        try { v.load(); } catch (e) { }
+        if (num(d.total, 1) > 1) {
+          toast("这个分P被切成 " + d.total + " 段，只能播第一段");
+        }
+      }
+
+      /* ---------- 分P ---------- */
+      function goPage(i) {
+        i = Math.max(1, parseInt(i, 10) || 1);
+        if (!S.isBili) return;
+        if (i === S.page) { toast("已经是 P" + i); return; }
+        S.page = i;
+        S.retried = 0;
+        requestPlayurl(0, true);
+        toast("切到 P" + i);
+      }
+
+      function switchPage(dir) {
+        if (!S.isBili || !S.pages.length) return false;
+        var idx = -1;
+        for (var i = 0; i < S.pages.length; i++) {
+          if (S.pages[i].i === S.page) { idx = i; break; }
+        }
+        if (idx < 0) return false;
+        var next = idx + (dir < 0 ? -1 : 1);
+        if (next < 0 || next >= S.pages.length) return false;
+        goPage(S.pages[next].i);
+        return true;
+      }
+
+      /* ---------- 当前视频标题条（v1.6.10） ----------
+       * 这一集的完整标题以前混在分P列表里（「至冬7.0 一条龙」那种一条占三行），
+       * 31 个分P 一屏只能看到三四条。现在它固定在面包屑下面单独一行，
+       * 列表里每行标题只留一行，点这条可以展开/收起全文。
+       */
+      function nowTitleText() {
+        // 分P 标题最准：同一个 BV 下 31 个 P 各叫各的
+        for (var i = 0; i < S.pages.length; i++) {
+          if (S.pages[i].i === S.page && S.pages[i].title) return S.pages[i].title;
+        }
+        return S.curTitle || "";
+      }
+
+      function syncNowBar() {
+        var bar = document.getElementById("nowBar");
+        if (!bar) return;
+        var ti = document.getElementById("nowTi");
+        if (ti) {
+          // 有分P 就带上 P 号（从列表里挪出来后，还得知道自己在第几段）
+          var pre = (S.pages && S.pages.length > 1) ? ("P" + S.page + " · ") : "";
+          ti.textContent = S.nowTitle ? (pre + S.nowTitle) : "";
+        }
+        // 只在第四层（点进某一集、看分P）时显示：
+        // 前面三层只放一层内容，不挂「当前 P2」，也不挂分P 列表
+        var show = !!S.nowTitle && S.view === "catalog" && !!S.catSel && !!S.catKind && !!S.catBvid;
+        bar.className = (show ? "show" : "") + (S.nowOpen ? " open" : "");
+      }
+
+      function setNowTitle(t) {
+        S.nowTitle = String(t || "");
+        syncNowBar();
+      }
+
+      function renderPages() {
+        var box = document.getElementById("sidePages");
+        // 标题条跟着刷新（分P 数据到了才知道这一 P 到底叫什么）
+        setNowTitle(nowTitleText());
+        if (!box) return;
+        box.innerHTML = "";
+        if (!S.isBili || !S.pages || S.pages.length <= 1) {
+          box.className = "";
+          if (S.view === "catalog" && S.catBvid) sideMsg.textContent = "这个视频只有 1 个 P，没有分段";
+          return;
+        }
+        box.className = "show";
+        // 第四层：状态栏报「第几个 P」，比"一条龙 · 4 个"有用
+        if (S.view === "catalog" && S.catBvid) {
+          sideMsg.textContent = "P" + S.page + " / 共 " + S.pages.length + " 个";
+        }
+        box.appendChild(el("div", "ph", "本视频分P（共 " + S.pages.length + " 个）"));
+        for (var i = 0; i < S.pages.length; i++) {
+          (function (p) {
+            var row = el("div", "ep" + (p.i === S.page ? " cur" : ""));
+            row.appendChild(el("span", "no", "P" + p.i));
+            var ti = el("span", "ti", p.title || "");
+            ti.setAttribute("title", p.title || "");   // 单行省略了，鼠标停上去看全文
+            row.appendChild(ti);
+            if (p.dur) row.appendChild(el("span", "du", fmt(p.dur)));
+            row.addEventListener("click", function () { goPage(p.i); });
+            box.appendChild(row);
+          })(S.pages[i]);
+        }
+      }
+
+      /* ================= 侧栏 ================= */
+
+      /* ---------- 分类视图：三级钻取 ----------
+       *   一级：合集/地区卡片（枫丹 / 须弥 / 璃月…）
+       *   二级：这个合集里的「一条龙」（一条龙 / 宝箱 / 神瞳 / 主线…）
+       *   三级：这条一条龙下面的视频列表，点一个直接播
+       *
+       * 以前是两级：点地区直接把所有类型的视频上下堆一屏（几百条滚到底）。
+       * 用户明确说了不要那种"上下式"，要一级一级点进去、能返回。
+       */
+
+      /**
+       * 现在停在第几层：
+       *   0 地区（至冬 / 纳塔 / 枫丹…）
+       *   1 类型（一条龙 / 宝箱 / 神瞳 / 主线…）
+       *   2 版本（纳塔5.0 / 纳塔5.2…这些具体视频）
+       *   3 分P（P1 / P2…，只有到这一层才显示「当前 P2」和分P 列表）
+       *   -1 不在分类视图里（B 站系列视图）
+       *
+       * 用户明确要求：一层只放一样东西 —— 上面一层是分类就不要在下面挂「当前 P2」，
+       * 也不要分上下两块。要看到分P，就得点进具体那一集。
+       */
+      function catLevel() {
+        if (S.view !== "catalog") return -1;
+        if (!S.catSel) return 0;
+        if (!S.catKind) return 1;
+        return S.catBvid ? 3 : 2;
+      }
+
+      function layoutCatView() {
+        var lv = catLevel();
+        var isCat = lv >= 0;
+
+        // 四个容器各管一层：地区卡片（catList） / 类型卡片·版本列表（epList） / 分P（sidePages）
+        catList.className = (lv === 0) ? "show" : "";
+        epList.style.display = (lv === 1 || lv === 2) ? "" : (isCat ? "none" : "");
+        crumb.className = (lv >= 1) ? "show" : "";
+
+        if (lv === 1) {
+          crumbWho.textContent = S.catSel;
+          if (crumbHint) crumbHint.textContent = "回到分类";
+        } else if (lv === 2) {
+          crumbWho.textContent = S.catSel + " / " + S.catKind;
+          if (crumbHint) crumbHint.textContent = "回到 " + S.catSel;
+        } else if (lv === 3) {
+          crumbWho.textContent = S.catSel + " / " + S.catKind;
+          if (crumbHint) crumbHint.textContent = "回到视频列表";
+        }
+
+        // 分P 只在第四层露面：前三层就算正在放着视频也不挂出来（这就是"不要分屏"）
+        // 系列视图（-1）照旧：有分P 就显示，这是原来一直在用的行为
+        var pg = document.getElementById("sidePages");
+        if (pg) {
+          if (isCat && lv < 3) pg.className = "";
+          else renderPages();
+        }
+        // 让样式知道现在在第几层（第四层分P 要撑满整块）
+        var sb = document.getElementById("side");
+        if (sb && sb.setAttribute) sb.setAttribute("data-lv", String(lv));
+        syncNowBar();
+      }
+
+      function openCatalog() {
+        S.view = "catalog";
+        S.catSel = "";
+        S.catKind = "";
+        S.catBvid = "";
+        S.catLocal = false;
+        layoutCatView();
+        renderCatList();
+        if (!S.catGroups.length) {
+          S.catBusy = true;
+          S.catMsg = "正在建立分类索引…（第一次要十几秒；之后启动会自动预建，基本秒开）";
+          renderCatList();
+          post("/api/catalog", {});
+        }
+      }
+
+      /** 一级：回到「枫丹 / 须弥 / 璃月」这些合集卡片 */
+      function backToCatalog() {
+        S.catSel = "";
+        S.catKind = "";
+        S.catBvid = "";
+        S.catLocal = false;
+        S.view = "catalog";
+        layoutCatView();
+        renderCatList();
+      }
+
+      /**
+       * 返回上一层：分P → 版本视频 → 类型 → 地区列表。
+       * 面包屑和「分」按钮都用它（一层一层退，不是一步跳回顶层）。
+       */
+      function catBack() {
+        if (S.view !== "catalog") return false;
+        if (S.catBvid) {          // 第四层 → 第三层（重画视频列表，保证是这一类的）
+          S.catBvid = "";
+          layoutCatView();
+          renderCatVideos();
+          return true;
+        }
+        if (S.catKind) {
+          S.catKind = "";
+          layoutCatView();
+          renderCatKinds(S.catSel, S.catItems);
+          return true;
+        }
+        if (S.catSel) { backToCatalog(); return true; }
+        return false;
+      }
+
+      function setViewSeries() {
+        if (S.view !== "catalog") return;
+        S.view = "series";
+        S.catSel = "";
+        S.catKind = "";
+        S.catBvid = "";
+        layoutCatView();     // 分类的四个容器收起来，分P 按当前视频重画
+        // 分集列表在分类视图期间被"扣住"了，切回来时补画一次
+        if (S.epLast) renderEpisodes(S.epLast);
+        else if (S.curId) requestEpisodes(S.curKind, S.curId, S.epPage);
+      }
+
+      function renderCatList() {
+        catList.innerHTML = "";
+
+        /* ---------- 本地视频（v1.6.26）----------
+           自己往 assets/videos 里扔的 mp4，主脚本扫出来推过来，这里直接列成一栏点播。
+           以前只能在设置里手打文件名，等于没有这个功能。 */
+        if (S.catLocal) {
+          var bak = el("div", "cat");
+          var bkr = el("div", "row1");
+          bkr.appendChild(el("span", "nm", "← 返回分类"));
+          bak.appendChild(bkr);
+          bak.addEventListener("click", function () {
+            S.catLocal = false;
+            layoutCatView();
+            renderCatList();
+          });
+          catList.appendChild(bak);
+
+          if (!S.locals.length) {
+            catList.appendChild(el("div", "ph",
+              "assets/videos 里还没有视频。\n把 mp4 放进去，再点上面的 ↻ 刷新。"));
+            return;
+          }
+          for (var li = 0; li < S.locals.length; li++) {
+            (function (name) {
+              var row = el("div", "cat");
+              var r1 = el("div", "row1");
+              r1.appendChild(el("span", "nm", name));
+              row.appendChild(r1);
+              row.addEventListener("click", function () { playLocal(name); });
+              catList.appendChild(row);
+            })(S.locals[li]);
+          }
+          return;
+        }
+
+        // 顶层：有本地视频就先给一个入口卡片
+        if (S.locals.length) {
+          var lrow = el("div", "cat");
+          var lr1 = el("div", "row1");
+          lr1.appendChild(el("span", "nm", "本地视频"));
+          lr1.appendChild(el("span", "ct", S.locals.length + " 个"));
+          lrow.appendChild(lr1);
+          lrow.appendChild(el("div", "kd", "assets/videos 里自己放的文件"));
+          lrow.addEventListener("click", function () { openLocal(); });
+          catList.appendChild(lrow);
+        }
+
+        if (S.catBusy) {
+          catList.appendChild(el("div", "ph", S.catMsg || "正在建立分类索引…"));
+          return;
+        }
+        if (!S.catGroups.length) {
+          catList.appendChild(el("div", "ph", S.catMsg || "还没有分类数据"));
+          return;
+        }
+        for (var i = 0; i < S.catGroups.length; i++) {
+          (function (g) {
+            var row = el("div", "cat");
+            var r1 = el("div", "row1");
+            r1.appendChild(el("span", "nm", g.name));
+            if (g.parent) r1.appendChild(el("span", "pa", "（" + g.parent + "）"));
+            r1.appendChild(el("span", "ct", g.total + " 个"));
+            row.appendChild(r1);
+            var tags = [];
+            for (var k = 0; k < g.kinds.length; k++) tags.push(g.kinds[k].name + " " + g.kinds[k].n);
+            row.appendChild(el("div", "kd", tags.join(" · ")));
+            row.addEventListener("click", function () { openCatRegion(g.name); });
+            catList.appendChild(row);
+          })(S.catGroups[i]);
+        }
+      }
+
+      /** 打开「本地视频」这一层 */
+      function openLocal() {
+        S.catLocal = true;
+        S.catSel = "";
+        S.catKind = "";
+        S.catBvid = "";
+        S.view = "catalog";
+        layoutCatView();
+        if (!S.locals.length) post("/api/local", {});   // 兜底：主脚本还没推过来
+        renderCatList();
+      }
+
+      /** 点本地视频：直接切过去播 */
+      function playLocal(name) {
+        if (!name) return;
+        S.catLocal = false;
+        applySource({ kind: "file", file: name, spec: name, label: name }, 0, true);
+        if (S.sidePinned) closeSide();
+        toast("本地视频：" + name);
+      }
+
+      /** 一级 → 二级：点合集卡片，拉这个合集下的全部条目，先只列「一条龙」 */
+      function openCatRegion(name) {
+        S.view = "catalog";
+        S.catSel = name;
+        S.catKind = "";
+        S.catBvid = "";
+        layoutCatView();
+        epList.innerHTML = "";
+        epList.appendChild(el("div", "ph", "加载中…"));
+        post("/api/catalog", { region: name });
+      }
+
+      function onCatalogIndex(d) {
+        S.catGroups = (d && d.groups) || [];
+        S.catTotal = (d && d.total) || 0;
+        S.catBusy = false;
+        S.catMsg = S.catGroups.length ? "" : "没有索引到内容，点 ↻ 重建";
+        if (S.view === "catalog" && !S.catSel) renderCatList();
+        sideMsg.textContent = S.catGroups.length
+          ? ("分类 " + S.catGroups.length + " 个 · " + ((d && d.total) || 0) + " 个视频")
+          : S.catMsg;
+      }
+
+      function onCatalogState(d) {
+        if (!d) return;
+        if (d.running) {
+          S.catBusy = true;
+          S.catMsg = d.msg || "正在索引…";
+        } else {
+          S.catBusy = false;
+          S.catMsg = d.error ? ("索引失败：" + d.error) : "索引完成";
+        }
+        if (S.view === "catalog" && !S.catSel) renderCatList();
+        // 成功时 /catalog-index 已经写了「分类 N 个 · M 个视频」，别再用「索引完成」盖掉它
+        if (d.running || d.error || !S.catGroups.length) sideMsg.textContent = S.catMsg;
+      }
+
+      function onCatalogRegion(d) {
+        if (!d || d.region !== S.catSel) return;
+        // 停在第四层（看分P）时只需要把条目存下来备用，别拿类型卡片把屏幕盖了
+        if (catLevel() === 3) {
+          S.catItems = d.items || [];
+          return;
+        }
+        renderCatKinds(d.region, d.items || []);
+      }
+
+      /**
+       * 重新打开侧栏时，直接停到「正在看的那一集」的分P 层。
+       *
+       * 用户：关掉系列栏再点开，应该直接回到我在看的那一集，而不是又回到地区列表。
+       * 手上已有的条目先查（进过那个地区就有），查不到就问主脚本 —— 完整索引在它那边。
+       */
+      function locateCurrent() {
+        if (S.view !== "catalog" || !S.isBili || !S.bvid) return false;
+        if (S.catBvid === S.bvid && S.catSel) { layoutCatView(); return true; }
+        for (var i = 0; i < S.catItems.length; i++) {
+          if (S.catItems[i].bvid !== S.bvid) continue;
+          var it = S.catItems[i];
+          S.catSel = it.region || S.catSel;
+          S.catKind = it.kind || "其他";
+          S.catBvid = it.bvid;
+          layoutCatView();
+          return true;
+        }
+        post("/api/catalog-find", { bvid: S.bvid });
+        return false;
+      }
+
+      /** 主脚本回话：这一集属于哪个地区 / 哪一类 */
+      function onCatalogFind(d) {
+        if (!d || !d.bvid || d.bvid !== S.bvid) return;
+        if (!d.region) return;        // 不在索引里（比如系列视图里的合集视频），保持原样
+        S.view = "catalog";
+        S.catSel = d.region;
+        S.catKind = d.kind || "其他";
+        S.catBvid = d.bvid;
+        layoutCatView();
+        // 返回上一层要看视频列表，手上没有这个地区的条目就补拉一次
+        if (!S.catItems.length || S.catItems[0] && S.catItems[0].region !== d.region) {
+          post("/api/catalog", { region: d.region });
+        }
+      }
+
+      /**
+       * 二级：把这个合集里的条目按「一条龙」类型分成卡片。
+       * 主脚本送过来的 items 已经按类型顺序排好（一条龙 → 宝箱 → 神瞳 → 主线 → …），
+       * 这里只按出现顺序收拢，不再重新排序。
+       */
+      function renderCatKinds(region, items) {
+        S.catItems = items || [];
+        epList.innerHTML = "";
+        if (!S.catItems.length) {
+          epList.appendChild(el("div", "ph", "「" + region + "」下还没有视频"));
+          sideMsg.textContent = "0 个";
+          return;
+        }
+        var names = [], byKind = {};
+        for (var i = 0; i < S.catItems.length; i++) {
+          var it = S.catItems[i];
+          var k = it.kind || "其他";
+          if (!byKind[k]) { byKind[k] = []; names.push(k); }
+          byKind[k].push(it);
+        }
+        for (var n = 0; n < names.length; n++) {
+          (function (k, list) {
+            var row = el("div", "cat");
+            var r1 = el("div", "row1");
+            r1.appendChild(el("span", "nm", k));
+            r1.appendChild(el("span", "ct", list.length + " 个"));
+            row.appendChild(r1);
+            // 预览：第一个视频的标题（大多数就是「xxx 一条龙」）
+            var first = list[0];
+            row.appendChild(el("div", "kd", first.title || first.bvid));
+            row.addEventListener("click", function () { openCatKind(region, k); });
+            epList.appendChild(row);
+          })(names[n], byKind[names[n]]);
+        }
+        sideMsg.textContent = region + " · " + names.length + " 条一条龙 · " + S.catItems.length + " 个视频";
+        epList.scrollTop = 0;
+      }
+
+      /**
+       * 第三层 → 第四层：点某一集（比如「纳塔5.0 一条龙」）→ 播它，
+       * 这时才显示「当前 P2」和分P 列表。前三层不会挂这些东西。
+       */
+      function enterCatVideo(it) {
+        if (!it) return;
+        S.view = "catalog";
+        if (it.region) S.catSel = it.region;
+        if (it.kind) S.catKind = it.kind || "其他";
+        S.catBvid = it.bvid;
+        layoutCatView();
+        if (it.bvid !== S.bvid) playBvid(it.bvid);
+      }
+
+      /** 第三层的内容：这一类下的视频列表（各个版本：5.0 / 5.2 …），点一条进第四层 */
+      function renderCatVideos() {
+        var kind = S.catKind;
+        var items = [];
+        for (var i = 0; i < S.catItems.length; i++) {
+          if ((S.catItems[i].kind || "其他") === kind) items.push(S.catItems[i]);
+        }
+        epList.innerHTML = "";
+        if (!items.length) {
+          epList.appendChild(el("div", "ph", "「" + kind + "」下没有视频"));
+          return;
+        }
+        for (var j = 0; j < items.length; j++) {
+          (function (it, no) {
+            var row = el("div", "ep");
+            row.setAttribute("data-bvid", it.bvid);
+            row.appendChild(el("span", "no", no + "."));
+            var ti = el("span", "ti", it.title || it.bvid);
+            ti.setAttribute("title", it.title || it.bvid);   // 单行省略，悬停看全文
+            row.appendChild(ti);
+            if (it.dur) row.appendChild(el("span", "du", fmt(it.dur)));
+            // 点进这一集 → 第四层（分P）
+            row.addEventListener("click", function () { enterCatVideo(it); });
+            epList.appendChild(row);
+          })(items[j], j + 1);
+        }
+        sideMsg.textContent = kind + " · " + items.length + " 个";
+        markCurrentEpisode();
+        epList.scrollTop = 0;
+      }
+
+      /** 二级 → 三级：点一条龙，列出它下面的视频（各个版本：5.0 / 5.2 …） */
+      function openCatKind(region, kind) {
+        S.catKind = kind;
+        S.catBvid = "";
+        layoutCatView();
+        renderCatVideos();
+      }
+
+      function renderCollections(d) {
+        S.collections = d || null;
+        rebuildSelect();
+        var seasons = (d && d.seasons) || [];
+        var series = (d && d.series) || [];
+        if (!seasons.length && !series.length) {
+          if (S.view === "series") sideMsg.textContent = "没有取到合集（检查 JS HTTP 权限）";
+          return;
+        }
+
+        // 优先选名字里带「一条龙」的那个
+        var prefer = null;
+        for (var k = 0; k < series.length; k++) {
+          if (series[k].name.indexOf("一条龙") >= 0) { prefer = series[k]; break; }
+        }
+        if (!prefer) prefer = series[0] || seasons[0];
+        if (prefer) {
+          collSel.value = prefer.kind + ":" + prefer.id;
+          requestEpisodes(prefer.kind, prefer.id, 1);
+        }
+        // 分类视图下状态栏归分类用，别被"合集 N / 系列 M"盖掉
+        sideMsg.textContent = (S.view === "catalog")
+          ? catalogStatusText()
+          : ("合集 " + seasons.length + " / 系列 " + series.length);
+      }
+
+      /** 分类视图下状态栏该显示什么（索引进度 / 数量），被几处共用 */
+      function catalogStatusText() {
+        if (S.catBusy) return S.catMsg || "正在建立分类索引…";
+        if (!S.catGroups.length) return S.catMsg || "还没有分类数据";
+        return "分类 " + S.catGroups.length + " 个" +
+          (S.catTotal ? (" · " + S.catTotal + " 个视频") : "");
+      }
+
+      function rebuildSelect() {
+        var keep = collSel.value;
+        collSel.innerHTML = "";
+        var seasons = (S.collections && S.collections.seasons) || [];
+        var series = (S.collections && S.collections.series) || [];
+        var favs = [];
+        for (var i = 0; i < S.fav.length; i++) {
+          favs.push({ id: S.fav[i].bvid, name: S.fav[i].title || S.fav[i].bvid, total: 0 });
+        }
+
+        function addGroup(label, arr, kind) {
+          if (!arr.length) return;
+          var g = document.createElement("optgroup");
+          g.label = label;
+          for (var i = 0; i < arr.length; i++) {
+            var o = document.createElement("option");
+            o.value = kind + ":" + arr[i].id;
+            o.textContent = arr[i].name + (arr[i].total ? ("（" + arr[i].total + "）") : "");
+            g.appendChild(o);
+          }
+          collSel.appendChild(g);
+        }
+        addGroup("收藏", favs, "fav");
+        addGroup("系列", series, "series");
+        addGroup("合集", seasons, "season");
+        if (keep) collSel.value = keep;
+      }
+
+      function requestEpisodes(kind, id, page) {
+        S.curKind = kind;
+        S.curId = id;
+        S.epPage = page || 1;
+        if (S.view === "series") sideMsg.textContent = "加载中…";
+        post("/api/episodes", { kind: kind, id: id, page: S.epPage });
+      }
+
+      function renderEpisodes(d) {
+        S.epLast = d || null;
+        var items = (d && d.items) || [];
+
+        // v1.6.8：删掉"没配置视频源就自动播合集第一集" —— 那等于一打开侧栏就自己放，
+        // 跟"启动不要自动放视频"是一回事。现在点了哪一集才播哪一集。
+        // 分类视图（合集 → 一条龙 → 视频）下 epList 归分类用，别被合集分集盖掉
+        if (S.view !== "series") return;
+
+        S.epTotal = num(d && d.total, 0);
+        epList.innerHTML = "";
+        for (var i = 0; i < items.length; i++) {
+          var it = items[i];
+          var row = el("div", "ep");
+          row.setAttribute("data-bvid", it.bvid);
+          var no = (S.epPage - 1) * 30 + i + 1;
+          row.appendChild(el("span", "no", no + "."));
+          var ti = el("span", "ti", it.title || it.bvid);
+          ti.setAttribute("title", it.title || it.bvid);   // 单行省略，悬停看全文
+          row.appendChild(ti);
+          if (it.dur) row.appendChild(el("span", "du", fmt(it.dur)));
+          row.addEventListener("click", function () {
+            var bv = this.getAttribute("data-bvid");
+            if (!bv) return;
+            playBvid(bv);
+          });
+          epList.appendChild(row);
+        }
+        sideMsg.textContent = "第 " + S.epPage + " 页 · 共 " + S.epTotal + " 集";
+        markCurrentEpisode();
+        epList.scrollTop = 0;
+      }
+
+      function playBvid(bv) {
+        if (!bv) return;
+        if (S.bvid === bv) { closeSideIfOpen(); toast("已经在播这一集了"); return; }
+        applySource({ kind: "bili", bvid: bv, page: 1, t: 0 }, 0, true);
+        // 选完就收：抬手点下一集是下一轮操作，系列栏没必要一直占着屏幕
+        closeSideIfOpen();
+        toast("开始播放：" + bv);
+      }
+
+      function markCurrentEpisode() {
+        var rows = epList.children;
+        for (var i = 0; i < rows.length; i++) {
+          var cur = rows[i].getAttribute("data-bvid") === S.bvid;
+          rows[i].className = cur ? "ep cur" : "ep";
+        }
+      }
+
+      function openSide() {
+        S.showSide = true;
+        S.sidePinned = true;
+        post("/pin", { on: true });       // 让脚本别急着切回穿透，否则侧栏点不到
+        // 主脚本启动时就在后台拉了合集/分类索引，正常不会走到这两个兜底；
+        // 万一设置里关了自动加载或者那次请求失败了，打开侧栏时补一次。
+        if (!S.collections) post("/api/collections", {});
+        if (S.view === "catalog" && !S.catGroups.length && !S.catBusy) {
+          S.catBusy = true;
+          S.catMsg = "正在建立分类索引…";
+          renderCatList();
+          post("/api/catalog", {});
+        }
+        // 打开侧栏就落在"正在看的那一集"（第四层，分P）
+        locateCurrent();
+        layoutSide();
+      }
+
+      function closeSide() {
+        S.showSide = false;
+        S.sidePinned = false;
+        post("/pin", { on: false });
+        layoutSide();
+      }
+
+      /**
+       * v1.6.28：系列栏是"临时挑片"的工具，不是常驻面板。
+       * 选完视频、松开 Alt、或者浮窗失去可交互，都该把它收回去 ——
+       * 不然它会一直挂在画面下面挡视野，还得再点一次 ⧉ 才关得掉。
+       */
+      function closeSideIfOpen() {
+        if (S.showSide) closeSide();
+      }
+
+      function layoutSide() {
+        var show = S.showSide && S.interactive && !S.collapsed;
+        // 系列栏显示状态一变就强制上报一次几何：主脚本靠 side 矩形判断
+        // "鼠标还在不在浮窗上"，这个矩形必须是实的（开）或者立刻清掉（关），
+        // 中途被 120ms 节流吞掉的话，会出现"面板开着却被当成鼠标已移出"。
+        var changed = (show !== !!S.sideShown);
+        S.sideShown = show;
+        side.className = show ? "show" : "";
+        if (!show) { if (changed) reportGeom(true); else reportGeom(); return; }
+        var gap = 6;
+        var w = Math.max(280, Math.round(S.w));
+        var left = clamp(Math.round(S.x), gap, Math.max(gap, window.innerWidth - w - gap));
+        // 系列栏放在"视频 + 弹幕带"的下面
+        var top = Math.round(S.y + S.h + gap + DM_H + gap);
+        if (top > window.innerHeight - 160) top = Math.max(gap, window.innerHeight - 160);
+        var h = Math.max(150, window.innerHeight - top - gap);
+        side.style.left = left + "px";
+        side.style.top = top + "px";
+        side.style.width = w + "px";
+        side.style.height = Math.round(h) + "px";
+        S.sideX = left; S.sideY = top; S.sideW = w; S.sideH = Math.round(h);
+        if (changed) reportGeom(true); else reportGeom();
+      }
+
+      /* ================= 弹幕投影 ================= */
+      function currentTime() {
+        return v.currentTime || 0;
+      }
+
+      function dmSeekIndex(t) {
+        var lo = 0, hi = S.dmList.length;
+        while (lo < hi) {
+          var mid = (lo + hi) >> 1;
+          if (S.dmList[mid].t < t) lo = mid + 1;
+          else hi = mid;
+        }
+        return lo;
+      }
+
+      function onMeta(d) {
+        if (!d) return;
+        if (d.bvid && S.bvid && d.bvid !== S.bvid) return;
+        S.curTitle = d.title || "";
+        setNowTitle(nowTitleText());   // 标题条跟着换（v1.6.10）
+        updateFavStar();
+      }
+
+      function onDanmaku(d) {
+        if (!d || !d.bvid || d.bvid !== S.bvid) return;   // 已经切走了
+        S.dmList = d.items || [];
+        S.dmLastT = currentTime();
+        S.dmCursor = dmSeekIndex(S.dmLastT);
+        if (S.dmOn) toast("弹幕已加载 " + S.dmList.length + " 条");
+      }
+
+      function dmTick() {
+        if (!S.dmOn || !S.dmList.length) return;
+        var now = currentTime();
+        // 跳转/暂停后重新定位游标
+        if (S.dmLastT < 0 || Math.abs(now - S.dmLastT) > 2.5) {
+          S.dmCursor = dmSeekIndex(now);
+          S.dmLastT = now;
+          return;
+        }
+        var guard = 0;
+        while (S.dmCursor < S.dmList.length && S.dmList[S.dmCursor].t <= now && guard++ < 40) {
+          var it = S.dmList[S.dmCursor++];
+          if (now - it.t <= 1.5) spawnDm(it);
+        }
+        S.dmLastT = now;
+      }
+
+      function spawnDm(it) {
+        if (S.dmNodes > 60) return;      // 防止刷屏卡顿
+        var e = document.createElement("div");
+        e.className = "dmi";
+        e.textContent = it.x;
+        var col = it.c || 16777215;
+        e.style.color = "#" + ("000000" + col.toString(16)).slice(-6);
+        e.style.top = (3 + Math.floor(Math.random() * (DM_H - 26))) + "px";
+        e.style.animationDuration = (7 + Math.random() * 4).toFixed(2) + "s";
+        S.dmNodes++;
+        e.addEventListener("animationend", function () {
+          if (e.parentNode) e.parentNode.removeChild(e);
+          S.dmNodes--;
+        });
+        dmLayer.appendChild(e);
+      }
+
+      function toggleDm() {
+        S.dmOn = !S.dmOn;
+        dmLayer.className = S.dmOn ? "show" : "";
+        if (S.dmOn && !S.dmList.length && S.bvid) {
+          post("/api/danmaku", { bvid: S.bvid });
+          toast("正在加载弹幕…");
+        } else {
+          toast(S.dmOn ? "弹幕已开" : "弹幕已关");
+        }
+      }
+
+      /* ================= 收藏夹 ================= */
+      function favIndex(bv) {
+        for (var i = 0; i < S.fav.length; i++) if (S.fav[i].bvid === bv) return i;
+        return -1;
+      }
+
+      function updateFavStar() {
+        var btn = document.getElementById("btnFav");
+        if (!btn) return;
+        btn.textContent = (S.bvid && favIndex(S.bvid) >= 0) ? "★" : "☆";
+        btn.style.color = (S.bvid && favIndex(S.bvid) >= 0) ? "#ffd24a" : "";
+      }
+
+      function toggleFav() {
+        if (!S.isBili || !S.bvid) { toast("只能收藏在线视频"); return; }
+        var i = favIndex(S.bvid);
+        if (i >= 0) {
+          S.fav.splice(i, 1);
+          toast("已取消收藏");
+        } else {
+          S.fav.unshift({ bvid: S.bvid, title: S.curTitle || S.bvid });
+          toast("已收藏：" + (S.curTitle || S.bvid));
+        }
+        post("/fav", { list: S.fav });
+        rebuildSelect();
+        updateFavStar();
+      }
+
+      /* ================= 肝度统计 ================= */
+      function pad2(n) { return n < 10 ? ("0" + n) : String(n); }
+      function dayKey(d) {
+        return d.getFullYear() + "-" + pad2(d.getMonth() + 1) + "-" + pad2(d.getDate());
+      }
+      function isPlayingNow() {
+        return !!v.src && !v.paused && !v.ended;
+      }
+      function humanDur(sec) {
+        sec = Math.max(0, Math.round(sec));
+        if (sec < 60) return sec + " 秒";
+        var m = Math.round(sec / 60);
+        if (m < 60) return m + " 分钟";
+        return (m / 60).toFixed(1) + " 小时";
+      }
+      function showStats() {
+        var today = 0, week = 0, all = 0;
+        var now = Date.now();
+        for (var k in S.stats) {
+          if (!Object.prototype.hasOwnProperty.call(S.stats, k)) continue;
+          var sec = Number(S.stats[k]) || 0;
+          all += sec;
+          if (k === dayKey(new Date())) today += sec;
+          var t = Date.parse(k + "T00:00:00");
+          if (isFinite(t) && now - t < 7 * 86400000) week += sec;
+        }
+        toast("今日 " + humanDur(today) + "　本周 " + humanDur(week) + "　累计 " + humanDur(all));
+      }
+
+      var statsDirty = false;
+      setInterval(function () {
+        if (!isPlayingNow()) return;
+        var k = dayKey(new Date());
+        S.stats[k] = (Number(S.stats[k]) || 0) + 1;
+        statsDirty = true;
+      }, 1000);
+      setInterval(function () {
+        if (!statsDirty) return;
+        statsDirty = false;
+        post("/stats", { days: S.stats });
+      }, 15000);
+      setInterval(function () { dmTick(); subTick(); }, 200);
+
+      /* ================= 字幕 / 方向提示 ================= */
+      var DIR_RULES = [
+        { re: /(东北|右前|前右)/, a: "↗" },
+        { re: /(西北|左前|前左)/, a: "↖" },
+        { re: /(东南|右后|后右)/, a: "↘" },
+        { re: /(西南|左后|后左)/, a: "↙" },
+        { re: /(向东|往东|朝东|东边|东面|右侧|右边|往右|向右)/, a: "→" },
+        { re: /(向西|往西|朝西|西边|西面|左侧|左边|往左|向左)/, a: "←" },
+        { re: /(向北|往北|朝北|北边|北面|北上|直走|往前)/, a: "↑" },
+        { re: /(向南|往南|朝南|南边|南面|南下|往回走|回头|返回)/, a: "↓" },
+        { re: /(向上|往上|上面|上边|爬上去|起飞|风场)/, a: "⬆" },
+        { re: /(向下|往下|下面|下边|跳下去|下去|落地)/, a: "⬇" }
+      ];
+
+      function onSubtitle(d) {
+        if (!d || !d.bvid || d.bvid !== S.bvid) return;
+        S.subs = d.items || [];
+        S.subIdx = -1;
+        if (!S.subs.length) {
+          subEl.className = "";
+          subEl.textContent = "";
+        } else {
+          toast("字幕已加载 " + S.subs.length + " 句");
+        }
+      }
+
+      function directionOf(text) {
+        for (var i = 0; i < DIR_RULES.length; i++) {
+          if (DIR_RULES[i].re.test(text)) return DIR_RULES[i].a;
+        }
+        return "";
+      }
+
+      function subTick() {
+        if (!S.subOn || !S.subs.length) return;
+        var now = currentTime();
+        var start = 0;
+        if (S.subIdx >= 0 && S.subs[S.subIdx] && now >= S.subs[S.subIdx].f) start = S.subIdx;
+
+        var found = -1;
+        for (var i = start; i < S.subs.length; i++) {
+          var s = S.subs[i];
+          if (s.f > now + 0.2) break;
+          if (now >= s.f && now <= s.t + 0.35) { found = i; break; }
+        }
+        if (found === S.subIdx) return;
+        S.subIdx = found;
+
+        if (found < 0) {
+          subEl.className = "";
+          subEl.textContent = "";
+          return;
+        }
+        var line = S.subs[found];
+        var a = directionOf(line.x);
+        subEl.innerHTML = "";
+        if (a) subEl.appendChild(el("span", "arw", a));
+        subEl.appendChild(document.createTextNode(line.x));
+        subEl.className = "show";
+      }
+
+      /* ==========================================================================
+       * 视频侧自动暂停
+       *
+       * 判据全部来自实测（一条龙 P2：20 分钟 / 35818 帧 / 360P）：
+       *   场景突变度（HSV 直方图 Bhattacharyya）
+       *       正常帧 p50=0.06、p99=0.22；真正换场地 > 0.5  → 阈值取 0.45
+       *   黑场        平均亮度 < 20（这个视频有 16 处，是天然的分段标记）
+       *   高动态      帧差 > 基线 × 2（实测占 26.6% 时长，全是打怪/特效）
+       *
+       * 注意一个反直觉的结论：帧差大 ≠ 快进。实测帧差最高的段落全是战斗，
+       * 所以「画面动得快就暂停」会跟打怪撞车。这里只用直方图突变判跳步，
+       * 而且突变之后要先看 1 秒——紧接着打成一团的（连续战斗）不算跳步。
+       * ========================================================================== */
+
+      var AN_W = 64, AN_H = 36, AN_NB = 64;
+      var anCanvas = document.createElement("canvas");
+      anCanvas.width = AN_W; anCanvas.height = AN_H;
+      var anCtx = anCanvas.getContext("2d", { willReadFrequently: true });
+      var anPrevGray = null, anPrevHist = null;
+      var anMads = [], anPend = null, anBaseTick = 0;
+      var pendPause = null;   // {info, until}：因为主播在讲话而推迟的暂停
+
+      function syncAnBtn() {
+        var b = document.getElementById("btnAn");
+        if (!b) return;
+        b.textContent = S.anOn ? "开" : "关";
+        b.className = S.anOn ? "sw on" : "sw";
+        b.style.color = S.anOn ? "#cfe6ff" : "";
+        b.title = S.anOn
+          ? "视频侧自动暂停：开（画面跳步时自动停车）"
+          : "视频侧自动暂停：关（实验功能，会误停，默认关）";
+      }
+
+      function flashCut() {
+        cutFlash.className = "on";
+        setTimeout(function () { cutFlash.className = ""; }, 520);
+      }
+
+      function anReset() {
+        anPrevGray = null; anPrevHist = null;
+        anMads = []; anPend = null;
+        S.anBase = 0; S.anN = 0;
+      }
+
+      function anSample() {
+        if (!S.anOn || S.anMode === "off") return;
+        if (!v.src || v.paused || v.ended || v.readyState < 2 || !v.videoWidth) return;
+
+        var g, h, lum;
+        try {
+          anCtx.drawImage(v, 0, 0, AN_W, AN_H);
+          var d = anCtx.getImageData(0, 0, AN_W, AN_H).data;
+          g = new Uint8Array(AN_W * AN_H);
+          h = new Float32Array(AN_NB);
+          lum = 0;
+          for (var i = 0, j = 0; i < d.length; i += 4, j++) {
+            var gr = d[i] * 0.114 + d[i + 1] * 0.587 + d[i + 2] * 0.299;
+            g[j] = gr;
+            lum += gr;
+            h[((d[i] >> 6) << 4) | ((d[i + 1] >> 6) << 2) | (d[i + 2] >> 6)]++;
+          }
+          lum /= (AN_W * AN_H);
+          var n2 = AN_W * AN_H;
+          for (var k = 0; k < AN_NB; k++) h[k] /= n2;
+        } catch (e) {
+          // 画布被跨源污染 → 抓不到像素。关掉分析，不影响播放。
+          S.anOn = false;
+          syncAnBtn();
+          post("/log", { msg: "画面分析不可用（画布跨源受限），已自动关闭" });
+          toast("画面分析不可用，已关闭（播放不受影响）");
+          return;
+        }
+
+        var mad = 0, hd = 0;
+        if (anPrevGray) {
+          var sum = 0;
+          for (var m = 0; m < g.length; m++) sum += Math.abs(g[m] - anPrevGray[m]);
+          mad = sum / g.length;
+          var bc = 0;
+          for (var q = 0; q < AN_NB; q++) bc += Math.sqrt(anPrevHist[q] * h[q]);
+          hd = Math.sqrt(Math.max(0, 1 - bc));
+        }
+        anPrevGray = g;
+        anPrevHist = h;
+        S.anN++;
+        anMads.push(mad);
+        if (anMads.length > 150) anMads.shift();
+
+        // 基线：每 30 帧按最近 150 帧的中位数更新一次（中位数对战斗段不敏感）
+        if (S.anN >= 16 && (S.anBase === 0 || ++anBaseTick >= 30)) {
+          anBaseTick = 0;
+          var s2 = anMads.slice().sort(function (a, b) { return a - b; });
+          S.anBase = Math.max(0.3, s2[s2.length >> 1] || 1);
+        }
+
+        anJudge(hd, mad, lum);
+
+        // 推迟的暂停：话讲完了就停；等太久（6 秒）也停
+        if (pendPause && (Date.now() > pendPause.until || (voice.ok && voice.v === 0))) {
+          var pp = pendPause;
+          pendPause = null;
+          doPauseNow(pp.info);
+        }
+      }
+
+      function anJudge(hd, mad, lum) {
+        var t = v.currentTime || 0;
+        if (S.anCool && Date.now() < S.anCool) return;
+        if (S.scrubCool && Date.now() < S.scrubCool) { anPend = null; return; }  // 刚拖过进度条，别误判
+        if (lum < 20) { anPend = null; return; }     // 黑场：不算跳步，紧接着那帧才是
+
+        var hot = S.anBase > 0 && mad > S.anBase * S.fightRatio;
+
+        if (hd >= S.cutTh) {
+          // 画面换场地了。先别急着停——要看接下来这 1 秒是不是连打。
+          anPend = { t: t, hd: hd, hot: 0, n: 0 };
+          return;
+        }
+
+        if (anPend) {
+          anPend.n++;
+          if (hot) anPend.hot++;
+          if (anPend.n >= 5) {
+            var info = anPend;
+            anPend = null;
+            // 突变后画面马上又剧烈变化（hot≥2）= 连着打，不该停
+            if (info.hot <= 1) doAutoPause(info);
+          }
+        }
+      }
+
+      function doAutoPause(info) {
+        if (v.paused) return;
+        // 打怪点就在附近 → 让给打怪点。否则同一处会停两次：换场地先停一次，
+        // 你按播放，1 秒后打怪点又把你按回去。
+        if (S.marksOn && nearestMark(info.t, 10)) {
+          post("/log", { msg: "场景突变紧邻打怪点，交给打怪点处理 t=" + Math.round(info.t) });
+          return;
+        }
+        // 主播正在讲话 → 先别停，等他这一句说完再停（最多等 6 秒）
+        // 直接"因为有声音就跳过"实测覆盖率只有一两成，等于功能失效；
+        // 推迟到气口才是他真正想要的效果：不打断他讲，也不漏掉该停的地方。
+        if (voiceSpeaking()) {
+          pendPause = { info: info, until: Date.now() + 6000 };
+          post("/log", { msg: "场景突变但在讲话，等气口再停 t=" + Math.round(info.t) });
+          return;
+        }
+        doPauseNow(info);
+      }
+
+      function doPauseNow(info) {
+        if (v.paused) return;
+        // 往回退一点点，停在"新场景的第一眼"，而不是已经播了 1 秒
+        try {
+          var back = Math.max(0, info.t - 0.2);
+          if (Math.abs(v.currentTime - back) < 5) v.currentTime = back;
+        } catch (e) { }
+        v.pause();
+        S.anCool = Date.now() + 4000;
+        flashCut();
+        toast("视频跳步了 → 已暂停，自己走完再按播放");
+        post("/log", { msg: "视频侧自动暂停：t=" + Math.round(info.t) + " 突变度=" + info.hd.toFixed(2) });
+      }
+
+      setInterval(anSample, 200);
+
+      /* ================= 人声检测：主播在讲话就不要停 =================
+         三个条件同时成立才算"在讲话"：
+           1) 有能量 —— 不是静音
+           2) 集中在中频 —— 300~3000Hz 占比过半（人声的基频和共振峰都在这儿）
+           3) 有音节起伏 —— 3 秒内能量的波动系数大（一个字一个字蹦，BGM 是平的）
+         加滞回：连续 0.6 秒才算开始讲、掉到 0.2 秒才算讲完，避免一顿一顿地抖。
+         拿不到音频（CORS 污染 / 自动播放限制）就静默关掉，绝不影响播放和别功能。 */
+      var voice = { ok: false, tried: false, ac: null, an: null, src: null,
+                    buf: null, freq: null, env: [], hit: 0, v: 0, logAt: 0 };
+
+      function voiceInit() {
+        // 人声检测只为自动暂停服务；自动暂停关着就别接管音频图，省 CPU
+        if (!S.anOn || !S.voiceGate) return;
+        if (voice.tried) return;
+        voice.tried = true;
+        try {
+          var AC = window.AudioContext || window.webkitAudioContext;
+          if (!AC) { post("/log", { msg: "人声检测不可用：没有 AudioContext" }); return; }
+          voice.ac = new AC();
+          voice.src = voice.ac.createMediaElementSource(v);
+          voice.an = voice.ac.createAnalyser();
+          voice.an.fftSize = 1024;
+          voice.an.smoothingTimeConstant = 0.4;
+          voice.src.connect(voice.an);
+          voice.src.connect(voice.ac.destination);   // 必须直连出口，否则视频会没声音
+          voice.buf = new Float32Array(voice.an.fftSize);
+          voice.freq = new Uint8Array(voice.an.frequencyBinCount);
+          voice.ok = true;
+          if (voice.ac.state === "suspended") {
+            voice.ac.resume().catch(function () { voiceKill("音频被浏览器挂起"); });
+          }
+          post("/log", { msg: "人声检测就绪（" + voice.ac.state + "）" });
+        } catch (e) {
+          voice.ok = false;
+          post("/log", { msg: "人声检测不可用：" + (e && e.message) });
+        }
+      }
+
+      /** 关掉分析，但把音频直通还原，保证视频还有声音 */
+      function voiceKill(why) {
+        if (!voice.ok) return;
+        voice.ok = false;
+        try { voice.src.disconnect(); } catch (e) { }
+        try { voice.an.disconnect(); } catch (e) { }
+        try { voice.src.connect(voice.ac.destination); } catch (e) { }
+        post("/log", { msg: "人声检测已关闭：" + why });
+      }
+
+      function voiceSample() {
+        if (!voice.ok || !voice.ac || !voice.an || !voice.buf) return;
+        if (voice.ac.state === "suspended") { voice.ac.resume().catch(function () { }); return; }
+        var i, b = voice.buf, n = b.length, s = 0;
+        try { voice.an.getFloatTimeDomainData(b); } catch (e) { return; }
+        for (i = 0; i < n; i++) s += b[i] * b[i];
+        var rms = Math.sqrt(s / n);
+
+        voice.an.getByteFrequencyData(voice.freq);
+        var bw = (voice.ac.sampleRate || 48000) / voice.an.fftSize;
+        var lo = Math.floor(300 / bw), hi = Math.min(voice.freq.length - 1, Math.ceil(3000 / bw));
+        var mid = 0, all = 0;
+        for (i = 0; i < voice.freq.length; i++) {
+          all += voice.freq[i];
+          if (i >= lo && i <= hi) mid += voice.freq[i];
+        }
+        var midR = all > 0 ? mid / all : 0;
+
+        voice.env.push(rms);
+        if (voice.env.length > 15) voice.env.shift();
+        var mean = 0;
+        for (i = 0; i < voice.env.length; i++) mean += voice.env[i];
+        mean /= voice.env.length;
+        var vr = 0;
+        for (i = 0; i < voice.env.length; i++) vr += (voice.env[i] - mean) * (voice.env[i] - mean);
+        var cv = mean > 1e-4 ? Math.sqrt(vr / voice.env.length) / mean : 0;
+
+        var talk = mean > 0.012 && midR > 0.50 && cv > 0.25;
+        voice.hit = talk ? Math.min(voice.hit + 1, 20) : Math.max(voice.hit - 1, 0);
+        if (voice.hit >= 3) voice.v = 1;
+        else if (voice.hit <= 1) voice.v = 0;
+
+        var now = Date.now();
+        if (now - voice.logAt > 12000) {
+          voice.logAt = now;
+          post("/log", { msg: "人声：" + (voice.v ? "在讲" : "没讲") +
+            " rms=" + rms.toFixed(3) + " 中频=" + midR.toFixed(2) + " 起伏=" + cv.toFixed(2) });
+        }
+      }
+      function voiceSpeaking() { return voice.ok && !!voice.ac && voice.v === 1; }
+      setInterval(voiceSample, 200);
+
+      document.getElementById("btnAn").addEventListener("click", function () {
+        S.anOn = !S.anOn;
+        anReset();
+        syncAnBtn();
+        if (S.anOn) voiceInit(); else voiceKill("自动暂停已关");
+        // 顺手存进设置：下次启动还是这个状态（⚙ 面板里的开关应该"记得住"）
+        post("/pref", { autoPause: S.anOn });
+        toast(S.anOn ? "视频侧自动暂停：开" : "视频侧自动暂停：关");
+      });
+
+      /* ================= 打怪点（比"猜画面"可靠：人来标，播到就停） ================= */
+      function renderMarks() {
+        if (!markTicks) return;
+        var dur = S.duration || (isFinite(v.duration) ? v.duration : 0);
+        markTicks.innerHTML = "";
+        if (!S.marks.length || !(dur > 0)) {
+          markTicks.className = "";
+          return;
+        }
+        for (var i = 0; i < S.marks.length; i++) {
+          var m = S.marks[i];
+          if (!(m.t >= 0) || m.t > dur) continue;
+          var el = document.createElement("i");
+          if (m.w) el.className = "w";
+          el.style.left = (100 * m.t / dur) + "%";
+          markTicks.appendChild(el);
+        }
+        markTicks.className = S.marksOn ? "on" : "";
+      }
+
+      function markLabel(m) {
+        if (m.w) return "挑战 / BOSS";
+        return m.chest ? ("第 " + m.chest + " 个宝箱") : (m.label || "打怪点");
+      }
+
+      function fireMark(m) {
+        if (v.paused) return;
+        v.pause();
+        S.markCool = Date.now() + 3000;
+        S.markPrev = v.currentTime || m.t;
+        // 把场景突变一起压住，避免"刚按播放又被跳步检测停了"
+        S.anCool = Date.now() + 8000;
+        anPend = null;
+        flashCut();
+        if (m.w) {
+          // B 类：他刚把操作演示完，这里才轮到你
+          showHint("这段看完了　轮到你上", 9000);
+          toast("挑战 / BOSS · 该你了");
+        } else {
+          showHint("到了：" + markLabel(m) + "　打完再按播放", 9000);
+          toast(markLabel(m) + " · 需要打怪");
+        }
+        post("/log", { msg: (m.w ? "看完点暂停：" : "打怪点暂停：") + markLabel(m) + " @" + Math.round(m.t) + "s" });
+      }
+
+      function markTick() {
+        if (!S.marksOn || !S.marks.length) return;
+        if (!v.src || v.ended || v.readyState < 1) { S.markPrev = -1; return; }
+        var t = v.currentTime || 0, p = S.markPrev;
+        S.markPrev = t;
+        if (v.paused) return;
+        // 刚起播、或者刚拖过进度条（时间跳得远）→ 不判定，避免误停
+        if (p < 0 || Math.abs(t - p) > 2.5) return;
+        if (S.markCool && Date.now() < S.markCool) return;
+        for (var i = 0; i < S.marks.length; i++) {
+          var m = S.marks[i];
+          if (p < m.t && t >= m.t) { fireMark(m); return; }
+        }
+      }
+
+      function nearestMark(t, win) {
+        var best = null, bd = win;
+        for (var i = 0; i < S.marks.length; i++) {
+          var dd = Math.abs(S.marks[i].t - t);
+          if (dd < bd) { bd = dd; best = S.marks[i]; }
+        }
+        return best;
+      }
+
+      /** 在当前时刻打点；附近 45 秒内已有点就"移动"它，Shift = 删除 */
+      function addMark(del) {
+        if (!v.src) { toast("先选一个视频"); return; }
+        var t = Math.round((v.currentTime || 0) * 10) / 10;
+        var m = nearestMark(t, 45);
+        if (del) {
+          if (!m) { toast("附近 45 秒内没有打怪点"); return; }
+          S.marks.splice(S.marks.indexOf(m), 1);
+          toast("已删除 " + fmt(m.t) + " 的打怪点");
+        } else if (m) {
+          m.t = t;
+          S.marks.sort(function (a, b) { return a.t - b.t; });
+          toast("打怪点已移到 " + fmt(t));
+        } else {
+          S.marks.push({ t: t, label: "打怪", chest: 0 });
+          S.marks.sort(function (a, b) { return a.t - b.t; });
+          toast("已打点 " + fmt(t) + "，播到这里会停");
+        }
+        renderMarks();
+        post("/mark", { list: S.marks });
+      }
+
+      document.getElementById("btnMark").addEventListener("click", function (ev) {
+        addMark(!!(ev && ev.shiftKey));
+      });
+      setInterval(markTick, 200);
+
+      /* ================= 布局 / 外观 ================= */
+      var DM_H = 92;      // 弹幕带高度
+
+      /* ---- 分辨率自适应 ----------------------------------------------------
+       * 浮窗坐标是「相对叠层窗口」的 CSS 像素。1600x900 下贴在右上角的浮窗，
+       * 换到 2560x1440 还按原坐标摆，就会跑到画面中间；尺寸也还是 360 宽，
+       * 占屏比例缩水一半。所以除了绝对像素，再额外记一份比例：
+       *     rx = x / 视口宽   ry = y / 视口高   rw = 宽 / 视口宽   ar = 高 / 宽
+       * 视口一变（切全屏、改分辨率、拖窗口边框）就按比例还原；
+       * 视口没变但游戏分辨率变了（叠层盖住整屏的情况）就按「画面中心不动」缩放。
+       */
+      function syncRatio() {
+        var W = Math.max(1, window.innerWidth), H = Math.max(1, window.innerHeight);
+        // WebView2 刚起来时视口可能是 0 或极小，这时候算出来的比例是垃圾，
+        // 一旦记下来就会把上次存好的位置冲掉，所以直接不动。
+        if (W < 200 || H < 150) return;
+        // 收起态的高度是"一条控制条"，不是真实比例，别拿它覆盖存盘的 ar
+        if (S.collapsed) return;
+        S.vw = W; S.vh = H;
+        S.rx = S.x / W;
+        S.ry = S.y / H;
+        S.rw = S.w / W;
+        S.ar = S.w > 1 ? (S.h / S.w) : (203 / 360);
+      }
+
+      /** 按比例算回绝对坐标，并夹在当前视口里（不会缩到看不见、也不会跑出屏幕） */
+      function fitBox(rx, ry, rw, ar) {
+        var W = Math.max(1, window.innerWidth), H = Math.max(1, window.innerHeight);
+        if (!isFinite(ar) || ar < 0.2 || ar > 2) ar = 203 / 360;
+        var w = clamp(rw * W, 160, W * 0.95);
+        var h = w * ar;
+        if (h > H * 0.95) { h = H * 0.95; w = h / ar; }     // 竖屏/窗口特别矮时按高反推
+        if (w > W * 0.95) { w = W * 0.95; h = w * ar; }     // 反推之后再兜一次，别超宽
+        S.w = Math.round(w);
+        S.h = Math.round(h);
+        S.x = Math.round(clamp(rx * W, -S.w + 80, Math.max(0, W - 80)));
+        S.y = Math.round(clamp(ry * H, 0, Math.max(0, H - 40)));
+      }
+
+      /**
+       * 上次是在别的分辨率/全屏状态下摆的：绝对像素没有意义，用比例还原。
+       * 差 2px 以内就算了，避免每次启动都因为取整而微调。
+       */
+      function restoreSaved(d) {
+        if (!S.fitRes || S.needDefault || !d || !d.ratio) return false;
+        var bw = num(d.baseVw, 0), bh = num(d.baseVh, 0);
+        if (!(bw > 100 && bh > 100)) return false;
+        // 无论视口定没定，先把"上次的比例"装进来（视口一确定就能据此还原）
+        S.rx = num(d.ratio.rx, S.rx);
+        S.ry = num(d.ratio.ry, S.ry);
+        S.rw = num(d.ratio.rw, S.rw);
+        S.ar = num(d.ratio.ar, S.ar);
+        S.vw = bw; S.vh = bh;      // 让 fitToViewport 知道"基准是上一次那套尺寸"
+        // WebView2 刚起来、视口还没量出来时先不摆，等 resize 那一下再来
+        if (!(window.innerWidth >= 200 && window.innerHeight >= 150)) return false;
+        if (Math.abs(bw - window.innerWidth) <= 2 && Math.abs(bh - window.innerHeight) <= 2) return false;
+        fitBox(S.rx, S.ry, S.rw, S.ar);
+        post("/log", {
+          msg: "分辨率自适应：上次 " + Math.round(bw) + "×" + Math.round(bh) +
+            "，这次 " + window.innerWidth + "×" + window.innerHeight +
+            "，浮窗按比例摆到 " + Math.round(S.x) + "," + Math.round(S.y) +
+            " 尺寸 " + Math.round(S.w) + "×" + Math.round(S.h)
+        });
+        return true;
+      }
+
+      /** 视口尺寸变了：按上次记下的比例重排。返回是否真的重排了。 */
+      function fitToViewport(msg) {
+        if (!S.fitRes) { applyLayout(); return false; }
+        var W = window.innerWidth, H = window.innerHeight;
+        if (!(W > 100 && H > 100)) return false;
+        if (!(S.vw > 100 && S.vh > 100)) { syncRatio(); return false; }   // 还没有基准
+        if (Math.abs(W - S.vw) < 2 && Math.abs(H - S.vh) < 2) return false; // 视口没动
+        fitBox(S.rx, S.ry, S.rw, S.ar);
+        applyLayout();
+        reportState(true);
+        S.fitAt = Date.now();
+        if (msg) toast(msg + " " + W + "×" + H);
+        return true;
+      }
+
+      /** 视口没变、但游戏分辨率变了（叠层贴着整屏）：以视口中心为基准缩放 */
+      function fitScale(k, msg) {
+        if (!S.fitRes) return false;
+        if (!(k > 0.2 && k < 5)) return false;
+        var W = window.innerWidth, H = window.innerHeight;
+        var cx = W / 2, cy = H / 2;
+        var nw = clamp(S.w * k, 160, W * 0.95);
+        var nh = clamp(S.h * k, 90, H * 0.95);
+        S.w = Math.round(nw);
+        S.h = Math.round(nh);
+        S.x = Math.round(clamp(cx + (S.x - cx) * k, -S.w + 80, Math.max(0, W - 80)));
+        S.y = Math.round(clamp(cy + (S.y - cy) * k, 0, Math.max(0, H - 40)));
+        applyLayout();
+        reportState(true);
+        if (msg) toast(msg);
+        return true;
+      }
+
+      var fitTimer = null;
+      window.addEventListener("resize", function () {
+        if (fitTimer) clearTimeout(fitTimer);
+        // 切全屏时 resize 会连发好几下，等它稳定下来再算，免得按中间态的尺寸算错
+        fitTimer = setTimeout(function () {
+          fitTimer = null;
+          fitToViewport("已按新分辨率自适应");
+        }, 160);
+      });
+
+      /**
+       * 主脚本每隔一秒上报一次游戏分辨率（getGameMetrics）。
+       * 分辨变了但叠层视口没变，说明浮窗盖住的是整屏、游戏画面在屏内放大了，
+       * 这时按「视口中心不动」缩放：居中窗口全屏时的位移正好等于中心缩放。
+       */
+      function onMetric(d) {
+        var w = num(d.w, 0), h = num(d.h, 0), dpi = num(d.dpi, 1) || 1;
+        if (!(w > 0 && h > 0)) return;
+        var prev = S.metric;
+        S.metric = [w, h, dpi];
+        if (!prev) return;
+        if (prev[0] === w && prev[1] === h && prev[2] === dpi) return;
+        var oldCss = prev[0] / (prev[2] || 1), newCss = w / dpi;
+        var k = oldCss > 0 ? (newCss / oldCss) : 1;
+        // 刚因为视口变化重排过：同一次"切全屏"已经被处理了，别再按分辨率缩一遍，
+        // 否则会缩两次（浮窗明显变小/变大）。
+        if (Date.now() - S.fitAt < 2500) return;
+        // 视口也跟着变了 → 交给 resize 那条路按比例还原，别叠两层缩放
+        if (Math.abs(window.innerWidth - S.vw) > 2 || Math.abs(window.innerHeight - S.vh) > 2) {
+          fitToViewport("已按新分辨率自适应");
+        } else {
+          fitScale(k, "游戏分辨率变了（" + w + "×" + h + "），浮窗已同步缩放");
+        }
+        post("/log", {
+          msg: "游戏分辨率 " + prev[0] + "×" + prev[1] + " → " + w + "×" + h +
+            "，视口 " + window.innerWidth + "×" + window.innerHeight +
+            "，缩放 " + (Math.round(k * 1000) / 1000)
+        });
+      }
+
+      /** 收起态的高度：正好装下一条控制条 */
+      var BAR_H = 34;
+
+      function applyLayout() {
+        // 只有"这次启动压根没存过位置"才默认摆右上角。
+        // 以前是用 x<0 判断，结果用户故意把浮窗拖到屏幕左边缘外时，会被弹回右上角。
+        if (S.needDefault) {
+          S.needDefault = false;
+          S.x = Math.max(8, window.innerWidth - S.w - 16);
+          S.y = 12;
+        }
+        S.w = Math.max(200, S.w);
+        // 收起时高度只有一条控制条，不能按 120 的下限夹
+        S.h = S.collapsed ? BAR_H : Math.max(120, S.h);
+        S.x = clamp(S.x, -S.w + 80, Math.max(0, window.innerWidth - 80));
+        var maxY = Math.max(0, window.innerHeight - (S.collapsed ? BAR_H + 2 : 40));
+        S.y = clamp(S.y, 0, maxY);
+        stage.style.left = Math.round(S.x) + "px";
+        stage.style.top = Math.round(S.y) + "px";
+        stage.style.width = Math.round(S.w) + "px";
+        stage.style.height = Math.round(S.h) + "px";
+
+        // 弹幕带紧贴视频下方（收起时本来就不显示，位置照算，展开就对了）
+        dmLayer.style.left = Math.round(S.x) + "px";
+        dmLayer.style.top = Math.round(S.y + S.h + 6) + "px";
+        dmLayer.style.width = Math.round(S.w) + "px";
+        dmLayer.style.height = DM_H + "px";
+
+        syncRatio();          // 只要位置/尺寸落定，就把比例记下来（拖动、缩放后自动更新）
+        layoutSide();
+        reportGeom();
+      }
+
+      /**
+       * 收起 / 展开：只显示"下边栏"（播放、快进那一排），画面和进度条都藏起来。
+       * 关闭按钮改成收起之后，再也不会一不小心把整个浮窗关掉（那还得重跑脚本）。
+       * 真正退出放在 ⚙ 面板最底下。
+       */
+      function setFolded(on) {
+        on = !!on;
+        if (S.collapsed === on) return;
+        if (on) {
+          S.hPrev = Math.max(BAR_H, S.h);
+          S.h = BAR_H;
+          // 控制条留在它原来的位置（画面区域向上消失），视觉上不会跳
+          S.y = Math.max(0, S.y + S.hPrev - BAR_H);
+          S.collapsed = true;
+          stage.classList.add("folded");
+          document.body.classList.add("folded");
+          setGear(false);
+          closeSide();
+          applyOpacity();
+        } else {
+          S.collapsed = false;
+          stage.classList.remove("folded");
+          document.body.classList.remove("folded");
+          S.h = Math.max(120, S.hPrev || 203);
+          S.y = Math.max(0, S.y - (S.h - BAR_H));
+          applyOpacity();
+        }
+        applyLayout();
+        syncBar();
+        reportState(true);
+        post("/fold", { on: S.collapsed });
+        toast(S.collapsed ? "已收起，只留下边栏（点 ⤢ 展开）" : "已展开画面");
+      }
+
+      /** 控制条显隐 + 收起键的图标，都跟着"可交互 / 收起态"走 */
+      function syncBar() {
+        bar.className = (S.interactive || S.collapsed) ? "show" : "";
+        if (S.interactive && !S.collapsed) stage.classList.add("barOn");
+        else stage.classList.remove("barOn");
+        var b = document.getElementById("btnFold");
+        if (b) {
+          b.textContent = S.collapsed ? "⤢" : "▾";
+          b.title = S.collapsed ? "展开画面" : "收起，只留下边栏（不退出脚本）";
+        }
+      }
+
+      function applyOpacity() {
+        if (S.hidden || S.collapsed) {
+          stage.style.opacity = "1";
+          stage.style.background = "transparent";
+          stage.style.boxShadow = "";
+          v.style.opacity = "0";
+          cutFlash.style.opacity = "0";
+        } else {
+          stage.style.opacity = String(S.opacity);
+          stage.style.background = "#000";
+          stage.style.boxShadow = "";
+          v.style.opacity = "1";
+        }
+        lblAlpha.textContent = Math.round(S.opacity * 100) + "%";
+        var sl = document.getElementById("gOpacity");
+        if (sl) sl.value = String(Math.round(S.opacity * 100));
+      }
+
+      function applySpeed() {
+        try { v.playbackRate = S.speed; } catch (e) { }
+        lblSpeed.textContent = S.speed.toFixed(2) + "×";
+        syncSpeedPresets();
+      }
+
+      /* ================= 设置面板（⚙） =================
+       * 自动暂停 / 打怪点 / 透明度 / 倍速 / 音量 / 登录，都塞进这个面板。
+       * 为什么不摆在控制条上：默认窗口只有 360px 宽，原来一排 12 个按钮，
+       * 变速和透明度被 CSS 的容器查询直接隐藏了 —— 等于没法用。
+       */
+      function syncSpeedPresets() {
+        if (!gearEl) return;
+        var btns = gearEl.querySelectorAll("[data-sp]");
+        for (var i = 0; i < btns.length; i++) {
+          var sp = num(btns[i].getAttribute("data-sp"), 0);
+          btns[i].className = (Math.abs(sp - S.speed) < 0.001) ? "on" : "";
+        }
+      }
+
+      function syncMarkOnBtn() {
+        var b = document.getElementById("btnMarkOn");
+        if (b) {
+          b.textContent = S.marksOn ? "开" : "关";
+          b.className = S.marksOn ? "sw on" : "sw";
+        }
+      }
+
+      function syncAutoNextBtn() {
+        var b = document.getElementById("btnAutoNext");
+        if (b) {
+          b.textContent = S.autoNext ? "开" : "关";
+          b.className = S.autoNext ? "sw on" : "sw";
+        }
+        var s = document.getElementById("btnNextSec");
+        if (s) {
+          // 秒数按钮不做成"开/关"那种蓝底高亮，它是档位，不是开关
+          s.textContent = S.autoNextSec + "s";
+          s.className = "sw sec";
+        }
+      }
+
+      function syncGear() {
+        syncAnBtn();
+        syncMarkOnBtn();
+        syncAutoNextBtn();
+        syncSpeedPresets();
+        var lk = document.getElementById("gLoginKey");
+        if (lk) lk.textContent = S.loginKey || "End";
+        var sl = document.getElementById("gOpacity");
+        if (sl) sl.value = String(Math.round(S.opacity * 100));
+        if (lblSpeed) lblSpeed.textContent = S.speed.toFixed(2) + "×";
+        if (lblAlpha) lblAlpha.textContent = Math.round(S.opacity * 100) + "%";
+      }
+
+      function setGear(on) {
+        S.gearOn = !!on;
+        // 齿轮和「键」面板互斥：开一个就把另一个收起来，免得两块板子叠着
+        if (S.gearOn && typeof closeKeysPanel === "function") closeKeysPanel();
+        if (gearEl) gearEl.className = S.gearOn ? "show" : "";
+        if (S.gearOn) syncGear();
+      }
+
+      /* ================= 按键设置（v1.6.15） =================
+       * 侧栏底部「键」按钮打开，盖住整个侧栏。
+       *
+       * 关键点：**页面收不到按键**。BGI 的浮窗虽然在最前面，但页面拿不到键盘
+       * 焦点（document.hasFocus() 长期 false，实测过），所以"按一个键"这件事
+       * 交给主脚本的全局钩子：这里只负责发 /keycap 请求，钩子把下一个键吃下来
+       * 再通过 /keycap 回传。Esc 在钩子那边就被拦掉了。
+       */
+      var keysPanel = document.getElementById("keysPanel");
+      var keysList = document.getElementById("keysList");
+      var keysMsg = document.getElementById("keysMsg");
+
+      /** 键名 → 人话。钩子上报的是小写名（f9 / menu / arrowleft…），别直接甩给用户 */
+      function keyLabel(k) {
+        if (!k) return "未设置";
+        var map = {
+          escape: "Esc", esc: "Esc",
+          menu: "Alt", alt: "Alt", lmenu: "Alt", rmenu: "Alt",
+          control: "Ctrl", controlkey: "Ctrl", lcontrol: "Ctrl", rcontrol: "Ctrl",
+          shift: "Shift", lshift: "Shift", rshift: "Shift",
+          "return": "Enter", enter: "Enter",
+          space: "空格", insert: "Insert", "delete": "Del", backspace: "退格",
+          tab: "Tab", pause: "Pause", home: "Home", end: "End",
+          pageup: "PgUp", pagedown: "PgDn", capslock: "CapsLock",
+          arrowleft: "←", arrowright: "→", arrowup: "↑", arrowdown: "↓",
+          left: "←", right: "→", up: "↑", down: "↓"
+        };
+        if (map[k]) return map[k];
+        return String(k).toUpperCase();
+      }
+
+      function renderKeys() {
+        if (!keysList) return;
+        var list = S.keys || [];
+        keysList.innerHTML = "";
+        if (!list.length) {
+          keysList.appendChild(el("div", "kp-t", "还没拿到键位表（等脚本发 /init）…"));
+          return;
+        }
+        for (var i = 0; i < list.length; i++) {
+          (function (it) {
+            var row = el("div", "kr");
+            row.appendChild(el("span", "kl", it.label || it.id));
+
+            var bt = el("button", "kb");
+            var waiting = (S.keysCap === it.id);
+            bt.className = "kb" + (it.key ? "" : " none") + (waiting ? " want" : "");
+            bt.textContent = waiting ? "按键…" : keyLabel(it.key);
+            bt.title = waiting ? "按一个键，Esc 取消"
+              : (it.key ? "现在绑的是 " + keyLabel(it.key) + "，点一下换键"
+                : "还没绑键，点一下绑一个");
+            bt.addEventListener("click", function () { startKeyCap(it.id); });
+            row.appendChild(bt);
+
+            // 清空：只有绑了键才显示，免得一行三个按钮挤成一片
+            if (it.key) {
+              var kx = el("button", "kx", "×");
+              kx.title = "清掉这个键（这个动作改用按钮点）";
+              kx.addEventListener("click", function () { clearKey(it.id); });
+              row.appendChild(kx);
+            }
+            keysList.appendChild(row);
+          })(list[i]);
+        }
+      }
+
+      function startKeyCap(id) {
+        if (S.keysCap === id) { cancelKeyCap(); return; }
+        S.keysCap = id;
+        renderKeys();
+        if (keysMsg) keysMsg.textContent = "按一个键…（Esc 取消）";
+        post("/keycap", { id: id, on: true });
+      }
+
+      function cancelKeyCap() {
+        if (!S.keysCap) return;
+        S.keysCap = "";
+        renderKeys();
+        if (keysMsg) keysMsg.textContent = "";
+        post("/keycap", { on: false });
+      }
+
+      function clearKey(id) {
+        S.keysCap = "";
+        for (var i = 0; i < S.keys.length; i++) {
+          if (S.keys[i].id === id) S.keys[i].key = "";
+        }
+        renderKeys();
+        if (keysMsg) keysMsg.textContent = "已清空";
+        post("/hotkey", { id: id, key: "" });
+      }
+
+      /** 主脚本回传的当前键位表（改完键 / 初始化时都会来一次） */
+      function onKeys(d) {
+        if (d.keys && d.keys.length !== undefined) S.keys = d.keys.slice();
+        if (d.tip) S.hotkeyTip = String(d.tip);
+        if (d.holdKeyLabel !== undefined) S.holdKeyLabel = String(d.holdKeyLabel || "");
+        renderKeys();
+      }
+
+      /** 钩子捕获到的那个键（或者 Esc 取消） */
+      function onKeyCap(d) {
+        var id = String(d.id || S.keysCap || "");
+        S.keysCap = "";
+        if (d.cancel) {
+          renderKeys();
+          if (keysMsg) keysMsg.textContent = d.timeout ? "超时，已取消" : "已取消";
+          return;
+        }
+        var k = String(d.key || "");
+        for (var i = 0; i < S.keys.length; i++) {
+          if (S.keys[i].id === id) S.keys[i].key = k;
+        }
+        renderKeys();
+        if (keysMsg) keysMsg.textContent = "「" + keyLabel(k) + "」已保存";
+        post("/hotkey", { id: id, key: k });
+      }
+
+      function openKeysPanel() {
+        if (!keysPanel) return;
+        if (S.gearOn) setGear(false);
+        keysPanel.className = "show";
+        if (keysMsg) keysMsg.textContent = "";
+        renderKeys();
+        post("/keys", {});
+      }
+
+      function closeKeysPanel() {
+        if (!keysPanel) return;
+        keysPanel.className = "";
+        cancelKeyCap();
+      }
+
+      function resetKeys() {
+        if (keysMsg) keysMsg.textContent = "已恢复默认";
+        post("/keys-reset", {});
+      }
+
+      function applyVolume() {
+        v.volume = S.volume;
+        v.muted = S.volume <= 0;
+        btnMute.textContent = v.muted ? "🔇" : "🔊";
+      }
+
+      /* ---- 交互状态切换：只改界面，不碰播放 ----
+       * 以前的版本进入缩放模式会自动暂停、退出自动续播。用户明确说不要：
+       * "按 Ins 键视频不会继续，保持不变" —— 切走再回来、按热键接回浮窗，
+       * 暂停就是暂停、在播就是在播，谁也别替用户做主。
+       */
+      function setInteractive(on) {
+        on = !!on;
+        S.interactive = on;
+        // 设置里勾了「显示合集侧栏」= 每次浮窗变成可交互就把系列栏摆出来。
+        // 它是"临时面板"，收起后不会被永久关掉 —— 下次按 Alt 还在原地等你。
+        if (on && S.sideHome && !S.showSide) S.showSide = true;
+        syncBar();
+        for (var i = 0; i < rzList.length; i++) {
+          rzList[i].className = (S.interactive && !S.collapsed) ? "rz show" : "rz";
+        }
+        layoutSide();
+        if (S.interactive) armIdle();
+        else disarmIdle();
+        // 切回穿透时把设置面板一起收起来，别留个悬空的板子
+        if (!S.interactive) setGear(false);
+      }
+
+      /* ================= 本地视频 ================= */
+      function srcFor(file, urlOverride) {
+        if (urlOverride && /^https?:\/\//i.test(urlOverride)) return urlOverride;
+        if (!file) return "";
+        return "videos/" + file.split("/").map(encodeURIComponent).join("/");
+      }
+
+      var pendingResume = 0;
+      var pendingAutoplay = true;
+
+      function loadVideo(file, urlOverride, resumeAt, autoplay) {
+        var src = srcFor(file, urlOverride);
+        if (!src) {
+          showOverlay("还没有选视频。\n\n从左边节目单里挑一集，\n或者把 mp4 放进 assets/videos/ 后从「本地视频」里点。",
+            function () { openSide(); }, "打开节目单");
+          return;
+        }
+        hideOverlay();
+        S.file = file;
+        pendingResume = num(resumeAt, 0);
+        pendingAutoplay = autoplay !== false;
+        v.src = src;
+        S.loadAt = Date.now();
+        S.videoReady = false;
+        try { v.load(); } catch (e) { }
+      }
+
+      function onMetaLoaded() {
+        S.duration = isFinite(v.duration) ? v.duration : 0;
+        renderMarks();
+        if (pendingResume > 1 && pendingResume < S.duration - 3) {
+          try { v.currentTime = pendingResume; } catch (e) { }
+          toast("从上次进度 " + fmt(pendingResume) + " 继续");
+        }
+        pendingResume = 0;
+        applySpeed();
+        updateTime();
+        if (pendingAutoplay) tryPlay();
+      }
+
+      function onVideoError() {
+        var src = v.currentSrc || v.src || "(空)";
+        if (!S.isBili || !S.bvid) {
+          showOverlay("视频加载失败：" + src + "\n\n" +
+            "1) 文件是否在 assets/videos/ 下\n2) 文件名是否一致\n3) 是否是 H.264 的 mp4",
+            function () { try { v.load(); } catch (e) { } }, "重试");
+          post("/error", { msg: "视频加载失败：" + src });
+          return;
+        }
+
+        var t = Number(S.lastT) || 0;
+        try { if (v.currentTime > 0.5) t = v.currentTime; } catch (e) { }
+
+        // 第一层：可能是 B 站 CDN 这次没给 CORS 头 → crossorigin 直接让请求失败。
+        // 先去掉 crossorigin 用普通方式重载（代价是画布会被污染、画面分析失效，
+        // 但至少能播——播放永远比自动暂停重要）。
+        if (!S.noCors) {
+          S.noCors = true;
+          S.anOn = false;
+          syncAnBtn();
+          try { v.removeAttribute("crossorigin"); } catch (e) { }
+          post("/log", { msg: "带 CORS 加载失败 → 去掉 crossorigin 重试（画面分析自动关闭）" });
+          showHint("这个视频取不到画面像素，只能用普通方式播放（自动暂停暂不可用）", 7000);
+          pendingResume = t;
+          pendingAutoplay = S.wantPlay !== false;
+          try { v.load(); } catch (e) { }
+          return;
+        }
+
+        // 第二层：直链大约 2 小时过期。报错时默默重取一条，接着原来的位置播。
+        if (S.retried < 2) {
+          S.retried++;
+          showHint("视频地址失效，正在重新获取…", 6000);
+          post("/log", { msg: "直链失效，重新取（第 " + S.retried + " 次，t=" + Math.round(t) + "）" });
+          setTimeout(function () { requestPlayurl(t, S.wantPlay); }, 700);
+          return;
+        }
+
+        showOverlay("视频加载失败：" + src + "\n\n" +
+          "1) 检查 BetterGI 是否开了「JS HTTP 权限」\n2) 这个视频是否需要大会员",
+          function () { requestPlayurl(t, S.wantPlay); }, "重新获取");
+        post("/error", { msg: "视频加载失败：" + src });
+      }
+
+      function tryPlay() {
+        if (!v.src) return;
+        voiceInit();                       // 第一次真要出声时才接管音频，避免空跑
+        if (voice.ac && voice.ac.state === "suspended") voice.ac.resume().catch(function () { });
+        var p = v.play();
+        if (p && typeof p.catch === "function") {
+          p.catch(function () {
+            v.muted = true;
+            var q = v.play();
+            if (q && typeof q.catch === "function") {
+              q.then(function () { v.muted = S.volume <= 0; })
+                .catch(function () { showHint("按播放热键或点一下画面开始播放", 6000); });
+            }
+          });
+        }
+      }
+
+      /* ================= 播放控制 ================= */
+
+      /**
+       * 现在在线也是 <video>，播放状态可以真实读到，图标不会再卡在 ▶。
+       */
+      var lastPlayIcon = "";
+      function syncPlayBtn() {
+        if (!btnPlay) return;
+        var playing = !!v.src && !v.paused && !v.ended;
+        var icon = playing ? "❚❚" : "▶";
+        if (icon === lastPlayIcon) return;
+        lastPlayIcon = icon;
+        btnPlay.textContent = icon;
+        btnPlay.title = playing ? "暂停" : "播放";
+      }
+      setInterval(syncPlayBtn, 350);
+
+      /* ---------- 卡住检测（v1.6.26）----------
+         以前失败只有两种情况会被发现：接口明确回错误、video 报 error。
+         但网络卡住时这两者都不发生，界面就一直停在「正在取视频地址…」转圈，
+         用户不知道是慢还是死了。这里给两条超时兜底，并且都带「重试」。
+         用页面的 setInterval —— 页面是正常浏览器环境，有定时器。 */
+      setInterval(function () {
+        var now = Date.now();
+
+        // 1) 取播放地址卡住：12 秒没回音
+        if (S.fetching && S.fetchAt && now - S.fetchAt > 12000) {
+          S.fetching = false;
+          S.fetchAt = 0;
+          showOverlay("取视频地址超时了（12 秒没有响应）\n\n" +
+            "可能是网络慢、B 站接口被拦，或者没开「JS HTTP 权限」。", function () {
+            if (S.isBili && S.bvid) requestPlayurl(S.cur || 0, true);
+          });
+          post("/log", { msg: "playurl 超时（12s）" });
+        }
+
+        // 2) 地址拿到了但视频一直不起播：25 秒还没 loadedmetadata
+        if (S.loadAt && !S.videoReady && now - S.loadAt > 25000) {
+          S.loadAt = 0;
+          showOverlay("视频加载超时了（25 秒还没起播）\n\n" +
+            "这个 mp4 地址可能失效了，或者当前网速太慢。", function () {
+            if (S.isBili && S.bvid) requestPlayurl(S.cur || 0, true);
+            else { try { v.load(); } catch (e) { } }
+          });
+          post("/log", { msg: "视频起播超时（25s）" });
+        }
+      }, 1000);
+
+      function togglePlay() {
+        if (S.blank) { toast("先在系列栏里选一个视频"); return; }
+        if (v.paused) tryPlay();
+        else v.pause();
+        syncPlayBtn();
+      }
+
+      /** 由脚本侧指定"播放/暂停"（战斗检测用），幂等 */
+      function setPlaying(on) {
+        on = !!on;
+        if (on && v.paused) tryPlay();
+        else if (!on && !v.paused) v.pause();
+        syncPlayBtn();
+      }
+
+      function seekBy(sec) {
+        if (!S.duration) return;
+        var t2 = clamp((v.currentTime || 0) + sec, 0, S.duration);
+        try { v.currentTime = t2; } catch (e) { }
+        // 带上跳到的位置（跟页面自己处理方向键时的提示一致），按住连发时也看得清到了哪
+        toast((sec > 0 ? "快进 → " : "← 快退 ") + fmt(t2));
+        updateTime();
+      }
+
+      function setSpeed(sp) {
+        S.speed = clamp(sp, 0.25, 4);
+        applySpeed();
+        reportState();
+      }
+
+      function setOpacity(o) {
+        S.opacity = clamp(o, 0.05, 1);
+        if (S.hidden && S.opacity > 0) S.hidden = false;
+        applyOpacity();
+        reportState();
+      }
+
+      function setHidden(on) {
+        S.hidden = !!on;
+        applyOpacity();
+        toast(S.hidden ? "画面已隐藏（声音继续）" : "画面已显示");
+      }
+
+      function toggleMute() {
+        S.volume = (S.volume > 0) ? 0 : 1;
+        applyVolume();
+        toast(S.volume > 0 ? "已取消静音" : "已静音");
+        reportState();
+      }
+
+      /* ================= 指令分发 ================= */
+      function applyCmd(a, value) {
+        switch (a) {
+          case "playPause": togglePlay(); break;
+          case "setPlay": setPlaying(value === true); break;
+          case "seek": seekBy(num(value, 5)); break;
+          // 主脚本的方向键钩子发过来的音量增量（±0.1），和页面自己按 ↑↓ 走同一条路
+          case "volume": keyVolume(num(value, 0.1)); break;
+          case "speed": setSpeed(num(value, 1)); break;
+          case "opacity": setOpacity(num(value, 1)); break;
+          case "hide": setHidden(value === true); break;
+          case "interactive": setInteractive(value === true); break;
+          // 主脚本让我们把系列栏收回去（松开 Alt / 鼠标还给游戏 / 长时间没动）
+          case "closeside": closeSideIfOpen(); break;
+          case "toast": toast(String(value == null ? "" : value)); break;
+          case "mark": addMark(false); break;
+          case "load":
+            if (value && value.src) applySource(value.src, num(value.resume, 0), value.autoplay !== false);
+            break;
+          case "flush": reportProgress(); reportState(); break;
+          case "reload":
+            // 重新取一条直链（登录后、或者地址过期时用）
+            if (S.isBili && S.bvid) requestPlayurl(v.currentTime || 0, !v.paused);
+            else if (v.src) { try { v.load(); } catch (e) { } }
+            toast("已刷新视频");
+            break;
+          case "page":
+            if (S.isBili) goPage(num(value, 1));
+            break;
+          default: break;
+        }
+      }
+
+      /* ================= 上报 ================= */
+      var lastStateAt = 0;
+      function reportState(force) {
+        var now = Date.now();
+        if (!force && now - lastStateAt < 250) return;
+        lastStateAt = now;
+        post("/state", {
+          x: Math.round(S.x),
+          // 收起态报"展开后"的矩形（y 也换算回去，让控制条下沿对齐），
+          // 主脚本拿它存盘；下次启动就是展开的样子，不会开成一条 34px 的横条。
+          // 鼠标热区不走这个值，走 /geom 里的真实矩形。
+          y: Math.round(S.collapsed ? Math.max(0, S.y - ((S.hPrev || BAR_H) - BAR_H)) : S.y),
+          w: Math.round(S.w),
+          h: Math.round(S.collapsed ? (S.hPrev || S.h) : S.h),
+          // 比例一起报上去，主脚本存盘；下次在别的分辨率下启动也能摆回原来的相对位置
+          rx: Math.round(S.rx * 10000) / 10000,
+          ry: Math.round(S.ry * 10000) / 10000,
+          rw: Math.round(S.rw * 10000) / 10000,
+          ar: Math.round(S.ar * 10000) / 10000,
+          vw: Math.round(S.vw || window.innerWidth),
+          vh: Math.round(S.vh || window.innerHeight),
+          opacity: S.opacity, speed: S.speed, volume: S.volume
+        });
+      }
+
+      var lastGeomAt = 0;
+      /** 告诉脚本侧：窗口在屏幕上的位置 + 视频矩形，用来做"鼠标悬停在视频上"的判断 */
+      function reportGeom(force) {
+        var now = Date.now();
+        if (!force && now - lastGeomAt < 120) return;
+        lastGeomAt = now;
+        try {
+          post("/geom", {
+            sx: (typeof window.screenX === "number") ? window.screenX : (window.screenLeft || 0),
+            sy: (typeof window.screenY === "number") ? window.screenY : (window.screenTop || 0),
+            dpr: window.devicePixelRatio || 1,
+            x: Math.round(S.x), y: Math.round(S.y),
+            w: Math.round(S.w), h: Math.round(S.h),
+            // 系列栏的矩形（没开就是 null）：主脚本用它算"鼠标还在不在浮窗上"
+            side: (S.showSide && S.interactive && !S.collapsed && S.sideW) ? {
+              x: S.sideX, y: S.sideY, w: S.sideW, h: S.sideH
+            } : null
+          });
+        } catch (e) { }
+      }
+
+      function reportProgress() {
+        post("/progress", {
+          t: Math.round((v.currentTime || 0) * 10) / 10,
+          d: Math.round((S.duration || 0) * 10) / 10,
+          playing: !!v.src && !v.paused
+        });
+      }
+
+      /* 记住"看到哪"（v1.6.22）。
+         三个约束，都是为了别把没用的进度写进去：
+           · 少于 5 秒不记 —— 点开就退不算看过；
+           · 剩不到 15 秒不记 —— 已经看完了，下次别再问"接着看"；
+           · 8 秒一次，暂停时强制写 —— 每次 timeupdate 都发会把通信刷爆。 */
+      function reportLast(force) {
+        var t = v.currentTime || 0;
+        if (!(t > 5)) return;
+        if (!S.bvid && !S.file) return;
+        var dur = S.duration || 0;
+        if (dur > 0 && t > dur - 15) return;
+        var now = Date.now();
+        if (!force && now - (S.lastSentAt || 0) < 8000) return;
+        S.lastSentAt = now;
+        post("/last", {
+          bvid: S.bvid || "",
+          page: S.page || 1,
+          file: S.bvid ? "" : (S.file || ""),
+          t: Math.round(t * 10) / 10,
+          dur: Math.round(dur * 10) / 10,
+          title: S.curTitle || S.nowTitle || ""
+        });
+      }
+
+      /* ================= 提示 ================= */
+      var toastTimer = null;
+      function toast(text) {
+        if (!text) return;
+        toastEl.textContent = text;
+        toastEl.className = "show";
+        if (toastTimer) clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () { toastEl.className = ""; }, 1400);
+      }
+
+      var hintTimer = null;
+      function showHint(text, ms) {
+        if (!text) return;
+        hintEl.textContent = text;
+        hintEl.className = "show";
+        if (hintTimer) clearTimeout(hintTimer);
+        hintTimer = setTimeout(function () { hintEl.className = ""; }, ms || 8000);
+      }
+      function hideHint() {
+        if (hintTimer) clearTimeout(hintTimer);
+        hintEl.className = "";
+      }
+
+      /* 覆盖层。第二个参数是可选的重试回调——给了就多一个「重试」按钮。
+         以前只有一段纯文字，卡住的时候用户只能干看着转圈，不知道该点哪。 */
+      function showOverlay(text, retry, retryLabel) {
+        S.blank = false;
+        stage.classList.remove("blank");
+        overlay.className = "show";
+        overlay.innerHTML = "";
+        S.retryFn = (typeof retry === "function") ? retry : null;
+        // 用一个纵向容器装「文字 + 按钮」，否则 overlay 是 flex 行方向，按钮会跑到文字右边
+        var box = document.createElement("div");
+        box.className = "ov-box";
+        var p = document.createElement("div");
+        p.textContent = text;
+        box.appendChild(p);
+        if (S.retryFn) {
+          var b = document.createElement("button");
+          b.className = "bk";
+          b.setAttribute("data-act", "retry");
+          b.textContent = retryLabel || "重试";
+          box.appendChild(b);
+        }
+        overlay.appendChild(box);
+      }
+      function hideOverlay() {
+        S.blank = false;
+        stage.classList.remove("blank");
+        overlay.className = "";
+        overlay.textContent = "";
+        S.retryFn = null;
+      }
+
+      /* 启动空白页（v1.6.8）：一上来不放视频，整块纯黑 + 白字，
+         只告诉你下一步点哪里。点它 = 打开系列栏（鼠标得先被 Insert 接住）。 */
+      function escHtml(t) {
+        return String(t == null ? "" : t)
+          .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      /* 「上次看到」那张卡（v1.6.22）。
+         判据只看两件事：真看过一段（>5 秒）、没看到结尾。主脚本那边已经筛过一遍，
+         这里再筛一次是因为页面自己也可能在播完一集后停在空白态。 */
+      function resumeCard() {
+        var w = S.last;
+        if (!w) return "";
+        var done = !!w.done;
+        var t = num(w.t, 0);
+        if (!done && !(t > 5)) return "";
+        var label = w.title ? String(w.title) : (w.bvid || w.file || "上一个视频");
+        if (num(w.page, 1) > 1) label += " · P" + num(w.page, 1);
+        var ago = "";
+        var at = num(w.at, 0);
+        if (at > 0) {
+          var m = Math.round((Date.now() - at) / 60000);
+          ago = m < 1 ? "刚刚" : (m < 60 ? (m + " 分钟前")
+            : (m < 1440 ? (Math.round(m / 60) + " 小时前") : (Math.round(m / 1440) + " 天前")));
+        }
+        var line = done
+          ? ('看完了' + (num(w.dur, 0) > 0 ? ("（全长 " + fmt(num(w.dur, 0)) + "）") : ""))
+          : (fmt(t) + (num(w.dur, 0) > 0 ? (" / " + fmt(num(w.dur, 0))) : "") + '　·　看到这里');
+        return '<div class="rz" data-act="stop">' +
+          '<div class="rt">' + (done ? "上次看完：" : "上次看到：") + escHtml(label) + '</div>' +
+          '<div class="rs2">' + line + (ago ? ("　·　" + ago) : "") + '</div>' +
+          '<div class="rb">' +
+          (done ? '' : '<button data-act="resume">接着上次看</button>') +
+          '<button data-act="from"' + (done ? '' : ' class="ghost"') + '>' +
+          (done ? "再看一遍" : "从头开始") + '</button>' +
+          '<button data-act="forget" class="ghost">不用了</button>' +
+          '</div></div>';
+      }
+
+      function showBlank() {
+        S.blank = true;
+        stage.classList.add("blank");
+        var card = resumeCard();
+        overlay.className = "show blank" + (card ? " tight" : "");
+        // 有"按住键临时接管鼠标"就把它写进第二行 —— 比让用户先按 Insert 直观得多
+        var hold = S.holdKeyLabel || "";
+        var hint = hold
+          ? '按住 <i>' + hold + '</i>（或 <i>Insert</i>）→ 就能点'
+          : '按 <i>Insert</i> → 就能点';
+        // v1.6.25：把"黑屏"改成一张明确的引导页：给一个大按钮，别让人对着黑块猜。
+        // 有续播卡时说明文字压成一句，否则 203px 装不下会把按钮挤出屏幕
+        overlay.innerHTML = card
+          ? (card +
+            '<div class="bt">或者换一张地图</div>' +
+            '<button class="bk" data-act="side">打开节目单</button>' +
+            '<div class="bs">' + hint + '</div>')
+          : ('<div class="bt">还没选视频</div>' +
+            '<div class="bs">这里是攻略视频窗口，选一集就开始播</div>' +
+            '<button class="bk" data-act="side">打开节目单</button>' +
+            '<div class="bs">' + hint + '，然后点这个按钮</div>' +
+            '<div class="bd">不想看就点右下角 ▾ 收起</div>');
+      }
+
+      /* 续播卡上的三个按钮。注意 overlay 本身点一下就打开系列栏，
+         所以卡片里的点击必须 stopPropagation，否则点「接着看」会把侧栏一起拽出来。 */
+      function onResumeClick(act) {
+        var w = S.last;
+        if (act === "forget") {
+          S.last = null;
+          post("/lastClear", {});
+          showBlank();
+          return true;
+        }
+        if (!w) return false;
+        var t = (act === "resume") ? num(w.t, 0) : 0;
+        S.last = null;
+        post("/log", {
+          msg: (act === "resume" ? "续播：" : "重新开始：") +
+            (w.bvid || w.file || "?") + (num(w.page, 1) > 1 ? (" P" + num(w.page, 1)) : "") +
+            (act === "resume" ? (" @" + Math.round(t) + "s") : "")
+        });
+        applySource({
+          kind: w.bvid ? "bili" : (w.url ? "url" : "file"),
+          bvid: w.bvid || "", page: num(w.page, 1) || 1,
+          url: w.url || "", file: w.file || ""
+        }, t, true);
+        return true;
+      }
+
+      overlay.addEventListener("click", function (e) {
+        var el = (e.target && e.target.closest) ? e.target.closest("[data-act]") : null;
+        var act = el ? String(el.getAttribute("data-act") || "") : "";
+        if (act) {
+          e.stopPropagation();
+          if (act === "stop") return;
+          if (act === "side") { openSide(); return; }
+          if (act === "retry") {
+            var f = S.retryFn;
+            S.retryFn = null;
+            if (f) { try { f(); } catch (err) { post("/log", { msg: "重试出错：" + err }); } }
+            return;
+          }
+          if (onResumeClick(act)) return;
+        }
+        if (!S.blank) return;
+        openSide();
+      });
+
+      function updateTime() {
+        S.cur = v.currentTime || 0;
+        lblTime.textContent = fmt(S.cur) + " / " + fmt(S.duration);
+        var pct = S.duration > 0 ? (S.cur / S.duration) * 100 : 0;
+        progress.style.width = pct.toFixed(2) + "%";
+      }
+
+      /* ================= 拖动 / 四角缩放 ================= */
+      var drag = null;
+
+      function setDragging(on) {
+        post("/dragstate", { d: !!on });
+      }
+
+      stage.addEventListener("pointerdown", function (e) {
+        if (!S.interactive) return;
+        armIdle();
+        var t = e.target;
+        if (t && t.closest && t.closest("#gear")) return;
+        // 展开时按在控制条上是点按钮，不拖窗；收起时整条就是"拖动条"，
+        // 只有按钮本身除外（否则按钮按不动）。
+        if (t && t.closest && t.closest("#bar") && (!S.collapsed || t.closest("button"))) return;
+        if (t && t.className && String(t.className).indexOf("rz") >= 0) return;
+        drag = {
+          mode: "move", sx: e.clientX, sy: e.clientY, ox: S.x, oy: S.y,
+          t0: Date.now(), moved: false,
+        };
+        stage.classList.add("dragging");
+        setDragging(true);
+        try { stage.setPointerCapture(e.pointerId); } catch (err) { }
+        e.preventDefault();
+      });
+
+      // 四个角都能拉，像画中画一样
+      for (var ri = 0; ri < rzList.length; ri++) {
+        (function (handle) {
+          handle.addEventListener("pointerdown", function (e) {
+            if (!S.interactive) return;
+            armIdle();
+            drag = {
+              mode: "size",
+              dir: handle.getAttribute("data-d") || "br",
+              sx: e.clientX, sy: e.clientY,
+              ox: S.x, oy: S.y, ow: S.w, oh: S.h
+            };
+            stage.classList.add("resizing");
+            setDragging(true);
+            try { handle.setPointerCapture(e.pointerId); } catch (err) { }
+            e.preventDefault();
+            e.stopPropagation();
+          });
+        })(rzList[ri]);
+      }
+
+      window.addEventListener("pointermove", function (e) {
+        if (!S.interactive) return;
+        armIdle();
+        if (!drag) return;
+        var dx = e.clientX - drag.sx, dy = e.clientY - drag.sy;
+        if (Math.abs(dx) + Math.abs(dy) > 3) drag.moved = true;
+
+        if (drag.mode === "move") {
+          S.x = drag.ox + dx;
+          S.y = drag.oy + dy;
+        } else {
+          var d = drag.dir;
+          var nx = drag.ox, ny = drag.oy, nw = drag.ow, nh = drag.oh;
+          if (d.indexOf("l") >= 0) { nx = drag.ox + dx; nw = drag.ow - dx; }
+          if (d.indexOf("r") >= 0) { nw = drag.ow + dx; }
+          if (d.indexOf("t") >= 0) { ny = drag.oy + dy; nh = drag.oh - dy; }
+          if (d.indexOf("b") >= 0) { nh = drag.oh + dy; }
+          nw = Math.max(200, nw);
+          nh = Math.max(112, nh);
+          S.x = nx; S.y = ny; S.w = nw; S.h = nh;
+        }
+        applyLayout();
+        reportState();
+        reportGeom();
+      });
+
+      window.addEventListener("pointerup", function () {
+        if (!drag) return;
+        // v1.6.8：删掉"单击画面 = 把鼠标还给游戏"。这个手势太容易被误触
+        // （手滑一下、想点暂停没点中、拖完松手，鼠标就掉回游戏，浮窗当场失控）。
+        // 现在单击只做一件事：把设置面板收起来。要还鼠标给游戏请按缩放热键
+        // （默认 Insert），或者什么都不碰等空闲自动穿透。
+        var tap = (drag.mode === "move" && !drag.moved && (Date.now() - drag.t0) < 500);
+        drag = null;
+        stage.classList.remove("dragging");
+        stage.classList.remove("resizing");
+        setDragging(false);
+        reportState(true);
+        reportGeom();
+        if (tap) {
+          // 空白态：整块黑屏就是"打开系列栏"的按钮（pointer capture 会吃掉
+          // overlay 自己的 click，所以在这里兜一层）
+          if (S.blank) openSide();
+          else setGear(false);
+        }
+      });
+
+      stage.addEventListener("wheel", function (e) {
+        if (!S.interactive) return;
+        // 在设置面板里滚轮 = 滚面板（小窗口下它会溢出），别顺手把画面透明度改了
+        if (e.target && e.target.closest && e.target.closest("#gear")) return;
+        armIdle();
+        e.preventDefault();
+        setOpacity(S.opacity + (e.deltaY > 0 ? -0.05 : 0.05));
+        toast("透明度 " + Math.round(S.opacity * 100) + "%");
+      }, { passive: false });
+
+      var idleTimer = null;
+      function armIdle() {
+        if (!S.interactive) return;
+        if (idleTimer) clearTimeout(idleTimer);
+        idleTimer = setTimeout(function () {
+          if (S.interactive && !drag) post("/idle", {});
+        }, 25000);
+      }
+      function disarmIdle() {
+        if (idleTimer) { clearTimeout(idleTimer); idleTimer = null; }
+      }
+
+      /* ================= 进度条拖动 =================
+       * 注意一个前提：这层浮窗默认是「鼠标穿透」的，鼠标事件根本到不了页面，
+       * 所以拖不动不是代码问题。主脚本的 hoverMode 打开后，鼠标停在视频上会
+       * 临时关闭穿透（移开一会儿自动恢复），那时才拖得动。
+       */
+      (function initScrub() {
+        var bar = document.getElementById("progress");
+        var tip = document.getElementById("scrubTip");
+        var dragging = false, resumePlay = false;
+
+        function pctAt(e) {
+          var r = bar.getBoundingClientRect();
+          if (!r.width) return 0;
+          var x = (e.clientX - r.left) / r.width;
+          return x < 0 ? 0 : (x > 1 ? 1 : x);
+        }
+
+        function show(p) {
+          var t = p * (S.duration || 0);
+          tip.textContent = fmt(t);
+          tip.style.left = (p * 100).toFixed(2) + "%";
+          tip.classList.add("on");
+          progress.style.width = (p * 100).toFixed(2) + "%";   // 蓝条跟着手走
+        }
+
+        function commit(p) {
+          tip.classList.remove("on");
+          if (!S.duration) return;
+          var t = p * S.duration;
+          try { v.currentTime = t; } catch (e) { }
+          S.cur = t;
+          // 拖完时间会突然跳很远，跳步检测和打怪点判定都得重新校准，
+          // 否则一松手就被当成"换场地"，视频立刻自己停住。
+          S.markPrev = t;
+          S.scrubCool = Date.now() + 1500;
+          S.anPend = null;
+          // 拖的时候如果本来在播，就接着播
+          if (resumePlay) { try { v.play(); } catch (e) { } }
+        }
+
+        bar.addEventListener("pointerdown", function (e) {
+          if (!S.duration) return;
+          dragging = true;
+          resumePlay = !v.paused;
+          // 告诉主脚本"我正在拖进度条"：它会暂时不做穿透切换，
+          // 否则手一停住，鼠标 1 秒没动就被判定为移开，穿透一关拖动就断了。
+          post("/scrub", { on: true });
+          try { bar.setPointerCapture(e.pointerId); } catch (err) { }
+          show(pctAt(e));
+          e.preventDefault();
+          e.stopPropagation();
+        });
+
+        bar.addEventListener("pointermove", function (e) {
+          if (!dragging) return;
+          show(pctAt(e));
+          e.preventDefault();
+        });
+
+        bar.addEventListener("pointerup", function (e) {
+          if (!dragging) return;
+          dragging = false;
+          commit(pctAt(e));
+          post("/scrub", { on: false });
+          e.preventDefault();
+        });
+
+        bar.addEventListener("pointercancel", function () {
+          if (!dragging) return;
+          dragging = false;
+          tip.classList.remove("on");
+          post("/scrub", { on: false });
+        });
+      })();
+
+      /* ================= 按钮 ================= */
+      document.getElementById("btnPlay").addEventListener("click", togglePlay);
+      document.getElementById("btnBack").addEventListener("click", function () { seekBy(-5); });
+      document.getElementById("btnFwd").addEventListener("click", function () { seekBy(5); });
+      document.getElementById("btnMute").addEventListener("click", toggleMute);
+      document.getElementById("btnHide").addEventListener("click", function () { setHidden(!S.hidden); });
+
+      /* ---------- 设置面板（⚙） ---------- */
+      document.getElementById("btnGear").addEventListener("click", function () { setGear(!S.gearOn); });
+
+      /* ---------- 点别处就把 ⚙ 面板收起来（v1.6.15） ----------
+       * 用 pointerdown 的捕获阶段：它比 click 早，所以点暂停/侧栏/画面任何位置都
+       * 能先把面板关掉，又不会影响被点那个按钮自己的 click。
+       * 点 ⚙ 自己和面板内部不算"别处"（否则滑块拖一半就没了）。
+       */
+      document.addEventListener("pointerdown", function (e) {
+        if (!S.gearOn) return;
+        var t = e.target;
+        if (!t || typeof t.closest !== "function") return;
+        if (t.closest("#gear") || t.closest("#btnGear")) return;
+        setGear(false);
+      }, true);
+
+      /* ---------- 按键设置面板（侧栏「键」） ---------- */
+      document.getElementById("btnKeys").addEventListener("click", function () {
+        if (keysPanel && keysPanel.className === "show") closeKeysPanel();
+        else openKeysPanel();
+      });
+      document.getElementById("btnKeysClose").addEventListener("click", closeKeysPanel);
+      document.getElementById("btnKeysReset").addEventListener("click", resetKeys);
+
+      /* ---------- 键位面板也是"点别处就关"（v1.6.15） ----------
+       * 面板是盖住整块侧栏的，footer 上的「键」按钮其实点不到，所以关闭路径必须是
+       * ×  / 点面板外任何地方。点画面、点 ⚙、点控制条都算"别处"。
+       */
+      document.addEventListener("pointerdown", function (e) {
+        if (!keysPanel || keysPanel.className !== "show") return;
+        var t = e.target;
+        if (!t || typeof t.closest !== "function") return;
+        if (t.closest("#keysPanel")) return;      // 面板内部（点某一行、点 ×）不关
+        closeKeysPanel();
+      }, true);
+      document.getElementById("gSpeedDown").addEventListener("click", function () { setSpeed(S.speed - 0.25); });
+      document.getElementById("gSpeedUp").addEventListener("click", function () { setSpeed(S.speed + 0.25); });
+      (function () {
+        var sel = document.getElementById("gear").querySelectorAll("[data-sp]");
+        for (var i = 0; i < sel.length; i++) {
+          (function (b) {
+            b.addEventListener("click", function () {
+              setSpeed(num(b.getAttribute("data-sp"), 1));
+              toast("倍速 " + S.speed.toFixed(2) + "×");
+            });
+          })(sel[i]);
+        }
+      })();
+      document.getElementById("gOpacity").addEventListener("input", function () {
+        setOpacity(num(this.value, 100) / 100);
+      });
+      document.getElementById("btnMarkOn").addEventListener("click", function () {
+        S.marksOn = !S.marksOn;
+        renderMarks();
+        syncMarkOnBtn();
+        post("/pref", { marksOn: S.marksOn });
+        toast(S.marksOn ? "打怪点暂停：开" : "打怪点暂停：关");
+      });
+      // 看完自动续播（v1.6.16）：关掉后一集播完就停在结尾，不倒计时
+      document.getElementById("btnAutoNext").addEventListener("click", function () {
+        S.autoNext = !S.autoNext;
+        if (!S.autoNext) cancelAutoNext();
+        syncAutoNextBtn();
+        post("/autonext", { on: S.autoNext });
+        toast(S.autoNext ? ("看完续播：开（" + S.autoNextSec + " 秒）") : "看完续播：关");
+      });
+      // 秒数档位：点一下往后跳一档（到 30s 再回到 3s）。v1.6.17 加的，
+      // 因为设置页改完得重开脚本，太麻烦 —— 这里点了立刻生效，也写回设置。
+      var NEXT_SEC_STEPS = [3, 5, 10, 15, 20, 30];
+      document.getElementById("btnNextSec").addEventListener("click", function () {
+        var i = NEXT_SEC_STEPS.indexOf(S.autoNextSec);
+        S.autoNextSec = NEXT_SEC_STEPS[(i < 0 || i === NEXT_SEC_STEPS.length - 1) ? 0 : i + 1];
+        syncAutoNextBtn();
+        post("/autonext", { on: S.autoNext, sec: S.autoNextSec });
+        if (S.nxTarget) {
+          // 倒计时正在走：按新秒数重新数一遍（重新弹卡片会自带提示）
+          scheduleAutoNext();
+        } else {
+          toast("续播倒计时：" + S.autoNextSec + " 秒");
+        }
+      });
+      // 续播卡片上两个按钮：立即 / 取消
+      document.getElementById("btnNxGo").addEventListener("click", function () {
+        var t = S.nxTarget;
+        cancelAutoNext();
+        playNextTarget(t);
+      });
+      document.getElementById("btnNxNo").addEventListener("click", function () {
+        cancelAutoNext();
+        toast("好，停在这一集");
+      });
+      // 有多个分P时先切P，否则走脚本侧的播放列表切换
+      document.getElementById("btnPrev").addEventListener("click", function () {
+        if (!switchPage(-1)) post("/switch", { dir: -1 });
+      });
+      document.getElementById("btnNext").addEventListener("click", function () {
+        if (!switchPage(1)) post("/switch", { dir: 1 });
+      });
+      // 收起 / 展开：只留下边栏，不退出脚本
+      document.getElementById("btnFold").addEventListener("click", function () { setFolded(!S.collapsed); });
+      document.getElementById("btnSide").addEventListener("click", function () {
+        if (S.showSide) closeSide(); else openSide();
+      });
+      document.getElementById("btnLogin").addEventListener("click", function () { post("/login", {}); });
+      document.getElementById("btnLogin2").addEventListener("click", function () { post("/login", {}); });
+      document.getElementById("btnFav").addEventListener("click", toggleFav);
+      document.getElementById("btnDm").addEventListener("click", toggleDm);
+      document.getElementById("btnStats").addEventListener("click", showStats);
+      document.getElementById("btnSnap").addEventListener("click", function () { post("/snapshot", {}); });
+      document.getElementById("btnRefresh").addEventListener("click", function () {
+        // 本地视频这一层：↻ = 重新扫 assets/videos（放完文件不用重开脚本）
+        if (S.catLocal) {
+          S.catMsg = "重新扫描 assets/videos…";
+          post("/api/local", {});
+          renderCatList();
+          return;
+        }
+        // 分类视图下 ↻ = 重建索引（会重新去 B 站拉一遍，十几秒）
+        if (S.view === "catalog") {
+          S.catBusy = true;
+          S.catMsg = "正在重建索引…";
+          renderCatList();
+          post("/api/catalog-refresh", {});
+          return;
+        }
+        sideMsg.textContent = "刷新中…";
+        post("/api/collections", {});
+      });
+      document.getElementById("btnQuit").addEventListener("click", function () { post("/close", {}); });
+      document.getElementById("btnCat").addEventListener("click", function () {
+        if (S.view === "catalog") {
+          // 已经在分类里：有下一层就先退一层，到顶了再回 B 站系列视图
+          if (catBack()) return;
+          setViewSeries();
+          return;
+        }
+        openCatalog();
+      });
+      crumb.addEventListener("click", function () { catBack(); });
+      // 标题条：点一下展开/收起全文（单行放不下时才需要）
+      var nowBarEl = document.getElementById("nowBar");
+      if (nowBarEl) {
+        nowBarEl.addEventListener("click", function () {
+          S.nowOpen = !S.nowOpen;
+          syncNowBar();
+        });
+      }
+      collSel.addEventListener("change", function () {
+        setViewSeries();
+        var parts = String(this.value).split(":");
+        if (parts.length !== 2) return;
+        if (parts[0] === "fav") {
+          playBvid(parts[1]);
+          return;
+        }
+        requestEpisodes(parts[0], parts[1], 1);
+      });
+      document.getElementById("btnPagePrev").addEventListener("click", function () {
+        if (!S.curId || S.epPage <= 1) return;
+        requestEpisodes(S.curKind, S.curId, S.epPage - 1);
+      });
+      document.getElementById("btnPageNext").addEventListener("click", function () {
+        if (!S.curId) return;
+        if (S.epTotal && S.epPage * 30 >= S.epTotal) return;
+        requestEpisodes(S.curKind, S.curId, S.epPage + 1);
+      });
+
+      /* ================= 看完自动续播（v1.6.16） =================
+       * 用户：一集看完，应该 5 秒后自己跳到下一个。
+       * 「下一个」按这个顺序找：
+       *   1. 同一个 B 站视频还有下一个分P（31 个 P 的一条龙就是这种）→ 直接切 P
+       *   2. 分类视图里，同类下面的下一个视频（至冬7.0 → 至冬7.1）
+       *   3. 系列视图里，当前这页合集分集的下一条
+       * 都没有就不倒计时，只提示「已经是最后一个」，绝不自作主张重播。
+       *
+       * 定时器用页面的 setInterval（页面是正常浏览器环境，有定时器；
+       * 主脚本和钩子回调里都没有 setTimeout，所以这事只能放在页面做）。
+       */
+      var nxEl = document.getElementById("nx");
+      var nxLeft = document.getElementById("nxLeft");
+      var nxFill = document.getElementById("nxFill");
+
+      function nextTarget() {
+        // 1) 同视频的下一个分P
+        if (S.isBili && S.pages && S.pages.length > 1) {
+          for (var i = 0; i < S.pages.length; i++) {
+            if (S.pages[i].i !== S.page) continue;
+            if (i + 1 < S.pages.length) {
+              var p = S.pages[i + 1];
+              // v1.6.18：卡片上不再显示「下一个是什么」，只留倒计时 + 立即/取消，
+              // 所以这里只带一个 run()。
+              return { run: function () { goPage(p.i); } };
+            }
+            break;
+          }
+        }
+        // 2) 分类视图：同类里的下一个视频
+        if (S.view === "catalog" && S.catItems && S.catItems.length) {
+          var list = [], k;
+          for (k = 0; k < S.catItems.length; k++) {
+            if ((S.catItems[k].kind || "其他") === S.catKind) list.push(S.catItems[k]);
+          }
+          for (k = 0; k < list.length; k++) {
+            if (list[k].bvid !== S.bvid) continue;
+            if (k + 1 < list.length) {
+              var nx = list[k + 1];
+              return { run: function () { enterCatVideo(nx); } };
+            }
+            break;
+          }
+        }
+        // 3) 系列视图：合集分集的下一条（只在本页 30 条里找）
+        if (S.view === "series" && S.epLast && S.epLast.items) {
+          var its = S.epLast.items;
+          for (var m = 0; m < its.length; m++) {
+            if (its[m].bvid !== S.bvid) continue;
+            if (m + 1 < its.length) {
+              var it = its[m + 1];
+              return { run: function () { playBvid(it.bvid); } };
+            }
+            break;
+          }
+        }
+        return null;
+      }
+
+      function cancelAutoNext() {
+        if (S.nxTimer) { clearInterval(S.nxTimer); S.nxTimer = null; }
+        S.nxTarget = null;
+        S.nxAt = 0;
+        if (nxEl) nxEl.className = "";
+      }
+
+      function tickAutoNext() {
+        if (!S.nxTarget) return;
+        var left = S.nxAt - Date.now();
+        if (left <= 0) {
+          var t = S.nxTarget;
+          cancelAutoNext();
+          playNextTarget(t);
+          return;
+        }
+        if (nxLeft) nxLeft.textContent = String(Math.ceil(left / 1000));
+        if (nxFill) {
+          var pct = S.nxTotal > 0 ? (left / S.nxTotal) * 100 : 0;
+          nxFill.style.width = Math.max(0, Math.min(100, pct)) + "%";
+        }
+      }
+
+      function playNextTarget(t) {
+        if (!t) return;
+        try {
+          t.run();
+        } catch (e) {
+          toast("自动续播失败，手动点下一集吧");
+          post("/log", { msg: "自动续播失败：" + e });
+        }
+      }
+
+      function scheduleAutoNext() {
+        cancelAutoNext();
+        if (!S.autoNext) { toast("本节播放完毕"); return; }
+        var t = nextTarget();
+        if (!t) { toast("本节播放完毕（已经是最后一个）"); return; }
+        var sec = S.autoNextSec > 0 ? S.autoNextSec : 10;
+        S.nxTarget = t;
+        S.nxTotal = sec * 1000;
+        S.nxAt = Date.now() + S.nxTotal;
+        if (nxLeft) nxLeft.textContent = String(sec);
+        if (nxFill) nxFill.style.width = "100%";
+        if (nxEl) nxEl.className = "show";
+        S.nxTimer = setInterval(tickAutoNext, 100);
+        toast("本节播放完毕，" + sec + " 秒后播下一个");
+      }
+
+      /* ================= 视频事件 ================= */
+      v.addEventListener("loadedmetadata", onMetaLoaded);
+      v.addEventListener("loadedmetadata", function () { S.videoReady = true; S.loadAt = 0; });
+      v.addEventListener("canplay", function () { S.videoReady = true; S.loadAt = 0; });
+      v.addEventListener("playing", function () { S.videoReady = true; S.loadAt = 0; });
+      v.addEventListener("error", onVideoError);
+      v.addEventListener("play", function () {
+        cancelAutoNext();          // 用户自己点了播放 / 已经切过去了，倒计时作废
+        syncPlayBtn(); reportProgress();
+      });
+      v.addEventListener("pause", function () {
+        syncPlayBtn(); reportProgress(); reportLast(true);
+      });
+      v.addEventListener("ended", function () {
+        reportProgress();
+        /* 播完了要专门记一笔「看到结尾」，这样下次问的是"再看一遍"而不是
+         * "接着 9:58 看"——普通上报在离结尾 15 秒内是被拦掉的。 */
+        if (S.duration > 0 && (S.bvid || S.file)) {
+          S.lastSentAt = Date.now();
+          post("/last", {
+            bvid: S.bvid || "", page: S.page || 1,
+            file: S.bvid ? "" : (S.file || ""),
+            t: Math.round(S.duration * 10) / 10,
+            dur: Math.round(S.duration * 10) / 10,
+            title: S.curTitle || S.nowTitle || ""
+          });
+        }
+        scheduleAutoNext();      // v1.6.16：5 秒后自动切下一个
+      });
+      // 稳定播了 10 秒以上，把「重取直链」的次数额度还回来
+      var retryResetTimer = null;
+      v.addEventListener("playing", function () {
+        if (retryResetTimer) clearTimeout(retryResetTimer);
+        retryResetTimer = setTimeout(function () { S.retried = 0; }, 10000);
+      });
+      v.addEventListener("timeupdate", function () {
+        S.lastT = v.currentTime || 0;
+        updateTime();
+        if (S.duration <= 0 && isFinite(v.duration)) S.duration = v.duration;
+      });
+      v.addEventListener("durationchange", function () {
+        if (isFinite(v.duration)) S.duration = v.duration;
+        updateTime();
+      });
+
+      setInterval(function () {
+        if (v.src) { reportProgress(); reportLast(false); }
+      }, 3000);
+
+      /* ================= 启动 ================= */
+      window.addEventListener("resize", function () { applyLayout(); });
+      document.addEventListener("contextmenu", function (e) { e.preventDefault(); });
+
+      /* ---------- 屏蔽浮窗内置浏览器的快捷键 ----------
+       * BGI 的浮窗是 WebView2（Edge 内核），自带一整套浏览器快捷键；而脚本那边的
+       * 键盘钩子只能"听见"按键、吞不掉，所以同一个键会被两边同时处理。这里把页面
+       * 能拦住的都拦掉：F3 查找框、Ctrl+F/P/U/S/O、Ctrl+Shift+I/J/C。
+       *
+       * 注意：F12（开发者工具）和 F5（刷新）是浏览器级命令，页面里 preventDefault
+       * 是拦不住的——那两个只能靠主脚本换键（main.js 的 SAFE_ALIAS）。
+       * 右键菜单也已经拦了，否则菜单里的"检查"同样会打开 DevTools。
+       */
+      document.addEventListener("keydown", function (e) {
+        var k = String(e.key || "").toLowerCase();
+        var mod = e.ctrlKey || e.metaKey;
+        if (/^f\d{1,2}$/.test(k)) {
+          var n = Number(k.slice(1));
+          // F1 帮助 / F3 查找 / F5 刷新 / F6 地址栏 / F7 光标浏览
+          // F10 菜单栏 / F11 全屏 / F12 开发者工具
+          if (n === 1 || n === 3 || n === 5 || n === 6 || n === 7 || n === 10 || n === 11 || n === 12) {
+            e.preventDefault();
+            e.stopPropagation();
+            return;
+          }
+        }
+        if (mod && (k === "r" || k === "p" || k === "f" || k === "u" || k === "s" || k === "o")) {
+          e.preventDefault();
+          e.stopPropagation();
+          return;
+        }
+        if (mod && e.shiftKey && (k === "i" || k === "j" || k === "c")) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      }, true);
+
+      /* ================= 方向键：←/→ 快退快进，↑/↓ 音量 =================
+       * v1.6.14 起：主脚本用全局键盘钩子接管了方向键，**不用先按 F9**，游戏有焦点时
+       * 也管用（原神本来就没绑方向键）。所以正常运行时这里被 S.keyGlobal 关掉，避免
+       * 浮窗刚好有焦点时一次按键跳两下；只有钩子没起来（keysGlobal=false）才退回这里。
+       * 按住不放会连发：每次跳 5 秒，但至少隔 140ms。
+       */
+      function isTypingTarget(t) {
+        if (!t) return false;
+        var tag = String(t.tagName || "").toLowerCase();
+        return tag === "input" || tag === "textarea" || tag === "select" || t.isContentEditable === true;
+      }
+
+      var seekKeyAt = 0, seekToastAt = 0, volKeyAt = 0, volToastAt = 0;
+
+      /* step 是"秒"，正数快进、负数快退；别在这里再乘一次，否则一次按就跳 25 秒 */
+      function keySeek(step) {
+        var now = Date.now();
+        if (now - seekKeyAt < 140) return;
+        seekKeyAt = now;
+        if (!S.duration) return;
+        var t2 = clamp((v.currentTime || 0) + step, 0, S.duration);
+        try { v.currentTime = t2; } catch (e) { }
+        updateTime();
+        if (now - seekToastAt > 400) {
+          seekToastAt = now;
+          toast((step > 0 ? "快进 → " : "← 快退 ") + fmt(t2));
+        }
+      }
+
+      function keyVolume(d) {
+        var now = Date.now();
+        if (now - volKeyAt < 80) return;
+        volKeyAt = now;
+        S.volume = clamp(Math.round((S.volume + d) * 100) / 100, 0, 1);
+        applyVolume();
+        reportState();
+        if (now - volToastAt > 300) {
+          volToastAt = now;
+          toast(S.volume <= 0 ? "静音" : "音量 " + Math.round(S.volume * 100) + "%");
+        }
+      }
+
+      document.addEventListener("keydown", function (e) {
+        // 续播倒计时期间按 Esc 就停在当前集（v1.6.16）
+        if (S.nxTarget && (e.key === "Escape" || e.key === "Esc")) {
+          cancelAutoNext();
+          toast("好，停在这一集");
+          return;
+        }
+        if (S.keysCap) return;                            // 正在「按一个键」改键，别抢
+        // Esc 先把系列栏收回去（v1.6.28）：面板开着时最顺手的"关掉"
+        if (S.showSide && (e.key === "Escape" || e.key === "Esc")) {
+          e.preventDefault();
+          closeSideIfOpen();
+          return;
+        }
+        if (S.keyGlobal) return;                          // 主脚本的全局钩子已经在管，别重复处理
+        if (e.ctrlKey || e.altKey || e.metaKey) return;   // 带修饰键的留给别处
+        if (isTypingTarget(e.target)) return;             // 侧栏输入框里打字时不抢
+        var k = e.key;
+        if (k !== "ArrowLeft" && k !== "ArrowRight" && k !== "ArrowUp" && k !== "ArrowDown") return;
+        e.preventDefault();
+        e.stopPropagation();
+        if (k === "ArrowLeft") keySeek(-5);
+        else if (k === "ArrowRight") keySeek(5);
+        else if (k === "ArrowUp") keyVolume(0.1);
+        else keyVolume(-0.1);
+      }, true);
+
+      function boot() {
+        applyLayout();
+        applyOpacity();
+        applySpeed();
+        applyVolume();
+        updateTime();
+        if (!wireChannel()) {
+          var tries = 0;
+          var t = setInterval(function () {
+            tries++;
+            if (wireChannel() || tries > 15) {
+              clearInterval(t);
+              if (!channelWired) {
+                showOverlay("没能和 BetterGI 建立通信。\n请确认是通过 BetterGI 脚本运行的。");
+              }
+            }
+          }, 100);
+        }
+        post("/ready", {});
+        // 初值：万一 focus/blur 事件来得晚，先让主脚本知道现在到底有没有焦点
+        try { post("/focus", { on: !!(document.hasFocus && document.hasFocus()) }); } catch (e) { }
+        setTimeout(function () { reportGeom(true); }, 300);
+        setTimeout(function () { reportGeom(true); }, 1200);
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", boot);
+      } else {
+        boot();
+      }
+
+      // 自动化测试用的出口（正常使用不会碰它，挂上去不影响任何行为）
+      window.__vmDebug = {
+        S: S, v: v,
+        doAutoPause: doAutoPause, doPauseNow: doPauseNow,
+        fireMark: fireMark, nearestMark: nearestMark, anReset: anReset,
+        voiceSpeaking: voiceSpeaking, voice: voice,
+        get pendPause() { return pendPause; },
+        set pendPause(x) { pendPause = x; },
+      };
+    })();
+  </script>
+</body>
+
+</html>
