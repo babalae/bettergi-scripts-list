@@ -1,3 +1,4 @@
+import {recordRecognition} from "./recognitionResult.js";
 import {toMainUi, openBag, findImgAndClick, OcrFind, findText, drawBox} from "./tool";
 import {sendText} from "./notice"
 
@@ -45,6 +46,11 @@ export async function checkHolyRelicsKey(threshold = 400) {
         log.error(`圣遗物数量解析异常，count=${count}, total=${total}, 原文本：${text}`)
         return
     }
+    // 只有数量和容量都在合理范围内时，才把结果写入识别快照。
+    if (count < 0 || total <= 0 || count > total) {
+        await recordRecognition("holyRelics", {text}, "unknown", "圣遗物数量超出有效范围");
+        return;
+    }
     const diff = total - count  // 计算剩余空间数量
 
     log.debug(`text:${text}`)  // 记录原始识别文本
@@ -52,6 +58,8 @@ export async function checkHolyRelicsKey(threshold = 400) {
     log.debug(`count:${count}`)  // 记录当前数量
     log.debug(`total:${total}`)  // 记录总容量
     log.debug(`diff:${diff}`)  // 记录剩余空间数量
+
+    await recordRecognition("holyRelics", {text, count, total, remaining: diff, threshold});
 
     if (diff <= threshold) {  // 如果剩余空间小于等于阈值
         await toMainUi()
