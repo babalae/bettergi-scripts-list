@@ -1,0 +1,31 @@
+name: Sync LinneaMining
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/import-linnea.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download payload
+        run: curl -L --retry 3 --retry-delay 2 -o /tmp/linnea.zip "https://aka.doubaocdn.com/s/OwvVCRkFoT"
+      - name: Show size
+        run: ls -lh /tmp/linnea.zip
+      - name: Extract into repo/js/LinneaMining
+        run: python3 -c "import zipfile;zipfile.ZipFile('/tmp/linnea.zip').extractall('repo/js/LinneaMining')"
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add repo/js/LinneaMining
+          if git diff --cached --quiet; then echo "no changes"; exit 0; fi
+          git commit -m "chore(LinneaMining): sync all-region routes and multi-account progress isolation"
+          git push origin HEAD:main
