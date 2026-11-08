@@ -1,0 +1,207 @@
+{
+  "info": {
+    "name": "10-水晶块-璃月-翠玦坡东(有战斗,小怪)-8个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "由 AbundantOre 路线按莉奈娅算法转换",
+    "map_name": "Teyvat",
+    "bgi_version": "0.60.1",
+    "authors": [
+      {
+        "name": "火山",
+        "links": "https://github.com/RRRR623"
+      }
+    ],
+    "tags": [
+      "水晶块",
+      "战斗"
+    ],
+    "last_modified_time": 1794094259587
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 837.48,
+      "y": 235.16,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 802.19,
+      "y": 245.44,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 685.7,
+      "y": 286.01,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 688.8774236216592,
+      "y": 288.090900960067,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)"
+    },
+    {
+      "id": 5,
+      "x": 685.690358697238,
+      "y": 300.2856281253416,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)"
+    },
+    {
+      "id": 6,
+      "x": 676.6354166177413,
+      "y": 296.2336577196416,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)"
+    },
+    {
+      "id": 7,
+      "x": 669.04,
+      "y": 288.62,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 659.62,
+      "y": 290.26,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 646.7,
+      "y": 303.6,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 639.37,
+      "y": 312.75,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 692.75,
+      "y": 399.8,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 711.71,
+      "y": 390.56,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": "",
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized"
+          ],
+          "handling_mode": "previousDetectedPoint",
+          "arrival_time": 0
+        },
+        "description": "丘丘人",
+        "monster_tag": "normal"
+      }
+    },
+    {
+      "id": 13,
+      "x": 725.39,
+      "y": 384.7,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": 736.0,
+      "y": 384.23,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": "",
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized"
+          ],
+          "handling_mode": "previousDetectedPoint",
+          "arrival_time": 0
+        },
+        "description": "史莱姆",
+        "monster_tag": "normal"
+      }
+    },
+    {
+      "id": 15,
+      "x": 741.63,
+      "y": 381.04,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 16,
+      "x": 738.7460102707591,
+      "y": 389.82256494904664,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)"
+    },
+    {
+      "id": 17,
+      "x": 735.04,
+      "y": 374.32,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 18,
+      "x": 733.0043773341893,
+      "y": 376.09251497431154,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle);wait(1.2)"
+    }
+  ]
+}

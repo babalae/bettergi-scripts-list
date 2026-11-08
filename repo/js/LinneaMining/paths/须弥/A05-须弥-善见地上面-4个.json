@@ -1,0 +1,114 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/cheese-bagel",
+        "name": "芝士贝果"
+      }
+    ],
+    "bgi_version": "0.60.1",
+    "description": "由 AbundantOre 路线按莉奈娅算法转换",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1794094259587,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A05-须弥-善见地上面-4个",
+    "tags": [
+      "水晶块"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3592,
+      "y": -787.3247
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3511.1729,
+      "y": -766.3633
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 3511.1758,
+      "y": -766.374
+    },
+    {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3489.8906,
+      "y": -740.1421
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3478.1543,
+      "y": -743.4395
+    },
+    {
+      "action": "up_down_grab_leaf",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3445.7012,
+      "y": -752.4351
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3409.9941,
+      "y": -742.7759
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3389.3818,
+      "y": -752.3262
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3380.978566847054,
+      "y": -752.774889153758
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle);wait(1.2)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3370.263152511597,
+      "y": -751.9061967609554
+    }
+  ]
+}

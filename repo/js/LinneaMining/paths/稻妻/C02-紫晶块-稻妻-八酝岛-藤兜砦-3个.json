@@ -1,0 +1,68 @@
+{
+  "info": {
+    "name": "C02-紫晶块-稻妻-八酝岛-藤兜砦-3个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ],
+    "version": "1.0",
+    "description": "由 AbundantOre 路线按莉奈娅算法转换",
+    "map_name": "Teyvat",
+    "bgi_version": "0.60.1",
+    "tags": [
+      "紫晶块"
+    ],
+    "last_modified_time": 1794094259587,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -2193.74,
+      "y": -3485.56,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -2181.502,
+      "y": -3466.1211,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -2176.6846,
+      "y": -3440.2725,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -2177.0929238735334,
+      "y": -3416.580111359272,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -2184.4696799059357,
+      "y": -3425.4465476457685,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle);wait(1.2)",
+      "type": "path"
+    }
+  ]
+}

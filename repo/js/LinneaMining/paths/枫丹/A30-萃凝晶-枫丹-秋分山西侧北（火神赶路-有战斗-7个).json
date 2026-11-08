@@ -1,0 +1,157 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/non-repeating001",
+        "name": "无限不循环"
+      }
+    ],
+    "bgi_version": "0.60.1",
+    "description": "由 AbundantOre 路线按莉奈娅算法转换",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1794094259587,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A30-萃凝晶-枫丹-秋分山西侧北（火神赶路-有战斗-7个)",
+    "tags": [
+      "萃凝晶",
+      "战斗"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3955.03,
+      "y": 2869.06
+    },
+    {
+      "action": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3955.08,
+      "y": 2893.16
+    },
+    {
+      "action": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3958.11,
+      "y": 2919.37
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3943.91,
+      "y": 2946.81
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3939.02158288633,
+      "y": 2948.275352851819
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3933.26,
+      "y": 2957.01
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3932.0667204350866,
+      "y": 2948.427145147777
+    },
+    {
+      "action": "combat_script",
+      "action_params": "玛薇卡 w(0.1),e(hold),keydown(VK_W),dash(3.2),keyup(VK_W),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 3988.9844,
+      "y": 2961.9028
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3988.9844,
+      "y": 2961.9028
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4001.2568,
+      "y": 2957.2615
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3995.7364435247305,
+      "y": 2952.013234716537
+    },
+    {
+      "action": "combat_script",
+      "action_params": "玛薇卡 w(0.15),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,  wait(1.2),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,  wait(1.5),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.5),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 3902.9121,
+      "y": 2981.5999
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3900.1172,
+      "y": 2982.3438
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3897.0078,
+      "y": 3007.3765
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle);wait(1.2)",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3905.9263679335454,
+      "y": 3004.8814380486783
+    }
+  ]
+}

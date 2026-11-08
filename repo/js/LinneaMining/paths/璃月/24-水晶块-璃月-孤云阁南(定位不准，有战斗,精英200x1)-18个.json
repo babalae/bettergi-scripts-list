@@ -1,0 +1,268 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/RRRR623",
+        "name": "火山"
+      }
+    ],
+    "bgi_version": "0.60.1",
+    "description": "由 AbundantOre 路线按莉奈娅算法转换",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1794094259587,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "24-水晶块-璃月-孤云阁南(定位不准，有战斗,精英200x1)-18个",
+    "tags": [
+      "水晶块",
+      "战斗"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -963.0977,
+      "y": -288.6445
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": -931.5078,
+      "y": -278.2246
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": -856.8457,
+      "y": -269.5
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -844.7580786598764,
+      "y": -267.95160551060644
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": -848.9785,
+      "y": -284.3428
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": -833.7188,
+      "y": -283.4277
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -835.2564057820518,
+      "y": -275.73524823404705
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -789.4883,
+      "y": -301.2832
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -785.8965,
+      "y": -317.2051
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -795.4219,
+      "y": -325.9609
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "run",
+      "type": "path",
+      "x": -788.625,
+      "y": -338.5488
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -779.3631260881672,
+      "y": -330.89940259329273
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -779.4314436586592,
+      "y": -344.5858906566217
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -787.9629,
+      "y": -350.9277
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -781.6604028122732,
+      "y": -352.6180902838885
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -788.7288895164235,
+      "y": -361.1979578315315
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -801.3711,
+      "y": -389.1738
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "run",
+      "type": "path",
+      "x": -815.0801,
+      "y": -419.248
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -817.4881907727939,
+      "y": -428.79170776694116
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -828.8828,
+      "y": -435.0703
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -836.1309,
+      "y": -453.1484
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 22,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -830.4043,
+      "y": -454.5098
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 23,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -826.2109,
+      "y": -459.1807
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 24,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -822.7466411634699,
+      "y": -455.48823747067
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 25,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -811.4219405146218,
+      "y": -452.98769166942714
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 26,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -816.4023,
+      "y": -462.7197
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle);wait(1.2)",
+      "id": 27,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -812.592443784789,
+      "y": -473.15763579112655
+    }
+  ]
+}

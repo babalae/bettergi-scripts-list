@@ -1,0 +1,51 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "烤鱼"
+      }
+    ],
+    "bgi_version": "0.60.1",
+    "description": "由 AbundantOre 路线按莉奈娅算法转换",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1794094259587,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "01-虹滴晶-至冬-焰羽谷东-2个",
+    "tags": [
+      "虹滴晶"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7798.7666,
+      "y": 8955.0635
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7725.8818,
+      "y": 9047.5918
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle);wait(1.2)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7734.9785,
+      "y": 9075.1396
+    }
+  ]
+}

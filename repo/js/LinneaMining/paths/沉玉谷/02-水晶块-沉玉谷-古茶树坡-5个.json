@@ -1,0 +1,103 @@
+{
+  "info": {
+    "name": "02-水晶块-沉玉谷-古茶树坡-5个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "由 AbundantOre 路线按莉奈娅算法转换",
+    "map_name": "Teyvat",
+    "bgi_version": "0.60.1",
+    "authors": [
+      {
+        "name": "火山",
+        "links": "https://github.com/RRRR623"
+      }
+    ],
+    "tags": [
+      "水晶块"
+    ],
+    "last_modified_time": 1794094259587
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1691.33,
+      "y": 1829.27,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1652.98,
+      "y": 1921.53,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "1000",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 1655.2077242056146,
+      "y": 1916.1673855462786,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle);wait(1.2)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 1691.32,
+      "y": 1829.24,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 5,
+      "x": 1682.61,
+      "y": 1826.42,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 1569.5,
+      "y": 1789.68,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 1562.66,
+      "y": 1787.13,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 1489.45,
+      "y": 1781.07,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 1492.9316226100113,
+      "y": 1779.754998654492,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle);wait(1.2)",
+      "type": "path"
+    }
+  ]
+}

@@ -1,0 +1,180 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/RRRR623",
+        "name": "火山"
+      }
+    ],
+    "bgi_version": "0.60.1",
+    "description": "由 AbundantOre 路线按莉奈娅算法转换",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1794094259587,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "07-水晶块-璃月-遁玉陵西(有战斗,小怪)-8个",
+    "tags": [
+      "水晶块",
+      "战斗"
+    ],
+    "type": "collect",
+    "version": "1.1"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 978.7,
+      "y": -353.55
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 996.2,
+      "y": -346.29
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1000.58,
+      "y": -347.26
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1011.26,
+      "y": -341.95
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1022.3,
+      "y": -335.92
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "500",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1047.9756,
+      "y": -300.0742
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";茜特菈莉 e;莱依拉 e;伊涅芙 e;attack(0.3);芙宁娜 e;爱可菲 e;莉奈娅 e;哥伦比娅 e;wait(1.2),keypress(1),wait(0.2),e,q,wait(1.2),keypress(2),wait(0.2),e,q,wait(1.2),keypress(3),wait(0.2),e,q,wait(1.2),keypress(4),wait(0.2),e,q;",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1042.8008,
+      "y": -308.2373
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1043.3379,
+      "y": -308.5215
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1044.2344,
+      "y": -309.4023
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 10,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 1053.625,
+      "y": -320.8535
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1039.81,
+      "y": -318.81
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "point_ext_params": {
+        "description": "史莱姆",
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        },
+        "monster_tag": "normal"
+      },
+      "type": "path",
+      "x": 1039.81,
+      "y": -318.81
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1036.8944268937737,
+      "y": -308.01594809569957
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1029.0748907312716,
+      "y": -314.56140349917973
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1034.812133775247,
+      "y": -321.6427432524456
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle);wait(1.2)",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1050.268540622115,
+      "y": -318.9093946804847
+    }
+  ]
+}

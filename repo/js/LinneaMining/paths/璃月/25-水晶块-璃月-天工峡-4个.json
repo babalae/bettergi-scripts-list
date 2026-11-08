@@ -1,0 +1,67 @@
+{
+  "info": {
+    "name": "25-水晶块-璃月-天工峡-4个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "由 AbundantOre 路线按莉奈娅算法转换",
+    "map_name": "Teyvat",
+    "bgi_version": "0.60.1",
+    "authors": [
+      {
+        "name": "火山",
+        "links": "https://github.com/RRRR623"
+      }
+    ],
+    "tags": [
+      "水晶块"
+    ],
+    "last_modified_time": 1794094259587
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1759.55,
+      "y": -874.19,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 1770.0,
+      "y": -876.0,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 1779.13,
+      "y": -887.38,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 1772.5549948862476,
+      "y": -891.9692653142969,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)"
+    },
+    {
+      "id": 5,
+      "x": 1778.6605868291745,
+      "y": -902.7120470857556,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle);wait(1.2)"
+    }
+  ]
+}

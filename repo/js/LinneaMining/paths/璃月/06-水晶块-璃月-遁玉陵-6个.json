@@ -1,0 +1,94 @@
+{
+  "info": {
+    "name": "06-水晶块-璃月-遁玉陵-6个",
+    "type": "collect",
+    "version": "1.1",
+    "description": "由 AbundantOre 路线按莉奈娅算法转换",
+    "map_name": "Teyvat",
+    "bgi_version": "0.60.1",
+    "authors": [
+      {
+        "name": "火山",
+        "links": "https://github.com/RRRR623"
+      }
+    ],
+    "tags": [
+      "水晶块"
+    ],
+    "last_modified_time": 1794094259587
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 978.72,
+      "y": -353.55,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 996.28,
+      "y": -346.05,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 1003.97,
+      "y": -346.44,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 1015.91,
+      "y": -339.47,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 1121.21,
+      "y": -336.68,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "1000",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 1115.988700980615,
+      "y": -343.1434185755756,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 1125.9137255953904,
+      "y": -345.2453922477768,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 1133.6742298247875,
+      "y": -344.27714544762455,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle);wait(1.2)",
+      "type": "path"
+    }
+  ]
+}

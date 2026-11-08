@@ -1,0 +1,76 @@
+{
+  "info": {
+    "name": "03-水晶块-沉玉谷-灵濛山西-5个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "由 AbundantOre 路线按莉奈娅算法转换",
+    "map_name": "Teyvat",
+    "bgi_version": "0.60.1",
+    "authors": [
+      {
+        "name": "火山",
+        "links": "https://github.com/RRRR623"
+      }
+    ],
+    "tags": [
+      "水晶块"
+    ],
+    "last_modified_time": 1794094259587
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2191.56,
+      "y": 2110.86,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 2185.01,
+      "y": 2126.88,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 2180.09,
+      "y": 2169.12,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 2176.377956023884,
+      "y": 2164.6954274588093,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)"
+    },
+    {
+      "id": 5,
+      "x": 2179.954147336389,
+      "y": 2176.6987773774385,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)"
+    },
+    {
+      "id": 6,
+      "x": 2151.3508369138804,
+      "y": 2183.5855596589213,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle);wait(1.2)"
+    }
+  ]
+}

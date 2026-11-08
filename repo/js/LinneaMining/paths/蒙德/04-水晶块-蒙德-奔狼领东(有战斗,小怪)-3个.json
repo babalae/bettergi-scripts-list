@@ -1,0 +1,97 @@
+{
+  "info": {
+    "name": "04-水晶块-蒙德-奔狼领东(有战斗,小怪)-3个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "由 AbundantOre 路线按莉奈娅算法转换",
+    "map_name": "Teyvat",
+    "bgi_version": "0.60.1",
+    "authors": [
+      {
+        "name": "火山",
+        "links": "https://github.com/RRRR623"
+      }
+    ],
+    "tags": [
+      "水晶块",
+      "战斗"
+    ],
+    "last_modified_time": 1794094259587
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -578.81,
+      "y": 1853.26,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -603.28,
+      "y": 1941.45,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(2.2)"
+    },
+    {
+      "id": 3,
+      "x": -618.36,
+      "y": 1991.79,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -633.66,
+      "y": 2024.66,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "attack"
+    },
+    {
+      "id": 5,
+      "x": -628.15,
+      "y": 2009.88,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized"
+          ],
+          "handling_mode": "previousDetectedPoint",
+          "arrival_time": 0
+        },
+        "description": "史莱姆",
+        "monster_tag": "normal"
+      }
+    },
+    {
+      "id": 6,
+      "x": -632.42,
+      "y": 2015.35,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -632.8821083507786,
+      "y": 2031.0196740763997,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle);wait(1.2)"
+    }
+  ]
+}

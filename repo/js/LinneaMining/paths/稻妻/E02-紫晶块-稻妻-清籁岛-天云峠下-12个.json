@@ -1,0 +1,285 @@
+{
+  "info": {
+    "name": "E02-紫晶块-稻妻-清籁岛-天云峠下-12个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ],
+    "version": "1.0",
+    "description": "由 AbundantOre 路线按莉奈娅算法转换",
+    "map_name": "Teyvat",
+    "bgi_version": "0.60.1",
+    "tags": [
+      "紫晶块"
+    ],
+    "last_modified_time": 1794094259587,
+    "enable_monster_loot_split": false,
+    "author": "this-Fish"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -4251.86,
+      "y": -4785.47,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -4256.43,
+      "y": -4801.08,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -4350.26,
+      "y": -4973.52,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "玛薇卡 e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(3),j;",
+      "type": "orientation"
+    },
+    {
+      "id": 4,
+      "x": -4350.26,
+      "y": -4973.52,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -4350.26,
+      "y": -4973.52,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "j,wait(6.8),j,attack(0.2)",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -4350.26,
+      "y": -4973.52,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -4347.000006728259,
+      "y": -4980.173501626283,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -4331.402302324037,
+      "y": -4986.325168953473,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -4341.64,
+      "y": -4997.34,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -4336.340785749503,
+      "y": -4994.0876925415405,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -4339.84,
+      "y": -5023.47,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": -4335.44,
+      "y": -5026.21,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": -4231.76,
+      "y": -5105.72,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "玛薇卡 wait(0.2),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.02),j,wait(0.5),e;",
+      "type": "orientation"
+    },
+    {
+      "id": 14,
+      "x": -4231.76,
+      "y": -5105.72,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": -4211.58,
+      "y": -5092.98,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": -4168.38,
+      "y": -5092.06,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": -4163.13,
+      "y": -5078.75,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.5)",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": -4168.38,
+      "y": -5092.06,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": -4211.58,
+      "y": -5092.98,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": -4206.486259394088,
+      "y": -5085.541175389225,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "type": "path"
+    },
+    {
+      "id": 21,
+      "x": -4194.81,
+      "y": -5095.35,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 22,
+      "x": -4189.32,
+      "y": -5093.2,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 23,
+      "x": -4193.347966173511,
+      "y": -5091.451332050422,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "type": "path"
+    },
+    {
+      "id": 24,
+      "x": -4177.76,
+      "y": -5094.52,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 25,
+      "x": -4133.417187513349,
+      "y": -5045.443511362858,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "type": "path"
+    },
+    {
+      "id": 26,
+      "x": -4126.02,
+      "y": -5033.94,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 27,
+      "x": -4129.375082546148,
+      "y": -5038.650903575072,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "type": "path"
+    },
+    {
+      "id": 28,
+      "x": -4124.51,
+      "y": -5047.59,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 29,
+      "x": -4126.192563579406,
+      "y": -5044.850943010269,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle);wait(1.2)",
+      "type": "path"
+    }
+  ]
+}

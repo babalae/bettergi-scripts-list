@@ -1,5 +1,66 @@
-const REFRESH_DATA_PATH = "local/refresh_records.json"
+const LEGACY_REFRESH_DATA_PATH = "local/refresh_records.json"
+const MIGRATION_FLAG_PATH = "local/refresh_records_migrated.flag"
 const FALLBACK_DURATION = 60
+const DEFAULT_ACCOUNT_KEY = "default"
+
+let currentAccountKey = DEFAULT_ACCOUNT_KEY
+
+/**
+ * 当前账号对应的刷新记录文件路径
+ * default（未启用多账号）继续沿用旧版单个文件，保证老用户无缝升级
+ */
+function refreshDataPath(key = currentAccountKey) {
+  if (key === DEFAULT_ACCOUNT_KEY) {
+    return LEGACY_REFRESH_DATA_PATH
+  }
+  return `local/refresh_records_${key}.json`
+}
+
+/**
+ * 切换当前账号记录。首次使用时把旧版全局记录迁移一份过来，
+ * 之后各账号各自独立，互不影响。
+ *
+ * @param {string} key - 账号标识（UID / 手动名称）
+ * @returns {string} 实际生效的账号标识
+ */
+function setRefreshAccount(key) {
+  currentAccountKey = key || DEFAULT_ACCOUNT_KEY
+  if (currentAccountKey === DEFAULT_ACCOUNT_KEY) {
+    return currentAccountKey
+  }
+
+  let exists = true
+  try {
+    file.readTextSync(refreshDataPath())
+  } catch {
+    exists = false
+  }
+  if (exists) {
+    return currentAccountKey
+  }
+
+  // 旧版全局记录只迁移一次，之后新建账号一律从空记录开始，
+  // 避免切小号时把大号的进度当成本账号的
+  let migrated = true
+  try {
+    file.readTextSync(MIGRATION_FLAG_PATH)
+  } catch {
+    migrated = false
+  }
+  if (migrated) {
+    return currentAccountKey
+  }
+
+  try {
+    const legacy = file.readTextSync(LEGACY_REFRESH_DATA_PATH)
+    file.writeTextSync(refreshDataPath(), legacy)
+    file.writeTextSync(MIGRATION_FLAG_PATH, JSON.stringify({ migratedTo: currentAccountKey, at: Date.now() }))
+    log.info(`旧版刷新记录已迁移到账号 ${currentAccountKey}`)
+  } catch {
+    // 没有旧记录，从空开始
+  }
+  return currentAccountKey
+}
 
 /**
  * 从本地文件加载刷新记录数据
@@ -8,7 +69,7 @@ const FALLBACK_DURATION = 60
  */
 function loadRefreshData() {
   try {
-    const raw = file.readTextSync(REFRESH_DATA_PATH)
+    const raw = file.readTextSync(refreshDataPath())
     return JSON.parse(raw) || {}
   } catch {
     return {}
@@ -21,7 +82,7 @@ function loadRefreshData() {
  * @param {Object} data - 刷新记录对象
  */
 function saveRefreshData(data) {
-  file.writeTextSync(REFRESH_DATA_PATH, JSON.stringify(data, null, 2))
+  file.writeTextSync(refreshDataPath(), JSON.stringify(data, null, 2))
 }
 
 /**
@@ -161,6 +222,8 @@ function formatDuration(seconds) {
 }
 
 export {
+  refreshDataPath,
+  setRefreshAccount,
   loadRefreshData,
   saveRefreshData,
   cleanupStaleRecords,

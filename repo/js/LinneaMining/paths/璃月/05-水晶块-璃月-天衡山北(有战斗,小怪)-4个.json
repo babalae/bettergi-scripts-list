@@ -1,0 +1,153 @@
+{
+  "info": {
+    "name": "05-水晶块-璃月-天衡山北(有战斗,小怪)-4个",
+    "type": "collect",
+    "version": "1.1",
+    "description": "由 AbundantOre 路线按莉奈娅算法转换",
+    "map_name": "Teyvat",
+    "bgi_version": "0.60.1",
+    "authors": [
+      {
+        "name": "火山",
+        "links": "https://github.com/RRRR623"
+      }
+    ],
+    "tags": [
+      "水晶块",
+      "战斗"
+    ],
+    "last_modified_time": 1794094259587
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 611.66,
+      "y": -284.69,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 659.19,
+      "y": -270.88,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 702.72,
+      "y": -268.54,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "2500",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 702.2,
+      "y": -271.42,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 691.92,
+      "y": -311.41,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized"
+          ],
+          "handling_mode": "previousDetectedPoint",
+          "arrival_time": 0
+        },
+        "description": "史莱姆",
+        "monster_tag": "normal"
+      }
+    },
+    {
+      "id": 6,
+      "x": 692.09,
+      "y": -307.72,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 703.5228989146633,
+      "y": -310.8797927906072,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 687.4257315127745,
+      "y": -297.357593838576,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 694.3350045722259,
+      "y": -289.20792433636797,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 705.4401718352227,
+      "y": -279.3212941598264,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 701.92,
+      "y": -278.43,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": "",
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized"
+          ],
+          "handling_mode": "previousDetectedPoint",
+          "arrival_time": 0
+        },
+        "description": "史莱姆",
+        "monster_tag": "normal"
+      }
+    },
+    {
+      "id": 12,
+      "x": 696.0367531459405,
+      "y": -266.568102288842,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle);wait(1.2)",
+      "type": "path"
+    }
+  ]
+}

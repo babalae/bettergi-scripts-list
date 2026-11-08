@@ -1,0 +1,195 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/RRRR623",
+        "name": "火山"
+      }
+    ],
+    "bgi_version": "0.60.1",
+    "description": "由 AbundantOre 路线按莉奈娅算法转换",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1794094259587,
+    "map_match_method": "",
+    "map_name": "TheChasm",
+    "name": "18-水晶块-层岩巨渊·地下矿区-荧光狭道-9个",
+    "tags": [
+      "水晶块"
+    ],
+    "type": "collect",
+    "version": "1.1"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 812.62,
+      "y": 339.51
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 819.81,
+      "y": 378.56
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 815.48,
+      "y": 393.58
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle);wait(1.2)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 818.8666596308703,
+      "y": 393.25929359556153
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 812.63,
+      "y": 339.51
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": 800.41,
+      "y": 312.86
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 782.88,
+      "y": 250.84
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 785.1,
+      "y": 233.72
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 785.1,
+      "y": 233.72
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 779.305461244008,
+      "y": 228.85791575646653
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 797.8781369922605,
+      "y": 236.9082741689834
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 783.2,
+      "y": 203.6
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 759.54,
+      "y": 184.48
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 696.67,
+      "y": 151.18
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 697.24,
+      "y": 89.79
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(W),wait(0.3),keypress(VK_SPACE),wait(0.2),keypress(VK_SPACE),wait(0.2),keypress(VK_SPACE),wait(0.2),keypress(VK_SPACE),keyup(W)",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 684.53,
+      "y": 86.25
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 684.53,
+      "y": 87
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 675.37,
+      "y": 74.75
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle);wait(1.2)",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 684.5166845075843,
+      "y": 71.49880882431837
+    }
+  ]
+}

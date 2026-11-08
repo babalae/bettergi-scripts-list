@@ -1,0 +1,249 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/non-repeating001",
+        "name": "无限不循环"
+      }
+    ],
+    "bgi_version": "0.60.1",
+    "description": "由 AbundantOre 路线按莉奈娅算法转换",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1794094259587,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A17-萃凝晶-枫丹-枫丹厅北侧-3（火神赶路-有战斗-13个)",
+    "tags": [
+      "萃凝晶",
+      "战斗"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4708.0,
+      "y": 3957.46
+    },
+    {
+      "action": "combat_script",
+      "action_params": "玛薇卡 w(0.15),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.5),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.5),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(1.5),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.5),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4773.3311,
+      "y": 4066.7
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4773.3311,
+      "y": 4066.7
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4788.8652,
+      "y": 4052.3657
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4782.6709,
+      "y": 4058.625
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4785.264551828619,
+      "y": 4061.023397961149
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4795.6699,
+      "y": 4058.9912
+    },
+    {
+      "action": "combat_script",
+      "action_params": "玛薇卡 w(0.15),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(0.7),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(0.7),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(0.7),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(0.7),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4799.5059,
+      "y": 4160.0015
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4799.5059,
+      "y": 4160.0015
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4788.1221,
+      "y": 4167.1445
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4792.041114660058,
+      "y": 4171.034238057201
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4786.3545,
+      "y": 4156.7725
+    },
+    {
+      "action": "combat_script",
+      "action_params": "玛薇卡 w(0.15),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j, wait(0.7),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(0.7),dash(2),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4865.0039,
+      "y": 4163.4907
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4865.0039,
+      "y": 4163.4907
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4866.386272204176,
+      "y": 4160.252627486074
+    },
+    {
+      "action": "combat_script",
+      "action_params": "玛薇卡 w(0.1),e(hold),keydown(VK_W),dash(3),keyup(VK_W),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4885.1826,
+      "y": 4206.6465
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4885.2598,
+      "y": 4206.8896
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4887.941586686676,
+      "y": 4206.66086140951
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4882.7905,
+      "y": 4223.9131
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4888.9019,
+      "y": 4239.3477
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4901.7798,
+      "y": 4244.9912
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 22,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4903.2861,
+      "y": 4246.2793
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 23,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4902.294928818573,
+      "y": 4243.616928608627
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "500",
+      "id": 24,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4855.7012,
+      "y": 4289.8745
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle);wait(1.2)",
+      "id": 25,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4854.473801328917,
+      "y": 4293.159562771345
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "info": {
+    "name": "26-水晶块-璃月-巨渊之口-4个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "由 AbundantOre 路线按莉奈娅算法转换",
+    "map_name": "Teyvat",
+    "bgi_version": "0.60.1",
+    "authors": [
+      {
+        "name": "火山",
+        "links": "https://github.com/RRRR623"
+      }
+    ],
+    "tags": [
+      "水晶块"
+    ],
+    "last_modified_time": 1794094259587
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1917.89,
+      "y": -760.86,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 1917.42,
+      "y": -759.95,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 1901.25,
+      "y": -747.46,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "1500"
+    },
+    {
+      "id": 4,
+      "x": 1904.5957782952185,
+      "y": -745.7246896155398,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)"
+    },
+    {
+      "id": 5,
+      "x": 1906.5527923127233,
+      "y": -735.6337185623505,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle);wait(1.2)"
+    }
+  ]
+}

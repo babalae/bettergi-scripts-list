@@ -1,0 +1,113 @@
+{
+  "info": {
+    "name": "B05-紫晶块-稻妻-神無冢-踏鞴砂-南-5个",
+    "type": "collect",
+    "author": "蜜柑魚",
+    "version": "1.0",
+    "description": "由 AbundantOre 路线按莉奈娅算法转换",
+    "map_name": "Teyvat",
+    "bgi_version": "0.60.1",
+    "tags": [
+      "紫晶块"
+    ],
+    "last_modified_time": 1794094259587,
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -3156.56,
+      "y": -3886.13,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -3160.63,
+      "y": -3893.08,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -3168.2,
+      "y": -3918.09,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "j,wait(2.2),j,attack(0.2)"
+    },
+    {
+      "id": 4,
+      "x": -3168.2,
+      "y": -3918.09,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -3159.4415145578682,
+      "y": -3910.2394063415036,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)"
+    },
+    {
+      "id": 6,
+      "x": -3170.68,
+      "y": -3908.67,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -3167.48,
+      "y": -3907.92,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -3174.2623928354183,
+      "y": -3904.318239098838,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)"
+    },
+    {
+      "id": 9,
+      "x": -3178.68,
+      "y": -3893.41,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": -3172.501465934932,
+      "y": -3893.7968695363024,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle);wait(1.2)"
+    }
+  ]
+}

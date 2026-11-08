@@ -1,5 +1,6 @@
 import { checkVersion } from "./utils/version.js"
 import { checkAvatar } from "./utils/avatar.js"
+import { resolveAccount } from "./utils/account.js"
 import {
   getRoutes,
   filterByTags,
@@ -7,6 +8,7 @@ import {
   filterBattleRoutes
 } from "./utils/routes.js"
 import {
+  setRefreshAccount,
   loadRefreshData,
   cleanupStaleRecords,
   recordRoute,
@@ -80,6 +82,14 @@ async function disposeAll(watcher) {
 
   setGameMetrics(1920, 1080, 1)
   await genshin.returnMainUi()
+
+  const account = await resolveAccount()
+  setRefreshAccount(account.key)
+  const accountSourceText = account.source === "uid" ? "UID 自动识别"
+    : account.source === "manual" ? "手动标识"
+      : account.source === "disabled" ? "多账号已关闭"
+        : "UID 未识别"
+  log.info(`当前账号：${account.label}（${accountSourceText}）`)
 
   const partyName = settings.partyName || ""
   const excludeOreTypes = Array.from(settings.excludeOreTypes || [])

@@ -1,0 +1,154 @@
+{
+  "info": {
+    "name": "A05-紫晶块-稻妻-鸣神岛-荒海-8~9个",
+    "type": "collect",
+    "author": "蜜柑魚",
+    "version": "1.0",
+    "description": "由 AbundantOre 路线按莉奈娅算法转换",
+    "map_name": "Teyvat",
+    "bgi_version": "0.60.1",
+    "tags": [
+      "紫晶块"
+    ],
+    "last_modified_time": 1794094259587,
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ],
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4217.5879,
+      "y": -2397.5205,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -4164.9453,
+      "y": -2387.1729,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "j,wait(2),j"
+    },
+    {
+      "id": 3,
+      "x": -4179.55,
+      "y": -2349.85,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -4184.60171655272,
+      "y": -2350.6654128798828,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -4166.19,
+      "y": -2347.2,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -4165.398742877737,
+      "y": -2328.2306516215353,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -4162.23,
+      "y": -2299.39,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -4167.18,
+      "y": -2294.2,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -4244.83,
+      "y": -2205.28,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "玛薇卡 wait(0.2),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.2),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.2),e;",
+      "type": "orientation"
+    },
+    {
+      "id": 10,
+      "x": -4244.83,
+      "y": -2205.28,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -4258.99,
+      "y": -2196.27,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 12,
+      "x": -4256.2505575482255,
+      "y": -2198.618093530092,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "type": "path",
+      "point_ext_params": {
+        "misidentification": {
+          "type": [
+            "unrecognized",
+            "pathTooFar"
+          ],
+          "handling_mode": "mapRecognition",
+          "arrival_time": 0
+        },
+        "description": "",
+        "monster_tag": ""
+      }
+    },
+    {
+      "id": 13,
+      "x": -4250.837069729418,
+      "y": -2206.826089922964,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle);wait(1.2)",
+      "type": "path"
+    }
+  ]
+}

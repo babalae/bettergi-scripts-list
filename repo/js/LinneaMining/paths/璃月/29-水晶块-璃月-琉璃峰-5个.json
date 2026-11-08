@@ -1,0 +1,141 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/RRRR623",
+        "name": "火山"
+      }
+    ],
+    "bgi_version": "0.60.1",
+    "description": "由 AbundantOre 路线按莉奈娅算法转换",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1794094259587,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "29-水晶块-璃月-琉璃峰-5个",
+    "tags": [
+      "水晶块"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1759.57,
+      "y": -874.2
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1740.12,
+      "y": -875.96
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 1739.98,
+      "y": -875.53
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 1735.58,
+      "y": -890.04
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1702.45,
+      "y": -870.35
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 1699.6,
+      "y": -879
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "jump",
+      "type": "target",
+      "x": 1710.7,
+      "y": -898.24
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "jump",
+      "type": "target",
+      "x": 1700.6,
+      "y": -903.1
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 1679.29,
+      "y": -899.04
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 1678.6587337414196,
+      "y": -914.1693479973112
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(VK_SPACE),wait(0.5)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1681.95,
+      "y": -914.65
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1000",
+      "id": 12,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1634.9443,
+      "y": -825.9687
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle);wait(1.2)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1638.8237735173395,
+      "y": -818.9741274299969
+    }
+  ]
+}
