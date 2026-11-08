@@ -1,5 +1,3 @@
-import { normalizeLegacyExecution } from './execution-outcome.js';
-
 const MAX_HISTORY_ENTRIES = 100;
 
 /** 保存精简运行记录，避免历史文件无限增长。 */
@@ -49,7 +47,7 @@ function normalizeTargetSummary(summary) {
 
 /** 将本次运行中与复盘有关的数据固定为可持久化的 JSON。 */
 export function buildRunRecord({ executionEnabled, plan, inventoryBefore, inventoryAfter, execution, domainResinPolicy, resinPolicyV2 }) {
-  const normalizedExecution = normalizeLegacyExecution(execution);
+  const normalizedExecution = execution;
   return {
     timestamp: new Date().toISOString(),
     executionEnabled,
@@ -108,12 +106,9 @@ export function buildRunRecord({ executionEnabled, plan, inventoryBefore, invent
 function buildExecutionEvidence(execution) {
   const materialTrackingApplicable = execution.task != null && execution.task.executionType !== 'artifactDomain';
   const gainSources = Object.values(execution.gainSources ?? {});
-  const hasLegacyConfirmedGain = gainSources.length === 0
-    && execution.inventoryChecked === true
-    && execution.appliedGains === true;
   return {
     inventoryChecked: execution.inventoryChecked === true,
-    inventoryGainConfirmed: gainSources.includes('inventory') || hasLegacyConfirmedGain,
+    inventoryGainConfirmed: gainSources.includes('inventory'),
     taskRecognitionGainConfirmed: gainSources.includes('task-recognition'),
     inventoryRecognitionFailed: execution.inventoryRecognitionFailed === true,
     inventoryUnrecognizedNames: execution.inventoryUnrecognizedNames ?? [],

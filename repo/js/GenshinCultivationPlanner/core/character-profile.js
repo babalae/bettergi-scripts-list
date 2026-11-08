@@ -3,16 +3,7 @@ import { validateWeaponProgress } from './requirements.js';
 import { isCancellationError } from './error-classifier.js';
 
 const PROFILE_MODES = new Set(['自动档案仅预览', '自动档案识别后执行']);
-const CULTIVATION_MODE_ALIASES = Object.freeze({
-  '培养角色和当前佩戴武器': '培养角色和当前佩戴武器',
-  '培养角色和指定武器': '培养角色和指定武器',
-  '仅培养角色': '仅培养角色',
-  '仅培养指定武器': '仅培养指定武器',
-  // 兼容升级前已保存的三种武器处理方式。
-  '自动读取当前佩戴武器并培养': '培养角色和当前佩戴武器',
-  '手动指定武器': '培养角色和指定武器',
-  '不培养武器': '仅培养角色',
-});
+const CULTIVATION_MODES = new Set(['培养角色和当前佩戴武器', '培养角色和指定武器', '仅培养角色', '仅培养指定武器']);
 const NO_CHARACTER_SELECTION = '不选择角色';
 const NO_WEAPON_SELECTION = '不选择武器';
 const NO_TALENT_TARGET = '不培养';
@@ -141,7 +132,7 @@ export function buildAutomaticProfileTargets(profile, settings, rulebook, reques
       targetOutcomes.push({ kind: 'character', component: 'profile', status: 'failed', name: request?.characterName ?? null, message });
       summary.push(`角色 ${request?.characterName ?? '未确认'}：档案读取失败（${message}）`);
     } else {
-      // Initial progress is calculation input, never a fabricated native profile.
+      // 初始进度仅用于预刷计算，不伪装成原生识别的角色档案。
       const generatedCharacter = buildCharacterTarget(profile, settings, request?.characterName, initialProgress && !profile);
       if (generatedCharacter.target) targets.push(generatedCharacter.target);
       targetOutcomes.push(...generatedCharacter.outcomes);
@@ -350,8 +341,7 @@ function optionalTalentLevel(talent) {
 function requireCharacterProgress(value) {
   const level = value?.level;
   const levelLimit = value?.levelLimit;
-  // Special-item character levels above 90 are already complete for the legacy
-  // material catalog. This only normalizes current progress; targets stay capped at 90.
+  // 超过90级的实际进度已满足本脚本等级目标，只规范当前进度，不扩大目标上限。
   if (Number.isInteger(level) && Number.isInteger(levelLimit)
       && level >= 90 && level <= levelLimit && COMPLETED_CHARACTER_LEVEL_LIMITS.has(levelLimit)) {
     return { level: 90, levelLimit: 90 };
@@ -394,9 +384,8 @@ function formatManualProgress(progress, prefix) {
 
 function resolveCultivationMode(value) {
   const label = String(value ?? '培养角色和当前佩戴武器').trim();
-  const mode = CULTIVATION_MODE_ALIASES[label];
-  if (!mode) throw new Error(`未知的培养内容：“${label}”`);
-  return mode;
+  if (!CULTIVATION_MODES.has(label)) throw new Error(`未知的培养内容：“${label}”`);
+  return label;
 }
 
 function parseTargetLevel(value, label) {

@@ -2,7 +2,7 @@ import { buildArtifactDomainExecutionConfig } from './artifact-executor.js';
 import { buildBossExecutionConfig, isBossTaskEnabled } from './boss-executor.js';
 import { buildDomainExecutionConfig } from './domain-executor.js';
 import { getTaskPolicyType } from './resin-policy-v2.js';
-import { limitDomainResinPolicy, limitDomainResinPolicyByPoints } from './resin.js';
+import { limitDomainResinPolicyByPoints } from './resin.js';
 
 export const MAX_RESIN_QUEUE_TASKS = 4;
 
@@ -17,7 +17,7 @@ export function compileResinExecutionQueue({ plan, settings, policy, domainResin
     other.executionType === task.executionType && resolveTarget(other) === resolveTarget(task)
     && String(other.sundaySelectedValue ?? '') === String(task.sundaySelectedValue ?? '')
   )) === index);
-  if (policy.mode === 'legacy') {
+  if (policy.mode === 'single') {
     const task = candidates[0];
     const entry = task ? compileEntry(task, policy, settings, domainResinPolicy) : null;
     if (entry) {
@@ -96,7 +96,7 @@ function compileEntry(task, policy, settings, domainResinPolicy) {
   const category = getTaskPolicyType(task);
   if (!category) throw new Error(`暂不支持执行任务类型：“${task.executionType ?? '未知'}”`);
   const rule = policy.taskLimits[category];
-  let maxClaims = rule?.maxClaims ?? null;
+  let maxClaims = null;
   let maxResin = rule?.maxResin ?? null;
   const unit = task.executionType === 'boss' ? 40 : 20;
   if (maxResin != null && (!Number.isSafeInteger(maxResin) || maxResin < unit || maxResin > 60000 || maxResin % unit !== 0)) {
@@ -124,7 +124,7 @@ function compileEntry(task, policy, settings, domainResinPolicy) {
       boundedDomainPolicy = limitDomainResinPolicyByPoints({ ...domainResinPolicy,
         priority: ['原粹树脂'], originalResinUseCount: 1 }, 20);
     } else {
-      boundedDomainPolicy = maxResin == null ? limitDomainResinPolicy(domainResinPolicy, maxClaims)
+      boundedDomainPolicy = maxResin == null ? { ...domainResinPolicy }
         : limitDomainResinPolicyByPoints(domainResinPolicy, maxResin);
     }
     config = task.executionType === 'domain'
@@ -161,8 +161,7 @@ export function formatResinExecutionLimit(entry) {
     return `树脂等价上限${budget.maxResin}点；预分配${allocation}（${budget.plannedResin}点），未使用额度不转移`;
   }
   if (entry.maxClaims == null) return '用完可用树脂';
-  const name = entry.config.resinPolicy?.boundedResinType;
-  return `最多领奖${entry.maxClaims}次${name ? `（旧配置，仅${name}）` : ''}`;
+  return `最多领奖${entry.maxClaims}次`;
 }
 
 function isTaskEnabled(task, settings) {

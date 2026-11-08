@@ -2,9 +2,8 @@ const STATUS_SUPPORTED = 'supported';
 const STATUS_WAITING_OPEN = 'waiting_open';
 
 /**
- * Apply confirmed openings to this run only. Callers validate live observations;
- * each override identifies one domain/reward family and carries its evidence.
- * Empty observations preserve the static calendar; they never imply closure.
+ * 已确认的开放信息仅作用于本次运行，由调用方校验实时观察结果。
+ * 每项覆盖对应一个秘境奖励系列并保留证据；没有观察结果时沿用静态日历，不视为关闭。
  */
 export function applyDomainOpeningOverrides({ materials, overrides = [], today }) {
   if (!Number.isInteger(today) || today < 0 || today > 6) {
@@ -150,7 +149,7 @@ function mergeDomainTasks(tasks) {
       continue;
     }
     const baseKey = `${task.executionType}:${targetName}`;
-    // 周日同一秘境可选不同奖励组；未标组的旧秘境与 Boss 继续沿用原分组键。
+    // 周日同一秘境按奖励组区分；没有奖励组的秘境和Boss按目标名称分组。
     const key = task.executionType === 'domain' && task.sundaySelectedValue
       ? `${baseKey}:reward:${task.sundaySelectedValue}`
       : baseKey;

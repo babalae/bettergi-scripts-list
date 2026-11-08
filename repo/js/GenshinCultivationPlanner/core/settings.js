@@ -5,13 +5,9 @@ const TARGET_INPUT_MODE_ALIASES = Object.freeze({
   '读取档案并执行': '自动档案识别后执行',
   '自动档案仅预览': '自动档案仅预览',
   '自动档案识别后执行': '自动档案识别后执行',
-  // 旧版公开过手动模式；升级后自动迁移到正式的档案读取流程。
-  '手动填写当前与目标': '自动档案识别后执行',
 });
-const BOSS_OVERRIDE_SLOT_COUNT = 3;
-const BOSS_OVERRIDE_ACTIONS = new Set(['继承通用配置', '启用', '禁用']);
 
-/** 用途先分流，避免只读采样被旧培养、Boss或树脂配置影响。 */
+/** 用途先分流，独立圣遗物模式不解析无关培养、Boss或树脂配置。 */
 export function resolveRunPurpose(settings = {}) {
   const purpose = settings.runPurpose ?? '正常培养';
   if (!['正常培养', '仅刷角色圣遗物'].includes(purpose)) {
@@ -37,10 +33,10 @@ export function normalizeRoleArtifactSettings(raw = {}) {
   return normalized;
 }
 
-/** 将紧凑设置页的模式值转换为现有执行器使用的兼容字段。 */
+/** 将当前设置页的选项转换为执行器参数。 */
 export function normalizeScriptSettings(rawSettings = {}) {
   if (rawSettings.appendTrainingGuide === true) {
-    throw new Error('公开版暂不支持提升指南批量培养目标，请选择角色或使用自定义培养目标');
+    throw new Error('公开版暂不支持提升指南批量培养目标，请选择角色与培养内容');
   }
   const normalized = { ...rawSettings };
   if (rawSettings.roleArtifactFillEnabled != null && typeof rawSettings.roleArtifactFillEnabled !== 'boolean') {
@@ -61,16 +57,10 @@ export function normalizeScriptSettings(rawSettings = {}) {
   return normalized;
 }
 
-/** 优先读取紧凑文本；旧版三组结构化配置仅用于兼容已保存的设置。 */
+/** Boss 专属配置只使用当前命名格式。 */
 function applyBossOverrides(settings, rawSettings) {
-  if (rawSettings.bossOverridesEnabled !== undefined || rawSettings.bossOverridesText !== undefined) {
-    settings.bossOverrides = rawSettings.bossOverridesEnabled === true
-      ? parseBossOverrides(requireValue(rawSettings.bossOverridesText, 'Boss 专属配置'))
-      : {};
-    return;
-  }
-
-  applyLegacyBossOverrideSlots(settings, rawSettings);
+  settings.bossOverrides = rawSettings.bossOverridesEnabled === true
+    ? parseBossOverrides(requireValue(rawSettings.bossOverridesText, 'Boss 专属配置')) : {};
 }
 
 /** 推荐格式：Boss:队伍=名称,策略=名称；也可填写 Boss:禁用。 */
@@ -89,28 +79,7 @@ function parseBossOverrides(text) {
       continue;
     }
 
-    if (/(?:^|[,，])\s*(?:队伍|策略)\s*[=：:]/.test(value)) {
-      result[bossName] = parseNamedBossOverride(bossName, value);
-      continue;
-    }
-
-    // 兼容旧版“Boss=队伍|策略”记录。
-    const parts = value.split('|').map((item) => item.trim());
-    if (parts.length < 1 || parts.length > 3) {
-      throw new Error(`Boss“${bossName}”应填写“队伍|策略”或“禁用”`);
-    }
-    const [partyName = '', strategyName = '', legacyAction = ''] = parts;
-    if (legacyAction && !['启用', '禁用'].includes(legacyAction)) {
-      throw new Error(`Boss“${bossName}”旧版处理方式只能填写“启用”或“禁用”`);
-    }
-    if (!partyName && !strategyName && !legacyAction) {
-      throw new Error(`Boss“${bossName}”没有填写专属队伍、策略或“禁用”`);
-    }
-    const override = {};
-    if (partyName) override.partyName = partyName;
-    if (strategyName) override.strategyName = strategyName;
-    if (legacyAction === '禁用') override.enabled = false;
-    result[bossName] = override;
+    result[bossName] = parseNamedBossOverride(bossName, value);
   }
   return result;
 }
@@ -134,43 +103,6 @@ function parseNamedBossOverride(bossName, value) {
   return override;
 }
 
-/** 兼容 0.9.0 的三组结构化 Boss 配置槽。 */
-function applyLegacyBossOverrideSlots(settings, rawSettings) {
-  const result = {};
-  let hasStructuredSetting = false;
-  for (let index = 1; index <= BOSS_OVERRIDE_SLOT_COUNT; index += 1) {
-    const nameField = `bossOverride${index}Name`;
-    const actionField = `bossOverride${index}Action`;
-    const partyField = `bossOverride${index}TeamName`;
-    const strategyField = `bossOverride${index}StrategyName`;
-    const fields = [nameField, actionField, partyField, strategyField];
-    if (!fields.some((field) => rawSettings[field] !== undefined)) continue;
-    hasStructuredSetting = true;
-
-    const bossName = String(rawSettings[nameField] ?? '').trim();
-    const action = String(rawSettings[actionField] ?? '继承通用配置').trim();
-    const partyName = String(rawSettings[partyField] ?? '').trim();
-    const strategyName = String(rawSettings[strategyField] ?? '').trim();
-    if (!BOSS_OVERRIDE_ACTIONS.has(action)) {
-      throw new Error(`Boss 专属配置 ${index} 的处理方式无效：“${action}”`);
-    }
-    if (!bossName || bossName === '不配置专属 Boss') {
-      if (action !== '继承通用配置' || partyName || strategyName) {
-        throw new Error(`Boss 专属配置 ${index} 已填写队伍、策略或处理方式，但没有选择 Boss`);
-      }
-      continue;
-    }
-    if (result[bossName]) throw new Error(`Boss 专属配置重复：“${bossName}”`);
-
-    const override = {};
-    if (action !== '继承通用配置') override.enabled = action === '启用';
-    if (partyName) override.partyName = partyName;
-    if (strategyName) override.strategyName = strategyName;
-    result[bossName] = override;
-  }
-  if (hasStructuredSetting) settings.bossOverrides = result;
-}
-
 /** 自由文本仍需校验名称，避免拼写错误导致专属配置静默失效。 */
 export function validateBossOverrideNames(settings = {}, catalog = {}, materials = {}) {
   const knownBosses = new Set(catalog.bosses ?? []);
@@ -188,7 +120,7 @@ export function validateBossOverrideNames(settings = {}, catalog = {}, materials
   }
 }
 
-/** 发布版只支持实际执行；未显式确认时必须在任何读写或游戏操作前终止。 */
+/** 所有用途（含目标预览）都须先确认，未确认时在任何读写或游戏操作前终止。 */
 export function assertExecutionConfirmed(settings = {}) {
   const value = settings.executionConfirmed;
   const confirmed = value === true || value === 1 || value === 'true' || value === '1';
@@ -197,17 +129,13 @@ export function assertExecutionConfirmed(settings = {}) {
   }
 }
 
-/** 将两个独立路线开关归一化，并兼容旧版总开关。 */
+/** 采集与怪物路线分别启用。 */
 function applyRouteModes(settings, rawSettings) {
   const hasSplitRouteSetting = rawSettings.gatheringRouteExecutionEnabled !== undefined
     || rawSettings.monsterRouteExecutionEnabled !== undefined;
   if (hasSplitRouteSetting) {
     settings.gatheringRouteExecutionEnabled = rawSettings.gatheringRouteExecutionEnabled === true;
     settings.monsterRouteExecutionEnabled = rawSettings.monsterRouteExecutionEnabled === true;
-  } else if (rawSettings.routeExecutionEnabled !== undefined) {
-    const legacyEnabled = rawSettings.routeExecutionEnabled === true;
-    settings.gatheringRouteExecutionEnabled = legacyEnabled;
-    settings.monsterRouteExecutionEnabled = legacyEnabled;
   } else {
     return;
   }
@@ -215,7 +143,7 @@ function applyRouteModes(settings, rawSettings) {
     || settings.monsterRouteExecutionEnabled;
 }
 
-/** 公开设置只保留自动档案；旧版手动模式会迁移到正式档案读取。 */
+/** 公开设置只保留自动档案，指定武器仍由独立选项提供。 */
 function applyTargetSelections(settings, rawSettings) {
   const targetFields = [
     'customTargetsEnabled', 'targetsText', 'selectedCharacter', 'selectedWeapon', 'weaponLevelRange',

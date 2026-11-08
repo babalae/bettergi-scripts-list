@@ -47,8 +47,7 @@ export function createExecutionOutcome({
 }
 
 /**
- * 创建整次运行结果，同时保留旧版 execution.task/status/reason 字段。
- * 后续多任务调度只需向 tasks 追加结果，旧报告仍可读取第一项任务。
+ * 创建整次运行结果；task保存主要任务，tasks保存各项执行证据。
  */
 export function createRunExecution({
   task = null,
@@ -162,7 +161,7 @@ export function updateRunOutcome(execution, patch = {}) {
   return execution;
 }
 
-/** 合并连续树脂任务的过程结果，并保留旧版首任务字段。 */
+/** 合并连续树脂任务的过程结果与主要任务。 */
 export function combineRunExecutions(executions = []) {
   const items = executions.filter(Boolean);
   if (items.length === 0) {
@@ -208,40 +207,6 @@ export function appendExecutionWarning(execution, warning) {
   return execution;
 }
 
-/** 将旧历史或旧测试中的 execution 结构补成新结构。 */
-export function normalizeLegacyExecution(execution) {
-  if (!execution) return null;
-  if (Array.isArray(execution.tasks) && execution.code) return execution;
-  const status = VALID_STATUSES.has(execution.status) ? execution.status : 'unconfirmed';
-  const code = execution.code ?? legacyCode(status, execution);
-  const migrated = createRunExecution({
-    task: execution.task ?? null,
-    status,
-    code,
-    stage: execution.stage ?? (status === 'unconfirmed' ? 'reward' : 'task'),
-    severity: execution.severity ?? null,
-    retryable: execution.retryable === true,
-    message: execution.message ?? execution.reason ?? '',
-    evidence: execution.evidence ?? {},
-    rewards: execution.rewards ?? {},
-    taskRecognizedRewards: execution.taskRecognizedRewards ?? {},
-    warnings: execution.warnings ?? [],
-  });
-  return {
-    ...migrated,
-    ...execution,
-    status: migrated.status,
-    code: migrated.code,
-    stage: migrated.stage,
-    severity: migrated.severity,
-    retryable: migrated.retryable,
-    reason: migrated.reason,
-    message: migrated.message,
-    tasks: migrated.tasks,
-    warnings: migrated.warnings,
-  };
-}
-
 export function resolveTaskTargetName(task) {
   return task?.domainName ?? task?.bossName ?? task?.materialName ?? null;
 }
@@ -249,14 +214,6 @@ export function resolveTaskTargetName(task) {
 function resolveTaskId(task) {
   if (!task) return null;
   return task.taskId ?? task.materialId ?? `${task.executionType ?? 'task'}:${resolveTaskTargetName(task) ?? 'unknown'}`;
-}
-
-function legacyCode(status, execution) {
-  if (status === 'failed') return 'external_task_error';
-  if (status === 'skipped') return 'no_candidate';
-  if (status === 'unconfirmed') return 'reward_unconfirmed';
-  if (execution?.appliedGains === true) return 'reward_confirmed';
-  return 'task_completed';
 }
 
 function mergeRewardMaps(maps) {

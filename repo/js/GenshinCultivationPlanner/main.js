@@ -1,4 +1,5 @@
 import { createPlan } from './core/planner.js';
+import { readRulebook } from './core/rulebook.js';
 import { validateCalculationTargets } from './core/requirements.js';
 import { applyInventoryScanResult, buildInventoryScanGroups, normalizeInventoryCountMap } from './core/inventory.js';
 import { applyMatchedRouteSupport, discoverAutoPathingRoutes } from './core/routes.js';
@@ -20,7 +21,6 @@ import { applyBossCompatibility } from './core/boss-compatibility.js';
 import { runBossTaskWithSafeExit } from './core/boss-safety.js';
 import { buildWeeklyStrategy } from './core/scheduler.js';
 import { appendRunHistory, buildRunRecord, findHistoricalInventoryConflicts } from './core/history.js';
-import { parseTargetText } from './core/target-input.js';
 import { resolvePlanningWeekday } from './core/server-weekday.js';
 import { buildCompletionEstimate } from './core/estimate.js';
 import { applyFinalRouteInventoryGains, buildRouteExecutionPlan, runSubscribedRouteFile } from './core/route-executor.js';
@@ -79,7 +79,7 @@ async function main() {
   failureNotificationState.stage = '读取培养目标';
   let materials = JSON.parse(file.readTextSync('data/materials.json'));
   const recipes = JSON.parse(file.readTextSync('data/crafting-recipes.json'));
-  const rulebook = JSON.parse(file.readTextSync('data/rulebook.json'));
+  const rulebook = readRulebook(JSON.parse(file.readTextSync('data/rulebook.json')));
   const observedPath = 'record/prefarm-observed.json';
   let observedCharacters = null;
   const bossCatalog = JSON.parse(file.readTextSync('data/bettergi-boss-catalog.json'));
@@ -162,7 +162,7 @@ async function main() {
       throw withExecutionContext(error, { code, stage: 'profile' });
     }
   } else {
-    targetData = loadTargets(scriptSettings, rulebook);
+    throw new Error('请选择当前的自动档案培养方式，武器可使用手动指定');
   }
   let targetSummary = profileRecord?.targetSummary ?? buildTargetSummary(targetData.targets ?? []);
   let targetOutcomes = profileRecord?.targetOutcomes ?? [];
@@ -236,8 +236,7 @@ async function main() {
   });
   attachTargetContext(plan, profileRecord, targetSummary, guideRecord, targetOutcomes);
 
-  // 兼容 BetterGI 已保存的旧设置：字段不存在时也默认开启读取。
-  if (!suppressExecution && scriptSettings.scanInventory !== false) {
+  if (!suppressExecution) {
     failureNotificationState.stage = '执行前读取背包';
     const initialInventoryScan = await scanInventoryMaterials(plan, inventory, materials, '执行前');
     inventory = initialInventoryScan.inventory;
@@ -445,7 +444,7 @@ async function main() {
       || (execution.tasks?.length ?? 0) > 0
       || (execution.routes?.length ?? 0) > 0;
     const safeToReadInventory = canContinueRoutesAfterResin(execution);
-    if (hasExecutionAttempt && safeToReadInventory && scriptSettings.scanInventory !== false && trackedMaterialIds.length > 0) {
+    if (hasExecutionAttempt && safeToReadInventory && trackedMaterialIds.length > 0) {
       const finalInventoryScan = await scanInventoryItemIds(
         trackedMaterialIds,
         inventory,
@@ -689,7 +688,7 @@ async function runRoleArtifactFarming() {
 function checkRuntimeCapabilities(scriptSettings, artifactOnly = false) {
   const required = {};
   const preview = isAutomaticProfileMode(scriptSettings) && scriptSettings.targetInputMode === '自动档案仅预览';
-  if (!artifactOnly && !preview && scriptSettings.scanInventory !== false) {
+  if (!artifactOnly && !preview) {
     required.CountInventoryItemParam = typeof CountInventoryItemParam !== 'undefined';
     required['ItemIconRecognitionMode.Item'] = typeof ItemIconRecognitionMode !== 'undefined' && ItemIconRecognitionMode.Item != null;
     required.GridScreenName = typeof GridScreenName !== 'undefined';
@@ -775,20 +774,9 @@ async function sendFailureSummarySafely(error) {
   await sendNotificationSafely(() => buildFailureRunSummary({
     stage: failureNotificationState.stage,
     targets: failureNotificationState.targets.length > 0 ? failureNotificationState.targets
-      : scriptSettings.targetsText ? [scriptSettings.targetsText] : [],
+      : [],
     reason: error?.message ?? String(error),
   }), '失败摘要');
-}
-
-function loadTargets(scriptSettings, rulebook) {
-  if (scriptSettings.targetsText?.trim()) {
-    const targets = parseTargetText(scriptSettings.targetsText, rulebook);
-    log.info('[初始化] 使用设置页目标文本，共解析 {count} 项', targets.length);
-    return { targets, inventory: {} };
-  }
-  const targetFile = scriptSettings.targetFile || 'data/user-targets.json';
-  log.info('[初始化] 读取高级目标文件：{path}', targetFile);
-  return JSON.parse(file.readTextSync(targetFile));
 }
 
 function loadObservedCharacters(path) {

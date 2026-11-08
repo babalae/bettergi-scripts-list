@@ -1,4 +1,3 @@
-import { normalizeLegacyExecution } from './execution-outcome.js';
 
 export function shouldSendRunNotifications(settings = {}) {
   return settings.sendRunSummary === true && settings.targetInputMode !== '自动档案仅预览';
@@ -154,7 +153,6 @@ export function buildRunSummary(plan, materials, {
   execution = null,
   recipes = {},
 } = {}) {
-  execution = normalizeLegacyExecution(execution);
   const planned = [...new Set((plan.todayQueue ?? []).map((task) => task.bossName ?? task.domainName
     ?? task.materialName ?? materials[task.materialId]?.name ?? task.materialId))];
   const uncertainIds = collectUncertainInventoryIds(execution, materials, recipes);

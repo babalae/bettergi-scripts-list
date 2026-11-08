@@ -1,8 +1,8 @@
 import { isBossTaskEnabled } from './boss-executor.js';
 
 /**
- * 当天没有培养树脂任务时，构造用户主动启用的圣遗物秘境填充任务。
- * 不根据角色自动推断圣遗物套装，避免替用户做配装决策。
+ * 构造用户手选秘境的圣遗物填充：默认无培养任务时兜底，多类模式可纳入队列。
+ * 此处不读取角色推荐，角色填充由独立校验流程提供任务。
  */
 export function appendArtifactFallbackTask(plan, settings, resinPolicyV2 = null) {
   if (settings.artifactDomainEnabled !== true || !settings.artifactDomainName?.trim()) return plan;
@@ -19,7 +19,8 @@ export function appendArtifactFallbackTask(plan, settings, resinPolicyV2 = null)
     priority: -1,
     status: 'supported',
     limited: false,
-    reason: '当天没有可执行培养树脂任务，使用用户启用的圣遗物秘境填充',
+    reason: allowAfterCultivation ? '按多类树脂规则安排用户手选秘境的圣遗物填充'
+      : '当天没有可执行培养树脂任务，使用用户启用的圣遗物秘境填充',
   });
   return plan;
 }

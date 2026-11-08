@@ -21,15 +21,14 @@ export function buildDomainResinPolicy(settings) {
     transient: '须臾树脂',
     fragile: '脆弱树脂',
   };
-  // 设置页当前提供的顺序组合以浓缩 → 原粹 → 须臾 → 脆弱为基础，并显式传给 BetterGI 0.64。
+  // 按设置页的浓缩 → 原粹 → 须臾 → 脆弱顺序显式传给 BetterGI。
   const priority = ['condensed', 'original', 'transient', 'fragile']
     .filter((key) => enabled[key]).map((key) => names[key]);
   return {
     specifyResinUse: true,
     priority,
     originalResinUseCount: enabled.original ? UNLIMITED_USE_COUNT : 0,
-    // BetterGI 0.64 also inherits separate 20/40-resin counters from its global config.
-    // This script uses the generic counter in normal mode, so always clear both split counters.
+    // 原生任务会继承全局20/40计数，使用通用计数时必须将两个独立计数清零。
     originalResin20UseCount: 0,
     originalResin40UseCount: 0,
     condensedResinUseCount: enabled.condensed ? UNLIMITED_USE_COUNT : 0,
@@ -39,7 +38,7 @@ export function buildDomainResinPolicy(settings) {
 }
 
 /**
- * 将脚本编译出的树脂规则写入 BetterGI 0.64 的自动秘境参数。
+ * 将脚本编译出的树脂规则写入 BetterGI 0.66 的自动秘境参数。
  * 显式写入优先级，避免继承全局“自动秘境”配置后改变脚本设置页展示的顺序。
  */
 export function applyDomainResinPolicyToParam(param, policy) {
@@ -57,36 +56,6 @@ export function applyDomainResinPolicyToParam(param, policy) {
   param.CondensedResinUseCount = policy.condensedResinUseCount;
   param.TransientResinUseCount = policy.transientResinUseCount;
   param.FragileResinUseCount = policy.fragileResinUseCount;
-}
-
-/**
- * 把任务总领取上限安全地转换为 BetterGI 的“单一树脂类型次数”。
- * BetterGI 的四个次数是分别累计而非总上限，因此有限预算只能选择一种已授权树脂，
- * 否则每种树脂各刷 N 次会突破用户设置的总次数。
- */
-export function limitDomainResinPolicy(policy, maxClaims) {
-  if (maxClaims == null) return { ...policy };
-  if (!Number.isInteger(maxClaims) || maxClaims <= 0) throw new Error('秘境领取上限必须是正整数');
-  const fieldByName = {
-    '原粹树脂': 'originalResinUseCount',
-    '浓缩树脂': 'condensedResinUseCount',
-    '须臾树脂': 'transientResinUseCount',
-    '脆弱树脂': 'fragileResinUseCount',
-  };
-  const selectedName = policy.priority[0];
-  const selectedField = fieldByName[selectedName];
-  if (!selectedField) throw new Error('有限领取模式下没有可用的秘境树脂类型');
-  return {
-    ...policy,
-    priority: [selectedName],
-    originalResinUseCount: 0,
-    condensedResinUseCount: 0,
-    transientResinUseCount: 0,
-    fragileResinUseCount: 0,
-    [selectedField]: maxClaims,
-    maxClaims,
-    boundedResinType: selectedName,
-  };
 }
 
 /**
