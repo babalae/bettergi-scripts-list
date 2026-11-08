@@ -1,0 +1,30 @@
+{
+  "_说明": "每个键为NPC名称。path=地图追踪文件路径（相对脚本目录）；interact=f 表示直接按F进入对话，alt 表示按住Alt呼出鼠标后按NPC名字点击交互选项；options=按顺序依次要点击的对话选项关键字（支持多级，可留空）；pick={keyword}=该NPC存在挑选类界面（如彩蛋），keyword为界面中可点击项的文字关键字，具体挑哪一项在脚本设置里选择，不填keyword则跳过挑选步骤；enable=false 可临时禁用该NPC。",
+  "莉莉希": {
+    "enable": true,
+    "path": "assets/path/莉莉希.json",
+    "interact": "alt",
+    "options": [
+      "可以领「飨月餐」么"
+    ]
+  },
+  "察尔瓦": {
+    "enable": true,
+    "path": "assets/path/察尔瓦.json",
+    "interact": "f",
+    "options": [
+      "让我挑一枚"
+    ],
+    "pick": {
+      "keyword": "闪闪礼蛋"
+    }
+  },
+  "布兰": {
+    "enable": true,
+    "path": "assets/path/布兰.json",
+    "interact": "f",
+    "options": [
+      "给我一份福利餐"
+    ]
+  }
+}

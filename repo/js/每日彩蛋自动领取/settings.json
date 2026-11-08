@@ -1,0 +1,44 @@
+[
+    {
+        "name": "userName",
+        "type": "input-text",
+        "label": "账号名（用于区分不同账户的每日记录）\n默认为空则读取游戏UID作为账户名",
+        "default": ""
+    },
+    {
+        "type": "separator"
+    },
+    {
+        "name": "onlyNpc",
+        "type": "input-text",
+        "label": "只运行指定NPC（多个用空格分隔，默认留空是运行所有NPC）",
+        "default": ""
+    },
+    {
+        "type": "separator"
+    },
+    {
+        "name": "pickChoice",
+        "type": "select",
+        "label": "闪闪礼蛋挑选的奖励\n随机=每次随机挑一个；指定后只拿选中的那一个",
+        "options": [
+            "随机",
+            "闪闪礼蛋·山之血",
+            "闪闪礼蛋·圣龙君临",
+            "闪闪礼蛋·太阳的轰鸣",
+            "闪闪礼蛋·菲耶蒂娜",
+            "闪闪礼蛋·献给小酒杯",
+            "闪闪礼蛋·飞澜鲨鲨"
+        ],
+        "default": "随机"
+    },
+    {
+        "type": "separator"
+    },
+    {
+        "name": "ignoreRecords",
+        "type": "checkbox",
+        "label": "无视每日记录强制重跑（运行后自动取消勾选）",
+        "default": false
+    }
+]
