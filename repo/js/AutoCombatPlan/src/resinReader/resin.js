@@ -3,7 +3,7 @@
  * ① 打开秘境页 ② 读原粹/浓缩 ③ 点「+」 ④ 读须臾/脆弱 → 返回数据
  * 唯一访问游戏界面的文件：截图、OCR、点击、模板匹配都在这里
  *
- * 来源：OCRCountResin v6.5（提交 5d0b7cf）的 src/resin.js，逐行照搬，只改了这段头注释。
+ * 来源：ResinStatsOCR v6.6（提交 0a119e9）的 src/resin.js，逐行照搬，只改了这段头注释。
  * 模板 Mat 的释放、界面复位、并发排队都在 `collectResin` 内部收口，调用方只管调这一个函数。
  * 上游下次更新时本文件整体覆盖即可；契约见 docs/reference.md 模块篇 §1.1。
  */
@@ -81,7 +81,7 @@ function initFrame() {
             frameHeight = region.height;
         }
     } catch (e) {
-        log.warn(`获取截图尺寸失败，按 1920×1080 处理：${e.message}`);
+        log.warn(`获取截图尺寸失败，按 1920×1080 处理: ${e.message}`);
     } finally {
         safeDispose(region);
     }
@@ -118,10 +118,10 @@ async function ocrItems(rect, label) {
             });
         }
         if (items.length === 0) {
-            log.warn(`${label} 区域内未识别到文本`);
+            log.warn(`${label}区域内未识别到文本`);
         }
     } catch (e) {
-        log.warn(`${label} OCR 异常：${e.message}`);
+        log.warn(`${label} OCR 异常: ${e.message}`);
     } finally {
         safeDispose(region);
     }
@@ -155,7 +155,7 @@ async function ocrWholeScreen(label) {
         }
         logDebug(`${label}全屏 OCR 共 ${items.length} 条文本`);
     } catch (e) {
-        log.error(`${label}全屏 OCR 异常：${e.message}`);
+        log.error(`${label}全屏 OCR 异常: ${e.message}`);
     } finally {
         safeDispose(region);
     }
@@ -224,7 +224,7 @@ async function clickTextIn(rect, keywords, label, offsetYRatio, attempts) {
                 return true;
             }
         } catch (e) {
-            log.warn(`${label} 识别或点击异常：${e.message}`);
+            log.warn(`${label} 识别或点击异常: ${e.message}`);
         } finally {
             safeDispose(derived);
             safeDispose(hit);
@@ -257,7 +257,7 @@ async function clickTemplate(recognitionObject, label, timeout) {
                 return true;
             }
         } catch (e) {
-            log.warn(`${label} 匹配异常：${e.message}`);
+            log.warn(`${label} 匹配异常: ${e.message}`);
         } finally {
             safeDispose(result);
             safeDispose(region);
@@ -292,7 +292,7 @@ async function isHandbookOpen() {
 async function openSecretPage() {
     log.info("① 打开「秘境」页");
     if (!await ensureHandbookOpen()) {
-        log.error("冒险手册未能打开");
+        log.error("冒险手册未能打开（F1 与 ESC 两条路都失败）");
         return false;
     }
     return await clickSecretDomainTab();
@@ -304,7 +304,7 @@ async function ensureHandbookOpen() {
     try {
         await genshin.returnMainUi();
     } catch (e) {
-        log.warn(`返回主界面失败：${e.message}`);
+        log.warn(`返回主界面失败: ${e.message}`);
     }
     await sleep(CONFIG.UI_DELAY);
 
@@ -332,10 +332,10 @@ async function ensureHandbookOpen() {
             return true;
         }
     } else {
-        log.warn("  │  ESC 菜单未找到「冒险之证」");
+        log.warn("  │  ESC 菜单里没找到「冒险之证」");
     }
 
-    log.warn("  │  再次尝试 F1");
+    log.warn("  │  再试一次 F1");
     try {
         await genshin.returnMainUi();
     } catch (e) {
@@ -358,7 +358,7 @@ async function clickSecretDomainTab() {
         CONFIG.RETRY);
 
     if (!clicked) {
-        log.error("未找到左侧「秘境」标签，界面可能尚未就绪");
+        log.error("没找到左侧「秘境」标签，可能界面未就绪");
         return false;
     }
     await sleep(CONFIG.UI_DELAY);
@@ -394,13 +394,13 @@ async function readWithRetry(kind, readOnce) {
         try {
             raw = await readOnce(attempt);
         } catch (e) {
-            log.warn(`${label}第 ${attempt} 次读取异常：${e.message}`);
+            log.warn(`${label}第 ${attempt} 次读取异常: ${e.message}`);
         }
 
         const value = validateCount(kind, raw, attempt);
         if (value !== null) {
             if (attempt > 1) {
-                logDebug(`${label}第 ${attempt} 次读数通过校验：${value}`);
+                logDebug(`${label}第 ${attempt} 次读数通过校验: ${value}`);
             }
             return value;
         }
@@ -435,7 +435,7 @@ function matchDigitTemplates(region, rect, mats, label) {
                 best = { value: item.value, score: score };
             }
         } catch (e) {
-            log.warn(`数字模板 ${item.value} 匹配异常：${e.message}`);
+            log.warn(`数字模板 ${item.value} 匹配异常: ${e.message}`);
         } finally {
             safeDispose(res);
         }
@@ -460,7 +460,7 @@ async function readCondensedByIcon() {
         region = captureGameRegion();
         icon = region.find(getCondensedIconRo());
         if (isEmptyResult(icon) || !(icon.width > 0) || !(icon.height > 0)) {
-            log.warn("秘境页未匹配到浓缩树脂图标");
+            log.warn("秘境页没匹配到浓缩树脂图标");
             return null;
         }
         if (icon.x > region.width || icon.y > region.height) {
@@ -497,9 +497,9 @@ async function readCondensedByIcon() {
             logDebug(`  OCR 读到 ${byOcr}`);
             return byOcr;
         }
-        log.warn("  浓缩数字未读到（模板与 OCR 均未命中）");
+        log.warn("  浓缩数字没读到（模板与 OCR 均未命中）");
     } catch (e) {
-        log.warn(`浓缩树脂图标识别异常：${e.message}`);
+        log.warn(`浓缩树脂图标识别异常: ${e.message}`);
     } finally {
         safeDispose(icon);
         safeDispose(region);
@@ -511,24 +511,24 @@ async function readCondensedByIcon() {
 function readCondensedByOcr(region, rect) {
     const items = ocrItemsInRect(region, rect);
     if (items.length === 0) {
-        log.warn("  数字区 OCR 未返回文本（框内可能确无内容）");
+        log.warn("  数字区 OCR 没返回任何文本（框内可能真的没字）");
         return null;
     }
-    logDebug(`  数字区 OCR 原文：${items.map(it => `"${it.text}"`).join(" | ")}`);
+    logDebug(`  数字区 OCR 原文: ${items.map(it => `"${it.text}"`).join(" | ")}`);
 
     // 「最接近的匹配」：按与图标的位置契合度排序，只认纯数字
     const candidates = pickClosestNumber(items, rect);
     if (candidates.length === 0) {
-        log.warn("  数字区无可用候选");
+        log.warn("  数字区没有可用候选");
         return null;
     }
-    logDebug("  候选：" + candidates
+    logDebug("  候选: " + candidates
         .map(c => `"${c.text}"→${c.value}(契合${c.score.toFixed(2)})`)
         .join(" | "));
 
     const best = candidates[0];
     if (best.score < 0.5) {
-        log.warn(`  候选契合度过低（"${best.text}" 契合 ${best.score.toFixed(2)}），按未读到处理`);
+        log.warn(`  最接近的候选也太虚（"${best.text}" 契合 ${best.score.toFixed(2)}），按未读到处理`);
         return null;
     }
     logDebug(`  选中 "${best.text}" → ${best.value}（契合 ${best.score.toFixed(2)}）`);
@@ -545,26 +545,34 @@ async function readSecretPageResin(want) {
     if (want.original) {
         out.original = await readWithRetry("original", async () =>
             readOriginalCount(await ocrWholeScreen("秘境页")));
-        log.info(`  ${RESIN_LABELS.original}：${formatCount(out.original)}`);
+        log.info(`  ${RESIN_LABELS.original}: ${formatCount(out.original)}`);
     } else {
-        log.info(`  ${RESIN_LABELS.original}：未请求，跳过`);
+        log.info(`  ${RESIN_LABELS.original}: 未请求，跳过`);
     }
 
     if (want.condensed) {
         out.condensed = await readWithRetry("condensed", () => readCondensedByIcon());
-        log.info(`  ${RESIN_LABELS.condensed}：${formatCount(out.condensed)}`);
+        log.info(`  ${RESIN_LABELS.condensed}: ${formatCount(out.condensed)}`);
     } else {
-        log.info(`  ${RESIN_LABELS.condensed}：未请求，跳过`);
+        log.info(`  ${RESIN_LABELS.condensed}: 未请求，跳过`);
     }
 
     return out;
 }
 
 // 须臾 / 脆弱：匹配图标后读图标正下方的数字，先 OCR，useDigitFallback 为真时再用数字模板兜底
-async function readOtherResinByIcon(kind, useDigitFallback) {
+// state 可选，读一次就往里记：sawIcon 本次是否匹配到图标，lastReason 本次结果类型
+//   lastReason: "no-icon" 明确没有这一行 | "icon" 匹配到 | "incomplete" 匹配到但尺寸异常
+//               | "no-mat" 模板资源缺失 | "error" 异常
+// 外层据此区分「界面上没有该物品（0）」与「有但读不出（未知）」
+async function readOtherResinByIcon(kind, useDigitFallback, state) {
     const mats = getOtherResinIconMats();
     const mat = mats[kind];
     if (!mat) {
+        log.warn(`  ${RESIN_LABELS[kind]}图标模板缺失，按未知处理`);
+        if (state) {
+            state.lastReason = "no-mat";
+        }
         return null;
     }
 
@@ -573,9 +581,24 @@ async function readOtherResinByIcon(kind, useDigitFallback) {
     try {
         region = captureGameRegion();
         icon = region.find(RecognitionObject.templateMatch(mat));
-        if (isEmptyResult(icon) || !(icon.width > 0) || !(icon.height > 0)) {
-            log.warn(`  ${RESIN_LABELS[kind]} 图标未匹配到`);
+        if (isEmptyResult(icon)) {
+            log.warn(`  ${RESIN_LABELS[kind]}图标没匹配到`);
+            if (state) {
+                state.lastReason = "no-icon";
+            }
             return null;
+        }
+        if (!(icon.width > 0) || !(icon.height > 0)) {
+            // 匹配到了但尺寸异常：属于半成品结果，不能当作「界面上没有」
+            log.warn(`  ${RESIN_LABELS[kind]}图标匹配结果尺寸异常（${icon.width}×${icon.height}），按未知处理`);
+            if (state) {
+                state.lastReason = "incomplete";
+            }
+            return null;
+        }
+        if (state) {
+            state.sawIcon = true;
+            state.lastReason = "icon";
         }
 
         const rect = {
@@ -594,7 +617,7 @@ async function readOtherResinByIcon(kind, useDigitFallback) {
             logDebug(`  ${RESIN_LABELS[kind]} OCR 读到 ${best.value}（原文 "${best.text}"，契合 ${best.score.toFixed(2)}）`);
             return best.value;
         }
-        logDebug(`  ${RESIN_LABELS[kind]} OCR 未读到（原文：${items.length > 0 ? items.map(it => `"${it.text}"`).join(" | ") : "空"}）` +
+        logDebug(`  ${RESIN_LABELS[kind]} OCR 没读到（原文: ${items.length > 0 ? items.map(it => `"${it.text}"`).join(" | ") : "空"}）` +
             (useDigitFallback ? "，改用数字模板" : "，该项按未知处理"));
 
         if (!useDigitFallback) {
@@ -609,12 +632,33 @@ async function readOtherResinByIcon(kind, useDigitFallback) {
         }
         return null;
     } catch (e) {
-        log.warn(`${RESIN_LABELS[kind]}图标识别异常：${e.message}`);
+        log.warn(`${RESIN_LABELS[kind]}图标识别异常: ${e.message}`);
+        if (state) {
+            state.lastReason = "error";
+        }
         return null;
     } finally {
         safeDispose(icon);
         safeDispose(region);
     }
+}
+
+// 图标整轮都没见到 → 界面上没有这一行 → 0
+// 见过图标却读不出数字、或中途异常/半成品 → 未知（null）
+// 依据：须臾 / 脆弱为 0 时整行不渲染（图标与名称一起消失），所以「没图标」等价于「没有」
+function missingAsZero(kind, raw, state) {
+    if (raw !== null) {
+        return raw;
+    }
+    if (state.sawIcon) {
+        return null;
+    }
+    if (state.lastReason === "no-icon") {
+        log.warn(`  ${RESIN_LABELS[kind]}连续 ${CONFIG.COUNT_RETRY} 次未匹配到图标，界面上没有该行，按 0 处理` +
+            `（若持续为 0，请检查图标模板是否需维护）`);
+        return 0;
+    }
+    return null;
 }
 
 // ④ 读取补充树脂界面：须臾 / 脆弱走图标定位，各按开关
@@ -628,18 +672,22 @@ async function readReplenishDialog(want, needOriginalFallback) {
 
     // 须臾：图标定位 → 读图标正下方数字，读不到用数字模板兜底（上限 9，永远一位数）
     if (want.transient) {
-        out.transient = await readWithRetry("transient", () => readOtherResinByIcon("transient", true));
-        log.info(`  ${RESIN_LABELS.transient}：${formatCount(out.transient)}`);
+        const state = {};
+        const raw = await readWithRetry("transient", () => readOtherResinByIcon("transient", true, state));
+        out.transient = missingAsZero("transient", raw, state);
+        log.info(`  ${RESIN_LABELS.transient}: ${formatCount(out.transient)}`);
     } else {
-        log.info(`  ${RESIN_LABELS.transient}：未请求，跳过`);
+        log.info(`  ${RESIN_LABELS.transient}: 未请求，跳过`);
     }
 
     // 脆弱：同样走图标，但不启用数字模板——脆弱常见两位数，一位数模板只会给出其中一位
     if (want.fragile) {
-        out.fragile = await readWithRetry("fragile", () => readOtherResinByIcon("fragile", false));
-        log.info(`  ${RESIN_LABELS.fragile}：${formatCount(out.fragile)}`);
+        const state = {};
+        const raw = await readWithRetry("fragile", () => readOtherResinByIcon("fragile", false, state));
+        out.fragile = missingAsZero("fragile", raw, state);
+        log.info(`  ${RESIN_LABELS.fragile}: ${formatCount(out.fragile)}`);
     } else {
-        log.info(`  ${RESIN_LABELS.fragile}：未请求，跳过`);
+        log.info(`  ${RESIN_LABELS.fragile}: 未请求，跳过`);
     }
 
     // 整屏 OCR 只为两件事：解析须臾的「N天后过期」、给第 ② 步没读到的原粹补一次
@@ -651,7 +699,7 @@ async function readReplenishDialog(want, needOriginalFallback) {
 
     out.items = await ocrWholeScreen("补充树脂界面");
     if (out.items.length === 0) {
-        log.error("补充树脂界面未识别到文本，请确认「+」是否已打开弹窗");
+        log.error("补充树脂界面没有识别到任何文本，请确认「+」是否点开了弹窗");
     }
 
     if (needOriginalFallback) {
@@ -673,12 +721,12 @@ async function readUid() {
     try {
         const uid = await genshin.uid();
         if (uid && Number(uid) > 0) {
-            logDebug(`当前 UID：${uid}`);
+            logDebug(`当前 UID: ${uid}`);
             return String(uid);
         }
         log.warn("UID 识别失败（返回 0）");
     } catch (e) {
-        log.warn(`UID 识别异常：${e.message}`);
+        log.warn(`UID 识别异常: ${e.message}`);
     }
     return null;
 }
@@ -769,7 +817,7 @@ async function collectOnce(flags) {
             if (needDialog) {
                 // ③ 点击原粹树脂旁的「+」
                 if (!await clickReplenishButton()) {
-                    throw new Error("未找到原粹树脂旁的「+」按钮，可能未进入秘境页");
+                    throw new Error("没找到原粹树脂旁的「+」按钮，可能没进入秘境页");
                 }
                 steps.clickPlus = true;
 
@@ -782,8 +830,12 @@ async function collectOnce(flags) {
                 }
 
                 // 有效期文案与须臾同屏，只有请求了须臾才有意义
+                // 须臾为 0 时该行不渲染，天数必然为空；万一整屏 OCR 误抓到别处文字也不采用
                 if (want.transient && dialog.items.length > 0) {
                     transientDays = parseTransientExpireDays(dialog.items);
+                    if (resin.transient === 0) {
+                        transientDays = null;
+                    }
                     if (transientDays !== null) {
                         logDebug(`须臾树脂剩余 ${transientDays} 天`);
                     }
@@ -819,7 +871,7 @@ async function collectOnce(flags) {
             try {
                 await genshin.returnMainUi();
             } catch (e) {
-                log.warn(`返回主界面失败：${e.message}`);
+                log.warn(`返回主界面失败: ${e.message}`);
             }
         }
     }
