@@ -6,13 +6,13 @@
         "name": "烤鱼"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.42.0",
     "description": "1只遗迹龙兽，5只遗迹机兵",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1789956048934,
+    "last_modified_time": 1793513014329,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "遗迹龙兽-童梦秘境（1+5）",
+    "name": "遗迹龙兽-童梦秘境（6）",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -31,6 +31,25 @@
       "action": "stop_flying",
       "action_params": "",
       "id": 2,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3333.9795,
+      "y": -836.9961
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3330.2588,
+      "y": -825.5293
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
       "move_mode": "fly",
       "type": "path",
       "x": 3333.9795,
@@ -39,7 +58,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 3,
+      "id": 5,
       "move_mode": "dash",
       "type": "path",
       "x": 3330.2588,
@@ -48,7 +67,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 4,
+      "id": 6,
       "move_mode": "walk",
       "type": "path",
       "x": 3320.665,
@@ -57,7 +76,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 5,
+      "id": 7,
       "move_mode": "walk",
       "type": "path",
       "x": 3311.4326,
@@ -66,7 +85,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 6,
+      "id": 8,
       "move_mode": "walk",
       "type": "path",
       "x": 3296.8525,
@@ -75,8 +94,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(6)",
-      "id": 7,
-      "locked": false,
+      "id": 9,
       "move_mode": "run",
       "type": "path",
       "x": 3264.1338,
@@ -85,7 +103,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 8,
+      "id": 10,
       "move_mode": "walk",
       "type": "path",
       "x": 3264.1338,
@@ -94,7 +112,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 9,
+      "id": 11,
       "move_mode": "run",
       "type": "path",
       "x": 3234.0508,
@@ -103,7 +121,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 10,
+      "id": 12,
       "move_mode": "run",
       "type": "path",
       "x": 3234.7598,
