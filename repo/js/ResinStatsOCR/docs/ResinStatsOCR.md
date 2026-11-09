@@ -24,7 +24,7 @@
 { ok, uid, requested, resin, transientDays, steps, error?, errorStack? }
 ```
 
-- `resin` 与 `requested` 各四项（原粹、浓缩、须臾、脆弱）。读不到与未请求都是 `null`，用 `requested` 区分
+- `resin` 与 `requested` 各四项（原粹、浓缩、须臾、脆弱）。读不到为 `null`，未请求也是 `null`，靠 `requested` 区分；须臾 / 脆弱额外可能是 `0`（界面该行不渲染，见「④ 须臾 / 脆弱」）
 - `steps` 为 `true`（走通）/ `false`（试过失败）/ `"skip"`（按开关没走）
 - 不抛异常：开页或点「+」失败返回 `ok:false` + `error`，已读到的项照常带回
 
@@ -51,7 +51,7 @@ const r = await collectResin([true, false, false, false]);
 - 入参 `flags`：四位布尔，顺序固定 `[原粹, 浓缩, 须臾, 脆弱]`，开关怎么裁剪界面步骤见上文「读数开关」；不传 = 全读，短数组按 false 补齐，不是数组按全读处理并记警告
 - 返回值 await 之后是一个对象，失败也一样，先判 `ok`：
   - `ok`：流程没走通（开不了秘境页 / 点不了「+」）为 `false`，`error` 带原因、`errorStack` 带堆栈；已读到的项照常在 `resin` 里
-  - `resin` / `requested`：各四键 `original` / `condensed` / `transient` / `fragile`（原粹 / 浓缩 / 须臾 / 脆弱），数字或 `null`；没请求与没读到都是 `null`，靠 `requested` 区分
+  - `resin` / `requested`：各四键 `original` / `condensed` / `transient` / `fragile`（原粹 / 浓缩 / 须臾 / 脆弱），数字或 `null`；没请求与没读到都是 `null`，靠 `requested` 区分；`transient` / `fragile` 还可能是 `0`，表示图标连续未匹配、界面该行不渲染
   - `uid`：字符串或 `null`，只在真进了游戏界面时才有机会读到
   - `transientDays`：数字或 `null`，须臾剩余天数，没请求须臾恒为 `null`
   - `steps`：三键 `openSecret` / `clickPlus` / `dialogClosed`，`true` 走通 / `false` 试过失败 / `"skip"` 按开关没走；只记界面三步，不含读数
@@ -102,8 +102,10 @@ const r = await collectResin([true, false, false, false]);
 - 数字区先 OCR（两位数照样读得出，实测脆弱 22）；须臾再走数字模板兜底
 - 数字模板兜底**只给须臾**：模板只返回单个 0~9，脆弱的两位数会读成其中一位（实测 22 → 2）；须臾上限 9，永远一位数
 - 弹窗里只有「须臾树脂」这一行名称，没有「脆弱树脂」字样，所以脆弱只能靠图标定位
+- **数量为 0 时整行不渲染**（图标与名称一起消失），所以「3 次都匹配不到图标」判 `0`；「匹配到图标却读不出数字」判 `null`（未知）。半成品匹配（匹配到但宽高为 0）、模板资源缺失、识别异常一律算未知，不判 0
+- 判 0 会打 `warn` 日志并提示「若持续为 0 请检查图标模板」：模板失效同样表现为匹配不到，只能靠这条日志区分
 - 整屏 OCR 只在「请求了须臾」或「原粹需兜底」时才拍
-- 有效期文案由流程层解析（`N天后过期`、`N小时后过期` 记 0 天），弹窗读数不做这件事
+- 有效期文案由流程层解析（`N天后过期`、`N小时后过期` 记 0 天），弹窗读数不做这件事；须臾为 0 时天数强制为 `null`
 
 ### 退出
 
@@ -121,7 +123,7 @@ const r = await collectResin([true, false, false, false]);
 | 原粹、第 2 次起、`200 < x < 999` | **有效**（原粹可溢出） |
 | 其余超上限 | 无效，重试 |
 
-原粹 200、浓缩 5 是真实上限；须臾 9、脆弱 999 只是「合理范围」，用来把明显误读判废。3 次仍无效记 `null`，与真实的 0 区分。
+原粹 200、浓缩 5 是真实上限；须臾 9、脆弱 999 只是「合理范围」，用来把明显误读判废。3 次仍无效记 `null`。须臾 / 脆弱的 `0` 只来自「图标整轮未匹配」，即界面该行不渲染；其余失败一律 `null`，与读到 0 区分。
 
 ## 输出
 

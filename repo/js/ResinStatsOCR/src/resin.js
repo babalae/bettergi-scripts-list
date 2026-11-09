@@ -557,10 +557,18 @@ async function readSecretPageResin(want) {
 }
 
 // 须臾 / 脆弱：匹配图标后读图标正下方的数字，先 OCR，useDigitFallback 为真时再用数字模板兜底
-async function readOtherResinByIcon(kind, useDigitFallback) {
+// state 可选，读一次就往里记：sawIcon 本次是否匹配到图标，lastReason 本次结果类型
+//   lastReason: "no-icon" 明确没有这一行 | "icon" 匹配到 | "incomplete" 匹配到但尺寸异常
+//               | "no-mat" 模板资源缺失 | "error" 异常
+// 外层据此区分「界面上没有该物品（0）」与「有但读不出（未知）」
+async function readOtherResinByIcon(kind, useDigitFallback, state) {
     const mats = getOtherResinIconMats();
     const mat = mats[kind];
     if (!mat) {
+        log.warn(`  ${RESIN_LABELS[kind]}图标模板缺失，按未知处理`);
+        if (state) {
+            state.lastReason = "no-mat";
+        }
         return null;
     }
 
@@ -569,9 +577,24 @@ async function readOtherResinByIcon(kind, useDigitFallback) {
     try {
         region = captureGameRegion();
         icon = region.find(RecognitionObject.templateMatch(mat));
-        if (isEmptyResult(icon) || !(icon.width > 0) || !(icon.height > 0)) {
+        if (isEmptyResult(icon)) {
             log.warn(`  ${RESIN_LABELS[kind]}图标没匹配到`);
+            if (state) {
+                state.lastReason = "no-icon";
+            }
             return null;
+        }
+        if (!(icon.width > 0) || !(icon.height > 0)) {
+            // 匹配到了但尺寸异常：属于半成品结果，不能当作「界面上没有」
+            log.warn(`  ${RESIN_LABELS[kind]}图标匹配结果尺寸异常（${icon.width}×${icon.height}），按未知处理`);
+            if (state) {
+                state.lastReason = "incomplete";
+            }
+            return null;
+        }
+        if (state) {
+            state.sawIcon = true;
+            state.lastReason = "icon";
         }
 
         const rect = {
@@ -606,11 +629,32 @@ async function readOtherResinByIcon(kind, useDigitFallback) {
         return null;
     } catch (e) {
         log.warn(`${RESIN_LABELS[kind]}图标识别异常: ${e.message}`);
+        if (state) {
+            state.lastReason = "error";
+        }
         return null;
     } finally {
         safeDispose(icon);
         safeDispose(region);
     }
+}
+
+// 图标整轮都没见到 → 界面上没有这一行 → 0
+// 见过图标却读不出数字、或中途异常/半成品 → 未知（null）
+// 依据：须臾 / 脆弱为 0 时整行不渲染（图标与名称一起消失），所以「没图标」等价于「没有」
+function missingAsZero(kind, raw, state) {
+    if (raw !== null) {
+        return raw;
+    }
+    if (state.sawIcon) {
+        return null;
+    }
+    if (state.lastReason === "no-icon") {
+        log.warn(`  ${RESIN_LABELS[kind]}连续 ${CONFIG.COUNT_RETRY} 次未匹配到图标，界面上没有该行，按 0 处理` +
+            `（若持续为 0，请检查图标模板是否需维护）`);
+        return 0;
+    }
+    return null;
 }
 
 // ④ 读取补充树脂界面：须臾 / 脆弱走图标定位，各按开关
@@ -624,7 +668,9 @@ async function readReplenishDialog(want, needOriginalFallback) {
 
     // 须臾：图标定位 → 读图标正下方数字，读不到用数字模板兜底（上限 9，永远一位数）
     if (want.transient) {
-        out.transient = await readWithRetry("transient", () => readOtherResinByIcon("transient", true));
+        const state = {};
+        const raw = await readWithRetry("transient", () => readOtherResinByIcon("transient", true, state));
+        out.transient = missingAsZero("transient", raw, state);
         log.info(`  ${RESIN_LABELS.transient}: ${formatCount(out.transient)}`);
     } else {
         log.info(`  ${RESIN_LABELS.transient}: 未请求，跳过`);
@@ -632,7 +678,9 @@ async function readReplenishDialog(want, needOriginalFallback) {
 
     // 脆弱：同样走图标，但不启用数字模板——脆弱常见两位数，一位数模板只会给出其中一位
     if (want.fragile) {
-        out.fragile = await readWithRetry("fragile", () => readOtherResinByIcon("fragile", false));
+        const state = {};
+        const raw = await readWithRetry("fragile", () => readOtherResinByIcon("fragile", false, state));
+        out.fragile = missingAsZero("fragile", raw, state);
         log.info(`  ${RESIN_LABELS.fragile}: ${formatCount(out.fragile)}`);
     } else {
         log.info(`  ${RESIN_LABELS.fragile}: 未请求，跳过`);
@@ -778,8 +826,12 @@ async function collectOnce(flags) {
                 }
 
                 // 有效期文案与须臾同屏，只有请求了须臾才有意义
+                // 须臾为 0 时该行不渲染，天数必然为空；万一整屏 OCR 误抓到别处文字也不采用
                 if (want.transient && dialog.items.length > 0) {
                     transientDays = parseTransientExpireDays(dialog.items);
+                    if (resin.transient === 0) {
+                        transientDays = null;
+                    }
                     if (transientDays !== null) {
                         logDebug(`须臾树脂剩余 ${transientDays} 天`);
                     }
