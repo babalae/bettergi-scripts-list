@@ -1,0 +1,50 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "烤鱼"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1792719743958,
+    "map_match_method": "",
+    "map_name": "Enkanomiya",
+    "name": "13深渊法师-大日御舆东-2个-火雷",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 64.2322,
+      "y": 252.817
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 84.858,
+      "y": 321.3879
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 84.858,
+      "y": 321.3879
+    }
+  ]
+}
