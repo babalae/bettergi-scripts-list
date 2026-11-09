@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": " 路线信息：该路线预计用时55秒，包含以下怪物：4只辖域守护者。",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1780515546186,
+    "last_modified_time": 1794167597253,
     "map_match_method": "SIFT",
     "map_name": "TempleOfSpace",
     "name": "ZA005蒙德空之神殿柱殿中央区北",
@@ -37,8 +37,8 @@
       "y": 352.4803
     },
     {
-      "action": "",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "click(middle)",
       "id": 3,
       "move_mode": "dash",
       "type": "path",
@@ -49,7 +49,6 @@
       "action": "",
       "action_params": "",
       "id": 4,
-      "locked": false,
       "move_mode": "walk",
       "type": "orientation",
       "x": 552.7517,
