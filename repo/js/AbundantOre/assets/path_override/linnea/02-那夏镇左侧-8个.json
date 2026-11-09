@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1777953208532,
+    "last_modified_time": 1793268822636,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "02-那夏镇左侧-8个",
@@ -182,7 +182,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "莉奈娅 moveby(0,-400);wait(0.5);charge(0.8)",
+      "action_params": "莉奈娅 moveby(0,-400);wait(0.5);charge(0.8),wait(1.2);charge(0.8),",
       "id": 19,
       "move_mode": "walk",
       "type": "orientation",
