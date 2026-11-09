@@ -1,0 +1,182 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "烤鱼"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1790868322484,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "狼肉-疗养院北部-9只",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -527.9277,
+      "y": 3876.6797
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -579.1406,
+      "y": 3933.0957
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -581.3516,
+      "y": 3938.6094
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -581.3516,
+      "y": 3938.6094
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(e),wait(5)",
+      "id": 5,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -574.7812,
+      "y": 3882.4268
+    },
+    {
+      "action": "pick_up_collect",
+      "action_params": "",
+      "id": 6,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -574.7812,
+      "y": 3882.4268
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -574.7812,
+      "y": 3882.4268
+    },
+    {
+      "action": "pick_around",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -574.7812,
+      "y": 3882.4268
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -589.207,
+      "y": 3922.9063
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -621.2461,
+      "y": 4047.6279
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -566.3496,
+      "y": 4061.8984
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(e),wait(5)",
+      "id": 12,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -554.3203,
+      "y": 4053.7383
+    },
+    {
+      "action": "pick_up_collect",
+      "action_params": "",
+      "id": 13,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -554.3203,
+      "y": 4053.7383
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 14,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -554.3203,
+      "y": 4053.7383
+    },
+    {
+      "action": "pick_around",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -554.3203,
+      "y": 4053.7383
+    },
+    {
+      "action": "pick_around",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -562.207,
+      "y": 4053.6543
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -566.1543,
+      "y": 4056.875
+    }
+  ]
+}
