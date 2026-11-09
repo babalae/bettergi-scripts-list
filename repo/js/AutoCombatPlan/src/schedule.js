@@ -110,6 +110,26 @@ export function domainCat(name) {
   return d ? TYPE_CAT[d.type] || "" : "";
 }
 
+/**
+ * 本 → 掉落名（圣遗物本两套、天赋/武器本三份）。给通知的括号用：
+ * 圣遗物没有「今天出哪一份」的概念，只能整本列出；认不出回空数组。
+ * 回副本，调用方随便改不影响缓存。
+ */
+export function domainRewards(name) {
+  const d = domains()[name];
+  return d && Array.isArray(d.rewards) ? d.rewards.slice() : [];
+}
+
+/**
+ * 本 + 组号 → 该组材料名。补刷只配了组号、没有材料输入时用它反查。
+ * 无组本（圣遗物等）/ 组号空 / 认不出一律回空串——宁可只写本名，不猜。
+ */
+export function groupMaterial(name, group) {
+  const g = openGroups()[name];
+  if (!g) return "";
+  return g[Number(group)] || "";
+}
+
 /** 今天是第几组。周日全开，没有「第几组」可言，返回 0；认不出的星期返回 -1 */
 export function todayGroup(day) {
   const d = Number(day);

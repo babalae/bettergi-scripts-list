@@ -9,7 +9,7 @@
 // 这样三个副本的接口怎么变，都改在 tasks 一处。
 
 import { rotationToday } from "./config.js";
-import { domainCat, materialToDomain } from "./schedule.js";
+import { domainCat, domainRewards, groupMaterial, materialToDomain } from "./schedule.js";
 
 /** 双倍次数兜底：全局配置里那一行缺失或非正数时用它（§2.3） */
 const ROUNDS_DEFAULT = 3;
@@ -63,9 +63,23 @@ function leylineStep(o) {
   };
 }
 
+/**
+ * 括号里的产出名。三种情况：
+ * - 给了单份材料名（`account.Materials` 那一条）→ 用它，这是今天真正要刷的那份；
+ * - 圣遗物本没有「单份」概念 → 列该本全部掉落（两套）；
+ * - 天赋 / 武器本但没给材料名（补刷没定组，由 BGI 自选）→ 不写。列三份只会让人以为三份都打。
+ */
+function produceOf(domain, cat, material) {
+  const m = String(material === undefined || material === null ? "" : material).trim();
+  if (m) return m;
+  if (cat === "artifact") return domainRewards(domain).join(" / ");
+  return "";
+}
+
 /** 秘境：`roundNum` 与 `exhaust` 二选一；`pick` 恒为材料所属组号，无组本为 null */
 function domainStep(o) {
   const cat = o.cat ? CAT_CN[o.cat] || o.cat : "";
+  const produce = produceOf(o.domain, o.cat || "", o.material);
   const params = {
     domain: o.domain,
     pick: o.pick === undefined ? null : o.pick,
@@ -77,7 +91,7 @@ function domainStep(o) {
   return {
     type: "domain",
     tag: o.tag,
-    label: cat ? `${cat}·${o.domain}` : o.domain,
+    label: `${cat ? `${cat}·` : ""}${o.domain}${produce ? `（${produce}）` : ""}`,
     reason: o.reason,
     params
   };
@@ -91,7 +105,7 @@ function stygianStep(o) {
   return {
     type: "stygian",
     tag: "stygian",
-    label: `幽境·第 ${o.boss} 场`,
+    label: `挑战 BOSS【${o.boss}】`,
     reason: o.reason,
     params: { boss: o.boss }
   };
@@ -197,6 +211,7 @@ function planDoubleMaterials(ctx, account, today) {
           step: domainStep({
             domain: r.domain,
             cat: entry.kind,
+            material: entry.material,
             pick: r.pick,
             roundNum: count,
             tag: "double",
@@ -334,6 +349,7 @@ function materialsStep(ctx) {
       step: domainStep({
         domain: r.domain,
         cat: domainCat(r.domain) || entry.kind,
+        material: entry.material,
         pick: r.pick,
         exhaust: true,
         tag: "daily",
@@ -387,7 +403,8 @@ function entryStep(entry, account, today) {
  * 补刷**不消耗轮换位**，打完就结束。
  *
  * 补刷副本不限圣遗物本：材料本要传组号才可控，组号取 `fallback.pick`；
- * 空则交给 BGI 自选那一组——补刷场景没有「材料」输入，脚本无从反查。
+ * 落库的只有组号、没有材料名，所以通知里的材料由 `schedule.groupMaterial` 按组号反查；
+ * `pick` 空则交给 BGI 自选那一组，反查不到也就只写本名。
  * 没配本时 `account.fallback` 整段不存在。
  *
  * @param source 「地脉」/「幽境」——只用于 reason 文案，判定不看它
@@ -399,11 +416,13 @@ export function planFallback(ctx, source) {
   if (!domain) return { step: null, skip: "账户未配置补刷本" };
   const cat = domainCat(domain);
   const isMaterial = cat === "talent" || cat === "weapon";
+  const pick = isMaterial ? String(fb.pick || "") || null : null;
   return {
     step: domainStep({
       domain,
       cat,
-      pick: isMaterial ? String(fb.pick || "") || null : null,
+      material: isMaterial && pick ? groupMaterial(domain, pick) : "",
+      pick,
       exhaust: true,
       tag: "fallback",
       reason: `${source || "地脉"}未耗尽树脂，以秘境补尾（不占轮换位）`

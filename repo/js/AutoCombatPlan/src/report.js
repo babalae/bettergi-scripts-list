@@ -18,11 +18,18 @@ const KIND_CN = {
 
 const WEEK_CN = ["", "周一", "周二", "周三", "周四", "周五", "周六", "周日"];
 
-const TAG_CN = {
-  double: "双倍",
+/** 双倍阶段的段名跟当日日型走：移涌活动与日型一一对应 */
+const DOUBLE_CN = {
+  leyline: "地脉移涌",
+  materials: "盛材移涌",
+  artifact: "祝圣移涌"
+};
+
+/** 其余阶段是固定的段名，与日型无关 */
+const STAGE_CN = {
+  stygian: "幽境危战",
   daily: "日常",
-  fallback: "补刷",
-  stygian: "幽境"
+  fallback: "补刷副本"
 };
 
 /** 只有原粹、浓缩有真上限；须臾上限随持有天数变、脆弱没有上限，都不写分母 */
@@ -97,11 +104,17 @@ function resinLines(ctx) {
   ];
 }
 
-function runLine(run) {
-  const tag = TAG_CN[run.tag] || run.tag || "";
-  const rounds = run.rounds === null || run.rounds === undefined ? "" : ` ×${run.rounds}`;
-  const tail = tag ? `（${tag}）` : "";
-  return `· ${run.label}${rounds}${tail}`;
+/**
+ * 目标行：`阶段名：目标 ×次数`。阶段名顶替了原来的行尾「（双倍）」——
+ * 双倍段的段名取自当日日型（地脉 / 盛材 / 祝圣移涌），其余阶段固定。
+ * 认不出 tag 时退回不带前缀的「· 目标」，别造一个空段名。
+ */
+function runLine(run, day) {
+  const tag = run.tag || "";
+  const stage = tag === "double" ? DOUBLE_CN[day && day.kind] || "双倍" : STAGE_CN[tag] || "";
+  // 次数紧贴目标名：label 多以「）」收尾，再加空格读起来会断成两截
+  const rounds = run.rounds === null || run.rounds === undefined ? "" : `×${run.rounds}`;
+  return stage ? `${stage}：${run.label}${rounds}` : `· ${run.label}${rounds}`;
 }
 
 /** 首行。账号名可能为空（早退时还没读到昵称）：空就只剩「自动战斗计划」，不拖一个悬空的「·」 */
@@ -131,7 +144,7 @@ export function render(ctx) {
   if (dl) lines.push(dl);
   lines.push(...resinLines(c));
 
-  for (const run of c.runs || []) lines.push(runLine(run));
+  for (const run of c.runs || []) lines.push(runLine(run, c.day));
   for (const f of c.failed || []) lines.push(`✗ ${f.label}：${f.error}`);
 
   return fit(lines.join("\n"), c);
