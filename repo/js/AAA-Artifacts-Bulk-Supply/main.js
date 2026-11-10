@@ -7,6 +7,8 @@ let minIntervalTime = settings.fastMode
 let maxWaitingTime = settings.maxWaitingTime || 0;//最大额外等待时间（分钟）
 let forceAlternate = settings.forceAlternate;//强制交替
 let onlyActivate = settings.onlyActivate;//只运行激活额外和收尾
+let snezhnayaActivate = settings.snezhnayaActivate;//至冬额外激活开关
+let snezhnayaExecute = settings.snezhnayaExecute;//至冬额外执行开关
 let decomposeMode = settings.decomposeMode || "保留";//狗粮分解模式
 let keep4Star = settings.keep4Star;//保留四星
 let autoSalvage = settings.autoSalvage;//启用自动分解
@@ -923,6 +925,9 @@ async function runActivatePath() {
     const extraActivatePath = extraPath + "/激活";
     const extraCombatPath = extraPath + "/清怪";
     const extraPreparePath = extraPath + "/准备";
+    const snezhnayaPath = "assets/ArtifactsPath/额外/至冬额外";
+    const snezhnayaActivatePath = snezhnayaPath + "/激活";
+    const snezhnayaExecutePath = snezhnayaPath + "/执行";
     if (!settings.fastMode) {
         if (!forceAlternate && state.runningEndingAndExtraRoute === "收尾额外A") {
             await runPaths(endingActivatePath, "", false);
@@ -936,6 +941,11 @@ async function runActivatePath() {
             log.info("填写了清怪队伍，执行清怪路线");
             await runPaths(extraCombatPath, combatPartyName, false, "black");
             await runPaths(endingCombatPath, combatPartyName, false, "black");
+        }
+
+        if (snezhnayaActivate || snezhnayaExecute) {
+            log.info("启用至冬额外激活路线，开始执行激活");
+            await runPaths(snezhnayaActivatePath, "", false);
         }
     }
 }
@@ -976,6 +986,12 @@ async function runEndingAndExtraPath() {
     setActivatePickUp(true);
     await runPaths(endingPath, artifactPartyName, false, "white");
     await runPaths(extraPath, artifactPartyName, false, "white");
+
+    if (!settings.fastMode && snezhnayaExecute) {
+        log.info("启用至冬额外执行路线，开始执行收尾");
+        setActivatePickUp(true);
+        await runPaths(snezhnayaExecutePath, artifactPartyName, false, "white");
+    }
     setActivatePickUp(false);
 }
 
@@ -997,8 +1013,8 @@ async function runPaths(folderFilePath, PartyName, doStop, furinaRequirement = "
             log.info("已经到达预定时间");
             break;
         } else if ((new Date() >= (state.aimActivateTime - minIntervalTime * 60 * 1000)) && doStop) {
-            log.info(`即将到达预定时间，等待${state.aimActivateTime - new Date()+1000}毫秒`);
-            await sleep(state.aimActivateTime - new Date()+1000)
+            log.info(`即将到达预定时间，等待${state.aimActivateTime - new Date() + 1000}毫秒`);
+            await sleep(state.aimActivateTime - new Date() + 1000)
             break;
         }
 
