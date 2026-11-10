@@ -36,6 +36,9 @@ const scrollRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/�
 const normalPathA = settings.fastMode ? "" : "assets/ArtifactsPath/普通98点1号线";
 const normalPathB = settings.fastMode ? "" : "assets/ArtifactsPath/普通98点2号线";
 const extraPath = settings.fastMode ? "" : "assets/ArtifactsPath/额外";
+const snezhnayaPath = settings.fastMode ? "" : "assets/ArtifactsPath/额外/至冬额外";//至冬额外基路径
+const snezhnayaActivatePath = snezhnayaPath + "/激活";//至冬额外激活
+const snezhnayaExecutePath = snezhnayaPath + "/执行";//至冬额外执行
 
 //初始化变量
 let artifactExperienceDiff = 0;
@@ -925,9 +928,6 @@ async function runActivatePath() {
     const extraActivatePath = extraPath + "/激活";
     const extraCombatPath = extraPath + "/清怪";
     const extraPreparePath = extraPath + "/准备";
-    const snezhnayaPath = "assets/ArtifactsPath/额外/至冬额外";
-    const snezhnayaActivatePath = snezhnayaPath + "/激活";
-    const snezhnayaExecutePath = snezhnayaPath + "/执行";
     if (!settings.fastMode) {
         if (!forceAlternate && state.runningEndingAndExtraRoute === "收尾额外A") {
             await runPaths(endingActivatePath, "", false);
@@ -943,7 +943,7 @@ async function runActivatePath() {
             await runPaths(endingCombatPath, combatPartyName, false, "black");
         }
 
-        if (snezhnayaActivate || snezhnayaExecute) {
+        if ((snezhnayaActivate || snezhnayaExecute) && state.runningEndingAndExtraRoute === "收尾额外A") {
             log.info("启用至冬额外激活路线，开始执行激活");
             await runPaths(snezhnayaActivatePath, "", false);
         }
@@ -987,7 +987,7 @@ async function runEndingAndExtraPath() {
     await runPaths(endingPath, artifactPartyName, false, "white");
     await runPaths(extraPath, artifactPartyName, false, "white");
 
-    if (!settings.fastMode && snezhnayaExecute) {
+    if (!settings.fastMode && snezhnayaExecute && state.runningEndingAndExtraRoute === "收尾额外A") {
         log.info("启用至冬额外执行路线，开始执行收尾");
         setActivatePickUp(true);
         await runPaths(snezhnayaExecutePath, artifactPartyName, false, "white");
