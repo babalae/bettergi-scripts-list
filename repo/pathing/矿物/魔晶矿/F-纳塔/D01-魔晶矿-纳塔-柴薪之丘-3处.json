@@ -6,10 +6,10 @@
         "name": "烤鱼"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1794195416815,
+    "last_modified_time": 1794308822748,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "D01-魔晶矿-纳塔-柴薪之丘-3处",
@@ -64,10 +64,20 @@
       "y": -1443.0449
     },
     {
-      "action": "mining",
+      "action": "",
       "action_params": "",
       "id": 6,
+      "locked": false,
       "move_mode": "run",
+      "type": "path",
+      "x": 8835.7871,
+      "y": -1458.9131
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
       "type": "path",
       "x": 8835.7871,
       "y": -1458.9131
@@ -75,7 +85,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(2)",
-      "id": 7,
+      "id": 8,
       "move_mode": "run",
       "type": "path",
       "x": 8835.7871,
@@ -84,7 +94,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 8,
+      "id": 9,
       "move_mode": "walk",
       "type": "teleport",
       "x": 9033.6504,
@@ -93,7 +103,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 9,
+      "id": 10,
       "move_mode": "run",
       "type": "path",
       "x": 9027.5654,
@@ -102,7 +112,7 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 10,
+      "id": 11,
       "move_mode": "fly",
       "type": "path",
       "x": 9017.2305,
@@ -111,7 +121,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 11,
+      "id": 12,
       "move_mode": "fly",
       "type": "path",
       "x": 9017.2305,
@@ -120,7 +130,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 12,
+      "id": 13,
       "move_mode": "jump",
       "type": "path",
       "x": 9017.2305,
@@ -129,7 +139,7 @@
     {
       "action": "mining",
       "action_params": "",
-      "id": 13,
+      "id": 14,
       "move_mode": "walk",
       "type": "path",
       "x": 9017.2305,
@@ -138,7 +148,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(2)",
-      "id": 14,
+      "id": 15,
       "move_mode": "fly",
       "type": "path",
       "x": 9017.2305,
