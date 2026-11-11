@@ -648,17 +648,17 @@
         // 检测禁用键鼠设置
         if (block_gcm && !is_con && path_msg["addition"] === "GCM") {
             log.info(`跳过键鼠路线: ${file_name}`)
-            return null;
+            return "skipped";
         }
         // 检测禁用战斗设置
         if (!block_fight && !is_con && path_msg["addition"] === "战斗") {
             log.info(`跳过战斗路线: ${file_name}`)
-            return null;
+            return "skipped";
         }
         // 检测禁用鹤观设置
         if (!block_tsurumi && !is_con && /鹤观/.test(path_msg["detail"])) {
             log.info(`跳过鹤观路线: ${file_name}`)
-            return null;
+            return "skipped";
         }
 
         // 时间调节
@@ -691,7 +691,7 @@
             // 调试模式不弹出未匹配钓鱼时间的报错
             if (!is_daytime && !is_nighttime && (typeof(settings.path_select) === 'undefined' || settings.path_select === "无(默认)")) {
                 log.error("出错：未找到匹配的钓鱼时间")
-                return null;
+                return "skipped";
             } else if (is_daytime && !is_nighttime){ // 只有白天的鱼
                 fishing_time = "白天";
             } else if (!is_daytime && is_nighttime){ // 只有夜晚的鱼
@@ -804,7 +804,7 @@
                             if (daytime) {
                                 fishing_time = "白天";
                             } else {
-                                return null;
+                                return "skipped";
                             }
                         } else {
                             log.info(`该垂钓点(夜晚)未处于冷却状态，闲置时间: ${formatTimeDifference(now - critical_time)}`);
@@ -817,7 +817,7 @@
                         if (now < critical_time) {
                             log.info(`该垂钓点(白天)处于冷却状态，剩余时间: ${formatTimeDifference(critical_time - now)}`);
                             log.info(`${file_name}(白天) 已跳过...`);
-                            return null;
+                            return "skipped";
                         } else {
                             log.info(`该垂钓点(白天)未处于冷却状态，闲置时间: ${formatTimeDifference(now - critical_time)}`);
                             if (settings.notification) {
@@ -832,7 +832,7 @@
                         if (now < critical_time) {
                             log.info(`该垂钓点(夜晚)处于冷却状态，剩余时间: ${formatTimeDifference(critical_time - now)}`);
                             log.info(`${file_name}(夜晚) 已跳过...`);
-                            return null;
+                            return "skipped";
                         } else {
                             log.info(`该垂钓点(夜晚)未处于冷却状态，闲置时间: ${formatTimeDifference(now - critical_time)}`);
                             if (settings.notification) {
@@ -917,7 +917,7 @@
                             notification.error(`${notification_msg}\n未找到小道具：奇特的羽毛，该点位已跳过...`);
                         }
                     }
-                    return false;
+                    return "skipped";
                 }
             } else {
                 await sleep(1000);
@@ -947,7 +947,7 @@
                     if (settings.notification) {
                         notification.error(`${notification_msg}\n快捷更换栏未找到小道具：奇特的羽毛，该点位已跳过...`);
                     }
-                    return false;
+                    return "skipped";
                 }
             }
         }
@@ -1042,6 +1042,8 @@
                 notification.error(`本次钓鱼异常，不计算垂钓点CD`);
             }
         }
+
+        return "completed";
     }
 
     async function main() {
@@ -1053,6 +1055,17 @@
         } catch (error) {
             log.error(`超时时间读取错误，请检查JS脚本配置: ${error}`);
             return null;
+        }
+        // 读取完成指定路线数后停止的设置，0 或空值表示不限制
+        const route_stop_raw = typeof(settings.route_stop_count) === 'undefined' ? "0" : String(settings.route_stop_count).trim();
+        let route_stop_count = 0;
+        if (route_stop_raw !== "" && route_stop_raw !== "0") {
+            const parsed_route_stop_count = Number(route_stop_raw);
+            if (Number.isInteger(parsed_route_stop_count) && parsed_route_stop_count > 0) {
+                route_stop_count = parsed_route_stop_count;
+            } else {
+                log.warn(`路线停止数量配置无效（${route_stop_raw}），该选项将不生效；请输入正整数或 0`);
+            }
         }
         // 筛选路径
         let path_filter = pathing_filter();
@@ -1178,6 +1191,7 @@
             dispatcher.addTimer(new RealtimeTimer("AutoPick"));
         }
 
+        let completed_route_count = 0;
         for (let i = 0; i < path_filter.length; i++) {
             // 检查时间
             if (is_time_kill && time_target < new Date()) {
@@ -1208,6 +1222,18 @@
             // 新增：检查 run_file 是否因为到达终止时间而返回特殊标记
             if (run_result === "time_kill") {
                 return null; // 直接退出整个任务
+            }
+            if (run_result === "completed" && route_stop_count > 0) {
+                completed_route_count++;
+                log.info(`已完成路线 ${completed_route_count}/${route_stop_count}`);
+                if (completed_route_count >= route_stop_count) {
+                    const stop_msg = `已完成设定的 ${route_stop_count} 条路线，停止运行...`;
+                    log.info(stop_msg);
+                    if (settings.notification) {
+                        notification.send(stop_msg);
+                    }
+                    return null;
+                }
             }
         }
     }
