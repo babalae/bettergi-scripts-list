@@ -1,0 +1,242 @@
+[
+  {
+    "name": "runMode",
+    "type": "select",
+    "label": "运行模式\n演练 = 只算并打印计划，不动游戏（第一次务必先用这个）",
+    "options": [
+      "演练（不执行）",
+      "执行"
+    ]
+  },
+  {
+    "name": "sep1",
+    "type": "separator",
+    "label": "① 养成计划（在这填角色）"
+  },
+  {
+    "name": "planText",
+    "type": "input-text",
+    "label": "格式：角色名 等级 天赋a/b/c [武器名 武器等级]\n例：胡桃 90 9/9/9 护摩之杖 90\n多角色用 | 分隔；留空则读 record/plan.txt（角色多时推荐改 txt）"
+  },
+  {
+    "name": "sep2",
+    "type": "separator",
+    "label": "② 体力与刷取范围"
+  },
+  {
+    "name": "resinBudget",
+    "type": "input-text",
+    "label": "本轮原粹树脂预算（默认 200）"
+  },
+  {
+    "name": "allowFragileResin",
+    "type": "select",
+    "label": "树脂不够时是否允许用脆弱树脂",
+    "options": [
+      "否",
+      "是"
+    ]
+  },
+  {
+    "name": "gatherEnabled",
+    "type": "select",
+    "label": "是否采集区域特产（跑地图追踪）",
+    "options": [
+      "是",
+      "否"
+    ]
+  },
+  {
+    "name": "fightEnabled",
+    "type": "select",
+    "label": "是否打怪刷怪物掉落",
+    "options": [
+      "是",
+      "否"
+    ]
+  },
+  {
+    "name": "useNahidaRoutes",
+    "type": "select",
+    "label": "是否使用「纳西妲采集」路线\n是 = 有草神路线优先（队伍需带纳西妲）\n否 = 只用普通路线（靠智能拾取按 F）",
+    "options": [
+      "是",
+      "否"
+    ]
+  },
+  {
+    "name": "unknownPolicy",
+    "type": "select",
+    "label": "材质数量识别失败（-2）时怎么办？\n跳过 = 不刷（安全，默认）\n刷一轮 = 第 1 轮按「缺全额」试刷一次",
+    "options": [
+      "跳过",
+      "刷一轮"
+    ]
+  },
+  {
+    "name": "expBookTarget",
+    "type": "input-text",
+    "label": "经验书目标本数（0=不管；填了自动识别「大英雄的经验」按缺口刷）\n参考：角色 1→90 约需 419 本"
+  },
+  {
+    "name": "leyLineExpPerRun",
+    "type": "input-text",
+    "label": "一次启示之花约给几本大英雄经验（默认 4.5，用来折算次数）"
+  },
+  {
+    "name": "moraPerWealthRun",
+    "type": "input-text",
+    "label": "一次藏金之花约给多少摩拉（默认 57000，只用于预估）"
+  },
+  {
+    "name": "fallbackPickup",
+    "type": "select",
+    "label": "智能拾取（屏幕出现 F 提示图标时才按 F，不会乱按）\n默认「是」；若误触 NPC 可改「否」",
+    "options": [
+      "是",
+      "否"
+    ]
+  },
+  {
+    "name": "autoWealthFromMora",
+    "type": "select",
+    "label": "按摩拉预估自动刷藏金之花？\n否 = 只看预估，次数自己填（摩拉读不到存量，开=可能刷超）",
+    "options": [
+      "否",
+      "是"
+    ]
+  },
+  {
+    "name": "leyLineWealthRuns",
+    "type": "input-text",
+    "label": "地脉花·藏金之花（摩拉）刷几次（0=不刷，每次 20 体力）"
+  },
+  {
+    "name": "leyLineRevelationRuns",
+    "type": "input-text",
+    "label": "地脉花·启示之花（角色经验）刷几次（填了就以它为准；0=用上面的经验书目标自动算）"
+  },
+  {
+    "name": "leyLineCountry",
+    "type": "input-text",
+    "label": "地脉花地区（留空=沿用 BGI 自动地脉配置，如 蒙德/璃月/纳塔）"
+  },
+  {
+    "name": "sep3",
+    "type": "separator",
+    "label": "③ 队伍（留空 = 沿用 BGI 本体配置）"
+  },
+  {
+    "name": "partyName",
+    "type": "input-text",
+    "label": "秘境队伍名（留空跟随 BGI 自动秘境）"
+  },
+  {
+    "name": "bossPartyName",
+    "type": "input-text",
+    "label": "首领队伍名（留空跟随 BGI 自动首领）"
+  },
+  {
+    "name": "gatherTeam",
+    "type": "input-text",
+    "label": "采集队伍名（如带纳西妲/钟离那队；留空=不切队）"
+  },
+  {
+    "name": "fightTeam",
+    "type": "input-text",
+    "label": "打怪队伍名（负责战斗的队伍；留空=不切队）"
+  },
+  {
+    "name": "forceSwitchTeam",
+    "type": "select",
+    "label": "每次都强制切队伍？\n否 = 记录上次切过的队伍，相同就跳过（更快）",
+    "options": [
+      "否",
+      "是"
+    ]
+  },
+  {
+    "name": "sep4",
+    "type": "separator",
+    "label": "④ 补映射 / 打怪自学习（可以先不管）"
+  },
+  {
+    "name": "calibrateDirs",
+    "type": "input-text",
+    "label": "打怪映射自学习：每轮额外校准几个敌人目录（0=关闭，建议 3）\n原理：跑该敌人路线前后各统计一次背包，涨了的材料就是它掉的"
+  },
+  {
+    "name": "monsterMapExtraText",
+    "type": "input-text",
+    "label": "怪物掉落补映射（格式 材料=敌人，多个用 ; 分隔）\n例：幻造晶鳞石=肌生晶石的妖精; 幽雾兜盔=冬国仕女\n可选敌人清单见 record/待补映射.txt"
+  },
+  {
+    "name": "bossMapExtraText",
+    "type": "input-text",
+    "label": "首领素材补映射（格式 素材=首领，多个用 ; 分隔）\n例：凝云鳞甲=隐山猊兽; 过熟的火榴果=贪食匿叶龙山王\n可选首领名见 record/待补映射.txt"
+  },
+  {
+    "name": "sep5",
+    "type": "separator",
+    "label": "⑤ 高级（一般不用改）"
+  },
+  {
+    "name": "combatStrategyName",
+    "type": "input-text",
+    "label": "战斗策略名（留空就沿用 BGI 自动战斗里选的那套）\n例：根据队伍自动选择 / 万能战斗策略（萌新推荐）"
+  },
+  {
+    "name": "autoSkipPopup",
+    "type": "select",
+    "label": "运行时自动跳过弹窗/对话（防卡住，用 BGI 内置 AutoSkip）",
+    "options": [
+      "否",
+      "是"
+    ]
+  },
+  {
+    "name": "routeStuckTimeoutMin",
+    "type": "input-text",
+    "label": "路线超过多少分钟算「卡过」→ 拉黑（默认 8）"
+  },
+  {
+    "name": "skipStuckDays",
+    "type": "input-text",
+    "label": "卡过的路线拉黑几天（默认 3，0=不拉黑）"
+  },
+  {
+    "name": "bossTimeoutSec",
+    "type": "input-text",
+    "label": "首领战超时秒数（默认 240，卡住就打不动了可以调小）"
+  },
+  {
+    "name": "maxConsecutiveFailures",
+    "type": "input-text",
+    "label": "连续几个任务失败后熔断退出（默认 3）"
+  },
+  {
+    "name": "maxRunMinutes",
+    "type": "input-text",
+    "label": "单次运行总时长上限（分钟，默认 90）"
+  },
+  {
+    "name": "routeLimit",
+    "type": "input-text",
+    "label": "每种材料每轮最多跑几条采集/打怪路线（默认 8）"
+  },
+  {
+    "name": "maxRounds",
+    "type": "input-text",
+    "label": "最多刷几轮（默认 3，防死循环）"
+  },
+  {
+    "name": "cdSpecialtyHours",
+    "type": "input-text",
+    "label": "特产路线冷却小时数（默认 48）"
+  },
+  {
+    "name": "cdMonsterHours",
+    "type": "input-text",
+    "label": "打怪路线冷却小时数（默认 12）"
+  }
+]

@@ -1,0 +1,888 @@
+{
+ "note": "怪物掉落材料 → BGI 敌人与魔物 路线目录。confidence=low 的映射需实测确认；enemy=null 表示需手动指定。",
+ "enemyDirsAvailable": 57,
+ "map": {
+  "骗骗花蜜": {
+   "enemy": "骗骗花",
+   "confidence": "wiki",
+   "candidates": [
+    "骗骗花"
+   ]
+  },
+  "微光花蜜": {
+   "enemy": "骗骗花",
+   "confidence": "wiki",
+   "candidates": [
+    "骗骗花"
+   ]
+  },
+  "原素花蜜": {
+   "enemy": "骗骗花",
+   "confidence": "wiki",
+   "candidates": [
+    "骗骗花"
+   ]
+  },
+  "史莱姆凝液": {
+   "enemy": "史莱姆",
+   "confidence": "high",
+   "exists": true
+  },
+  "史莱姆清": {
+   "enemy": "史莱姆",
+   "confidence": "high",
+   "exists": true
+  },
+  "史莱姆原浆": {
+   "enemy": "史莱姆",
+   "confidence": "high",
+   "exists": true
+  },
+  "破损的面具": {
+   "enemy": "丘丘人射手",
+   "confidence": "med",
+   "exists": true
+  },
+  "污秽的面具": {
+   "enemy": "丘丘人射手",
+   "confidence": "med",
+   "exists": true
+  },
+  "不祥的面具": {
+   "enemy": "丘丘人射手",
+   "confidence": "med",
+   "exists": true
+  },
+  "牢固的箭簇": {
+   "enemy": "丘丘人射手",
+   "confidence": "high",
+   "exists": true
+  },
+  "锐利的箭簇": {
+   "enemy": "丘丘人射手",
+   "confidence": "high",
+   "exists": true
+  },
+  "历战的箭簇": {
+   "enemy": "丘丘人射手",
+   "confidence": "high",
+   "exists": true
+  },
+  "导能绘卷": {
+   "enemy": "丘丘萨满",
+   "confidence": "high",
+   "exists": true
+  },
+  "封魔绘卷": {
+   "enemy": "丘丘萨满",
+   "confidence": "high",
+   "exists": true
+  },
+  "禁咒绘卷": {
+   "enemy": "丘丘萨满",
+   "confidence": "high",
+   "exists": true
+  },
+  "破旧的刀镡": {
+   "enemy": "野伏众",
+   "confidence": "wiki",
+   "candidates": [
+    "野伏众"
+   ]
+  },
+  "影打刀镡": {
+   "enemy": "野伏众",
+   "confidence": "wiki",
+   "candidates": [
+    "野伏众"
+   ]
+  },
+  "名刀镡": {
+   "enemy": "野伏众",
+   "confidence": "wiki",
+   "candidates": [
+    "野伏众"
+   ]
+  },
+  "新兵的徽记": {
+   "enemy": "债务处理人",
+   "confidence": "wiki",
+   "candidates": [
+    "债务处理人"
+   ]
+  },
+  "士官的徽记": {
+   "enemy": "债务处理人",
+   "confidence": "wiki",
+   "candidates": [
+    "债务处理人"
+   ]
+  },
+  "尉官的徽记": {
+   "enemy": "债务处理人",
+   "confidence": "wiki",
+   "candidates": [
+    "债务处理人"
+   ]
+  },
+  "寻宝鸦印": {
+   "enemy": "盗宝团",
+   "confidence": "high",
+   "exists": true
+  },
+  "藏银鸦印": {
+   "enemy": "盗宝团",
+   "confidence": "high",
+   "exists": true
+  },
+  "攫金鸦印": {
+   "enemy": "盗宝团",
+   "confidence": "high",
+   "exists": true
+  },
+  "褪色红绸": {
+   "enemy": "镀金旅团",
+   "confidence": "high",
+   "exists": true
+  },
+  "镶边红绸": {
+   "enemy": "镀金旅团",
+   "confidence": "high",
+   "exists": true
+  },
+  "织金红绸": {
+   "enemy": "镀金旅团",
+   "confidence": "high",
+   "exists": true
+  },
+  "蕈兽孢子": {
+   "enemy": "蕈兽",
+   "confidence": "wiki",
+   "candidates": [
+    "蕈兽"
+   ]
+  },
+  "荧光孢粉": {
+   "enemy": "蕈兽",
+   "confidence": "wiki",
+   "candidates": [
+    "蕈兽"
+   ]
+  },
+  "孢囊晶尘": {
+   "enemy": "蕈兽",
+   "confidence": "wiki",
+   "candidates": [
+    "蕈兽"
+   ]
+  },
+  "浮游干核": {
+   "enemy": "飘浮灵",
+   "confidence": "wiki",
+   "candidates": [
+    "飘浮灵"
+   ]
+  },
+  "浮游幽核": {
+   "enemy": "飘浮灵",
+   "confidence": "wiki",
+   "candidates": [
+    "飘浮灵"
+   ]
+  },
+  "浮游晶化核": {
+   "enemy": "飘浮灵",
+   "confidence": "wiki",
+   "candidates": [
+    "飘浮灵"
+   ]
+  },
+  "异海凝珠": {
+   "enemy": "原海异种",
+   "confidence": "wiki",
+   "candidates": [
+    "原海异种"
+   ]
+  },
+  "异海之块": {
+   "enemy": "原海异种",
+   "confidence": "wiki",
+   "candidates": [
+    "原海异种"
+   ]
+  },
+  "异色结晶石": {
+   "enemy": "原海异种",
+   "confidence": "wiki",
+   "candidates": [
+    "原海异种"
+   ]
+  },
+  "啮合齿轮": {
+   "enemy": "发条机关",
+   "confidence": "high",
+   "exists": true
+  },
+  "机关正齿轮": {
+   "enemy": "发条机关",
+   "confidence": "high",
+   "exists": true
+  },
+  "奇械机芯齿轮": {
+   "enemy": "发条机关",
+   "confidence": "high",
+   "exists": true
+  },
+  "毁损机轴": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "原先推测「秘源机兵」，未经证实，需人工确认"
+  },
+  "加固机轴": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "原先推测「秘源机兵」，未经证实，需人工确认"
+  },
+  "精制机轴": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "原先推测「秘源机兵」，未经证实，需人工确认"
+  },
+  "卫从的木哨": {
+   "enemy": "部族龙形武士",
+   "confidence": "high",
+   "exists": true
+  },
+  "战士的铁哨": {
+   "enemy": "部族龙形武士",
+   "confidence": "high",
+   "exists": true
+  },
+  "龙冠武士的金哨": {
+   "enemy": "部族龙形武士",
+   "confidence": "high",
+   "exists": true
+  },
+  "稚嫩的尖齿": {
+   "enemy": "纳塔龙众",
+   "confidence": "high",
+   "exists": true
+  },
+  "老练的坚齿": {
+   "enemy": "纳塔龙众",
+   "confidence": "high",
+   "exists": true
+  },
+  "横行霸者的利齿": {
+   "enemy": "纳塔龙众",
+   "confidence": "high",
+   "exists": true
+  },
+  "磨损的执凭": {
+   "enemy": "愚人众特辖队",
+   "confidence": "med",
+   "exists": true
+  },
+  "精致的执凭": {
+   "enemy": "愚人众特辖队",
+   "confidence": "med",
+   "exists": true
+  },
+  "霜镌的执凭": {
+   "enemy": "愚人众特辖队",
+   "confidence": "med",
+   "exists": true
+  },
+  "嵌合种": {
+   "enemy": "异种合成魔兽",
+   "confidence": "high",
+   "exists": true
+  },
+  "并生嵌合胞": {
+   "enemy": "异种合成魔兽",
+   "confidence": "high",
+   "exists": true
+  },
+  "源生嵌合体": {
+   "enemy": "异种合成魔兽",
+   "confidence": "high",
+   "exists": true
+  },
+  "幻造萤屑": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "原先推测「null」，未经证实，需人工确认"
+  },
+  "幻造裂晶": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "原先推测「null」，未经证实，需人工确认"
+  },
+  "幻造晶鳞石": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "原先推测「null」，未经证实，需人工确认"
+  },
+  "地脉的旧枝": {
+   "enemy": "深渊法师",
+   "confidence": "high",
+   "exists": true
+  },
+  "地脉的枯叶": {
+   "enemy": "深渊法师",
+   "confidence": "high",
+   "exists": true
+  },
+  "地脉的新芽": {
+   "enemy": "深渊法师",
+   "confidence": "high",
+   "exists": true
+  },
+  "沉重号角": {
+   "enemy": "丘丘王",
+   "confidence": "high",
+   "exists": true
+  },
+  "黑铜号角": {
+   "enemy": "丘丘王",
+   "confidence": "high",
+   "exists": true
+  },
+  "黑晶号角": {
+   "enemy": "丘丘王",
+   "confidence": "high",
+   "exists": true
+  },
+  "混沌装置": {
+   "enemy": "遗迹守卫",
+   "confidence": "wiki",
+   "candidates": [
+    "遗迹守卫"
+   ]
+  },
+  "混沌回路": {
+   "enemy": "遗迹守卫",
+   "confidence": "wiki",
+   "candidates": [
+    "遗迹守卫"
+   ]
+  },
+  "混沌炉心": {
+   "enemy": "遗迹守卫",
+   "confidence": "wiki",
+   "candidates": [
+    "遗迹守卫"
+   ]
+  },
+  "幽邃刻像": {
+   "enemy": "黑蛇众",
+   "confidence": "high",
+   "exists": true
+  },
+  "夤夜刻像": {
+   "enemy": "黑蛇众",
+   "confidence": "high",
+   "exists": true
+  },
+  "晦暗刻像": {
+   "enemy": "黑蛇众",
+   "confidence": "high",
+   "exists": true
+  },
+  "黯淡棱镜": {
+   "enemy": "元能构装体",
+   "confidence": "high",
+   "exists": true
+  },
+  "水晶棱镜": {
+   "enemy": "元能构装体",
+   "confidence": "high",
+   "exists": true
+  },
+  "偏光棱镜": {
+   "enemy": "元能构装体",
+   "confidence": "high",
+   "exists": true
+  },
+  "破缺棱晶": {
+   "enemy": "隙境原体",
+   "confidence": "high",
+   "exists": true
+  },
+  "混浊棱晶": {
+   "enemy": "隙境原体",
+   "confidence": "high",
+   "exists": true
+  },
+  "辉光棱晶": {
+   "enemy": "隙境原体",
+   "confidence": "high",
+   "exists": true
+  },
+  "脆弱的骨片": {
+   "enemy": "龙蜥",
+   "confidence": "high",
+   "exists": true
+  },
+  "石化的骨片": {
+   "enemy": "龙蜥",
+   "confidence": "high",
+   "exists": true
+  },
+  "结实的骨片": {
+   "enemy": "龙蜥",
+   "confidence": "high",
+   "exists": true
+  },
+  "猎兵祭刀": {
+   "enemy": "债务处理人",
+   "confidence": "wiki",
+   "candidates": [
+    "债务处理人"
+   ]
+  },
+  "特工祭刀": {
+   "enemy": "债务处理人",
+   "confidence": "wiki",
+   "candidates": [
+    "债务处理人"
+   ]
+  },
+  "督察长祭刀": {
+   "enemy": "债务处理人",
+   "confidence": "wiki",
+   "candidates": [
+    "债务处理人"
+   ]
+  },
+  "雾虚灯芯": {
+   "enemy": "飞萤",
+   "confidence": "high",
+   "exists": true
+  },
+  "雾虚花粉": {
+   "enemy": "飞萤",
+   "confidence": "high",
+   "exists": true
+  },
+  "雾虚草囊": {
+   "enemy": "飞萤",
+   "confidence": "high",
+   "exists": true
+  },
+  "隐兽指爪": {
+   "enemy": "兽境之狼",
+   "confidence": "high",
+   "exists": true
+  },
+  "隐兽利爪": {
+   "enemy": "兽境之狼",
+   "confidence": "high",
+   "exists": true
+  },
+  "隐兽鬼爪": {
+   "enemy": "兽境之狼",
+   "confidence": "high",
+   "exists": true
+  },
+  "初生的浊水幻灵": {
+   "enemy": "浊水幻灵",
+   "confidence": "high",
+   "exists": true
+  },
+  "浊水的一滴": {
+   "enemy": "浊水幻灵",
+   "confidence": "high",
+   "exists": true
+  },
+  "浊水的一掬": {
+   "enemy": "浊水幻灵",
+   "confidence": "high",
+   "exists": true
+  },
+  "无秽的月铁": {
+   "enemy": "先驱秘源统辖阵列",
+   "confidence": "wiki",
+   "candidates": [
+    "先驱秘源统辖阵列"
+   ]
+  },
+  "残损的月铁": {
+   "enemy": "先驱秘源统辖阵列",
+   "confidence": "wiki",
+   "candidates": [
+    "先驱秘源统辖阵列"
+   ]
+  },
+  "空竭的月铁": {
+   "enemy": "先驱秘源统辖阵列",
+   "confidence": "wiki",
+   "candidates": [
+    "先驱秘源统辖阵列"
+   ]
+  },
+  "密固的横脊": {
+   "enemy": "圣骸兽",
+   "confidence": "wiki",
+   "candidates": [
+    "圣骸兽"
+   ]
+  },
+  "残毁的横脊": {
+   "enemy": "圣骸兽",
+   "confidence": "wiki",
+   "candidates": [
+    "圣骸兽"
+   ]
+  },
+  "锲纹的横脊": {
+   "enemy": "圣骸兽",
+   "confidence": "wiki",
+   "candidates": [
+    "圣骸兽"
+   ]
+  },
+  "惑光的阔叶": {
+   "enemy": "深邃拟覆叶",
+   "confidence": "wiki",
+   "candidates": [
+    "深邃拟覆叶"
+   ]
+  },
+  "折光的胚芽": {
+   "enemy": "深邃拟覆叶",
+   "confidence": "wiki",
+   "candidates": [
+    "深邃拟覆叶"
+   ]
+  },
+  "迷光的蜷叶之心": {
+   "enemy": "深邃拟覆叶",
+   "confidence": "wiki",
+   "candidates": [
+    "深邃拟覆叶"
+   ]
+  },
+  "深黯的怪核": {
+   "enemy": "深黯钓客",
+   "confidence": "wiki",
+   "candidates": [
+    "深黯钓客"
+   ]
+  },
+  "深黯的裂眼": {
+   "enemy": "深黯钓客",
+   "confidence": "wiki",
+   "candidates": [
+    "深黯钓客"
+   ]
+  },
+  "深黯的钩喙": {
+   "enemy": "深黯钓客",
+   "confidence": "wiki",
+   "candidates": [
+    "深黯钓客"
+   ]
+  },
+  "冷裂壳块": {
+   "enemy": "炉壳山鼬",
+   "confidence": "wiki",
+   "candidates": [
+    "炉壳山鼬"
+   ]
+  },
+  "明燃的棱状壳": {
+   "enemy": "炉壳山鼬",
+   "confidence": "wiki",
+   "candidates": [
+    "炉壳山鼬"
+   ]
+  },
+  "蕴热的背壳": {
+   "enemy": "炉壳山鼬",
+   "confidence": "wiki",
+   "candidates": [
+    "炉壳山鼬"
+   ]
+  },
+  "月色鳍翅": {
+   "enemy": "玄文兽",
+   "confidence": "wiki",
+   "candidates": [
+    "玄文兽"
+   ]
+  },
+  "渊光鳍翅": {
+   "enemy": "玄文兽",
+   "confidence": "wiki",
+   "candidates": [
+    "玄文兽"
+   ]
+  },
+  "羽状鳍翅": {
+   "enemy": "玄文兽",
+   "confidence": "wiki",
+   "candidates": [
+    "玄文兽"
+   ]
+  },
+  "休眠菌核": {
+   "enemy": "蕈兽",
+   "confidence": "wiki",
+   "candidates": [
+    "蕈兽"
+   ]
+  },
+  "失活菌核": {
+   "enemy": "蕈兽",
+   "confidence": "wiki",
+   "candidates": [
+    "蕈兽"
+   ]
+  },
+  "茁壮菌核": {
+   "enemy": "蕈兽",
+   "confidence": "wiki",
+   "candidates": [
+    "蕈兽"
+   ]
+  },
+  "失色的焰剑": {
+   "enemy": "辖域守护者",
+   "confidence": "wiki",
+   "candidates": [
+    "辖域守护者"
+   ]
+  },
+  "宝饰的焰剑": {
+   "enemy": "辖域守护者",
+   "confidence": "wiki",
+   "candidates": [
+    "辖域守护者"
+   ]
+  },
+  "残失的焰剑": {
+   "enemy": "辖域守护者",
+   "confidence": "wiki",
+   "candidates": [
+    "辖域守护者"
+   ]
+  },
+  "未熄的剑柄": {
+   "enemy": "魔像禁卫",
+   "confidence": "wiki",
+   "candidates": [
+    "魔像禁卫"
+   ]
+  },
+  "残毁的剑柄": {
+   "enemy": "魔像禁卫",
+   "confidence": "wiki",
+   "candidates": [
+    "魔像禁卫"
+   ]
+  },
+  "裂断的剑柄": {
+   "enemy": "魔像禁卫",
+   "confidence": "wiki",
+   "candidates": [
+    "魔像禁卫"
+   ]
+  },
+  "何人所珍藏之花": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "外世突触": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "失光块骨": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "幽雾兜盔": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "幽雾化形": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "幽雾片甲": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "异界生命核": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "役人的制式怀表": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "役人的时时刻刻": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "意志巡游的符像": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "意志明晰的寄偶": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "意志破碎的残片": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "来自何处的待放之花": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "沉积增生物": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "沉积残片": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "沉积结块": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "混沌容器": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "混沌机关": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "混沌枢纽": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "混沌模块": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "混沌真眼": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "混沌锚栓": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "漫游者的盛放之花": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "灵生分蘖节": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "灵生盘枝心": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "灵生空根": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "秘源机鞘": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "秘源真芯": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "秘源轴": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "稀光遗骼": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "繁光躯外骸": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "老旧的役人怀表": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "聚燃的命种": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "聚燃的游像眼": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "聚燃的石块": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "隙间之核": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "霜夜的柔辉": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "霜夜的残照": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  },
+  "霜夜的煌荣": {
+   "enemy": null,
+   "confidence": "none",
+   "note": "未映射，需人工指定敌人目录"
+  }
+ }
+}
