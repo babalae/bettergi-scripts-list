@@ -1,6 +1,7 @@
 // 校验 assets 目录，并为仓库构建生成乐谱统计。
 const fs = require('fs');
 const path = require('path');
+const { createHash } = require('node:crypto');
 
 const ASSETS_DIR = path.resolve(__dirname, '..', 'assets');
 
@@ -10,7 +11,7 @@ const ALLOWED_EXTENSIONS = new Set(['.json', '.png', '.jpg', '.jpeg', '.webp']);
 
 function listAssetFiles(dir, relative = '') {
     const files = [];
-    for (const entry of fs.readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
         const relPath = relative ? `${relative}/${entry.name}` : entry.name;
         if (entry.isDirectory()) {
             files.push(...listAssetFiles(path.join(dir, entry.name), relPath));
@@ -25,20 +26,28 @@ function listAssetFiles(dir, relative = '') {
 
 function collectAssets() {
     const errors = [];
-    let count = 0;
+    const files = [];
     let totalSize = 0;
     let scoreCount = 0;
     let scoreBytes = 0;
     const byType = new Map();
     const byInstrument = new Map();
     const scoreNames = new Map();
+    const assetPaths = new Map();
 
     const assetRoot = fs.lstatSync(ASSETS_DIR, { throwIfNoEntry: false });
     if (assetRoot && !assetRoot.isDirectory()) {
         throw new Error('assets 必须是普通目录');
     }
 
-    for (const relPath of assetRoot ? listAssetFiles(ASSETS_DIR) : []) {
+    for (const relPath of assetRoot ? listAssetFiles(ASSETS_DIR).sort() : []) {
+        const key = relPath.toUpperCase();
+        if (assetPaths.has(key)) {
+            errors.push(`资源路径同名: ${assetPaths.get(key)} 和 ${relPath}`);
+            continue;
+        }
+        assetPaths.set(key, relPath);
+
         const ext = path.extname(relPath).toLowerCase();
         if (!ALLOWED_EXTENSIONS.has(ext)) {
             errors.push(`不允许的文件类型: ${relPath}（白名单: ${[...ALLOWED_EXTENSIONS].join(' ')}）`);
@@ -51,7 +60,11 @@ function collectAssets() {
             continue;
         }
         totalSize += content.length;
-        count++;
+        files.push({
+            path: relPath,
+            size: content.length,
+            sha256: createHash('sha256').update(content).digest('hex')
+        });
 
         if (ext !== '.json') {
             continue;
@@ -99,8 +112,9 @@ function collectAssets() {
 
     const orderedCounts = counts => Object.fromEntries([...counts.keys()].sort().map(name => [name, counts.get(name)]));
     return {
-        count,
-        totalSize,
+        count: files.length,
+        totalBytes: totalSize,
+        files,
         musicScoreStats: {
             count: scoreCount,
             totalBytes: scoreBytes,
@@ -112,8 +126,8 @@ function collectAssets() {
 
 if (require.main === module) {
     try {
-        const { count, totalSize } = collectAssets();
-        console.log(`assets 目录校验通过（${count} 个文件，${(totalSize / 1024).toFixed(1)}KB）`);
+        const { count, totalBytes } = collectAssets();
+        console.log(`assets 目录校验通过（${count} 个文件，${(totalBytes / 1024).toFixed(1)}KB）`);
     } catch (e) {
         console.error(e.message);
         process.exitCode = 1;

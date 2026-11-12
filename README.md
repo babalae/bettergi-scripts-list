@@ -19,7 +19,7 @@
 
 `assets` 存放随游戏版本更新的数据与图片（头像/角色索引、材料图标索引、乐器识别模板、乐谱等），供 BetterGI 本体与 [bgi.sh](https://bgi.sh) 直接拉取，更新资源只需提交到 [assets](https://github.com/babalae/bettergi-scripts-list/tree/main/assets) 目录，无需跟随本体或 web 发版。约束：仅允许 `.json` `.png` `.jpg` `.jpeg` `.webp`，单文件不超过 2MB、目录总量不超过 30MB。
 
-构建在 `repo.json` 同级生成 `asset.json`，记录公共资源的文件数、总字节数及 `musicScoreStats`。乐谱统计包含曲谱格式和乐器分布，一份乐谱支持多种乐器时，会分别计入对应乐器。没有提交 `assets` 目录时，资源统计为零。
+构建在 `repo.json` 同级生成 `asset.json`。`files` 数组逐条记录资源相对于 `assets/` 的路径（`path`）、字节数（`size`）及 SHA-256（`sha256`）。例如 `avatar/roles/旅行者.webp` 对应仓库中的 `assets/avatar/roles/旅行者.webp`。索引还记录资源总数、总字节数及乐谱的格式和乐器分布。没有提交 `assets` 目录时，`files` 是空数组，统计为零。
 
 ## 提交规范
 

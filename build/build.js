@@ -33,8 +33,7 @@ const BUILD_VERSION = 1;
 
 let assetManifest;
 try {
-    const { count, totalSize, musicScoreStats } = collectAssets();
-    assetManifest = { count, totalBytes: totalSize, musicScoreStats };
+    assetManifest = collectAssets();
 } catch (error) {
     console.error(error.message);
     process.exit(1);
