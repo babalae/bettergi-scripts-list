@@ -5,7 +5,7 @@ const { createHash } = require('node:crypto');
 
 const ASSETS_DIR = path.resolve(__dirname, '..', 'assets');
 
-const MAX_FILE_SIZE = 2 * 1024 * 1024;
+const MAX_FILE_SIZE = 3 * 1024 * 1024;
 const MAX_TOTAL_SIZE = 30 * 1024 * 1024;
 const ALLOWED_EXTENSIONS = new Set(['.json', '.png', '.jpg', '.jpeg', '.webp']);
 
@@ -54,9 +54,15 @@ function collectAssets() {
             continue;
         }
 
-        const content = fs.readFileSync(path.join(ASSETS_DIR, relPath));
+        const filePath = path.join(ASSETS_DIR, relPath);
+        if (fs.statSync(filePath).size > MAX_FILE_SIZE) {
+            errors.push(`文件超过 3 MiB 上限: ${relPath}`);
+            continue;
+        }
+
+        const content = fs.readFileSync(filePath);
         if (content.length > MAX_FILE_SIZE) {
-            errors.push(`文件超过 2MB 上限: ${relPath}`);
+            errors.push(`文件超过 3 MiB 上限: ${relPath}`);
             continue;
         }
         totalSize += content.length;
