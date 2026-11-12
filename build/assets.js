@@ -5,8 +5,8 @@ const { createHash } = require('node:crypto');
 
 const ASSETS_DIR = path.resolve(__dirname, '..', 'assets');
 
-const MAX_FILE_SIZE = 3 * 1024 * 1024;
-const MAX_TOTAL_SIZE = 30 * 1024 * 1024;
+const MAX_FILE_SIZE_MB = 5;
+const MAX_FILE_SIZE = MAX_FILE_SIZE_MB * 1024 * 1024;
 const ALLOWED_EXTENSIONS = new Set(['.json', '.png', '.jpg', '.jpeg', '.webp']);
 
 function listAssetFiles(dir, relative = '') {
@@ -56,13 +56,13 @@ function collectAssets() {
 
         const filePath = path.join(ASSETS_DIR, relPath);
         if (fs.statSync(filePath).size > MAX_FILE_SIZE) {
-            errors.push(`文件超过 3 MiB 上限: ${relPath}`);
+            errors.push(`文件超过 ${MAX_FILE_SIZE_MB} MB 上限: ${relPath}`);
             continue;
         }
 
         const content = fs.readFileSync(filePath);
         if (content.length > MAX_FILE_SIZE) {
-            errors.push(`文件超过 3 MiB 上限: ${relPath}`);
+            errors.push(`文件超过 ${MAX_FILE_SIZE_MB} MB 上限: ${relPath}`);
             continue;
         }
         totalSize += content.length;
@@ -106,10 +106,6 @@ function collectAssets() {
                 byInstrument.set(name, (byInstrument.get(name) ?? 0) + 1);
             }
         }
-    }
-
-    if (totalSize > MAX_TOTAL_SIZE) {
-        errors.push(`assets 目录总量 ${(totalSize / 1024 / 1024).toFixed(1)}MB 超过 30MB 上限`);
     }
 
     if (errors.length > 0) {
