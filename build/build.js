@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const zlib = require('zlib');
 const { execFileSync } = require('child_process');
+const { collectAssets } = require('./assets');
 const ROOT = path.resolve(__dirname, '..');
 const slash = value => value.split(path.sep).join('/');
 
@@ -26,7 +27,18 @@ function changedFiles(base) {
 const args = process.argv.slice(2);
 const forceFullUpdate = args.includes('--force') || args.includes('-f');
 const enableGzip = args.includes('--gzip') || args.includes('-g');
+const outputArg = args.find(arg => arg.startsWith('--output-dir='));
+const outputDir = outputArg ? path.resolve(ROOT, outputArg.slice('--output-dir='.length)) : ROOT;
 const BUILD_VERSION = 1;
+
+let assetManifest;
+try {
+    const { count, totalSize, musicScoreStats } = collectAssets();
+    assetManifest = { count, totalBytes: totalSize, musicScoreStats };
+} catch (error) {
+    console.error(error.message);
+    process.exit(1);
+}
 
 // 在文件开头添加全局变量
 const pathingDirsWithoutIcon = new Set();
@@ -391,11 +403,13 @@ function extractInfoFromPathingFile(filePath, parentFolders) {
     // 检测并移除BOM
     if (content.charCodeAt(0) === 0xFEFF) {
         content = content.replace(/^\uFEFF/, '');
-        try {
-            fs.writeFileSync(filePath, content, 'utf8');
-            console.log(`已移除文件BOM标记: ${filePath}`);
-        } catch (error) {
-            console.error(`移除BOM标记时出错 ${filePath}:`, error);
+        if (!outputArg) {
+            try {
+                fs.writeFileSync(filePath, content, 'utf8');
+                console.log(`已移除文件BOM标记: ${filePath}`);
+            } catch (error) {
+                console.error(`移除BOM标记时出错 ${filePath}:`, error);
+            }
         }
     }
     
@@ -706,13 +720,18 @@ const repoJson = {
     "indexes": result
 };
 
-fs.writeFileSync(repoJsonPath, JSON.stringify(repoJson, null, 2));
-console.log('repo.json 文件已创建并保存在 repo 同级目录中。');
+const outputJsonPath = path.join(outputDir, 'repo.json');
+const jsonContent = JSON.stringify(repoJson, null, 2);
+fs.mkdirSync(outputDir, { recursive: true });
+fs.writeFileSync(outputJsonPath, jsonContent);
+console.log(`repo.json 已生成：${outputJsonPath}`);
+const assetJsonPath = path.join(outputDir, 'asset.json');
+fs.writeFileSync(assetJsonPath, JSON.stringify(assetManifest, null, 2));
+console.log(`asset.json 已生成：${assetJsonPath}`);
 
 // 创建gzip压缩文件（仅当启用gzip参数时）
 if (enableGzip) {
-    const gzipPath = repoJsonPath + '.gz';
-    const jsonContent = fs.readFileSync(repoJsonPath);
+    const gzipPath = outputJsonPath + '.gz';
     const compressedContent = zlib.gzipSync(jsonContent);
     fs.writeFileSync(gzipPath, compressedContent);
     console.log('repo.json.gz 压缩文件已创建并保存。');

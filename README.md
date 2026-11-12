@@ -15,6 +15,12 @@
 - 地图追踪路线提交到 [repo/pathing](https://github.com/babalae/bettergi-scripts-list/tree/main/repo/pathing) 目录；
 - 七圣召唤策略提交到 [repo/tcg](https://github.com/babalae/bettergi-scripts-list/tree/main/repo/tcg) 目录。
 
+## assets 目录
+
+`assets` 存放随游戏版本更新的数据与图片（头像/角色索引、材料图标索引、乐器识别模板、乐谱等），供 BetterGI 本体与 [bgi.sh](https://bgi.sh) 直接拉取，更新资源只需提交到 [assets](https://github.com/babalae/bettergi-scripts-list/tree/main/assets) 目录，无需跟随本体或 web 发版。约束：仅允许 `.json` `.png` `.jpg` `.jpeg` `.webp`，单文件不超过 2MB、目录总量不超过 30MB。
+
+构建在 `repo.json` 同级生成 `asset.json`，记录公共资源的文件数、总字节数及 `musicScoreStats`。乐谱统计包含曲谱格式和乐器分布，一份乐谱支持多种乐器时，会分别计入对应乐器。没有提交 `assets` 目录时，资源统计为零。
+
 ## 提交规范
 
 以下为提交时应遵守的规范，不符合规范的以及作者长期不回复的（通常为1个月），将做 close 处理。
