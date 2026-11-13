@@ -1,0 +1,76 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "烤鱼"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "冰免，默认万叶破冰",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1794569648545,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "02-无智的凝冰体-特普洛绿洲-1个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4011.4375,
+      "y": 10020.709
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4002.5283,
+      "y": 10057.4199
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4009.9668,
+      "y": 10084.3789
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4023.8193,
+      "y": 10096.4932
+    },
+    {
+      "action": "pick_up_collect",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4023.8193,
+      "y": 10096.4932
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4023.8193,
+      "y": 10096.4932
+    }
+  ]
+}
