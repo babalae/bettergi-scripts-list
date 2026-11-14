@@ -1,0 +1,60 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "烤鱼"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1792720842469,
+    "map_match_method": "",
+    "map_name": "TheChasm",
+    "name": "16深渊法师-荧光狭道西-2个-冰雷",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1325.0511,
+      "y": 305.7323
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1360.1176,
+      "y": 308.9292
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1423.2424,
+      "y": 270.3534
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1423.2424,
+      "y": 270.3534
+    }
+  ]
+}
