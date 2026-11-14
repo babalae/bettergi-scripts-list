@@ -413,7 +413,7 @@ function get_some_tasks(hints) {
         candidate_groups[group_name].sum_running_seconds += get_effective_time_consumed(value.statistics, value.tags, key) * running_time_scale;
     }
     for (const i of Object.values(candidate_groups)) {
-        i.avg_yield_per_min = sum_yield / sum_running_seconds * 60;
+        i.avg_yield_per_min = i.sum_yield / i.sum_running_seconds * 60;
         i.tasks.sort();
     }
     const tasks = Array.from(Object.values(candidate_groups)).sort((a, b) => b.avg_yield_per_min - a.avg_yield_per_min).map(i => i.tasks).flat();
