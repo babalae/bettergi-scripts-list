@@ -1,0 +1,67 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Annijang",
+        "name": "Annijang"
+      }
+    ],
+    "bgi_version": "0.63.1",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1794651471892,
+    "map_match_method": "TemplateMatch",
+    "map_name": "Teyvat",
+    "name": "14-兽怪暴徒-至冬-新基捷城市区-3只",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7840.6816,
+      "y": 7592.3809
+    },
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4435.8682,
+      "y": 9884.4629
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4431.668,
+      "y": 9878.5391
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "3000",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4412.7568,
+      "y": 9863.8047
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4430.6523,
+      "y": 9863.7422
+    }
+  ]
+}
