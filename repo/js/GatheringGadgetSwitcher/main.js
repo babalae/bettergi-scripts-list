@@ -2,6 +2,7 @@
     const gadgetName = settings.gadgetName;
     const gadgetAssets = {
         "化种匣": "assets/RecognitionObject/化种匣.png",
+        "叁零式·便携营养袋": "assets/RecognitionObject/叁零式·便携营养袋.png",
         "王树瑞佑": "assets/RecognitionObject/王树瑞佑.png"
     };
     const gadgetRo = RecognitionObject.TemplateMatch(

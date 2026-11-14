@@ -4,6 +4,78 @@ let stateMachineConfig = null;
 // 全局游戏画面区域
 let gameRegion = null;
 
+/**
+ * 停止整个配置组
+ * @param {string} reason - 停止原因
+ */
+async function emergencyStopConfigGroup(reason) {
+    notification.error(`⛔ ${reason}\n\n已尝试终止后续任务`);
+
+    await sleep(1000);
+
+    try {
+        let hotkey = settings.stopHotkey || 'VK_F8';
+
+        if (typeof hotkey === 'string' && hotkey.trim()) {
+            hotkey = hotkey.trim().toUpperCase();
+
+            if (!hotkey.startsWith('VK_')) {
+                log.error('停止快捷键格式不正确，跳过按键');
+                throw new Error(`[CONFIG_GROUP_STOPPED] ${reason}`);
+            }
+        } else {
+            log.error('停止快捷键未配置或格式错误，跳过按键');
+            throw new Error(`[CONFIG_GROUP_STOPPED] ${reason}`);
+        }
+
+        log.info(`模拟按下停止键 (${hotkey})...`);
+        keyPress(hotkey);
+        await sleep(500);
+    } catch (e) {
+        if (!e.message.includes('[CONFIG_GROUP_STOPPED]')) {
+            log.error(`按键模拟失败: ${e.message}`);
+        }
+    }
+
+    throw new Error(`[CONFIG_GROUP_STOPPED] ${reason}`);
+}
+
+/**
+ * 检查目标账号图片是否存在且可正常读取
+ * 说明：readImageMatSync 在文件缺失时不会抛异常，而是返回空 Mat，
+ * 因此必须通过 Mat 是否为空来判断文件是否真正可用。
+ * @returns {boolean} 图片是否可用
+ */
+function isAccountImageAvailable() {
+    const imagePath = `accounts/${settings.targetUid}.png`;
+
+    try {
+        const mat = file.ReadImageMatSync(imagePath);
+
+        if (!mat) {
+            log.warn(`账号图片检查失败：${imagePath}，读取结果为空`);
+            return false;
+        }
+
+        if (typeof mat.empty === 'function' && mat.empty()) {
+            log.warn(`账号图片检查失败：${imagePath}，图片内容为空`);
+            return false;
+        }
+
+        const width = Number(mat.width);
+        const height = Number(mat.height);
+        if (!isNaN(width) && !isNaN(height) && (width <= 0 || height <= 0)) {
+            log.warn(`账号图片检查失败：${imagePath}，图片尺寸无效（${mat.width}x${mat.height}）`);
+            return false;
+        }
+
+        return true;
+    } catch (e) {
+        log.warn(`账号图片检查异常：${imagePath}，错误：${e.message}`);
+        return false;
+    }
+}
+
 // 主逻辑
 (async function () {
     // 只有当未开启截图模式时，才检查 verifyUid 和 targetUid
@@ -53,6 +125,28 @@ let gameRegion = null;
         }
     }
 
+    const accountImageAvailable = isAccountImageAvailable();
+    const hasPasswordFallback = !!(settings.account && String(settings.account).trim() && settings.password && String(settings.password).trim());
+
+    if (!accountImageAvailable && !hasPasswordFallback) {
+        const reason = `账号图片 accounts/${settings.targetUid}.png 不存在或无法读取，且未配置账号密码，无法切换到目标账号`;
+        log.error(reason);
+
+        // 账号图片缺失且未配置账号密码，无法切换，直接终止
+        // 若开启了 UID 不匹配自动停止，则模拟按下停止键终止整个配置组
+        if (settings.uidMismatchAutoStop) {
+            await emergencyStopConfigGroup(reason);
+            return;
+        }
+
+        notification.error(reason);
+        throw new Error(`[CONFIG_GROUP_STOPPED] ${reason}`);
+    }
+
+    if (!accountImageAvailable) {
+        log.warn(`账号图片 accounts/${settings.targetUid}.png 不存在或无法读取，将使用账号密码方式登录`);
+    }
+
     // 根据是否开启UID校验决定最大尝试次数
     let attempts = 0;
     const maxAttempts = settings.verifyUid ? 2 : 1;
@@ -77,11 +171,16 @@ let gameRegion = null;
 
             try {
                 accountImageMat = file.ReadImageMatSync(accountImagePath);
-                log.info(`成功预加载账号图片：${accountImagePath}`);
             } catch (e) {
-                log.warn(`预加载账号图片失败：${accountImagePath}，错误：${e.message}`);
+                log.warn(`预加载账号图片异常：${accountImagePath}，错误：${e.message}`);
+            }
+
+            if (!accountImageMat || (typeof accountImageMat.empty === 'function' && accountImageMat.empty())) {
+                log.warn(`账号图片无效：${accountImagePath}`);
                 log.warn('将使用账号密码方式登录');
                 useAccountPassword = true;
+            } else {
+                log.info(`成功预加载账号图片：${accountImagePath}`);
             }
 
             // 如果图片预加载成功，尝试使用图片查找方式
@@ -141,10 +240,10 @@ let gameRegion = null;
                             const uidFound = await findAndClick(accountRo, true, 5000);
 
                             if (uidFound) {
-                                log.info(`成功点击账号图片：${settings.targetUid}.png`);
+                        log.info(`成功点击账号图片：${settings.targetUid}.png`);
 
-                                // 定位到主界面
-                                log.info('开始：尝试切换到 mainUI 状态');
+                        // 定位到主界面
+                        log.info('开始：尝试切换到 mainUI 状态');
                                 const mainUIResult = await goToState('mainUI');
                                 if (mainUIResult) {
                                     log.info('成功到达 mainUI 状态，账号切换完成');
@@ -335,6 +434,13 @@ let gameRegion = null;
                 log.warn(`切换后的账号UID ${currentUid} 与目标UID ${settings.targetUid} 不匹配，需要重新尝试`);
                 currentSwitchSuccess = false;
                 currentNotificationMessage = `切换失败，当前账号UID ${currentUid} 与目标UID ${settings.targetUid} 不匹配`;
+
+                // UID验证失败时自动停止配置组（如果开启）
+                if (settings.uidMismatchAutoStop) {
+                    await emergencyStopConfigGroup(
+                        `UID验证失败！为防止在错误账号下继续执行，已尝试终止配置组`
+                    );
+                }
             }
         }
 

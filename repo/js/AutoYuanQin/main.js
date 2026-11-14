@@ -130,7 +130,7 @@
     /**
      * 切换演奏暂停状态。暂停时释放琴键，恢复时重新按下被暂停的长音。
      */
-    function setPlaybackPaused(paused) {
+    function setPlaybackPaused(paused, winId) {
         const nextPaused = Boolean(paused);
         if (nextPaused === playbackPaused) return;
 
@@ -138,6 +138,7 @@
             suspendedMusicKeys = Array.from(activeMusicKeys);
             releaseAllMusicKeys();
             playbackPaused = true;
+            htmlMask.setClickThrough(winId, false);
             log.info("演奏已暂停");
         } else {
             playbackPaused = false;
@@ -145,6 +146,8 @@
                 musicKeyDown(key);
             }
             suspendedMusicKeys = [];
+            htmlMask.setClickThrough(winId, true);
+            htmlMask.send(winId, "/frame/minimize", "minimize");
             log.info("演奏已继续");
         }
     }
@@ -170,7 +173,7 @@
      * 注册全局暂停热键。即使 HTML 遮罩处于鼠标穿透状态也可使用，
      * 因而不会影响玩家继续操作游戏。
      */
-    function registerPauseHotkey() {
+    function registerPauseHotkey(winId) {
         const hook = new KeyMouseHook();
         hook.onKeyDown((keyCode) => {
             const normalized = typeof keyCode === "object"
@@ -192,7 +195,7 @@
 
             pauseHotkeyLatched = true;
             lastPauseHotkeyAt = now;
-            setPlaybackPaused(!playbackPaused);
+            setPlaybackPaused(!playbackPaused, winId);
             sendPlaybackState();
         }, true);
         hook.onKeyUp((keyCode) => {
@@ -2214,10 +2217,10 @@
      * ------- 主程序 --------
      */
     async function main() {
-        const pauseHotkey = registerPauseHotkey();
+        const winId = htmlMask.show("assets/index.html");
+        const pauseHotkey = registerPauseHotkey(winId);
         try {
         if (settings.cover) {
-            const winId = htmlMask.show("assets/index.html");
             activePlaybackWindowId = winId;
             htmlMask.setClickThrough(winId, false);
 
@@ -2260,7 +2263,7 @@
                                 htmlMask.send(winId, "/playback/state", JSON.stringify({ playing: false, paused: false, hotkey: getPauseHotkey(), message: "当前没有正在演奏的乐曲" }));
                                 break;
                             }
-                            setPlaybackPaused(parsed.data && typeof parsed.data.paused === "boolean" ? parsed.data.paused : !playbackPaused);
+                            setPlaybackPaused(parsed.data && typeof parsed.data.paused === "boolean" ? parsed.data.paused : !playbackPaused, winId);
                             htmlMask.send(winId, "/playback/state", JSON.stringify({ playing: true, paused: playbackPaused, hotkey: getPauseHotkey() }));
                             break;
                         case "/config/update":

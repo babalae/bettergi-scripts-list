@@ -1,0 +1,180 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/pansong291",
+        "name": "磐宋"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1791228555202,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "02-禽肉-纳塔-奥奇卡纳塔西-2肉x5",
+    "tags": [
+      "食材与炼金",
+      "禽肉",
+      "绒翼龙"
+    ],
+    "type": "collect",
+    "version": "1.1"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10067.709,
+      "y": -216.5342
+    },
+    {
+      "action": "log_output",
+      "action_params": "尝试成为绒翼龙",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10067.709,
+      "y": -216.5342
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(T)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 10064.8037,
+      "y": -217.0801
+    },
+    {
+      "action": "combat_script",
+      "action_params": "mousedown(left),wait(12),mouseup(left)",
+      "id": 4,
+      "move_mode": "jump",
+      "type": "target",
+      "x": 10101.4727,
+      "y": -217.6016
+    },
+    {
+      "action": "log_output",
+      "action_params": "尝试等待飞禽出现",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 10111.6797,
+      "y": -218.7422
+    },
+    {
+      "action": "combat_script",
+      "action_params": "mousedown(left),wait(2.1),mouseup(left)",
+      "id": 6,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 10124.1699,
+      "y": -220.5693
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10067.709,
+      "y": -216.5342
+    },
+    {
+      "action": "log_output",
+      "action_params": "尝试成为绒翼龙",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10067.709,
+      "y": -216.5342
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(T)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 10064.8037,
+      "y": -217.0801
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 10073.1797,
+      "y": -217.8828
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": 10106.7813,
+      "y": -220.2891
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10116.9219,
+      "y": -220.8906
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 10122.0781,
+      "y": -221.1484
+    },
+    {
+      "action": "combat_script",
+      "action_params": "mousedown(left),wait(15),mouseup(left),keydown(Q),wait(1),keyup(Q),jump",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 10123.9727,
+      "y": -221.3193
+    },
+    {
+      "action": "log_output",
+      "action_params": "尝试执行拾取动作",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 10122.7031,
+      "y": -216.1562
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 10129.1582,
+      "y": -222.9902
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 10124.2109,
+      "y": -225.4727
+    }
+  ]
+}

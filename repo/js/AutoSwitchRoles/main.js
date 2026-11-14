@@ -180,6 +180,9 @@ function readAliases() {
                     
                     // 元素不为空才执行元素筛选
                     if (filterInfo.element) {
+                        click(796, 125);
+                        await sleep(50);
+                        
                         const ro2 = captureGameRegion();
                         const elementBtn = ro2.find(RecognitionObject.TemplateMatch(
                             file.readImageMatSync(`Assets/RecognitionObject/${filterInfo.element}.png`), 0, 0, 1920, 1080
@@ -197,6 +200,9 @@ function readAliases() {
                     
                     // 武器不为空才执行武器筛选
                     if (filterInfo.weapon) {
+                        click(796, 125);
+                        await sleep(50);
+                        
                         const ro3 = captureGameRegion();
                         const weaponBtn = ro3.find(RecognitionObject.TemplateMatch(
                             file.readImageMatSync(`Assets/RecognitionObject/${filterInfo.weapon}.png`), 0, 0, 1920, 1080

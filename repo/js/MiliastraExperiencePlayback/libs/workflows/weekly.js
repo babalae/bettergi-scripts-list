@@ -8,7 +8,8 @@ import {
 import { userConfig } from "../constants/config.js";
 import { store } from "../constants/store.js";
 import { enterRoom, leaveRoom } from "../modules/room.js";
-import { availablePlaybackFiles, exitStage, playStage } from "../modules/stage.js";
+import { ensureMultiPlayer } from "../modules/scene.js";
+import { availablePlaybackFiles, forceExitStage, playStage } from "../modules/stage.js";
 import { deleteStageSave } from "../modules/save.js";
 
 //#region src/workflows/weekly.ts
@@ -17,6 +18,8 @@ const execWeeklyTask = async () => {
     log.warn("未启用执行每周通关任务，跳过");
     return;
   }
+  /** 确保不处于 禁止联机 状态/场景 */
+  ensureMultiPlayer();
   /** 确保通关回放文件存在 */
   const files = availablePlaybackFiles();
   const playbacks = userConfig.playbacks
@@ -35,12 +38,13 @@ const execWeeklyTask = async () => {
     store.nextWeek = getNextMonday4AM().getTime();
   }
   /** 检查本周经验值是否已达上限 */
-  if (store.weekly.expGained >= userConfig.expWeeklyLimit)
+  if (store.weekly.expGained >= userConfig.expWeeklyLimit) {
     if (userConfig.force) log.warn("本周获取经验值已达上限，强制执行");
     else {
       log.warn("本周获取经验值已达上限，跳过执行");
       return;
     }
+  }
   /** 计算本次本周剩余可获取经验值 */
   let expRemaining = userConfig.expWeeklyLimit - store.weekly.expGained;
   expRemaining = expRemaining > 0 ? expRemaining : userConfig.expWeeklyLimit;
@@ -78,7 +82,7 @@ const execWeeklyTask = async () => {
       /** 发生主机异常（如：任务取消异常等），无法再继续执行 */
       if (isHostException(err)) throw err;
       /** 发生脚本流程异常，尝试退出关卡（如果在关卡中） */
-      await exitStage();
+      await forceExitStage();
       /** 发生脚本流程异常，尝试返回主界面 */
       await genshin.returnMainUi();
       log.error("脚本执行出错: {error}", getErrorMessage(err));

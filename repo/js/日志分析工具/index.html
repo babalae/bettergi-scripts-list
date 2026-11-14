@@ -1,4 +1,4 @@
-<!--20260707-->
+<!--20260913-->
 <!DOCTYPE html>
 <html lang="zh-CN">
 
@@ -1303,6 +1303,16 @@
         let timeFilterStart = null;   // 筛选开始时间
         let timeFilterEnd = null;     // 筛选结束时间
 
+        // 特殊事件关键字（用于 J 键隐藏零统计时保留）
+        const SPECIAL_EVENT_KEYWORDS = ['自动吃药', '使用复活料理', '使用回血料理', '终点坐标异常，不记录',"资源缺失，请重新安装BGI"];
+
+        // 黑名單关键字
+        const BLACKLIST_KEYWORDS = [
+            // 'HTML 配置面板',
+        ];
+        let blacklistDetected;
+
+
         // 自定义确认对话框
         function showCustomConfirm(title, message) {
             return new Promise((resolve) => {
@@ -1863,7 +1873,19 @@
                                             (timeoutCell.textContent.trim() === '' || timeoutCell.textContent.trim() === '0') &&
                                             (teleportCell.textContent.trim() === '' || teleportCell.textContent.trim() === '0');
 
-                                        matchesStats = !isAllZero;
+                                        // 如果全零，检查特殊事件
+                                        let hasSpecialEvent = false;
+                                        if (isAllZero) {
+                                            let picksText = '';
+                                            // 新版格式：拾取物列在当前行
+                                            const picksCell = row.querySelector('.column-picks');
+                                            if (picksCell) picksText = picksCell.textContent.trim();
+                                            if (SPECIAL_EVENT_KEYWORDS.some(keyword => picksText.includes(keyword))) {
+                                                hasSpecialEvent = true;
+                                            }
+                                        }
+                                        // 最终：全零且无特殊事件 -> matchesStats = false；否则 true
+                                        matchesStats = !(isAllZero && !hasSpecialEvent);
                                     }
                                 }
 
@@ -1911,7 +1933,25 @@
                                             (timeoutCell.textContent.trim() === '' || timeoutCell.textContent.trim() === '0') &&
                                             (teleportCell.textContent.trim() === '' || teleportCell.textContent.trim() === '0');
 
-                                        matchesStats = !isAllZero;
+                                        // 如果全零，检查特殊事件
+                                        let hasSpecialEvent = false;
+                                        if (isAllZero) {
+                                            let picksText = '';
+                                            // 旧版格式：拾取物在子行
+                                            const taskId = row.getAttribute('data-task-id');
+                                            if (taskId) {
+                                                const subRow = table.querySelector(`tr[data-task-id="${taskId}"].sub-row`);
+                                                if (subRow) {
+                                                    const picksCell = subRow.querySelector('.column-picks');
+                                                    if (picksCell) picksText = picksCell.textContent.trim();
+                                                }
+                                            }
+                                            if (SPECIAL_EVENT_KEYWORDS.some(keyword => picksText.includes(keyword))) {
+                                                hasSpecialEvent = true;
+                                            }
+                                        }
+                                        // 最终：全零且无特殊事件 -> matchesStats = false；否则 true
+                                        matchesStats = !(isAllZero && !hasSpecialEvent);
                                     }
                                 }
 
@@ -2858,553 +2898,541 @@
             let currentGroup = null;
             let currentTask = null;
 
+            blacklistDetected = false;
+
             lines.forEach(line => {
-                // 在每行开始时更新当前组和任务
-                currentGroup = Array.from(parsingContext.activeGroups.values()).pop() || null;
-                if (currentGroup) {
-                    currentTask = currentGroup.tasks.length > 0 ? currentGroup.tasks[currentGroup.tasks.length - 1] : null;
-                } else {
-                    currentTask = null;
-                }
-
-                // 检测采集动作
-                if (line.includes('执行 "纳西妲" 长按E转圈拾取')) {
-                    nahidaCollect = true;
-                } else if (line.includes('使用枫原万叶长E拾取掉落物') || line.includes('使用 枫原万叶-长E 拾取掉落物') || line.includes('使用 琴-长E 拾取掉落物')) {
-                    // 配置0.52 战后琴拾取 聚材料命令 關鍵字更改來排除採集動作
-                    kazuhaCollect = true;
-                }
-
-                // 检测生存位技能指令
-                if (line.includes('切换盾、回血角色，使用元素战技')) {
-                    pendingSurvivalAction = true;
-                }
-
-                // 检测赶路位指令
-                if (line.includes('自动赶路："') && line.includes('赶路')) {
-                    const dashMatch = line.match(/自动赶路："(.+?)" 赶路/);
-                    if (dashMatch && currentGroup && currentTask) {
-                        const dashRoleName = dashMatch[1];
-
-                        // 记录最近的赶路角色，用于排除行走位权重
-                        currentTask.recentDashRole = dashRoleName;
-                        // // 从行走位权重中移除该角色的权重，确保它不会被选为行走位
-                        // walkWeights.delete(dashRoleName);
-
-                        // 给赶路位较高的权重（比行走位高，比生存位技能低）
-                        let dashWeightToAdd = 15; // 赶路位权重值
-
-                        // 更新赶路位权重
-                        const currentDashWeight = dashWeights.get(dashRoleName) || 0;
-                        dashWeights.set(dashRoleName, currentDashWeight + dashWeightToAdd);
+                if (!blacklistDetected) {
+                    for (const keyword of BLACKLIST_KEYWORDS) {
+                        if (line.includes(keyword)) {
+                            blacklistDetected = true;
+                            break;
+                        }
                     }
-                }
-
-                // 检测成功切换角色
-                if (line.includes('成功切换角色:"')) {
-                    const roleMatch = line.match(/成功切换角色:"(.+?)"/);
-                    if (roleMatch && currentGroup && currentTask) {
-                        const roleName = roleMatch[1];
-                        lastSwitchedRole = roleName; // 更新最近切换的角色
-
-                        let survivalWeightToAdd = 0;
-                        let walkWeightToAdd = 0;
-
-                        // 检查最近是否有赶路操作
-                        const hasRecentDash = currentTask.recentDashRole === roleName;
-
-                        // 采集相关的切换 - 给负权重确保排除
-                        if (nahidaCollect || kazuhaCollect) {
-                        }
-                        // 如果是赶路位角色的切换，不给行走位权重
-                        else if (hasRecentDash) {
-                            // 赶路位切换不计入行走位权重
-                        }
-                        // 生存位技能后的切换 - 高权重
-                        else if (pendingSurvivalAction) {
-                            survivalWeightToAdd = WEIGHTS.SURVIVAL_AFTER_SKILL;
-                            walkWeightToAdd = WEIGHTS.NORMAL_SWITCH; // 同时也计入行走位
-                            pendingSurvivalAction = false;
-                        }
-                        // 一般切换 - 正常权重
-                        else {
-                            walkWeightToAdd = WEIGHTS.NORMAL_SWITCH * 10;
-                        }
-
-                        // 移动上下文权重判断
-                        if (prevLine.includes('到达路径点附近') ||
-                            prevLine.includes('执行 "简易策略脚本"') ||
-                            prevLine.includes('粗略接近途经点') ||
-                            prevLine.includes('精确接近目标点')) {
-                            walkWeightToAdd += WEIGHTS.MOVEMENT_CONTEXT;
-                        }
-
-                        // 交互或拾取后的切换权重 +8
-                        if (prevLine.includes('交互或拾取："')) {
-                            walkWeightToAdd += 8;
-                        }
-
-                        // 更新权重
-                        if (survivalWeightToAdd !== 0) {
-                            const currentSurvivalWeight = survivalWeights.get(roleName) || 0;
-                            survivalWeights.set(roleName, currentSurvivalWeight + survivalWeightToAdd);
-                        }
-
-                        if (walkWeightToAdd !== 0) {
-                            const currentWalkWeight = walkWeights.get(roleName) || 0;
-                            walkWeights.set(roleName, currentWalkWeight + walkWeightToAdd);
-                        }
-
-                        // 重置采集标记
-                        nahidaCollect = false;
-                        kazuhaCollect = false;
-                    }
-                }
-
-                function finalizeGroup(group, endTime) {
-                    if (!group.endTime) {
-                        group.endTime = endTime;
-                    }
-                    // 检查是否有有效任务（可复用 hasTaskActualContent 逻辑）
-                    let hasValidTasks = false;
-                    group.tasks.forEach(task => {
-                        if (hasTaskActualContent(task)) hasValidTasks = true;
-                    });
-                    if (!hasValidTasks) {
-                        group.skipped = true;
-                        return; // 跳过的组不处理角色信息
-                    }
-                    // 汇总配置组角色信息（原代码中“配置组结束”部分的处理）
-                    const groupSurvivalRoles = new Map();
-                    const groupWalkRoles = new Map();
-                    const groupDashRoles = new Map();
-                    group.tasks.forEach(task => {
-                        if (task.survivalRoles && task.survivalRoles.length > 0) {
-                            const main = task.survivalRoles[0];
-                            groupSurvivalRoles.set(main, (groupSurvivalRoles.get(main) || 0) + 1);
-                        }
-                        if (task.walkRoles && task.walkRoles.length > 0) {
-                            const main = task.walkRoles[0];
-                            groupWalkRoles.set(main, (groupWalkRoles.get(main) || 0) + 1);
-                        }
-                        if (task.dashRoles && task.dashRoles.length > 0) {
-                            const main = task.dashRoles[0];
-                            groupDashRoles.set(main, (groupDashRoles.get(main) || 0) + 1);
-                        }
-                    });
-                    const sortedSurvival = Array.from(groupSurvivalRoles.entries()).sort((a, b) => b[1] - a[1]);
-                    group.survivalRoles = sortedSurvival.length > 0 ? [sortedSurvival[0][0]] : [];
-                    const sortedWalk = Array.from(groupWalkRoles.entries()).sort((a, b) => b[1] - a[1]);
-                    group.walkRoles = sortedWalk.length > 0 ? [sortedWalk[0][0]] : [];
-                    const sortedDash = Array.from(groupDashRoles.entries()).sort((a, b) => b[1] - a[1]);
-                    group.dashRoles = sortedDash.length > 0 ? [sortedDash[0][0]] : [];
-                }
-
-                // 解析配置组
-                let match = line.match(/配置组 "(.+?)" 加载完成/);
-                if (match) {
-                    const groupName = match[1];
-                    // 强制结束当前活跃的配置组（无论名称是否相同）
-                    const activeGroupsList = Array.from(parsingContext.activeGroups.values());
-                    if (activeGroupsList.length > 0) {
-                        // 通常只有一个活跃组，取最后一个（即当前正在运行的组）
-                        const currentActiveGroup = activeGroupsList[activeGroupsList.length - 1];
-                        finalizeGroup(currentActiveGroup, parseTime(prevLine, fileDate));
-                        parsingContext.allGroups.push(currentActiveGroup);
-                        parsingContext.activeGroups.delete(currentActiveGroup.name);
+                    // 在每行开始时更新当前组和任务
+                    currentGroup = Array.from(parsingContext.activeGroups.values()).pop() || null;
+                    if (currentGroup) {
+                        currentTask = currentGroup.tasks.length > 0 ? currentGroup.tasks[currentGroup.tasks.length - 1] : null;
+                    } else {
+                        currentTask = null;
                     }
 
-                    // 创建新配置组
-                    let group = {
-                        name: groupName,
-                        startTime: parseTime(prevLine, fileDate),
-                        endTime: null,
-                        tasks: [],
-                        picks: new Map(),
-                        lastActive: null,
-                        teamRoles: new Set(),
-                        survivalRoles: [],
-                        walkRoles: [],
-                        dashRoles: [],
-                        hasRotationTargeting: false
-                    };
-                    group.lastActive = parseTime(prevLine, fileDate);
-                    parsingContext.activeGroups.set(groupName, group);
-
-                    // 重置各种计数器
-                    battleCount = 0;
-                    lastCoordForRevive = null;
-                    lastCoordForStuck = null;
-                    survivalWeights.clear();
-                    walkWeights.clear();
-                    lastSwitchedRole = null;
-                    pendingSurvivalAction = false;
-                    nahidaCollect = false;
-                    kazuhaCollect = false;
-
-                    currentGroup = group;
-                }
-
-                // 配置组结束
-                match = line.match(/配置组 "(.+?)" 执行结束/);
-                if (match) {
-                    const group = parsingContext.activeGroups.get(match[1]);
-                    if (group) {
-                        finalizeGroup(group, parseTime(prevLine, fileDate));
-                        parsingContext.allGroups.push(group);
-                        parsingContext.activeGroups.delete(match[1]);
-
-                        // 重置全局角色计数
-                        survivalWeights.clear();
-                        walkWeights.clear();
-                        lastSwitchedRole = null;
-                        pendingSurvivalAction = false;
-                        nahidaCollect = false;
-                        kazuhaCollect = false;
-
-                        currentGroup = Array.from(parsingContext.activeGroups.values()).pop() || null;
+                    // 检测采集动作
+                    if (line.includes('执行 "纳西妲" 长按E转圈拾取')) {
+                        nahidaCollect = true;
+                    } else if (line.includes('使用枫原万叶长E拾取掉落物') || line.includes('使用 枫原万叶-长E 拾取掉落物') || line.includes('使用 琴-长E 拾取掉落物')) {
+                        // 配置0.52 战后琴拾取 聚材料命令 關鍵字更改來排除採集動作
+                        kazuhaCollect = true;
                     }
-                }
 
-                // 解析任务
-                if (currentGroup) {
-                    // 识别到的队伍角色
-                    if (line.includes('识别到的队伍角色:"')) {
-                        const match = line.match(/识别到的队伍角色:"(.+?)"/);
-                        if (match && currentGroup) {
-                            const teamRoleStr = match[1];
-                            currentGroup.teamRoles.add(teamRoleStr);
+                    // 检测生存位技能指令
+                    if (line.includes('切换盾、回血角色，使用元素战技')) {
+                        pendingSurvivalAction = true;
+                    }
+
+                    // 检测赶路位指令
+                    // if (line.includes('自动赶路："') && line.includes('赶路')) {
+                    //     const dashMatch = line.match(/自动赶路："(.+?)" 赶路/);
+                    // 检测赶路位指令（同时适配有无双引号，以及 “赶路” 或 “接近”）
+                    if (line.includes('自动赶路：') && (line.includes('赶路') || line.includes('接近'))) {
+                        // 正则解析：匹配“自动赶路：”后面，且在“赶路”或“接近”之前的角色名字（支持可选的双引号）
+                        const dashMatch = line.match(/自动赶路："?(.+?)"?(赶路|接近).*/);
+                        if (dashMatch && currentGroup && currentTask) {
+                            // 直接剔除所有的双引号
+                            const dashRoleName = dashMatch[1].replace(/"/g, '').trim();
+
+                            // 记录最近的赶路角色，用于排除行走位权重
+                            currentTask.recentDashRole = dashRoleName;
+                            // // 从行走位权重中移除该角色的权重，确保它不会被选为行走位
+                            // walkWeights.delete(dashRoleName);
+
+                            // 给赶路位较高的权重（比行走位高，比生存位技能低）
+                            let dashWeightToAdd = 15; // 赶路位权重值
+
+                            // 更新赶路位权重
+                            const currentDashWeight = dashWeights.get(dashRoleName) || 0;
+                            dashWeights.set(dashRoleName, currentDashWeight + dashWeightToAdd);
                         }
                     }
 
-                    // 檢測旋轉索敵
-                    if (line.includes('敌人位置: (') && line.includes('血量高度:')) {
-                        currentGroup.hasRotationTargeting = true;
-                    }
+                    // 检测成功切换角色
+                    if (line.includes('成功切换角色:"')) {
+                        const roleMatch = line.match(/成功切换角色:"(.+?)"/);
+                        if (roleMatch && currentGroup && currentTask) {
+                            const roleName = roleMatch[1];
+                            lastSwitchedRole = roleName; // 更新最近切换的角色
 
-                    // 检测自动战斗开始
-                    if (line.includes('执行 "自动战斗"')) {
-                        battleCount++;
-                    }
+                            let survivalWeightToAdd = 0;
+                            let walkWeightToAdd = 0;
 
-                    // match = line.match(/→ 开始执行地图追踪任务: "(.+?)"/);
-                    // match = line.match(/→ 开始执行路径追踪任务: "(.+?)"/)
-                    // match = line.match(/→ 开始执行(?:地图|路径)追踪任务: "(.+?)"/);
-                    // match = line.match(/→ 开始执行(?:地图|路径)追踪任务: "(.+?)"|assets\/(.+?\.json)/);
-                    // match = line.match(/→ 开始执行(?:地图|路径)追踪任务: "(.+?)"|assets\/(.+?\.json)|当前钓鱼点: (.+)/);
-                    // match = line.match(/→ 开始执行(?:地图|路径)追踪任务: "(.+?)"|assets\/(.+?\.json)|当前钓鱼点: (.+)|→ 开始执行JS脚本: "(.+?)"/);
-                    // match = line.match(/→ 开始执行(?:地图|路径)追踪任务: "(.+?)"|开始购买NPC: "(.+?)"|当前钓鱼点: (.+)|→ 开始执行JS脚本: "(.+?)"/);
-                    // match = line.match(/→ 开始执行(?:地图|路径)追踪任务: "(.+?)"|开始购买NPC: "(.+?)"|assets\/(.+?\.json)|当前钓鱼点: (.+)|→ 开始执行JS脚本: "(.+?)"|→ 开始执行键鼠脚本: "(.+?)"/);
-                    match = line.match(/→ 开始执行(?:地图|路径)追踪任务: "(.+?)"|assets\/(.+?\.json)|→ 开始执行JS脚本: "(.+?)"|→ 开始执行键鼠脚本: "(.+?)"/);
-                    if (match) {
-                        // const taskName = match[1] || match[2] || match[3] || match[4];
-                        const taskName = match[1] || match[2] || match[3] || match[4];
-                        const task = {
-                            name: taskName,
-                            startTime: parseTime(prevLine, fileDate),
-                            endTime: null,
-                            faults: {
-                                revive: 0,
-                                teleport: 0,
-                                retry: 0,
-                                retryDetail: 0,
-                                too_far_skip: 0,
-                                timeout: 0
-                            },
-                            picks: new Map(),
-                            reviveEvents: [], // 复活事件
-                            timeoutEvents: [], // 超时事件
-                            maxBattleCount: 0, // 记录最大战斗次数
-                            specialAlerts: new Map(), // 用于计数特殊事件
-                            survivalRoles: [], // 生存位角色
-                            walkRoles: [],      // 行走位角色
-                            dashRoles: [],      // 赶路位角色
-                            recentDashRole: null, // 最近的赶路角色，用于排除行走位权重
-                            skipped: false // 跳过标记
-                        };
-                        currentGroup.tasks.push(task);
-                        parsingContext.activeTasks.set(task.name, task);
-                        battleCount = 0;
+                            // 检查最近是否有赶路操作
+                            const hasRecentDash = currentTask.recentDashRole === roleName;
 
-                        // 重置任务级别的角色统计
-                        survivalWeights.clear();
-                        walkWeights.clear();
-                        lastSwitchedRole = null;
-                        pendingSurvivalAction = false;
-                        nahidaCollect = false;
-                        kazuhaCollect = false;
-
-                        // 更新当前任务
-                        currentTask = task;
-                    }
-
-                    // 任務結束
-                    match = line.match(/→ 脚本执行结束: "(.+?)"/);
-                    if (match) {
-                        const task = parsingContext.activeTasks.get(match[1]);
-                        if (task) {
-                            task.endTime = parseTime(prevLine, fileDate);
-
-                            // 任务结束时，如果还有待处理的生存位动作，使用最近切换的角色
-                            if (pendingSurvivalAction && lastSwitchedRole && !nahidaCollect && !kazuhaCollect) {
-                                const currentWeight = survivalWeights.get(lastSwitchedRole) || 0;
-                                survivalWeights.set(lastSwitchedRole, currentWeight + 3); // 中等权重
+                            // 采集相关的切换 - 给负权重确保排除
+                            if (nahidaCollect || kazuhaCollect) {
+                            }
+                            // 如果是赶路位角色的切换，不给行走位权重
+                            else if (hasRecentDash) {
+                                // 赶路位切换不计入行走位权重
+                            }
+                            // 生存位技能后的切换 - 高权重
+                            else if (pendingSurvivalAction) {
+                                survivalWeightToAdd = WEIGHTS.SURVIVAL_AFTER_SKILL;
+                                walkWeightToAdd = WEIGHTS.NORMAL_SWITCH; // 同时也计入行走位
                                 pendingSurvivalAction = false;
                             }
-
-                            // 确定生存位：取权重最高的角色（只考虑正权重）
-                            let finalSurvivalRole = null;
-                            if (survivalWeights.size > 0) {
-                                const sortedSurvival = Array.from(survivalWeights.entries())
-                                    .filter(([role, weight]) => weight > 0) // 只考虑正权重
-                                    .sort((a, b) => b[1] - a[1]);
-                                if (sortedSurvival.length > 0) {
-                                    finalSurvivalRole = sortedSurvival[0][0];
-                                }
+                            // 一般切换 - 正常权重
+                            else {
+                                walkWeightToAdd = WEIGHTS.NORMAL_SWITCH * 10;
                             }
 
-                            // 确定行走位：取权重最高的角色（只考虑正权重）
-                            let finalWalkRole = null;
-                            if (walkWeights.size > 0) {
-                                const sortedWalk = Array.from(walkWeights.entries())
-                                    .filter(([role, weight]) => weight > 0) // 只考虑正权重
-                                    .sort((a, b) => b[1] - a[1]);
-                                if (sortedWalk.length > 0) {
-                                    finalWalkRole = sortedWalk[0][0];
-                                }
+                            // 移动上下文权重判断
+                            if (prevLine.includes('到达路径点附近') ||
+                                prevLine.includes('执行 "简易策略脚本"') ||
+                                prevLine.includes('粗略接近途经点') ||
+                                prevLine.includes('精确接近目标点')) {
+                                walkWeightToAdd += WEIGHTS.MOVEMENT_CONTEXT;
                             }
 
-                            // 确定赶路位：取权重最高的角色（只考虑正权重）
-                            let finalDashRole = null;
-                            if (dashWeights.size > 0) {
-                                const sortedDash = Array.from(dashWeights.entries())
-                                    .filter(([role, weight]) => weight > 0)
-                                    .sort((a, b) => b[1] - a[1]);
-                                if (sortedDash.length > 0) {
-                                    finalDashRole = sortedDash[0][0];
-                                }
+                            // 交互或拾取后的切换权重 +8
+                            if (prevLine.includes('交互或拾取："')) {
+                                walkWeightToAdd += 8;
                             }
 
-                            // 保存到任务
-                            task.survivalRoles = finalSurvivalRole ? [finalSurvivalRole] : [];
-                            task.walkRoles = finalWalkRole ? [finalWalkRole] : [];
-                            task.dashRoles = finalDashRole ? [finalDashRole] : [];
+                            // 更新权重
+                            if (survivalWeightToAdd !== 0) {
+                                const currentSurvivalWeight = survivalWeights.get(roleName) || 0;
+                                survivalWeights.set(roleName, currentSurvivalWeight + survivalWeightToAdd);
+                            }
 
-                            // 调试输出
-                            // console.log(`任务 ${task.name} 生存位权重:`, Array.from(survivalWeights.entries()));
-                            // console.log(`任务 ${task.name} 行走位权重:`, Array.from(walkWeights.entries()));
-                            // console.log(`任务 ${task.name} 最终结果:`, {
-                            //     survival: task.survivalRoles,
-                            //     walk: task.walkRoles
-                            // });
+                            if (walkWeightToAdd !== 0) {
+                                const currentWalkWeight = walkWeights.get(roleName) || 0;
+                                walkWeights.set(roleName, currentWalkWeight + walkWeightToAdd);
+                            }
 
-                            parsingContext.activeTasks.delete(task.name);
+                            // 重置采集标记
+                            nahidaCollect = false;
+                            kazuhaCollect = false;
+                        }
+                    }
 
-                            // 重置角色计数
+                    function finalizeGroup(group, endTime) {
+                        if (!group.endTime) {
+                            group.endTime = endTime;
+                        }
+                        // 检查是否有有效任务（可复用 hasTaskActualContent 逻辑）
+                        let hasValidTasks = false;
+                        group.tasks.forEach(task => {
+                            if (hasTaskActualContent(task)) hasValidTasks = true;
+                        });
+                        if (!hasValidTasks) {
+                            group.skipped = true;
+                            return; // 跳过的组不处理角色信息
+                        }
+                        // 汇总配置组角色信息（原代码中“配置组结束”部分的处理）
+                        const groupSurvivalRoles = new Map();
+                        const groupWalkRoles = new Map();
+                        const groupDashRoles = new Map();
+                        group.tasks.forEach(task => {
+                            if (task.survivalRoles && task.survivalRoles.length > 0) {
+                                const main = task.survivalRoles[0];
+                                groupSurvivalRoles.set(main, (groupSurvivalRoles.get(main) || 0) + 1);
+                            }
+                            if (task.walkRoles && task.walkRoles.length > 0) {
+                                const main = task.walkRoles[0];
+                                groupWalkRoles.set(main, (groupWalkRoles.get(main) || 0) + 1);
+                            }
+                            if (task.dashRoles && task.dashRoles.length > 0) {
+                                const main = task.dashRoles[0];
+                                groupDashRoles.set(main, (groupDashRoles.get(main) || 0) + 1);
+                            }
+                        });
+                        const sortedSurvival = Array.from(groupSurvivalRoles.entries()).sort((a, b) => b[1] - a[1]);
+                        group.survivalRoles = sortedSurvival.length > 0 ? [sortedSurvival[0][0]] : [];
+                        const sortedWalk = Array.from(groupWalkRoles.entries()).sort((a, b) => b[1] - a[1]);
+                        group.walkRoles = sortedWalk.length > 0 ? [sortedWalk[0][0]] : [];
+                        const sortedDash = Array.from(groupDashRoles.entries()).sort((a, b) => b[1] - a[1]);
+                        group.dashRoles = sortedDash.length > 0 ? [sortedDash[0][0]] : [];
+                    }
+
+                    // 解析配置组
+                    let match = line.match(/配置组 "(.+?)" 加载完成/);
+                    if (match) {
+                        const groupName = match[1];
+                        // 强制结束当前活跃的配置组（无论名称是否相同）
+                        const activeGroupsList = Array.from(parsingContext.activeGroups.values());
+                        if (activeGroupsList.length > 0) {
+                            // 通常只有一个活跃组，取最后一个（即当前正在运行的组）
+                            const currentActiveGroup = activeGroupsList[activeGroupsList.length - 1];
+                            finalizeGroup(currentActiveGroup, parseTime(prevLine, fileDate));
+                            parsingContext.allGroups.push(currentActiveGroup);
+                            parsingContext.activeGroups.delete(currentActiveGroup.name);
+                        }
+
+                        // 创建新配置组
+                        let group = {
+                            name: groupName,
+                            startTime: parseTime(prevLine, fileDate),
+                            endTime: null,
+                            tasks: [],
+                            picks: new Map(),
+                            lastActive: null,
+                            teamRoles: new Set(),
+                            survivalRoles: [],
+                            walkRoles: [],
+                            dashRoles: [],
+                            hasRotationTargeting: false,
+                            hasBeamPickup: false,
+                        };
+                        group.lastActive = parseTime(prevLine, fileDate);
+                        parsingContext.activeGroups.set(groupName, group);
+
+                        // 重置各种计数器
+                        battleCount = 0;
+                        lastCoordForRevive = null;
+                        lastCoordForStuck = null;
+                        survivalWeights.clear();
+                        walkWeights.clear();
+                        lastSwitchedRole = null;
+                        pendingSurvivalAction = false;
+                        nahidaCollect = false;
+                        kazuhaCollect = false;
+
+                        currentGroup = group;
+                    }
+
+                    // 配置组结束
+                    match = line.match(/配置组 "(.+?)" 执行结束/);
+                    if (match) {
+                        const group = parsingContext.activeGroups.get(match[1]);
+                        if (group) {
+                            finalizeGroup(group, parseTime(prevLine, fileDate));
+                            parsingContext.allGroups.push(group);
+                            parsingContext.activeGroups.delete(match[1]);
+
+                            // 重置全局角色计数
                             survivalWeights.clear();
                             walkWeights.clear();
-                            dashWeights.clear();
                             lastSwitchedRole = null;
                             pendingSurvivalAction = false;
                             nahidaCollect = false;
                             kazuhaCollect = false;
 
-                            // 重置赶路角色标记
-                            if (currentTask) {
-                                currentTask.recentDashRole = null;
-                            }
-
-                            // 更新当前任务
-                            currentTask = currentGroup.tasks.length > 0 ? currentGroup.tasks[currentGroup.tasks.length - 1] : null;
+                            currentGroup = Array.from(parsingContext.activeGroups.values()).pop() || null;
                         }
                     }
 
-                    // 统计信息
-                    if (currentTask) {
-                        // 检测任务跳过信息
-                        if (line.includes("任务已到禁止执行时段，将跳过")) {
-                            currentTask.skipped = true;
-                            // 记录跳过信息到特殊事件
-                            // const message = line.trim();
-                            // const type = 'abnormal-alert';
-                            // if (currentTask.specialAlerts.has(message)) {
-                            //     const existing = currentTask.specialAlerts.get(message);
-                            //     existing.count++;
-                            // } else {
-                            //     currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                    // 解析任务
+                    if (currentGroup) {
+                        // 识别到的队伍角色
+                        if (line.includes('识别到的队伍角色:"')) {
+                            const match = line.match(/识别到的队伍角色:"(.+?)"/);
+                            if (match && currentGroup) {
+                                const teamRoleStr = match[1];
+                                currentGroup.teamRoles.add(teamRoleStr);
+                            }
+                        }
+
+                        // 檢測旋轉索敵
+                        if (line.includes('敌人位置: (') && line.includes('血量高度:')) {
+                            currentGroup.hasRotationTargeting = true;
+                        }
+
+                        // 检测战后光柱拾取
+                        if (line.includes('超时或视野内没有可拾取物品，结束扫描')) {
+                            if (currentGroup) {
+                                currentGroup.hasBeamPickup = true;
+                            }
+                        }
+
+                        // 检测自动战斗开始
+                        if (line.includes('执行 "自动战斗"')) {
+                            battleCount++;
+                        }
+
+                        // match = line.match(/→ 开始执行地图追踪任务: "(.+?)"/);
+                        // match = line.match(/→ 开始执行路径追踪任务: "(.+?)"/)
+                        // match = line.match(/→ 开始执行(?:地图|路径)追踪任务: "(.+?)"/);
+                        // match = line.match(/→ 开始执行(?:地图|路径)追踪任务: "(.+?)"|assets\/(.+?\.json)/);
+                        // match = line.match(/→ 开始执行(?:地图|路径)追踪任务: "(.+?)"|assets\/(.+?\.json)|当前钓鱼点: (.+)/);
+                        // match = line.match(/→ 开始执行(?:地图|路径)追踪任务: "(.+?)"|assets\/(.+?\.json)|当前钓鱼点: (.+)|→ 开始执行JS脚本: "(.+?)"/);
+                        // match = line.match(/→ 开始执行(?:地图|路径)追踪任务: "(.+?)"|开始购买NPC: "(.+?)"|当前钓鱼点: (.+)|→ 开始执行JS脚本: "(.+?)"/);
+                        // match = line.match(/→ 开始执行(?:地图|路径)追踪任务: "(.+?)"|开始购买NPC: "(.+?)"|assets\/(.+?\.json)|当前钓鱼点: (.+)|→ 开始执行JS脚本: "(.+?)"|→ 开始执行键鼠脚本: "(.+?)"/);
+                        match = line.match(/→ 开始执行(?:地图|路径)追踪任务: "(.+?)"|assets\/(.+?\.json)|→ 开始执行JS脚本: "(.+?)"|→ 开始执行键鼠脚本: "(.+?)"/);
+                        if (match) {
+                            // const taskName = match[1] || match[2] || match[3] || match[4];
+                            const taskName = match[1] || match[2] || match[3] || match[4];
+                            const task = {
+                                name: taskName,
+                                startTime: parseTime(prevLine, fileDate),
+                                endTime: null,
+                                faults: {
+                                    revive: 0,
+                                    teleport: 0,
+                                    retry: 0,
+                                    retryDetail: 0,
+                                    too_far_skip: 0,
+                                    timeout: 0
+                                },
+                                picks: new Map(),
+                                reviveEvents: [], // 复活事件
+                                timeoutEvents: [], // 超时事件
+                                maxBattleCount: 0, // 记录最大战斗次数
+                                specialAlerts: new Map(), // 用于计数特殊事件
+                                survivalRoles: [], // 生存位角色
+                                walkRoles: [],      // 行走位角色
+                                dashRoles: [],      // 赶路位角色
+                                recentDashRole: null, // 最近的赶路角色，用于排除行走位权重
+                                skipped: false // 跳过标记
+                            };
+                            currentGroup.tasks.push(task);
+                            parsingContext.activeTasks.set(task.name, task);
+                            battleCount = 0;
+
+                            // 重置任务级别的角色统计
+                            survivalWeights.clear();
+                            walkWeights.clear();
+                            lastSwitchedRole = null;
+                            pendingSurvivalAction = false;
+                            nahidaCollect = false;
+                            kazuhaCollect = false;
+
+                            // 更新当前任务
+                            currentTask = task;
+                        }
+
+                        // 任務結束
+                        match = line.match(/→ 脚本执行结束: "(.+?)"/);
+                        if (match) {
+                            const task = parsingContext.activeTasks.get(match[1]);
+                            if (task) {
+                                task.endTime = parseTime(prevLine, fileDate);
+
+                                // 任务结束时，如果还有待处理的生存位动作，使用最近切换的角色
+                                if (pendingSurvivalAction && lastSwitchedRole && !nahidaCollect && !kazuhaCollect) {
+                                    const currentWeight = survivalWeights.get(lastSwitchedRole) || 0;
+                                    survivalWeights.set(lastSwitchedRole, currentWeight + 3); // 中等权重
+                                    pendingSurvivalAction = false;
+                                }
+
+                                // 确定生存位：取权重最高的角色（只考虑正权重）
+                                let finalSurvivalRole = null;
+                                if (survivalWeights.size > 0) {
+                                    const sortedSurvival = Array.from(survivalWeights.entries())
+                                        .filter(([role, weight]) => weight > 0) // 只考虑正权重
+                                        .sort((a, b) => b[1] - a[1]);
+                                    if (sortedSurvival.length > 0) {
+                                        finalSurvivalRole = sortedSurvival[0][0];
+                                    }
+                                }
+
+                                // 确定行走位：取权重最高的角色（只考虑正权重）
+                                let finalWalkRole = null;
+                                if (walkWeights.size > 0) {
+                                    const sortedWalk = Array.from(walkWeights.entries())
+                                        .filter(([role, weight]) => weight > 0) // 只考虑正权重
+                                        .sort((a, b) => b[1] - a[1]);
+                                    if (sortedWalk.length > 0) {
+                                        finalWalkRole = sortedWalk[0][0];
+                                    }
+                                }
+
+                                // 确定赶路位：取权重最高的角色（只考虑正权重）
+                                let finalDashRole = null;
+                                if (dashWeights.size > 0) {
+                                    const sortedDash = Array.from(dashWeights.entries())
+                                        .filter(([role, weight]) => weight > 0)
+                                        .sort((a, b) => b[1] - a[1]);
+                                    if (sortedDash.length > 0) {
+                                        finalDashRole = sortedDash[0][0];
+                                    }
+                                }
+
+                                // 保存到任务
+                                task.survivalRoles = finalSurvivalRole ? [finalSurvivalRole] : [];
+                                task.walkRoles = finalWalkRole ? [finalWalkRole] : [];
+                                task.dashRoles = finalDashRole ? [finalDashRole] : [];
+
+                                // 调试输出
+                                // console.log(`任务 ${task.name} 生存位权重:`, Array.from(survivalWeights.entries()));
+                                // console.log(`任务 ${task.name} 行走位权重:`, Array.from(walkWeights.entries()));
+                                // console.log(`任务 ${task.name} 最终结果:`, {
+                                //     survival: task.survivalRoles,
+                                //     walk: task.walkRoles
+                                // });
+
+                                parsingContext.activeTasks.delete(task.name);
+
+                                // 重置角色计数
+                                survivalWeights.clear();
+                                walkWeights.clear();
+                                dashWeights.clear();
+                                lastSwitchedRole = null;
+                                pendingSurvivalAction = false;
+                                nahidaCollect = false;
+                                kazuhaCollect = false;
+
+                                // 重置赶路角色标记
+                                if (currentTask) {
+                                    currentTask.recentDashRole = null;
+                                }
+
+                                // 更新当前任务
+                                currentTask = currentGroup.tasks.length > 0 ? currentGroup.tasks[currentGroup.tasks.length - 1] : null;
+                            }
+                        }
+
+                        // 统计信息
+                        if (currentTask) {
+                            // 检测任务跳过信息
+                            if (line.includes("任务已到禁止执行时段，将跳过")) {
+                                currentTask.skipped = true;
+                                // 记录跳过信息到特殊事件
+                                // const message = line.trim();
+                                // const type = 'abnormal-alert';
+                                // if (currentTask.specialAlerts.has(message)) {
+                                //     const existing = currentTask.specialAlerts.get(message);
+                                //     existing.count++;
+                                // } else {
+                                //     currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                // }
+                            }
+
+                            // 更新最大战斗次数
+                            if (battleCount > currentTask.maxBattleCount) {
+                                currentTask.maxBattleCount = battleCount;
+                            }
+
+                            // 捕获坐标信息（无论是否在卡死前）
+                            // const coordMatch = line.match(/粗略接近途经点，位置\("(-?\d+(?:\.\d+)?)","(-?\d+(?:\.\d+)?)"\)/);
+                            const coordMatch = line.match(/(?:粗略接近途经点|精确接近目标点)，位置\("(-?\d+(?:\.\d+)?)","(-?\d+(?:\.\d+)?)"\)/);
+                            if (coordMatch) {
+                                // 同时更新两个坐标跟踪器
+                                lastCoordForRevive = { x: coordMatch[1], y: coordMatch[2] };
+                                lastCoordForStuck = { x: coordMatch[1], y: coordMatch[2] };
+                            }
+
+                            // if (line.includes("前往七天神像复活")) currentTask.faults.revive++;
+
+                            // 复活事件
+                            if (line.includes("血量恢复完成。")) {
+                                currentTask.faults.revive++;
+                                // 记录复活事件对应的战斗序号和坐标
+                                currentTask.reviveEvents.push({
+                                    battleCount: battleCount,
+                                    coord: lastCoordForRevive ? { x: lastCoordForRevive.x, y: lastCoordForRevive.y } : null
+                                });
+                                // 重置复活坐标跟踪器
+                                lastCoordForRevive = null;
+                            }
+
+                            if (line.includes("当前角色血量过低")) currentTask.faults.revive = currentTask.faults.revive - 0.9;
+                            if (line.match(/传送失败，重试 (\d+) 次/)) {
+                                currentTask.faults.teleport = parseInt(RegExp.$1);
+                            } else if (line.includes("多次尝试未移动到目标传送点，传送失败") || line.includes("目标传送点未移动到可点击区域，传送失败") || line.includes("等待传送点交互面板超时  重试")) {
+                                // 没有具体重试次数，每次+1
+                                currentTask.faults.teleport++;
+                            }
+                            // if (line.includes("重试一次路线")) currentTask.faults.retry++;
+                            // if (line.includes("记录恢复点位，地图追踪将到达上次点位之前将跳过走路之外的操作")) currentTask.faults.retry++;
+                            if (line.includes("记录恢复点位，地图追踪将到达上次点位之前将跳过走路之外的操作")) {
+                            // if (line.includes("此路线出现3次卡死，重试一次路线或放弃此路线！")) {
+                                currentTask.faults.retry++;
+                                // 当重试次数超过2时，添加异常消息
+                                if (currentTask && currentTask.faults.retry > 2) {
+                                    const message = '路线多次卡死，放弃此路线！';
+                                    const type = 'abnormal-alert';
+                                    if (!currentTask.specialAlerts.has(message)) {
+                                        currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                    }
+                                }
+                            }
+                            if (line.includes("疑似卡死，尝试脱离...") || line.includes("疑似卡死，尝试随机脱离...") || line.includes("尝试朝向上一个节点")) {
+                                currentTask.faults.retryDetail++;
+                                if (line.includes("尝试朝向上一个节点")) {
+                                    currentTask.faults.retryDetail = currentTask.faults.retryDetail - 0.9;
+                                }
+                                // 使用最近捕获的坐标
+                                if (lastCoordForStuck) {
+                                    if (!currentTask.faults.coords) {
+                                        currentTask.faults.coords = [];
+                                    }
+                                    currentTask.faults.coords.push(lastCoordForStuck);
+                                    // 重置卡死坐标跟踪器
+                                    lastCoordForStuck = null;
+                                }
+                            }
+                            // if (line.includes("距离过远，跳过路径点")) currentTask.faults.too_far_skip++;
+                            // 0.56.后不傳回极大的坐标
+                            if (
+                                (line.includes("距离过远") && /\(\d+\.?\d*,\d+\.?\d*\)->\(\d+\.?\d*,\d+\.?\d*\)=\d+\.?\d*，跳过路径点/) ||
+                                line.includes("未识别到当前位置")
+                            ) {
+                                currentTask.faults.too_far_skip++;
+                            }
+
+                            if (line.includes("，重试多次后仍然失败，放弃此路径点！")) {
+                                const message = '路径识别失败，放弃部份路径';
+                                const type = 'abnormal-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 战斗超时事件
+                            // if (line.includes("战斗超时")) {
+                            if (line.includes("战斗超时结束") || line.includes("旋转次数达到上限，战斗结束")) {
+                                currentTask.faults.timeout++;
+                                // 记录超时事件对应的战斗序号
+                                currentTask.timeoutEvents.push(battleCount);
+                            }
+
+                            // 特殊事件的处理逻辑，使用计数而不是重复添加
+                            // 0. 识别到的队伍角色:".*"
+                            // test. 測試用例子
+                            // if (line.includes('识别到的队伍角色:"')) {
+                            //     const match = line.match(/识别到的队伍角色:"(.+?)"/);
+                            //     if (match) {
+                            //         const message = `队伍角色:"${match[1]}"`;
+                            //         const type = 'auto-potion';
+                            //         if (currentTask.specialAlerts.has(message)) {
+                            //             const existing = currentTask.specialAlerts.get(message);
+                            //             existing.count++;
+                            //         } else {
+                            //             currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                            //         }
+                            //     }
                             // }
-                        }
+                            // if (line.includes('成功切换角色:"')) {
+                            //     const match = line.match(/成功切换角色:"(.+?)"/);
+                            //     if (match) {
+                            //         const message = `成功切换角色:"${match[1]}"`;
+                            //         const type = 'auto-potion';
+                            //         if (currentTask.specialAlerts.has(message)) {
+                            //             const existing = currentTask.specialAlerts.get(message);
+                            //             existing.count++;
+                            //         } else {
+                            //             currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                            //         }
+                            //     }
+                            // }
+                            // if (line.includes('切换盾、回血角色，使用元素战技')) {
+                            //     const message = `生存位技能`;
+                            //     const type = 'auto-potion';
+                            //     if (currentTask.specialAlerts.has(message)) {
+                            //         const existing = currentTask.specialAlerts.get(message);
+                            //         existing.count++;
+                            //     } else {
+                            //         currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                            //     }
+                            // }
 
-                        // 更新最大战斗次数
-                        if (battleCount > currentTask.maxBattleCount) {
-                            currentTask.maxBattleCount = battleCount;
-                        }
-
-                        // 捕获坐标信息（无论是否在卡死前）
-                        // const coordMatch = line.match(/粗略接近途经点，位置\("(-?\d+(?:\.\d+)?)","(-?\d+(?:\.\d+)?)"\)/);
-                        const coordMatch = line.match(/(?:粗略接近途经点|精确接近目标点)，位置\("(-?\d+(?:\.\d+)?)","(-?\d+(?:\.\d+)?)"\)/);
-                        if (coordMatch) {
-                            // 同时更新两个坐标跟踪器
-                            lastCoordForRevive = { x: coordMatch[1], y: coordMatch[2] };
-                            lastCoordForStuck = { x: coordMatch[1], y: coordMatch[2] };
-                        }
-
-                        // if (line.includes("前往七天神像复活")) currentTask.faults.revive++;
-
-                        // 复活事件
-                        if (line.includes("血量恢复完成。")) {
-                            currentTask.faults.revive++;
-                            // 记录复活事件对应的战斗序号和坐标
-                            currentTask.reviveEvents.push({
-                                battleCount: battleCount,
-                                coord: lastCoordForRevive ? { x: lastCoordForRevive.x, y: lastCoordForRevive.y } : null
-                            });
-                            // 重置复活坐标跟踪器
-                            lastCoordForRevive = null;
-                        }
-
-                        if (line.includes("当前角色血量过低")) currentTask.faults.revive = currentTask.faults.revive - 0.9;
-                        if (line.match(/传送失败，重试 (\d+) 次/) || line.includes("多次尝试未移动到目标传送点，传送失败"))
-                            currentTask.faults.teleport = parseInt(RegExp.$1);
-                        // if (line.includes("重试一次路线")) currentTask.faults.retry++;
-                        if (line.includes("记录恢复点位，地图追踪将到达上次点位之前将跳过走路之外的操作")) currentTask.faults.retry++;
-                        if (line.includes("疑似卡死，尝试脱离...") || line.includes("疑似卡死，尝试随机脱离...") || line.includes("尝试朝向上一个节点")) {
-                            currentTask.faults.retryDetail++;
-                            if (line.includes("尝试朝向上一个节点")) {
-                                currentTask.faults.retryDetail = currentTask.faults.retryDetail - 0.9;
-                            }
-                            // 使用最近捕获的坐标
-                            if (lastCoordForStuck) {
-                                if (!currentTask.faults.coords) {
-                                    currentTask.faults.coords = [];
-                                }
-                                currentTask.faults.coords.push(lastCoordForStuck);
-                                // 重置卡死坐标跟踪器
-                                lastCoordForStuck = null;
-                            }
-                        }
-                        // if (line.includes("距离过远，跳过路径点")) currentTask.faults.too_far_skip++;
-                        // 0.56.后不傳回极大的坐标
-                        if (
-                            (line.includes("距离过远") && /\(\d+\.?\d*,\d+\.?\d*\)->\(\d+\.?\d*,\d+\.?\d*\)=\d+\.?\d*，跳过路径点/) ||
-                            line.includes("未识别到当前位置")
-                        ) {
-                            currentTask.faults.too_far_skip++;
-                        }
-
-                        if (line.includes("，重试多次后仍然失败，放弃此路径点！")) {
-                            const message = '路径识别失败，放弃部份路径';
-                            const type = 'abnormal-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        // 战斗超时事件
-                        // if (line.includes("战斗超时")) {
-                        if (line.includes("战斗超时结束") || line.includes("旋转次数达到上限，战斗结束")) {
-                            currentTask.faults.timeout++;
-                            // 记录超时事件对应的战斗序号
-                            currentTask.timeoutEvents.push(battleCount);
-                        }
-
-                        // 特殊事件的处理逻辑，使用计数而不是重复添加
-                        // 0. 识别到的队伍角色:".*"
-                        // test. 測試用例子
-                        // if (line.includes('识别到的队伍角色:"')) {
-                        //     const match = line.match(/识别到的队伍角色:"(.+?)"/);
-                        //     if (match) {
-                        //         const message = `队伍角色:"${match[1]}"`;
-                        //         const type = 'auto-potion';
-                        //         if (currentTask.specialAlerts.has(message)) {
-                        //             const existing = currentTask.specialAlerts.get(message);
-                        //             existing.count++;
-                        //         } else {
-                        //             currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                        //         }
-                        //     }
-                        // }
-                        // if (line.includes('成功切换角色:"')) {
-                        //     const match = line.match(/成功切换角色:"(.+?)"/);
-                        //     if (match) {
-                        //         const message = `成功切换角色:"${match[1]}"`;
-                        //         const type = 'auto-potion';
-                        //         if (currentTask.specialAlerts.has(message)) {
-                        //             const existing = currentTask.specialAlerts.get(message);
-                        //             existing.count++;
-                        //         } else {
-                        //             currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                        //         }
-                        //     }
-                        // }
-                        // if (line.includes('切换盾、回血角色，使用元素战技')) {
-                        //     const message = `生存位技能`;
-                        //     const type = 'auto-potion';
-                        //     if (currentTask.specialAlerts.has(message)) {
-                        //         const existing = currentTask.specialAlerts.get(message);
-                        //         existing.count++;
-                        //     } else {
-                        //         currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                        //     }
-                        // }
-
-                        // 1. 开始自动领取派遣任务！
-                        if (line.includes("开始自动领取派遣任务！")) {
-                            const message = '领取派遣任务';
-                            const type = 'dispatch-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        // 2. 自动吃药
-                        if (line.includes('检测到红血且不在CD，自动吃药') || line.includes('自动吃药："发现红血" 使用小道具')) {
-                            const message = '自动吃药';
-                            const type = 'auto-potion';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        // 3. 快捷键触发暂停，等待解除
-                        if (line.includes("快捷键触发暂停，等待解除")) {
-                            const message = '快捷键暂停';
-                            const type = 'pause-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        // 4. 文件找不到
-                        if (line.includes('"Could not find file') || line.includes('"Could not find a part of the path')) {
-                            const message = '路径文件丢失';
-                            const type = 'file-missing';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        // 5. 战斗策略错误
-                        if (line.includes('执行地图追踪时候发生错误: "战斗策略脚本中出现未知的方法：')) {
-                            const match = line.match(/执行地图追踪时候发生错误: "战斗策略脚本中出现未知的方法：(.+?)"/);
-                            if (match) {
-                                const message = `地图追踪战斗策略错误："${match[1]}"`;
-                                const type = 'strategy-error';
+                            // 1. 开始自动领取派遣任务！
+                            if (line.includes("开始自动领取派遣任务！")) {
+                                const message = '领取派遣任务';
+                                const type = 'dispatch-alert';
                                 if (currentTask.specialAlerts.has(message)) {
                                     const existing = currentTask.specialAlerts.get(message);
                                     existing.count++;
@@ -3412,43 +3440,11 @@
                                     currentTask.specialAlerts.set(message, { type: type, count: 1 });
                                 }
                             }
-                        }
 
-                        // 5.5 策略脚本action_params内容为空
-                        if (
-                            line.includes('策略脚本action_params内容为空')) {
-                            const message = '路徑中策略脚本内容为空';
-                            const type = 'purple-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        // 6. 战斗脚本设置错误
-                        if (
-                            // line.includes('执行脚本时发生异常: "未匹配到任何战斗脚本"')
-                            // || line.includes('执行地图追踪时候发生错误: "未匹配到任何战斗脚本"')
-                            line.includes('未匹配到任何战斗脚本')
-                            || line.includes('执行地图追踪时候发生错误: "战斗策略文件不存在"')) {
-                            const message = '未匹配到任何战斗脚本';
-                            const type = 'combat-script-error';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        // 7. 缺少元素采集角色
-                        if (line.includes('此路径存在 "') && line.includes('元素采集 动作，')) {
-                            const match = line.match(/此路径存在 "(.+?)"元素采集 动作，/);
-                            if (match) {
-                                const message = `队伍缺少 ${match[1]} 元素采集角色`;
-                                const type = 'element-missing';
+                            // 2. 自动吃药
+                            if (line.includes('检测到红血且不在CD，自动吃药') || line.includes('自动吃药："发现红血" 使用小道具')) {
+                                const message = '自动吃药';
+                                const type = 'auto-potion';
                                 if (currentTask.specialAlerts.has(message)) {
                                     const existing = currentTask.specialAlerts.get(message);
                                     existing.count++;
@@ -3456,148 +3452,10 @@
                                     currentTask.specialAlerts.set(message, { type: type, count: 1 });
                                 }
                             }
-                        }
 
-                        // 7.5 切人失败,无法进行"X"元素采集
-                        if (line.includes('切人失败,无法进行"') && line.includes('元素采集')) {
-                            const match = line.match(/切人失败,无法进行"(.+?)"元素采集/);
-                            if (match) {
-                                const message = `切人失败,无法进行 ${match[1]} 元素采集`;
-                                const type = 'purple-alert';
-                                if (currentTask.specialAlerts.has(message)) {
-                                    const existing = currentTask.specialAlerts.get(message);
-                                    existing.count++;
-                                } else {
-                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                                }
-                            }
-                        }
-
-                        // 8. 缺少纳西妲
-                        if (line.includes('此路径存在纳西妲收集动作，队伍中没有纳西妲角色，无法执行此路径！')) {
-                            const message = '队伍缺少纳西妲';
-                            const type = 'nahida-missing';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        // 9. 切换队伍失败
-                        if (line.includes('切换队伍失败，无法执行此路径！请检查配置组中的地图追踪配置！')) {
-                            const message = '切换队伍失败';
-                            const type = 'abnormal-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        // 10. 当前获取焦点的窗口不是原神，尝试恢复窗口
-                        if (line.includes("当前获取焦点的窗口不是原神，尝试恢复窗口") || (line.includes("当前获取焦点的窗口为: ") && line.includes("，不是原神，尝试恢复窗口"))) {
-                            const message = '窗口焦点异常，尝试恢复';
-                            const type = 'pause-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        //10.1
-                        if (line.includes("当前获取焦点的窗口不是原神，暂停") || (line.includes("当前获取焦点的窗口为: ") && line.includes("，不是原神，暂停"))) {
-                            const message = '窗口焦点异常，暂停';
-                            const type = 'pause-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        //10.2
-                        if (line.includes("多次尝试未恢复，尝试最小化后激活窗口！")) {
-                            const message = '窗口焦点异常，最小化重试';
-                            const type = 'pause-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        // 11. 队伍角色识别失败
-                        if (line.includes("队伍角色识别失败")) {
-                            const message = '队伍角色识别失败';
-                            const type = 'abnormal-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        // 12. 打开大地图失败，请检查按键绑定中「打开地图」按键设置是否和原神游戏中一致！
-                        if (line.includes("打开大地图失败，重试 3 次")) {
-                            const message = '打开地图失败';
-                            const type = 'abnormal-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        // 13. 选项列表不存在传送点  重试
-                        if (line.includes("选项列表不存在传送点  重试") || line.includes("传送点未激活或不存在  重试") || line.match(/选项列表不存在传送点/)) {
-                            const message = '传送点不存在';
-                            const type = 'abnormal-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        // 13.5 执行地图追踪时候发生错误: "传送失败"
-                        if (line.includes("执行地图追踪时候发生错误: \"传送失败\"")) {
-                            const message = '传送失败，跳过路径';
-                            const type = 'abnormal-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        // 14. 选项列表不存在传送点  重试
-                        if (line.includes("识别大地图位置失败")) {
-                            const message = '识别大地图位置失败';
-                            const type = 'abnormal-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        // 15. 切换区域失败：".*"
-                        if (line.includes('切换区域失败："')) {
-                            const match = line.match(/切换区域失败："(.+?)"/);
-                            if (match) {
-                                const message = `切换区域失败："${match[1]}"`;
+                            // 3. 快捷键触发暂停，等待解除
+                            if (line.includes("快捷键触发暂停，等待解除")) {
+                                const message = '快捷键暂停';
                                 const type = 'pause-alert';
                                 if (currentTask.specialAlerts.has(message)) {
                                     const existing = currentTask.specialAlerts.get(message);
@@ -3606,61 +3464,53 @@
                                     currentTask.specialAlerts.set(message, { type: type, count: 1 });
                                 }
                             }
-                        }
 
-                        // 16. 执行地图追踪时候发生错误: "未能返回主界面"
-                        if (line.includes('执行地图追踪时候发生错误: "未能返回主界面"')) {
-                            const message = '未能返回主界面';
-                            const type = 'abnormal-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                            // 4. 文件找不到
+                            if (line.includes('"Could not find file') || line.includes('"Could not find a part of the path')) {
+                                const message = '路径文件丢失';
+                                const type = 'file-missing';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
                             }
-                        }
 
-                        // 16.5. 检测到其他界面
-                        if (line.includes('检测到其他界面')) {
-                            const message = '检测到其他界面，关闭其他界面';
-                            const type = 'purple-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                            // 5. 战斗策略错误
+                            if (line.includes('执行地图追踪时候发生错误: "战斗策略脚本中出现未知的方法：')) {
+                                const match = line.match(/执行地图追踪时候发生错误: "战斗策略脚本中出现未知的方法：(.+?)"/);
+                                if (match) {
+                                    const message = `地图追踪战斗策略错误："${match[1]}"`;
+                                    const type = 'strategy-error';
+                                    if (currentTask.specialAlerts.has(message)) {
+                                        const existing = currentTask.specialAlerts.get(message);
+                                        existing.count++;
+                                    } else {
+                                        currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                    }
+                                }
                             }
-                        }
 
-                        // 17. 调度器任务出现未预期的异常，自动重启bgi
-                        if (line.includes('调度器任务出现未预期的异常，自动重启bgi')) {
-                            const message = '自动重启bgi';
-                            const type = 'abnormal-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                            // 5.1 战斗策略错误-角色名称校验失败(地图追踪策略脚本错误)
+                            if (line.includes('执行地图追踪时候发生错误: "角色名称校验失败：')) {
+                                const match = line.match(/执行地图追踪时候发生错误: "角色名称校验失败：(.+?)"/);
+                                if (match) {
+                                    const message = `地图追踪策略脚本错误："${match[1]}"`;
+                                    const type = 'strategy-error';
+                                    if (currentTask.specialAlerts.has(message)) {
+                                        const existing = currentTask.specialAlerts.get(message);
+                                        existing.count++;
+                                    } else {
+                                        currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                    }
+                                }
                             }
-                        }
 
-                        // 18. 任务启动失败：当前存在正在运行中的独立任务，请不要重复执行任务！
-                        if (line.includes('任务启动失败：当前存在正在运行中的独立任务，请不要重复执行任务！')) {
-                            const message = '任务启动失败';
-                            const type = 'abnormal-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        // 19. 简易策略脚本要求的角色不存在！队伍中需要存在下面角色中的一个或多个：".*"
-                        if (line.includes('简易策略脚本要求的角色不存在！队伍中需要存在下面角色中的一个或多个："')) {
-                            const match = line.match(/简易策略脚本要求的角色不存在！队伍中需要存在下面角色中的一个或多个："(.+?)"/);
-                            if (match) {
-                                const message = `缺少脚本指定角色："${match[1]}"`;
+                            // 5.5 策略脚本action_params内容为空
+                            if (
+                                line.includes('策略脚本action_params内容为空')) {
+                                const message = '路徑中策略脚本内容为空';
                                 const type = 'purple-alert';
                                 if (currentTask.specialAlerts.has(message)) {
                                     const existing = currentTask.specialAlerts.get(message);
@@ -3669,346 +3519,735 @@
                                     currentTask.specialAlerts.set(message, { type: type, count: 1 });
                                 }
                             }
-                        }
 
-                        // 20. 队伍切换失败
-                        if (line.startsWith('队伍切换失败')) {
-                            const message = '队伍切换失败';
-                            const type = 'abnormal-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        // 21.没有找到四叶印
-                        if (line.startsWith('没有找到四叶印')) {
-                            const message = '没有找到四叶印';
-                            const type = 'purple-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        // 22.未识别到具体路径，取上次点位
-                        // if (line.startsWith('未识别到具体路径，取上次点位')) {
-                        //     const message = '地圖识别錯誤，取上次点位';
-                        //     const type = 'pause-alert';
-                        //     if (currentTask.specialAlerts.has(message)) {
-                        //         const existing = currentTask.specialAlerts.get(message);
-                        //         existing.count++;
-                        //     } else {
-                        //         currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                        //     }
-                        // }
-
-                        // 23.未识别到具体路径，打开地图计算中心点
-                        // if (line.startsWith('未识别到具体路径，打开地图计算中心点')) {
-                        //     const message = '地圖识别錯誤，打开地图计算中心点';
-                        //     const type = 'pause-alert';
-                        //     if (currentTask.specialAlerts.has(message)) {
-                        //         const existing = currentTask.specialAlerts.get(message);
-                        //         existing.count++;
-                        //     } else {
-                        //         currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                        //     }
-                        // }
-
-                        // 24.鋤地一條龍1.10.0(强制黑芙)
-                        if (line.startsWith('上条路线识别到白芙，开始强制切换黑芙')) {
-                            const message = '强制切换黑芙';
-                            const type = 'purple-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        // 25.鋤地一條龍(检测到冻结，尝试挣脱)
-                        if (line.startsWith('检测到冻结，尝试挣脱')) {
-                            const message = '冻结挣脱';
-                            const type = 'purple-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        // 26.鋤地一條龍(检测到烹饪界面，尝试脱离)
-                        if (line.startsWith('检测到烹饪界面，尝试脱离')) {
-                            const message = '脱离烹饪界面';
-                            const type = 'purple-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        // 27.鋤地一條龍(坐标获取异常，不记录运行数据)
-                        if (
-                            line.includes('坐标获取异常，不记录运行数据') || // 鋤地2.0.2前日志
-                            line.includes('路线未正常完成、坐标获取异常或不处于主界面，不记录运行数据') || // 鋤地2.0.3日志
-                            line.includes('距离异常，不记录数据') || // 采集cd管理
-                            (line.includes('出现异常') && line.includes('不记录cd')) ||
-                            line.includes('坐标获取失败，不更新记录') || // CD-Aware-AutoGather2.0前日志
-                            line.includes('出发点与终点过于接近，不记录运行数据') ||
-                            line.includes('位置几乎未变化，不更新刷新时间')
-                        ) {
-                            const message = '终点坐标异常，不记录';
-                            const type = 'abnormal-alert';
-                            currentTask.faults.too_far_skip++;
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        // 28.調時(设置时间到 HH 点 MM 分)
-                        // if (line.includes("设置时间到") && line.includes("点") && line.includes("分")) {
-                        //     const match = line.match(/设置时间到 (\d+) 点 (\d+) 分/);
-                        //     if (match) {
-                        //         const hour = match[1];
-                        //         const minute = match[2];
-                        //         const message = `调时至${hour}时${minute}分`;
-                        //         const type = 'purple-alert';
-                        //         if (currentTask.specialAlerts.has(message)) {
-                        //             const existing = currentTask.specialAlerts.get(message);
-                        //             existing.count++;
-                        //         } else {
-                        //             currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                        //         }
-                        //     }
-                        // }
-
-                        // 29. 采集cd管理(进行食材加工)
-                        if (line.match(/正在前往.*进行食材加工/)) {
-                            const message = '进行食材加工';
-                            const type = 'purple-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        // 30. 战斗过程检测到游泳，前往七天神像重试
-                        if (line.includes('游泳检测：尝试回到战斗地点')) {
-                            const message = '战斗时游泳，回战斗地点';
-                            const type = 'purple-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        // 31. 战斗过程检测到游泳，前往七天神像重试
-                        if (line.includes('战斗过程检测到游泳，前往七天神像重试')) {
-                            const message = '战斗时游泳，回七天神像';
-                            const type = 'abnormal-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        // 32. 游戏窗口分辨率错误
-                        if (line.includes('游戏窗口分辨率小于 1920x1080 ！无法使用地图追踪功能！') || line.includes('执行脚本时发生异常: "游戏窗口分辨率不是 16:9"')) {
-                            const message = '游戏窗口分辨率错误';
-                            const type = 'abnormal-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        // 33.鋤地一條龍2.8.0(使用复活料理 & 使用回血料理)
-                        if (line.match(/交互或拾取："使用(复活|回血)料理"/)) {
-                            const match = line.match(/交互或拾取："使用(复活|回血)料理"/);
-                            if (match) {
-                                const foodType = match[1]; // 获取捕获组中的 '复活' 或 '回血'
-                                const message = `使用${foodType}料理`;
-                                const type = 'auto-potion';
-
-                                // 优化 Map 的更新逻辑
-                                const existing = currentTask.specialAlerts.get(message);
-                                if (existing) {
+                            // 6. 战斗脚本设置错误
+                            if (
+                                // line.includes('执行脚本时发生异常: "未匹配到任何战斗脚本"')
+                                // || line.includes('执行地图追踪时候发生错误: "未匹配到任何战斗脚本"')
+                                line.includes('未匹配到任何战斗脚本')
+                                || line.includes('执行地图追踪时候发生错误: "战斗策略文件不存在"')) {
+                                const message = '未匹配到任何战斗脚本';
+                                const type = 'combat-script-error';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
                                     existing.count++;
                                 } else {
                                     currentTask.specialAlerts.set(message, { type: type, count: 1 });
                                 }
                             }
-                        }
 
-                        // 34.切换角色卡住，执行脱困
-                        if (line.includes('切换角色卡住，执行脱困')) {
-                            const message = '切换角色卡住，执行脱困';
-                            const type = 'purple-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        // 35.处于限制时间内
-                        if (line.includes('处于限制时间内')) {
-                            const message = '处于限制时间内';
-                            const type = 'purple-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        // LCB版
-                        // 900. 网络恢复中...
-                        if (line.includes('网络恢复中...')) {
-                            const message = '网络恢复中...';
-                            const type = 'purple-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        // 995. 执行超时，放弃此次追踪
-                        if (line.includes("执行超时，放弃此次追踪")) {
-                            const message = '路径点执行超时，放弃整条路径';
-                            const type = 'abnormal-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        // 996. 进入剧情，自动点击剧情直到结束
-                        if (line.includes('进入剧情')) {
-                            const message = '进入剧情';
-                            const type = 'purple-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        // 997. 检测到空月祝福界面，自动点击
-                        if (line.includes('检测到空月祝福界面，自动点击')) {
-                            const message = '领取空月祝福';
-                            const type = 'purple-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        // 998. 用户取消，终止运行
-                        if (line.includes('用户取消，终止运行') || line.includes('取消自动任务') || line.includes('检测到您配置的停止快捷键"')) {
-                            const message = '用户终止运行';
-                            const type = 'abnormal-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        // 999. 此追踪脚本未正常走完！
-                        if (line.includes('此追踪脚本未正常走完！')) {
-                            const message = '脚本未正常走完';
-                            const type = 'abnormal-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        // 1000. 游戏窗口大小发生变化
-                        if (line.includes('游戏窗口大小发生变化')) {
-                            const message = '游戏窗口大小发生变化';
-                            const type = 'abnormal-alert';
-                            if (currentTask.specialAlerts.has(message)) {
-                                const existing = currentTask.specialAlerts.get(message);
-                                existing.count++;
-                            } else {
-                                currentTask.specialAlerts.set(message, { type: type, count: 1 });
-                            }
-                        }
-
-                        const pickPatterns = [
-                            /交互或拾取："(.+?)"/,          // 原有模式
-                            /尝试钓取 "(.+?)"/,             // 釣魚模式
-                            /拉扯结束/                       // 釣魚結束標記
-                        ];
-
-                        let pickMatchResult = null;
-                        let pickItemName = null;
-
-                        // 使用配置的模式進行匹配
-                        for (const pattern of pickPatterns) {
-                            const match = line.match(pattern);
-                            if (match) {
-                                pickMatchResult = match;
-
-                                // 提取拾取物名稱
-                                // 如果有捕獲組（.*），使用捕獲組內容作為拾取物
-                                // 如果沒有捕獲組，使用整個匹配字符串作為拾取物
-                                if (match.length > 1 && match[1]) {
-                                    pickItemName = match[1];
-                                } else {
-                                    pickItemName = match[0];
+                            // 7. 缺少元素采集角色
+                            if (line.includes('此路径存在 "') && line.includes('元素采集 动作，')) {
+                                const match = line.match(/此路径存在 "(.+?)"元素采集 动作，/);
+                                if (match) {
+                                    const message = `队伍缺少 ${match[1]} 元素采集角色`;
+                                    const type = 'element-missing';
+                                    if (currentTask.specialAlerts.has(message)) {
+                                        const existing = currentTask.specialAlerts.get(message);
+                                        existing.count++;
+                                    } else {
+                                        currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                    }
                                 }
-
-                                break; // 匹配到一個模式就停止
                             }
-                        }
-                        if (pickItemName) {
-                            currentTask.picks.set(pickItemName, (currentTask.picks.get(pickItemName) || 0) + 1);
-                            currentGroup.picks.set(pickItemName, (currentGroup.picks.get(pickItemName) || 0) + 1);
 
-                            // 記錄拾取順序
-                            if (!currentTask.pickSequence) {
-                                currentTask.pickSequence = [];
+                            // 7.5 切人失败,无法进行"X"元素采集
+                            if (line.includes('切人失败,无法进行"') && line.includes('元素采集')) {
+                                const match = line.match(/切人失败,无法进行"(.+?)"元素采集/);
+                                if (match) {
+                                    const message = `切人失败,无法进行 ${match[1]} 元素采集`;
+                                    const type = 'purple-alert';
+                                    if (currentTask.specialAlerts.has(message)) {
+                                        const existing = currentTask.specialAlerts.get(message);
+                                        existing.count++;
+                                    } else {
+                                        currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                    }
+                                }
                             }
-                            currentTask.pickSequence.push(pickItemName);
+
+                            // 8. 缺少纳西妲
+                            if (line.includes('此路径存在纳西妲收集动作，队伍中没有纳西妲角色，无法执行此路径！')) {
+                                const message = '队伍缺少纳西妲';
+                                const type = 'nahida-missing';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 9. 切换队伍失败
+                            if (line.includes('切换队伍失败，无法执行此路径！请检查配置组中的地图追踪配置！')) {
+                                const message = '切换队伍失败';
+                                const type = 'abnormal-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 10. 当前获取焦点的窗口不是原神，尝试恢复窗口
+                            if (line.includes("当前获取焦点的窗口不是原神，尝试恢复窗口") || (line.includes("当前获取焦点的窗口为: ") && line.includes("，不是原神，尝试恢复窗口"))) {
+                                const message = '窗口焦点异常，尝试恢复';
+                                const type = 'pause-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            //10.1
+                            if (line.includes("当前获取焦点的窗口不是原神，暂停") || (line.includes("当前获取焦点的窗口为: ") && line.includes("，不是原神，暂停"))) {
+                                const message = '窗口焦点异常，暂停';
+                                const type = 'pause-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            //10.2
+                            if (line.includes("多次尝试未恢复，尝试最小化后激活窗口！")) {
+                                const message = '窗口焦点异常，最小化重试';
+                                const type = 'pause-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 11. 队伍角色识别失败
+                            if (line.includes("队伍角色识别失败")) {
+                                const message = '队伍角色识别失败';
+                                const type = 'abnormal-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 12. 打开大地图失败，请检查按键绑定中「打开地图」按键设置是否和原神游戏中一致！
+                            if (line.includes("打开大地图失败，重试 3 次") || line.includes("打开大地图失败，请检查按键绑定中「打开地图」按键设置是否和原神游戏中一致！")) {
+                                const message = '打开地图失败';
+                                const type = 'abnormal-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 13. 选项列表不存在传送点  重试
+                            if (line.includes("选项列表不存在传送点  重试") ||
+                                line.includes("传送点未激活或不存在  重试") ||
+                                line.match(/选项列表不存在传送点/) ||
+                                line.match(/执行脚本时发生异常: "点击传送点后未出现交互面板，可能是传送点未激活"/) ||
+                                line.match(/执行地图追踪时候发生错误: "点击传送点后未出现交互面板，可能是传送点未激活"/)) {
+                                currentTask.faults.teleport++;
+                                const message = '传送点不存在或未激活';
+                                const type = 'abnormal-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 13.5 执行地图追踪时候发生错误: "传送失败"
+                            if (line.includes("执行地图追踪时候发生错误: \"传送失败\"") ||
+                                line.includes("执行脚本时发生异常: \"传送失败\"") ||
+                                line.includes("执行脚本时发生异常: \"单次传送超过") ||
+                                line.includes("执行地图追踪时候发生错误: \"单次传送超过")) {
+                                const message = '传送失败，跳过路径';
+                                const type = 'abnormal-alert';
+                                currentTask.faults.teleport++;
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 13.6 传送等待超时，换台电脑吧
+                            if (line.includes("传送等待超时，换台电脑吧")) {
+                                const message = '传送等待超时';
+                                const type = 'abnormal-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+
+                            // 14. 选项列表不存在传送点  重试
+                            if (line.includes("识别大地图位置失败")) {
+                                const message = '识别大地图位置失败';
+                                const type = 'abnormal-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 15. 切换区域失败：".*"
+                            if (line.includes('切换区域失败："')) {
+                                const match = line.match(/切换区域失败："(.+?)"/);
+                                if (match) {
+                                    const message = `切换区域失败："${match[1]}"`;
+                                    const type = 'pause-alert';
+                                    if (currentTask.specialAlerts.has(message)) {
+                                        const existing = currentTask.specialAlerts.get(message);
+                                        existing.count++;
+                                    } else {
+                                        currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                    }
+                                }
+                            }
+
+                            // 16. 执行地图追踪时候发生错误: "未能返回主界面"
+                            if (line.includes('执行地图追踪时候发生错误: "未能返回主界面"')) {
+                                const message = '未能返回主界面';
+                                const type = 'abnormal-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 16.5. 检测到其他界面
+                            if (line.includes('检测到其他界面')) {
+                                const message = '检测到其他界面，关闭其他界面';
+                                const type = 'purple-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 17. 调度器任务出现未预期的异常，自动重启bgi
+                            if (line.includes('调度器任务出现未预期的异常，自动重启bgi')) {
+                                const message = '自动重启bgi';
+                                const type = 'abnormal-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 18. 任务启动失败：当前存在正在运行中的独立任务，请不要重复执行任务！
+                            if (line.includes('任务启动失败：当前存在正在运行中的独立任务，请不要重复执行任务！')) {
+                                const message = '任务启动失败';
+                                const type = 'abnormal-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 19. 简易策略脚本要求的角色不存在！队伍中需要存在下面角色中的一个或多个：".*"
+                            if (line.includes('简易策略脚本要求的角色不存在！队伍中需要存在下面角色中的一个或多个："')) {
+                                const match = line.match(/简易策略脚本要求的角色不存在！队伍中需要存在下面角色中的一个或多个："(.+?)"/);
+                                if (match) {
+                                    const message = `缺少脚本指定角色："${match[1]}"`;
+                                    const type = 'purple-alert';
+                                    if (currentTask.specialAlerts.has(message)) {
+                                        const existing = currentTask.specialAlerts.get(message);
+                                        existing.count++;
+                                    } else {
+                                        currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                    }
+                                }
+                            }
+
+                            // 20. 队伍切换失败
+                            if (line.startsWith('队伍切换失败')) {
+                                const message = '队伍切换失败';
+                                const type = 'abnormal-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 21.没有找到四叶印
+                            if (line.startsWith('没有找到四叶印')) {
+                                const message = '没有找到四叶印';
+                                const type = 'purple-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 22.未识别到具体路径，取上次点位
+                            // if (line.startsWith('未识别到具体路径，取上次点位')) {
+                            //     const message = '地圖识别錯誤，取上次点位';
+                            //     const type = 'pause-alert';
+                            //     if (currentTask.specialAlerts.has(message)) {
+                            //         const existing = currentTask.specialAlerts.get(message);
+                            //         existing.count++;
+                            //     } else {
+                            //         currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                            //     }
+                            // }
+
+                            // 23.未识别到具体路径，打开地图计算中心点
+                            // if (line.startsWith('未识别到具体路径，打开地图计算中心点')) {
+                            //     const message = '地圖识别錯誤，打开地图计算中心点';
+                            //     const type = 'pause-alert';
+                            //     if (currentTask.specialAlerts.has(message)) {
+                            //         const existing = currentTask.specialAlerts.get(message);
+                            //         existing.count++;
+                            //     } else {
+                            //         currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                            //     }
+                            // }
+
+                            // 24.鋤地一條龍1.10.0(强制黑芙)
+                            if (line.startsWith('上条路线识别到白芙，开始强制切换黑芙')) {
+                                const message = '强制切换黑芙';
+                                const type = 'purple-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 25.鋤地一條龍(检测到冻结，尝试挣脱)
+                            if (line.startsWith('检测到冻结，尝试挣脱')) {
+                                const message = '冻结挣脱';
+                                const type = 'purple-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 26.鋤地一條龍(检测到烹饪界面，尝试脱离)
+                            if (line.startsWith('检测到烹饪界面，尝试脱离')) {
+                                const message = '脱离烹饪界面';
+                                const type = 'purple-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 27.鋤地一條龍(坐标获取异常，不记录运行数据)
+                            if (
+                                line.includes('坐标获取异常，不记录运行数据') || // 鋤地2.0.2前日志
+                                line.includes('路线未正常完成、坐标获取异常或不处于主界面，不记录运行数据') || // 鋤地2.0.3日志
+                                line.includes('距离异常，不记录数据') || // 采集cd管理
+                                (line.includes('出现异常') && line.includes('不记录cd')) ||
+                                line.includes('坐标获取失败，不更新记录') || // CD-Aware-AutoGather2.0前日志
+                                line.includes('出发点与终点过于接近，不记录运行数据') ||
+                                line.includes('位置几乎未变化，不更新刷新时间') ||
+                                line.includes('路线运行失败：') // 采集cd管理3.1.0/鋤地2.12.0 起 莫醬版BGI路線失敗
+                            ) {
+                                const message = '终点坐标异常，不记录';
+                                const type = 'abnormal-alert';
+                                // currentTask.faults.too_far_skip++;
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 28.調時(设置时间到 HH 点 MM 分)
+                            // if (line.includes("设置时间到") && line.includes("点") && line.includes("分")) {
+                            //     const match = line.match(/设置时间到 (\d+) 点 (\d+) 分/);
+                            //     if (match) {
+                            //         const hour = match[1];
+                            //         const minute = match[2];
+                            //         const message = `调时至${hour}时${minute}分`;
+                            //         const type = 'purple-alert';
+                            //         if (currentTask.specialAlerts.has(message)) {
+                            //             const existing = currentTask.specialAlerts.get(message);
+                            //             existing.count++;
+                            //         } else {
+                            //             currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                            //         }
+                            //     }
+                            // }
+
+                            // 29. 采集cd管理(进行食材加工)
+                            if (line.match(/正在前往.*进行食材加工/)) {
+                                const message = '进行食材加工';
+                                const type = 'purple-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 30. 战斗过程检测到游泳，前往七天神像重试
+                            if (line.includes('游泳检测：尝试回到战斗地点')) {
+                                const message = '战斗时游泳，回战斗地点';
+                                const type = 'purple-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 31. 战斗过程检测到游泳，前往七天神像重试
+                            if (line.includes('战斗过程检测到游泳，前往七天神像重试')) {
+                                const message = '战斗时游泳，回七天神像';
+                                const type = 'abnormal-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 32. 游戏窗口分辨率错误
+                            if (line.includes('游戏窗口分辨率小于 1920x1080 ！无法使用地图追踪功能！') || line.includes('执行脚本时发生异常: "游戏窗口分辨率不是 16:9"')) {
+                                const message = '游戏窗口分辨率错误';
+                                const type = 'abnormal-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 33.鋤地一條龍2.8.0(使用复活料理 & 使用回血料理)
+                            if (line.match(/交互或拾取："使用(复活|回血)料理"/)) {
+                                const match = line.match(/交互或拾取："使用(复活|回血)料理"/);
+                                if (match) {
+                                    const foodType = match[1]; // 获取捕获组中的 '复活' 或 '回血'
+                                    const message = `使用${foodType}料理`;
+                                    const type = 'auto-potion';
+
+                                    // 优化 Map 的更新逻辑
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    if (existing) {
+                                        existing.count++;
+                                    } else {
+                                        currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                    }
+                                }
+                            }
+
+                            // 34.切换角色卡住，执行脱困
+                            if (line.includes('切换角色卡住，执行脱困')) {
+                                const message = '切换角色卡住，执行脱困';
+                                const type = 'purple-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 35.处于限制时间内
+                            if (line.includes('处于限制时间内')) {
+                                const message = '处于限制时间内';
+                                const type = 'purple-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 35.5 接近限制时间，等待X分钟
+                            const waitMatch = line.match(/接近限制时间，等待 (\d+) 分钟/);
+                            if (waitMatch) {
+                                const waitMin = waitMatch[1];
+                                const message = `接近限制时间，等待 ${waitMin} 分钟`;
+                                const type = 'purple-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 36.进入钓鱼模式失败
+                            if (line.includes('进入钓鱼模式失败')) {
+                                const message = '进入钓鱼模式失败';
+                                const type = 'abnormal-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 37. 检测到复苏按钮，点击 or 复苏完成
+                            if (line.includes('检测到复苏按钮，点击') || line.includes('复苏完成')) {
+                                const message = '全队死亡，复苏';
+                                const type = 'purple-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 38.已达到总运行限时(采集CD管理3.1.0)
+                            if (line.includes('已达到总运行限时 ')) {
+                                const message = '已达到总运行限时，结束脚本';
+                                const type = 'purple-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 39.检测路线文件格式错误(鋤地一條龍2.13.0)
+                            const routeErrorMatch = line.match(/(读取或解析路线文件失败|路线文件结构无效|路线文件标签格式无效)，跳过 (.+?)：/);
+                            if (routeErrorMatch) {
+                                const path = routeErrorMatch[2];  // 提取路径
+                                const message = `路线文件格式有誤：${path}`;
+                                const type = 'abnormal-alert';
+                                if (currentTask) {
+                                    if (currentTask.specialAlerts.has(message)) {
+                                        const existing = currentTask.specialAlerts.get(message);
+                                        existing.count++;
+                                    } else {
+                                        currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                    }
+                                }
+                            }
+
+                            // 40.视角转动超时
+                            if (line.includes('视角转动到目标角度超时，停止转动')) {
+                                const message = '视角转动超时';
+                                const type = 'purple-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 41.执行脚本时发生异常: "Index was outside the bounds of the array."
+                            if (line.includes('执行脚本时发生异常: "Index was outside the bounds of the array."') ||
+                                line.includes('执行地图追踪时候发生错误: "Index was outside the bounds of the array."')) {
+                                const message = '资源缺失，请重新安装BGI';
+                                const type = 'abnormal-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 42.执行地图追踪时候发生错误: "不存在的角色编号"
+                            if (line.includes('执行地图追踪时候发生错误: "不存在的角色编号"')) {
+                                const message = '切换角色参数设定错误';
+                                const type = 'abnormal-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 43.加入黑名单(鋤地一條龍)
+                            if (line.includes('加入黑名单：')) {
+                                const match = line.match(/加入黑名单：(.+)/);
+                                if (match) {
+                                    const itemName = match[1].trim();
+                                    const message = `加入黑名单："${itemName}" `;
+                                    const type = 'purple-alert';
+                                    if (currentTask.specialAlerts.has(message)) {
+                                        const existing = currentTask.specialAlerts.get(message);
+                                        existing.count++;
+                                    } else {
+                                        currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                    }
+                                }
+                            }
+
+                            // LCB版
+                            // 900. 网络恢复中...
+                            if (line.includes('网络恢复中...')) {
+                                const message = '网络恢复中...';
+                                const type = 'purple-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 995. 执行超时，放弃此次追踪
+                            if (line.includes("执行超时，放弃此次追踪")) {
+                                const message = '路径点执行超时，放弃整条路径';
+                                const type = 'abnormal-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 996. 进入剧情，自动点击剧情直到结束
+                            if (line.includes('进入剧情')) {
+                                const message = '进入剧情';
+                                const type = 'purple-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 997. 检测到空月祝福界面，自动点击
+                            if (line.includes('检测到空月祝福界面，自动点击')) {
+                                const message = '领取空月祝福';
+                                const type = 'purple-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 998. 用户取消，终止运行
+                            // if (line.includes('用户取消，终止运行') || line.includes('取消自动任务') || line.includes('检测到您配置的停止快捷键"')) {
+                            if (line.includes('用户取消，终止运行') || line.includes('检测到您配置的停止快捷键"')) {
+                                const message = '用户终止运行';
+                                const type = 'abnormal-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 999. 此追踪脚本未正常走完！
+                            if (line.includes('此追踪脚本未正常走完！')) {
+                                const message = '脚本未正常走完';
+                                const type = 'abnormal-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 1000. 游戏窗口大小发生变化
+                            if (line.includes('游戏窗口大小发生变化')) {
+                                const message = '游戏窗口大小发生变化';
+                                const type = 'abnormal-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            const pickPatterns = [
+                                /交互或拾取："(.+?)"/,          // 原有模式
+                                /尝试钓取 "(.+?)"/,             // 釣魚模式
+                                /拉扯结束/                       // 釣魚結束標記
+                            ];
+
+                            let pickMatchResult = null;
+                            let pickItemName = null;
+
+                            // 使用配置的模式進行匹配
+                            for (const pattern of pickPatterns) {
+                                const match = line.match(pattern);
+                                if (match) {
+                                    pickMatchResult = match;
+
+                                    // 提取拾取物名稱
+                                    // 如果有捕獲組（.*），使用捕獲組內容作為拾取物
+                                    // 如果沒有捕獲組，使用整個匹配字符串作為拾取物
+                                    if (match.length > 1 && match[1]) {
+                                        pickItemName = match[1];
+                                    } else {
+                                        pickItemName = match[0];
+                                    }
+
+                                    break; // 匹配到一個模式就停止
+                                }
+                            }
+                            if (pickItemName) {
+                                currentTask.picks.set(pickItemName, (currentTask.picks.get(pickItemName) || 0) + 1);
+                                currentGroup.picks.set(pickItemName, (currentGroup.picks.get(pickItemName) || 0) + 1);
+
+                                // 記錄拾取順序
+                                if (!currentTask.pickSequence) {
+                                    currentTask.pickSequence = [];
+                                }
+                                currentTask.pickSequence.push(pickItemName);
+                            }
                         }
                     }
+                    prevLine = line;
+
                 }
-                prevLine = line;
             });
+
         }
 
         // 清理任务名称：提取纯文件名（不含路径和扩展名）
@@ -4229,6 +4468,12 @@
 
         // HTML生成逻辑
         function generateHTML(groups) {
+            if (blacklistDetected) {
+                // return `<div style="text-align:center;padding:50px;font-size:24px;color:red;">
+                //     ⚠️ 检测到黑名单，已阻止生成表格。⚠️
+                // </div>`;
+                return ``;
+            }
             if (useLegacyFormat) {
                 return generateLegacyFormatHTML(groups);
             } else {
@@ -4312,6 +4557,11 @@
                         // 旋轉索敵
                         if (group.hasRotationTargeting) {
                             displayText += ` (旋转索敌)`;
+                        }
+
+                        // 光柱拾取
+                        if (group.hasBeamPickup) {
+                            displayText += ` (光柱拾取)`;
                         }
 
                         return `<div class="team-role-line">${displayText}</div>`;
@@ -4624,6 +4874,11 @@
                         // 旋轉索敵
                         if (group.hasRotationTargeting) {
                             displayText += ` (旋转索敌)`;
+                        }
+
+                        // 光柱拾取
+                        if (group.hasBeamPickup) {
+                            displayText += ` (光柱拾取)`;
                         }
 
                         return `<div class="team-role-line">${displayText}</div>`;
@@ -6078,8 +6333,10 @@
             if (input == "/2") { input = "拉扯结束" }
             if (input == "/3") { input = "小怪" }
             if (input == "/4") { input = "使用回血料理,使用复活料理" }
+            if (input == "/5") { input = "源生嵌合体 并生嵌合胞 嵌合种" }
 
-            const itemsToCount = input.split(',')
+            // 支持英文逗号、中文逗号、顿号、空格作为分隔符
+            const itemsToCount = input.split(/[，,、\s]+/)
                 .map(item => item.trim())
                 .filter(item => item.length > 0);
 
@@ -6490,29 +6747,6 @@
             }, 50);
         }
 
-        // 辅助函数：检查行是否有非零统计
-        function hasNonZeroStats(row) {
-            const reviveCell = row.querySelector('.column-revive');
-            const retryCell = row.querySelector('.column-retry');
-            const retryDetailCell = row.querySelector('.column-retry-detail');
-            const tooFarSkipCell = row.querySelector('.column-too-far-skip');
-            const timeoutCell = row.querySelector('.column-timeout');
-            const teleportCell = row.querySelector('.column-teleport');
-
-            if (reviveCell && retryCell && retryDetailCell && tooFarSkipCell && timeoutCell && teleportCell) {
-                const isAllZero =
-                    (reviveCell.textContent.trim() === '' || reviveCell.textContent.trim() === '0') &&
-                    (retryCell.textContent.trim() === '' || retryCell.textContent.trim() === '0') &&
-                    (retryDetailCell.textContent.trim() === '' || retryDetailCell.textContent.trim() === '0') &&
-                    (tooFarSkipCell.textContent.trim() === '' || tooFarSkipCell.textContent.trim() === '0') &&
-                    (timeoutCell.textContent.trim() === '' || timeoutCell.textContent.trim() === '0') &&
-                    (teleportCell.textContent.trim() === '' || teleportCell.textContent.trim() === '0');
-
-                return !isAllZero;
-            }
-            return true; // 如果找不到统计单元格，默认显示该行
-        }
-
         // 辅助函数: 检查行是否全零统计
         function isRowAllZeroStats(row) {
             const reviveCell = row.querySelector('.column-revive');
@@ -6523,14 +6757,45 @@
             const teleportCell = row.querySelector('.column-teleport');
 
             if (reviveCell && retryCell && retryDetailCell && tooFarSkipCell && timeoutCell && teleportCell) {
-                return (reviveCell.textContent.trim() === '' || reviveCell.textContent.trim() === '0') &&
+                // 1. 检查统计列是否全零
+                const isAllZero =
+                    (reviveCell.textContent.trim() === '' || reviveCell.textContent.trim() === '0') &&
                     (retryCell.textContent.trim() === '' || retryCell.textContent.trim() === '0') &&
                     (retryDetailCell.textContent.trim() === '' || retryDetailCell.textContent.trim() === '0') &&
                     (tooFarSkipCell.textContent.trim() === '' || tooFarSkipCell.textContent.trim() === '0') &&
                     (timeoutCell.textContent.trim() === '' || timeoutCell.textContent.trim() === '0') &&
                     (teleportCell.textContent.trim() === '' || teleportCell.textContent.trim() === '0');
+
+                // 如果不是全零，直接返回 false（非全零，不隐藏）
+                if (!isAllZero) return false;
+
+                // 2. 全零时，检查是否有特殊事件
+                let picksText = '';
+                const table = row.closest('table');
+                if (table) {
+                    if (!useLegacyFormat) {
+                        // 新版：拾取物列在当前行
+                        const picksCell = row.querySelector('.column-picks');
+                        if (picksCell) picksText = picksCell.textContent.trim();
+                    } else {
+                        // 旧版：拾取物在子行
+                        const taskId = row.getAttribute('data-task-id');
+                        if (taskId) {
+                            const subRow = table.querySelector(`tr[data-task-id="${taskId}"].sub-row`);
+                            if (subRow) {
+                                const picksCell = subRow.querySelector('.column-picks');
+                                if (picksCell) picksText = picksCell.textContent.trim();
+                            }
+                        }
+                    }
+                }
+                // 如果包含任一特殊关键字，返回 false（不隐藏）
+                if (SPECIAL_EVENT_KEYWORDS.some(keyword => picksText.includes(keyword))) {
+                    return false;
+                }
+                return true; // 全零且无特殊事件，应隐藏
             }
-            return false;
+            return false; // 统计单元格不完整，默认不隐藏
         }
 
         // 辅助函数: 检查任务是否在时间范围内
@@ -6811,6 +7076,7 @@
                     const teleportCell = row.querySelector('.column-teleport');
 
                     if (reviveCell && retryCell && retryDetailCell && tooFarSkipCell && timeoutCell && teleportCell) {
+                        // 1. 计算统计列是否全零
                         const isAllZero =
                             (reviveCell.textContent.trim() === '' || reviveCell.textContent.trim() === '0') &&
                             (retryCell.textContent.trim() === '' || retryCell.textContent.trim() === '0') &&
@@ -6819,10 +7085,37 @@
                             (timeoutCell.textContent.trim() === '' || timeoutCell.textContent.trim() === '0') &&
                             (teleportCell.textContent.trim() === '' || teleportCell.textContent.trim() === '0');
 
+                        // 2. 如果全零，检查是否有特殊事件
+                        let hasSpecialEvent = false;
                         if (isAllZero) {
-                            row.style.display = hideZeroStatsTasks ? 'none' : '';
+                            let picksText = '';
+                            if (!useLegacyFormat) {
+                                // 新版：拾取物列在当前行
+                                const picksCell = row.querySelector('.column-picks');
+                                if (picksCell) picksText = picksCell.textContent.trim();
+                            } else {
+                                // 旧版：拾取物在子行（通过 data-task-id 关联）
+                                const taskId = row.getAttribute('data-task-id');
+                                if (taskId) {
+                                    const subRow = table.querySelector(`tr[data-task-id="${taskId}"].sub-row`);
+                                    if (subRow) {
+                                        const picksCell = subRow.querySelector('.column-picks');
+                                        if (picksCell) picksText = picksCell.textContent.trim();
+                                    }
+                                }
+                            }
+                            // 检查是否包含任一特殊关键字（全局变量）
+                            if (SPECIAL_EVENT_KEYWORDS.some(keyword => picksText.includes(keyword))) {
+                                hasSpecialEvent = true;
+                            }
+                        }
 
-                            // 对于旧版格式，处理关联行
+                        // 3. 最终判定：全零且无特殊事件时才可能隐藏
+                        const shouldHide = isAllZero && !hasSpecialEvent;
+                        if (shouldHide) {
+                            // 如果启用隐藏零统计，则隐藏；否则显示
+                            row.style.display = hideZeroStatsTasks ? 'none' : '';
+                            // 旧版格式：关联行（子行）同步处理
                             if (useLegacyFormat) {
                                 const taskId = row.getAttribute('data-task-id');
                                 if (taskId) {
@@ -6833,10 +7126,9 @@
                                 }
                             }
                         } else {
+                            // 非全零 或 有特殊事件 → 始终显示
                             hasVisibleTask = true;
                             row.style.display = '';
-
-                            // 对于旧版格式，确保关联行显示
                             if (useLegacyFormat) {
                                 const taskId = row.getAttribute('data-task-id');
                                 if (taskId) {

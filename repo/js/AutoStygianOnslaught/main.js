@@ -1,6 +1,242 @@
 // 战斗取消令牌和状态
 let fightCts = null;
 let isFighting = false;
+// 脚本强制停止标志（替代异常传递）
+let shouldForceStop = false;
+
+const BURST_CACHE_PATH = "cache/burst_cache.json";
+
+const BURST_CACHE_DEBOUNCE_MS = 9 * 3600 * 1000; // TODO: 功能写完之后改为24小时
+
+// 缓存状态枚举
+const BURST_STATUS = {
+    BURST: "burst",                   // 爆发期中，burstEndAt 有效
+    CALM_WITH_TIME: "calm_with_time", // 紊乱平息（有时间），nextBurstAt 有效
+    CALM_NO_TIME: "calm_no_time"      // 紊乱平息（无时间），版本更新间隙
+};
+
+function readBurstCache() {
+    try {
+        const raw = file.readTextSync(BURST_CACHE_PATH);
+        const data = JSON.parse(raw);
+        if (data && typeof data.status === "string") {
+            return data;
+        }
+        return null;
+    } catch {
+        return null;
+    }
+}
+
+function writeBurstCache(status, burstEndAt, nextBurstAt) {
+    try {
+        if (typeof file.mkdir === "function") {
+            file.mkdir("cache");
+        }
+    } catch {}
+    const data = {
+        status: status,
+        burstEndAt: burstEndAt != null ? burstEndAt : null,
+        nextBurstAt: nextBurstAt != null ? nextBurstAt : null,
+        updatedAt: Date.now()
+    };
+    file.writeTextSync(BURST_CACHE_PATH, JSON.stringify(data, null, 2), false);
+}
+
+function resolveTimeField(value, existingValue) {
+    if (value === undefined) return existingValue ?? null;
+    if (value === null) return null;
+    if (typeof value === "number") return value;
+    if (typeof value === "string") {
+        const ms = parseTimeToMillis(value);
+        return ms !== null ? Date.now() + ms : null;
+    }
+    return null;
+}
+
+function updateBurstCache(options) {
+    if (!settings.burstCacheEnabled) return;
+    const existing = readBurstCache();
+    const resolvedStatus = options.status ?? existing?.status ?? null;
+    const resolvedBurstEndAt = resolveTimeField(options.burstEndAt, null);
+    const resolvedNextBurstAt = resolveTimeField(options.nextBurstAt, null);
+    const finalBurstEndAt = resolvedNextBurstAt !== null ? null : resolvedBurstEndAt;
+    const finalNextBurstAt = resolvedBurstEndAt !== null ? null : resolvedNextBurstAt;
+    writeBurstCache(resolvedStatus, finalBurstEndAt, finalNextBurstAt);
+    const source = options.source || "缓存";
+    if (resolvedNextBurstAt !== null) {
+        const remainMin = Math.round((resolvedNextBurstAt - Date.now()) / 60000);
+        log.info(`[${source}] 已写入：下次爆发期预计于 ${new Date(resolvedNextBurstAt).toLocaleString()}（剩余 ${remainMin} 分钟）`);
+    } else if (resolvedBurstEndAt !== null) {
+        const remainMin = Math.round((resolvedBurstEndAt - Date.now()) / 60000);
+        log.info(`[${source}] 已写入：爆发期预计于 ${new Date(resolvedBurstEndAt).toLocaleString()} 结束（剩余 ${remainMin} 分钟）`);
+    } else {
+        log.info(`[${source}] 已写入：${resolvedStatus}`);
+    }
+}
+
+function clearBurstCache() {
+    try {
+        file.writeTextSync(BURST_CACHE_PATH, JSON.stringify({
+            status: null,
+            burstEndAt: null,
+            nextBurstAt: null,
+            updatedAt: 0
+        }, null, 2), false);
+    } catch {}
+    log.info("[缓存] 已清除");
+}
+
+function isBurstPeriodFromCache() {
+    if (!settings.burstCacheEnabled) return null;
+    const cache = readBurstCache();
+    if (!cache) return null;
+    const now = Date.now();
+    if (cache.nextBurstAt) {
+        if (cache.nextBurstAt - BURST_CACHE_DEBOUNCE_MS > now) {
+            return false;
+        }
+        const remainMs = cache.nextBurstAt - now;
+        const remainH = (remainMs / 3600000).toFixed(1);
+        log.info(`[缓存判断] 缓存剩余时间 ${remainH} 小时，不足免检阈值（需剩余 > ${BURST_CACHE_DEBOUNCE_MS / 3600000} 小时），继续执行OCR检测`);
+    }
+    return null;
+}
+
+function parseTimeToMillis(text) {
+    let totalMs = 0;
+    let matched = false;
+    const dayMatch = text.match(/(\d+)\s*天/);
+    const hourMatch = text.match(/(\d+)\s*小时/);
+    const minMatch = text.match(/(\d+)\s*分钟/);
+    if (dayMatch) { totalMs += parseInt(dayMatch[1]) * 24 * 60 * 60 * 1000; matched = true; }
+    if (hourMatch) { totalMs += parseInt(hourMatch[1]) * 60 * 60 * 1000; matched = true; }
+    if (minMatch) { totalMs += parseInt(minMatch[1]) * 60 * 1000; matched = true; }
+    return matched ? totalMs : null;
+}
+
+const OCR_VERIFY_TOLERANCE_MS = 3 * 60 * 1000;
+const OCR_VERIFY_MAX_RETRIES = 3;
+
+async function ocrTimeWithVerify(ocrFn, label) {
+    const firstMs = ocrFn();
+    if (firstMs === null) return null;
+    for (let i = 0; i < OCR_VERIFY_MAX_RETRIES; i++) {
+        await sleep(50);
+        const nextMs = ocrFn();
+        if (nextMs === null) continue;
+        if (Math.abs(firstMs - nextMs) < OCR_VERIFY_TOLERANCE_MS) {
+            const absTimestamp = Date.now() + nextMs;
+            const remainDays = Math.floor(nextMs / (24 * 3600000));
+            const remainHours = Math.floor((nextMs % (24 * 3600000)) / 3600000);
+            const remainMins = Math.floor((nextMs % 3600000) / 60000);
+            log.info(`[${label}] 识别到时间：剩余 ${remainDays}天${remainHours}小时${remainMins}分钟`);
+            return absTimestamp;
+        }
+        log.info(`[${label}] 时间验证不一致（差值 ${Math.round(Math.abs(firstMs - nextMs) / 60000)} 分钟），重试${i + 1}...`);
+    }
+    log.warn(`[${label}] 多次OCR时间验证不一致，放弃写入`);
+    return null;
+}
+
+function wipOcrCheckText(roi1080, keywords, label, isDebug, returnSegments) {
+    let ra = null;
+    try {
+        const s = genshin.scaleTo1080PRatio;
+        const x = Math.round(roi1080[0] * s);
+        const y = Math.round(roi1080[1] * s);
+        const w = Math.round(roi1080[2] * s);
+        const h = Math.round(roi1080[3] * s);
+
+        ra = captureGameRegion();
+
+        if (isDebug) {
+            try {
+                const drawRegion = ra.DeriveCrop(x, y, w, h);
+                drawRegion.DrawSelf("rect");
+            } catch (drawErr) {
+                log.warn(`[DEBUG][${label}] 红框绘制异常: ${drawErr.message}`);
+            }
+        }
+
+        const resList = ra.findMulti(RecognitionObject.ocr(x, y, w, h));
+        const count = resList.length !== undefined ? resList.length : resList.count;
+
+        if (isDebug) {
+            log.info(`[DEBUG][${label}] ROI(1080P)=(${roi1080.join(',')}) 当前=(${x},${y},${w},${h}) 段数=${count}`);
+            for (let i = 0; i < count; i++) {
+                const r = resList[i];
+                if (r) log.info(`[DEBUG][${label}] #${i+1} text="${r.text}" pos=(${r.x},${r.y},${r.width},${r.height})`);
+            }
+        }
+
+        const buildResult = (text, r) => {
+            const result = {
+                text: text,
+                x: r.x,
+                y: r.y,
+                width: r.width,
+                height: r.height,
+                centerX: Math.round(r.x / s + r.width / s / 2),
+                centerY: Math.round(r.y / s + r.height / s / 2)
+            };
+            if (returnSegments) {
+                result.segments = [];
+                for (let i = 0; i < count; i++) {
+                    const seg = resList[i];
+                    if (seg && seg.text) {
+                        result.segments.push({
+                            text: seg.text,
+                            x: seg.x,
+                            y: seg.y,
+                            width: seg.width,
+                            height: seg.height,
+                            centerX: Math.round(seg.x / s + seg.width / s / 2),
+                            centerY: Math.round(seg.y / s + seg.height / s / 2)
+                        });
+                    }
+                }
+            }
+            return result;
+        };
+
+        if (keywords.length === 0 && count > 0) {
+            let allText = "";
+            let firstR = null;
+            for (let i = 0; i < count; i++) {
+                const r = resList[i];
+                if (!r || !r.text) continue;
+                if (!firstR) firstR = r;
+                allText += (allText ? " " : "") + r.text;
+            }
+            if (firstR) {
+                return buildResult(allText, firstR);
+            }
+            return null;
+        }
+
+        for (let i = 0; i < count; i++) {
+            const r = resList[i];
+            if (!r || !r.text) continue;
+            let matched = false;
+            for (let k = 0; k < keywords.length; k++) {
+                if (r.text.includes(keywords[k])) { matched = true; break; }
+            }
+            if (matched) {
+                return buildResult(r.text, r);
+            }
+        }
+        return null;
+    } catch (e) {
+        if (isDebug) {
+            log.warn(`[DEBUG][${label}] OCR异常: ${e.message}`);
+        }
+        return null;
+    } finally {
+        if (ra) ra.dispose();
+    }
+}
+
 
 (async function () {
 
@@ -93,7 +329,8 @@ let isFighting = false;
             "千岩牢固 / 苍白之火": "assets/Artifacts/artifact_15.bmp",
             "冰风迷途的勇士 / 沉沦之心": "assets/Artifacts/artifact_16.bmp",
             "翠绿之影 / 被怜爱的少女": "assets/Artifacts/artifact_17.bmp",
-            "如雷的盛怒 / 平息鸣雷的尊者": "assets/Artifacts/artifact_18.bmp"        
+            "如雷的盛怒 / 平息鸣雷的尊者": "assets/Artifacts/artifact_18.bmp",
+            "血红之证 / 炉火熔炼之心": "assets/Artifacts/artifact_21.bmp"        
         };
 
         //树脂识别图片
@@ -466,6 +703,22 @@ let isFighting = false;
                 fightTask = dispatcher.RunTask(new SoloTask("AutoFight"), fightCts.Token);
             }
             
+             //监听战斗线程错误，白名单机制：仅对致命错误设置停止标志
+            fightTask.catch(e => {
+                const errorMsg = e?.message || String(e);
+                // 白名单：只有这三种错误才触发强制停止
+                if (errorMsg.includes("战斗策略文件不存在") || 
+                    errorMsg.includes("战斗脚本文件不存在") || 
+                    errorMsg.includes("未匹配到任何战斗脚本")) {
+                    shouldForceStop = true;
+                    shouldStop = true;
+                    log.error(`战斗任务执行失败（致命错误）: ${errorMsg}`);
+                } else {
+                    // 其他错误只记录日志，不触发停止
+                    log.warn(`战斗任务执行异常（非致命）: ${errorMsg}`);
+                }
+            });
+            
             // OCR检测战斗结束
             let fightResult = await recognizeTextInRegion(timeout);
             logFightResult = fightResult ? "成功" : "失败";
@@ -500,6 +753,12 @@ let isFighting = false;
 
                     // 循环检测直到超时
                     while (Date.now() - startTime < timeout) {
+                        // 检查是否被强制停止
+                        if (shouldForceStop) {
+                            resolve(false);
+                            return;
+                        }
+
                         try {
                             let captureRegion = captureGameRegion();
                             let result = captureRegion.find(ocrRo1);
@@ -776,6 +1035,363 @@ let isFighting = false;
         }
     }  
    
+    // OCR 检测函数（活动入口寻路用）
+    /*
+     *
+     * 【红框可视化调试】
+     * 在开发模式下会对大部分的OCR区域绘制红框，做到可视化调试
+     * 某些没有覆盖到的区域用的可能是老的OCR函数（Textocr），
+     * 那是历史代码，改动麻烦且参数复杂，暂时不想处理
+     *
+     * 【红框回收问题】
+     * 目前还没找到正确的资源回收方法，所以在退出路径中是直接绘制一个1×1的红框直接顶掉上一个绘制
+     * 开发模式的玩意能用就行，别太较真
+     *
+     * 【为什么不统一OCR逻辑】
+     * 1. Textocr() 是老代码，参数复杂（超时、点击、调试模式等）
+     * 2. 改动风险大，影响范围广（战斗/领奖/退出流程全用这个,主要还是炸了改起来麻烦）
+     * 3. wipOcrCheckText() 是新版寻路专用封装，接口更简洁
+     *
+     * 【覆盖范围】
+     * ✅ 有红框：navigateViaActivity() 内的所有OCR（活动/幽境危战/传送等）
+     * ❌ 无红框：Textocr() 调用点（单人挑战后的战斗/领奖流程）
+     *
+     * 【返回值说明】
+     * 返回增强后的OCR对象，包含原始属性 + 中心点坐标（基于1080P）：
+     * - 原始属性：text, x, y, width, height
+     * - 新增属性：centerX, centerY（已计算好的中心点，可直接用于点击）
+     *
+     * @param {Array} roi1080 - 识别区域 [x, y, width, height] (基于1080P坐标)
+     * @param {Array} keywords - 匹配关键词列表
+     * @param {string} label - 调试标签（用于日志标识）
+     * @param {boolean} isDebug - 是否启用调试模式（绘制红框+详细日志）
+     */
+
+    // 新版寻路：通过活动入口进入幽境危战（失败时返回false，回退到pathingScript）
+    async function navigateViaActivity(isDebug) {
+        log.info("[新版寻路] 开始通过活动入口进入幽境危战");
+        const s = genshin.scaleTo1080PRatio;
+        
+        try {
+            // 返回主界面
+            try { await genshin.returnMainUi(); } catch(e) { log.warn(`[新版寻路] 返回主界面失败: ${e.message}`); }
+            await sleep(100);
+
+            // ESC打开菜单 → OCR识别"活动" → 点击
+            keyPress("VK_ESCAPE");
+            await sleep(1400);
+
+            let activityHit = null;
+            const smallRoi = [633, 718, 62, 42], largeRoi = [98, 346, 651, 708];
+
+            activityHit = wipOcrCheckText(smallRoi, ["活动"], "新版寻路-活动", isDebug);
+            if (!activityHit) { log.info('[新版寻路] 活动识别失败，重试1...'); await sleep(2500); activityHit = wipOcrCheckText(smallRoi, ["活动"], "新版寻路-活动-r1", isDebug); }
+            if (!activityHit) { log.info('[新版寻路] 活动识别失败，重试2...'); await sleep(2500); activityHit = wipOcrCheckText(smallRoi, ["活动"], "新版寻路-活动-r2", isDebug); }
+            if (!activityHit) { log.info('[新版寻路] 小范围失败，尝试大范围...'); activityHit = wipOcrCheckText(largeRoi, ["活动"], "新版寻路-活动-large", isDebug); }
+            if (!activityHit) { log.info('[新版寻路] 大范围失败，重新打开ESC...'); try { await genshin.returnMainUi(); await sleep(1000); } catch(e) {} keyPress("VK_ESCAPE"); await sleep(2000); activityHit = wipOcrCheckText(largeRoi, ["活动"], "新版寻路-活动-esc", isDebug); }
+
+            if (activityHit) {
+                // 点击"活动"按钮（Y轴偏移-50避免点到其他元素）
+                GameCaptureRegion.gameRegion1080PPosClick(activityHit.centerX, activityHit.centerY - 50);
+                await sleep(2000);
+            } else {
+                log.warn('[新版寻路] 活动识别失败，尝试F5快捷键');
+                try { await genshin.returnMainUi(); await sleep(1000); } catch(e) {}
+                keyPress("VK_F5");
+                await sleep(2000);
+            }
+
+            // 识别"幽境危战"并点击
+            const stygianRoi = [192, 237, 308, 164], stygianLargeRoi = [189, 77, 295, 956];
+
+            let stygianHit = wipOcrCheckText(stygianRoi, ["幽境危战"], "新版寻路-幽境危战", isDebug);
+
+            if (!stygianHit) {
+                log.info('[新版寻路] 首次识别失败，等待界面加载');
+                await sleep(1300);
+                const activityCheck = wipOcrCheckText(smallRoi, ["活动"], "新版寻路-验证活动", isDebug);
+                if (activityCheck) {
+                    GameCaptureRegion.gameRegion1080PPosClick(activityCheck.centerX, activityCheck.centerY - 50);
+                    await sleep(2500);
+                    stygianHit = wipOcrCheckText(stygianRoi, ["幽境危战"], "新版寻路-幽境危战-retry", isDebug);
+                }
+                if (!stygianHit) {
+                    log.info('[新版寻路] 尝试大范围识别');
+                    stygianHit = wipOcrCheckText(stygianLargeRoi, ["幽境危战"], "新版寻路-幽境危战-large-pre", isDebug);
+                }
+                if (!stygianHit) {
+                    log.info('[新版寻路] 滚动页面重试');
+                    await keyDown("VK_W"); await sleep(2000); await keyUp("VK_W");
+                    await sleep(300);
+                    stygianHit = wipOcrCheckText(stygianLargeRoi, ["幽境危战"], "新版寻路-幽境危战-r1", isDebug);
+                }
+            }
+
+            if (!stygianHit) {
+                log.info('[新版寻路] 未识别，再次滚动');
+                await keyDown("VK_W"); await sleep(1000); await keyUp("VK_W");
+                await sleep(300);
+                stygianHit = wipOcrCheckText(stygianLargeRoi, ["幽境危战"], "新版寻路-幽境危战-r2", isDebug);
+            }
+
+            if (!stygianHit) {
+                log.warn('[新版寻路] 活动界面未找到幽境危战，回退到路径追踪');
+                return false;
+            }
+
+            // 点击"幽境危战"
+            GameCaptureRegion.gameRegion1080PPosClick(stygianHit.centerX, stygianHit.centerY);
+
+            // 识别"前往挑战"（循环检测，每150ms一次）
+            const challengeRoi = [1524, 786, 131, 50];
+            let challengeHit = null;
+            let _challengeStart = new Date();
+            while (new Date() - _challengeStart < 3000) {
+                challengeHit = wipOcrCheckText(challengeRoi, ["前往挑战"], "新版寻路-前往挑战", isDebug);
+                if (challengeHit) break;
+                await sleep(250);
+            }
+
+            if (!challengeHit) {
+                log.info('[新版寻路] 首次识别失败，验证上一步元素...');
+                const stygianCheck = wipOcrCheckText(stygianRoi, ["幽境危战"], "新版寻路-验证幽境危战", isDebug);
+                if (stygianCheck) {
+                    log.info('[新版寻路] 幽境危战仍在，重新点击');
+                    GameCaptureRegion.gameRegion1080PPosClick(stygianCheck.centerX, stygianCheck.centerY);
+                    _challengeStart = new Date();
+                    while (new Date() - _challengeStart < 2000) {
+                        challengeHit = wipOcrCheckText(challengeRoi, ["前往挑战"], "新版寻路-前往挑战-retry", isDebug);
+                        if (challengeHit) break;
+                        await sleep(150);
+                    }
+                }
+
+                if (!challengeHit) {
+                    log.info('[新版寻路] 回退后仍未找到，最后尝试2秒...');
+                    _challengeStart = new Date();
+                    while (new Date() - _challengeStart < 2000) {
+                        challengeHit = wipOcrCheckText(challengeRoi, ["前往挑战"], "新版寻路-前往挑战-final", isDebug);
+                        if (challengeHit) break;
+                        await sleep(150);
+                    }
+                }
+            }
+
+            if (!challengeHit) {
+                log.warn('[新版寻路] 未识别到前往挑战，回退到路径追踪');
+                return false;
+            }
+
+            // 检查爆发期状态（三态识别：爆发期 / 非爆发期 / 未知）
+            // 爆发期：含"紊乱爆发期"且不含"已结束"，或含时间文本（兜底OCR漏字）
+            // 非爆发期：含"已结束"
+            // 未知：既无"紊乱爆发期"也无时间文本，重试3次后放弃
+            const burstRoi = [648, 738, 223, 69];
+
+            let burstOcrHit = null;
+            for (let burstRetry = 0; burstRetry < 3; burstRetry++) {
+                burstOcrHit = wipOcrCheckText(burstRoi, [], `新版寻路-爆发期${burstRetry > 0 ? '-r' + burstRetry : ''}`, isDebug, true);
+                if (burstOcrHit) break;
+                if (burstRetry < 2) {
+                    log.info(`[新版寻路] 爆发期识别失败，重试${burstRetry + 1}...`);
+                    await sleep(1000);
+                }
+            }
+
+            let isBurstPeriod = null;
+            let timeText = null;
+            if (burstOcrHit) {
+                const segments = burstOcrHit.segments || [];
+                const allText = segments.map(s => s.text).join(" ");
+                const hasEnded = allText.includes("已结束");
+                const hasBurstLabel = allText.includes("紊乱爆发期");
+                const hasTimeText = /\d+\s*(天|小时|分钟)/.test(allText);
+
+                if (hasEnded) {
+                    isBurstPeriod = false;
+                } else if (hasBurstLabel || hasTimeText) {
+                    isBurstPeriod = true;
+                    timeText = segments.find(s => /\d+\s*(天|小时|分钟)/.test(s.text));
+                    if (timeText) {
+                        const verifiedMs = await ocrTimeWithVerify(
+                            () => {
+                                const hit = wipOcrCheckText(burstRoi, [], "新版寻路-爆发期验证", isDebug, true);
+                                if (!hit) return null;
+                                const seg = (hit.segments || []).find(s => /\d+\s*(天|小时|分钟)/.test(s.text));
+                                return seg ? parseTimeToMillis(seg.text) : null;
+                            },
+                            "新版寻路-爆发期"
+                        );
+                        if (verifiedMs !== null) {
+                            updateBurstCache({
+                                status: BURST_STATUS.BURST,
+                                burstEndAt: verifiedMs,
+                                source: "新版寻路-爆发期"
+                            });
+                        }
+                    }
+                }
+            }
+
+            if (isBurstPeriod === null) {
+                log.warn('[新版寻路] 爆发期状态未知（未识别到有效文本），继续执行');
+            }
+
+            let burstTimeText = null;
+            if (isBurstPeriod === true && timeText) {
+                burstTimeText = timeText.text;
+            }
+
+            const timeRemainingRoi = [1146, 353, 270, 34];
+            const timeRemainingHit = wipOcrCheckText(timeRemainingRoi, ["剩余时间"], "新版寻路-剩余时间", isDebug);
+            const burstStatusText = isBurstPeriod === true ? '在爆发期内' : isBurstPeriod === false ? '不在爆发期' : '状态未知';
+            let notifyMsg = `[新版寻路] 当前${burstStatusText}`;
+            if (burstTimeText) {
+                notifyMsg += `，爆发期剩余:${burstTimeText}`;
+            }
+            const activityTimeText = timeRemainingHit ? timeRemainingHit.text.replace(/^剩余时间[：:]/, '') : "未知";
+            notifyMsg += `，活动总剩余时间:${activityTimeText}`;
+            notification.Send(notifyMsg);
+            if (isBurstPeriod === false) {
+                const verifiedMs = await ocrTimeWithVerify(
+                    () => {
+                        const hit = wipOcrCheckText(timeRemainingRoi, [], "新版寻路-剩余时间验证", isDebug, true);
+                        if (!hit) return null;
+                        const seg = (hit.segments || []).find(s => /\d+\s*(天|小时|分钟)/.test(s.text));
+                        return seg ? parseTimeToMillis(seg.text) : null;
+                    },
+                    "新版寻路-非爆发期"
+                );
+                updateBurstCache({
+                    status: verifiedMs !== null ? BURST_STATUS.CALM_WITH_TIME : BURST_STATUS.CALM_NO_TIME,
+                    nextBurstAt: verifiedMs !== null ? verifiedMs : null,
+                    source: "新版寻路"
+                });
+            } else if (isBurstPeriod === false) {
+                updateBurstCache({
+                    status: BURST_STATUS.CALM_NO_TIME,
+                    source: "新版寻路"
+                });
+            }
+
+            if (isBurstPeriod === false) {
+                if (settings.devMode) {
+                    log.warn('[新版寻路][开发模式] 检测到"紊乱爆发期已结束"，但继续执行');
+                } else {
+                    log.warn('[新版寻路] 检测到"紊乱爆发期已结束"，当前不在爆发期');
+                    try { await genshin.returnMainUi(); } catch(e) {}
+                    return "non_burst";
+                }
+            }
+
+            // 点击"前往挑战"
+            GameCaptureRegion.gameRegion1080PPosClick(challengeHit.centerX, challengeHit.centerY);
+            await sleep(2000);
+
+            // 识别"传送"并按F
+            const teleportRoi = [1645, 974, 93, 67];
+            let teleportHit = wipOcrCheckText(teleportRoi, ["传送"], "新版寻路-传送", isDebug);
+            let interactHit = null;  // 初始化交互按钮识别结果（用于距离过近跳过传送的情况）
+            if (!teleportHit) {
+                log.info('[新版寻路] 首次识别失败，验证上一步元素...');
+                const challengeCheck = wipOcrCheckText(challengeRoi, ["前往挑战"], "新版寻路-验证前往挑战", isDebug);
+                if (challengeCheck) {
+                    GameCaptureRegion.gameRegion1080PPosClick(challengeCheck.centerX, challengeCheck.centerY);
+                    await sleep(2000);
+                    teleportHit = wipOcrCheckText(teleportRoi, ["传送"], "新版寻路-传送-retry", isDebug);
+                }
+                if (!teleportHit) {
+                    log.info('[新版寻路] 上一步已失效，重试1...');
+                    await sleep(1500);
+                    teleportHit = wipOcrCheckText(teleportRoi, ["传送"], "新版寻路-传送-r1", isDebug);
+                    if (!teleportHit) {
+                        const escMenuRoi = [98, 346, 651, 708];
+                        const escMenuCheck = wipOcrCheckText(escMenuRoi, ["提升指南"], "新版寻路-检测ESC菜单", isDebug);
+                        if (escMenuCheck) {
+                            log.info('[新版寻路] 检测到仍在ESC菜单中，关闭菜单后查找交互按钮...');
+                            await keyPress("VK_ESCAPE");
+                            await sleep(1200);
+                            const stygianInteractRoi_skip = [1213, 510, 171, 56];
+                            interactHit = wipOcrCheckText(stygianInteractRoi_skip, ["幽境危战"], "新版寻路-交互-skip", isDebug);
+                            if (interactHit) {
+                                log.info('[新版寻路] 关闭ESC菜单后直接识别到交互按钮，跳转至按F步骤');
+                            }
+                        } else {
+                            log.info('[新版寻路] 不在ESC菜单中，尝试直接识别交互按钮...');
+                            const stygianInteractRoi_direct = [1213, 510, 171, 56];
+                            interactHit = wipOcrCheckText(stygianInteractRoi_direct, ["幽境危战"], "新版寻路-交互-direct", isDebug);
+                            if (interactHit) {
+                                log.info('[新版寻路] 直接识别到交互按钮（距离过近跳过传送），跳转至按F步骤');
+                            }
+                        }
+                    }
+                }
+            }
+            if (!teleportHit) {
+                log.info('[新版寻路] 传送识别失败，重试2...');
+                await sleep(1500);
+                teleportHit = wipOcrCheckText(teleportRoi, ["传送"], "新版寻路-传送-r2", isDebug);
+            }
+
+            if (!teleportHit && !interactHit) {
+                log.warn('[新版寻路] 未识别到传送按钮，回退到路径追踪');
+                return false;
+            }
+
+            if (!interactHit) {
+                log.info('[新版寻路] 识别到传送，点击传送按钮');
+                GameCaptureRegion.gameRegion1080PPosClick(teleportHit.centerX, teleportHit.centerY);
+                await sleep(5000);
+            }
+
+            // 识别"幽境危战"交互按钮并按F
+            const stygianInteractRoi_final = [1213, 510, 171, 56];
+            if (!interactHit) {
+                interactHit = wipOcrCheckText(stygianInteractRoi_final, ["幽境危战"], "新版寻路-交互", isDebug);
+                if (!interactHit) {
+                    log.info('[新版寻路] 首次识别失败，验证上一步元素...');
+                    const teleportCheck = wipOcrCheckText(teleportRoi, ["传送"], "新版寻路-验证传送", isDebug);
+                    if (teleportCheck) {
+                        log.info('[新版寻路] 传送按钮仍存在，重新点击');
+                        GameCaptureRegion.gameRegion1080PPosClick(teleportCheck.centerX, teleportCheck.centerY);
+                        await sleep(5000);
+                        interactHit = wipOcrCheckText(stygianInteractRoi_final, ["幽境危战"], "新版寻路-交互-retry", isDebug);
+                    }
+                    if (!interactHit) {
+                        log.info('[新版寻路] 上一步已失效，按F备用传送');
+                        await keyPress("F");
+                        await sleep(5000);
+                        interactHit = wipOcrCheckText(stygianInteractRoi_final, ["幽境危战"], "新版寻路-交互-retry-f", isDebug);
+                    }
+                }
+            }
+            let interactRetries = 0;
+            while (!interactHit && interactRetries < 4) {
+                interactRetries++;
+                log.info(`[新版寻路] 交互按钮识别失败，重试${interactRetries}...`);
+                await sleep(3000);
+                interactHit = wipOcrCheckText(stygianInteractRoi_final, ["幽境危战"], `新版寻路-交互-r${interactRetries}`, isDebug);
+            }
+
+            if (!interactHit) {
+                log.warn('[新版寻路] 多次重试后仍未识别到幽境危战交互按钮，回退到路径追踪');
+                return false;
+            }
+
+            log.info('[新版寻路] 识别到幽境危战交互按钮，按F进入');
+            await keyPress("F");
+            await sleep(2000);
+
+            log.info('[新版寻路] 寻路成功');
+            return true;
+
+        } catch (ex) {
+            log.warn(`[新版寻路] 检测异常: ${ex?.message || ex}`);
+            try { await genshin.returnMainUi(); } catch(e2) {}
+            return false;
+        }
+    }
+
     //秘境内退出函数
     async function getOut() {
 
@@ -851,7 +1467,48 @@ let isFighting = false;
     
     }
 
-    log.warn("自动幽境危战版本：v2.3");
+    log.warn("自动幽境危战版本：v2.4");
+    if (settings.burstCacheEnabled) {
+        if (!settings.useNewPath) {
+            log.warn("[缓存判断] 未启用新版寻路，无法识别非爆发期剩余时间，缓存功能将受限");
+        }
+        const cache = readBurstCache();
+        if (cache && cache.burstEndAt !== null && cache.nextBurstAt !== null) {
+            log.warn("[缓存判断] 数据异常：burstEndAt 和 nextBurstAt 不应同时有值，清除缓存");
+            clearBurstCache();
+        } else if (cache) {
+            const now = Date.now();
+            let invalid = false;
+            if (cache.nextBurstAt !== null) {
+                const remainDays = (cache.nextBurstAt - now) / (24 * 3600000);
+                if (remainDays > 42) {
+                    log.warn(`[缓存判断] 非爆发期剩余 ${remainDays.toFixed(1)} 天，超出上限（42天），视为无效数据`);
+                    invalid = true;
+                }
+            }
+            if (cache.burstEndAt !== null) {
+                const remainDays = (cache.burstEndAt - now) / (24 * 3600000);
+                if (remainDays > 15) {
+                    log.warn(`[缓存判断] 紊乱平息剩余 ${remainDays.toFixed(1)} 天，超出上限（15天），视为无效数据`);
+                    invalid = true;
+                }
+            }
+            if (invalid) {
+                clearBurstCache();
+            }
+        }
+        const cacheCheck = isBurstPeriodFromCache();
+        if (cacheCheck === false) {
+            const cache = readBurstCache();
+            const endTimeStr = cache && cache.nextBurstAt ? new Date(cache.nextBurstAt).toLocaleString() : "未知";
+            if (settings.devMode) {
+                log.warn(`[缓存判断] 免检时间内，预计于 ${endTimeStr} 结束，开发模式继续执行`);
+            } else {
+                log.warn(`[缓存判断] 免检时间内，预计于 ${endTimeStr} 结束，停止执行`);
+                return;
+            }
+        }
+    }
     log.warn("请保证队伍战斗实力，战斗失败或执行错误，会重试两次...");
     log.warn("使用前请在 <<幽境危战>> 中配置好战斗队伍...");
     log.info("使用树脂顺序：{0} ", golbalRewardText.join(" ->"))     
@@ -863,46 +1520,61 @@ let isFighting = false;
     for (let j = 0;j < 2;j++) {  
 
         resinAgain = false; //重试标志
+        shouldForceStop = false; // 重置强制停止标志
 
         try{    
                 //1.导航进入页面
-                await genshin.returnMainUi(); 
-                await pathingScript.runFile(`assets/全自动幽境危战.json`);
-                await VeinEntrance();             
+                await genshin.returnMainUi();
+                
+                // 根据开关选择导航方式
+                let activityResult = false;
+                if (settings.useNewPath) {
+                    activityResult = await navigateViaActivity(settings.devMode);
+                    
+                    if (activityResult === "non_burst") {
+                        log.warn("[新版寻路] 检测到不在爆发期，停止执行");
+                        shouldStop = true;
+                        throw new Error("当前处于非爆发期，停止执行...");
+                    }
+                    
+                    if (!activityResult) {
+                        log.warn("[新版寻路] 失败，回退到路径追踪");
+                        await genshin.returnMainUi(); // 先恢复主界面
+                        await pathingScript.runFile(`assets/全自动幽境危战.json`);
+                        await VeinEntrance();
+                    }
+                } else {
+                    await pathingScript.runFile(`assets/全自动幽境危战.json`);
+                    await VeinEntrance();
+                }             
 
                 //2.难度确认和选择（同时检测非爆发期界面）
                 let intoAction = null;
                 let isNonBurst = false;
+                const challengeRoi = [1554, 970, 360, 105];
+                const calmRoi = [861, 426, 197, 70];
+                const interactRoi_fallback = [1213, 510, 171, 56];
                 let _pollStart = new Date();
                 while (true) {
-                    let _cap = captureGameRegion();
-                    try {
-                        let _resList = _cap.findMulti(RecognitionObject.ocr(1554, 970, 360, 105));
-                        for (let _ri = 0; _ri < _resList.count; _ri++) {
-                            if (_resList[_ri].text === "单人挑战") {
-                                intoAction = { text: _resList[_ri].text, x: _resList[_ri].x, y: _resList[_ri].y, found: true };
-                                break;
-                            }
-                        }
-                    } finally {
-                        _cap.dispose();
+                    const soloHit = wipOcrCheckText(challengeRoi, ["单人挑战"], "挑战页-单人挑战", settings.devMode);
+                    if (soloHit) {
+                        intoAction = { text: soloHit.text, x: soloHit.centerX, y: soloHit.centerY, found: true };
+                        break;
                     }
-                    if (intoAction) break;
-                    await sleep(100);
 
-                    _cap = captureGameRegion();
-                    try {
-                        let _resList = _cap.findMulti(RecognitionObject.ocr(861, 426, 197, 70));
-                        for (let _ri = 0; _ri < _resList.count; _ri++) {
-                            if (_resList[_ri].text === "紊乱平息") {
-                                isNonBurst = true;
-                                break;
-                            }
-                        }
-                    } finally {
-                        _cap.dispose();
+                    const calmHit = wipOcrCheckText(calmRoi, ["紊乱平息"], "挑战页-紊乱平息", settings.devMode);
+                    if (calmHit) {
+                        isNonBurst = true;
+                        break;
                     }
-                    if (isNonBurst) break;
+
+                    const fallbackHit = wipOcrCheckText(interactRoi_fallback, ["「幽境危战」"], "挑战页-交互回退", settings.devMode);
+                    if (fallbackHit) {
+                        log.info('[挑战页] 检测到未打开交互面板，重新按F');
+                        await keyPress("F");
+                        await sleep(1000);
+                        continue;
+                    }
 
                     if (new Date() - _pollStart > 20000) {
                         await genshin.returnMainUi();
@@ -912,6 +1584,18 @@ let isFighting = false;
                 }
 
                 if (isNonBurst) {
+                    const verifiedMs = await ocrTimeWithVerify(
+                        () => {
+                            const hit = wipOcrCheckText([627, 582, 661, 47], [], "紊乱平息-时间验证", settings.devMode);
+                            return hit ? parseTimeToMillis(hit.text) : null;
+                        },
+                        "紊乱平息"
+                    );
+                    updateBurstCache({
+                        status: verifiedMs !== null ? BURST_STATUS.CALM_WITH_TIME : BURST_STATUS.CALM_NO_TIME,
+                        nextBurstAt: verifiedMs !== null ? verifiedMs : null,
+                        source: "紊乱平息"
+                    });
                     await genshin.returnMainUi();
                     shouldStop = true;
                     throw new Error("当前处于非爆发期（紊乱平息），停止执行...")
@@ -920,9 +1604,16 @@ let isFighting = false;
                 //2.5 判断爆发期
                 let rewardsBu  = await imageRecognition(rewardsButton,0.1, 0, 0,63,949,87,80);
                 if (!rewardsBu.found){
-                    await genshin.returnMainUi();
-                    shouldStop = true;
-                    throw new Error("未在爆发期内，停止执行...")
+                    if (settings.devMode) {
+                        log.warn("[开发模式] 未检测到爆发期标志，但继续执行");
+                    } else {
+                        await genshin.returnMainUi();
+                        shouldStop = true;
+                        throw new Error("未在爆发期内，停止执行...")
+                    }
+                } else {
+                    // 挑战页面确认在爆发期内，但此界面无法获取爆发期剩余时间
+                    // 只有紊乱平息页面才可能有时间文本，此处不再追加OCR识别
                 }
 
                 let adjustmentType  = await Textocr("至危挑战", 1, 0, 0,797,144,223,84);
@@ -1023,9 +1714,13 @@ let isFighting = false;
                                     break;
                                 }
                                 else
-                                {                                    
+                                {
+                                    // 战斗线程异常，强制停止
+                                    if (shouldForceStop) {
+                                        throw new Error("战斗线程异常，强制停止脚本...");
+                                    }
                                     let Again = await Textocr("再次挑战",20,1,0,1059,920,177,65);
-                                    if (!Again.found)break;                                       
+                                    if (!Again.found)break;                                     
                                     await sleep(1000); 
                                     log.warn("战斗失败，第 {0} 次重试...", fightCount+1)  
                                     throw new Error(`战斗失败，第 ${fightCount+1} 次重试...`)
@@ -1036,7 +1731,11 @@ let isFighting = false;
                                 resinAgain= false;
                                 break;
                             }
-                        } catch (error) {                            
+                        } catch (error) {
+                            // 如果是强制停止，直接向上抛出
+                            if (shouldForceStop) {
+                                throw error;
+                            }
                             if (fightCount < 2)continue;
                             else break;
                         }   
@@ -1136,8 +1835,74 @@ let isFighting = false;
             await genshin.returnMainUi(); 
             continue;
         }finally{
-            //10.结束脚本 
-            await genshin.returnMainUi();
+            // 开发模式：脚本退出时统一清除所有红框（覆盖所有退出路径）
+            if (settings.devMode) {
+                for (let i = 0; i < 3; i++) {
+                    try {
+                        const clearRa = captureGameRegion();
+                        // 使用左上角1x1区域覆盖来清除红框（极小，几乎不可见）
+                        const clearRegion = clearRa.DeriveCrop(0, 0, 1, 1);
+                        clearRegion.DrawSelf("rect");
+                        clearRa.dispose();
+                        break;
+                    } catch (clearErr) {
+                        log.warn(`[DEBUG] 清除红框尝试${i+1}失败: ${clearErr.message}`);
+                        await sleep(200);
+                    }
+                }
+            }
+
+            //10.结束脚本
+            // 白名单逻辑：只有严重错误（shouldForceStop=true）时才执行退出流程
+            // 触发条件：战斗策略文件不存在、战斗脚本文件不存在、未匹配到任何战斗脚本等致命错误
+            if (shouldForceStop) {
+                let interruptFound = false;
+                for (let i = 0; i < 3; i++) {
+                    if (i > 0) {
+                        await keyPress("VK_ESCAPE");
+                        await sleep(800);
+                    } else {
+                        await keyPress("VK_ESCAPE");
+                        await sleep(800);
+                    }
+                    const interruptResult = wipOcrCheckText([0, 0, 1920, 1080], ["中断挑战"], "退出-中断挑战", settings.devMode);
+                    if (interruptResult) {
+                        // 点击"中断挑战"
+                        GameCaptureRegion.gameRegion1080PPosClick(interruptResult.centerX, interruptResult.centerY);
+                        interruptFound = true;
+                        break;
+                    }
+                }
+
+                if (!interruptFound) {
+                    log.warn("未找到'中断挑战'按钮，直接返回主界面");
+                    await genshin.returnMainUi();
+                } else {
+                    await sleep(1000);
+
+                    let returnFound = false;
+                    for (let j = 0; j < 2; j++) {
+                        const returnResult = wipOcrCheckText([0, 0, 1920, 1080], ["返回"], "退出-返回", settings.devMode);
+                        if (returnResult) {
+                            // 点击"返回"
+                            GameCaptureRegion.gameRegion1080PPosClick(returnResult.centerX, returnResult.centerY);
+                            returnFound = true;
+                            break;
+                        }
+                        if (j === 0) {
+                            await sleep(1500);  // 等待界面加载（原500ms太快）
+                        }
+                    }
+
+                    if (!returnFound) {
+                        log.warn("未找到'返回'按钮，等待9秒后返回主界面");
+                        await sleep(9000);
+                    }
+
+                    await sleep(1500);
+                    await genshin.returnMainUi();
+                }
+            }
             if (resinAgain == false) log.info(`Auto自动幽境危战结束...`);
         }
     }

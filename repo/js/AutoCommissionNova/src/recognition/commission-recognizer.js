@@ -4,10 +4,48 @@
  */
 import { COMMISSION_TYPE, COMMISSION_STATUS, OCR_REGIONS, UI_REGIONS } from "../config/index.js";
 import { bvPageOcrRegion, bvPageOcrRegionText, pageScroll, detectCommissionStatusByImage } from "../vision/index.js";
+import { drawBox } from "../vision/draw-utils.js";
 import { standardizeCommissionName, standardizeCommissionLocation } from "./commission-standardizer.js";
 import { getCommissionPosition, clickCommissionAndOpenMap, resolveCommissionNameOcrRegions } from "./commission-scanner.js";
 import { isCancellationError } from "../utils/error-utils.js";
 import { RO } from "../vision/index.js";
+
+/** 读取当前委托页面上的冒险历练点数。 */
+export async function ocrEncounterPoints() {
+    await drawBox(true, UI_REGIONS.ENCOUNTER_POINTS, 200, new Pen(Color.FromArgb(255, 0, 255, 178), 2));
+    const result = bvPageOcrRegionText(UI_REGIONS.ENCOUNTER_POINTS);
+    const filteredText = result.replace(/[^0-9.]/g, "");
+    return parseFloat(filteredText) || 0;
+}
+
+/** 判断当前委托页面的冒险历练点数是否达到执行阈值。 */
+export async function checkEncounterPoints(minPointNumber = 4) {
+    const pointNumber = await ocrEncounterPoints();
+    log.info("当前历练点: {pointNumber}", pointNumber);
+    return pointNumber >= minPointNumber;
+}
+
+/**
+ * 读取当前委托页面上的每日委托奖励进度。
+ * 仅接受同一区域内带标签的精确 n/4；识别不明确时返回 null，继续执行委托。
+ * @returns {number|null}
+ */
+export function readDailyCommissionRewardCount() {
+    const results = bvPageOcrRegion(UI_REGIONS.DAILY_COMMISSION_REWARD_PROGRESS);
+    const texts = [];
+    for (let i = 0; i < results.count; i++) {
+        texts.push(results[i].text.trim());
+    }
+    const text = texts.join("").replace(/\s/g, "");
+    const match = text.match(/^每日委托奖励([0-4])\/4$/);
+    if (!match) {
+        log.warn("未能确认每日委托奖励进度，继续执行委托。OCR: {text}", text || "<empty>");
+        return null;
+    }
+    const count = Number(match[1]);
+    log.info("当前每日委托奖励进度: {count}/4", count);
+    return count;
+}
 
 /**
  * 输出单个委托完成识别后的紧凑摘要。

@@ -1,0 +1,103 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "1个雪球花；4个冰星果；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1790136055623,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "H01-2-至冬食材-古兽冰原-凝露镇",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7842.5771,
+      "y": 7607.8018
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7884.3389,
+      "y": 7612.062
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7914.7178,
+      "y": 7615.1079
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7944.5654,
+      "y": 7638.6084
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7991.2578,
+      "y": 7661.0205
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8027.5732,
+      "y": 7690.3145
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8032.5117,
+      "y": 7694.6548
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8029.4854,
+      "y": 7698.6445
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.3),wait(0.2),w(0.3),wait(0.2),w(0.3),wait(0.2),w(0.3),wait(0.2),d(0.3),wait(0.2),w(0.3)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 8027.1006,
+      "y": 7704.8027
+    }
+  ]
+}

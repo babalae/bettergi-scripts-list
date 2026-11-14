@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.">
+<title>商品预设工具 · 自动购买商品</title>
+<style>
+    :root {
+        --bg: #f4f6fa;
+        --card: #ffffff;
+        --line: #e3e8f0;
+        --text: #1f2937;
+        --text-sub: #6b7280;
+        --primary: #2f6fed;
+        --primary-dark: #2456c4;
+        --danger: #d9480f;
+        --ok: #2b8a3e;
+        --warn-bg: #fff8e6;
+        --warn-line: #f0c14d;
+        --radius: 12px;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+        font-size: 14px;
+        line-height: 1.7;
+    }
+    .page { max-width: 1060px; margin: 0 auto; padding: 28px 24px 60px; }
+
+    /* ========== 顶部标题 ========== */
+    .header { margin-bottom: 20px; }
+    .header h1 { margin: 0 0 6px; font-size: 22px; }
+    .header p { margin: 0; color: var(--text-sub); }
+
+    /* ========== 连接状态卡片 ========== */
+    .connect-card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 18px 20px;
+        margin-bottom: 18px;
+    }
+    .connect-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+    .status-dot {
+        width: 10px; height: 10px; border-radius: 50%;
+        background: #b0b7c3; flex: 0 0 auto;
+    }
+    .status-dot.on { background: var(--ok); }
+    .status-text { font-weight: 600; }
+    .status-sub { color: var(--text-sub); font-size: 13px; }
+    .connect-actions { margin-left: auto; display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .hint {
+        margin-top: 14px;
+        background: var(--warn-bg);
+        border: 1px solid var(--warn-line);
+        border-radius: 8px;
+        padding: 10px 14px;
+        font-size: 13px;
+        color: #7a5600;
+    }
+    .hint code {
+        background: rgba(0,0,0,.06);
+        padding: 1px 6px;
+        border-radius: 4px;
+        font-size: 12px;
+    }
+
+    /* ========== 按钮 ========== */
+    button {
+        font-family: inherit;
+        font-size: 13.5px;
+        border-radius: 8px;
+        padding: 8px 16px;
+        cursor: pointer;
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--text);
+        transition: background .15s, border-color .15s;
+    }
+    button:hover { background: #f2f5fb; }
+    button:disabled { opacity: .45; cursor: not-allowed; }
+    .btn-primary { background: var(--primary); border-color: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-danger { color: var(--danger); border-color: #f0c2b0; }
+    .btn-danger:hover { background: #fdf0ea; }
+    .btn-sm { padding: 4px 10px; font-size: 12.5px; }
+
+    /* ========== 主体两栏 ========== */
+    .main {
+        display: grid;
+        grid-template-columns: 320px 1fr;
+        gap: 18px;
+        align-items: start;
+    }
+    .panel {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 18px;
+    }
+    .panel-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0 0 14px;
+        font-size: 15px;
+        font-weight: 700;
+    }
+
+    /* ========== 预设列表 ========== */
+    .preset-list { display: flex; flex-direction: column; gap: 8px; }
+    .preset-item {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 10px 12px;
+        cursor: pointer;
+        transition: border-color .15s, background .15s;
+    }
+    .preset-item:hover { background: #f7f9fd; }
+    .preset-item.active { border-color: var(--primary); background: #eef4ff; }
+    .preset-item .p-name { font-weight: 600; word-break: break-all; }
+    .preset-item .p-foods {
+        color: var(--text-sub);
+        font-size: 12.5px;
+        margin-top: 2px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .empty-tip {
+        color: var(--text-sub);
+        text-align: center;
+        padding: 26px 10px;
+        border: 1px dashed var(--line);
+        border-radius: 8px;
+    }
+
+    /* ========== 编辑区 ========== */
+    .field { margin-bottom: 16px; }
+    .field label { display: block; font-weight: 600; margin-bottom: 6px; }
+    .field .sub { color: var(--text-sub); font-weight: 400; font-size: 12.5px; margin-bottom: 6px; }
+    input[type="text"], textarea {
+        width: 100%;
+        font-family: inherit;
+        font-size: 14px;
+        padding: 9px 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        color: var(--text);
+        resize: vertical;
+    }
+    input[type="text"]:focus, textarea:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(47,111,237,.12);
+    }
+    textarea { min-height: 130px; line-height: 1.8; }
+
+    .editor-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .meta { color: var(--text-sub); font-size: 12.5px; margin-top: 14px; }
+
+    .chips { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }
+    .chip {
+        background: #eef4ff;
+        color: #274c9b;
+        border-radius: 20px;
+        padding: 2px 12px;
+        font-size: 12.5px;
+    }
+    .chip.dup { background: #fdecea; color: #a5281b; }
+
+    .msg { margin-top: 12px; font-size: 13px; min-height: 20px; }
+    .msg.err { color: #c92a2a; }
+    .msg.ok { color: var(--ok); }
+
+    .footer-tools {
+        margin-top: 18px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+
+    @media (max-width: 820px) {
+        .main { grid-template-columns: 1fr; }
+        .connect-actions { margin-left: 0; }
+    }
+</style>
+</head>
+<body>
+<div class="page">
+
+    <div class="header">
+        <h1>商品预设工具</h1>
+        <p>为“自动购买商品”脚本设置购买商品的预设，预设名会自动同步到 BetterGI 调度设置的“商品预设”下拉栏。</p>
+    </div>
+
+    <!-- ========== 连接状态 ========== -->
+    <div class="connect-card">
+        <div class="connect-row">
+            <span class="status-dot" id="statusDot"></span>
+            <span class="status-text" id="statusText">未连接</span>
+            <span class="status-sub" id="statusSub">当前改动仅保存在本浏览器，尚未写入脚本文件</span>
+            <div class="connect-actions">
+                <button class="btn-primary" id="btnConnect">选择脚本文件夹</button>
+                <button id="btnReload" disabled>重新读取文件</button>
+            </div>
+        </div>
+        <div class="hint">
+            请选择 BetterGI 安装目录中的<b>“自动购买商品”脚本文件夹</b>（形如
+            <code>D:\Better GI\User\JsScript\自动购买商品</code>）。
+            工具会在其 <code>record</code> 子文件夹读写 <code>presets.json</code>，
+            并把预设名同步为 BGI 设置里“商品预设”下拉栏的选项（同步后需在 BGI 中重新打开JS脚本配置页才能看到）。
+        </div>
+    </div>
+
+    <!-- ========== 主体 ========== -->
+    <div class="main">
+
+        <!-- 左：预设列表 -->
+        <div class="panel">
+            <div class="panel-title">
+                <span>预设列表</span>
+                <button class="btn-sm btn-primary" id="btnAdd">＋ 新建</button>
+            </div>
+            <div class="preset-list" id="presetList">
+                <div class="empty-tip">还没有预设<br>点击右上角“新建”开始</div>
+            </div>
+        </div>
+
+        <!-- 右：编辑区 -->
+        <div class="panel" id="editorPanel">
+            <div class="panel-title"><span>编辑预设</span></div>
+
+            <div class="empty-tip" id="editorEmpty">从左侧选择一个预设，或新建一个预设</div>
+
+            <div id="editorBody" style="display:none;">
+                <div class="field">
+                    <label for="edName">预设名称</label>
+                    <div class="sub">保存后将出现在 BetterGI 设置“商品预设”下拉栏中，建议不用空格</div>
+                    <input type="text" id="edName" placeholder="例如：日常材料">
+                </div>
+
+                <div class="field">
+                    <label for="edFoods">商品 / 标签组合</label>
+                    <div class="sub">
+                        要购买的商品（多个商品用空格分隔）<br>示例："小麦 黑麦"<br>注：填写"狗粮"时，会自动购买所有狗粮商品
+                    </div>
+                    <textarea id="edFoods" placeholder="小麦 黑麦&#10;盐 胡椒&#10;狗粮"></textarea>
+                    <div class="chips" id="edChips"></div>
+                </div>
+
+                <div class="editor-actions">
+                    <button class="btn-primary" id="btnSave">保存此预设</button>
+                    <button id="btnCopy">复制商品组合</button>
+                    <button class="btn-danger" id="btnDelete">删除此预设</button>
+                </div>
+
+                <div class="msg" id="editorMsg"></div>
+                <div class="meta" id="edMeta"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== 兜底工具 ========== -->
+    <div class="footer-tools">
+        <button id="btnImport">导入 presets.json</button>
+        <button id="btnExport">导出 presets.json</button>
+        <input type="file" id="fileImport" accept=".json,application/json" style="display:none;">
+    </div>
+</div>
+
+<script>
+"use strict";
+
+/* ============================================================
+ * 数据层
+ *   - 连接 record 文件夹时：record/presets.json 为唯一数据源
+ *   - 未连接时：localStorage 镜像（离线草稿），可随时导出文件
+ * 文件结构与 main.js 约定一致：{ 预设名: { foods: "小麦 盐", savedAt: "..." } }
+ * ========================================================== */
+
+const LS_KEY = "bgi.presetTool.backup.v1";
+const IDB_NAME = "bgi-preset-tool";
+const IDB_STORE = "kv";
+const FILE_NAME = "presets.json";
+
+const FS_SUPPORTED = "showDirectoryPicker" in window;
+
+let state = {
+    presets: {},          // {name: {foods, savedAt}}
+    dirHandle: null,      // 脚本根目录句柄（含 settings.json）
+    recordHandle: null,   // 脚本根目录下的 record 子文件夹句柄
+    connected: false,
+    selected: null,       // 当前选中的原始预设名
+    dirty: false,         // 是否有未落盘改动
+    lastSyncOk: null      // 最近一次 settings.json 下拉选项同步结果（true/false）
+};
+
+/* ---------- IndexedDB：记住文件夹句柄 ---------- */
+function idbOpen() {
+    return new Promise((resolve, reject) => {
+        const req = indexedDB.open(IDB_NAME, 1);
+        req.onupgradeneeded = () => req.result.createObjectStore(IDB_STORE);
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+    });
+}
+async function idbGet(key) {
+    const db = await idbOpen();
+    return new Promise((resolve, reject) => {
+        const req = db.transaction(IDB_STORE).objectStore(IDB_STORE).get(key);
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+    });
+}
+async function idbSet(key, val) {
+    const db = await idbOpen();
+    return new Promise((resolve, reject) => {
+        const req = db.transaction(IDB_STORE, "readwrite").objectStore(IDB_STORE).put(val, key);
+        req.onsuccess = () => resolve();
+        req.onerror = () => reject(req.error);
+    });
+}
+async function idbDel(key) {
+    const db = await idbOpen();
+    return new Promise((resolve, reject) => {
+        const req = db.transaction(IDB_STORE, "readwrite").objectStore(IDB_STORE).delete(key);
+        req.onsuccess = () => resolve();
+        req.onerror = () => reject(req.error);
+    });
+}
+
+/* ---------- localStorage 草稿 ---------- */
+function backupToLocal() {
+    try { localStorage.setItem(LS_KEY, JSON.stringify(state.presets)); } catch (e) {}
+}
+function loadLocalBackup() {
+    try {
+        const raw = localStorage.getItem(LS_KEY);
+        if (!raw) return {};
+        const data = JSON.parse(raw);
+        return (data && typeof data === "object" && !Array.isArray(data)) ? data : {};
+    } catch (e) { return {}; }
+}
+
+/* ---------- presets.json 文件读写 ---------- */
+async function readPresetFile() {
+    try {
+        const fh = await state.recordHandle.getFileHandle(FILE_NAME);
+        const file = await fh.getFile();
+        const data = JSON.parse(await file.text());
+        return (data && typeof data === "object" && !Array.isArray(data)) ? data : {};
+    } catch (e) {
+        // 文件尚不存在 => 空仓库（首次保存时自动创建）
+        if (e && (e.name === "NotFoundError" || e.name === "TypeMismatchError")) return {};
+        throw e;
+    }
+}
+async function writePresetFile() {
+    const fh = await state.recordHandle.getFileHandle(FILE_NAME, { create: true });
+    const w = await fh.createWritable();
+    await w.write(JSON.stringify(state.presets, null, 2));
+    await w.close();
+}
+
+/* ---------- 把预设名同步进 settings.json 的"商品预设"下拉选项 ----------
+ * BGI 的 select 选项是静态的，这里在预设变动/连接时重写 settings.json 中
+ * name="preset" 项的 options：第一项固定"不使用预设"，其后为全部预设名。
+ * 仅改下拉选项，不影响 BGI 配置组中用户已保存的选择值。 */
+async function syncSettingsOptions() {
+    if (!state.connected || !state.dirHandle) return false;
+    try {
+        const fh = await state.dirHandle.getFileHandle("settings.json");
+        const data = JSON.parse(await (await fh.getFile()).text());
+        const item = Array.isArray(data) ? data.find(x => x && x.name === "preset") : null;
+        if (!item || item.type !== "select") return false;
+
+        const names = Object.keys(state.presets)
+            .filter(n => n !== "不使用预设")
+            .sort((a, b) => a.localeCompare(b, "zh-Hans-CN"));
+        const options = ["不使用预设", ...names];
+
+        if (JSON.stringify(item.options) !== JSON.stringify(options)) {
+            item.options = options;
+            if (item.default !== undefined && !options.includes(item.default)) {
+                item.default = "不使用预设";
+            }
+            const w = await fh.createWritable();
+            await w.write(JSON.stringify(data, null, 4));
+            await w.close();
+        }
+        return true;
+    } catch (e) {
+        console.warn("同步 settings.json 失败:", e);
+        return false;
+    }
+}
+
+/* ---------- 统一的持久化（自动保存，带防抖） ---------- */
+let saveTimer = null;
+let lastSavedAt = null;
+
+function scheduleSave() {
+    state.dirty = true;
+    updateStatus();
+    backupToLocal();
+    if (!state.connected) return;
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(doSave, 500);
+}
+async function doSave() {
+    try {
+        await writePresetFile();
+        state.dirty = false;
+        lastSavedAt = new Date();
+        state.lastSyncOk = await syncSettingsOptions();
+        updateStatus();
+        showMsg(state.lastSyncOk === false
+            ? "已保存到 presets.json，但同步 settings.json 下拉选项失败（预设文件本身已可用）"
+            : "已保存，预设下拉选项已同步", "ok");
+    } catch (e) {
+        showMsg("写入文件失败：" + e.message + "（改动已暂存在浏览器中，可使用导出自行把文件放入record文件夹）", "err");
+    }
+}
+
+/* ============================================================
+ * UI
+ * ========================================================== */
+const $ = id => document.getElementById(id);
+
+function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[c]));
+}
+function nowIso() {
+    const d = new Date();
+    const p = n => String(n).padStart(2, "0");
+    return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())} ` +
+           `${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`;
+}
+function normalizeFoods(text) {
+    return String(text || "").split(/[\s,，、]+/).map(s => s.trim()).filter(Boolean).join(" ");
+}
+
+function updateStatus() {
+    const dot = $("statusDot");
+    const text = $("statusText");
+    const sub = $("statusSub");
+    const reload = $("btnReload");
+    if (state.connected) {
+        dot.classList.add("on");
+        text.textContent = "已连接脚本文件夹";
+        let subText = (state.dirHandle && state.dirHandle.name)
+            ? `当前文件夹：${state.dirHandle.name}` + (state.dirty ? "（正在保存…）" : (lastSavedAt ? `　最近保存：${lastSavedAt.toLocaleTimeString()}` : "　改动会自动保存"))
+            : "改动会自动保存到 presets.json";
+        if (state.lastSyncOk === false) subText += "　⚠ 预设下拉选项同步失败";
+        sub.textContent = subText;
+        reload.disabled = false;
+    } else {
+        dot.classList.remove("on");
+        text.textContent = FS_SUPPORTED ? "未连接（离线草稿模式）" : "当前浏览器不支持直连文件夹";
+        sub.textContent = "改动仅保存在本浏览器；可用右下角“导出”生成 presets.json 后手动放入 record 文件夹";
+        reload.disabled = true;
+    }
+}
+
+function renderList() {
+    const box = $("presetList");
+    const names = Object.keys(state.presets);
+    if (names.length === 0) {
+        box.innerHTML = '<div class="empty-tip">还没有预设<br>点击右上角“新建”开始</div>';
+        return;
+    }
+    // 按名称排序，便于查找
+    names.sort((a, b) => a.localeCompare(b, "zh-Hans-CN"));
+    box.innerHTML = names.map(name => {
+        const foods = state.presets[name].foods || "";
+        return `<div class="preset-item ${name === state.selected ? "active" : ""}" data-name="${escapeHtml(name)}">
+            <div class="p-name">${escapeHtml(name)}</div>
+            <div class="p-foods">${escapeHtml(foods) || "（空）"}</div>
+        </div>`;
+    }).join("");
+    box.querySelectorAll(".preset-item").forEach(el => {
+        el.addEventListener("click", () => selectPreset(el.dataset.name));
+    });
+}
+
+function renderChips(foodsText) {
+    const tokens = String(foodsText || "").split(/[\s,，、]+/).map(s => s.trim()).filter(Boolean);
+    const seen = new Set();
+    const chips = tokens.map(t => {
+        const dup = seen.has(t);
+        seen.add(t);
+        return `<span class="chip ${dup ? "dup" : ""}">${escapeHtml(t)}</span>`;
+    }).join("");
+    $("edChips").innerHTML = chips;
+}
+
+function selectPreset(name) {
+    if (!(name in state.presets)) {
+        state.selected = null;
+    } else {
+        state.selected = name;
+        $("editorEmpty").style.display = "none";
+        $("editorBody").style.display = "block";
+        $("edName").value = name;
+        $("edFoods").value = state.presets[name].foods || "";
+        const savedAt = state.presets[name].savedAt;
+        $("edMeta").textContent = savedAt ? `最近修改：${savedAt}` : "";
+        renderChips($("edFoods").value);
+        showMsg("", "");
+    }
+    renderList();
+    refreshEditorVisibility();
+}
+
+function refreshEditorVisibility() {
+    const has = state.selected !== null && (state.selected in state.presets);
+    $("editorEmpty").style.display = has ? "none" : "block";
+    $("editorBody").style.display = has ? "block" : "none";
+}
+
+function showMsg(msg, kind) {
+    const el = $("editorMsg");
+    el.textContent = msg || "";
+    el.className = "msg" + (kind ? " " + kind : "");
+}
+
+/* ---------- 新建 / 保存 / 删除 ---------- */
+function uniqueName(base) {
+    let name = base, i = 2;
+    while (name in state.presets) name = `${base}${i++}`;
+    return name;
+}
+
+$("btnAdd").addEventListener("click", () => {
+    const name = uniqueName("新预设");
+    state.presets[name] = { foods: "", savedAt: nowIso() };
+    state.selected = name;
+    renderList();
+    selectPreset(name);
+    $("edName").focus();
+    $("edName").select();
+    scheduleSave();
+});
+
+$("edFoods").addEventListener("input", e => {
+    renderChips(e.target.value);
+    if (state.selected) {
+        state.presets[state.selected].foods = e.target.value;
+        scheduleSave();
+    }
+});
+
+$("btnSave").addEventListener("click", () => {
+    const oldName = state.selected;
+    const newName = $("edName").value.trim();
+    const foods = normalizeFoods($("edFoods").value);
+
+    if (!newName) { showMsg("预设名称不能为空", "err"); return; }
+    if (newName === "不使用预设") { showMsg("“不使用预设”是下拉栏的保留项，不能用作预设名", "err"); return; }
+    if (!foods) { showMsg("商品组合不能为空，至少填写一个商品或标签", "err"); return; }
+
+    if (newName !== oldName && (newName in state.presets)) {
+        showMsg(`已存在名为“${newName}”的预设，请换一个名字`, "err");
+        return;
+    }
+
+    const entry = state.presets[oldName];
+    delete state.presets[oldName];
+    entry.foods = foods;
+    entry.savedAt = nowIso();
+    state.presets[newName] = entry;
+    state.selected = newName;
+
+    $("edFoods").value = foods;
+    renderChips(foods);
+    renderList();
+    selectPreset(newName);
+    scheduleSave();
+    showMsg(state.connected ? "已保存" : "已暂存（未连接文件夹，记得导出）", "ok");
+});
+
+$("btnDelete").addEventListener("click", () => {
+    const name = state.selected;
+    if (!name) return;
+    if (!confirm(`确定删除预设“${name}”？此操作不可撤销。`)) return;
+    delete state.presets[name];
+    state.selected = null;
+    renderList();
+    refreshEditorVisibility();
+    scheduleSave();
+});
+
+$("btnCopy").addEventListener("click", async () => {
+    const foods = normalizeFoods($("edFoods").value);
+    if (!foods) { showMsg("商品组合为空，无法复制", "err"); return; }
+    try {
+        await navigator.clipboard.writeText(foods);
+        showMsg("已复制，可直接粘贴到 BetterGI 商品栏", "ok");
+    } catch (e) {
+        showMsg("复制失败，可手动选中文本复制", "err");
+    }
+});
+
+/* ---------- 文件夹连接 ---------- */
+async function verifyPermission(handle, write) {
+    const opts = write ? { mode: "readwrite" } : {};
+    if ((await handle.queryPermission(opts)) === "granted") return true;
+    if ((await handle.requestPermission(opts)) === "granted") return true;
+    return false;
+}
+
+async function connect(handle, remember) {
+    state.dirHandle = handle;
+    state.recordHandle = null;
+    if (!(await verifyPermission(handle, true))) {
+        state.connected = false;
+        updateStatus();
+        return;
+    }
+
+    // 校验所选文件夹是脚本根目录（含 settings.json），并定位 record 子文件夹
+    let recordHandle;
+    try {
+        await handle.getFileHandle("settings.json");
+        recordHandle = await handle.getDirectoryHandle("record", { create: true });
+    } catch (e) {
+        state.connected = false;
+        updateStatus();
+        alert("所选文件夹不是“自动购买商品”脚本目录（未找到 settings.json）。\n请选择 BGI 安装目录下 User\\JsScript\\自动购买商品 文件夹。");
+        return;
+    }
+    state.recordHandle = recordHandle;
+    state.connected = true;
+    if (remember) await idbSet("dirHandle", handle);
+
+    // 文件内容为准；首次连接且文件不存在时，用本地草稿初始化
+    let fileData;
+    try {
+        fileData = await readPresetFile();
+    } catch (e) {
+        state.connected = false;
+        updateStatus();
+        alert("读取 record 文件夹失败：" + e.message);
+        return;
+    }
+    if (Object.keys(fileData).length === 0) {
+        const backup = loadLocalBackup();
+        state.presets = Object.keys(backup).length > 0 ? backup : {};
+        if (Object.keys(state.presets).length > 0) scheduleSave(); // 把草稿带进新文件
+    } else {
+        state.presets = fileData;
+        backupToLocal();
+    }
+    if (state.selected && !(state.selected in state.presets)) state.selected = null;
+    renderList();
+    refreshEditorVisibility();
+    // 连接即同步一次下拉选项（脚本经仓库更新后 settings.json 会被还原，靠这里补回）
+    state.lastSyncOk = await syncSettingsOptions();
+    updateStatus();
+}
+
+$("btnConnect").addEventListener("click", async () => {
+    if (!FS_SUPPORTED) {
+        alert("当前浏览器不支持文件夹直连（需 Edge / Chrome 等 Chromium 浏览器）。\n可改用右下角“导入 / 导出 presets.json”方式。");
+        return;
+    }
+    try {
+        const handle = await window.showDirectoryPicker({ mode: "readwrite" });
+        await connect(handle, true);
+    } catch (e) {
+        if (e.name !== "AbortError") alert("连接文件夹失败：" + e.message);
+    }
+});
+
+$("btnReload").addEventListener("click", async () => {
+    if (!state.connected) return;
+    if (state.dirty && !confirm("有尚未保存的改动，重新读取会丢弃这些改动，确定继续？")) return;
+    try {
+        state.presets = await readPresetFile();
+        backupToLocal();
+        if (state.selected && !(state.selected in state.presets)) state.selected = null;
+        state.dirty = false;
+        renderList();
+        refreshEditorVisibility();
+        state.lastSyncOk = await syncSettingsOptions();
+        showMsg("已从 presets.json 重新读取" + (state.lastSyncOk === false ? "，但同步下拉选项失败" : "，下拉选项已同步"), "ok");
+    } catch (e) {
+        showMsg("读取失败：" + e.message, "err");
+    }
+});
+
+/* ---------- 导入 / 导出（兜底） ---------- */
+$("btnExport").addEventListener("click", () => {
+    const blob = new Blob([JSON.stringify(state.presets, null, 2)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = FILE_NAME;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+});
+
+$("btnImport").addEventListener("click", () => $("fileImport").click());
+
+$("fileImport").addEventListener("change", async e => {
+    const file = e.target.files[0];
+    e.target.value = "";
+    if (!file) return;
+    let data;
+    try {
+        data = JSON.parse(await file.text());
+        if (!data || typeof data !== "object" || Array.isArray(data)) throw new Error("格式不是预设对象");
+    } catch (err) {
+        alert("文件解析失败：" + err.message);
+        return;
+    }
+    if ("不使用预设" in data) delete data["不使用预设"]; // 保留项不作为预设导入
+    const incoming = Object.keys(data);
+    const overlap = incoming.filter(n => n in state.presets);
+    if (overlap.length > 0 &&
+        !confirm(`以下 ${overlap.length} 个同名预设将被导入内容覆盖：\n${overlap.join("、")}\n\n确定继续？`)) return;
+
+    Object.assign(state.presets, data);
+    if (state.selected && !(state.selected in state.presets)) state.selected = null;
+    renderList();
+    refreshEditorVisibility();
+    scheduleSave();
+    showMsg(state.connected ? `已导入 ${incoming.length} 个预设并写入文件` : `已导入 ${incoming.length} 个预设（离线草稿，记得导出）`, "ok");
+});
+
+/* ---------- 关闭页面前提醒未保存 ---------- */
+window.addEventListener("beforeunload", e => {
+    if (state.dirty && state.connected) { e.preventDefault(); e.returnValue = ""; }
+});
+
+/* ---------- 启动 ---------- */
+(async function init() {
+    state.presets = loadLocalBackup();
+    renderList();
+    refreshEditorVisibility();
+    updateStatus();
+
+    if (FS_SUPPORTED) {
+        try {
+            const handle = await idbGet("dirHandle");
+            if (handle && (await handle.queryPermission({ mode: "readwrite" })) === "granted") {
+                await connect(handle, false);
+            }
+        } catch (e) {
+            // 句柄失效（如文件夹被移动）时静默回退到离线模式
+            await idbDel("dirHandle").catch(() => {});
+        }
+    }
+})();
+</script>
+</body>
+</html>

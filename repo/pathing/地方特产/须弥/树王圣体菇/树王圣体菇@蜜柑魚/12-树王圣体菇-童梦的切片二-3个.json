@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1784728682641,
+    "last_modified_time": 1791132241748,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "12-树王圣体菇-童梦的切片二-3个",
@@ -109,8 +109,8 @@
       "y": -762.4053
     },
     {
-      "action": "up_down_grab_leaf",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "w(0.2),wait(0.6),click(middle),wait(0.75),moveby(0,-1350),wait(0.75),keypress(t),wait(0.25),keypress(t),wait(0.25),keypress(t)",
       "id": 11,
       "move_mode": "walk",
       "type": "orientation",
@@ -118,8 +118,8 @@
       "y": -746.1758
     },
     {
-      "action": "stop_flying",
-      "action_params": "",
+      "action": "combat_script",
+      "action_params": "wait(1)",
       "id": 12,
       "move_mode": "fly",
       "type": "path",
@@ -127,9 +127,18 @@
       "y": -746.1758
     },
     {
+      "action": "combat_script",
+      "action_params": "wait(0.5),w(0.1)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 3404.751,
+      "y": -766.0918
+    },
+    {
       "action": "up_down_grab_leaf",
       "action_params": "",
-      "id": 13,
+      "id": 14,
       "move_mode": "walk",
       "type": "orientation",
       "x": 3404.751,
@@ -138,7 +147,7 @@
     {
       "action": "stop_flying",
       "action_params": "",
-      "id": 14,
+      "id": 15,
       "move_mode": "fly",
       "type": "path",
       "x": 3404.751,
@@ -147,7 +156,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.2)",
-      "id": 15,
+      "id": 16,
       "move_mode": "walk",
       "type": "target",
       "x": 3409.835,
@@ -156,7 +165,7 @@
     {
       "action": "stop_flying",
       "action_params": "750",
-      "id": 16,
+      "id": 17,
       "move_mode": "fly",
       "type": "path",
       "x": 3396.9453,
@@ -165,7 +174,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 17,
+      "id": 18,
       "move_mode": "dash",
       "type": "path",
       "x": 3403.5684,
@@ -174,7 +183,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 18,
+      "id": 19,
       "move_mode": "dash",
       "type": "path",
       "x": 3414.8525,
@@ -183,7 +192,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 19,
+      "id": 20,
       "move_mode": "dash",
       "type": "path",
       "x": 3418.6045,
@@ -192,7 +201,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 20,
+      "id": 21,
       "move_mode": "jump",
       "type": "path",
       "x": 3425.4697,
@@ -201,7 +210,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 21,
+      "id": 22,
       "move_mode": "dash",
       "type": "path",
       "x": 3433.6953,
@@ -210,7 +219,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 22,
+      "id": 23,
       "move_mode": "jump",
       "type": "path",
       "x": 3429.334,
@@ -219,7 +228,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 23,
+      "id": 24,
       "move_mode": "dash",
       "type": "path",
       "x": 3401.293,
@@ -228,7 +237,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 24,
+      "id": 25,
       "move_mode": "run",
       "type": "path",
       "x": 3395.832,
@@ -237,7 +246,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 25,
+      "id": 26,
       "move_mode": "walk",
       "type": "path",
       "x": 3389.584,
@@ -246,7 +255,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 26,
+      "id": 27,
       "move_mode": "walk",
       "type": "path",
       "x": 3382.8984,
@@ -255,7 +264,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 27,
+      "id": 28,
       "move_mode": "run",
       "type": "path",
       "x": 3367.3008,
@@ -264,7 +273,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(1.25)",
-      "id": 28,
+      "id": 29,
       "move_mode": "fly",
       "type": "target",
       "x": 3347.75,
@@ -273,7 +282,7 @@
     {
       "action": "combat_script",
       "action_params": "j,wait(1.25),j",
-      "id": 29,
+      "id": 30,
       "move_mode": "fly",
       "type": "path",
       "x": 3347.0215,
@@ -282,7 +291,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.8)",
-      "id": 30,
+      "id": 31,
       "move_mode": "fly",
       "type": "target",
       "x": 3326.2256,

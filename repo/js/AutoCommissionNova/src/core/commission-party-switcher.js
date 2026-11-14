@@ -100,7 +100,10 @@ export async function prepareCommissionBattleParty(context) {
         return true;
     }
 
-    if (!resolved.teamName) throw new Error(`委托 ${context.commissionName} 未配置可用的战斗队伍名称`);
+    if (!resolved.teamName) {
+        log.warn("委托 {commission} 未配置战斗队伍，跳过切换队伍", context.commissionName);
+        return true;
+    }
     const switched = await switchPartyByName(resolved.teamName);
     if (!switched) throw new Error(`委托 ${context.commissionName} 切换战斗队伍失败: ${resolved.teamName}`);
     return true;

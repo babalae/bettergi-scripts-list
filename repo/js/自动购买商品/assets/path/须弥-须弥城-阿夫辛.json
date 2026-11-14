@@ -9,7 +9,7 @@
     "bgi_version": "0.45.0",
     "description": "须弥购买狗粮",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1766156030914,
+    "last_modified_time": 1790866067689,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "须弥购买狗粮",
@@ -24,8 +24,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 2694.060546875,
-      "y": -416.48193359375
+      "x": 2694.0605,
+      "y": -416.4819
     },
     {
       "action": "",
@@ -34,7 +34,7 @@
       "move_mode": "dash",
       "type": "path",
       "x": 2703.25,
-      "y": -412.1879647946662
+      "y": -412.188
     },
     {
       "action": "stop_flying",
@@ -42,8 +42,8 @@
       "id": 3,
       "move_mode": "fly",
       "type": "path",
-      "x": 2711.25390625,
-      "y": -408.43115234375
+      "x": 2711.2539,
+      "y": -408.4312
     },
     {
       "action": "",
@@ -52,16 +52,25 @@
       "move_mode": "dash",
       "type": "path",
       "x": 2750.25,
-      "y": -406.0810546875
+      "y": -406.0811
     },
     {
       "action": "",
       "action_params": "",
       "id": 5,
       "move_mode": "dash",
+      "type": "path",
+      "x": 2752.4834,
+      "y": -403.6309
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
       "type": "target",
-      "x": 2766.1728515625,
-      "y": -389.298828125
+      "x": 2766.1729,
+      "y": -389.2988
     }
   ]
 }

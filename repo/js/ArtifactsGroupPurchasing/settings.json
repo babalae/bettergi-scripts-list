@@ -2,7 +2,12 @@
   {
     "name": "runExtra",
     "type": "checkbox",
-    "label": "运行额外路线，运行完联机收尾后单人运行时勾选\n勾选后处于单人世界时将运行额外路线\n如果选择自动进入模式，则会在任务完成后运行额外路线"
+    "label": "运行额外路线，联机收尾后单人运行时勾选\n勾选后将运行额外路线与「至冬罐罐」相互独立\n选择自动进入模式时联机完成后立即执行额外路线"
+  },
+  {
+    "name": "runExtraSnezhnaya",
+    "type": "checkbox",
+    "label": "运行至冬罐罐路线（附加路线，勾选后才会执行）\n与「额外路线」相互独立，可单独开关\n请在额外狗粮配置组中勾选"
   },
   {
     "name": "runDebug",
@@ -10,24 +15,15 @@
     "label": "调试时勾选，跳过路线执行逻辑"
   },
   {
-    "name": "logName",
-    "type": "input-text",
-    "label": "填写后将在js运行结束后分解狗粮\n并输出分解获得的经验值\n格式为 名字：联机狗粮分解获得经验xxx"
-  },
-  {
-    "name": "onlyRunPerfectly",
-    "type": "input-text",
-    "label": "输入任意内容后启用强迫症模式\n人不齐或队友未正常到位时不执行任何路线\n并在运行结束后间隔一秒输出按中文分号；分隔的内容"
-  },
-  {
-    "name": "normalEnding",
-    "type": "input-text",
-    "label": "正常运行结束后间隔一秒输出按中文分号；分隔的内容"
+    "name": "disableStrictMode",
+    "type": "checkbox",
+    "label": "禁用强迫症模式：勾选后即使人不齐也会执行路线",
+    "default": false
   },
   {
     "name": "autoReonline",
     "type": "input-text",
-    "label": "自动重新上线\n运行联机结束后自动使用匹配信息.json中的信息重新在mojang上线\n填写所需的最小上线次数\n炸车后重新上线不消耗次数,正常当房主跑完一次后自动改为不当房主\n需要使用该功能时填4，否则填0",
+    "label": "自动重新上线\n运行联机结束后自动使用匹配信息.json中的信息重新在mojang上线\n填写所需的最小上线次数\n炸车后重新上线不消耗次数,正常当房主跑完一次后自动改为不当房主\n填0仅运行一次即停（不管结果是否正常），想确保当上房主请填大于0的值（如4）",
     "default": "0"
   },
   {
@@ -55,6 +51,12 @@
       "使用JSON配置文件"
     ],
     "default": "手动进入后运行"
+  },
+  {
+    "name": "useAllTargetImages",
+    "type": "checkbox",
+    "label": "放人模板匹配使用全部图片\n关闭时为每个白名单队员选择文件名最相似的图片",
+    "default": false
   },
   {
     "name": "yourIndex",

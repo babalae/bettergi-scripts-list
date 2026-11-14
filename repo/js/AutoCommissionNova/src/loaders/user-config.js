@@ -26,6 +26,7 @@ function accountPath(uid) {
 function emptySettings() {
     return {
         skipSafeTeleport: false,
+        checkEncounterPoints: false,
         party: { global: {}, scopes: {} },
     };
 }
@@ -57,6 +58,7 @@ export function normalizeAccountConfig(value, uid) {
         bgiVersion: typeof source.bgiVersion === "string" ? source.bgiVersion : "",
         settings: {
             skipSafeTeleport: settings.skipSafeTeleport === true,
+            checkEncounterPoints: settings.checkEncounterPoints === true,
             party: {
                 global: isPlainObject(party.global) ? party.global : {},
                 scopes: isPlainObject(party.scopes) ? party.scopes : {},
@@ -85,7 +87,15 @@ export function loadUserConfig(uid, options = {}) {
         return account;
     }
     const raw = file.readTextSync(path);
-    if (!raw) throw new Error(`账号配置为空，请修复 ${path}`);
+    if (!raw) {
+        if (options.create === true) {
+            log.warn("账号配置为空，重新生成初始配置: {path}", path);
+            const account = createAccountConfig(uid);
+            writeUserConfig(account);
+            return account;
+        }
+        throw new Error(`账号配置为空，请修复 ${path}`);
+    }
     try {
         const parsed = JSON.parse(raw);
         if (String(parsed?.uid ?? "") !== normalizeUid(uid)) {
@@ -93,6 +103,12 @@ export function loadUserConfig(uid, options = {}) {
         }
         return normalizeAccountConfig(parsed, uid);
     } catch (error) {
+        if (options.create === true) {
+            log.warn("账号配置解析失败，重新生成初始配置: {path}, {error}", path, error.message);
+            const account = createAccountConfig(uid);
+            writeUserConfig(account);
+            return account;
+        }
         throw new Error(`账号配置解析失败，请修复 ${path}: ${error.message}`);
     }
 }

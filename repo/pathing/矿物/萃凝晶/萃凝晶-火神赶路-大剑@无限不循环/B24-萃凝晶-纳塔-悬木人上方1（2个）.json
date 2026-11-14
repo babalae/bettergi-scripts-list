@@ -6,7 +6,7 @@
         "name": "无限不循环"
       }
     ],
-    "bgi_version": "0.45.0",
+    "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
     "last_modified_time": 1758486082055,
@@ -23,7 +23,6 @@
     {
       "action": "",
       "id": 1,
-      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
       "x": 8598.1,
@@ -33,7 +32,6 @@
       "action": "",
       "action_params": "",
       "id": 2,
-      "locked": false,
       "move_mode": "dash",
       "type": "path",
       "x": 8603.05,
@@ -43,7 +41,6 @@
       "action": "mining",
       "action_params": "",
       "id": 3,
-      "locked": false,
       "move_mode": "walk",
       "type": "target",
       "x": 8604.2705,
@@ -53,7 +50,6 @@
       "action": "combat_script",
       "action_params": "wait(0.5)",
       "id": 4,
-      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 8604.2705,

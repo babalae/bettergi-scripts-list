@@ -1,0 +1,148 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "4个雪球花；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1789746799261,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "H03-1-至冬食材-古兽冰原-巡猎者木屋北",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8250.3701,
+      "y": 8158.9502
+    },
+    {
+      "action": "log_output",
+      "action_params": "-白雾边缘路线有概率卡死-",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8250.2559,
+      "y": 8153.0991
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8237.0801,
+      "y": 8150.979
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8220.9512,
+      "y": 8131.2046
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8216.7793,
+      "y": 8072.9834
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8222.1982,
+      "y": 8046.6313
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8222.8975,
+      "y": 8044.6543
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8223.3457,
+      "y": 8043.7075
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8223.9883,
+      "y": 8041.7729
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8228.1465,
+      "y": 8033.5718
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8234.2871,
+      "y": 8027.457
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8235.8965,
+      "y": 8025.9863
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8236.1006,
+      "y": 8023.1421
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8238.082,
+      "y": 8023.8315
+    }
+  ]
+}

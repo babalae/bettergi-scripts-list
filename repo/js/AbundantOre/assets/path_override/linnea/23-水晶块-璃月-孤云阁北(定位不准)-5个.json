@@ -1,0 +1,67 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/RRRR623",
+        "name": "火山"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1791246659639,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "23-水晶块-璃月-孤云阁北(定位不准)-5个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -632.14,
+      "y": -103.65
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -694.67,
+      "y": -82.72
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -695.8594,
+      "y": -80.5417
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -700.2654,
+      "y": -72.9207
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 wait(0.6),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 5,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -691.5916,
+      "y": -73.489
+    }
+  ]
+}

@@ -7,6 +7,7 @@ import { bvPageOcrRegionText } from "../vision/ocr-utils.js";
 import { defineStep } from "./define-step.js";
 
 const CHECK_INTERVAL_MS = 500;
+const MAX_DURATION_MS = 2 * 60 * 1000;
 const COMPLETION_REGION = new OpenCvSharp.OpenCvSharp.Rect(880, 165, 160, 45);
 
 function isCommissionCompleted() {
@@ -29,9 +30,10 @@ export default defineStep({
     dataSpec: { kind: "none" },
     run: async () => {
         const page = new BvPage();
+        const startTime = Date.now();
 
         log.info("开始执行乐流奔引步骤，循环检测月光图标");
-        while (true) {
+        while (Date.now() - startTime < MAX_DURATION_MS) {
             if (isCommissionCompleted()) {
                 return true;
             }
@@ -39,10 +41,13 @@ export default defineStep({
             if (page.locator(RO.moonLightIcon).isExist()) {
                 log.info("识别到月光图标，按 T 触发");
                 keyPress("t");
-                await sleep(300);
+                await sleep(2000);
             }
 
             await sleep(CHECK_INTERVAL_MS);
         }
+
+        log.warn("乐流奔引步骤执行超过 2 分钟，结束步骤");
+        return false;
     },
 });

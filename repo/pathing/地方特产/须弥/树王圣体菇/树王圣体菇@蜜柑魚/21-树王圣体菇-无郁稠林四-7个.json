@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1784977274041,
+    "last_modified_time": 1787159684721,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "21-树王圣体菇-无郁稠林四-7个",
@@ -101,8 +101,9 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.1);迪希雅 keypress(VK_E),wait(0.2),keypress(VK_E);",
+      "action_params": "wait(0.1);迪希雅 keypress(VK_E),wait(0.2),w(0.001),keypress(VK_E),wait(0.2),keypress(VK_E);",
       "id": 10,
+      "locked": false,
       "move_mode": "jump",
       "type": "path",
       "x": 2277.5234,
@@ -118,9 +119,18 @@
       "y": 52.1641
     },
     {
-      "action": "stop_flying",
+      "action": "",
       "action_params": "",
       "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2277.5234,
+      "y": 54.5688
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 13,
       "move_mode": "fly",
       "type": "path",
       "x": 2265.1904,
@@ -129,7 +139,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 13,
+      "id": 14,
       "move_mode": "run",
       "type": "path",
       "x": 2262.1104,
@@ -138,7 +148,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 14,
+      "id": 15,
       "move_mode": "dash",
       "type": "path",
       "x": 2245.7559,
@@ -147,7 +157,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.1)",
-      "id": 15,
+      "id": 16,
       "move_mode": "run",
       "type": "path",
       "x": 2240.9199,
@@ -156,7 +166,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 16,
+      "id": 17,
       "move_mode": "walk",
       "type": "path",
       "x": 2244.5098,
@@ -165,7 +175,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 17,
+      "id": 18,
       "move_mode": "dash",
       "type": "path",
       "x": 2250.3262,
@@ -174,7 +184,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 18,
+      "id": 19,
       "move_mode": "dash",
       "type": "path",
       "x": 2271.2441,
@@ -182,8 +192,8 @@
     },
     {
       "action": "combat_script",
-      "action_params": "wait(0.1);迪希雅 keypress(VK_E),wait(0.2),keypress(VK_E);",
-      "id": 19,
+      "action_params": "wait(0.1);迪希雅 w(0.001),keypress(VK_E),wait(0.2),keypress(VK_E);",
+      "id": 20,
       "move_mode": "run",
       "type": "path",
       "x": 2259.1797,
@@ -192,7 +202,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 20,
+      "id": 21,
       "move_mode": "run",
       "type": "target",
       "x": 2255.7754,
@@ -201,7 +211,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 21,
+      "id": 22,
       "move_mode": "run",
       "type": "path",
       "x": 2255.0488,
@@ -210,7 +220,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.1)",
-      "id": 22,
+      "id": 23,
       "move_mode": "walk",
       "type": "target",
       "x": 2249.3008,
@@ -219,7 +229,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 23,
+      "id": 24,
       "move_mode": "dash",
       "type": "path",
       "x": 2281.584,
@@ -228,7 +238,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 24,
+      "id": 25,
       "move_mode": "jump",
       "type": "path",
       "x": 2282.4473,
@@ -237,7 +247,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.1);迪希雅 keypress(VK_E),wait(0.3),keypress(VK_E);",
-      "id": 25,
+      "id": 26,
       "move_mode": "dash",
       "type": "path",
       "x": 2299.7285,
@@ -246,7 +256,7 @@
     {
       "action": "combat_script",
       "action_params": "w(0.2)",
-      "id": 26,
+      "id": 27,
       "move_mode": "walk",
       "type": "orientation",
       "x": 2286.6553,
@@ -255,7 +265,7 @@
     {
       "action": "up_down_grab_leaf",
       "action_params": "",
-      "id": 27,
+      "id": 28,
       "move_mode": "fly",
       "type": "orientation",
       "x": 2286.6553,
@@ -264,7 +274,7 @@
     {
       "action": "combat_script",
       "action_params": "wait(0.3)",
-      "id": 28,
+      "id": 29,
       "move_mode": "walk",
       "type": "target",
       "x": 2285.709,
@@ -273,7 +283,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 29,
+      "id": 30,
       "move_mode": "walk",
       "type": "teleport",
       "x": 2342.6191,

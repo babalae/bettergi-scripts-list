@@ -3,16 +3,17 @@
  * 脚本的主入口逻辑
  */
 import { loadSupportedCommissions, saveCommissionsData } from "../data/index.js";
-import { recognizeCommissions, initCommissionReferenceData } from "../recognition/index.js";
+import { recognizeCommissions, initCommissionReferenceData, readDailyCommissionRewardCount } from "../recognition/index.js";
 import { executeCommissionTracking } from "./commission-executor.js";
 import { enterCommissionScreen } from "../vision/index.js";
 import { loadGlobalConfig } from "../loaders/global-config.js";
 import { scanCommissionScopes } from "../loaders/process-scope.js";
+import { isCancellationError } from "../utils/error-utils.js";
 
 /**
  * 委托识别主函数
  * @param {Array} [commissionScopes] - 可复用的流程范围快照；不传时扫描一次流程目录
- * @returns {Promise<Array>} 识别到的委托列表；失败时返回 []
+ * @returns {Promise<{commissions: Array, requiredSuccesses: number|null}>}
  */
 export async function identification(commissionScopes) {
     try {
@@ -26,22 +27,51 @@ export async function identification(commissionScopes) {
 
         await initCommissionReferenceData(supportedCommissions, scopes);
 
-        await enterCommissionScreen();
+        const globalConfig = loadGlobalConfig();
+        if (globalConfig.checkEncounterPoints) {
+            try {
+                await genshin.claimEncounterPointsRewards();
+            } catch (error) {
+                if (isCancellationError(error)) { throw error; }
+                log.warn("领取历练点奖励失败，将以每日委托奖励进度决定后续执行: {error}", error.message);
+            }
+        }
+
+        if (!await enterCommissionScreen()) {
+            return { commissions: [], requiredSuccesses: null };
+        }
+
+        let requiredSuccesses = null;
+        if (globalConfig.checkEncounterPoints) {
+            const rewardCount = readDailyCommissionRewardCount();
+            if (rewardCount === 4) {
+                log.info("每日委托奖励已完成 4/4，跳过本次委托");
+                return { commissions: [], requiredSuccesses: 0 };
+            }
+            if (rewardCount !== null) {
+                requiredSuccesses = 4 - rewardCount;
+                log.info("还需完成 {count} 个委托以满足每日奖励额度", requiredSuccesses);
+            }
+        }
 
         const commissions = await recognizeCommissions(supportedCommissions);
 
         if (commissions && commissions.length > 0) {
-            await saveCommissionsData(commissions);
+            const savedCommissions = await saveCommissionsData(commissions);
             log.info("委托识别完成，共识别到 {total} 个委托，其中 {supported} 个受支持",
                 commissions.length, commissions.filter(function (c) { return c.supported; }).length);
+            if (savedCommissions.length === 0) {
+                throw new Error("没有成功保存可执行的委托");
+            }
+            return { commissions: savedCommissions, requiredSuccesses };
         } else {
             throw new Error("委托识别失败或未识别到任何委托");
         }
-        return commissions;
     } catch (error) {
+        if (isCancellationError(error)) { throw error; }
         log.error("识别委托时出错: {error}", error.message);
         log.debug("错误详情: {error}", error);
-        return [];
+        return { commissions: [], requiredSuccesses: null };
     }
 }
 
@@ -68,11 +98,20 @@ export async function prepareForCommission() {
  */
 export async function executeMainProcess(stepRegistry, commissionScopes) {
     try {
-        await identification(commissionScopes);
+        const identificationResult = await identification(commissionScopes);
+        if (identificationResult.requiredSuccesses === 0) {
+            await genshin.returnMainUi();
+            return;
+        }
+        if (identificationResult.commissions.length === 0) {
+            log.warn("未获得本次有效委托识别结果，停止执行以避免复用旧数据");
+            await genshin.returnMainUi();
+            return;
+        }
 
         await prepareForCommission();
 
-        await executeCommissionTracking(stepRegistry);
+        await executeCommissionTracking(stepRegistry, identificationResult.requiredSuccesses);
 
         const globalConfig = loadGlobalConfig();
         if (!globalConfig.skipSafeTeleport) {
@@ -82,7 +121,7 @@ export async function executeMainProcess(stepRegistry, commissionScopes) {
         log.info("每日委托执行完成");
 
     } catch (error) {
+        if (isCancellationError(error)) { throw error; }
         log.error("执行主流程时出错: {error}", error.message);
     }
 }
-

@@ -11,8 +11,20 @@
     {
         "name": "foodsToBuy",
         "type": "input-text",
-        "label": "支援的 商人与商品详细 请前往 README.md 查看\n建议直接复制商品名称贴上输入栏\n\n要购买的商品（多个商品用空格分隔）\n示例：\"小麦 黑麦\"",
+        "label": "支持的 商人与商品详细 请前往 README.md 查看\n建议直接复制商品名称贴上输入栏\n\n要购买的商品（多个商品用空格分隔）\n示例：\"小麦 黑麦\"\n注：填写\"狗粮\"时，会自动购买所有狗粮商品",
         "default": "小麦 黑麦"
+    },
+    {
+        "name": "preset",
+        "type": "select",
+        "label": "商品预设（选项由脚本目录下的“预设工具.html”自动同步）\n选择预设后本次运行按此预设的商品组合购买；“不使用预设”则按上方商品栏购买",
+        "options": [
+            "不使用预设"
+        ],
+        "default": "不使用预设"
+    },
+    {
+        "type": "separator"
     },
     {
         "name": "AKF",
@@ -48,13 +60,25 @@
     {
         "name": "ignoreRecords",
         "type": "checkbox",
-        "label": "无视记录强制购买（不推荐）",
+        "label": "无视记录强制购买（运行后自动取消勾选）",
+        "default": false
+    },
+    {
+        "name": "debugMode",
+        "type": "checkbox",
+        "label": "================ 调试模式 ===============\n启用调试模式",
         "default": false
     },
     {
         "name": "recordDebug",
         "type": "checkbox",
-        "label": "调试模式（显示详细日志）",
+        "label": "显示详细日志（需启用调试模式）",
         "default": false
+    },
+    {
+        "name": "debugNpcFoods",
+        "type": "input-text",
+        "label": "指定NPC和商品（需启用调试模式）\n只运行指定NPC并只购买其指定商品（NPC和商品可多选）\n\n格式：NPC名 商品1 商品2，NPC名2 商品3\n示例：\"布兰琪 盐 胡椒，莎拉 面粉\"",
+        "default": ""
     }
 ]

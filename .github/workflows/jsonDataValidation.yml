@@ -1,16 +1,27 @@
 name: JSON Data Validation
 
 on:
+  push:
+    branches: [build]
+    paths:
+      - 'repo/js/**'
+      - 'packages/**'
+      - 'build/validate.py'
+      - '.github/workflows/jsonDataValidation.yml'
   pull_request_target:
     types: [opened, synchronize, reopened, edited]
     branches:
       - main
     paths:
       - 'repo/pathing/**/*.json'
+      - 'repo/js/**'
+      - 'packages/**'
+      - 'build/validate.py'
+      - '.github/workflows/jsonDataValidation.yml'
   workflow_dispatch:
     inputs:
       path:
-        description: '要验证的路径'
+        description: '要验证的地图追踪路径或 repo/js 脚本包路径'
         required: true
         default: 'repo/pathing'
         type: string
@@ -25,7 +36,36 @@ on:
         type: string
 
 jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      pathing: ${{ steps.scope.outputs.pathing }}
+      js: ${{ steps.scope.outputs.js }}
+    steps:
+      - uses: actions/github-script@v6
+        id: scope
+        with:
+          script: |
+            if (context.eventName === 'pull_request_target') {
+              const files = await github.paginate(github.rest.pulls.listFiles, {
+                owner: context.repo.owner, repo: context.repo.repo,
+                pull_number: context.payload.pull_request.number
+              });
+              core.setOutput('pathing', files.some(({filename}) => filename.startsWith('repo/pathing/') && filename.endsWith('.json')));
+              core.setOutput('js', files.some(({filename}) => filename.startsWith('repo/js/') || filename.startsWith('packages/') || filename === 'build/validate.py' || filename === '.github/workflows/jsonDataValidation.yml'));
+            } else {
+              const path = (context.payload.inputs?.path || '').replace(/\\/g, '/').replace(/^\.\//, '');
+              const js = context.eventName === 'push' || /^repo\/js(?:\/|$)/.test(path);
+              core.setOutput('pathing', !js);
+              core.setOutput('js', js);
+            }
+
   validate-json:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.pathing == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -543,3 +583,49 @@ jobs:
                 body: commitMessage
               });
             }
+
+  validate-js:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.js == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install existing validator dependencies
+        run: pip install packaging semver chardet
+      - name: Validate JS with existing validator
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          BASE_REF: origin/${{ github.event.repository.default_branch }}
+          VALIDATE_PATH: ${{ inputs.path }}
+        run: |
+          if ! grep -q 'def validate_js(' build/validate.py; then
+            echo "::notice::基础分支尚未部署 JS 校验能力，本次 PR 未检测；首次接入请查看 build 分支 push 的结果。"
+            exit 0
+          fi
+          if [ "$EVENT_NAME" = "pull_request_target" ]; then
+            # 使用基础分支的校验脚本，只读取 PR Git 对象，不检出或执行 PR 代码。
+            [[ "$PR_NUMBER" =~ ^[0-9]+$ ]]
+            [[ "$HEAD_SHA" =~ ^[0-9a-f]{40}$ ]]
+            git fetch --no-tags origin "refs/pull/$PR_NUMBER/head"
+            python build/validate.py repo/js --js --base "$BASE_SHA" --revision "$HEAD_SHA" --github
+          elif [ "$EVENT_NAME" = "push" ]; then
+            python build/validate.py repo/js --js --base "$BASE_REF" --github
+          else
+            python build/validate.py "$VALIDATE_PATH" --js --github
+          fi

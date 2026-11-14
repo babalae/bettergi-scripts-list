@@ -123,10 +123,10 @@ export class Physical {
         let add_buttonJSON = getJsonPath('add_button');
         let add_objJson = {
             path: `${add_buttonJSON.path}${add_buttonJSON.name}${add_buttonJSON.type}`,
-            x: 1373,
-            y: 22,
-            width: 52,
-            height: 49,
+            x: 1248,
+            y: 21,
+            width: 50,
+            height: 50,
         }
         //1248, 21, 50, 50
         //
