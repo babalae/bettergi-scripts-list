@@ -1,0 +1,27 @@
+{
+  "manifest_version": 1,
+  "name": "背包扫描",
+  "version": "1.1.0",
+  "tags": [
+    "背包",
+    "统计"
+  ],
+  "bgi_version": "0.55",
+  "description": "扫描背包各页签，统计每种物品的数量并生成报告，支持关注材料通知。",
+  "authors": [
+    {
+      "name": "烏兎",
+      "links": "https://github.com/AYAPNZ"
+    },
+    {
+      "name": "大梦谁先觉",
+      "links": "https://github.com/wakingfrombigdream"
+    }
+  ],
+  "main": "main.js",
+  "settings_ui": "settings.json",
+  "saved_files": [
+    "record/"
+  ],
+  "allow_js_notification": true
+}
