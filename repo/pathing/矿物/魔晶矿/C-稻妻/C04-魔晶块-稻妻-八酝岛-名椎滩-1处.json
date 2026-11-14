@@ -1,0 +1,118 @@
+{
+  "info": {
+    "author": "蜜柑魚",
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "修过",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1794194104631,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "C04-魔晶块-稻妻-八酝岛-名椎滩-1处",
+    "tags": [
+      "双手剑",
+      "小怪"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2533.4,
+      "y": -3539.61
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2573.7,
+      "y": -3521.63
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2576.72,
+      "y": -3523.21
+    },
+    {
+      "action": "combat_script",
+      "action_params": "玛薇卡 w(0.2),e(hold),wait(0.05),keydown(w),wait(0.01),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.0),j,wait(0.15),j,wait(0.1),j,wait(0.01),j,wait(1.2),e;",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -2714.42,
+      "y": -3572.89
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "point_ext_params": {
+        "description": "骗骗花*2",
+        "misidentification": {
+          "arrival_time": 0,
+          "handling_mode": "previousDetectedPoint",
+          "type": [
+            "unrecognized"
+          ]
+        },
+        "monster_tag": "normal"
+      },
+      "type": "path",
+      "x": -2714.42,
+      "y": -3572.89
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2714.42,
+      "y": -3572.89
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2746.8472,
+      "y": -3555.0586
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2754.2441,
+      "y": -3551.4512
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -2754.2441,
+      "y": -3551.4512
+    }
+  ]
+}
