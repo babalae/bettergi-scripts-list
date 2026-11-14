@@ -1,0 +1,103 @@
+{
+  "info": {
+    "name": "6809--纳塔_安饶之野_石火坠陨处_(12)",
+    "type": "collect",
+    "author": "汐&mno",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时106.22秒，包含11只小怪，预计收入526.5摩拉，包含以下怪物：5只横蛮勇士·冲撞手、2只横蛮勇士·抓扑人、1只突角龙武士·破空轰动、2只幼突角龙、1只突角龙。",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      },
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 10595.94,
+      "y": -2665.25,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 10581.96,
+      "y": -2589.31,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 10532.12,
+      "y": -2554.57,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.3)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 10510.45,
+      "y": -2571.88,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 10503.86,
+      "y": -2584.24,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 10514.25,
+      "y": -2568.81,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 10489.26,
+      "y": -2553.07,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 10431.52,
+      "y": -2524.95,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 10431.52,
+      "y": -2524.95,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.1)",
+      "type": "orientation"
+    }
+  ]
+}

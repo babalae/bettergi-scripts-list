@@ -1,0 +1,22 @@
+[
+  {
+    "name": "team",
+    "type": "input-text",
+    "label": "战斗的队伍名称（必填）"
+  },
+  {
+    "name": "elementTeam",
+    "type": "input-text",
+    "label": "元素采集的队伍名称（必填）"
+  },
+  {
+    "name": "prepare",
+    "type": "checkbox",
+    "label": "切换队伍不前往七天神像及完成后不去安全地点"
+  },
+  {
+    "name": "skipRecognition",
+    "type": "checkbox",
+    "label": "跳过委托识别（开发者选项,普通用户不用开）"
+  }
+]

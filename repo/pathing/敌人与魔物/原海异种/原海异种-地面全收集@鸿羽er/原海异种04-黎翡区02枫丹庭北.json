@@ -1,0 +1,62 @@
+{
+  "info": {
+    "name": "原海异种04-黎翡区02枫丹庭北",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "鸿羽er",
+        "links": "https://github.com/evildoer12138"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4597.5,
+      "y": 4023.72,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4562.87,
+      "y": 4014.73,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "path",
+      "x": 4528.25,
+      "y": 4005.75,
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4531.75,
+      "y": 4052.88,
+      "action": "",
+      "action_params": "",
+      "type": "path",
+      "move_mode": "run"
+    },
+    {
+      "id": 5,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4500.87,
+      "y": 4091.62,
+      "action_params": ""
+    }
+  ]
+}

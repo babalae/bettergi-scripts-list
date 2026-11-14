@@ -1,0 +1,256 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1774725548273,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "04-琉鳞石-孑遗的留迹-10个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.1"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10170.6494,
+      "y": -3022.3594
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10168.9268,
+      "y": -3046.5361
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10138.0479,
+      "y": -3060.5586
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10121.9287,
+      "y": -3080.0342
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.2),keypress(t)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 10116.3867,
+      "y": -3087.7979
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 10093.9746,
+      "y": -3104.8691
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10024.6484,
+      "y": -3116.6299
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 10019.7539,
+      "y": -3124.8398
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9999.5869,
+      "y": -3149.3682
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(Q),keypress(f),wait(0.8),keypress(f),keyup(Q),wait(0.1),j,",
+      "id": 10,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 10007.6973,
+      "y": -3160.9805
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 10007.6973,
+      "y": -3160.9805
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.2),keypress(t),click(middle),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T),moveby(1200,0),wait(0.5),keypress(T)",
+      "id": 12,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 10007.6973,
+      "y": -3160.9805
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 13,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 10010.9199,
+      "y": -3158.8018
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 10020.1572,
+      "y": -3165.7764
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.7),keydown(e),attack(1.8),keyup(e)",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 10024.1875,
+      "y": -3165.1816
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10023.8271,
+      "y": -3168.0654
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10023.0605,
+      "y": -3163.0459
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 18,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9998.459,
+      "y": -3177.1201
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 9995.4375,
+      "y": -3171.281
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.7),keydown(e),attack(1.8),keyup(e)",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9991.5781,
+      "y": -3171.3936
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9986.3242,
+      "y": -3158.3467
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 22,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9977.8525,
+      "y": -3149.125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 23,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9979.959,
+      "y": -3147.4678
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 24,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9971.9648,
+      "y": -3161.2607
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 25,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9969.375,
+      "y": -3162.8442
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 26,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9965.9863,
+      "y": -3165.5352
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762613856182,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "5枫丹额外激活CD",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4309.12890625,
+      "y": 4760.20361328125
+    },
+    {
+      "action": "log_output",
+      "action_params": "\n[激活路径]现在开始神秘の召唤小仪式!!!\n[激活路径]菜就多看readme,别打断别狗叫!!!",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4334.869140625,
+      "y": 4785.392578125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4334.869140625,
+      "y": 4785.392578125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4406.419921875,
+      "y": 4834.75390625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4309.12890625,
+      "y": 4760.20361328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4274.67578125,
+      "y": 4763.36572265625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4263.67822265625,
+      "y": 4730.74853515625
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4283.94140625,
+      "y": 4642.21875
+    }
+  ]
+}

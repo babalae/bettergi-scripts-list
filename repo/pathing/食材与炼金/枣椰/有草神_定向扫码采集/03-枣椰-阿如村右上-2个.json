@@ -1,0 +1,77 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/taotao568685",
+        "name": "白白喵"
+      },
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "约43秒/2个",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1763840262230,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "03-枣椰-阿如村右上-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "nahida_collect",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3993.145,
+      "y": -1989.543
+    },
+    {
+      "action": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3949.0908,
+      "y": -1961.9707
+    },
+    {
+      "action": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3941.4355,
+      "y": -1928.6987
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3976.6411,
+      "y": -1875.1851
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3969.4863,
+      "y": -1863.6191
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 w(0.3),click(middle),wait(0.5),keydown(e),wait(0.75),moveby(0,-1000),wait(0.3),keyup(e);",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 3964.9932,
+      "y": -1870.1553
+    }
+  ]
+}

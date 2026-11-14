@@ -1,0 +1,73 @@
+{
+  "info": {
+    "name": "稻妻-飘浮灵-海祇岛珊瑚宫北-4个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "飘浮灵-4个\n稻妻-海祇岛珊瑚宫北",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -765.98,
+      "y": -3557.24,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -769.96,
+      "y": -3564.63,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -784.29,
+      "y": -3570.99,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(space),wait(1),attack(0.1)",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": -784.29,
+      "y": -3570.99,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -782.45,
+      "y": -3581.9,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": -782.45,
+      "y": -3581.9,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,157 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1756148017774,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "21-堇瓜-海祇岛-水月池-6个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1133.87,
+      "y": -3605.18
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),w(0.4),keypress(f),wait(1),keypress(t),wait(0.5),keypress(t),wait(0.5),keypress(t),wait(0.5)",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -1138.82,
+      "y": -3596.62
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "target",
+      "x": -1147.1602,
+      "y": -3593.3633
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1154.4648,
+      "y": -3601.2305
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1140.5332,
+      "y": -3622.4258
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1117.7773,
+      "y": -3624.5781
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1074.6211,
+      "y": -3669.1367
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1043.1953,
+      "y": -3713.3633
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -1034.2363,
+      "y": -3717.2949
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1007.2168,
+      "y": -3743.4717
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -1011.9355,
+      "y": -3707.8438
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -999.0117,
+      "y": -3698.8535
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -990.3184,
+      "y": -3694.7061
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.8)",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -979.8145,
+      "y": -3690.3496
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -971.582,
+      "y": -3689.6924
+    }
+  ]
+}

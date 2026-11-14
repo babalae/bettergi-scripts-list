@@ -1,0 +1,50 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Bedrockx",
+        "name": "mno"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时39.8秒，包含以下怪物：2只幼突角龙、1只突角龙。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757942375989,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "6902纳塔悠悠集市东2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 13629.668,
+      "y": 379.5103
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 13673.4521,
+      "y": 432.3232
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 13673.4521,
+      "y": 432.3232
+    }
+  ]
+}

@@ -1,0 +1,166 @@
+{
+  "info": {
+    "name": "蒙德-11-风龙废墟入口-5个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.43.0",
+    "authors": [
+      {
+        "name": "愚溪",
+        "links": "https://github.com/Kupder"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 36.77,
+      "y": 2380.87,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 62.56,
+      "y": 2388.26,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 73.91,
+      "y": 2389.41,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": 73.08,
+      "y": 2387.31,
+      "type": "target",
+      "move_mode": "climb",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": 73.0,
+      "y": 2382.5,
+      "action": "",
+      "move_mode": "climb",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 95.25,
+      "y": 2387.5,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 95.74,
+      "y": 2402.57,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 94.59,
+      "y": 2389.74,
+      "move_mode": "walk",
+      "type": "path",
+      "action": "combat_script",
+      "action_params": "钟离 d(0.2),e(hold)"
+    },
+    {
+      "id": 9,
+      "x": 92.93,
+      "y": 2401.43,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 157.21,
+      "y": 2409.36,
+      "move_mode": "walk",
+      "type": "path",
+      "action": "combat_script",
+      "action_params": "钟离 d(0.2),e(hold)"
+    },
+    {
+      "id": 11,
+      "x": 152.88,
+      "y": 2433.03,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 150.84,
+      "y": 2443.88,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 187.17,
+      "y": 2434.75,
+      "move_mode": "walk",
+      "type": "path",
+      "action": "combat_script",
+      "action_params": "钟离 d(0.2),e(hold)"
+    },
+    {
+      "id": 14,
+      "x": 185.94,
+      "y": 2447.3,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 250.24,
+      "y": 2452.03,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 254.05,
+      "y": 2436.83,
+      "action": "",
+      "move_mode": "climb",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 255.28,
+      "y": 2429.81,
+      "move_mode": "walk",
+      "type": "path",
+      "action": "combat_script",
+      "action_params": "钟离 d(0.2),e(hold)"
+    },
+    {
+      "id": 18,
+      "x": 354.66,
+      "y": 2449.63,
+      "move_mode": "walk",
+      "type": "path",
+      "action": "combat_script",
+      "action_params": "钟离 d(0.2),e(hold)"
+    }
+  ]
+}

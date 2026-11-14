@@ -1,0 +1,70 @@
+{
+  "info": {
+    "name": "坠星山谷-1",
+    "type": "collect",
+    "author": "1",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1502.44,
+      "y": 2276.5,
+      "action": "",
+      "move_mode": "run",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1509.0,
+      "y": 2257.5,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1505.69,
+      "y": 2238.75,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -1504.19,
+      "y": 2170.25,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -1472.71,
+      "y": 2188.25,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -1480.0,
+      "y": 2188.88,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -1478.38,
+      "y": 2194.38,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

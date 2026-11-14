@@ -1,0 +1,62 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/jidingcai",
+        "name": "呱呱z"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1755694477691,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "11-浊水幻灵-枫丹-莫尔泰区-卡布狄斯堡遗迹右下-1个",
+    "tags": [
+      "精英怪",
+      "等级100+",
+      "浊水幻灵"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3072.9053,
+      "y": 2676.6501
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(4);",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3134.2344,
+      "y": 2715.6873
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3150.2725,
+      "y": 2723.7046
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 3171.0176,
+      "y": 2744.79
+    }
+  ]
+}

@@ -1,0 +1,121 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "Tool_tingsu"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1755660303779,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "纳塔-悠悠度假村-05-B",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 13979.1875,
+      "y": 470.830078125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(T),wait(1)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 13980.4921875,
+      "y": 468.28759765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 13988.3154296875,
+      "y": 441.61376953125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 13999.1279296875,
+      "y": 435.4453125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14007.2265625,
+      "y": 434.95654296875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14010.3837890625,
+      "y": 433.40087890625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 14016.89453125,
+      "y": 430.20068359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14058.7958984375,
+      "y": 442.98486328125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14084.8173828125,
+      "y": 450.119140625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14092.0556640625,
+      "y": 456.0537109375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(Q),wait(1),keyup(Q),wait(0.3),attack",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 14098.3232421875,
+      "y": 459.8232421875
+    }
+  ]
+}

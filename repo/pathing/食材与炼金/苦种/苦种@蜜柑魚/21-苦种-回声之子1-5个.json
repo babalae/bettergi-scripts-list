@@ -1,0 +1,161 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/taotao568685",
+        "name": "白白喵"
+      },
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777105291198,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "21-苦种-回声之子1-5个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7759.2959,
+      "y": -1401.4756
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t),wait(1)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7740.0508,
+      "y": -1415.2041
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(8)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7728.835,
+      "y": -1409.9521
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(e),wait(2),keydown(q),wait(1.2),keyup(q),wait(1)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7723.7783,
+      "y": -1424.8936
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 7672.1689,
+      "y": -1463.3037
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 7666.4043,
+      "y": -1462.8555
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7655.6338,
+      "y": -1463.1035
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7651.7803,
+      "y": -1462.6133
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7644.6094,
+      "y": -1473.376
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7630.5254,
+      "y": -1466.3164
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.05)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7626.3252,
+      "y": -1470.0576
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7603.6943,
+      "y": -1468.5332
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7596.8477,
+      "y": -1456.2539
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1000",
+      "id": 14,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 7481.2432,
+      "y": -1334.0039
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7481.5469,
+      "y": -1334.0264
+    }
+  ]
+}

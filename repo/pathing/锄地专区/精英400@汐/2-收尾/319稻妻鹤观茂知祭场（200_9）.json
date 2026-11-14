@@ -1,0 +1,221 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时184秒，包含109只精英与6只小怪，预计收入22043摩拉，包含以下怪物：4只冲锋丘丘人、2只木盾丘丘人、1只火斧丘丘暴徒、1只雷斧丘丘暴徒、2只火深渊法师、2只雷深渊法师、1只冰深渊法师、2只嗜雷·兽境幼兽。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1760033569592,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "319稻妻鹤观茂知祭场（200_9）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2836.79,
+      "y": -6287.49
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2)",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2867.18,
+      "y": -6281.23
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2885.93,
+      "y": -6278.14
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2900.74,
+      "y": -6275.4
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2927.53,
+      "y": -6288.91
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2953.71,
+      "y": -6326.12
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -2955.65,
+      "y": -6341.09
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2954.65,
+      "y": -6341.09
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2836.79,
+      "y": -6287.49
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2)",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2822.21,
+      "y": -6312.77
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2798.94,
+      "y": -6313.25
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2789.09,
+      "y": -6305.27
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2786.33,
+      "y": -6296.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2794.13,
+      "y": -6268.72
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -2785.67,
+      "y": -6222.28
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2784.77,
+      "y": -6222.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2798.66,
+      "y": -6224.22
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "run",
+      "type": "path",
+      "x": -2829.19,
+      "y": -6254.19
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";钟离 a(0.1),e(hold);茜特菈莉 e;莱依拉 e;伊涅芙 e;attack(0.2)",
+      "id": 19,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2853.56,
+      "y": -6237.13
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2866.31,
+      "y": -6202.25
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2)",
+      "id": 21,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2831.11,
+      "y": -6169.1
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 22,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2824.7148,
+      "y": -6206.0791
+    }
+  ]
+}

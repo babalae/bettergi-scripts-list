@@ -1,0 +1,58 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/1004452714",
+        "name": "DarkFlameMaster"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784388972467,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "璃月-绝云间-何以击石",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1434.6494,
+      "y": 837.7051
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1427.7764,
+      "y": 828.2051
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "6000",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 1222.1631,
+      "y": 831.3584
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 1221.4521,
+      "y": 831.1055
+    }
+  ]
+}

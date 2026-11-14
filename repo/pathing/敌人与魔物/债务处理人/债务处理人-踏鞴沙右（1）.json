@@ -1,0 +1,54 @@
+{
+  "info": {
+    "name": "债务处理人-踏鞴沙右（1）",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "下流山汉",
+        "links": "https://github.com/vulgar-rustic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3288.18,
+      "y": -3652.55,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -3279.35,
+      "y": -3657.79,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -3234.18,
+      "y": -3693.81,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(VK_SPACE),wait(2),click",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": -3234.18,
+      "y": -3693.81,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

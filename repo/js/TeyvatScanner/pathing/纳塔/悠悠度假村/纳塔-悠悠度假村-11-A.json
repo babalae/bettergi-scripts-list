@@ -1,0 +1,94 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "Tool_tingsu"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1755661671954,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "纳塔-悠悠度假村-11-A",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 14219.251953125,
+      "y": 807.4453125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(T),wait(1)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14219.9365234375,
+      "y": 809.419921875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14198.458984375,
+      "y": 823.50390625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14196.0498046875,
+      "y": 843.98388671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14200.23828125,
+      "y": 877.9794921875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14234.857421875,
+      "y": 894.052734375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14276.15234375,
+      "y": 903.171875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(Q),wait(1),keyup(Q),wait(0.3),attack",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 14279.919921875,
+      "y": 911.9423828125
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+[
+  {
+    "name": "path",
+    "type": "select",
+    "label": "路线（默认：自动）",
+    "options": [
+      "A",
+      "B",
+      "自动"
+    ]
+  },
+
+  {
+    "name": "activeProgress",
+    "type": "select",
+    "label": "----------------------------------\n启用断点续跑。（默认：否）\n↓↓↓↓↓ 【多账号】请选：否  ↓↓↓↓↓",
+    "options": [
+      "是",
+      "否"
+    ]
+  },
+  {
+    "name": "autoSalvage",
+    "type": "select",
+    "label": "----------------------------------\n自动分解（默认：是）",
+    "options": [
+      "是",
+      "否"
+    ]
+  },
+  {
+    "name": "notify",
+    "type": "checkbox",
+    "label": "储存有本地记录\n----------------------------------\n分解经验后是否发送通知（默认：否）"
+  },
+  {
+    "name": "autoSalvage3",
+    "type": "select",
+    "label": "需在BGI开启JS通知，并设置通知地址\n----------------------------------\n自动分解包括3星圣遗物（默认：否）",
+    "options": [
+      "是",
+      "否"
+    ]
+  },
+  {
+    "name": "autoSalvage4",
+    "type": "select",
+    "label": "----------------------------------\n自动分解包括4星圣遗物（默认：否）",
+    "options": [
+      "是",
+      "否"
+    ]
+  },
+  {
+    "name": "autoSalvageSpan",
+    "type": "input-text",
+    "label": "----------------------------------\n自动分解在多少路径后执行一次（默认：10）\n填入1则每路径都分解"
+  },
+
+  {
+    "name": "swapPath",
+    "type": "select",
+    "label": "----------------------------------\n自动选择路线时，交换AB路线（默认：否）",
+    "options": [
+      "是",
+      "否"
+    ]
+  },
+  {
+    "name": "extra",
+    "type": "select",
+    "label": "拾取额外点位（默认：是）",
+    "options": [
+      "是",
+      "否"
+    ]
+  },
+  {
+    "name": "extraAB",
+    "type": "select",
+    "label": "满24小时才刷新的额外点位\n也分AB路线拾取（默认：是）",
+    "options": [
+      "是",
+      "否"
+    ]
+  },
+  {
+    "name": "activeRestore",
+    "type": "select",
+    "label": "主动去神像恢复（默认：是）",
+    "options": [
+      "是",
+      "否"
+    ]
+  }
+]

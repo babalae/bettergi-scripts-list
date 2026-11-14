@@ -1,0 +1,49 @@
+{
+  "info": {
+    "name": "C04-须弥-落谷山内洞窟上层-2个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "芝士贝果",
+        "links": "https://github.com/cheese-bagel"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.52.0",
+    "tags": [],
+    "last_modified_time": 1754833030369,
+    "enable_monster_loot_split": false,
+    "map_match_method": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4631.9297,
+      "y": -2982.1494,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4632.0352,
+      "y": -2967.1865,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4649.8545,
+      "y": -2971.3398,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "mining",
+      "action_params": ""
+    }
+  ]
+}

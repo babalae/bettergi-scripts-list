@@ -1,0 +1,94 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "起个名字好难的喵"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762178447159,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "纳塔-科西霍",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8582.28125,
+      "y": -2674.958984375
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8556.7958984375,
+      "y": -2679.421875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(VK_T)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 8557.037109375,
+      "y": -2682.09765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8547.7119140625,
+      "y": -2680.9638671875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8542.6298828125,
+      "y": -2698.3046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8547.0205078125,
+      "y": -2713.3857421875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8532.0595703125,
+      "y": -2717.0693359375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8485.6533203125,
+      "y": -2750.7275390625
+    }
+  ]
+}

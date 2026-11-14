@@ -1,0 +1,76 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "白白喵",
+        "links": "https://github.com/taotao568685"
+      }
+    ],
+    "bgi_version": "0.54.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758040785125,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "G02-挪德卡莱-伦波岛-苔骨荒原-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9351.9404,
+      "y": 2104.0815
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9361.9307,
+      "y": 2106.0422
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9368.2852,
+      "y": 2106.8062
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9354.7324,
+      "y": 2112.5754
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9303.25,
+      "y": 2137.7649
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9308.0703,
+      "y": 2149.9263
+    }
+  ]
+}

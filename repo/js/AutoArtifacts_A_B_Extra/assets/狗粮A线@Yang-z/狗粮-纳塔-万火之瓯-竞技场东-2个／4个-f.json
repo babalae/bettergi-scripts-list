@@ -1,0 +1,136 @@
+{
+    "info": {
+        "name": "狗粮-纳塔-万火之瓯-竞技场东-2个／4个-f",
+        "type": "collect",
+        "author": "Yang-z",
+        "version": "1.1",
+        "bgi_version": "0.42.0"
+    },
+    "positions": [
+        {
+            "x": 8738.201171875,
+            "y": -1857.45947265625,
+            "type": "teleport"
+        },
+        {
+            "x": 8716.09375,
+            "y": -1865.416015625,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "combat_script",
+            "action_params": "keypress(VK_SPACE),wait(0.2),click",
+            "//": "stop_flying"
+        },
+        {
+            "x": 8719.2001953125,
+            "y": -1864.53466796875,
+            "type": "path",
+            "move_mode": "walk"
+        },
+
+        {
+            "x": 8724.24609375,
+            "y": -1863.20947265625,
+            "type": "target",
+            "move_mode": "walk",
+            "No.": "1 2"
+        },
+        {
+            "x": 8724.24609375,
+            "y": -1863.2099609375,
+            "type": "target",
+            "move_mode": "walk",
+            "No.": "1 2"
+        }
+    
+    ],
+
+
+
+    "positions_not_actived": [
+        {
+            "x": 8721.26953125,
+            "y": -1856.9326171875,
+            "type": "path",
+            "move_mode": "walk"
+        },
+        {
+            "x": 8660.845703125,
+            "y": -1797.1259765625,
+            "type": "path",
+            "move_mode": "run"
+        },
+        {
+            "x": 8651.423828125,
+            "y": -1785.03662109375,
+            "type": "path",
+            "move_mode": "fly"
+        },
+        {
+            "x": 8667.1689453125,
+            "y": -1767.51904296875,
+            "type": "path",
+            "move_mode": "walk"
+        },
+        {
+            "x": 8672.138671875,
+            "y": -1766.37451171875,
+            "type": "path",
+            "move_mode": "walk"
+        },
+
+        {
+            "x": 8672.69921875,
+            "y": -1769.48388671875,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "No.": "3"
+        },
+        {
+            "x": 8672.6572265625,
+            "y": -1769.791015625,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "No.": "3"
+        },
+
+        {
+            "x": 8630.39453125,
+            "y": -1771.56494140625,
+            "type": "path",
+            "move_mode": "fly"
+        },
+        {
+            "x": 8613.8095703125,
+            "y": -1766.69580078125,
+            "type": "path",
+            "move_mode": "fly"
+        },
+        {
+            "x": 8596.5390625,
+            "y": -1763.8193359375,
+            "type": "path",
+            "move_mode": "walk"
+        },
+
+        {
+            "x": 8591.849609375,
+            "y": -1763.35888671875,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "No.": "4"
+        },
+        {
+            "x": 8591.1875,
+            "y": -1763.3173828125,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "",
+            "No.": "4"
+        }
+
+    ]
+}

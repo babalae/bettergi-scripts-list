@@ -1,0 +1,112 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/taotao568685",
+        "name": "白白喵"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "琉璃袋脚本没有配队限制，纯爬山飞行摘取，请不要带释放生存技能会位移的角色（如希诺宁等）",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757065596018,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "02-琉璃袋-无妄坡下-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 490.0693,
+      "y": 1435.3945
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 474.8105,
+      "y": 1471.563
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 467.1924,
+      "y": 1475.2158
+    },
+    {
+      "action": "combat_script",
+      "action_params": "j,wait(0.8),j,wait(0.5)",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 455.0938,
+      "y": 1472.7334
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(w),wait(0.5),j,wait(1.2),j,wait(1.2),j,wait(1.2),j,wait(1.2),j,keyup(w)",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 444.7812,
+      "y": 1475.1299
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 6,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 440.833,
+      "y": 1477.772
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 449.1836,
+      "y": 1483.7646
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 453.082,
+      "y": 1486.1714
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 455.0889,
+      "y": 1486.1514
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1.8)",
+      "id": 10,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 451.2568,
+      "y": 1481.792
+    }
+  ]
+}

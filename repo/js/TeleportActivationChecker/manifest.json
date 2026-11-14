@@ -1,0 +1,25 @@
+{
+  "manifest_version": 1,
+  "name": "传送点激活检测工具",
+  "version": "3.2.0",
+  "bgi_version": "0.61.2",
+  "description": "系统检测全图传送点是否可以正常传送，支持断点续跑、异常复测、慢速点标记和结果报告。",
+  "tags": [
+    "传送",
+    "检测",
+    "工具"
+  ],
+  "authors": [
+    {
+      "name": "秋云",
+      "links": "https://github.com/physligl"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js",
+  "saved_files": [
+    "local/checkpoint.json",
+    "local/results.log",
+    "local/report.json"
+  ]
+}

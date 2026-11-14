@@ -1,0 +1,62 @@
+{
+  "info": {
+    "name": "丘丘萨满-绀田村-2只",
+    "type": "collect",
+    "version": "1.0",
+    "description": "丘丘萨满-绀田村-2只",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "ddaodan",
+        "links": "https://github.com/ddaodan"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -4050.05,
+      "y": -2657.41,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -4032.02,
+      "y": -2686.99,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -4012.71,
+      "y": -2709.82,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -3975.33,
+      "y": -2721.47,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -3957.56,
+      "y": -2714.91,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

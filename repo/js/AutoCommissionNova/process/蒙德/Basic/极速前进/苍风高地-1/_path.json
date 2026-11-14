@@ -1,0 +1,51 @@
+{
+    "info": {
+        "name": "极速前进-1",
+        "type": "collect",
+        "author": "星野",
+        "version": "1.0",
+        "description": "",
+        "map_name": "Teyvat",
+        "bgi_version": "0.45.0",
+        "tags": [],
+        "last_modified_time": 1752243918114
+    },
+    "positions": [
+        {
+            "id": 1,
+            "x": -578.7626953125,
+            "y": 1853.47314453125,
+            "action": "",
+            "move_mode": "walk",
+            "action_params": "",
+            "type": "teleport"
+        },
+        {
+            "id": 2,
+            "x": -605.33,
+            "y": 1885.12,
+            "action": "combat_script",
+            "move_mode": "walk",
+            "action_params": "wait(2)",
+            "type": "target"
+        },
+        {
+            "id": 3,
+            "x": -562.892578125,
+            "y": 1957.0341796875,
+            "action": "",
+            "move_mode": "dash",
+            "action_params": "",
+            "type": "path"
+        },
+        {
+            "id": 4,
+            "x": -562.892578125,
+            "y": 1957.0341796875,
+            "action": "",
+            "move_mode": "dash",
+            "action_params": "",
+            "type": "path"
+        }
+    ]
+}

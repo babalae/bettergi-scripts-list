@@ -1,0 +1,150 @@
+{
+  "config": {
+    "realtime_triggers": {
+      "AutoPick": true
+    }
+  },
+  "farming_info": {
+    "allow_farming_count": false,
+    "duration_seconds": 0,
+    "elite_details": "",
+    "elite_mob_count": 0,
+    "normal_mob_count": 0,
+    "primary_target": "",
+    "total_mora": 0
+  },
+  "info": {
+    "authors": [
+      {
+        "links": "https: //github.com/OhmyPaoPao",
+        "name": "海豹穹穹队"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "纳西妲采集",
+    "enable_monster_loot_split": false,
+    "items": [],
+    "last_modified_time": 1764094384692,
+    "map_match_method": "",
+    "map_name": "Enkanomiya",
+    "name": "01-海草-渊下宫-蛇肠之路南-13个",
+    "order": 0,
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 1409.7781,
+      "y": -462.3694
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 attack(0.08),e",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1424.7996,
+      "y": -456.6589
+    },
+    {
+      "action": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1454.4749,
+      "y": -441.5627
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1457.5417,
+      "y": -424.9583
+    },
+    {
+      "action": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1496.3812,
+      "y": -408.5847
+    },
+    {
+      "action": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1529.6866,
+      "y": -395.7117
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 attack(0.08),e",
+      "id": 7,
+      "move_mode": "run",
+      "type": "target",
+      "x": 1536.8352,
+      "y": -387.8723
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 attack(0.08),e",
+      "id": 8,
+      "move_mode": "run",
+      "type": "target",
+      "x": 1550.3282,
+      "y": -413.2493
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 attack(0.08),e",
+      "id": 9,
+      "move_mode": "run",
+      "type": "target",
+      "x": 1574.0249,
+      "y": -394.0256
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 attack(0.08),e",
+      "id": 10,
+      "move_mode": "run",
+      "type": "target",
+      "x": 1566.8,
+      "y": -370.2402
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "run",
+      "type": "target",
+      "x": 1551.5797,
+      "y": -353.9744
+    },
+    {
+      "action": "",
+      "id": 12,
+      "move_mode": "run",
+      "type": "path",
+      "x": 1551.3385,
+      "y": -354.9226
+    },
+    {
+      "action": "nahida_collect",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 1516.0469,
+      "y": -337.7483
+    }
+  ]
+}

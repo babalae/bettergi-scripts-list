@@ -1,0 +1,95 @@
+{
+  "info": {
+    "author": "不瘦五十斤不改名",
+    "authors": [
+      {
+        "name": "不瘦五十斤不改名",
+        "links": "https://github.com/PanZic"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1774435068413,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A09-胡萝卜-蒙德-风龙废墟(下)-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 338.23,
+      "y": 2581.15
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 350.8118,
+      "y": 2569.625
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 365.0,
+      "y": 2568.13
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 364.43,
+      "y": 2564.38
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 369.19,
+      "y": 2563.06
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 370.28,
+      "y": 2566.0
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 370.5156,
+      "y": 2568.5234
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.345)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 365.3857,
+      "y": 2568.0254
+    }
+  ]
+}

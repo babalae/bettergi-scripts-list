@@ -1,0 +1,49 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "name": "柒叶子",
+        "links": ""
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "前往重拳出击鸭",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757833456599,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "重拳出击鸭",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10018.607421875,
+      "y": 1538.65380859375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10032.0830078125,
+      "y": 1505.38427734375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(F),wait(4),click,wait(2),keypress(F),wait(2),click,wait(0.2)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10044.20703125,
+      "y": 1472.96728515625
+    }
+  ]
+}

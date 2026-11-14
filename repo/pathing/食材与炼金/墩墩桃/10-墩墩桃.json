@@ -1,0 +1,65 @@
+{
+  "info": {
+    "name": "10-墩墩桃",
+    "type": "collect",
+    "version": "1.0",
+    "description": "墩墩桃",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "风埠",
+        "links": "https://github.com/jhkif"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2701.61,
+      "y": -761.87
+    },
+    {
+      "id": 2,
+      "x": 2688.4,
+      "y": -772.85,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 2682.05,
+      "y": -777.32,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 2697.22,
+      "y": -795.38,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 5,
+      "x": 2715.74,
+      "y": -823.51,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": 2733.08,
+      "y": -836.5,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    }
+  ]
+}

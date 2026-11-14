@@ -1,0 +1,64 @@
+[
+  {
+    "type": "地图追踪",
+    "data": "去往蒙德大教堂.json",
+    "note": "执行第一个地图追踪步骤"
+  },
+  {
+    "type": "按键",
+    "data": "F",
+    "note": "按下F键"
+  },
+  {
+    "type": "等待返回主界面",
+    "note": "等待返回主界面"
+  },
+  {
+    "type": "追踪委托",
+    "data": {
+      "npc": "维克多",
+      "iconType": "task"
+    },
+    "note": "追踪委托"
+  },
+  {
+    "type": "对话",
+    "data": {
+      "skipCount": 3,
+      "priorityOptions": ["女皇"],
+      "npcWhiteList": ["维克多"]
+    },
+    "note": "对话"
+  },
+  {
+    "type": "地图追踪",
+    "data": "来自冬天的故事-蒙德城-2.json",
+    "note": "执行第二个地图追踪步骤"
+  },
+  {
+    "type": "地图追踪",
+    "data": "去往蒙德大教堂.json",
+    "note": "执行第一个地图追踪步骤"
+  },
+  {
+    "type": "按键",
+    "data": "F",
+    "note": "按下F键"
+  },
+  {
+    "type": "等待返回主界面",
+    "note": "等待返回主界面"
+  },
+  {
+    "type": "追踪委托",
+    "data": {
+      "npc": "维克多",
+      "iconType": "Question"
+    },
+    "note": "追踪委托"
+  },
+  {
+    "type": "对话",
+    "note": "对话"
+  }
+]

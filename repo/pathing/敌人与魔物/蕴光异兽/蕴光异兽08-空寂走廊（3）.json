@@ -1,0 +1,108 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/evildoer12138",
+        "name": "鸿羽er"
+      }
+    ],
+    "bgi_version": "0.50.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758007527883,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "蕴光异兽08-空寂走廊（3）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8949.5,
+      "y": 2498.9412
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8797.0,
+      "y": 2491.9399
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8808.5,
+      "y": 2490.5003
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9214.5,
+      "y": 2503.4339
+    },
+    {
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9182.0,
+      "y": 2547.7495
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9171.0,
+      "y": 2593.9992
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9189.0,
+      "y": 2847.9551
+    },
+    {
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9169.5,
+      "y": 2840.9963
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9141.625,
+      "y": 2848.1249
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9117.0,
+      "y": 2872.8123
+    }
+  ]
+}

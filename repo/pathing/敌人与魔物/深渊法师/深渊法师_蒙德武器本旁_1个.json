@@ -1,0 +1,53 @@
+{
+  "info": {
+    "name": "深渊法师_蒙德武器本旁_1个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "深渊法师",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "FuYeqi",
+        "links": "https://github.com/FuYeqi"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -227.0,
+      "y": 2247.5,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "climb",
+      "type": "path",
+      "x": -228.5,
+      "y": 2228.5,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "",
+      "move_mode": "climb",
+      "type": "path",
+      "x": -223.5,
+      "y": 2224.0,
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": -197.5,
+      "y": 2193.5,
+      "action_params": ""
+    }
+  ]
+}

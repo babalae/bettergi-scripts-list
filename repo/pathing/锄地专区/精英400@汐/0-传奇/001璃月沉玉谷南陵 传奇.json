@@ -1,0 +1,76 @@
+{
+  "info": {
+    "name": "001璃月沉玉谷南陵 传奇",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时131.22秒，预计收入2400摩拉，包含以下怪物：4只精英传奇倍率三。",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1863.64,
+      "y": 1591,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1915.29,
+      "y": 1573.32,
+      "action": "",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 1945.81,
+      "y": 1609.44,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 1969.75,
+      "y": 1619.73,
+      "action": "",
+      "move_mode": "run",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 1986,
+      "y": 1593.25,
+      "action": "fight",
+      "move_mode": "dash",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 1986,
+      "y": 1593.25,
+      "action": "fight",
+      "move_mode": "run",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 7,
+      "x": 1986,
+      "y": 1593.25,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(0.2)",
+      "type": "orientation"
+    }
+  ]
+}

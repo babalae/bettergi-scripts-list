@@ -1,0 +1,153 @@
+{
+  "info": {
+    "name": "3205(高危)稻妻踏鞴反应炉东三骗骗花",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时129.93秒，包含9只小怪，预计收入445.5摩拉，包含以下怪物：2只火史莱姆、1只大型火史莱姆、1只雷史莱姆、1只冰史莱姆、1只大型冰史莱姆、1只炽热骗骗花、1只电气骗骗花、1只冰霜骗骗花。",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -3288.14,
+      "y": -3652.51,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -3273.83,
+      "y": -3619.42,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -3261.66,
+      "y": -3612.44,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -3249.78,
+      "y": -3610.57,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -3246.28,
+      "y": -3622.7,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(f),wait(0.2),dash",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": -3234.53,
+      "y": -3617.48,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "keypress(f),wait(0.2),dash",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -3231.06,
+      "y": -3633.44,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "keypress(f),wait(0.2),dash",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -3224.3,
+      "y": -3634.99,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -3224.3,
+      "y": -3634.99,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -3209.81,
+      "y": -3656.55,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -3170.9,
+      "y": -3690.19,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "350",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": -3165.26,
+      "y": -3670.02,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": -3165.26,
+      "y": -3670.02,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": -3157.31,
+      "y": -3634.66,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": -3157.31,
+      "y": -3634.66,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.1)",
+      "type": "orientation"
+    }
+  ]
+}
