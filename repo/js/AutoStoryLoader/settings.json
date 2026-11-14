@@ -26,6 +26,23 @@
     "default": "刷新剧情列表"
   },
   {
+    "name": "target_quest_name",
+    "type": "input-text",
+    "label": "运行前追踪的任务完整名称（留空不操作）"
+  },
+  {
+    "name": "quest_track_only",
+    "type": "checkbox",
+    "label": "仅追踪任务，不执行剧情（填写上方名称时生效）",
+    "default": true
+  },
+  {
+    "name": "weather_diagnostics",
+    "type": "checkbox",
+    "label": "保存雪雾定位诊断（本地最多 8 张小地图）",
+    "default": false
+  },
+  {
     "name": "team",
     "type": "input-text",
     "label": "战斗的队伍名称，不填表示不切换队伍"
