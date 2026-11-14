@@ -7,6 +7,7 @@ let configSettings = undefined
 import {mapMission} from "./utils/mapMission"
 import {dailyCommissionMain,campaignAreaMain} from "./utils/campaignArea"
 import {activityMain} from "./utils/activity"
+import {monthlyCardMain} from "./utils/monthlyCard.js"
 import {toMainUi,isInMainUI} from "./utils/tool"
 /**
  * 初始化设置函数
@@ -191,4 +192,52 @@ async function main() {
     await sleep(ms * 2);
     await toMainUi()
     await runRecognitionStage("activity", () => activityMain(settings.newActivityNotice))
+
+    const checkMonthlyCard = settings.checkMonthlyCard || false
+    if (!checkMonthlyCard) {
+        await recordRecognition("monthlyCard", null, "skipped", "未启用月卡剩余天数提醒")
+        return
+    }
+
+    // 月卡识别放在原有流程最后，且自身会吞掉识别异常，避免影响前面的业务阶段。
+    const warnDays = parseNonNegativeIntSetting(
+        settings.monthlyCardWarnDays,
+        3,
+        "月卡剩余天数阈值"
+    )
+    const ocrTimeoutSeconds = Math.max(parseNonNegativeIntSetting(
+        settings.monthlyCardOcrTimeout,
+        15,
+        "月卡 OCR 超时时间"
+    ), 3)
+
+    try {
+        await runRecognitionStage(
+            "monthlyCard",
+            () => monthlyCardMain(warnDays, ocrTimeoutSeconds)
+        )
+    } catch (error) {
+        // 结果文件写入异常仍需留下明确状态，但不要再次阻断已经完成的原有提醒。
+        log.warn(`月卡阶段执行异常：${String(error.message || error)}`)
+        await recordRecognition(
+            "monthlyCard",
+            {days: null, warnDays},
+            "failed",
+            `月卡阶段执行异常：${String(error.message || error)}`
+        )
+    } finally {
+        try {
+            await toMainUi()
+        } catch (error) {
+            log.warn(`月卡阶段结束返回主界面失败：${String(error.message || error)}`)
+        }
+    }
+}
+
+function parseNonNegativeIntSetting(raw, defaultValue, label) {
+    const digits = String(raw ?? "").replace(/[^0-9]/g, "")
+    const value = digits ? Number.parseInt(digits, 10) : NaN
+    if (Number.isInteger(value) && value >= 0) return value
+    log.warn(`${label}格式无效，使用默认值 ${defaultValue}`)
+    return defaultValue
 }

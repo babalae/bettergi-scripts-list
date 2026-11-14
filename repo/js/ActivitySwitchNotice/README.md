@@ -16,6 +16,7 @@
 | `longTermTrainingPoints` | `pointNumber` 点数、`expireTime` 从 OCR 提取的过期数字、`expireTimeText` 过期原文；缺测为 `null`，过期数字沿用原识别逻辑，不是时间戳 |
 | `campaignArea` | `text`、`count` 本周消耗减半剩余次数、`total`；非提醒日为 `skipped` |
 | `activity` | `uid`、`names` 扫描到的名称、`details` 详情数组（`name`、可选 `common`、`text`、`hours`、`desc`）、`complete: null`（完整性未确认）；受原有筛选及分页逻辑限制 |
+| `monthlyCard` | `days` 剩余天数、`claimed` 今日是否已领取、`text` OCR 原文、`warnDays` 提醒阈值、`pageConfirmed` 页面是否确认、`notified` 是否已发送通知；未购买或无法解析时 `days` 为 `null` |
 
 写入时机：初始化/游戏操作前先清空旧数据并写入 `running`；阶段开始、取得识别数据（通知前）及跳过时覆盖；流程结束写入 `completed`，异常写入 `failed` 和错误原因。未执行项保留 `null`，不混入上次数据；已经保存的本次数据可在后续通知失败时保留。活动在扫描结束、通知前保存汇总，扫描中途失败时该项没有完整结果。
 
@@ -43,6 +44,7 @@
 - ✅ 每日委托奖励 / 原粹树脂 / 长期训练点提醒（`0.0.7`/`0.1.9`版本）
 - ✅ 地图识别任务提醒（`0.0.8`版本）
 - ✅ 圣遗物剩余空间检测提醒（`0.1.5`版本）
+- ✅ 月卡剩余天数检测提醒（`0.2.2`版本，可选开启）
 - ✅ 新活动通知-存储活动名称列表进行历史对比（`0.1.0`版本）
 - ✅ 支持独立通知功能（`0.0.4`版本新增 因BGI不支持WebSocket,需搭配bettergi-scripts-tools+开启JS HTTP
   权限使用）[前往bettergi-scripts-tools部署](https://github.com/Kirito520Asuna/bettergi-scripts-tools)
@@ -284,6 +286,9 @@ sequenceDiagram
 | `openBagKey`                 | 打开背包的快捷键                                                |                     B                      |
 | `checkHolyRelic`             | 启用圣遗物空间提醒                                               |                   false                    |
 | `holyRelicsDiffCountThreshold` | 圣遗物剩余空间阈值                                              |                    400                     |
+| `checkMonthlyCard`             | 启用月卡剩余天数提醒                                            |                  false                    |
+| `monthlyCardWarnDays`          | 月卡剩余天数提醒阈值（低于等于此天数时通知）                    |                    3                      |
+| `monthlyCardOcrTimeout`        | 月卡 OCR 超时时间（秒）                                         |                    15                     |
 | `wsNoticeType`               | 独立通知配置方式（自定义通知/bgi-tools通知）                            |                  自定义通知                   |
 | `http_api_access_ws_proxy`   | bgi-tools获取授权wsproxy api地址                                | http://127.0.0.1:8081/bgi/ws-proxy/access  |
 | `bgi_tools_token`            | bgi_tools授权token 语法:tokenName=tokenValue                    |               Authorization=                |
@@ -293,6 +298,8 @@ sequenceDiagram
 | `action`                     | 发送类型（私聊/群聊）（独立通知配置）                                    |                     私聊                    |
 | `send_id`                    | 发送ID（群号或QQ号，对应发送类型）（独立通知配置）                            |                     空                     |
 | `at_list`                    | @某人列表使用,隔开（QQ号）（独立通知配置）                                |                     空                     |
+
+> 月卡检查默认关闭。开启后，脚本会在原有活动、委托和周本检查完成后进入派蒙菜单的商城页面，OCR 读取「剩余 N 天」；剩余天数小于等于阈值时才发送通知。未购买月卡、页面加载超时或 OCR 失败会写入识别结果，但不会阻断其他提醒，并会尝试返回主界面。
 
 > 注：`toTopCount`、`scrollPageCount` 已不再在设置界面开放（代码内部使用默认值 10 / 4）。
 
