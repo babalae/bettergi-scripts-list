@@ -1,5 +1,11 @@
 let username = settings.username || "default";
 let use_bgi_code_source = settings.use_bgi_code_source || false;
+let server = settings.server || "";
+let trust_expire_time = settings.trust_expire_time || false;
+
+// 服务器选项映射为内部标识
+const serverMap = { "国服": "cn", "国际服（测试）": "global" };
+server = serverMap[server] || "";
 
 async function* getCodeFromFile() {
     const content = file.readTextSync("codes.txt");
@@ -23,7 +29,7 @@ async function* getCodeFromFile() {
         }
 
         if (!code) continue;
-        yield [code, deadline];
+        yield [code, deadline, ""];
     }
 }
 
@@ -57,12 +63,12 @@ async function* getCodeFromBGI() {
     log.info(`BGI兑换码列表获取成功，共 ${codeTitles.length} 组兑换码: ${codeTitles.join(", ")}`);  
 
     for (const item of listJson) {
-        const valid = item.valid.trim(); // YYYY-MM-DD
-        const validDate = new Date(valid);
+        const valid = (item.valid || '').trim(); // YYYY-MM-DD，空值或缺失时视为不过期
+        const codeServer = item.title && item.title.startsWith("[国际服]") ? "global" : "cn";
+        if (!Array.isArray(item.codes)) continue;
         for (const code of item.codes) {
             if (!code) continue;
-            // 有效期格式不明，暂时先不返回
-            yield [code, null];
+            yield [code, valid, codeServer];
         }
     }
 }
@@ -141,22 +147,43 @@ async function openCodeUI() {
     
     // 4-5. 读取 code 并打开兑换界面进行兑换
     try {
+        // 收集所有兑换码
+        const allCodes = [];
+        for await (const [code, deadline, codeServer] of getCodeList()) {
+            allCodes.push({ code, deadline, codeServer });
+        }
+
+        // 按服务器分组：目标服务器组走原规则，其他服务器组无效也写缓存
+        const targetCodes = [];
+        const otherCodes = [];
+        for (const item of allCodes) {
+            if (!server || !item.codeServer || item.codeServer === server) {
+                targetCodes.push(item);
+            } else {
+                otherCodes.push(item);
+            }
+        }
+
         let count = 0;
         let uiOpened = false;
-        
-        for await (const [code, deadline] of getCodeList()) {
+
+        async function redeemCode(code, deadline, writeInvalidToCache) {
             // 跳过已兑换的
             if (redeemedCodes.has(code)) {
                 count++;
-                continue;
+                return;
             }
 
-            // 时间检查
-            const now = new Date();
-            const currentTime = now.getFullYear() + '.' + String(now.getMonth() + 1).padStart(2, '0') + '.' + String(now.getDate()).padStart(2, '0') + ' ' + String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0') + ':' + String(now.getSeconds()).padStart(2, '0');
-            if (currentTime > deadline) {
-                log.info(`兑换码【${code}】已超过截止时间，跳过`);
-                continue;
+            // 时间检查（仅当用户信任过期时间时才跳过，过期超过一天才跳过）
+            if (trust_expire_time && deadline) {
+                const deadlineDate = new Date(deadline);
+                if (!isNaN(deadlineDate.getTime())) {
+                    const buffered = new Date(deadlineDate.getTime() + 24 * 60 * 60 * 1000);
+                    if (new Date() > buffered) {
+                        log.info(`兑换码【${code}】已超过截止时间，跳过`);
+                        return;
+                    }
+                }
             }
 
             // 打开兑换界面
@@ -188,13 +215,22 @@ async function openCodeUI() {
             const ro6 = captureGameRegion();
             const invalidRes = ro6.find(RecognitionObject.TemplateMatch(file.readImageMatSync("assets/invalid.png")));
             ro6.dispose();
-            if (invalidRes.isExist()) log.info(`兑换码【${code}】无效`);
+            if (invalidRes.isExist()) {
+                if (writeInvalidToCache) {
+                    const writeOk = file.writeTextSync(recordPath, code + "\n", true);
+                    if (writeOk) {
+                        log.info(`兑换码【${code}】无效（非目标服务器），已记录不再尝试`);
+                        redeemedCodes.add(code);
+                    }
+                } else {
+                    log.info(`兑换码【${code}】无效`);
+                }
+            }
 
             const ro7 = captureGameRegion();
             const usedRes = ro7.find(RecognitionObject.TemplateMatch(file.readImageMatSync("assets/used.png")));
             ro7.dispose();
             if (usedRes.isExist()) {
-                // 写入记录
                 const writeOk = file.writeTextSync(recordPath, code + "\n", true);
                 if (writeOk) {
                     log.info(`兑换码【${code}】已使用`);
@@ -206,7 +242,6 @@ async function openCodeUI() {
             const expiredRes = ro8.find(RecognitionObject.TemplateMatch(file.readImageMatSync("assets/expired.png")));
             ro8.dispose();
             if (expiredRes.isExist()) {
-                // 写入记录
                 const writeOk = file.writeTextSync(recordPath, code + "\n", true);
                 if (writeOk) {
                     log.info(`兑换码【${code}】已过期`);
@@ -226,7 +261,6 @@ async function openCodeUI() {
                 log.info(`兑换码【${code}】成功兑换`);
                 confirmRes.click();
 
-                // 写入记录
                 const writeOk = file.writeTextSync(recordPath, code + "\n", true);
                 if (writeOk) {
                     log.info(`已记录兑换码【${code}】到 ${recordPath}`);
@@ -242,6 +276,21 @@ async function openCodeUI() {
 
             await sleep(4000);
         }
+
+        // 第一轮：目标服务器码，无效不写缓存
+        log.info(`开始兑换目标服务器（${server || "不区分"}）兑换码，共 ${targetCodes.length} 个`);
+        for (const { code, deadline } of targetCodes) {
+            await redeemCode(code, deadline, false);
+        }
+
+        // 第二轮：其他服务器码，无效也写缓存（避免反复尝试）
+        if (otherCodes.length > 0) {
+            log.info(`尝试兑换其他服务器兑换码，共 ${otherCodes.length} 个，无效将被记录`);
+            for (const { code, deadline } of otherCodes) {
+                await redeemCode(code, deadline, true);
+            }
+        }
+
         if (count > 0) {
             log.info(`检测到${count}个兑换码已兑换过，跳过`);
         }

@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1792526113566,
+    "last_modified_time": 1793098127155,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B05-萃凝晶-纳塔-隆掘坡2（有战斗-5个)",
@@ -84,18 +84,9 @@
       "y": -1832.8203
     },
     {
-      "action": "",
-      "action_params": "",
-      "id": 8,
-      "move_mode": "walk",
-      "type": "path",
-      "x": 7549.2539,
-      "y": -1835.0059
-    },
-    {
       "action": "combat_script",
       "action_params": "keypress(e),wait(1.25),keydown(q),wait(1.75),keyup(q),attack(0.5)",
-      "id": 9,
+      "id": 8,
       "move_mode": "walk",
       "type": "target",
       "x": 7530.0967,
@@ -104,7 +95,7 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 10,
+      "id": 9,
       "move_mode": "dash",
       "type": "path",
       "x": 7531.585,
@@ -113,7 +104,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 11,
+      "id": 10,
       "move_mode": "jump",
       "type": "path",
       "x": 7531.5859,
@@ -122,7 +113,7 @@
     {
       "action": "",
       "action_params": "",
-      "id": 12,
+      "id": 11,
       "move_mode": "walk",
       "type": "path",
       "x": 7519.9512,
@@ -131,7 +122,7 @@
     {
       "action": "combat_script",
       "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
-      "id": 13,
+      "id": 12,
       "move_mode": "walk",
       "type": "path",
       "x": 7514.9365,
@@ -140,9 +131,27 @@
     {
       "action": "combat_script",
       "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
-      "id": 14,
+      "id": 13,
       "move_mode": "dash",
       "type": "path",
+      "x": 7507.5918,
+      "y": -1928.2256
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7633.81,
+      "y": -1646.69
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 15,
+      "move_mode": "dash",
+      "type": "orientation",
       "x": 7507.5918,
       "y": -1928.2256
     }

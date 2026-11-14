@@ -1,0 +1,194 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1791478139787,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "10-冰星果-逆悬的冰河东南-10个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7469.1738,
+      "y": 8916.7744
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7447.9082,
+      "y": 8920.2734
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7407.3545,
+      "y": 8936.2158
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7404.4678,
+      "y": 8937.3076
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7385.4531,
+      "y": 8907.8369
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7384.4854,
+      "y": 8906.0664
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7399.8037,
+      "y": 8909.8613
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7402.7217,
+      "y": 8910.6016
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7433.0244,
+      "y": 8881.2871
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 7435.7285,
+      "y": 8818.3086
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7439.6855,
+      "y": 8819.3018
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7443.9979,
+      "y": 8820.9383
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.3),wait(0.2),s(0.2),moveby(0,6000),wait(0.1),keypress(T)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7487.2963,
+      "y": 8838.114
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,-2300),wait(0.2),attack(0.1),moveby(0,-300),wait(0.2),attack(0.1),wait(0.1),keypress(VK_ESCAPE),wait(0.2),attack(0.2)",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7496.7715,
+      "y": 8804.4316
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7446.04,
+      "y": 8818.0449
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7452.5059,
+      "y": 8813.4961
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.3),wait(0.2),s(0.2),moveby(0,6000),wait(0.1),keypress(T)",
+      "id": 17,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7490.4764,
+      "y": 8783.9882
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,-2300),wait(0.2),attack(0.1),moveby(0,-300),wait(0.2),attack(0.1),wait(0.1),keypress(VK_ESCAPE),wait(0.2),attack(0.2)",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7467.521,
+      "y": 8771.2905
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.6),wait(0.2),click(middle)",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7490.4764,
+      "y": 8783.9882
+    }
+  ]
+}

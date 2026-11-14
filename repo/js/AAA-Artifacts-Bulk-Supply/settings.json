@@ -44,6 +44,16 @@
     "label": "急速模式，不激活，不准备，速度最快但收益下降"
   },
   {
+    "name": "snezhnayaActivate",
+    "type": "checkbox",
+    "label": "至冬路线激活配置\n启用后运行至冬激活路线（仅加载触发CD，不拾取）"
+  },
+  {
+    "name": "snezhnayaExecute",
+    "type": "checkbox",
+    "label": "至冬额外收尾路线\n启用后将在收尾阶段执行（拾取狗粮），启用时需开启至冬激活"
+  },
+  {
     "name": "decomposeMode",
     "type": "select",
     "label": "#############################################\n狗粮分解配置\n\n狗粮分解模式",

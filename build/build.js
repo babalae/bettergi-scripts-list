@@ -1,12 +1,32 @@
 const fs = require('fs');
 const path = require('path');
 const zlib = require('zlib');
-const { execSync } = require('child_process');
+const { execFileSync } = require('child_process');
+const ROOT = path.resolve(__dirname, '..');
+const slash = value => value.split(path.sep).join('/');
+
+function git(args) {
+    return execFileSync('git', ['--literal-pathspecs', ...args], {
+        cwd: ROOT, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024
+    });
+}
+
+function resolveRevision(revision) {
+    return git(['rev-parse', '--verify', '--end-of-options', `${revision}^{commit}`]).trim();
+}
+
+function changedFiles(base) {
+    return [...new Set([
+        ...git(['diff', '--name-only', '--no-renames', '-z', base, '--']).split('\0'),
+        ...git(['ls-files', '--others', '--exclude-standard', '-z']).split('\0')
+    ].filter(Boolean))];
+}
 
 // 处理命令行参数
 const args = process.argv.slice(2);
 const forceFullUpdate = args.includes('--force') || args.includes('-f');
 const enableGzip = args.includes('--gzip') || args.includes('-g');
+const BUILD_VERSION = 1;
 
 // 在文件开头添加全局变量
 const pathingDirsWithoutIcon = new Set();
@@ -26,30 +46,34 @@ try {
 // 检查是否存在现有的repo.json文件
 const repoJsonPath = path.resolve(__dirname, '..', 'repo.json');
 let existingRepoJson = null;
-let modifiedFiles = [];
+let modifiedFiles = new Set();
+const affectedPaths = new Set();
+let sourceCommit = null;
+let hasSourceChanges = true;
+const existingNodes = new Map();
+const gitTimestamps = new Map();
 
 // 尝试加载现有的repo.json文件
 try {
+    sourceCommit = resolveRevision('HEAD');
+    const dirtyFiles = changedFiles(sourceCommit);
+    hasSourceChanges = dirtyFiles.some(file => file.startsWith('repo/') || file.startsWith('build/'));
     if (fs.existsSync(repoJsonPath) && !forceFullUpdate) {
         existingRepoJson = JSON.parse(fs.readFileSync(repoJsonPath, 'utf8'));
-        console.log('找到现有的repo.json文件，将执行增量更新');
-        
-        // 获取Git中修改的文件
-        try {
-            // 获取当前分支名称
-            const currentBranch = execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
-            console.log(`当前分支: ${currentBranch}`);
-            
-            // 获取此次变更的文件列表 - 使用更安全的方法
-            let cmd = 'git diff --name-only HEAD~1 HEAD';            
-            const changedFiles = execSync(cmd).toString().trim().split('\n');
-            modifiedFiles = changedFiles.filter(file => file.startsWith('repo/'));
-            console.log(`检测到 ${modifiedFiles.length} 个修改的文件:`);
-            modifiedFiles.forEach(file => console.log(` - ${file}`));
-        } catch (e) {
-            console.warn('无法获取Git修改文件列表，将执行全量更新', e);
-            modifiedFiles = [];
+        const baseline = existingRepoJson.build?.sourceCommit;
+        if (existingRepoJson.build?.version !== BUILD_VERSION || !baseline || !Array.isArray(existingRepoJson.indexes)) {
+            throw new Error('旧索引没有可用的构建基线');
         }
+        const baselineCommit = resolveRevision(baseline);
+        git(['merge-base', '--is-ancestor', baselineCommit, sourceCommit]);
+        const changes = changedFiles(baselineCommit);
+        if (changes.some(file => file.startsWith('build/'))) throw new Error('构建逻辑或作者配置有变化');
+        modifiedFiles = new Set(changes.filter(file => file.startsWith('repo/')));
+        for (const file of modifiedFiles) {
+            for (let affected = file; affected !== '.'; affected = path.posix.dirname(affected)) affectedPaths.add(affected);
+        }
+        for (const tree of existingRepoJson.indexes) cacheExistingNode(tree, tree.name);
+        console.log(`从 ${baselineCommit} 增量更新，涉及 ${modifiedFiles.size} 个仓库文件`);
     } else {
         if (forceFullUpdate) {
             console.log('检测到--force参数，将执行全量更新');
@@ -58,44 +82,32 @@ try {
         }
     }
 } catch (e) {
-    console.warn('读取现有repo.json文件出错，将执行全量更新', e);
+    console.warn(`将执行全量更新: ${e.message}`);
+    existingRepoJson = null;
+    existingNodes.clear();
+}
+// 未提交的源码不能成为下次增量的可信基线，否则撤销本地修改后会复用脏数据。
+if (hasSourceChanges) sourceCommit = null;
+
+function cacheExistingNode(node, nodePath) {
+    existingNodes.set(nodePath, node);
+    for (const child of node.children || []) cacheExistingNode(child, `${nodePath}/${child.name}`);
 }
 
-
-
 function getGitTimestamp(filePath) {
+    const relativePath = slash(path.relative(ROOT, filePath));
+    if (gitTimestamps.has(relativePath)) return gitTimestamps.get(relativePath);
     try {
-        // 对路径进行特殊处理，处理路径中的特殊字符
-        const relativePath = path.relative(path.resolve(__dirname, '..'), filePath).replace(/\\/g, '/');
-        
-        let cmd;
-        if (process.platform === 'win32') {
-            // Windows平台使用双引号
-            cmd = `git log -1 --format="%ai" -- "${relativePath.replace(/"/g, '\\"')}"`;
-        } else {
-            // Linux/Mac平台使用单引号
-            const quotedPath = relativePath.replace(/'/g, "'\\''"); // 处理单引号
-            cmd = `git log -1 --format="%ai" -- '${quotedPath}'`;
-        }
-        
-        const time = execSync(cmd).toString().trim();
-        if (!time) {
-            console.warn(`未找到文件 ${filePath} 的提交记录`);
-            return null;
-        }
-        return time;
-    } catch (e) {
-        console.warn(`无法通过 Git 获取时间: ${filePath}`, e);
-        
-        // 出错时，尝试使用文件的修改时间作为替代
+        // 保持原有逐文件历史简化语义，避免批量查询把合并历史误当成最后修改。
+        const timestamp = git(['log', '-1', '--format=%ai', '--', relativePath]).trim() || null;
+        gitTimestamps.set(relativePath, timestamp);
+        return timestamp;
+    } catch (error) {
+        console.warn(`无法通过 Git 获取时间: ${relativePath}: ${error.message}`);
         try {
-            const stats = fs.statSync(filePath);
-            const modTime = stats.mtime;
-            const formattedTime = modTime.toISOString().replace('T', ' ').replace(/\.\d+Z$/, ' +0800');
-            console.log(`使用文件修改时间作为替代: ${formattedTime}`);
-            return formattedTime;
-        } catch (fsErr) {
-            console.warn(`无法获取文件修改时间: ${filePath}`, fsErr);
+            return fs.statSync(filePath).mtime.toISOString().replace('T', ' ').replace(/\.\d+Z$/, ' +0000');
+        } catch (fsError) {
+            console.warn(`无法获取文件时间: ${relativePath}: ${fsError.message}`);
             return null;
         }
     }
@@ -490,66 +502,66 @@ function extractInfoFromTCGFile(filePath, parentFolder) {
     };
 }
 
-// 检查文件是否需要处理（增量更新模式下）
-function shouldProcessFile(filePath) {
-    // 如果没有现有的repo.json或没有修改文件列表，则处理所有文件
-    if (!existingRepoJson || modifiedFiles.length === 0) {
-        return true;
+// 解析 JSON 战斗策略的元数据（BetterGI 0.62+ 支持 JSON 格式）
+function extractInfoFromCombatJsonFile(filePath) {
+    const content = fs.readFileSync(filePath, 'utf8');
+    let obj;
+    try {
+        obj = JSON.parse(content);
+    } catch (e) {
+        return {
+            authors: null, description: '', tags: [],
+            version: '', lastUpdated: ''
+        };
     }
-    
-    // 将filePath转换为相对于仓库根目录的路径
-    const relativeFilePath = path.relative(path.resolve(__dirname, '..'), filePath).replace(/\\/g, '/');
-    
-    // 检查此文件或其所在目录是否在修改列表中
-    return modifiedFiles.some(modifiedFile => {
-        return relativeFilePath === modifiedFile || 
-               relativeFilePath.startsWith(path.dirname(modifiedFile) + '/') || 
-               modifiedFile.startsWith(relativeFilePath + '/');
-    });
+
+    const info = obj.Info || obj.info || {};
+    const config = info.Config || info.config || {};
+    const actions = obj.Actions || obj.actions || [];
+    const authorName = info.Author || info.author || '';
+    const characters = [...new Set(
+        actions
+            .map(action => (action && (action.Character || action.character)) || '')
+            .filter(Boolean)
+    )];
+
+    const gitTimestamp = getGitTimestamp(filePath);
+    const lastUpdated = formatLastUpdated(gitTimestamp);
+    const version = gitTimestamp ? formatTime(gitTimestamp) : '';
+
+    return {
+        authors: processDetailedAuthorInfo(authorName),
+        description: convertNewlines(config['介绍'] || config.description || info.Description || ''),
+        tags: prioritizeVersionTag(filterLongTags(characters)),
+        version: version,
+        lastUpdated: lastUpdated
+    };
 }
 
-// 在目录树中查找节点的辅助函数
-function findNodeInTree(tree, nodePath, currentPath = '') {
-    if (!tree) return null;
-    
-    if (tree.type === 'directory') {
-        const newPath = currentPath ? `${currentPath}/${tree.name}` : tree.name;
-        
-        if (newPath === nodePath) {
-            return tree;
-        }
-        
-        if (tree.children) {
-            for (const child of tree.children) {
-                const result = findNodeInTree(child, nodePath, newPath);
-                if (result) {
-                    return result;
-                }
-            }
-        }
-    }
-    
-    return null;
+// 检查文件是否需要处理（增量更新模式下）
+function shouldProcessFile(filePath) {
+    if (!existingRepoJson) return true;
+    const relativePath = slash(path.relative(ROOT, filePath));
+    // 祖先目录需要重新枚举，删除和重命名的旧节点才能从索引消失。
+    return affectedPaths.has(relativePath);
 }
 
 function generateDirectoryTree(dir, currentDepth = 0, parentFolders = []) {
+    const nodePath = slash(path.relative(path.join(ROOT, 'repo'), dir));
+    // 缓存命中时也必须记录顶层分类图标，保证增量与全量的排序依据一致。
+    if (nodePath === 'pathing') {
+        for (const child of fs.readdirSync(dir, { withFileTypes: true }).filter(entry => entry.isDirectory())) {
+            if (!fs.readdirSync(path.join(dir, child.name)).some(file => file.toLowerCase() === 'icon.ico')) {
+                pathingDirsWithoutIcon.add(`pathing/${child.name}`);
+            }
+        }
+    }
     // 检查是否在增量更新模式下需要处理此目录
     const shouldProcess = shouldProcessFile(dir);
     
     // 如果在增量更新模式下不需要处理此目录，尝试从现有repo.json找到对应节点
-    if (!shouldProcess && existingRepoJson && existingRepoJson.indexes) {
-        const category = parentFolders[0];
-        const relativePath = parentFolders.join('/');
-        
-        // 在现有repo.json中查找此目录节点
-        const categoryTree = existingRepoJson.indexes.find(index => index.name === category);
-        if (categoryTree) {
-            const existingNode = findNodeInTree(categoryTree, relativePath);
-            if (existingNode) {
-                console.log(`使用现有数据: ${relativePath}`);
-                return existingNode;
-            }
-        }
+    if (!shouldProcess && existingNodes.has(nodePath)) {
+        return existingNodes.get(nodePath);
     }
     
     const stats = fs.statSync(dir);
@@ -559,18 +571,6 @@ function generateDirectoryTree(dir, currentDepth = 0, parentFolders = []) {
     };
 
     if (stats.isDirectory()) {
-        // 修改检查pathing目录图标的逻辑
-        if (parentFolders[0] === 'pathing') {
-            const hasIcon = fs.readdirSync(dir).some(file => 
-                file.toLowerCase() === 'icon.ico'
-            );
-            if (!hasIcon) {
-                // 使用 path.join 来确保正确的路径分隔符
-                const relativePath = path.join('pathing', path.basename(dir));
-                pathingDirsWithoutIcon.add(relativePath);
-                // console.log(`未找到icon.ico的pathing目录: ${relativePath}`);
-            }
-        }
         if (parentFolders[0] === 'js' && currentDepth === 1) {
             // 对于 js 文件夹下的直接子文件夹，不再递归
             const manifestPath = path.join(dir, 'manifest.json');
@@ -584,7 +584,7 @@ function generateDirectoryTree(dir, currentDepth = 0, parentFolders = []) {
                 info.lastUpdated = jsInfo.lastUpdated;
             }
         } else {
-            info.children = fs.readdirSync(dir)
+            info.children = fs.readdirSync(dir).sort()
                 .filter(child => {
                     // 过滤掉 desktop.ini 和 icon.ico
                     if (['desktop.ini', 'icon.ico'].includes(child)) {
@@ -625,7 +625,11 @@ function generateDirectoryTree(dir, currentDepth = 0, parentFolders = []) {
         try {
             switch (category) {
                 case 'combat':
-                    Object.assign(info, extractInfoFromCombatFile(dir));
+                    if (path.extname(dir).toLowerCase() === '.json') {
+                        Object.assign(info, extractInfoFromCombatJsonFile(dir));
+                    } else {
+                        Object.assign(info, extractInfoFromCombatFile(dir));
+                    }
                     break;
                 case 'pathing':
                     Object.assign(info, extractInfoFromPathingFile(dir, parentFolders));
@@ -663,8 +667,8 @@ const result = folderOrder
         // 如果是pathing目录，对其子目录进行排序
         if (folder === 'pathing' && tree.children) {
             tree.children.sort((a, b) => {
-                const aPath = path.join('pathing', a.name);
-                const bPath = path.join('pathing', b.name);
+                const aPath = `pathing/${a.name}`;
+                const bPath = `pathing/${b.name}`;
                 const aHasNoIcon = pathingDirsWithoutIcon.has(aPath);
                 const bHasNoIcon = pathingDirsWithoutIcon.has(bPath);
                 
@@ -698,6 +702,7 @@ const repoJson = {
     }).replace(/[/\s,:]/g, ''),
     "url": "https://github.com/babalae/bettergi-scripts-list/archive/refs/heads/main.zip",
     "file": "repo.json",
+    "build": { version: BUILD_VERSION, sourceCommit },
     "indexes": result
 };
 

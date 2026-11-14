@@ -1,3 +1,4 @@
+import {recordRecognition, runRecognitionStage} from "./recognitionResult.js";
 import {drawAndClearBox, drawBox, findTextAndClick, formatDate, getDayOfWeek, Record, toMainUi} from "./tool";
 import {sendText} from "./notice";
 
@@ -92,8 +93,8 @@ export async function ocrDailyCommission(ocrRegion = ocrRegionConfig.dailyCommis
 export async function ocrLongTermTrainingPoints(ocrRegion = ocrRegionConfig.longTermTrainingPoints){
 
     let json={
-        pointNumber:0,//长期训练点数
-        expireTime:0,//长期训练点过期时间
+        pointNumber:null,//长期训练点数
+        expireTime:null,//长期训练点过期时间
         expireTimeText:'',//长期训练点过期时间
     }
     let ms=200
@@ -110,7 +111,8 @@ export async function ocrLongTermTrainingPoints(ocrRegion = ocrRegionConfig.long
         }
         // 仅保留数字和小数点，并转为数值
         const filteredText = res.text.replace(/[^0-9.]/g, '');
-        json.pointNumber = parseFloat(filteredText) || 0;
+        const pointNumber = parseFloat(filteredText);
+        json.pointNumber = Number.isFinite(pointNumber) && pointNumber >= 0 ? pointNumber : null;
     } finally {
         captureRegion.dispose(); // 释放截图资源
     }
@@ -130,7 +132,7 @@ export async function ocrLongTermTrainingPoints(ocrRegion = ocrRegionConfig.long
         // 先判断识别结果是否存在，避免空对象报错
         if (res1.isExist()) {
             const filteredText = res1.text.replace(/[^0-9]/g, '');
-            json.expireTime = filteredText || 0;
+            json.expireTime = filteredText ? Number(filteredText) : null;
             json.expireTimeText = res1.text;
             // 返回
             // await keyPress('ESCAPE')
@@ -195,6 +197,7 @@ export async function campaignAreaMain(openKey = true) {
     // 记录开始执行秘境征讨提醒的日志
     log.info(`[{dayOfWeek.dayOfWeek}]，${bool ? "跳过" : "开始"}执行秘境征讨剩余次数提醒`, dayOfWeek.dayOfWeek)
     if (bool) {
+        await recordRecognition("campaignArea", null, "skipped", "非配置的周本提醒日");
         return
     }
     // 设置操作间隔时间(毫秒)
@@ -220,6 +223,11 @@ export async function campaignAreaMain(openKey = true) {
     await sleep(ms * 2)
     // 使用OCR识别本周秘境征讨剩余次数
     let weekJson = await ocrWeeklyCount();
+    // 将无效读数写成 unknown，避免把识别失败误报成已完成。
+    const valid = Number.isInteger(weekJson.count) && Number.isInteger(weekJson.total) &&
+        weekJson.total > 0 && weekJson.count >= 0 && weekJson.count <= weekJson.total;
+    await recordRecognition("campaignArea", valid ? weekJson : {text: weekJson.text},
+        valid ? "observed" : "unknown", valid ? null : "周本次数解析无效");
 
     const {path, type} = keyJsonPath.campaignArea;
 
@@ -282,8 +290,17 @@ export async function dailyCommissionMain(openKey = true) {
     await click(xyConfig.dailyCommission.x, xyConfig.dailyCommission.y)
     await sleep(ms * 2)
     const re = await ocrDailyCommission();
+    // 只有每项读数都是有效的非负整数时，才把每日委托结果标记为已观测。
+    const valid = Object.values(re).every(item => Number.isInteger(item.use) &&
+        Number.isInteger(item.total) && item.total > 0 && item.use >= 0 && item.use <= item.total);
+    await recordRecognition("dailyCommission", re, valid ? "observed" : "unknown",
+        valid ? null : "委托或树脂读数无效；无效数值保存为 null");
     await sleep(ms * 2)
-    let {pointNumber, expireTime,expireTimeText} = await ocrLongTermTrainingPoints();
+    let {pointNumber, expireTime,expireTimeText} = await runRecognitionStage("longTermTrainingPoints", () => ocrLongTermTrainingPoints());
+
+    await recordRecognition("longTermTrainingPoints", {pointNumber, expireTime, expireTimeText},
+        pointNumber !== null && expireTime !== null ? "observed" : "unknown",
+        pointNumber !== null && expireTime !== null ? null : "部分或全部长期训练点数据未识别");
 
     log.debug(`dailyCommission:{re}`, JSON.stringify(re))
     log.debug(`LongTermTrainingPoints:{LongTermTrainingPoints}`, JSON.stringify({pointNumber, expireTime,expireTimeText}))
@@ -304,16 +321,16 @@ export async function dailyCommissionMain(openKey = true) {
     let readList = Record.read(path);
     const findItem = readList.find((i) => i.uid === json.uid && i.type === json.type && i.date === json.date);
     let noticeText = `>|每日委托奖励:${re.daily.use}/${re.daily.total}\n>|原粹树脂消耗:${re.physical.use}/${re.physical.total}`;
-    if(pointNumber<=4){
+    if((pointNumber !== null && pointNumber<=4)){
         noticeText+=`\n>|长期训练点:${pointNumber}\n`
     }
-    if(expireTime<=1){
+    if((expireTime !== null && expireTime<=1)){
         noticeText+=`\n>|长期训练点-${expireTimeText}\n`
     }
     let title = `UID:${uid}\n每日委托`;
 
     // 如果有每日未完成/领取/长期训练点，则记录日志并发送通知
-    if (re.daily.total > re.daily.use || re.physical.total > re.physical.use || pointNumber<=4 || expireTime<=1
+    if (re.daily.total > re.daily.use || re.physical.total > re.physical.use || (pointNumber !== null && pointNumber<=4) || (expireTime !== null && expireTime<=1)
     ) {
         // await toMainUi()
         await sendText(noticeText, title)

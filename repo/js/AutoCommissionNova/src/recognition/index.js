@@ -3,4 +3,5 @@ export { initReferenceData as initCommissionReferenceData, standardizeCommission
 export { isCompleted } from "./completion-detector.js";
 export { recognizeCommissions, recognizeCommissionLocation, checkDetailPageEntered } from "./commission-recognizer.js";
 export { ocrEncounterPoints, checkEncounterPoints } from "./commission-recognizer.js";
+export { readDailyCommissionRewardCount } from "./commission-recognizer.js";
 export { scanCommissionAtPosition, findCommissionIndex, resolveCommissionNameOcrRegions, exitCommissionDetail, getCommissionPosition, clickCommissionAndOpenMap } from "./commission-scanner.js";

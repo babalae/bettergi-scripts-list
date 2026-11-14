@@ -875,14 +875,273 @@ def validate_file(file_path, auto_fix=False):
 
     return notices
 
+def validate_js(input_path, base=None, revision=None, github=False):
+    """只读校验 JS 包；配置和依赖由本脚本检查，Node 内置 V8 只负责语法解析。"""
+    import posixpath
+    import shutil
+
+    repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+    def git(*args):
+        return subprocess.check_output(['git', '--literal-pathspecs', *args], cwd=repo_root, encoding='utf-8')
+
+    def commit(value):
+        return git('rev-parse', '--verify', '--end-of-options', value + '^{commit}').strip()
+
+    def snapshot(ref):
+        if ref:
+            files = {entry.split('\t', 1)[1] for entry in git('ls-tree', '-r', '-z', ref).split('\0')
+                     if entry.startswith(('100644 blob ', '100755 blob '))}
+        else:
+            files = set(git('ls-files', '--cached', '--others', '--exclude-standard', '-z').split('\0')) - {''}
+
+        def exists(name):
+            if name not in files:
+                return False
+            if ref:
+                return True
+            current = repo_root
+            for part in name.split('/'):
+                current = os.path.join(current, part)
+                if not os.path.exists(current) or os.path.islink(current):
+                    return False
+            return os.path.isfile(current)
+
+        def read(name):
+            if not exists(name):
+                raise ValueError(f'文件不存在或不是普通文件: {name}')
+            if ref:
+                return git('show', f'{ref}:{name}')
+            with open(os.path.join(repo_root, name), encoding='utf-8-sig') as source:
+                return source.read()
+
+        return files, exists, read
+
+    scope = os.path.relpath(os.path.abspath(input_path), repo_root).replace('\\', '/')
+    if scope != 'repo/js' and not scope.startswith('repo/js/'):
+        raise ValueError('--js 的路径必须在 repo/js 内')
+    base = commit(base) if base else None
+    revision = commit(revision) if revision else None
+    current = snapshot(revision)
+    names = sorted({name.split('/')[2] for name in current[0] if name.startswith('repo/js/') and name.count('/') >= 3})
+    if not revision:
+        names = [name for name in names if os.path.isdir(os.path.join(repo_root, 'repo/js', name))]
+    if scope != 'repo/js':
+        selected = scope.split('/')[2]
+        if selected not in names:
+            raise ValueError(f'脚本目录不存在: {selected}')
+        names = [selected]
+    elif base:
+        changes = git('diff', '--name-only', '--no-renames', '-z', base, *([revision] if revision else []), '--').split('\0')
+        if not revision:
+            changes += git('ls-files', '--others', '--exclude-standard', '-z').split('\0')
+        if not any(name.startswith(('packages/', 'build/')) for name in changes):
+            names = [name for name in names if any(file.startswith(f'repo/js/{name}/') for file in changes)]
+    if names and not shutil.which('node'):
+        raise ValueError('JS 语法校验需要环境中已有的 Node.js')
+
+    # 构造 Script/SourceTextModule 只解析源码，不链接或求值；代码通过 stdin 传入。
+    node_parser = r'''
+const vm = require('vm'), fs = require('fs');
+const {code, module} = JSON.parse(fs.readFileSync(0, 'utf8'));
+try {
+    let dependencies = [];
+    if (module) {
+        const parsed = new vm.SourceTextModule(code);
+        dependencies = parsed.moduleRequests ? parsed.moduleRequests.map(item => item.specifier) : parsed.dependencySpecifiers;
+    } else new vm.Script(code);
+    console.log(JSON.stringify({dependencies}));
+} catch (error) { console.log(JSON.stringify({error: error.message})); }
+'''
+    syntax_cache = {}
+    within = lambda name, root: name == root or name.startswith(root + '/')
+    is_text = lambda value: isinstance(value, str) and bool(value.strip())
+
+    def check(source, selected_names):
+        files, exists, read = source
+        issues = []
+        for name in selected_names:
+            root = f'repo/js/{name}'
+            manifest_file = root + '/manifest.json'
+
+            def report(file, message):
+                issues.append((name, file, message))
+
+            def read_json(file):
+                content = read(file).lstrip('\ufeff')
+                # 保留引号内文本，兼容宿主允许的注释和尾逗号。
+                content = re.sub(r'"(?:\\.|[^"\\])*"|//[^\r\n]*|/\*[\s\S]*?\*/',
+                                 lambda m: m[0] if m[0].startswith('"') else re.sub(r'[^\r\n]', ' ', m[0]), content)
+                content = re.sub(r'"(?:\\.|[^"\\])*"|,(?=\s*[}\]])', lambda m: ' ' if m[0] == ',' else m[0], content)
+                try:
+                    return json.loads(content)
+                except ValueError as error:
+                    raise ValueError(f'{file}: {error}') from error
+
+            def local(value, field, must_exist=True):
+                relative = value.replace('\\', '/')
+                target = posixpath.normpath(root + '/' + relative)
+                if re.match(r'^(?:/|[a-zA-Z]+:)', relative) or not within(target, root):
+                    report(manifest_file, f'{field} 超出脚本目录')
+                    return None
+                if must_exist and not exists(target):
+                    report(manifest_file, f'{field} 文件不存在: {value}')
+                    return None
+                return target
+
+            try:
+                if not exists(manifest_file):
+                    report(manifest_file, '缺少 manifest.json')
+                    continue
+                manifest = read_json(manifest_file)
+                if not isinstance(manifest, dict):
+                    report(manifest_file, 'manifest 必须是对象')
+                    continue
+                for field in ('name', 'version', 'main'):
+                    if not is_text(manifest.get(field)):
+                        report(manifest_file, f'{field} 必须是非空字符串')
+                for field in ('description', 'settings_ui', 'bgi_version'):
+                    if field in manifest and not isinstance(manifest[field], str):
+                        report(manifest_file, f'{field} 必须是字符串')
+                for field in ('library', 'scripts', 'saved_files', 'http_allowed_urls', 'tags'):
+                    if field in manifest and (not isinstance(manifest[field], list) or not all(is_text(item) for item in manifest[field])):
+                        report(manifest_file, f'{field} 必须是字符串数组')
+
+                def strings(field):
+                    return [item for item in manifest.get(field, []) if is_text(item)] if isinstance(manifest.get(field, []), list) else []
+
+                libraries = [target for item in strings('library') if (target := local(item, 'library', False))]
+                for item in strings('saved_files'):
+                    local(item, 'saved_files', False)
+                if is_text(manifest.get('settings_ui')):
+                    settings_file = local(manifest['settings_ui'], 'settings_ui')
+                    if settings_file:
+                        settings = read_json(settings_file)
+                        if not isinstance(settings, list):
+                            report(settings_file, '设置文件必须是数组')
+                        else:
+                            setting_names = set()
+                            for item in settings:
+                                if not isinstance(item, dict):
+                                    report(settings_file, '设置项必须是对象')
+                                    continue
+                                if item.get('type') not in ('input-text', 'select', 'checkbox', 'multi-checkbox', 'cascade-select', 'separator'):
+                                    report(settings_file, f"不支持的设置类型: {item.get('type')}")
+                                if item.get('type') == 'separator':
+                                    continue
+                                key = item.get('name')
+                                if not is_text(key):
+                                    report(settings_file, '设置项缺少 name')
+                                else:
+                                    if key in setting_names:
+                                        report(settings_file, f'重复设置项: {key}')
+                                    setting_names.add(key)
+                                for field in ('options', 'default'):
+                                    if field == 'default' and item.get('type') != 'multi-checkbox':
+                                        continue
+                                    if field in item and (field != 'options' or item[field] is not None) and (
+                                            not isinstance(item[field], list) or not all(isinstance(value, str) for value in item[field])):
+                                        report(settings_file, f'设置 {key} 的 {field} 必须是字符串数组')
+
+                def resolve_import(specifier, referrer):
+                    value = specifier.replace('\\', '/')
+                    if re.match(r'^(?:/|[a-zA-Z]+:)', value):
+                        return None
+                    shared = re.match(r'^(?:\.\./)*(packages/.+)$', value)
+                    candidates = [root + '/' + shared[1], shared[1]] if shared else (
+                        [posixpath.join(posixpath.dirname(referrer), value)] if value.startswith('.') else
+                        [posixpath.join(directory, value) for directory in libraries + [root, root + '/packages']])
+                    for candidate in candidates:
+                        target = posixpath.normpath(candidate)
+                        if within(target, root) or within(target, 'packages'):
+                            for file in (target, target + '.js'):
+                                if exists(file):
+                                    return file
+                    return None
+
+                visited = set()
+
+                def inspect(file, module):
+                    if file in visited:
+                        return
+                    visited.add(file)
+                    code = read(file)
+                    key = (code, module)
+                    if key not in syntax_cache:
+                        result = subprocess.run(['node', '--experimental-vm-modules', '-e', node_parser],
+                                                input=json.dumps({'code': code, 'module': module}),
+                                                capture_output=True, text=True, encoding='utf-8', check=True, timeout=30)
+                        syntax_cache[key] = json.loads(result.stdout)
+                    parsed = syntax_cache[key]
+                    if 'error' in parsed:
+                        report(file, '语法错误: ' + parsed['error'])
+                        return
+                    for specifier in parsed['dependencies']:
+                        target = resolve_import(specifier, file)
+                        if not target:
+                            report(file, f'静态依赖不存在或路径越界: {specifier}')
+                        elif target.lower().endswith('.js'):
+                            inspect(target, True)
+
+                if is_text(manifest.get('main')):
+                    entry = local(manifest['main'], 'main')
+                    if entry:
+                        code = read(entry)
+                        if not code.strip():
+                            report(entry, '入口文件为空')
+                        else:
+                            inspect(entry, bool(strings('library')) or 'import ' in code or 'export ' in code)
+            except (OSError, ValueError) as error:
+                report(manifest_file, f'配置或文件读取错误: {error}')
+        return list(dict.fromkeys(issues))
+
+    issues = check(current, names)
+    previous = snapshot(base) if base else None
+    old_names = [name for name in names if any(file.startswith(f'repo/js/{name}/') for file in previous[0])] if previous else []
+    old = set(check(previous, old_names)) if previous else set()
+    errors = 0
+    escape = lambda value: value.replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A')
+    for index, issue in enumerate(sorted(issues, key=lambda item: item in old)):
+        name, file, message = issue
+        existing = issue in old
+        errors += not existing
+        level = 'warning' if existing else 'error'
+        message = ('[已有问题] ' if existing else '') + message
+        if github and index < 50:
+            annotation_file = escape(file).replace(',', '%2C').replace(':', '%3A')
+            print(f'::{level} file={annotation_file}::{escape(message)}')
+        else:
+            print(f'{level.upper()} {json.dumps(file, ensure_ascii=False)} {json.dumps(message, ensure_ascii=False)}')
+    print(f'JS 静态校验：{len(names)} 个脚本，{errors} 个新增阻断错误；未执行脚本。')
+    return 1 if errors else 0
+
+
 def main():
     import argparse
+    import sys
 
     parser = argparse.ArgumentParser(description='校验 BetterGI 脚本文件')
     parser.add_argument('path', help='要校验的文件或目录路径')
     parser.add_argument('--fix', action='store_true', help='自动修复问题')
     parser.add_argument('--structure', action='store_true', help='浅草的氨气搞得什么结构校验')
+    parser.add_argument('--js', action='store_true', help='只读校验 repo/js 下的 JS 脚本包')
+    parser.add_argument('--base', help='JS 校验的比较基线，仅阻断新增错误')
+    parser.add_argument('--revision', help='从 Git 提交读取 JS 文件，不检出提交')
+    parser.add_argument('--github', action='store_true', help='输出 GitHub 文件注解')
     args = parser.parse_args()
+
+    if args.js:
+        sys.stdout.reconfigure(encoding='utf-8')
+        if args.fix or args.structure:
+            parser.error('--js 不支持 --fix 或 --structure')
+        try:
+            code = validate_js(args.path, args.base, args.revision, args.github)
+        except (OSError, ValueError, subprocess.SubprocessError) as error:
+            print(f'JS 校验未完成: {error}')
+            code = 2
+        sys.exit(code)
+    if args.base or args.revision or args.github:
+        parser.error('--base、--revision、--github 仅用于 --js')
 
     path = args.path
     auto_fix = args.fix

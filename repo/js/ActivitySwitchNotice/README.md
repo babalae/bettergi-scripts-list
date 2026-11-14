@@ -1,5 +1,27 @@
 # 活动期限/周本通知器
 
+## 本次识别结果 JSON
+
+正常运行脚本即可在脚本根目录生成 `recognition-result.json`（完整路径：`C:\Users\oldwang\Downloads\BetterGI\User\JsScript\ActivitySwitchNotice\recognition-result.json`），固定文件名、每次运行覆盖，不追加历史。`manifest.saved_files` 已声明此文件跨脚本更新保留，下次运行仍会覆盖。
+
+- 顶层字段：`schemaVersion`、`runId`、`startedAt`、`updatedAt`、`finishedAt`、`status`、`stage`、`error`、`sections`。时间为 UTC ISO 字符串；`runId` 使用本次开始时间。
+- `status` 为 `running` / `completed` / `failed`。`completed` 仅表示原业务流程正常结束，不表示所有数据识别成功或通知送达；读取时应核对本次时间及各项状态。
+- 每个 `sections` 项有 `status`、`data`、`reason`；状态包括 `pending`（待执行）、`running`、`observed`（已观测）、`unknown`、`skipped`、`failed`、`not_run`（流程提前退出）。`null` 表示未知，不能作为零使用。
+
+| 项目 | data 字段 |
+| --- | --- |
+| `mapMission` | `requested` 选择的关键词、`matches` 匹配文本列表（`ok`、`text`）；空列表不证明没有任务 |
+| `holyRelics` | `text`、`count` 当前数量、`total` 容量、`remaining` 剩余空间、`threshold` 提醒阈值 |
+| `dailyCommission` | `daily` 委托奖励和 `physical` 原粹树脂消耗；各含 `use`、`total`，无效非有限数值写为 `null` |
+| `longTermTrainingPoints` | `pointNumber` 点数、`expireTime` 从 OCR 提取的过期数字、`expireTimeText` 过期原文；缺测为 `null`，过期数字沿用原识别逻辑，不是时间戳 |
+| `campaignArea` | `text`、`count` 本周消耗减半剩余次数、`total`；非提醒日为 `skipped` |
+| `activity` | `uid`、`names` 扫描到的名称、`details` 详情数组（`name`、可选 `common`、`text`、`hours`、`desc`）、`complete: null`（完整性未确认）；受原有筛选及分页逻辑限制 |
+
+写入时机：初始化/游戏操作前先清空旧数据并写入 `running`；阶段开始、取得识别数据（通知前）及跳过时覆盖；流程结束写入 `completed`，异常写入 `failed` 和错误原因。未执行项保留 `null`，不混入上次数据；已经保存的本次数据可在后续通知失败时保留。活动在扫描结束、通知前保存汇总，扫描中途失败时该项没有完整结果。
+
+写文件使用 `await file.writeText(path, JSON字符串, false)` 并检查返回值。首次写入失败会立即终止；后续写入失败会中止流程并尝试保存失败状态。如磁盘不可写、宿主强制停止或进程退出，可能无法落盘/收尾，文件可能仍是旧文件、`running` 或不完整 JSON；请结合运行日志、时间和 `runId` 判断，不能仅凭文件存在认定本次成功。此接口不提供原子写入保证。
+
+
 ## 项目概述
 
 这是一个用于《原神》游戏的自动化脚本工具，主要功能是自动检测游戏内活动的剩余时间，并在活动即将结束时/每周指定日期自动提醒征讨领域减半剩余次数发送通知提醒玩家。
