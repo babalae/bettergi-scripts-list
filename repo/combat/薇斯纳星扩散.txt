@@ -1,0 +1,27 @@
+//薇斯纳星扩散
+// 珐露珊充能要求较高
+
+// 1 沃雅妮莎
+沃雅妮莎 check, e
+
+// 2 迪奥娜
+迪奥娜 w(0.3), e(hold), wait(0.3), check, keypress(q), check, wait(0.5)
+
+// 3 旅行者
+空  e, wait(0.3), attack(0.35), charge(1.5), check, keypress(q), wait(1.4), ready, check, wait(0.3)
+荧  e, wait(0.3), attack(0.35), charge(1.5), check, keypress(q), wait(1.4), ready, check, wait(0.3)
+
+//4 奥黛塔，开大
+//奥黛塔 e, wait(0.3), keypress(q), wait(0.1), keypress(q), wait(0.1), keypress(q), wait(0.1), ready, e,  check
+
+//奥黛塔不开大
+奥黛塔 e, wait(0.5), e, wait(0.25), check, wait(0.25)
+
+// 5 珐露珊
+珐露珊  check, q, wait(0.2)
+
+// 6薇斯纳一轮一大
+薇斯纳 w(0.05), attack(0.1), keypress(e), attack(0.3), charge(1.1), e, attack(0.3), charge(1.1), check, click(middle), e, wait(1), attack(0.3), charge(1.1), attack(0.3), charge(1.1), check, q, ready, wait(0.3), e, wait(1.2), e, wait(1.2), e, wait(1.2), check, wait(0.3)
+
+//薇斯纳充能不够一轮一大时使用，多一轮重击为3段e攒被动
+//薇斯纳 w(0.05), attack(0.1), keypress(e), attack(0.3), charge(1.1), e, attack(0.3), charge(1.1), check, click(middle), e, wait(1), attack(0.3), charge(1.1), attack(0.3), charge(1.2), check, q, ready, wait(0.5), attack(0.3), charge(1.2), e, wait(1.2), e, wait(1.2), attack(0.3), e, wait(1.2), check, wait(0.3)
