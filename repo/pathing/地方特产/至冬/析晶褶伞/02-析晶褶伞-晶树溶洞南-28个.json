@@ -1,0 +1,634 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1794505743504,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "02-析晶褶伞-晶树溶洞南-28个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4165.1816,
+      "y": 10594.0664
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4141.6836,
+      "y": 10573.6211
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4127.9639,
+      "y": 10544.0566
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4118.7734,
+      "y": 10504.4121
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4134.3691,
+      "y": 10443.7236
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4142.001,
+      "y": 10451.2559
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 4143.5059,
+      "y": 10452.5107
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 4144.8262,
+      "y": 10450.043
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 4146.377,
+      "y": 10446.7666
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4163.4639,
+      "y": 10428.6357
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4180.8652,
+      "y": 10413.0186
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 4183.3721,
+      "y": 10410.9395
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 4185.3945,
+      "y": 10409.2832
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4195.9473,
+      "y": 10405.9014
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 4198.8945,
+      "y": 10405.0439
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4191.6074,
+      "y": 10397.1709
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 4189.4355,
+      "y": 10395.0723
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4163.0967,
+      "y": 10398.2598
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 19,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 4159.46,
+      "y": 10398.7588
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4165.5566,
+      "y": 10394.709
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 4168.2607,
+      "y": 10392.9834
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 22,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4194.5371,
+      "y": 10374.5615
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 23,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4210.3018,
+      "y": 10379.2393
+    },
+    {
+      "action": "combat_script",
+      "action_params": "click(middle),keypress(F),wait(0.1),keypress(F),",
+      "id": 24,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 4214.3086,
+      "y": 10379.7139
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 25,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4266.2871,
+      "y": 10341.3838
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 26,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4266.2871,
+      "y": 10341.3838
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,200),wait(0.2),attack(0.3),moveby(0,200),attack(0.4),moveby(0,200),attack(0.4),moveby(0,200),attack(0.4),click(middle),",
+      "id": 27,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4315.3643,
+      "y": 10297.6113
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 28,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4315.4922,
+      "y": 10297.5059
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_SPACE),keydown(w),wait(0.8),keyup(VK_SPACE),wait(0.45),j,keyup(w),",
+      "id": 29,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4315.5352,
+      "y": 10305.4023
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 30,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4330.4102,
+      "y": 10317.9414
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 31,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 4332.9688,
+      "y": 10321.4707
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 32,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 4335.0771,
+      "y": 10323.748
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 33,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4309.3125,
+      "y": 10299.4121
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 34,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4312.8086,
+      "y": 10284.0986
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 35,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 4313.2275,
+      "y": 10280.668
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 36,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4338.043,
+      "y": 10278.4355
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 37,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4333.5332,
+      "y": 10277.3975
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 38,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4338.8936,
+      "y": 10275.3818
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 39,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 4340.7422,
+      "y": 10274.4336
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 40,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4350.0176,
+      "y": 10250.168
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(w),wait(0.3),dash,wait(0.4),dash,wait(0.5),keyup(w)",
+      "id": 41,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 4367.127,
+      "y": 10249.5918
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "3500",
+      "id": 42,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4402.584,
+      "y": 10222.3945
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 43,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 4406.1211,
+      "y": 10220.3848
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 44,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 4407.7715,
+      "y": 10216.7646
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 45,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4454.1738,
+      "y": 10220.7676
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 46,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 4458.2754,
+      "y": 10220.4756
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 47,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 4461.4141,
+      "y": 10219.9482
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 48,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4466.8984,
+      "y": 10229.2959
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 49,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 4467.8887,
+      "y": 10231.3564
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 50,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4473.0762,
+      "y": 10239.9043
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 51,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 4474.8018,
+      "y": 10242.6162
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 52,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4441.501,
+      "y": 10223.5586
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 53,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4384.3945,
+      "y": 10185.3945
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 54,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 4381.6191,
+      "y": 10183.1299
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 55,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4381.2988,
+      "y": 10179.2266
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 56,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 4381.1406,
+      "y": 10176.1592
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 57,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4386.8506,
+      "y": 10170.9678
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 58,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 4389.6699,
+      "y": 10169.7832
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 59,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4388.748,
+      "y": 10181.249
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 60,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 4388.2773,
+      "y": 10184.6807
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 61,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4448.1504,
+      "y": 10160.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 62,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 4450.9141,
+      "y": 10159.0303
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 63,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4457.0264,
+      "y": 10156.665
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 64,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 4459.752,
+      "y": 10155.8135
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 65,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4468.3691,
+      "y": 10157.9355
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 66,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4484.0283,
+      "y": 10153.9756
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 67,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 4488.2627,
+      "y": 10153.8379
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 68,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 4491.291,
+      "y": 10153.2695
+    }
+  ]
+}

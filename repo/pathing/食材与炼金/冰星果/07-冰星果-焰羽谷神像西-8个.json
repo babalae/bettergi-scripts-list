@@ -1,0 +1,112 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1791449464136,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "07-冰星果-焰羽谷神像西-8个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7896.001,
+      "y": 9283.9941
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 7894.543,
+      "y": 9269.0313
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7910.8545,
+      "y": 9244.2422
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7951.751,
+      "y": 9190.5918
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7960.4863,
+      "y": 9161.4395
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 7976.2227,
+      "y": 9151.5146
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";迪希雅 attack(0.05),keypress(E),wait(0.1),keypress(E); ;",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8020.5195,
+      "y": 9159.0781
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8025.8682,
+      "y": 9155.2627
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8020.7139,
+      "y": 9158.3975
+    },
+    {
+      "action": "combat_script",
+      "action_params": "a(0.4),keypress(x),w(0.4),keypress(x),d(0.7),keypress(x),s(0.7),keypress(x),a(0.9),keypress(x),",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8026.6914,
+      "y": 9157.8359
+    }
+  ]
+}

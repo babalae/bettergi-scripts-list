@@ -1,0 +1,184 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1791448131024,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "06-冰星果-曙光车站东北-12个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7557.917,
+      "y": 8543.0566
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 7565.0892,
+      "y": 8554.6525
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7574.2227,
+      "y": 8591.3145
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7575.9136,
+      "y": 8597.6623
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),s(0.2),moveby(0,6000),wait(0.1),keypress(T)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7585.2944,
+      "y": 8634.1765
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,-2300),wait(0.2),attack(0.1),moveby(0,-300),wait(0.2),attack(0.1),wait(0.1),keypress(VK_ESCAPE),wait(0.2),attack(0.2)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7609.498,
+      "y": 8622.6895
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7577.7539,
+      "y": 8598.5674
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7584.8592,
+      "y": 8584.4375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7586.0626,
+      "y": 8588.0466
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7587.0079,
+      "y": 8591.1406
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),s(0.2),moveby(0,6000),wait(0.1),keypress(T)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7599.9277,
+      "y": 8634.8018
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,-2300),wait(0.2),attack(0.1),moveby(0,-300),wait(0.2),attack(0.1),wait(0.1),keypress(VK_ESCAPE),wait(0.2),attack(0.2)",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7621.8129,
+      "y": 8617.4384
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7591.1924,
+      "y": 8591.3379
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7660.1408,
+      "y": 8585.6408
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7668.9063,
+      "y": 8585.3828
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),s(0.2),moveby(0,6000),wait(0.1),keypress(T)",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7692.0234,
+      "y": 8583.6647
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,-2300),wait(0.2),attack(0.1),moveby(0,-300),wait(0.2),attack(0.1),wait(0.1),keypress(VK_ESCAPE),wait(0.2),attack(0.2)",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7694,
+      "y": 8566.4769
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7672.8574,
+      "y": 8586.5918
+    }
+  ]
+}

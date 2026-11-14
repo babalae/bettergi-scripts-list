@@ -1,0 +1,220 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1789757130485,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "02-冰星果-凝露镇东北冰原-9个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7462.2471,
+      "y": 7960.5278
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7491.8838,
+      "y": 7938.4844
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7487.836,
+      "y": 7933.7186
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 7480.8301,
+      "y": 7931.0078
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),s(0.2),moveby(0,6000),wait(0.1),keypress(T)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7471.4258,
+      "y": 7926.9224
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,-2300),wait(0.2),attack(0.1),moveby(0,-300),wait(0.2),attack(0.1),wait(0.1),keypress(VK_ESCAPE),wait(0.2),attack(0.2)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7467.7261,
+      "y": 7930.9696
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.6),wait(0.2),click(middle)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7471.4258,
+      "y": 7926.9224
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7142.0977,
+      "y": 7900.353
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7145.9736,
+      "y": 7960.3477
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7176.2393,
+      "y": 7989.4775
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7199.5693,
+      "y": 8036.2271
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7203.7539,
+      "y": 8045.2646
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),s(0.2),moveby(0,6000),wait(0.1),keypress(T)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7208.6914,
+      "y": 8054.5361
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,-2300),wait(0.2),attack(0.1),moveby(0,-300),wait(0.2),attack(0.1),wait(0.1),keypress(VK_ESCAPE),wait(0.2),attack(0.2)",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7215.4443,
+      "y": 8050.2139
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.6),wait(0.2),click(middle)",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7208.6914,
+      "y": 8054.5361
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7262.541,
+      "y": 8038.8462
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7272.0869,
+      "y": 8036.7109
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),s(0.2),moveby(0,6000),wait(0.1),keypress(T)",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7281.4795,
+      "y": 8034.0396
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,-2300),wait(0.2),attack(0.1),moveby(0,-300),wait(0.2),attack(0.1),wait(0.1),keypress(VK_ESCAPE),wait(0.2),attack(0.2)",
+      "id": 19,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7279.6621,
+      "y": 8030.9395
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.6),wait(0.2),click(middle)",
+      "id": 20,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7281.4795,
+      "y": 8034.0396
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 21,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7278.0986,
+      "y": 8035.6211
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 22,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7282.5811,
+      "y": 8033.7598
+    }
+  ]
+}
