@@ -1,8 +1,13 @@
 {
   "manifest_version": 1,
   "name": "角色自动养成",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "bgi_version": "0.66.0",
+  "tags": [
+    "养成",
+    "材料",
+    "日常"
+  ],
   "description": "角色自动养成：告诉它「谁练到多少级、天赋几级」，自动算材料缺口并安排刷取\n· 只补差额：读背包现有量，目标−现有=缺口，够了不刷\n· 支持当前→目标：如 胡桃 22>90 6/6/6>9/9/9，不重刷已吃掉的突破材料\n· 体力优先：秘境（含开放日判断）→ 世界首领 → 采集特产 → 打怪\n· 地脉花补尾：经验书按缺口自动算次数，摩拉只给预估\n· 防坑：识别失败不当 0、路线卡过拉黑 3 天、崩溃后 CD 不丢\n前置：BetterGI ≥0.66；采集/打怪需先订阅地图追踪；详见 README.md",
   "authors": [
     {
@@ -16,7 +21,10 @@
   "settings_ui": "settings.json",
   "main": "main.js",
   "saved_files": [
-    "record/"
+    "record/*.json",
+    "record/*.txt",
+    "record/*.log",
+    "record/cd/*.json"
   ],
   "allow_js_notification": true
 }

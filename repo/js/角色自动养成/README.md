@@ -1,7 +1,7 @@
 # 角色自动养成 · BetterGI JS 脚本
 
 > **作者**：[aipaixiatian](https://github.com/aipaixiatian) ｜ **仓库**：[Automatic-Character-Growth](https://github.com/aipaixiatian/Automatic-Character-Growth) ｜ **反馈**：[提 Issue](https://github.com/aipaixiatian/Automatic-Character-Growth/issues)
-> **版本**：v1.0.0 ｜ **要求**：BetterGI ≥ 0.66.0 ｜ **数据**：游戏 7.2
+> **版本**：v1.0.1 ｜ **要求**：BetterGI ≥ 0.66.0 ｜ **数据**：游戏 7.2
 
 **告诉它「谁练到多少级、天赋几级」，它自己算材料缺口、读背包、排体力，该刷的刷完就停。**
 
@@ -86,6 +86,8 @@
 
 ## 更新日志
 
+- **v1.0.1**：真机验证修复 —— 背包统计、智能拾取、纳西妲采集路线、首领素材映射；
+  `saved_files` 改为按文件匹配，脚本更新时不再影响已有运行记录
 - **v1.0.0**：首个发布版。角色/天赋/武器的「当前→目标」区间计算、背包缺口、秘境开放日判断、
   首领讨伐、特产采集、怪物打怪、地脉花（经验书按缺口、摩拉给预估）、
   卡死拉黑与连续失败熔断、CD 分片落盘、打怪映射自学习、演练模式。
