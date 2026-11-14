@@ -209,17 +209,13 @@ function canRunPathingFile(currentTime, lastEndTime, refreshCD) {
             return canRun;
         } else if (refreshCD.type === 'specific') {
             const specificHour = refreshCD.hour;
-            const currentHour = currentDate.getHours();
-            const lastEndHour = lastEndTimeDate.getHours();
-            if (currentHour === specificHour && currentDate.getDate() !== lastEndTimeDate.getDate()) {
-                return true;
-            }
-            const nextRunTime = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), specificHour);
-            if (currentHour >= specificHour) {
+            const nextRunTime = new Date(lastEndTimeDate);
+            nextRunTime.setHours(specificHour, 0, 0, 0);
+            if (nextRunTime <= lastEndTimeDate) {
                 nextRunTime.setDate(nextRunTime.getDate() + 1);
             }
             log.info(`路径文件上次运行时间：${lastEndTimeDate.toLocaleString()}，下次运行时间：${nextRunTime.toLocaleString()}`);
-            return false;
+            return currentDate >= nextRunTime;
         } else if (refreshCD.type === 'instant') {
             return true;
         }
