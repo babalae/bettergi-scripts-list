@@ -1,0 +1,24 @@
+// 作者:阿力-2868390190
+// 描述: 丝柯克 芙宁娜 茜特菈莉 夏洛蒂，全员0命，丝柯克黑剑、芙宁娜天空之刃、茜特菈莉祭礼残章、夏洛蒂西风秘典。用于秘境、首领讨伐、幽境危战，日常使用没问题，锄地未测试
+// 版本: v1.0
+// 推荐自动战斗设置：检查战斗结束的延时设置为 0.4，开启派蒙头像检测战斗结束
+
+// 茜特菈莉
+茜特菈莉 e,keypress(q),wait(0.1),dash,keypress(q),ready,check,wait(0.1)
+
+// 夏洛蒂
+夏洛蒂 e,keypress(q),wait(0.1),dash,keypress(q),ready,check,wait(0.1)
+
+// 芙宁娜
+芙宁娜 e,keypress(q),wait(0.1),dash,keypress(q),ready,wait(0.1),keypress(e),check,wait(0.1)
+
+// 茜特菈莉
+茜特菈莉 e,keypress(q),wait(0.1),dash,keypress(q),ready,check,wait(0.1)
+
+// 夏洛蒂
+夏洛蒂 e,keypress(q),wait(0.1),dash,keypress(q),ready,check,wait(0.1)
+
+// 丝柯克
+丝柯克 e,wait(0.4),e,keypress(q),wait(0.1),keypress(q),ready,check,attack(3),dash,attack(3),wait(0.1)
+// 丝柯克：被错误识别成温迪时
+温迪 e,wait(0.4),e,keypress(q),wait(0.1),keypress(q),ready,check,attack(6.5),wait(0.1)
