@@ -43,22 +43,23 @@ jobs:
     - name: 📤 回传构建结果到 Main 分支
       working-directory: bettergi-scripts-list
       run: |
-        if git diff --quiet -- repo.json; then
-          echo "repo.json 没有变化，无需提交"
+        git add repo.json asset.json
+        if git diff --cached --quiet -- repo.json asset.json; then
+          echo "索引没有变化，无需提交"
           exit 0
         fi
 
         git config user.name "github-actions[bot]"
         git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        git add repo.json
-        git commit -m "update repo.json [skip ci]"
+        git commit -m "update repository indexes [skip ci]"
         git push origin HEAD:main
     
     - name: 📋 复制生成的文件到工作目录
       run: |
-        echo "📂 复制 repo.json 和 repo.json.gz 文件..."
+        echo "📂 复制 repo.json、repo.json.gz 和 asset.json..."
         cp bettergi-scripts-list/repo.json .
         cp bettergi-scripts-list/repo.json.gz .
+        cp bettergi-scripts-list/asset.json .
         echo "✅ 文件复制完成"
         ls -la *.json*
     
@@ -84,10 +85,14 @@ jobs:
         
         echo "📦 检出 main 分支的内容到工作区"
         git checkout main -- repo packages .gitignore
+        if git cat-file -e main:assets 2>/dev/null; then
+          git checkout main -- assets
+        fi
         
         echo "📋 复制生成的文件到 release 分支"
         cp ../repo.json .
         cp ../repo.json.gz .
+        cp ../asset.json .
         
         echo "📊 显示当前文件状态"
         ls -la

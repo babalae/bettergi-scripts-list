@@ -16,6 +16,9 @@ jobs:
           mkdir -p my_files
           mv main.zip my_files/
           mv bettergi-scripts-list-main/repo.json my_files/
+          if [ -f bettergi-scripts-list-main/asset.json ]; then
+            mv bettergi-scripts-list-main/asset.json my_files/
+          fi
           sed -i 's|https://github\.com/babalae/bettergi-scripts-list/archive/refs/heads/main\.zip|https://r2-script\.bettergi\.com/github_mirror/main\.zip|g' my_files/repo.json
           
       - name: Upload to R2
