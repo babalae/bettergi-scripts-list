@@ -1,0 +1,76 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "烤鱼"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "冰免，地图检测和圣土化原因带自动攻击角色",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1794569314112,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "01-无智的凝冰体-贝洛沃迪港-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3103.4609,
+      "y": 8731.9902
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3078.2314,
+      "y": 8738.1602
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3063.0322,
+      "y": 8753.959
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2976.2764,
+      "y": 8782.1621
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2931.0664,
+      "y": 8781.6836
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2931.0664,
+      "y": 8781.6836
+    }
+  ]
+}
