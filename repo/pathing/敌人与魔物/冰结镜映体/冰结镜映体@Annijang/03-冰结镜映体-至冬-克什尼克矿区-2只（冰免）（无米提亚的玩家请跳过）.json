@@ -1,0 +1,85 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Annijang",
+        "name": "Annijang"
+      }
+    ],
+    "bgi_version": "0.63.1",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1794644641339,
+    "map_match_method": "TemplateMatch",
+    "map_name": "Teyvat",
+    "name": "03-冰结镜映体-至冬-克什尼克矿区-2只（冰免）（无米提亚的玩家请跳过）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7839.8496,
+      "y": 7592.4531
+    },
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3864.8115,
+      "y": 9958.7461
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "jump",
+      "type": "target",
+      "x": 3856.873,
+      "y": 9987.0713
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 3857.7969,
+      "y": 9990.9883
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 3865.7129,
+      "y": 10000.9229
+    },
+    {
+      "action": "combat_script",
+      "action_params": "米提亚 e",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3856.6221,
+      "y": 10015.2871
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3845.4668,
+      "y": 10024.4082
+    }
+  ]
+}
