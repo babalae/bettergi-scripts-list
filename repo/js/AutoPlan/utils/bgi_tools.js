@@ -21,12 +21,20 @@ export class BgiTools {
         const res = await http.request("POST", http_api, JSON.stringify({json: JSON.stringify(list)}), JSON.stringify(value))
 
         Log.debug(`[{0}]res=>{1}`, 'next', JSON.stringify(res))
-        if (res.status_code === 200 && res.body) {
-            let result_json = JSON.parse(res.body);
+        // 检查响应状态码和响应体
+        const {status_code,body} = res
+        // 检查响应状态码和响应体
+        if (status_code === 200 && body) {
+            // 解析响应体JSON
+            let result_json = JSON.parse(body);
+            // 检查响应状态码是否为200
             if (result_json?.code === 200) {
+                // 返回响应数据
                 return result_json?.data
             }
             throw new Error("请求失败,error:" + result_json?.message)
+        }else {
+            throw new Error("请求失败,服务器异常,status_code:" + status_code + ",message:" + body)
         }
         return undefined
     }
@@ -51,13 +59,22 @@ export class BgiTools {
         const res = await http.request("POST", http_api, JSON.stringify({json: JSON.stringify(list)}), JSON.stringify(value))
 
         Log.debug(`[{0}]res=>{1}`, 'next', JSON.stringify(res))
-        if (res.status_code === 200 && res.body) {
-            let result_json = JSON.parse(res.body);
+        // 检查响应状态码和响应体
+        const {status_code,body} = res
+        // 检查响应状态码和响应体
+        if (status_code === 200 && body) {
+            // 解析响应体JSON
+            let result_json = JSON.parse(body);
+            // 检查响应状态码是否为200
             if (result_json?.code === 200) {
+                // 返回响应数据
                 return result_json?.data
             }
             throw new Error("请求失败,error:" + result_json?.message)
+        }else {
+            throw new Error("请求失败,服务器异常,status_code:" + status_code + ",message:" + body)
         }
+
         return undefined
     }
 
@@ -85,17 +102,21 @@ export class BgiTools {
         // 记录响应详情
         Log.debug(`[{0}]res=>{1}`, 'next', JSON.stringify(res))
         // 检查响应状态码和响应体
-        if (res.status_code === 200 && res.body) {
+        const {status_code,body} = res
+        // 检查响应状态码和响应体
+        if (status_code === 200 && body) {
             // 解析响应体JSON
-            let result_json = JSON.parse(res.body);
+            let result_json = JSON.parse(body);
             // 检查响应状态码是否为200
             if (result_json?.code === 200) {
                 // 返回响应数据
                 return result_json?.data
             }
-            // 抛出错误信息
             throw new Error("请求失败,error:" + result_json?.message)
+        }else {
+            throw new Error("请求失败,服务器异常,status_code:" + status_code + ",message:" + body)
         }
+
         // 如果响应状态码不是200或没有响应体，则返回undefined（已注释）
         // return undefined
     }
@@ -120,12 +141,20 @@ export class BgiTools {
         // , JSON.stringify({"Content-Type": "application/json"})
         )
         Log.debug(`[{0}]res=>{1}`, 'next', JSON.stringify(res))
-        if (res.status_code === 200 && res.body) {
-            let result_json = JSON.parse(res.body);
+        // 检查响应状态码和响应体
+        const {status_code,body} = res
+        // 检查响应状态码和响应体
+        if (status_code === 200 && body) {
+            // 解析响应体JSON
+            let result_json = JSON.parse(body);
+            // 检查响应状态码是否为200
             if (result_json?.code === 200) {
+                // 返回响应数据
                 return result_json?.data
             }
             throw new Error("请求失败,error:" + result_json?.message)
+        }else {
+            throw new Error("请求失败,服务器异常,status_code:" + status_code + ",message:" + body)
         }
         // return undefined
     }
