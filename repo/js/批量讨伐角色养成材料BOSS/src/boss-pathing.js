@@ -19,8 +19,7 @@ const BOSS_TALK_TO_START = [
  */
 const BOSS_NO_PATHING_SUPPORT = [
     "蕴光月守宫",
-    "超重型陆巡舰·机动战垒",
-    "蕴光月幻蝶"
+    "超重型陆巡舰·机动战垒"
 ];
 
 /**

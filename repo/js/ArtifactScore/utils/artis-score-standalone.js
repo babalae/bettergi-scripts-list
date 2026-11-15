@@ -148,7 +148,7 @@ const travelerElements = {
 
 // ============================================================================
 //  2. 角色默认词条权重 (from artis-mark.js)
-//     121 个角色
+//     123 个角色
 // ============================================================================
 
 const usefulAttr = {
@@ -269,7 +269,7 @@ const usefulAttr = {
     "mastery": 75,
     "dmg": 0,
     "phy": 0,
-    "recharge": 50,
+    "recharge": 20,
     "heal": 0
   },
   "八重神子": {
@@ -920,6 +920,18 @@ const usefulAttr = {
     "recharge": 100,
     "heal": 100
   },
+  "米提亚": {
+    "hp": 0,
+    "atk": 0,
+    "def": 0,
+    "cpct": 100,
+    "cdmg": 100,
+    "mastery": 100,
+    "dmg": 0,
+    "phy": 0,
+    "recharge": 40,
+    "heal": 0
+  },
   "莫娜": {
     "hp": 0,
     "atk": 75,
@@ -1001,7 +1013,7 @@ const usefulAttr = {
     "mastery": 0,
     "dmg": 0,
     "phy": 0,
-    "recharge": 50,
+    "recharge": 0,
     "heal": 0
   },
   "凝光": {
@@ -1266,6 +1278,18 @@ const usefulAttr = {
     "dmg": 100,
     "phy": 0,
     "recharge": 40,
+    "heal": 0
+  },
+  "瓦列里": {
+    "hp": 0,
+    "atk": 100,
+    "def": 0,
+    "cpct": 0,
+    "cdmg": 0,
+    "mastery": 0,
+    "dmg": 0,
+    "phy": 0,
+    "recharge": 50,
     "heal": 0
   },
   "薇斯纳": {
@@ -1931,6 +1955,11 @@ const baseAttrMap = {
     "atk": 279.92,
     "def": 762.57
   },
+  "米提亚": {
+    "hp": 12460.48,
+    "atk": 322.29,
+    "def": 847.87
+  },
   "莫娜": {
     "hp": 11148.85,
     "atk": 351.59,
@@ -2075,6 +2104,11 @@ const baseAttrMap = {
     "hp": 13601.59,
     "atk": 436.56,
     "def": 837.17
+  },
+  "瓦列里": {
+    "hp": 10696.97,
+    "atk": 319.9,
+    "def": 751.62
   },
   "薇斯纳": {
     "hp": 14204.94,
@@ -2287,6 +2321,7 @@ const charElemMap = {
   "玛薇卡": "pyro",
   "梦见月瑞希": "anemo",
   "米卡": "cryo",
+  "米提亚": "electro",
   "莫娜": "hydro",
   "那维莱特": "hydro",
   "纳西妲": "dendro",
@@ -2316,6 +2351,7 @@ const charElemMap = {
   "提纳里": "dendro",
   "托马": "pyro",
   "瓦雷莎": "electro",
+  "瓦列里": "electro",
   "薇斯纳": "anemo",
   "温迪": "anemo",
   "沃雅妮莎": "hydro",
@@ -2462,6 +2498,18 @@ const charSpecialRules = {
       particularAttr.mastery = 75
       particularAttr.dmg = 100
       particularAttr.recharge = 40
+    }
+    if (title.length > 0) {
+      return null
+    }
+    return null
+  },
+  '奥黛塔': ({ cons }) => {
+    let title = []
+    let particularAttr = { ...usefulAttr['奥黛塔'] }
+    if (cons >= 2) {
+      title.push('高命')
+      particularAttr.recharge = 50
     }
     if (title.length > 0) {
       return null

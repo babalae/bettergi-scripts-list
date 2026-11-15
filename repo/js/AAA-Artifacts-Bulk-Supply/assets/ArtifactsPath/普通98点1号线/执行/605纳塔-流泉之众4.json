@@ -37,7 +37,8 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f),attack(0.03);万叶 attack(0.08),keydown(E),wait(0.7),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "pickup_target_count": 2,
+      "action_params": ";万叶 attack(0.02),keydown(E),wait(0.7),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle); ;",
       "id": 3,
       "move_mode": "swim",
       "type": "target",
@@ -97,7 +98,8 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f),attack(0.03);万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "pickup_target_count": 2,
+      "action_params": ";万叶 attack(0.02),keydown(E),wait(0.47),keyup(E),attack(0.2),wait(0.5);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle); ;",
       "id": 10,
       "move_mode": "climb",
       "type": "target",
@@ -115,6 +117,7 @@
     },
     {
       "action": "combat_script",
+      "pickup_target_count": 2,
       "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),w(0.15)",
       "id": 12,
       "move_mode": "dash",
@@ -133,7 +136,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": "keypress(f),attack(0.03);万叶 attack(0.08),keydown(E),wait(0.8),keyup(E),attack(0.2),wait(1);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);",
+      "action_params": ";万叶 attack(0.02),keydown(E),wait(0.8),keyup(E),attack(0.2),wait(1);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle); ;",
       "id": 14,
       "move_mode": "walk",
       "type": "path",

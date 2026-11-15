@@ -1,0 +1,103 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1793431397225,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "03-竹笋-璃月-轻策庄三-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 547.9951,
+      "y": 1767.0869
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 529.6836,
+      "y": 1751.1104
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 526.751,
+      "y": 1741.918
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 4,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 525.501,
+      "y": 1731.1504
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.001)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 523.5283,
+      "y": 1733.4648
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.35),j",
+      "id": 6,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 509.0791,
+      "y": 1749.0674
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.001)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 506.4531,
+      "y": 1754.2061
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.001)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 503.9473,
+      "y": 1758.8105
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(1)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 506.6641,
+      "y": 1753.1055
+    }
+  ]
+}

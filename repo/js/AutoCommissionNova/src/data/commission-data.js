@@ -106,7 +106,11 @@ export function loadBranchCompletionState() {
     for (const uid of listAccountUids()) {
         try {
             const account = loadUserConfig(uid);
-            for (const [commissionName, completed] of Object.entries(account.branchCompleted)) {
+            const branchCompleted = account?.branchCompleted;
+            if (!branchCompleted || typeof branchCompleted !== "object" || Array.isArray(branchCompleted)) {
+                continue;
+            }
+            for (const [commissionName, completed] of Object.entries(branchCompleted)) {
                 if (!result[commissionName]) result[commissionName] = {};
                 result[commissionName][uid] = Array.isArray(completed) ? completed : [];
             }
@@ -160,12 +164,17 @@ export async function loadCurrentCommissionsData() {
     if (!uid) {
         return null;
     }
-    const account = loadUserConfig(uid);
-    if (!account.commissions.length) {
-        log.warn("当前UID没有可用委托数据，请先执行委托识别: {uid}", uid);
+    try {
+        const account = loadUserConfig(uid);
+        if (!account.commissions.length) {
+            log.warn("当前UID没有可用委托数据，请先执行委托识别: {uid}", uid);
+            return null;
+        }
+        return { uid, data: account, account };
+    } catch (error) {
+        log.warn("读取当前UID委托数据失败: {uid}, {err}", uid, error.message);
         return null;
     }
-    return { uid, data: account, account };
 }
 
 /**
@@ -205,10 +214,12 @@ export async function saveCommissionsData(commissions) {
             };
         });
 
-        account.timestamp = new Date().toISOString();
-        account.scriptVersion = SCRIPT_VERSION;
-        account.bgiVersion = getVersion();
-        account.commissions = merged;
+        Object.assign(account, {
+            timestamp: new Date().toISOString(),
+            scriptVersion: SCRIPT_VERSION,
+            bgiVersion: getVersion(),
+            commissions: merged,
+        });
         writeUserConfig(account);
         log.debug("委托数据保存完成: {uid}", uid);
         return commissions.filter((c) => c.supported);

@@ -9,5 +9,22 @@
     "name": "use_bgi_code_source",
     "type": "checkbox",
     "label": "使用BGI提供的兑换码列表"
+  },
+  {
+    "name": "server",
+    "type": "select",
+    "label": "服务器\n选择当前账号所在服务器，用于过滤兑换码\n不区分：全部尝试，与原逻辑一致",
+    "options": [
+      "不区分",
+      "国服",
+      "国际服（测试）"
+    ],
+    "default": "不区分"
+  },
+  {
+    "name": "trust_expire_time",
+    "type": "checkbox",
+    "label": "信任兑换码有效期\n开启后：已过期的兑换码直接跳过，不尝试兑换",
+    "default": false
   }
 ]

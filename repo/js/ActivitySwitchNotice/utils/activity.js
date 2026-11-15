@@ -1,3 +1,4 @@
+import {recordRecognition} from "./recognitionResult.js";
 import {sendNotice,sendText} from "./notice";
 import {drawBox, Record, toMainUi} from "./tool";
 const config_name = "config"
@@ -494,6 +495,7 @@ export async function activityMain(newActivityNotice = true) {
     await sleep(ms * 2);  // 给活动页面多点加载时间
     // let activityNameSet = new Set()
     // 2. 初始化存储所有活动的 Map
+    const observedHours = new Map(); // 仅保存原始剩余时间可解析的小时数。
     let activityMap = new Map();  // key: 活动名称, value: 剩余时间文本
     let previousPageActivities = new Set();  // 新增：记录上一页识别到的所有活动名称（用于重复页判断）
     let lastPageBottomName = null;     // 上一次扫描到的页面最底部活动名
@@ -637,6 +639,7 @@ export async function activityMain(newActivityNotice = true) {
                             remainingTimeText += '钟'
                         }
                         const totalHours = parseRemainingTimeToHours(remainingTimeText);
+                        observedHours.set(activityName, /\d+(?:\.\d+)?\s*(天|小时|分钟)/.test(remainingTimeText) ? totalHours : null);
                         if (totalHours <= 24 && totalHours > 0) {
                             remainingTimeText += '<即将结束>'
                         }
@@ -719,6 +722,18 @@ export async function activityMain(newActivityNotice = true) {
             }
         }
     }
+    // 导出观测到的活动及详情，不把未解析的时间当作零，也不宣称扫描完整。
+    await recordRecognition("activity", {
+        uid,
+        names: Array.from(currentActivityJson.activityNames),
+        details: Array.from(activityMap, ([name, info]) => ({
+            name, ...info,
+            hours: observedHours.get(name) ?? null
+        })),
+        complete: null
+    }, activityMap.size > 0 ? "observed" : "unknown",
+    "受白名单、黑名单及分页终止条件限制；缺少详情不代表剩余时间为零");
+
     let activityMapFilter = new Map();
     Array.from(activityMap.entries())
         .filter(([name, info]) => {

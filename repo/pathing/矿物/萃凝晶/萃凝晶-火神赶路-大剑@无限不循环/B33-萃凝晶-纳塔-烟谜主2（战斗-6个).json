@@ -9,7 +9,7 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1792108893971,
+    "last_modified_time": 1792865359929,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "B33-萃凝晶-纳塔-烟谜主2（战斗-6个)",
@@ -40,7 +40,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": ";茜特菈莉 e;芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "action_params": ";茜特菈莉 e;芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;wait(2)",
       "id": 3,
       "move_mode": "walk",
       "type": "path",
@@ -51,7 +51,7 @@
       "action": "combat_script",
       "action_params": "attack(0.3)",
       "id": 4,
-      "move_mode": "run",
+      "move_mode": "jump",
       "type": "path",
       "x": 9589.0391,
       "y": -1725.2568

@@ -195,6 +195,9 @@ export function mergeBranchConfigView(viewComposite, accountUid, existingComposi
  * @returns {Object} { commissionName: config, ... }
  */
 export function loadAllBranchConfigs() {
+    if (!file.isFolder(PATHS.BRANCHES_DIR)) {
+        return {};
+    }
     let paths;
     try {
         paths = Array.from(file.readPathSync(PATHS.BRANCHES_DIR));

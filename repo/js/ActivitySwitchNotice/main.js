@@ -1,3 +1,4 @@
+import {beginRecognitionRun, finishRecognitionRun, recordRecognition, runRecognitionStage} from "./utils/recognitionResult.js";
 import {checkHolyRelicsKey} from "./utils/HolyRelics";
 
 let manifest = {};
@@ -109,12 +110,24 @@ async function init() {
 }
 
 (async function () {
-    await init();
-    if (settings.toMainUi) {
+    // 在初始化和任何游戏操作之前覆盖上次运行结果。
+    await beginRecognitionRun();
+    try {
+        await init();
+        if (settings.toMainUi) {
+            await toMainUi();
+        }
+        await main();
         await toMainUi();
+        await finishRecognitionRun();
+    } catch (error) {
+        try {
+            await finishRecognitionRun(error);
+        } catch (saveError) {
+            log.error("保存失败状态异常: {error}", String(saveError.message || saveError));
+        }
+        throw error;
     }
-    await main();
-    await toMainUi();
 })();
 
 /**
@@ -127,10 +140,14 @@ async function main() {
     if (mapList.length > 0) {
         try {
             log.info(`开始识别地图任务`)
-            await mapMission(mapList)
+            await runRecognitionStage("mapMission", () => mapMission(mapList))
         } finally {
             await toMainUi()
         }
+    }
+
+    if (mapList.length === 0) {
+        await recordRecognition("mapMission", null, "skipped", "未选择地图任务");
     }
 
     const checkHolyRelic=settings.checkHolyRelic||false
@@ -149,16 +166,20 @@ async function main() {
             log.warn(`圣遗物剩余空间阈值解析异常，默认 ${DEFAULT_THRESHOLD}: ${e.message}`)
         }
         try {
-            await checkHolyRelicsKey(threshold)
+            await runRecognitionStage("holyRelics", () => checkHolyRelicsKey(threshold))
         }finally {
             await toMainUi()
         }
     }
 
+    if (!checkHolyRelic) {
+        await recordRecognition("holyRelics", null, "skipped", "未启用圣遗物检查");
+    }
+
     let openKey = true
 
     try {
-        await dailyCommissionMain(openKey)
+        await runRecognitionStage("dailyCommission", () => dailyCommissionMain(openKey))
         await sleep(ms * 2);
         // openKey = false
     } catch (e) {
@@ -166,8 +187,8 @@ async function main() {
         throw e
     }
     await toMainUi()
-    await campaignAreaMain(openKey)
+    await runRecognitionStage("campaignArea", () => campaignAreaMain(openKey))
     await sleep(ms * 2);
     await toMainUi()
-    await activityMain(settings.newActivityNotice)
+    await runRecognitionStage("activity", () => activityMain(settings.newActivityNotice))
 }
