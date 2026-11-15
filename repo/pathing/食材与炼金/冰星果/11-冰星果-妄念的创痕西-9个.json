@@ -1,0 +1,184 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1792341139070,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "11-冰星果-妄念的创痕西-9个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7135.042,
+      "y": 8963.1201
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7145.46,
+      "y": 8978.0039
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7120.3623,
+      "y": 9012.3193
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 7115.3799,
+      "y": 9018.8652
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),s(0.2),moveby(0,6000),wait(0.1),keypress(T)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7104.5625,
+      "y": 9033.3242
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,-2300),wait(0.2),attack(0.1),moveby(0,-300),wait(0.2),attack(0.1),wait(0.1),keypress(VK_ESCAPE),wait(0.2),attack(0.2)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7113.6162,
+      "y": 9036.3457
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7116.3652,
+      "y": 9022.4023
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7144.0078,
+      "y": 9021.8438
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7171.2168,
+      "y": 9032.7646
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 7180.2939,
+      "y": 9036.6367
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),s(0.2),moveby(0,6000),wait(0.1),keypress(T)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7199.5498,
+      "y": 9043.7227
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,-2300),wait(0.2),attack(0.1),moveby(0,-300),wait(0.2),attack(0.1),wait(0.1),keypress(VK_ESCAPE),wait(0.2),attack(0.2)",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7207.2995,
+      "y": 9032.5235
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7183.4199,
+      "y": 9033.2832
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7187.1641,
+      "y": 9044.9648
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 7189.3408,
+      "y": 9050.8047
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),s(0.2),moveby(0,6000),wait(0.1),keypress(T)",
+      "id": 16,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7196.4749,
+      "y": 9068.1733
+    },
+    {
+      "action": "combat_script",
+      "action_params": "moveby(0,-2300),wait(0.2),attack(0.1),moveby(0,-300),wait(0.2),attack(0.1),wait(0.1),keypress(VK_ESCAPE),wait(0.2),attack(0.2)",
+      "id": 17,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7209.9258,
+      "y": 9065.207
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.6),wait(0.2),click(middle)",
+      "id": 18,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7196.4749,
+      "y": 9068.1733
+    }
+  ]
+}
