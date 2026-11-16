@@ -2,16 +2,25 @@
 export const buffer = [];
 let bufferTimer = null;
 
-const LOG_FILE = 'record/运行日志.log';
-let logBytes = -1;
+// 日志按天分文件 + 追加写。
+// 旧写法是「读回整个文件 → 拼上 → 整体重写」，长跑时是 O(n²) I/O；
+// BGI 的 file.writeTextSync(path, content, append) 第三个参数就是追加，直接用它。
+function logFilePath() {
+  const d = new Date();
+  const stamp = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`;
+  return `record/运行日志-${stamp}.log`;
+}
 function appendLog(level, msg) {
+  const line = `[${new Date().toLocaleString()}] [${level}] ${msg}\n`;
+  const p = logFilePath();
   try {
-    const line = `[${new Date().toLocaleString()}] [${level}] ${msg}\n`;
-    if (logBytes < 0) { let cur = ''; try { cur = file.readTextSync(LOG_FILE); } catch { cur = ''; } logBytes = cur.length; }
-    if (logBytes > 2 * 1024 * 1024) { file.writeTextSync(LOG_FILE, ''); logBytes = 0; }  // 超过 2MB 重开
-    let cur = ''; try { cur = file.readTextSync(LOG_FILE); } catch { cur = ''; }
-    file.writeTextSync(LOG_FILE, cur + line);
-    logBytes = (cur + line).length;
+    if (file.writeTextSync(p, line, true)) return;
+  } catch { /* 落到下面的兼容路径 */ }
+  // 兼容没有 append 参数的旧版 BGI
+  try {
+    let cur = '';
+    try { cur = file.readTextSync(p); } catch { cur = ''; }
+    file.writeTextSync(p, cur + line);
   } catch { /* 落盘失败不影响主流程 */ }
 }
 

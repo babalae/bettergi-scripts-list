@@ -1,7 +1,7 @@
 # 角色自动养成 · BetterGI JS 脚本
 
 > **作者**：[aipaixiatian](https://github.com/aipaixiatian) ｜ **仓库**：[Automatic-Character-Growth](https://github.com/aipaixiatian/Automatic-Character-Growth) ｜ **反馈**：[提 Issue](https://github.com/aipaixiatian/Automatic-Character-Growth/issues)
-> **版本**：v1.0.1 ｜ **要求**：BetterGI ≥ 0.66.0 ｜ **数据**：游戏 7.2
+> **版本**：v1.0.2 ｜ **要求**：BetterGI ≥ 0.66.0 ｜ **数据**：游戏 7.2
 
 **告诉它「谁练到多少级、天赋几级」，它自己算材料缺口、读背包、排体力，该刷的刷完就停。**
 
@@ -71,21 +71,49 @@
 
 ## 数据来源
 
-`data/` 由 [genshin-db](https://www.npmjs.com/package/genshin-db)（游戏数据 7.2）生成；
-秘境入口名用 BGI 自带 `tp.json` 校验；首领名取自 BGI `AutoBoss` 资源；
-怪物掉落来自 bwiki 敌人页 + 人工确认 + 运行时自学习。
+`data/` 的游戏数据由 [genshin-db](https://www.npmjs.com/package/genshin-db)（游戏数据 7.2）生成；
+秘境入口名用 BGI 自带 `tp.json` 校验。
 
-游戏更新后新角色会提示「数据里没有这个角色」，需等数据更新。
+**映射表是生成的，不要手改**：`data/monster-map.json`、`data/boss-map.json`、`record/待补映射.txt`
+都由 `tools/build-maps.mjs` 从下面这些输入推导：
+
+| 输入 | 内容 |
+| - | - |
+| `data/_drop-tables.txt` | 敌人 → 掉落材料（主源，来自《背包材料统计》，已核对 BGI 敌人目录） |
+| `data/monster-map-wiki.json` | 材料 → 敌人候选（bwiki） |
+| `data/boss-map-wiki.json` | 素材 → 首领候选（bwiki / 3DM 汇总） |
+| `data/_manual-maps.json` | 人工确认的补充（优先级最高），可写 `confidence: low` 表示「推测、不自动执行」 |
+| `data/_enemy-aliases.json` | 掉落表里的敌人名 → BGI 实际目录名（如 丘丘人→丘丘人射手） |
+| `data/_bgi-enemies.txt` / `_bgi-bosses.txt` | BGI 能力快照（57 个敌人目录 / 44 个可自动首领） |
+
+改完输入后重跑（本机没有 node，用 DSH 自带 Electron 当 Node）：
+
+```bash
+ELECTRON_RUN_AS_NODE=1 "C:/a.funna/DSH/DSH Desktop/DSH Desktop.exe" tools/build-maps.mjs
+# 只校验不写盘，输出与输入不一致时非 0 退出
+ELECTRON_RUN_AS_NODE=1 "..." tools/build-maps.mjs --check
+```
+
+当前状态：**怪物材料 156/156 全部有映射**，首领素材 44/49（剩 5 条在 `待补映射.txt` 里写明原因——
+其中「无相之风 / 无相之冰 / 深海龙蜥之群 / 黄金王兽」BGI 自动首领暂不支持）。
+
+游戏更新后新角色会提示「数据里没有这个角色」，需等数据更新（生成脚本见 C 计划）。
 
 ## 常见问题
 
 - **全部跳过、什么都没跑**：多半是地图追踪没订阅，或今天对应秘境不开（日志会写原因）
 - **背包统计很久 / 有未识别**：翻页识别偶尔失败，脚本会重试并跳过未知项，不会乱刷
-- **首领被跳过**：该素材还没建立「素材→首领」映射，可在设置里补一行 `素材名=首领名`
+- **首领被跳过**：日志会写具体原因——`真实首领是「X」，但 BGI 自动首领不支持它`（手动刷），
+  或「缺少可信映射」（设置里补一行 `素材名=首领名` 即可）
+- **树脂没刷完就停了**：默认是「自动」模式，按游戏里现有树脂刷，见底就停；要动用脆弱/须臾树脂
+  得在设置里显式打开
 - **名字写错**：会给出候选（`胡陶 → 胡桃`）并退出，不会跑错人
 
 ## 更新日志
 
+- **v1.0.2**：映射表改为生成（`tools/build-maps.mjs`），怪物材料 **156/156 全覆盖**并修正 12 条错误映射
+  （如 徽记→愚人众先遣队、棱镜→冬国仕女、棱晶→元能构装体）；树脂改为默认「自动」模式，
+  支持浓缩/须臾树脂且按现有树脂截断；日志改追加写并按天分文件
 - **v1.0.1**：真机验证修复 —— 背包统计、智能拾取、纳西妲采集路线、首领素材映射；
   `saved_files` 改为按文件匹配，脚本更新时不再影响已有运行记录
 - **v1.0.0**：首个发布版。角色/天赋/武器的「当前→目标」区间计算、背包缺口、秘境开放日判断、
@@ -97,17 +125,21 @@
 ```
 角色自动养成/
   manifest.json      脚本声明（BGI 读这个）
-  settings.json      37 项配置（分组显示）
+  settings.json      41 项配置（分组显示）
   main.js            主流程
   lib/planner.js     需求→目标→缺口→任务队列（纯逻辑，可单测）
   lib/routes.js      地图追踪路线索引 / 材料匹配 / CD / 卡死黑名单
   lib/executor.js    秘境 / 首领 / 采集 / 打怪 / 地脉花 / 自学习
   lib/inventory.js   背包数量读取（CountInventoryItem 封装）
+  lib/resin.js       树脂参数构造（自动 / 指定优先级，纯逻辑）
   lib/store.js       数据加载 / 分片 CD 持久化
   lib/env.js         日志 / 通知 / 停止检测 / AutoSkip 开关
-  data/*.json        游戏数据（角色/武器/材料/秘境/首领/怪物映射）
+  tools/build-maps.mjs 映射表生成器（掉落表 + wiki + 人工确认 → 两个 json）
+  data/*.json        游戏数据 + 映射（映射为生成产物）
+  data/_*.txt|json   映射的输入文件（掉落表、别名、BGI 能力快照、人工确认）
   record/            运行记录（计划、CD 分片、状态、日志）
-  test/core.test.mjs 36 项单测（可用 Node 跑，无需游戏）
+  test/core.test.mjs       36 项：planner / routes
+  test/data-resin.test.mjs 20 项：映射完整性 / 树脂参数 / 背包数量解释
 ```
 
 ## 致谢

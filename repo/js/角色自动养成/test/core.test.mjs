@@ -1,10 +1,11 @@
 // 纯逻辑单测（Node/Electron-as-node 运行，无需游戏）
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import * as P from '../lib/planner.js';
 import * as R from '../lib/routes.js';
 
-const D = 'C:/a.funna/DSH/gz/pro/data';
+const D = fileURLToPath(new URL('../data/', import.meta.url)).replace(/[\\/]+$/, '');
 const characters = JSON.parse(fs.readFileSync(D + '/characters.json', 'utf8')).characters;
 const weapons = JSON.parse(fs.readFileSync(D + '/weapons.json', 'utf8')).weapons;
 const materials = JSON.parse(fs.readFileSync(D + '/materials.json', 'utf8')).materials;

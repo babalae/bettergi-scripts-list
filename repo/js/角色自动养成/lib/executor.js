@@ -3,6 +3,7 @@ import { info, warn, err, isCancellationError, startPickupLoop } from './env.js'
 import { countItems } from './inventory.js';
 import { routesForMaterial, pickRunnable, indexRoutes, markStuck, markDone } from './routes.js';
 import { listJsonRecursive, findAutoPathingRoot, saveRouteShard, saveAllRouteShards, listAutoPathingJson, readAutoPathingText } from './store.js';
+import { domainResinFields, leylineResinFields } from './resin.js';
 
 /** 兼容 camelCase / PascalCase 两种属性写法 */
 function setProp(obj, name, value) {
@@ -60,12 +61,11 @@ export async function runDomain(task, cfg) {
   const fields = {
     domainName: task.domain,
     domainRoundNum: task.runs,
-    specifyResinUse: true,
-    originalResinUseCount: task.runs,
     rewardRecognitionEnabled: true,
+    // 树脂：默认「自动」（BGI 先浓缩后原粹，见底即停），只有要用须臾/脆弱才指定优先级
+    ...domainResinFields(task.runs, cfg),
   };
   if (cfg.partyName) fields.partyName = cfg.partyName;
-  if (cfg.allowFragileResin) fields.fragileResinUseCount = task.runs;
 
   try {
     const param = makeParam(AutoDomainParam, fields);
@@ -85,7 +85,10 @@ export async function runBoss(task, cfg) {
   const bossName = entry?.boss;
   const trusted = !!bossName && ['high', 'wiki', 'user', 'learned'].includes(entry.confidence || 'high');
   if (!trusted) {
-    warn(`⏭ 首领素材「${task.bossMaterial}」缺少可信的首领映射，跳过（在 record/boss-map-extra.json 里填一行 {"素材名":"首领名"} 即可）`);
+    const hint = entry?.realBoss
+      ? `真实首领是「${entry.realBoss}」，但 ${entry.reason || 'BGI 自动首领不支持它'}，需手动刷取`
+      : '缺少可信的首领映射，可在设置里补「素材=首领」，或改 data/_manual-maps.json 后重跑 tools/build-maps.mjs';
+    warn(`⏭ 首领素材「${task.bossMaterial}」跳过：${hint}`);
     return { skipped: true, reason: 'no-boss-mapping' };
   }
   info(`▶ 首领「${bossName}」×${task.runs} 次（约 ${task.resin} 体力）  素材：${task.bossMaterial}`);
@@ -233,10 +236,8 @@ export async function runLeyLine(leyType, runs, cfg) {
   info(`▶ 地脉花「${leyType}」×${runs} 次（约 ${runs * 20} 体力）`);
   if (cfg.dryRun) return { dryRun: true };
   const fields = {
-    count: runs,
     leyLineOutcropType: leyType,
-    useFragileResin: !!cfg.allowFragileResin,
-    isResinExhaustionMode: false,
+    ...leylineResinFields(runs, cfg),
     timeout: cfg.bossTimeoutSec || 120,
   };
   if (cfg.leyLineCountry) fields.country = cfg.leyLineCountry;

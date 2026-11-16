@@ -9,7 +9,7 @@ function runCountTask(config) {
   return dispatcher.runTask(new SoloTask('CountInventoryItem', config));
 }
 
-function toCounts(requested, dict) {
+export function toCounts(requested, dict) {
   const counts = {};
   const unknown = [];
   for (const name of requested) {

@@ -5,6 +5,7 @@ import { countItems } from './lib/inventory.js';
 import { loadData, loadState, saveState, readPlanFile, loadRouteShards, saveAllRouteShards } from './lib/store.js';
 import { info, warn, err, notify, flush, bootMetrics, checkVersion, isCancelled, isCancellationError, enableAutoSkip, enableAutoPick } from './lib/env.js';
 import { runDomain, runBoss, runRouteTask, calibrateEnemies, getRouteIndex, runLeyLine } from './lib/executor.js';
+import { describeResinPolicy } from './lib/resin.js';
 
 const TAG = '[角色养成]';
 
@@ -33,6 +34,7 @@ function readConfig() {
     planText,
     resinBudget: intSetting('resinBudget', 200),
     allowFragileResin: yesSetting('allowFragileResin', false),
+    useTransientResin: yesSetting('useTransientResin', false),
     gatherEnabled: yesSetting('gatherEnabled', true),
     fightEnabled: yesSetting('fightEnabled', true),
     partyName: String(setting('partyName', '') || '').trim(),
@@ -294,6 +296,7 @@ async function snapshot(names, materials) {
         if (tasks.some((t) => t.type === 'fight')) info(`${TAG}   打怪队伍：${cfg.fightTeam || '不切队'}（执行时会先切过去）`);
         if (tasks.some((t) => t.type === 'domain')) info(`${TAG}   秘境队伍：${cfg.partyName || '沿用 BGI 配置'}`);
         if (tasks.some((t) => t.type === 'boss')) info(`${TAG}   首领队伍：${cfg.bossPartyName || '沿用 BGI 配置'}`);
+        info(`${TAG}   树脂策略：${describeResinPolicy(cfg)}`);
         if (cfg.leyLineWealthRuns > 0) info(`${TAG}   地脉花·藏金之花（摩拉）×${cfg.leyLineWealthRuns}（约 ${cfg.leyLineWealthRuns * 20} 体力）`);
         if (cfg.leyLineRevelationRuns > 0) info(`${TAG}   地脉花·启示之花（经验）×${cfg.leyLineRevelationRuns}（约 ${cfg.leyLineRevelationRuns * 20} 体力）`);
         notify(`🧪 演练完成：缺口 ${shortfallCount} 种，计划消耗约 ${resinPlanned} 体力。把运行模式改成「执行」即可真跑。`);
