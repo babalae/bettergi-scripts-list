@@ -1,0 +1,40 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时31.5秒，包含以下怪物：2只兽怪敲打者。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1794548320356,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "H039至冬星贯长峡东南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2924.8555,
+      "y": 9413.5908
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2910.9238,
+      "y": 9416.4512
+    }
+  ]
+}
