@@ -1,0 +1,94 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "烤鱼"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1793531098424,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A02-魔晶块-至冬-剧院左下-1处",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 6513.7422,
+      "y": 9356.2764
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6535.1172,
+      "y": 9332.0762
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 6540.4805,
+      "y": 9329.9238
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1200",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 6655.3799,
+      "y": 9224.8057
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 6713.8213,
+      "y": 9157.0361
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6713.8213,
+      "y": 9157.0361
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6713.8213,
+      "y": 9157.0361
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 6713.8213,
+      "y": 9157.0361
+    }
+  ]
+}

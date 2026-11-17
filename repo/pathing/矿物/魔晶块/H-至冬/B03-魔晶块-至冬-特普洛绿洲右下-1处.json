@@ -1,0 +1,91 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "烤鱼"
+      }
+    ],
+    "bgi_version": "0.66.2",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1794384687210,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "B03-魔晶块-至冬-特普洛绿洲右下-1处",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3818.4912,
+      "y": 10093.1758
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3790.209,
+      "y": 10118.1143
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3740.6758,
+      "y": 10111.46
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3740.5527,
+      "y": 10094.1504
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3735.9902,
+      "y": 10090.1064
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.2),click(middle),wait(0.5);莉奈娅 charge(0.8),wait(2);",
+      "id": 6,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3732.3477,
+      "y": 10092.1953
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3732.3477,
+      "y": 10092.1953
+    }
+  ]
+}
