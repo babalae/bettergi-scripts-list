@@ -761,8 +761,13 @@
             if (schemaItem && item.options !== undefined) {
                 schemaItem.options = item.options;
             }
+        });
+        // 首次加载补齐面板还没有的键；已有键一律保留面板当前值，
+        // 否则后端保存的旧值会把用户刚改的开关重置成默认值
+        newSettings.forEach(function(item) {
+            const name = item.name;
             if (name === 'music_selector') return;
-            if (settings.hasOwnProperty(name)) {
+            if (!settings.hasOwnProperty(name)) {
                 settings[name] = item.value !== undefined ? item.value : getDefaultValue(item);
             }
         });
@@ -806,7 +811,7 @@
         isPaused = isPlaying && !!state.paused;
         const hotkey = state.hotkey || settings.pause_hotkey || 'F8';
 
-        btnPlay.disabled = isPlaying;
+        btnPlay.disabled = isPlaying && !isPaused;
         btnPause.disabled = !isPlaying;
         btnPause.textContent = isPaused ? `▶ 继续（${hotkey}）` : `⏸ 暂停（${hotkey}）`;
         // playbackControl.textContent = isPaused ? '继续' : hotkey;
@@ -830,9 +835,9 @@
     }
 
     btnPlay.addEventListener('click', function() {
-        if (isPlaying) return;
+        if (isPlaying && !isPaused) return;
         collectSettingsFromDOM();
-        showToast('开始运行');
+        showToast(isPaused ? '重新开始演奏' : '开始运行');
         const settingsObj = getUISettingsForBackend();
         if (window.chrome && window.chrome.webview) {
             window.chrome.webview.postMessage(JSON.stringify({
@@ -935,6 +940,25 @@
     }
 
     // ================================================================
+    //  ★★ 面板配置自动保存（改动即回传后端，重启/定时启动不再回默认） ★★
+    // ================================================================
+    (function initPanelSettingsPersist() {
+        let timer = null;
+        function push() {
+            try {
+                if (!window.chrome || !window.chrome.webview) return;
+                window.chrome.webview.postMessage(JSON.stringify({ url: '/config/save', data: getUISettingsForBackend() }));
+            } catch (e) { }
+        }
+        function schedule() {
+            if (timer) clearTimeout(timer);
+            timer = setTimeout(function() { timer = null; push(); }, 700);
+        }
+        document.addEventListener('change', schedule, true);
+        document.addEventListener('input', schedule, true);
+    })();
+
+    // ================================================================
     //  ★★ 读取 UI 配置，返回与后端 Settings 一致的对象 ★★
     // ================================================================
     function getUISettingsForBackend() {
@@ -971,6 +995,8 @@
 
         result.debug = settings.debug_mode === '启用';
         result.pauseHotkey = settings.pause_hotkey || 'F8';
+        // 后端持久化用：跨天重新计算定时启动时间
+        result.musicStart = settings.music_start || '00:00:00';
 
         const isSingleMode = (result.playType === 0 || result.playType === 1);
         if (isSingleMode) {
@@ -1093,6 +1119,11 @@
                         pauseHotkey: {
                             target: 'pause_hotkey',
                             transform: (val) => val || 'F8'
+                        },
+                        // 放在最后：后端带了时间字符串就用它覆盖 startTime 推算出来的值
+                        musicStart: {
+                            target: 'music_start',
+                            transform: (val) => (typeof val === 'string' && val.trim() !== '') ? val.trim() : '00:00:00'
                         }
                     };
 
@@ -1203,6 +1234,157 @@
             return JSON.stringify({ status: 'unknown', url: url });
         };
     }
+
+    // ================================================================
+    //  ★★ 面板交互上报（配合后端做点击穿透智能切换）★★
+    // ================================================================
+    (function initMaskPointerBridge() {
+        const SELECTORS = ".panel, .float-ball, .playback-control, .toast, button, input, select, textarea, a[href]";
+        const MAX_RECTS = 12;
+        let rectSig = "";
+        let lastPointerAt = 0;
+        let rectTimer = null;
+
+        function post(url, data) {
+            try {
+                if (window.chrome && window.chrome.webview) {
+                    window.chrome.webview.postMessage(JSON.stringify({ url: url, data: data }));
+                    return true;
+                }
+            } catch (e) { }
+            return false;
+        }
+
+        function isVisible(el) {
+            if (!el || !el.getBoundingClientRect) return false;
+            if (el.closest && el.closest(".panel.hidden")) return false;
+            const style = window.getComputedStyle(el);
+            if (!style) return false;
+            if (style.display === "none" || style.visibility === "hidden") return false;
+            if (parseFloat(style.opacity) <= 0.05) return false;
+            if (style.pointerEvents === "none") return false;
+            const r = el.getBoundingClientRect();
+            if (r.width < 6 || r.height < 6) return false;
+            if (r.right < -8 || r.bottom < -8) return false;
+            if (r.left > window.innerWidth + 8 || r.top > window.innerHeight + 8) return false;
+            return true;
+        }
+
+        function collectRects() {
+            const nodes = document.querySelectorAll(SELECTORS);
+            const rects = [];
+            for (let i = 0; i < nodes.length; i++) {
+                const el = nodes[i];
+                if (!isVisible(el)) continue;
+                const r = el.getBoundingClientRect();
+                rects.push({
+                    l: Math.round(r.left),
+                    t: Math.round(r.top),
+                    r: Math.round(r.right),
+                    b: Math.round(r.bottom),
+                    area: Math.round(r.width * r.height)
+                });
+            }
+            rects.sort(function (a, b) { return b.area - a.area; });
+            const kept = [];
+            for (let i = 0; i < rects.length && kept.length < MAX_RECTS; i++) {
+                kept.push({ l: rects[i].l, t: rects[i].t, r: rects[i].r, b: rects[i].b });
+            }
+            return kept;
+        }
+
+        function publishGeometry() {
+            post("/mask/geometry", {
+                dpr: window.devicePixelRatio || 1,
+                w: window.innerWidth,
+                h: window.innerHeight
+            });
+        }
+
+        function publishRects(force) {
+            const rects = collectRects();
+            const sig = JSON.stringify(rects);
+            if (!force && sig === rectSig) return;
+            rectSig = sig;
+            post("/mask/rects", { rects: rects, w: window.innerWidth, h: window.innerHeight });
+        }
+
+        function publishAll() {
+            publishGeometry();
+            publishRects(true);
+        }
+
+        function scheduleRects() {
+            if (rectTimer) return;
+            rectTimer = setTimeout(function () {
+                rectTimer = null;
+                publishRects(true);
+            }, 120);
+        }
+
+        // 页面自己判定这一下点在不在可交互元素上（比后端按矩形推算更可靠）
+        function isUiPoint(x, y) {
+            try {
+                if (!document.elementFromPoint) return null;
+                const el = document.elementFromPoint(x, y);
+                if (!el) return false;
+                if (el === document.documentElement || el === document.body) return false;
+                if (el.closest && el.closest(".panel.hidden")) return false;
+                return true;
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function reportPointer(x, y, down, onUi) {
+            const now = Date.now();
+            if (!down && now - lastPointerAt < 60) return;
+            lastPointerAt = now;
+            const payload = { x: Math.round(x), y: Math.round(y), down: !!down };
+            if (typeof onUi === "boolean") payload.onUi = onUi;
+            post("/mask/pointer", payload);
+        }
+
+        function onMove(event) {
+            reportPointer(event.clientX, event.clientY, false);
+        }
+
+        window.addEventListener("pointermove", onMove, true);
+        window.addEventListener("mousemove", onMove, true);
+        window.addEventListener("pointerdown", function (event) {
+            reportPointer(event.clientX, event.clientY, true, isUiPoint(event.clientX, event.clientY));
+        }, true);
+        document.addEventListener("pointerleave", function () {
+            post("/mask/pointer", { out: true });
+        }, true);
+        window.addEventListener("blur", function () {
+            post("/mask/pointer", { out: true });
+        });
+        window.addEventListener("resize", function () {
+            publishAll();
+        });
+
+        if (window.MutationObserver) {
+            const observer = new MutationObserver(function () { scheduleRects(); });
+            observer.observe(document.body, {
+                attributes: true,
+                attributeFilter: ["class", "style", "hidden"],
+                childList: true,
+                subtree: true
+            });
+        }
+
+        publishAll();
+        window.addEventListener("load", function () {
+            publishAll();
+            setTimeout(publishAll, 800);
+            setTimeout(publishAll, 2500);
+        });
+        setInterval(function () { publishRects(false); }, 1000);
+        // 心跳：即使鼠标离开窗口，也让后端消息循环持续唤醒，从而能及时交还游戏
+        setInterval(function () { post("/mask/tick", { t: Date.now() }); }, 250);
+        window.__maskBridge__ = { publishAll: publishAll, publishRects: publishRects, collectRects: collectRects };
+    })();
 
     // ================================================================
     //  ★★ 初始化 ★★
