@@ -6,13 +6,13 @@
         "name": "烤鱼"
       }
     ],
-    "bgi_version": "0.52.0",
-    "description": "冰免，地图检测和圣土化原因带自动攻击角色",
+    "bgi_version": "0.45.0",
+    "description": "冰免，带自动距离攻击角色，怪会跳过来",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1794569314112,
+    "last_modified_time": 1794878504035,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
-    "name": "01-无智的凝冰体-贝洛沃迪港-2个",
+    "name": "01-无智的凝冰体-贝洛沃迪港-3个",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -46,7 +46,7 @@
       "y": 8753.959
     },
     {
-      "action": "fight",
+      "action": "",
       "action_params": "",
       "id": 4,
       "move_mode": "walk",
@@ -55,9 +55,28 @@
       "y": 8782.1621
     },
     {
+      "action": "combat_script",
+      "action_params": ";茜特菈莉 attack(0.05),keypress(E),wait(0.1),keypress(E);莱依拉 attack(0.05),keypress(E),wait(0.1),keypress(E);伊涅芙 attack(0.05),keypress(E),wait(0.1),keypress(E);尼可 attack(0.05),keypress(E),wait(0.1),keypress(E); ;",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2966.8877,
+      "y": 8776.209
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2976.2764,
+      "y": 8782.1621
+    },
+    {
       "action": "stop_flying",
       "action_params": "",
-      "id": 5,
+      "id": 7,
       "move_mode": "fly",
       "type": "path",
       "x": 2931.0664,
@@ -66,11 +85,11 @@
     {
       "action": "fight",
       "action_params": "",
-      "id": 6,
+      "id": 8,
       "move_mode": "walk",
       "type": "path",
-      "x": 2931.0664,
-      "y": 8781.6836
+      "x": 2919.2422,
+      "y": 8782.002
     }
   ]
 }
