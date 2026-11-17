@@ -1,0 +1,121 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zhy0070",
+        "name": "烤鱼"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1792868015375,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "G01-2-魔晶块-纳塔-孑遗的留迹-2处",
+    "tags": [],
+    "type": "collect",
+    "version": ""
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "action_params": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10363.73,
+      "y": -3315.83
+    },
+    {
+      "id": 2,
+      "action": "",
+      "action_params": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 10406.0,
+      "y": -3302.73
+    },
+    {
+      "id": 3,
+      "action": "",
+      "action_params": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 10422.81,
+      "y": -3306.0
+    },
+    {
+      "id": 4,
+      "action": "",
+      "action_params": "",
+      "move_mode": "jump",
+      "type": "path",
+      "x": 10429.29,
+      "y": -3301.07
+    },
+    {
+      "id": 5,
+      "action": "",
+      "action_params": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 10445.26,
+      "y": -3284.06
+    },
+    {
+      "id": 6,
+      "action": "fight",
+      "action_params": "",
+      "move_mode": "run",
+      "type": "path",
+      "x": 10458.76,
+      "y": -3289.06
+    },
+    {
+      "id": 7,
+      "action": "",
+      "action_params": "",
+      "move_mode": "jump",
+      "type": "path",
+      "x": 10458.76,
+      "y": -3289.06
+    },
+    {
+      "id": 8,
+      "action": "mining",
+      "action_params": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10491.2324,
+      "y": -3295.5908
+    },
+    {
+      "id": 9,
+      "action": "",
+      "action_params": "",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 10484.5938,
+      "y": -3229.2266
+    },
+    {
+      "id": 10,
+      "action": "mining",
+      "action_params": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10480.0439,
+      "y": -3205.0127
+    },
+    {
+      "id": 11,
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10480.0439,
+      "y": -3205.0127
+    }
+  ]
+}

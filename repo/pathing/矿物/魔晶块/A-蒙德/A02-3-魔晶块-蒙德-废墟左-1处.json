@@ -1,0 +1,103 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/zhy0070",
+        "name": "烤鱼"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1792867731583,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "A02-3-魔晶块-蒙德-废墟左-1处",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "action_params": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 338.5303,
+      "y": 2581.4619
+    },
+    {
+      "id": 2,
+      "action": "",
+      "action_params": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 355.6357,
+      "y": 2574.4385
+    },
+    {
+      "id": 3,
+      "action": "stop_flying",
+      "action_params": "",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 426.7793,
+      "y": 2546.1172
+    },
+    {
+      "id": 4,
+      "action": "mining",
+      "action_params": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 426.7793,
+      "y": 2546.1172
+    },
+    {
+      "id": 5,
+      "action": "",
+      "action_params": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 415.2168,
+      "y": 2548.4243
+    },
+    {
+      "id": 6,
+      "action": "mining",
+      "action_params": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 411.3447,
+      "y": 2547.2861
+    },
+    {
+      "id": 7,
+      "action": "mining",
+      "action_params": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 418.9697,
+      "y": 2552.0854
+    },
+    {
+      "id": 8,
+      "action": "mining",
+      "action_params": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 418.9502,
+      "y": 2551.2568
+    },
+    {
+      "id": 9,
+      "action": "combat_script",
+      "action_params": "wait(2)",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 418.9502,
+      "y": 2551.2568
+    }
+  ]
+}
