@@ -1,0 +1,131 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.67.0",
+    "description": "  路线信息：该路线预计用时42秒，包含以下怪物：1只兽怪敲打者、1只嵌合角熊、7只嵌合梭地兽、1只嵌合翼象兽。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1789839269817,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "06-异种合成魔兽-至冬-古逆悬的冰河西雪原-10只",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7467.7383,
+      "y": 8914.3115
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7501.7256,
+      "y": 8900.0996
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7522.4434,
+      "y": 8902.791
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 7534.9854,
+      "y": 8906.627
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7609.9385,
+      "y": 8922.4229
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.2),wait(0.5),keypress(Q),wait(0.1),keypress(Q); ;",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7635.208,
+      "y": 8924.7891
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7635.208,
+      "y": 8924.7891
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7631.3379,
+      "y": 8922.0215
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 7643.292,
+      "y": 8913.5449
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7689.0693,
+      "y": 8899.3213
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";万叶 attack(0.08),keydown(E),wait(0.48),keyup(E),attack(0.2),wait(0.5),keypress(Q),wait(0.1),keypress(Q); ;",
+      "id": 11,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7704.0107,
+      "y": 8918.4463
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7704.0107,
+      "y": 8918.4463
+    }
+  ]
+}
