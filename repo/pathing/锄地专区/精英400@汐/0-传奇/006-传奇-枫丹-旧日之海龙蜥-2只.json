@@ -1,0 +1,86 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.67.0",
+    "description": "  路线信息：该路线预计用时100秒，预计收入1200摩拉，包含以下怪物：2只精英传奇倍率三。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1790355152517,
+    "map_match_method": "",
+    "map_name": "SeaOfBygoneEras",
+    "name": "006-传奇-枫丹-旧日之海龙蜥-2只",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3542.1628,
+      "y": 1377.1722
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3542.1628,
+      "y": 1377.1722
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";钟离 e(hold);伊涅芙 attack(0.05),keypress(E),wait(0.1),keypress(E);茜特菈莉 attack(0.05),keypress(E),wait(0.1),keypress(E);杜林 attack(0.05),keypress(e), wait(0.3), attack(0.2);芙宁娜 attack(0.05),keypress(E),wait(0.1),keypress(E);玛薇卡 attack(0.05),keypress(E),wait(0.1),keypress(E);爱可菲 attack(0.05),keypress(E),wait(0.1),keypress(E);莉奈娅 attack(0.05),keypress(E),w(0.1),keypress(E);万叶 attack(0.08),keypress(E),attack(0.2);wait(2)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3501.7939,
+      "y": 1457.1295
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3523.4016,
+      "y": 1449.488
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2);茜特菈莉 attack(0.05),keypress(E),wait(0.1),keypress(E),wait(1.5);玛薇卡 s(0.2);杜林 attack(0.05),keypress(Q),keypress(e), wait(0.3), attack(0.2),wait(1),keypress(Q);万叶 attack(0.08),wait(1),keydown(E),wait(0.8),keyup(E),attack(0.2),wait(5),keypress(Q);法尔伽 attack(0.05),keypress(Q),wait(4);仆人 wait(3);wait(1.5)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3546.8767,
+      "y": 1458.8752
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": 3546.8767,
+      "y": 1458.8752
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4547.2617,
+      "y": 1477.3752
+    }
+  ]
+}
