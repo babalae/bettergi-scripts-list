@@ -319,6 +319,9 @@
 <details>
 <summary>点击展开</summary>
 
+- ver 3.8.5
+  1. 新增一首单曲：《冬眠》（谐律键琴）。
+
 - ver 3.8.4
   1. 添加了三首单曲：《My Dearst（Aninenz）》、《敢归云间宿》、《下一个天亮》
 
