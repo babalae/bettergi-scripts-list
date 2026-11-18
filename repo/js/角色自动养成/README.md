@@ -1,7 +1,7 @@
 # 角色自动养成 · BetterGI JS 脚本
 
 > **作者**：[aipaixiatian](https://github.com/aipaixiatian) ｜ **仓库**：[Automatic-Character-Growth](https://github.com/aipaixiatian/Automatic-Character-Growth) ｜ **反馈**：[提 Issue](https://github.com/aipaixiatian/Automatic-Character-Growth/issues)
-> **版本**：v1.0.3 ｜ **要求**：BetterGI ≥ 0.66.0 ｜ **数据**：游戏 7.2
+> **版本**：v1.0.4 ｜ **要求**：BetterGI ≥ 0.66.0 ｜ **数据**：游戏 7.2
 
 **告诉它「谁练到多少级、天赋几级」，它自己算材料缺口、读背包、排体力，该刷的刷完就停。**
 
@@ -70,6 +70,9 @@
 - **崩溃安全**：每跑完一条路线立刻把 CD 写进 `record/cd/<材料>.json` 分片，BGI 被强关最多丢一条
 - **拾取不误点 NPC**：拾取交给 BGI 自动拾取（它会认出聊天气泡、跳过 NPC）；脚本自带的兜底按键只在
   「F 旁边的文字＝目标材料」时才按，对话 / 商店 / 锻造一律不按，一分钟按超过 20 次自动停手
+- **知道 BGI 会停触发器**：BGI 在任务/脚本运行期间会停用「你自己开启」的触发器，所以脚本必须自己
+  把自动拾取、自动跳过加回来（见 `lib/triggers.js`）。这里踩过一个坑：`addTimer()` 会先清空再加，
+  连开两个会互相顶掉，早期版本因此出现了「日志说开了自动拾取、实际没开」
 - **演练模式**：不点、不跑、不切队伍，只打印计划
 
 ## 数据来源
@@ -117,6 +120,9 @@ ELECTRON_RUN_AS_NODE=1 "..." tools/build-maps.mjs --check
 
 ## 更新日志
 
+- **v1.0.4**：修「脚本运行期间自动拾取其实被关掉了」——`dispatcher.addTimer()` 会先清空再加，
+  旧代码连开 AutoPick、AutoSkip 两次，第二次把第一次顶掉，结果只有自动跳过生效；
+  现在统一用 `addTrigger` 追加（先清一次再加），并新增 `lib/triggers.js` 与 5 项回归测试
 - **v1.0.3**：修拾取误触 NPC —— 脚本自带的兜底按键改为「先 OCR F 旁文字，是目标材料才按」，
   对话 / 商店 / 锻造等交互一律跳过，同一提示不重复按，一分钟超过 20 次自动停手；
   该兜底默认关闭，拾取交给 BGI 自动拾取（它本来就会跳过聊天气泡）
@@ -141,6 +147,7 @@ ELECTRON_RUN_AS_NODE=1 "..." tools/build-maps.mjs --check
   lib/executor.js    秘境 / 首领 / 采集 / 打怪 / 地脉花 / 自学习
   lib/inventory.js   背包数量读取（CountInventoryItem 封装）
   lib/resin.js       树脂参数构造（自动 / 指定优先级，纯逻辑）
+  lib/triggers.js    AutoPick/AutoSkip 装配（addTrigger 追加，避免互相顶掉）
   lib/store.js       数据加载 / 分片 CD 持久化
   lib/env.js         日志 / 通知 / 停止检测 / AutoSkip 开关
   tools/build-maps.mjs 映射表生成器（掉落表 + wiki + 人工确认 → 两个 json）
@@ -148,7 +155,7 @@ ELECTRON_RUN_AS_NODE=1 "..." tools/build-maps.mjs --check
   data/_*.txt|json   映射的输入文件（掉落表、别名、BGI 能力快照、人工确认）
   record/            运行记录（计划、CD 分片、状态、日志）
   test/core.test.mjs       36 项：planner / routes
-  test/data-resin.test.mjs 25 项：映射完整性 / 树脂参数 / 背包数量解释 / 拾取决策
+  test/data-resin.test.mjs 30 项：映射完整性 / 树脂参数 / 背包数量 / 拾取决策 / 触发器装配
 ```
 
 ## 致谢

@@ -1,4 +1,5 @@
 // lib/env.js —— 环境、日志、通知（只在这一层碰 BGI 全局对象）
+import { buildTriggerPlan, applyTriggerPlan } from './triggers.js';
 export const buffer = [];
 let bufferTimer = null;
 
@@ -57,29 +58,31 @@ export function notifyThrottled(key, msg, windowMs = 15000) {
 
 export function sleepMs(ms) { try { sleep(ms); } catch { /* noop */ } }
 
-/** 开启 BGI 内置的「自动跳过」触发器：弹窗/对话是卡住的头号原因 */
-export function enableAutoSkip() {
-  try {
-    if (typeof RealtimeTimer !== 'function') return { ok: false, reason: 'BGI 不支持 RealtimeTimer' };
-    dispatcher.addTimer(new RealtimeTimer('AutoSkip'));
-    return { ok: true };
-  } catch (e) { return { ok: false, reason: e?.message || String(e) }; }
-}
-
-/** 开启 BGI 内置「自动拾取」触发器：只走路不拾取 = 采集/打怪全白跑 */
-export function enableAutoPick() {
-  try {
-    if (typeof RealtimeTimer !== 'function') return { ok: false, reason: 'BGI 不支持 RealtimeTimer' };
-    dispatcher.addTimer(new RealtimeTimer('AutoPick', {}));
-    return { ok: true };
-  } catch (e) {
-    try { dispatcher.addTimer(new RealtimeTimer('AutoPick')); return { ok: true, plain: true }; } catch (e2) { return { ok: false, reason: e2?.message || String(e2) }; }
+/**
+ * 装配脚本运行期间要用的 BGI 触发器（AutoPick / AutoSkip）。
+ *
+ * 注意两件事：
+ *   1) BGI 在任务/脚本运行期间会停用「用户自己开启」的触发器，脚本必须自己加回来；
+ *   2) dispatcher.addTimer() 会先 ClearAllTriggers 再加，连调两次会互相顶掉
+ *      （旧版连开 AutoPick 和 AutoSkip，结果只有后者留下，自动拾取等于被关掉）。
+ *      所以这里先清一次，之后全部用 addTrigger 追加。
+ * @param {{autoPick?:boolean, autoSkip?:boolean, autoEat?:boolean}} want
+ */
+export function enableRuntimeAssist(want = {}) {
+  const plan = buildTriggerPlan(want);
+  if (!plan.length) return { added: [], failed: [], plan, append: true };
+  if (typeof RealtimeTimer !== 'function') {
+    return { added: [], failed: plan.map((p) => ({ name: p.name, reason: 'BGI 不支持 RealtimeTimer' })), plan, append: false };
   }
-}
-
-/** 清空实时触发器（脚本结束时调用；你自己开的触发器也会被清，需要时重开一次） */
-export function clearTriggers() {
-  try { dispatcher.clearAllTriggers(); return true; } catch { return false; }
+  try {
+    const r = applyTriggerPlan(dispatcher, plan, RealtimeTimer);
+    if (!r.append && r.added.length > 1) {
+      warn('当前 BGI 没有 dispatcher.addTrigger，后加的触发器会把先加的顶掉；建议升级 BetterGI ≥ 0.66');
+    }
+    return { ...r, plan };
+  } catch (e) {
+    return { added: [], failed: plan.map((p) => ({ name: p.name, reason: String(e?.message || e) })), plan, append: false };
+  }
 }
 
 /** BGI 是否已请求停止（用户按了停止键） */

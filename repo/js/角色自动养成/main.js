@@ -3,7 +3,7 @@
 import { parsePlanText, buildTargets, computeShortfall, buildTasks, summarize, parseMappingText, suggestName, estimateMora } from './lib/planner.js';
 import { countItems } from './lib/inventory.js';
 import { loadData, loadState, saveState, readPlanFile, loadRouteShards, saveAllRouteShards } from './lib/store.js';
-import { info, warn, err, notify, flush, bootMetrics, checkVersion, isCancelled, isCancellationError, enableAutoSkip, enableAutoPick } from './lib/env.js';
+import { info, warn, err, notify, flush, bootMetrics, checkVersion, isCancelled, isCancellationError, enableRuntimeAssist } from './lib/env.js';
 import { runDomain, runBoss, runRouteTask, calibrateEnemies, getRouteIndex, runLeyLine } from './lib/executor.js';
 import { describeResinPolicy } from './lib/resin.js';
 
@@ -99,7 +99,7 @@ async function snapshot(names, materials) {
 
 (async function main() {
   const startedAt = Date.now();
-  let autoSkipOn = false;
+  let triggersAdded = [];
   try {
     bootMetrics();
     const cfg = readConfig();
@@ -153,29 +153,26 @@ async function snapshot(names, materials) {
       + `采集队伍${cfg.gatherTeam ? `「${cfg.gatherTeam}」` : '不切'}、打怪队伍${cfg.fightTeam ? `「${cfg.fightTeam}」` : '不切'}、`
       + `策略${cfg.strategyName ? `「${cfg.strategyName}」` : '沿用 BGI'}`);
 
-    // 只走路不捡东西 = 采集/打怪白跑 → 跑起来就开 BGI 自动拾取
-    if (!cfg.dryRun && (cfg.gatherEnabled || cfg.fightEnabled)) {
-      const rp = enableAutoPick();
-      if (rp.ok) info(`${TAG} 已开启 BGI 自动拾取（不然只走路不捡东西）`);
-      else warn(`${TAG} 开启自动拾取失败：${rp.reason}，请在 BGI 里手动开「自动拾取」`);
-      if (!cfg.fallbackPickup) {
-        info(`${TAG} 拾取方式：BGI 自动拾取（会识别聊天气泡，不会点 NPC）；脚本自身不按 F`);
-        info(`${TAG}   若发现漏捡，再把设置「拾取兜底」打开——它只在 F 旁文字是目标材料时才按`);
+    // 触发器装配：BGI 在脚本运行期间会停用「用户自己开的」触发器，必须由脚本加回来。
+    // 注意必须一次性装配（内部用 addTrigger 追加），分两次 addTimer 会互相顶掉。
+    const wantPick = !cfg.dryRun && (cfg.gatherEnabled || cfg.fightEnabled);
+    const wantSkip = !!cfg.autoSkipPopup && !cfg.dryRun;
+    if (wantPick || wantSkip) {
+      const tr = enableRuntimeAssist({ autoPick: wantPick, autoSkip: wantSkip });
+      triggersAdded = tr.added;
+      if (tr.added.includes('AutoPick')) {
+        info(`${TAG} 已开启 BGI 自动拾取（BGI 会识别聊天气泡，不会点 NPC）`);
+        if (!cfg.fallbackPickup) info(`${TAG}   拾取方式：只用 BGI 自动拾取；若漏捡再打开设置「拾取兜底」`);
+      }
+      if (tr.added.includes('AutoSkip')) info(`${TAG} 已开启 BGI 自动跳过（弹窗/对话不再挡路）`);
+      for (const f of tr.failed || []) warn(`${TAG} 开启 ${f.name} 失败：${f.reason}（可在 BGI 里手动开）`);
+      if (wantSkip) {
+        // 立刻发一条开始通知：万一本进程被强关，至少留下「开始了」的痕迹
+        notify(`▶ 角色自动养成 开始执行：${String(cfg.planText || '').trim().slice(0, 40)}…`, { immediate: true });
       }
     } else if (cfg.dryRun) {
-      info(`${TAG} 【演练】执行时会开启 BGI 自动拾取（只走路不捡 = 白跑）`);
-    }
-
-    // 防卡住：弹窗/对话是头号原因，跑起来就用 BGI 内置 AutoSkip 顶着
-    if (cfg.autoSkipPopup && !cfg.dryRun) {
-      const r = enableAutoSkip();
-      autoSkipOn = r.ok;
-      if (r.ok) info(`${TAG} 已开启 BGI 自动跳过（弹窗/对话不再挡路）`);
-      else warn(`${TAG} 开启自动跳过失败：${r.reason}（可手动在 BGI 里开）`);
-      // 立刻发一条开始通知：万一本进程被强关，至少留下「开始了」的痕迹
-      notify(`▶ 角色自动养成 开始执行：${String(cfg.planText || '').trim().slice(0, 40)}…`, { immediate: true });
-    } else if (cfg.autoSkipPopup && cfg.dryRun) {
-      info(`${TAG} 【演练】执行时会开启 BGI 自动跳过（防弹窗卡住）`);
+      if (cfg.gatherEnabled || cfg.fightEnabled) info(`${TAG} 【演练】执行时会开启 BGI 自动拾取（只走路不捡 = 白跑）`);
+      if (cfg.autoSkipPopup) info(`${TAG} 【演练】执行时会开启 BGI 自动跳过（防弹窗卡住）`);
     }
 
     const parsed = parsePlanText(cfg.planText);
@@ -411,9 +408,10 @@ async function snapshot(names, materials) {
       notify(`❌ 角色自动养成 出错：${e?.message || e}`, { immediate: true });
     }
   } finally {
-    if (autoSkipOn) {
-      // 不做清理：清空触发器会连带把你手动开的东西一起关掉，属于副作用
-      info(`${TAG} 本次开启的 BGI 自动跳过保持启用（脚本不清理，避免改到你的 BGI 设置；想关就在 BGI 里关）`);
+    if (triggersAdded.length) {
+      // 不做清理：clearAllTriggers 会连带把你手动开的触发器一起关掉，属于副作用；
+      // 而且 BGI 在任务结束时会自己清空「任务期间启用名单」，不需要脚本操心
+      info(`${TAG} 本次启用的 BGI 触发器：${triggersAdded.join(' / ')}（脚本不清理，避免改到你的 BGI 设置）`);
     }
     flush();
   }
