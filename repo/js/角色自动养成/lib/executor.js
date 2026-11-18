@@ -319,8 +319,22 @@ export async function runRouteTask(task, cfg, state) {
   // 采集与打怪用两套队伍：批次开始前先切好
   // 路线若用「纳西妲采集(nahida_collect)」就不需要按 F；只有纯手动拾取路线才开 F 循环
   const needF = !!cfg.fallbackPickup && picked.length > 0 && !picked.some((it) => { const o = loadRouteJson(it.path) || {}; return (o.positions || o.Positions || []).some((x) => String(x.action || x.Action || "").includes("nahida_collect")); });
-  const picker = needF ? startPickupLoop(1200) : { stop: async () => {} };
-  if (needF) info('   已开启智能拾取：屏幕出现 F 提示时才按（照背包材料统计的做法）');
+  // 我们自己的 F 循环只是兜底：BGI 自带的自动拾取会区分「聊天气泡」并跳过 NPC，
+  // 而裸的 F 模板匹配分不出来，所以这里必须带上「只认这些材料名」的白名单。
+  const wanted = [task.material].filter(Boolean);
+  try {
+    const mm = cfg.monsterMap || {};
+    for (const [name, e] of Object.entries(mm)) {
+      if (e && e.enemy && hit.enemy && e.enemy === hit.enemy) wanted.push(name);
+    }
+  } catch (e) { /* 映射拿不到就只认单体材料 */ }
+  const picker = needF
+    ? startPickupLoop({ intervalMs: 1200, wanted: [...new Set(wanted)] })
+    : { stop: async () => {}, stats: null };
+  if (needF) {
+    const names = [...new Set(wanted)];
+    info(`   已开启智能拾取（兜底）：F 旁文字是「${names.slice(0, 4).join('/')}${names.length > 4 ? '…' : ''}」才按，NPC 对话不按`);
+  }
   await ensureParty(task.type === 'gather' ? cfg.gatherTeam : cfg.fightTeam, cfg, state, label);
 
   let ok = 0, failed = 0, stuckMarked = 0;
@@ -370,7 +384,11 @@ export async function runRouteTask(task, cfg, state) {
       warn(`   路线失败（已加入卡死黑名单，${cfg.skipStuckDays ?? 3} 天内跳过）：${e?.message || e}`);
     }
   }
-  try { await picker.stop(); } catch {}
+  try { await picker.stop(); } catch (e) { /* noop */ }
+  if (picker.stats && picker.stats.pressed + picker.stats.skippedDialogue + picker.stats.skippedNotWanted > 0) {
+    const s = picker.stats;
+    info(`   拾取统计：按键 ${s.pressed} 次，跳过交互 ${s.skippedDialogue} 次、非目标 ${s.skippedNotWanted} 次、读不到文字 ${s.skippedNoText} 次`);
+  }
   if (stuckMarked) warn(`   本轮有 ${stuckMarked} 条路线被拉黑；如果拉黑太多，检查游戏分辨率/弹窗/队伍`);
 
   // 撞墙/空跑检测：跑完了但目标材料一个没涨 → 把最耗时那条拉黑，下一轮换别的路线

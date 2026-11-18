@@ -58,7 +58,7 @@ function readConfig() {
     maxConsecutiveFailures: Math.max(1, intSetting('maxConsecutiveFailures', 3)),
     maxRunMinutes: Math.max(5, intSetting('maxRunMinutes', 90)),
     calibrateDirs: Math.max(0, Math.min(20, intSetting('calibrateDirs', 0))),
-    fallbackPickup: yesSetting('fallbackPickup', true),
+    fallbackPickup: yesSetting('fallbackPickup', false),
     useNahidaRoutes: yesSetting('useNahidaRoutes', true),
     unknownPolicy: String(setting('unknownPolicy', '跳过')), 
     maxRounds: Math.min(10, Math.max(1, intSetting('maxRounds', 3))),
@@ -158,6 +158,10 @@ async function snapshot(names, materials) {
       const rp = enableAutoPick();
       if (rp.ok) info(`${TAG} 已开启 BGI 自动拾取（不然只走路不捡东西）`);
       else warn(`${TAG} 开启自动拾取失败：${rp.reason}，请在 BGI 里手动开「自动拾取」`);
+      if (!cfg.fallbackPickup) {
+        info(`${TAG} 拾取方式：BGI 自动拾取（会识别聊天气泡，不会点 NPC）；脚本自身不按 F`);
+        info(`${TAG}   若发现漏捡，再把设置「拾取兜底」打开——它只在 F 旁文字是目标材料时才按`);
+      }
     } else if (cfg.dryRun) {
       info(`${TAG} 【演练】执行时会开启 BGI 自动拾取（只走路不捡 = 白跑）`);
     }
