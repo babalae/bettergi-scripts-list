@@ -1,7 +1,7 @@
 // lib/executor.js —— 执行器：秘境 / 首领 / 采集 / 打怪
 import { info, warn, err, isCancellationError, startPickupLoop } from './env.js';
 import { countItems } from './inventory.js';
-import { routesForMaterial, pickRunnable, indexRoutes, markStuck, markDone } from './routes.js';
+import { routesForMaterial, pickRunnable, indexRoutes, markStuck, markDone, classifyRouteOutcome } from './routes.js';
 import { listJsonRecursive, findAutoPathingRoot, saveRouteShard, saveAllRouteShards, listAutoPathingJson, readAutoPathingText } from './store.js';
 import { domainResinFields, leylineResinFields } from './resin.js';
 
@@ -347,27 +347,26 @@ export async function runRouteTask(task, cfg, state) {
     const t0 = Date.now();
     try {
       info(`   → 路跑：${item.path.split('/').pop()}`);
-      await runPath(item.path);
+      // BGI 真正返回的是 bool（整条路线是否完整执行）；d.ts 写的是 void，旧版确实返回 undefined。
+      // 只把明确的 false 当作「没跑完整」，避免老版本被误判。
+      const routeOk = await runPath(item.path);
       const costMs = Date.now() - t0;
-      if (costMs < 3000) {
-        failed++; stuckMarked++;
-        markStuck(state.routes, item.key, item.path, costMs);
-        saveRouteShard(state.routes, item.key, item.path);
-        warn('   路线 ' + Math.round(costMs) + ' 毫秒就返回（疑似被取消/内部异常被 BGI 吞掉），本批中止');
-        break;
+      const verdict = classifyRouteOutcome({ routeOk, costMs, stuckMs, skipStuckDays: cfg.skipStuckDays ?? 3 });
+      if (verdict.status === 'ok') {
+        costs.push({ item, costMs });
+        markDone(state.routes, item.key, item.path, costMs, { material: task.material });
+        ok++;
+        saveRouteShard(state.routes, item.key, item.path);   // 分片落盘：崩溃最多丢这一片
+        continue;
       }
-      const cost = Math.round(costMs / 1000);
-      costs.push({ item, costMs });
-      if (costMs > stuckMs) {
-        // 跑完了但耗时异常 → 当可疑路线关小黑屋
+      if (verdict.blacklist) {
         markStuck(state.routes, item.key, item.path, costMs);
         stuckMarked++;
-        warn(`   这条路线跑了 ${cost} 秒（超过 ${Math.round(stuckMs / 60000)} 分钟阈值），已加入卡死黑名单，${cfg.skipStuckDays ?? 3} 天内不再排它`);
-      } else {
-        markDone(state.routes, item.key, item.path, costMs, { material: task.material });
       }
-      ok++;
-      saveRouteShard(state.routes, item.key, item.path);   // 分片落盘：崩溃最多丢这一片
+      if (verdict.failed) failed++;
+      saveRouteShard(state.routes, item.key, item.path);
+      if (verdict.note) warn(`   ${verdict.note}`);
+      if (verdict.abortBatch) break;
     } catch (e) {
       failed++;
       if (isCancellationError(e)) {

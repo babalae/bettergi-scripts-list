@@ -1,7 +1,7 @@
 # 角色自动养成 · BetterGI JS 脚本
 
 > **作者**：[aipaixiatian](https://github.com/aipaixiatian) ｜ **仓库**：[Automatic-Character-Growth](https://github.com/aipaixiatian/Automatic-Character-Growth) ｜ **反馈**：[提 Issue](https://github.com/aipaixiatian/Automatic-Character-Growth/issues)
-> **版本**：v1.0.4 ｜ **要求**：BetterGI ≥ 0.66.0 ｜ **数据**：游戏 7.2
+> **版本**：v1.0.5 ｜ **要求**：BetterGI ≥ 0.66.0 ｜ **数据**：游戏 7.2
 
 **告诉它「谁练到多少级、天赋几级」，它自己算材料缺口、读背包、排体力，该刷的刷完就停。**
 
@@ -68,6 +68,8 @@
 - **识别失败不当 0**：`-2` 会重试，仍失败记「未知」并**不参与刷取**
 - **防卡死**：停止按钮立刻收手；路线报错 / 超时 / 被按停止 → 拉黑若干天；连续失败熔断；总时长上限
 - **崩溃安全**：每跑完一条路线立刻把 CD 写进 `record/cd/<材料>.json` 分片，BGI 被强关最多丢一条
+- **半路放弃的路线不再算成功**：BGI 的 `runFileFromUser` 返回 `false` 表示「路线没跑完整」，
+  现在会据此拉黑该路线并计入失败（旧版 BGI 返回 `undefined` 时不误判）
 - **拾取不误点 NPC**：拾取交给 BGI 自动拾取（它会认出聊天气泡、跳过 NPC）；脚本自带的兜底按键只在
   「F 旁边的文字＝目标材料」时才按，对话 / 商店 / 锻造一律不按，一分钟按超过 20 次自动停手
 - **知道 BGI 会停触发器**：BGI 在任务/脚本运行期间会停用「你自己开启」的触发器，所以脚本必须自己
@@ -120,6 +122,9 @@ ELECTRON_RUN_AS_NODE=1 "..." tools/build-maps.mjs --check
 
 ## 更新日志
 
+- **v1.0.5**：接住 BGI 路线执行结果 —— `pathingScript.runFileFromUser` 实际返回 bool，
+  d.ts 却声明成 `Promise<void>`，旧代码把返回值丢了，只跑一半的路线会被当成功；
+  现在 `classifyRouteOutcome()` 统一判定 ok / slow / aborted / partial（含 6 项单测）
 - **v1.0.4**：修「脚本运行期间自动拾取其实被关掉了」——`dispatcher.addTimer()` 会先清空再加，
   旧代码连开 AutoPick、AutoSkip 两次，第二次把第一次顶掉，结果只有自动跳过生效；
   现在统一用 `addTrigger` 追加（先清一次再加），并新增 `lib/triggers.js` 与 5 项回归测试
@@ -154,7 +159,7 @@ ELECTRON_RUN_AS_NODE=1 "..." tools/build-maps.mjs --check
   data/*.json        游戏数据 + 映射（映射为生成产物）
   data/_*.txt|json   映射的输入文件（掉落表、别名、BGI 能力快照、人工确认）
   record/            运行记录（计划、CD 分片、状态、日志）
-  test/core.test.mjs       36 项：planner / routes
+  test/core.test.mjs       42 项：planner / routes（含路线结果判定）
   test/data-resin.test.mjs 30 项：映射完整性 / 树脂参数 / 背包数量 / 拾取决策 / 触发器装配
 ```
 

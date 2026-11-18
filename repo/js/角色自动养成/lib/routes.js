@@ -219,3 +219,37 @@ export function markDone(recordMap, key, path, costMs, extra = {}) {
   };
   return recordMap[key];
 }
+
+/**
+ * 判定一次路线执行的结果（纯函数，可单测）
+ *
+ * BGI 的 pathingScript.runFileFromUser 实际返回 bool（整条路线是否完整执行），
+ * 但 bettergi.d.ts 里声明成 Promise<void>；旧版 BGI 也真的返回 undefined。
+ * 所以这里：false = 明确「没跑完整」，undefined/null/true = 按成功处理。
+ * @param {{routeOk?:boolean|null, costMs?:number, stuckMs?:number, skipStuckDays?:number}} opts
+ * @returns {{status:'ok'|'slow'|'aborted'|'partial', failed:boolean, blacklist:boolean, abortBatch:boolean, note:string}}
+ */
+export function classifyRouteOutcome({ routeOk, costMs, stuckMs, skipStuckDays = 3 } = {}) {
+  const ms = Number(costMs) || 0;
+  const limit = Number(stuckMs) || 8 * 60 * 1000;
+  const minutes = Math.max(1, Math.round(limit / 60000));
+  if (routeOk === false) {
+    return {
+      status: 'partial', failed: true, blacklist: true, abortBatch: false,
+      note: `路线未完整执行（BGI 返回 false，多半中段放弃），已拉黑 ${skipStuckDays} 天`,
+    };
+  }
+  if (ms < 3000) {
+    return {
+      status: 'aborted', failed: true, blacklist: true, abortBatch: true,
+      note: `路线 ${Math.round(ms)} 毫秒就返回（疑似被取消/内部异常被 BGI 吞掉），本批中止`,
+    };
+  }
+  if (ms > limit) {
+    return {
+      status: 'slow', failed: false, blacklist: true, abortBatch: false,
+      note: `这条路线跑了 ${Math.round(ms / 1000)} 秒（超过 ${minutes} 分钟阈值），已加入卡死黑名单，${skipStuckDays} 天内不再排它`,
+    };
+  }
+  return { status: 'ok', failed: false, blacklist: false, abortBatch: false, note: '' };
+}

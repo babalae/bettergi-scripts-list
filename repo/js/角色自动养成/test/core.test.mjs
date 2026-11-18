@@ -269,5 +269,43 @@ t('计划文本支持 22>90 和 6/6/6>9/9/9', () => {
   assert.equal(p.weapon.levelFrom, 1); assert.equal(p.weapon.level, 90);
 });
 
+console.log('== 路线结果判定');
+const STUCK = 8 * 60 * 1000;
+t('正常跑完（BGI 返回 true）→ ok，不拉黑', () => {
+  const v = R.classifyRouteOutcome({ routeOk: true, costMs: 120000, stuckMs: STUCK });
+  assert.equal(v.status, 'ok');
+  assert.equal(v.failed, false);
+  assert.equal(v.blacklist, false);
+});
+t('旧版 BGI 返回 undefined → 仍按 ok（不能误判）', () => {
+  assert.equal(R.classifyRouteOutcome({ routeOk: undefined, costMs: 120000, stuckMs: STUCK }).status, 'ok');
+  assert.equal(R.classifyRouteOutcome({ routeOk: null, costMs: 120000, stuckMs: STUCK }).status, 'ok');
+});
+t('BGI 返回 false（路线没跑完整）→ partial，拉黑并计入失败', () => {
+  const v = R.classifyRouteOutcome({ routeOk: false, costMs: 120000, stuckMs: STUCK });
+  assert.equal(v.status, 'partial');
+  assert.equal(v.failed, true);
+  assert.equal(v.blacklist, true);
+  assert.equal(v.abortBatch, false);
+  assert.match(v.note, /未完整执行/);
+});
+t('false 优先于「跑太快」判定（秒失败也要说清原因）', () => {
+  const v = R.classifyRouteOutcome({ routeOk: false, costMs: 500, stuckMs: STUCK });
+  assert.equal(v.status, 'partial');
+});
+t('3 秒内就返回 → aborted，本批中止', () => {
+  const v = R.classifyRouteOutcome({ routeOk: true, costMs: 2000, stuckMs: STUCK });
+  assert.equal(v.status, 'aborted');
+  assert.equal(v.abortBatch, true);
+  assert.equal(v.failed, true);
+});
+t('超过卡死阈值 → slow，拉黑但不算失败', () => {
+  const v = R.classifyRouteOutcome({ routeOk: true, costMs: STUCK + 1000, stuckMs: STUCK, skipStuckDays: 3 });
+  assert.equal(v.status, 'slow');
+  assert.equal(v.blacklist, true);
+  assert.equal(v.failed, false);
+  assert.match(v.note, /8 分钟/);
+});
+
 console.log(`\n结果：${pass} 通过 / ${fail} 失败`);
 process.exit(fail ? 1 : 0);
