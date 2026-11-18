@@ -628,11 +628,6 @@ function updateNpcRecord(records, npcName, refreshType, purchasedItems) {
         records.push(record);
     }
 
-    // 合并已购商品（去重），而非覆盖
-    const existing = record[refreshType] || [];
-    const merged = [...new Set([...existing, ...purchasedItems])];
-    record[refreshType] = merged;
-
     const now = new Date();
     let refreshTime;
 
@@ -682,6 +677,12 @@ function updateNpcRecord(records, npcName, refreshType, purchasedItems) {
         // 每月1号刷新商品：下次刷新是下个月1号
         refreshTime = getNextMonthFirstDay(now);
     }
+
+    // 合并已购商品（去重），而非覆盖
+    // 若上一条记录已过刷新时间，旧数据丢弃，
+    const prevRefreshTime = record[`${refreshType}_time`] ? new Date(record[`${refreshType}_time`]) : null;
+    const existing = (prevRefreshTime && prevRefreshTime > now) ? (record[refreshType] || []) : [];
+    record[refreshType] = [...new Set([...existing, ...purchasedItems])];
 
     record[`${refreshType}_time`] = formatDateToLocalISO(refreshTime);
 
