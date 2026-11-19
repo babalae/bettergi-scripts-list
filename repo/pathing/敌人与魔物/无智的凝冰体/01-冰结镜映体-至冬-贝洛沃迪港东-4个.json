@@ -6,13 +6,13 @@
         "name": "烤鱼"
       }
     ],
-    "bgi_version": "0.52.0",
+    "bgi_version": "0.45.0",
     "description": "冰免，带自动距离攻击角色，怪会跳过来",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1794878504035,
+    "last_modified_time": 1795072574671,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
-    "name": "01-无智的凝冰体-贝洛沃迪港-3个",
+    "name": "01-冰结镜映体-贝洛沃迪港-4个",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -67,7 +67,6 @@
       "action": "fight",
       "action_params": "",
       "id": 6,
-      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 2976.2764,
@@ -90,6 +89,51 @@
       "type": "path",
       "x": 2919.2422,
       "y": 8782.002
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2912.2451,
+      "y": 8785.585
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2907.8359,
+      "y": 8758.2861
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2882.168,
+      "y": 8676.1641
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "run",
+      "type": "path",
+      "x": 2875.7207,
+      "y": 8606.8984
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2863.5381,
+      "y": 8589.2109
     }
   ]
 }
