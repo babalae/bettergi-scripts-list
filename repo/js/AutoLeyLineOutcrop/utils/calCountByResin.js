@@ -256,7 +256,7 @@ async function countOriginalResinBackup() {
  * @returns {number} 浓缩树脂数量
  */
 async function countCondensedResin() {
-    keyPress("ESCAPE"); // 关闭上一步的补充原萃树脂界面
+    // keyPress("ESCAPE"); // 关闭上一步的补充原萃树脂界面
     await sleep(CONFIG.UI_DELAY);
 
     const condensedResin = await recognizeImage(RESIN_ICONS.CONDENSED);
