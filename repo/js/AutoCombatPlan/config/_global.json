@@ -1,0 +1,244 @@
+{
+  "activeVersion": "7.2",
+  "versions": {
+    "7.1": {
+      "periods": [
+        [
+          "2026-09-23",
+          "2026-11-04"
+        ]
+      ],
+      "doubles": [
+        {
+          "id": "leyline",
+          "cat": "leyline",
+          "scope": "leyline",
+          "enabled": false,
+          "daily": false,
+          "rounds": 3,
+          "periods": null
+        },
+        {
+          "id": "weapon",
+          "cat": "weapon",
+          "scope": "domain",
+          "enabled": false,
+          "daily": false,
+          "rounds": 3,
+          "periods": null
+        },
+        {
+          "id": "talent",
+          "cat": "talent",
+          "scope": "domain",
+          "enabled": false,
+          "daily": false,
+          "rounds": 3,
+          "periods": null
+        },
+        {
+          "id": "artifact",
+          "cat": "artifact",
+          "scope": "domain",
+          "enabled": false,
+          "daily": false,
+          "rounds": 3,
+          "periods": null
+        }
+      ],
+      "stygian": {
+        "enabled": false,
+        "daily": false,
+        "periods": null,
+        "bosses": [
+          "",
+          "",
+          ""
+        ]
+      },
+      "open": {
+        "on": [],
+        "periods": null
+      }
+    },
+    "7.2": {
+      "periods": [
+        [
+          "2026-11-04",
+          "2026-12-16"
+        ]
+      ],
+      "doubles": [
+        {
+          "id": "leyline",
+          "cat": "leyline",
+          "scope": "leyline",
+          "enabled": true,
+          "daily": false,
+          "rounds": 3,
+          "periods": [
+            [
+              "2026-12-07",
+              "2026-12-14"
+            ]
+          ]
+        },
+        {
+          "id": "weapon",
+          "cat": "weapon",
+          "scope": "domain",
+          "enabled": false,
+          "daily": false,
+          "rounds": 3,
+          "periods": null
+        },
+        {
+          "id": "talent",
+          "cat": "talent",
+          "scope": "domain",
+          "enabled": false,
+          "daily": false,
+          "rounds": 3,
+          "periods": null
+        },
+        {
+          "id": "artifact",
+          "cat": "artifact",
+          "scope": "domain",
+          "enabled": false,
+          "daily": false,
+          "rounds": 3,
+          "periods": null
+        }
+      ],
+      "stygian": {
+        "enabled": true,
+        "daily": false,
+        "periods": [
+          [
+            "2026-11-11",
+            "2026-11-21"
+          ]
+        ],
+        "bosses": [
+          "铁甲熔火帝皇",
+          "蕴光月守宫",
+          "浪涛锚定者"
+        ]
+      },
+      "open": {
+        "on": [
+          true,
+          true
+        ],
+        "periods": [
+          [
+            "2026-11-04",
+            "2026-11-11"
+          ],
+          [
+            "2026-11-24",
+            "2026-12-01"
+          ]
+        ]
+      }
+    },
+    "7.3": {
+      "periods": [
+        [
+          "2026-12-16",
+          "2027-01-27"
+        ]
+      ],
+      "doubles": [
+        {
+          "id": "leyline",
+          "cat": "leyline",
+          "scope": "leyline",
+          "enabled": false,
+          "daily": false,
+          "rounds": 3,
+          "periods": null
+        },
+        {
+          "id": "weapon",
+          "cat": "weapon",
+          "scope": "domain",
+          "enabled": false,
+          "daily": false,
+          "rounds": 3,
+          "periods": null
+        },
+        {
+          "id": "talent",
+          "cat": "talent",
+          "scope": "domain",
+          "enabled": false,
+          "daily": false,
+          "rounds": 3,
+          "periods": null
+        },
+        {
+          "id": "artifact",
+          "cat": "artifact",
+          "scope": "domain",
+          "enabled": false,
+          "daily": false,
+          "rounds": 3,
+          "periods": null
+        }
+      ],
+      "stygian": {
+        "enabled": true,
+        "daily": false,
+        "periods": [
+          [
+            "2026-12-23",
+            "2027-01-02"
+          ]
+        ],
+        "bosses": [
+          "",
+          "",
+          ""
+        ]
+      },
+      "open": {
+        "on": [],
+        "periods": [
+          [
+            "2026-12-16",
+            "2026-12-23"
+          ],
+          [
+            "2027-01-05",
+            "2027-01-12"
+          ]
+        ]
+      }
+    }
+  },
+  "clocks": {
+    "dayStart": 4,
+    "version": {
+      "start": 11,
+      "end": 6
+    },
+    "double": {
+      "start": 4,
+      "end": 4
+    },
+    "stygian": {
+      "start": 10,
+      "end": 4
+    },
+    "open": {
+      "firstStart": 11,
+      "secondStart": 18,
+      "end": 4
+    }
+  },
+  "ui": {
+    "theme": "dark"
+  }
+}
