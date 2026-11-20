@@ -1,0 +1,210 @@
+{
+    "info": {
+        "name": "狗粮-须弥-二净甸-觉王之殿南-6个／7个-f",
+        "type": "collect",
+        "author": "Yang-z",
+        "version": "1.1",
+        "bgi_version": "0.42.0"
+    },
+    "positions": [
+        {
+            "x": 3592.20458984375,
+            "y": -786.109375,
+            "type": "teleport"
+        },
+        {
+            "x": 3583.609375,
+            "y": -754.2177734375,
+            "type": "path",
+            "move_mode": "run"
+        },
+        {
+            "x": 3591.9248046875,
+            "y": -727.2333984375,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "combat_script",
+            "action_params": "keypress(VK_SPACE),wait(0.5),click",
+            "//":"stop_flying"
+        },
+        {
+            "x": 3592.4775390625,
+            "y": -726.39013671875,
+            "type": "path",
+            "move_mode": "walk"
+        },
+
+        {
+            "x": 3592.5458984375,
+            "y": -733.2236328125,
+            "type": "target",
+            "move_mode": "walk",
+            "action":"",
+            "No.": "1"
+        },
+
+        {
+            "x": 3603.5595703125,
+            "y": -729.30712890625,
+            "type": "path",
+            "move_mode": "run"
+        },
+
+        {
+            "x": 3608.8974609375,
+            "y": -729.0302734375,
+            "type": "target",
+            "move_mode": "run",
+            "action":"",
+            "No.": "2"
+        },
+
+        {
+            "x": 3615.451171875,
+            "y": -737.78857421875,
+            "type": "path",
+            "move_mode": "run"
+        },
+        {
+            "x": 3623.935546875,
+            "y": -757.58984375,
+            "type": "path",
+            "move_mode": "run"
+        },
+
+        {
+            "x": 3626.6474609375,
+            "y": -764.0546875,
+            "type": "target",
+            "move_mode": "run",
+            "action":"",
+            "No.": "3"
+        },
+
+        {
+            "x": 3641.6064453125,
+            "y": -776.0947265625,
+            "type": "path",
+            "move_mode": "dash"
+        },
+
+        {
+            "x": 3643.86328125,
+            "y": -781.35302734375,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "click,wait(0.5),click,wait(0.5),click,wait(0.2)",
+            "No.": "4"
+        },
+
+        {
+            "x": 3645.6181640625,
+            "y": -793.22607421875,
+            "type": "path",
+            "move_mode": "walk"
+        },
+        {
+            "x": 3648.5458984375,
+            "y": -818.228515625,
+            "type": "path",
+            "move_mode": "run"
+        },
+        {
+            "x": 3671.57470703125,
+            "y": -864.06591796875,
+            "type": "path",
+            "move_mode": "run"
+        },
+
+        {
+            "x": 3673.45361328125,
+            "y": -867.6865234375,
+            "type": "target",
+            "move_mode": "walk",
+            "action":"",
+            "No.": "5"
+        },
+
+        {
+            "x": 3703.1103515625,
+            "y": -845.35986328125,
+            "type": "path",
+            "move_mode": "run"
+        },
+        {
+            "x": 3730.625,
+            "y": -827.447265625,
+            "type": "path",
+            "move_mode": "run"
+        },
+
+        {
+            "x": 3733.5703125,
+            "y": -822.07958984375,
+            "type": "path",
+            "move_mode": "walk"
+        },
+        {
+            "x": 3739.7431640625,
+            "y": -822.091796875,
+            "type": "path",
+            "move_mode": "walk"
+        },
+        {
+            "x": 3739.2978515625,
+            "y": -822.88916015625,
+            "type": "path",
+            "move_mode": "walk"
+        },
+
+        {
+            "x": 3737.3857421875,
+            "y": -825.0283203125,
+            "type": "target",
+            "move_mode": "walk",
+            "action":"",
+            "No.": "6"
+        },
+        {
+            "x": 3737.0048828125,
+            "y": -825.27001953125,
+            "type": "target",
+            "move_mode": "walk",
+            "action":"",
+            "No.": "6"
+        }
+
+    ],
+
+
+
+    "positions_not_actived": [
+        {
+            "x": 3760.6845703125,
+            "y": -833.935546875,
+            "type": "path",
+            "move_mode": "walk"
+        },
+        {
+            "x": 3790.6494140625,
+            "y": -799.51171875,
+            "type": "path",
+            "move_mode": "walk"
+        },
+        {
+            "x": 3795.19970703125,
+            "y": -789.6767578125,
+            "type": "path",
+            "move_mode": "walk"
+        },
+        {
+            "x": 3803.39404296875,
+            "y": -791.34326171875,
+            "type": "target",
+            "move_mode": "walk",
+            "action":"",
+            "NO.": "7 (重兵把守，不去)"
+        }
+    ]
+}

@@ -1,0 +1,140 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/non-repeating001",
+        "name": "无限不循环"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762414043515,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "B11-萃凝晶-纳塔-深渊古瞭望所02（火神赶路-4个)",
+    "tags": [
+      "双手剑"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8179.4,
+      "y": -1868.03
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8219.417,
+      "y": -1863.3398
+    },
+    {
+      "action": "combat_script",
+      "action_params": "玛薇卡 w(0.1),e(hold),keydown(VK_W),dash(5.5),keyup(VK_W),wait(0.1),e,keypress(1),wait(0.1),keypress(2),wait(0.1),keypress(3),wait(0.1),keypress(4)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 8223.4834,
+      "y": -1959.6162
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8223.4834,
+      "y": -1959.6162
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 8216.2783,
+      "y": -1961.4546
+    },
+    {
+      "action": "combat_script",
+      "action_params": "click(middle),wait(0.5),moveby(0,-2000),wait(0.5),keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t),wait(2.0),keypress(e)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 8211.584,
+      "y": -1963.5049
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8214.8955,
+      "y": -1966.5693
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(1.5)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8205.8809,
+      "y": -1966.9805
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8210.8076,
+      "y": -1955.8892
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(1.5)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8203.9844,
+      "y": -1957.2969
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8209.1387,
+      "y": -1953.9873
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8211.0977,
+      "y": -1940.0156
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(1.5)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8203.8057,
+      "y": -1944.2793
+    }
+  ]
+}

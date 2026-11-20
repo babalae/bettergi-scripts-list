@@ -1,0 +1,68 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时49.5秒，包含以下怪物：5只兽怪敲打者。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1794546806758,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "H038至冬慈皑圣原东北",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3743.5342,
+      "y": 9844.5303
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3756.1885,
+      "y": 9873.1074
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3778.4688,
+      "y": 9874.5645
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3796.9297,
+      "y": 9866.5596
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3796.9297,
+      "y": 9866.5596
+    }
+  ]
+}

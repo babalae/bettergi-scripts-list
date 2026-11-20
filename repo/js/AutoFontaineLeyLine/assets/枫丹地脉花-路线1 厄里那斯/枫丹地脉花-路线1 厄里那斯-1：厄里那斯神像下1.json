@@ -1,0 +1,33 @@
+{
+  "info": {
+    "name": "枫丹地脉花-路线1厄里那斯-1：厄里那斯神像下1",
+    "type": "collect",
+    "author": "平面镜&LCB茶包",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.44.3"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4749.5869140625,
+      "y": 2636.20751953125,
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4758.18505859375,
+      "y": 2611.123291015625,
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4760.80029296875,
+      "y": 2574.517578125,
+      "move_mode": "dash",
+      "type": "target"
+    }
+  ]
+}

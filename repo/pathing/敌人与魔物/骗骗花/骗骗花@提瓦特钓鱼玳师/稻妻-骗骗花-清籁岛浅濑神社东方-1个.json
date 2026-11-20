@@ -1,0 +1,53 @@
+{
+  "info": {
+    "name": "稻妻-骗骗花-清籁岛浅濑神社东方-1个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "骗骗花-1个\n稻妻-清籁岛浅濑神社东方\n经由Economy优化交互触发",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -4255.3,
+      "y": -4793.54,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -3933.63,
+      "y": -4776.2,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(space),wait(7),attack(0.1),wait(2)"
+    },
+    {
+      "id": 3,
+      "x": -3933.63,
+      "y": -4776.2,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),dash"
+    },
+    {
+      "id": 4,
+      "x": -3933.63,
+      "y": -4776.2,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

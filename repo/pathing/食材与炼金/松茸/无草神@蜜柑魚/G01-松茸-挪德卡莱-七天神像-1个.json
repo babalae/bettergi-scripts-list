@@ -1,0 +1,58 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777223540620,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "G01-松茸-挪德卡莱-七天神像-1个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9494.6504,
+      "y": 1731.8428
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9513.8652,
+      "y": 1804.251
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9527.415,
+      "y": 1807.1143
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.321)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9545.4775,
+      "y": 1827.2822
+    }
+  ]
+}

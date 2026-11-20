@@ -1,0 +1,61 @@
+{
+  "info": {
+    "name": "03-烈焰花花蕊-蒙德-风龙废墟左侧",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "ran"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 338.19,
+      "y": 2581.15,
+      "type": "teleport",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 300.12,
+      "y": 2593.12,
+      "type": "target",
+      "move_mode": "run",
+      "action": "hydro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 303.81,
+      "y": 2619.65,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 313.55,
+      "y": 2637.7,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "hydro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 319.56,
+      "y": 2643.65,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "hydro_collect",
+      "action_params": ""
+    }
+  ]
+}

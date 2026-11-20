@@ -1,0 +1,112 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/1004452714",
+        "name": "DarkFlameMaster"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1783951984505,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "挪德卡莱-星砂滩-正中靶心",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9563.3682,
+      "y": 2135.2334
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9486.7773,
+      "y": 2209.8721
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9440.1074,
+      "y": 2255.5342
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f),wait(3)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9449.5273,
+      "y": 2290.3271
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9452.9688,
+      "y": 2290.2422
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9455.0313,
+      "y": 2297.2891
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),moveby(0,-1000),keypress(t),wait(2),keypress(t),wait(0.5),click(middle)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9468.1699,
+      "y": 2315.4531
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),moveby(0,-1000),keypress(t),wait(0.5),click(middle)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9456.9658,
+      "y": 2313.9131
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9450.4717,
+      "y": 2298.3057
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),moveby(0,-1000),keypress(t),wait(2),keypress(t),wait(0.5),click(middle)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 9448.0576,
+      "y": 2318.3281
+    }
+  ]
+}

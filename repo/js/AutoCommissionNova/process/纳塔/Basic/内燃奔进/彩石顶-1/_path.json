@@ -1,0 +1,40 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/ABC-acf",
+        "name": "ABC-acf"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1762540371354,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "彩石顶-1",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8373.2744140625,
+      "y": -2342.484375
+    },
+    {
+      "action": "combat_script",
+      "action_params": "walk(w,0.35),keypress(F)",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8367.41015625,
+      "y": -2324.453125
+    }
+  ]
+}

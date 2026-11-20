@@ -1,0 +1,58 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1775943257083,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "蒙德-荆夫港-菲乐丝",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -294.30078125,
+      "y": 3545.48828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -307.1328125,
+      "y": 3542.15966796875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -308.75390625,
+      "y": 3534.21044921875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.25)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -299.294921875,
+      "y": 3519.33740234375
+    }
+  ]
+}

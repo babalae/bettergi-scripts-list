@@ -1,0 +1,84 @@
+{
+  "info": {
+    "name": "D17-须弥-苍漠囿土-甘露花海-2个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.54.0",
+    "tags": [],
+    "last_modified_time": 1752174907357,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 5793.82,
+      "y": 797.11,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 5792.86,
+      "y": 783.29,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 5829.1,
+      "y": 707.76,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 5820.04,
+      "y": 709.75,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 5812.0,
+      "y": 711.4,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 5806.46,
+      "y": 703.29,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "combat_script",
+      "action_params": "attack(0.3)"
+    },
+    {
+      "id": 7,
+      "x": 5806.82,
+      "y": 703.97,
+      "type": "target",
+      "move_mode": "climb",
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+    }
+  ]
+}

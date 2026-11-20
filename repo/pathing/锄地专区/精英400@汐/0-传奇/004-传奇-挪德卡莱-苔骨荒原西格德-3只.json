@@ -1,0 +1,94 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "思"
+      }
+    ],
+    "bgi_version": "0.67.0",
+    "description": "  路线信息：该路线预计用时139.76秒，包含以下怪物：3只精英传奇倍率二。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1780072399907,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "004-传奇-挪德卡莱-苔骨荒原西格德-3只",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9222.5527,
+      "y": 1894.3905
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9192.4746,
+      "y": 1901.835
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9185.6172,
+      "y": 1898.9687
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9173.5449,
+      "y": 1906.8545
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9093.9375,
+      "y": 1946.5005
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9080.4385,
+      "y": 1950.4922
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";莉奈娅 attack(0.05),keypress(E);keypress(f),wait(0.1),keypress(f);钟离 attack(0.05),keypress(q),e(hold);茜特菈莉 attack(0.05),keypress(E);莱依拉 attack(0.05),keypress(E);伊涅芙 attack(0.05),keypress(E);尼可 attack(0.05),keypress(E);杜林 attack(0.05),keypress(e), wait(0.3), attack(0.2);wait(1)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 9080.4385,
+      "y": 1950.4922
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9079.6889,
+      "y": 1957.7475
+    }
+  ]
+}

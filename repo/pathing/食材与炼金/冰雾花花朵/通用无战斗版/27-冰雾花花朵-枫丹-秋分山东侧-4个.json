@@ -1,0 +1,110 @@
+{
+  "info": {
+    "name": "27-冰雾花花朵-枫丹-秋分山东侧-4个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.43.0",
+    "tags": [
+      "胡桃"
+    ],
+    "authors": [
+      {
+        "name": "Tool_tingsu",
+        "links": "https://github.com/Tooltingsu"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3815.08,
+      "y": 2336.97,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 3826.51,
+      "y": 2311.26,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 3829.26,
+      "y": 2303.91,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pyro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 3830.69,
+      "y": 2289.96,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pyro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 3819.54,
+      "y": 2277.72,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 3781.43,
+      "y": 2270.95,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 3737.43,
+      "y": 2252.42,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 3723.48,
+      "y": 2251.48,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pyro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 3714.54,
+      "y": 2254.17,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 3701.14,
+      "y": 2271.37,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pyro_collect",
+      "action_params": ""
+    }
+  ]
+}

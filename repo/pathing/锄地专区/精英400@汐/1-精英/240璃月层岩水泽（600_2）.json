@@ -1,0 +1,77 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时79.46秒，包含2只精英，预计收入1200摩拉，包含以下怪物：1只黯色空壳·旗令、1只黑蛇骑士·斩风之剑。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1759434863797,
+    "map_match_method": "",
+    "map_name": "TheChasm",
+    "name": "240璃月层岩水泽（600_2）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 545.91,
+      "y": 951.25
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "3500",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 571.24,
+      "y": 929.08
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 555,
+      "y": 877.12
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 586.96,
+      "y": 849.92
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 626.27,
+      "y": 806.74
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 626.27,
+      "y": 806.74
+    }
+  ]
+}

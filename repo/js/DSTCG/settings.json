@@ -1,0 +1,116 @@
+[
+  {
+    "name": "sep_play",
+    "type": "separator",
+    "label": "对局策略"
+  },
+  {
+    "name": "autoSurrender",
+    "type": "checkbox",
+    "label": "胜率过低时自动放弃对局\n仅当估算胜率低于阈值且明显落后时才放弃",
+    "default": true
+  },
+  {
+    "name": "surrenderThreshold",
+    "type": "select",
+    "label": "自动放弃对局的胜率阈值（%）",
+    "options": [
+      "0",
+      "5",
+      "10",
+      "15",
+      "20",
+      "25",
+      "30"
+    ],
+    "default": "10"
+  },
+  {
+    "name": "sep_recognize",
+    "type": "separator",
+    "label": "识别与操作"
+  },
+  {
+    "name": "actionDelayMs",
+    "type": "select",
+    "label": "每次键鼠操作后的额外延时（毫秒）\n电脑较慢或点击经常没反应时调大；不建议设置为 0",
+    "options": [
+      "0",
+      "100",
+      "200",
+      "350",
+      "500"
+    ],
+    "default": "200"
+  },
+  {
+    "name": "handCountMode",
+    "type": "select",
+    "label": "手牌数量识别方式\n自动：优先数字识别，失败时回退整牌模板",
+    "options": [
+      "自动（数字识别）",
+      "数字识别",
+      "模板匹配",
+      "关闭"
+    ],
+    "default": "自动（数字识别）"
+  },
+  {
+    "name": "useActionCards",
+    "type": "checkbox",
+    "label": "识别并打出行动牌（事件/支援/装备/场地）\n关闭后不逐张识别手牌，元素调和直接烧第一张",
+    "default": true
+  },
+  {
+    "name": "scanZones",
+    "type": "checkbox",
+    "label": "识别双方支援区与召唤物区\n区域信息会写入状态与对局轨迹；关闭可减少截图与 OCR 开销",
+    "default": true
+  },
+  {
+    "name": "zoneClickFallback",
+    "type": "checkbox",
+    "label": "区域卡无法确认时点击查看卡牌详情\n仅首次遇到未知区域卡时点击并缓存；我方被手牌遮挡的支援牌不会点击",
+    "default": true
+  },
+  {
+    "name": "characterStateScan",
+    "type": "checkbox",
+    "label": "点击查看双方出战角色的详情面板状态\n读取「角色状态/阵营出战状态」，可识别冻结以外的眩晕、石化等；每回合各多点一次角色牌",
+    "default": true
+  },
+  {
+    "name": "sep_model",
+    "type": "separator",
+    "label": "模型"
+  },
+  {
+    "name": "useModel",
+    "type": "checkbox",
+    "label": "启用本地模型推理\n关闭后使用内置专家策略",
+    "default": true
+  },
+  {
+    "name": "modelFile",
+    "type": "input-text",
+    "label": "模型文件路径（相对于脚本目录）",
+    "default": "assets/model/policy.json"
+  },
+  {
+    "name": "sep_log",
+    "type": "separator",
+    "label": "记录与调试"
+  },
+  {
+    "name": "writeTrace",
+    "type": "checkbox",
+    "label": "记录对局轨迹 logs/duel_*.log\n可用于导入数据集并继续训练",
+    "default": true
+  },
+  {
+    "name": "detailLog",
+    "type": "checkbox",
+    "label": "输出详细调试日志\n只排查识别问题时开启",
+    "default": false
+  }
+]

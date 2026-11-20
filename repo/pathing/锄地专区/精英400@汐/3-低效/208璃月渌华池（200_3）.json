@@ -1,0 +1,90 @@
+{
+  "info": {
+    "name": "208璃月渌华池（200_3）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时80秒，包含913只精英与3只小怪，预计收入182721.5摩拉，包含以下怪物：2只岩盾丘丘人、1只冰箭丘丘人、1只水深渊法师、1只愚人众·火之债务处理人、1只遗迹守卫。",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 489.29,
+      "y": 222.24,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 488.33,
+      "y": 242.05,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 489.3,
+      "y": 251.03,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(2.5)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 489.3,
+      "y": 251.03,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 489.29,
+      "y": 222.24,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 6,
+      "x": 499.39,
+      "y": 208.7,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 475.52,
+      "y": 204.49,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 464.86,
+      "y": 222.59,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

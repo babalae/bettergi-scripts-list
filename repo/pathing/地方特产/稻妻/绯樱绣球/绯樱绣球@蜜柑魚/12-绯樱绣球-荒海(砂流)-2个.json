@@ -1,0 +1,96 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1774444844731,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "12-绯樱绣球-荒海(砂流)-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4406.7344,
+      "y": -2399.6309
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4413.1562,
+      "y": -2384.3359
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4392.5664,
+      "y": -2374.4346
+    },
+    {
+      "action": "electro_collect",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -4374.0977,
+      "y": -2377.001
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.099)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -4374.0977,
+      "y": -2377.001
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4347.1523,
+      "y": -2350.7568
+    },
+    {
+      "action": "electro_collect",
+      "action_params": "",
+      "id": 7,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4337.3047,
+      "y": -2342.7939
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4337.3047,
+      "y": -2342.7939
+    }
+  ]
+}

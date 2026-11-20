@@ -1,0 +1,88 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "半夏"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757840348546,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "17挪德卡莱伦波岛小怪（4）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9900.0,
+      "y": 2830.25
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9900.1,
+      "y": 2882.4
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9935.3,
+      "y": 2882.1
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9938.0625,
+      "y": 2862.9062
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3),keypress(VK_SPACE),wait(0.2),keypress(VK_SPACE)",
+      "id": 5,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9938.0625,
+      "y": 2862.9062
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9974.5,
+      "y": 2842.0
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9974.5,
+      "y": 2842.0
+    }
+  ]
+}

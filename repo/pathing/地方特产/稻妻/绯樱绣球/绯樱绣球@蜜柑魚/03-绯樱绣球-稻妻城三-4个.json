@@ -1,0 +1,157 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1774462697028,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "03-绯樱绣球-稻妻城三-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4400.3789,
+      "y": -3051.1172
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4410.9414,
+      "y": -3051.9541
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4449.9453,
+      "y": -3021.748
+    },
+    {
+      "action": "electro_collect",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4451.4648,
+      "y": -3025.3984
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.099)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4451.4648,
+      "y": -3025.3984
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4435.2383,
+      "y": -2995.5508
+    },
+    {
+      "action": "combat_script",
+      "action_params": "丽莎 attack,wait(0.5),attack,wait(1);瓦雷莎 wait(0.15),charge,wait(0.55),attack(0.1),wait(1.5);八重神子 charge;",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4419.207,
+      "y": -2988.0713
+    },
+    {
+      "action": "electro_collect",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4419.207,
+      "y": -2988.0713
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),j,wait(0.8),j,wait(0.8),j,wait(0.8),j,wait(0.8),j,wait(0.2)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4419.207,
+      "y": -2988.0713
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4399.1543,
+      "y": -2981.6973
+    },
+    {
+      "action": "electro_collect",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4397.3203,
+      "y": -2986.2754
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.099)",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4397.3203,
+      "y": -2986.2754
+    },
+    {
+      "action": "electro_collect",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "run",
+      "type": "target",
+      "x": -4364.0469,
+      "y": -2983.2266
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.099)",
+      "id": 14,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4364.0469,
+      "y": -2983.2266
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.099)",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4352.4375,
+      "y": -2977.1006
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "烤鱼"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1789039556709,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "13-石珀-碧水原-轻策庄左侧-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 799.57,
+      "y": 1790.76
+    },
+    {
+      "action": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 793.55,
+      "y": 1788.25
+    },
+    {
+      "action": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 781.7,
+      "y": 1785.54
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 772.46,
+      "y": 1785.47
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 772.46,
+      "y": 1785.47
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 772.4,
+      "y": 1785.5
+    }
+  ]
+}

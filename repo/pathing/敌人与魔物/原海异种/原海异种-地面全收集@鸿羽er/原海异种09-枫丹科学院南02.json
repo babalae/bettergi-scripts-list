@@ -1,0 +1,62 @@
+{
+  "info": {
+    "name": "原海异种09-枫丹科学院南02",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "鸿羽er",
+        "links": "https://github.com/evildoer12138"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4001.0,
+      "y": 4876.95,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "climb",
+      "type": "path",
+      "x": 3991.0,
+      "y": 4852.95,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4027.0,
+      "y": 4756.93,
+      "move_mode": "fly",
+      "action": "",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4063.0,
+      "y": 4664.99,
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4063.0,
+      "y": 4660.91,
+      "action_params": ""
+    }
+  ]
+}

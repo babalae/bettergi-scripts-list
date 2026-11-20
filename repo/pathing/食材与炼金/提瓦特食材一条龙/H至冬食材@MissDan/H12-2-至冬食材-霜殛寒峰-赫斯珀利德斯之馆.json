@@ -1,0 +1,161 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "3个雪球花；4个冰醋栗；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1789921698966,
+    "map_match_method": "TemplateMatch",
+    "map_name": "Teyvat",
+    "name": "H12-2-至冬食材-霜殛寒峰-赫斯珀利德斯之馆",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 6205.1738,
+      "y": 8239.6855
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 2,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 6212.5488,
+      "y": 8233.127
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(w),dash(1.5),keyup(w),wait(0.5),keypress(x)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 6212.5488,
+      "y": 8233.127
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "locked": true,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6215.3145,
+      "y": 8230.583
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6216.1133,
+      "y": 8229.7461
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 6237.3379,
+      "y": 8221.2471
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6238.4492,
+      "y": 8220.1543
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6239.9473,
+      "y": 8218.3936
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6238.7705,
+      "y": 8217.46
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6240.1543,
+      "y": 8207.9268
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6252.625,
+      "y": 8179.0156
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 12,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 6260.8008,
+      "y": 8175.127
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 6260.7207,
+      "y": 8164.4141
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 14,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 6260.7393,
+      "y": 8161.5986
+    }
+  ]
+}

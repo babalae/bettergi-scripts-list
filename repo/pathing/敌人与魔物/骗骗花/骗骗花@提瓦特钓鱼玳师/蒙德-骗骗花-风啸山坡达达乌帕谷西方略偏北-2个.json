@@ -1,0 +1,134 @@
+{
+  "info": {
+    "name": "蒙德-骗骗花-风啸山坡达达乌帕谷西方略偏北-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "骗骗花-2个\n蒙德-风啸山坡达达乌帕谷西方略偏北\n经由Economy优化交互触发",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1136.51,
+      "y": 1595.36,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1181.5,
+      "y": 1547.91,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1216.0,
+      "y": 1551.91,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -1221.87,
+      "y": 1549.62,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.5),keypress(f),wait(0.5),keypress(f),wait(0.5),keypress(f),dash",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": -1221.75,
+      "y": 1549.75,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -1217.5,
+      "y": 1499.38,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -1215.25,
+      "y": 1490.25,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -1212.0,
+      "y": 1447.85,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -1256.5,
+      "y": 1413.25,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -1283.0,
+      "y": 1393.33,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -1300.0,
+      "y": 1379.82,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": -1319.75,
+      "y": 1380.75,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.5),keypress(f),wait(0.5),keypress(f),wait(0.5),keypress(f),dash",
+      "type": "target"
+    },
+    {
+      "id": 13,
+      "x": -1319.75,
+      "y": 1380.75,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

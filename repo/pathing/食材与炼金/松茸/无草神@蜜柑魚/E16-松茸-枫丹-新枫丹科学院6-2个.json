@@ -1,0 +1,103 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777458581294,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E16-松茸-枫丹-新枫丹科学院6-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4001.3057,
+      "y": 4878.6899
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4009.1895,
+      "y": 4894.5352
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4052.8906,
+      "y": 4972.8428
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4103.7754,
+      "y": 5004.0552
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4159.9123,
+      "y": 4989.2812
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.05)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4169.917,
+      "y": 4982.8394
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4116.9424,
+      "y": 5038.3662
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4156.0293,
+      "y": 5099.3945
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.321)",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4170.1719,
+      "y": 5091.8452
+    }
+  ]
+}

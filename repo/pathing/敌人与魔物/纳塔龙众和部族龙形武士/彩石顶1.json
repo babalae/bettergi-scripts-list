@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "彩石顶1",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "雕茂"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8372.15,
+      "y": -2196.23
+    },
+    {
+      "id": 2,
+      "x": 8366.46,
+      "y": -2238.61,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    },
+    {
+      "id": 3,
+      "x": 8318.1,
+      "y": -2223.83,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    },
+    {
+      "id": 4,
+      "x": 8293.08,
+      "y": -2195.35,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}

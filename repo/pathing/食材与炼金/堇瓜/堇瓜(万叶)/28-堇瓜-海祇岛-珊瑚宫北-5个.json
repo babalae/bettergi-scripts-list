@@ -1,0 +1,67 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1785955915429,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "28-堇瓜-海祇岛-珊瑚宫北-5个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -765.584,
+      "y": -3557.0488
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -745.4492,
+      "y": -3557.8437
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 e(wait);万叶 e(wait,hold),attack(0.2);迪希雅 w(0.001);wait(1.5)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -720.9297,
+      "y": -3554.998
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -725.7031,
+      "y": -3556.8047
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.1)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -721.8398,
+      "y": -3557.6602
+    }
+  ]
+}

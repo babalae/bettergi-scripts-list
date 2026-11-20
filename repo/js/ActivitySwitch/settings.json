@@ -1,0 +1,79 @@
+[
+   {
+     "name": "enable",
+     "type": "checkbox",
+     "label": "启用先返回主界面后执行切换",
+     "default": true
+   },
+   {
+       "name": "activityName",
+       "type": "input-text",
+       "label": "活动名称"
+   },
+   {
+       "name": "maxOcrCount",
+       "type": "select",
+       "label": "最大识别次数(默认3次,理论上3次就够了,不包含首次识别)",
+       "options": [
+       "默认",
+         "1",
+         "2",
+         "3",
+         "4",
+         "5",
+         "6",
+         "7",
+         "8",
+         "9",
+       ]
+   },
+   {
+       "name": "toTopPage",
+       "type": "select",
+       "label": "滑多少次数到顶(默认4次),建议设大点",
+       "options": [
+       "默认",
+         "1",
+         "2",
+         "3",
+         "4",
+         "5",
+         "6",
+         "7",
+         "8",
+         "9",
+       ]
+   },
+   {
+       "name": "onePage",
+       "type": "select",
+       "label": "设置一页多少次(默认3次),建议设置到合适识别即可",
+       "options": [
+       "默认",
+         "1",
+         "2",
+         "3",
+         "4",
+         "5",
+         "6",
+         "7",
+         "8",
+         "9",
+       ]
+   },
+   {
+       "name": "operate",
+       "type": "select",
+       "label": "滑动页面方式(默认:滚轮滑动)",
+       "options": [
+       "默认",
+         "鼠标拖动",
+         "滚轮滑动"
+       ]
+   },
+   {
+      "name": "activityKey",
+      "type": "input-text",
+      "label": "打开活动页面按键(不填，默认：F5)"
+   }
+]

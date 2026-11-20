@@ -1,0 +1,89 @@
+[
+  {
+    "name": "target_clock",
+    "type": "input-text",
+    "label": "【优先】等到指定时钟时间，格式 HH:mm，如 04:00。填了此项则忽略下面的倒计时时长。"
+  },
+  {
+    "name": "allow_next_day",
+    "type": "select",
+    "default": "否",
+    "label": "上面的目标时间「今天已过/已到」时，是否等到【明天】同一时间。\n      默认否：立即结束、继续后续任务（避免启动稍晚就误等约24小时）。",
+    "options": [
+      "否",
+      "是"
+    ]
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "countdown_minutes",
+    "type": "input-text",
+    "default": 5,
+    "label": "【备用】相对倒计时 - 分钟（仅在上面留空时生效）"
+  },
+  {
+    "name": "countdown_seconds",
+    "type": "input-text",
+    "default": 0,
+    "label": "【备用】相对倒计时 - 秒（仅在上面留空时生效）"
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "keepalive_enable",
+    "type": "select",
+    "default": "是",
+    "label": "防休眠：每隔一段时间轻晃镜头，防止电脑自动睡眠/熄屏（需停在游戏主界面）",
+    "options": [
+      "是",
+      "否"
+    ]
+  },
+  {
+    "name": "keepalive_interval",
+    "type": "input-text",
+    "default": 60,
+    "label": "防休眠操作间隔（秒）。建议小于系统休眠时间，默认 60"
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "log_interval",
+    "type": "input-text",
+    "default": 60,
+    "label": "剩余时间日志刷新间隔（秒），长倒计时建议 60 或更大"
+  },
+  {
+    "name": "send_notification",
+    "type": "select",
+    "default": "是",
+    "label": "倒计时结束时是否发送通知",
+    "options": [
+      "是",
+      "否"
+    ]
+  },
+  {
+    "name": "end_message",
+    "type": "input-text",
+    "default": "倒计时结束，进入下一个任务",
+    "label": "结束提示文字（用于日志与通知）"
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "claim_welkin",
+    "type": "select",
+    "default": "否",
+    "label": "结束后领取「空月祝福（月卡）」奖励。\n      适用于等到每日重置后第一时间领月卡，避免领取弹窗卡住下一个任务。未购买月卡可保持「否」。",
+    "options": [
+      "否",
+      "是"
+    ]
+  }
+]

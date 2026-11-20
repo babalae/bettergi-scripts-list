@@ -1,0 +1,97 @@
+[
+  {
+    "type": "地图追踪",
+    "data": "去往蒙德大教堂.json",
+    "note": "执行第一个地图追踪步骤"
+  },
+  {
+    "type": "对话",
+    "data": {
+      "skipCount": 5,
+      "priorityOptions": [""],
+      "npcWhiteList": ["进入教堂"]
+    },
+    "note": "进入教堂"
+  },
+  {
+    "type": "等待返回主界面",
+    "note": "等待返回主界面"
+  },
+  {
+    "type": "追踪委托",
+    "data": {
+      "npc": "鲁道夫",
+      "iconType": "task"
+    },
+    "note": "追踪委托"
+  },
+{
+  "type": "对话",
+  "data": {
+    "priorityOptions": ["开纪念品店的"],
+    "npcWhiteList": ["鲁道夫"]
+  },
+  "note": "选择去找玛乔丽"
+},
+  {
+    "type": "等待返回主界面",
+    "note": "等待对话完成"
+  },
+  {
+    "type": "地图追踪",
+    "data": "惊喜大礼-1.json",
+    "note": "执行第一个地图追踪步骤"
+  },
+  {
+    "type": "对话",
+    "data": {
+      "skipCount": 1,
+      "priorityOptions": ["关于礼物", "我付了"],
+      "npcWhiteList": ["玛乔丽"]
+    },
+    "note": "与玛乔丽对话"
+  },
+  {
+    "type": "等待返回主界面",
+    "note": "等待对话完成"
+  },
+  {
+    "type": "地图追踪",
+    "data": "去往蒙德大教堂.json",
+    "note": "执行第一个地图追踪步骤"
+  },
+  {
+    "type": "对话",
+    "data": {
+      "skipCount": 1,
+      "priorityOptions": [""],
+      "npcWhiteList": ["进入教堂"]
+    },
+    "note": "进入教堂"
+  },
+  {
+    "type": "等待返回主界面",
+    "note": "等待返回主界面"
+  },
+  {
+    "type": "追踪委托",
+    "data": {
+      "npc": "鲁道夫",
+      "iconType": "Bigmap"
+    },
+    "note": "追踪委托"
+  },
+  {
+    "type": "对话",
+    "data": {
+      "skipCount": 1,
+      "priorityOptions": [""],
+      "npcWhiteList": ["鲁道夫"]
+    },
+    "note": "与鲁道夫对话"
+  },
+  {
+    "type": "等待返回主界面",
+    "note": "等待对话完成"
+  }
+]

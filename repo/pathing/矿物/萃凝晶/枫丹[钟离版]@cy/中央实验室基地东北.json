@@ -1,0 +1,73 @@
+{
+  "info": {
+    "name": "中央实验室基地东北",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.43.0",
+    "authors": [
+      {
+        "name": "cy"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3811.57,
+      "y": 4952.62
+    },
+    {
+      "id": 2,
+      "x": 3742.48,
+      "y": 4930.17,
+      "type": "path",
+      "move_mode": "run",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 3672.12,
+      "y": 4970.06,
+      "type": "path",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "钟离 d(0.2),e(hold)"
+    },
+    {
+      "id": 4,
+      "x": 3676.8,
+      "y": 4973.65,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": 3672.35,
+      "y": 4971.35,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": 3661.4,
+      "y": 4965.92,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 7,
+      "x": 3674.37,
+      "y": 4968.02,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    }
+  ]
+}

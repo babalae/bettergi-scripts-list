@@ -1,0 +1,86 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.67.0",
+    "description": "路线信息：该路线预计用时66.5秒，包含以下怪物：4只兽怪敲打者。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1788795693824,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "02-兽怪暴徒-至冬-古兽冰原东南-4只",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7141.3369,
+      "y": 7900.1548
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7150.5313,
+      "y": 7940.2494
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7161.0977,
+      "y": 7955.8481
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7167.6836,
+      "y": 7959.5234
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";万叶 w(0.01),keydown(E),wait(0.8),keyup(E),attack(0.2),wait(0.5); ;",
+      "id": 5,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7178.8818,
+      "y": 7963.6729
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7178.8818,
+      "y": 7963.6729
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7185.3437,
+      "y": 7966.4272
+    }
+  ]
+}

@@ -1,0 +1,219 @@
+{
+  "info": {
+    "name": "22-海露花-枫丹-幽林雾道2-10个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "芭芭拉"
+    ],
+    "last_modified_time": 1750492515991,
+    "authors": [
+      {
+        "name": "寥寥轻舟"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 3097.72,
+      "y": 3362.57,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "hydro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 3085.24,
+      "y": 3351.37,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "芭芭拉 charge(0.5)"
+    },
+    {
+      "id": 3,
+      "x": 3081.61,
+      "y": 3348.97,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 3061.91,
+      "y": 3324.42,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 3041.24,
+      "y": 3318.59,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "芭芭拉 charge(0.5)"
+    },
+    {
+      "id": 6,
+      "x": 3038.72,
+      "y": 3317.73,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 3013.75,
+      "y": 3319.04,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 3010.51,
+      "y": 3321.93,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "芭芭拉 charge(0.5)"
+    },
+    {
+      "id": 9,
+      "x": 3008.45,
+      "y": 3323.73,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 2988.44,
+      "y": 3342.64,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 2951.92,
+      "y": 3387.64,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "芭芭拉 charge(0.5)"
+    },
+    {
+      "id": 12,
+      "x": 2954.03,
+      "y": 3391.14,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 2941.78,
+      "y": 3377.93,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": 2945.94,
+      "y": 3356.63,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "芭芭拉 charge(0.5)"
+    },
+    {
+      "id": 15,
+      "x": 2946.59,
+      "y": 3352.43,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 16,
+      "x": 2914.68,
+      "y": 3348.8,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "芭芭拉 charge(0.5)"
+    },
+    {
+      "id": 17,
+      "x": 2911.83,
+      "y": 3348.58,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 18,
+      "x": 2867.19,
+      "y": 3352.93,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "芭芭拉 e"
+    },
+    {
+      "id": 19,
+      "x": 2863.96,
+      "y": 3353.18,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 20,
+      "x": 2852.64,
+      "y": 3372.48,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 21,
+      "x": 2823.0,
+      "y": 3413.34,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "芭芭拉 charge(0.5)"
+    },
+    {
+      "id": 22,
+      "x": 2819.51,
+      "y": 3416.84,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(1);"
+    }
+  ]
+}

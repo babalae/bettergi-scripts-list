@@ -1,0 +1,76 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777109418671,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "28-苦种-坚岩隘谷4-1个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8671.1836,
+      "y": -1269.3848
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "2200",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 8634.0879,
+      "y": -1327.8555
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8609.0938,
+      "y": -1343.0283
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),attack(0.1),wait(0.3)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 8586.9873,
+      "y": -1348.0898
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 8549.627,
+      "y": -1357.7275
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.345)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 8546.5742,
+      "y": -1358.4258
+    }
+  ]
+}

@@ -1,0 +1,121 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "Vicissitude"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "注意，该怪伤害较高，且该路线有一个节点会遇到冰霜夜灵嗣",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1789649291277,
+    "map_match_method": "",
+    "map_name": "MoonCanon",
+    "name": "01-残损的月铁-霜月-伊比尼伯龙之眼-5只",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2783.9238,
+      "y": -1677.2051
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -2635.6172,
+      "y": -1623.0776
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -2570.3359,
+      "y": -1598.5366
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -2505.8818,
+      "y": -1576.2129
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -2461.8018,
+      "y": -1523.0757
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -2457.7559,
+      "y": -1439.2026
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -2783.9502,
+      "y": -1677.1787
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2828.708,
+      "y": -1634.2446
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "run",
+      "type": "target",
+      "x": -2880.7305,
+      "y": -1549.8037
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -2880.0713,
+      "y": -1471.874
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -2831.0127,
+      "y": -1350.4678
+    }
+  ]
+}

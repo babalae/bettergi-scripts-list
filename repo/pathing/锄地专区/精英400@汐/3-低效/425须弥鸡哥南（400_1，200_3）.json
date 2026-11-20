@@ -1,0 +1,220 @@
+{
+  "info": {
+    "name": "425须弥鸡哥南（400_1，200_3）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时200秒，包含4只精英，预计收入1000摩拉，包含以下怪物：1只嗜雷·兽境幼兽、1只嗜岩·兽境猎犬、1只愚人众·藏镜仕女、1只遗迹歼击者。",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1751474053225,
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4045.3975,
+      "y": -240.7515,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4024.291,
+      "y": -250.0786,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 3974.4102,
+      "y": -273.6079,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "1800",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 3934.4375,
+      "y": -288.0313,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "attack(0.3),wait(2.5)",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 3938.6876,
+      "y": -288.5312,
+      "action": "fight",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 3916.8213,
+      "y": -308.8589,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 3889.0967,
+      "y": -295.96,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 3899.9219,
+      "y": -267.0308,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(1)",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 3899.9219,
+      "y": -267.0308,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 3854.8121,
+      "y": -307.4996,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 3841.583,
+      "y": -302.8755,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 3844.292,
+      "y": -303.0942,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 13,
+      "x": 3847.1455,
+      "y": -301.9521,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 3853.4141,
+      "y": -308.4702,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": 3870.2812,
+      "y": -321.5288,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": 3867.333,
+      "y": -335.9956,
+      "action": "combat_script",
+      "move_mode": "jump",
+      "action_params": "attack(0.2)",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": 3859.5,
+      "y": -362.5623,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": 3884.5254,
+      "y": -366.3853,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "keypress(t),wait(0.2),keypress(t),wait(0.2),keypress(t)",
+      "type": "orientation",
+      "locked": false
+    },
+    {
+      "id": 19,
+      "x": 3884.5254,
+      "y": -366.3853,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": 3899.8047,
+      "y": -374.6045,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 21,
+      "x": 3943.0557,
+      "y": -381.1865,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 22,
+      "x": 3943.0557,
+      "y": -381.1865,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.2)",
+      "type": "orientation"
+    }
+  ]
+}

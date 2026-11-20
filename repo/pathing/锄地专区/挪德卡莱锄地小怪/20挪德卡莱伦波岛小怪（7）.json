@@ -1,0 +1,130 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "半夏"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757900079734,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "20挪德卡莱伦波岛小怪（7）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9820.0,
+      "y": 3027.25
+    },
+    {
+      "action": "combat_script",
+      "action_params": "茜特菈莉 e;钟离 e(hold);莱依拉 e;蓝砚 e;迪奥娜 e;伊涅芙 e;",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9848.5,
+      "y": 3003.8
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.5),keypress(f)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9848.5,
+      "y": 3003.8
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9848.5,
+      "y": 3003.8
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9848.5,
+      "y": 3003.8
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9837.0,
+      "y": 3003.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9838.0,
+      "y": 2948.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9844.75,
+      "y": 2948.5
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9845.3,
+      "y": 2916.3
+    },
+    {
+      "action": "combat_script",
+      "action_params": "茜特菈莉 e;钟离 e(hold);莱依拉 e;蓝砚 e;迪奥娜 e;伊涅芙 e;",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9845.9,
+      "y": 2907.7
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.5),keypress(f)",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9845.9,
+      "y": 2907.7
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9845.9,
+      "y": 2907.7
+    }
+  ]
+}

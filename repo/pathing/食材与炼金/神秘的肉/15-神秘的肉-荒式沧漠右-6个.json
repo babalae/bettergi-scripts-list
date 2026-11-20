@@ -1,0 +1,120 @@
+{
+  "info": {
+    "name": "15-神秘的肉-荒式沧漠右-6个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "Sabersunny",
+        "links": ""
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.52.0",
+    "tags": [],
+    "last_modified_time": 1753529447453,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 6609.5498,
+      "y": 342.543,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 6627.0776,
+      "y": 273.6694,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 6626.0889,
+      "y": 250.1299,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "雷电将军 attack",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 6626.0889,
+      "y": 250.1299,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "雷电将军 e",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 6626.0889,
+      "y": 250.1299,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "枫原万叶 e(hold),attack,wait(0.5),e(hold),attack",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 6628.377,
+      "y": 247.0303,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 6624.897,
+      "y": 255.8828,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 6633.9536,
+      "y": 256.2368,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "枫原万叶 attack",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 6632.4834,
+      "y": 261.2529,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "枫原万叶 attack",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 6640.9409,
+      "y": 248.5205,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "枫原万叶 attack",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 6636.0391,
+      "y": 247.7007,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "枫原万叶 e(hold),attack,wait(0.5),e(hold),attack",
+      "type": "path"
+    }
+  ]
+}

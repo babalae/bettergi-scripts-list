@@ -1,0 +1,55 @@
+{
+  "info": {
+    "name": "03-海灵芝-九条阵屋左-2个",
+    "type": "collect",
+    "version": "1.0",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "tignioj"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -3437.62,
+      "y": -3315.43,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 2,
+      "x": -3408.11,
+      "y": -3334.53,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": -3386.61,
+      "y": -3343.53,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 4,
+      "x": -3372.56,
+      "y": -3348.36,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": -3370.25,
+      "y": -3358.3,
+      "type": "target",
+      "move_mode": "walk",
+      "action": ""
+    }
+  ]
+}

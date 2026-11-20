@@ -1,0 +1,26 @@
+[
+    {
+      "name": "workMode",
+      "type": "select",
+      "label": "工作模式（默认OCR）",
+      "options": [
+        "基于OCR",
+        "基于固定位置"
+      ]
+    },
+    {
+      "name": "domainName",
+      "type": "select",
+      "label": "设置权限（默认不允许加入）",
+      "options": [
+        "直接加入",
+        "确认后可加入",
+        "不允许加入"
+      ]
+    },
+    {
+      "name": "operationDelay",
+      "type": "input-text",
+      "label": "操作延迟（填入数字，单位毫秒，默认1000）\n无报错但未生效时可尝试提高操作延迟"
+    }
+  ]

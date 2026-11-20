@@ -1,0 +1,82 @@
+{
+  "info": {
+    "name": "502【高危】枫丹芒索斯山东麓（200_3）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "3役人  路线信息：该路线预计用时118.72秒，包含3只精英与2只小怪，预计收入681摩拉，包含以下怪物：1只愚人众先遣队·火统游击兵、1只愚人众先遣队·岩使游击兵、1只愚人众·风役人、2只愚人众·霜役人。",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4984.71,
+      "y": 4462.91,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": 4986.07,
+      "y": 4515.43,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4990.33,
+      "y": 4523.5,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4984.71,
+      "y": 4462.91,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 4931.74,
+      "y": 4384.11,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 4904.18,
+      "y": 4364.25,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 4919.56,
+      "y": 4381.03,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

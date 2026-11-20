@@ -1,0 +1,74 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时90秒，包含以下怪物：1只丘丘人、2只打手丘丘人、1只射手丘丘人、1只深邃拟覆叶_400。",
+    "enable_monster_loot_split": false,
+    "hash_res": "20871746",
+    "last_modified_time": 1794721819520,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "F044纳塔奥奇次数盾-2",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10070.24,
+      "y": 25.66
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10062.1934,
+      "y": 2.2744
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 10006.5283,
+      "y": -18.9072
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(x);芙宁娜 e;爱可菲 e;伊涅芙 e;",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9950.5156,
+      "y": -29.874
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "point_ext_params": {
+        "auto_fight": {
+          "reward_type": "experience"
+        }
+      },
+      "type": "path",
+      "x": 9927.8232,
+      "y": -28.8262
+    }
+  ]
+}

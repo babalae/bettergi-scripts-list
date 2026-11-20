@@ -1,0 +1,39 @@
+{
+    "info": {
+        "name": "（恢复）狗粮-枫丹-黎翡区",
+        "type": "collect",
+        "author": "Yang-z",
+        "version": "1.1",
+        "bgi_version": "0.42.0"
+    },
+    "positions": [
+        {
+            "x": 4545.48046875,
+            "y": 4225.5087890625,
+            "type": "teleport",
+            "move_mode": "walk"
+        },
+        {
+            "x": 4542.24462890625,
+            "y": 4229.505859375,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(1)"
+        },
+        {
+            "x": 4542.736328125,
+            "y": 4230.81640625,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(1)"
+        },
+        {
+            "x": 4544.595703125,
+            "y": 4227.29296875,
+            "type": "path",
+            "move_mode": "walk"
+        }
+    ]
+}

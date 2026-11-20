@@ -1,0 +1,53 @@
+{
+  "info": {
+    "name": "深渊法师_天衡山左下_1个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "深渊法师",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "FuYeqi",
+        "links": "https://github.com/FuYeqi"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 713.43,
+      "y": -777.66,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 748.0,
+      "y": -840.0,
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 853.43,
+      "y": -802.65,
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 880.93,
+      "y": -888.13,
+      "action_params": ""
+    }
+  ]
+}

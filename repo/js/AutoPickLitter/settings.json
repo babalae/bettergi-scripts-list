@@ -1,0 +1,295 @@
+[
+  {
+      "name": "water",
+      "type": "multi-checkbox",
+      "label": "        按自身情况勾填相关内容\n检查世界权限是否设为【不允许加入】\n\n⋙蒙德清泉圣水",
+    "options": [
+        ""
+      ]
+  },
+  {
+    "type":"separator"
+  },
+  {
+    "type":"separator"
+  },
+  {
+      "name": "sticks",
+      "type": "multi-checkbox",
+      "label": "\n⋙璃月铜雀上香",
+    "options": [
+        "勾选前检查自己任务是否完成"
+      ]
+  },
+  {
+    "type":"separator"
+  },
+  {
+    "type":"separator"
+  },
+  {
+      "name": "lots",
+      "type": "multi-checkbox",
+      "label": "\n⋙稻妻神樱抽签",
+    "options": [
+        "勾选前请先阅读README"
+      ]
+  },
+  {
+    "type":"separator"
+  },
+  {
+    "type":"separator"
+  },
+  {
+      "name": "conchs",
+      "type": "multi-checkbox",
+      "label": "\n⋙稻妻海螺宝箱",
+    "options": [
+        "勾选前请先阅读README"
+      ]
+  },
+  {
+    "type":"separator"
+  },
+  {
+    "name": "doYouOpen",
+    "type": "checkbox",
+    "label": "开启宝箱(默认开启)",
+    "default": "true"
+  },
+  {
+    "name": "pickupTreasure",
+    "type": "select",
+    "label": "选择你要开启的幸运宝箱或随机开启\n(1:左面 2:中间 3:右边 0:随机 默认0)",
+    "options": [
+      "1", "2", "3", "0"
+    ],
+    "default": "0"
+  },
+  {
+    "type":"separator"
+  },
+  {
+    "type":"separator"
+  },
+  {
+      "name": "meal",
+      "type": "multi-checkbox",
+      "label": "\n⋙枫丹监狱领餐",
+    "options": [
+        "勾选前检查监狱是否开完图"
+      ]
+  },
+  {
+    "type":"separator"
+  },
+  {
+    "type":"separator"
+  },
+  {
+      "name": "eggs",
+      "type": "multi-checkbox",
+      "label": "\n⋙纳塔领取龙蛋",
+    "options": [
+        "勾选前检查纳塔的传送点是否开完"
+      ]
+  },
+  {
+    "type":"separator"
+  },
+  {
+    "name": "selectDragonEggModel",
+    "type": "select",
+    "label": "\n随机、平均或者指定模式(默认是随机模式)\n选择某个模式后，其他模式填选内容无效",
+    "options": [
+      "随机模式",
+      "平均模式",
+      "指定模式"
+    ],
+    "default": "随机模式"
+  },
+  {
+    "type":"separator"
+  },
+  {
+    "name": "dragonEggsNum",
+    "type": "input-text",
+    "label": "\n平均模式：可输入自己背包龙蛋数目\n顺序为【山-飞-圣-太-献-菲】\n填写各龙蛋数目间用【-】相链接\n未修改，脚本会自动打开背包填写",
+    "default": "0-0-0-0-0-0"
+  },
+  {
+    "type":"separator"
+  },
+  {
+    "name": "pickupDragonEgg",
+    "type": "select",
+    "label": "\n指定模式：选择你喜欢的龙蛋",
+    "options": [
+      "闪闪礼蛋·山之血",
+      "闪闪礼蛋·太阳的轰鸣",
+      "闪闪礼蛋·圣龙君临",
+      "闪闪礼蛋·菲耶蒂娜",
+      "闪闪礼蛋·献给小酒杯",
+      "闪闪礼蛋·飞澜鲨鲨"
+    ]
+  },
+  {
+    "type":"separator"
+  },
+  {
+    "type":"separator"
+  },
+  {
+      "name": "turntable",
+      "type": "multi-checkbox",
+      "label": "\n⋙挪德好运转盘",
+    "options": [
+        "勾选前检查挪德是否开启传送点"
+      ]
+  },
+  {
+    "type":"separator"
+  },
+  {
+    "name": "selectLuckTendency",
+    "type": "select",
+    "label": "\n想要的运势(默认只运行一次)",
+    "options": [
+      "运行一次，随机运气",
+      "林狼啸月，魔物环伺",
+      "雷鸣风骤，摧枯拉朽",
+      "旭日曈曈，驱散迷雾",
+      "海蛇翻腾，风暴肆虐",
+      "牝鹿引鹿，旅途顺利",
+      "晨露凝珠，浆果丰盛",
+      "层云蔽月，大地沉睡",
+      "灯火长明，指引前路"
+    ],
+    "default": "运行一次，随机运气"
+  },
+  {
+    "type":"separator"
+  },
+  {
+    "name": "maxNum",
+    "type": "input-text",
+    "label": "\n最大转次数(默认是10次)",
+    "default": "10"
+  },
+  {
+    "type":"separator"
+  },
+  {
+    "type":"separator"
+  },
+  {
+      "name": "todayLuck",
+      "type": "multi-checkbox",
+      "label": "\n⋙挪德今日收获",
+    "options": [
+        "开图，完成『餐食大事』任务"
+      ]
+  },
+  {
+    "type":"separator"
+  },
+  {
+    "type":"separator"
+  },
+  {
+      "name": "sweetStatue",
+      "type": "multi-checkbox",
+      "label": "\n⋙挪德领取糖雕",
+    "options": [
+        "勾选前请先阅读README"
+      ]
+  },
+  {
+    "type":"separator"
+  },
+  {
+        "name": "partyName",
+        "type": "input-text",
+        "label": "\n          队伍&祈月\n想领取祈月糖雕请填写祈月\n想领取角色糖雕请填写队伍名称\n未输入任何文字则领取普通糖雕" ,
+        "default": ""
+  },
+  {
+    "name": "selectGiveWho",
+    "type": "select",
+    "label": "请选择领取的角色糖雕\n(角色糖雕会默认给专属角色吃)",
+    "options": [
+      "伊涅芙",
+      "爱诺",
+      "拉乌玛",
+      "菲林斯",
+      "奈芙尔",
+      "雅珂达",
+      "哥伦比娅",
+      "叶洛亚",
+      "莉奈娅"
+    ],
+    "default": ""
+  },
+  {
+    "type":"separator"
+  },
+  {
+    "type":"separator"
+  },
+  {
+      "name": "iceCream",
+      "type": "multi-checkbox",
+      "label": "\n⋙至冬堡冰淇淋",
+    "options": [
+        "队伍切勿薇斯纳为行走位"
+      ]
+  },
+  {
+    "type":"separator"
+  },
+  {
+        "name": "partyName1",
+        "type": "input-text",
+        "label": "\n         切换队伍\n想领取专属冰淇淋请填写队伍名称\n队伍中必须包含对应角色\n未输入队伍名称则领取普通冰淇淋" ,
+        "default": ""
+  },
+  {
+    "name": "selectGiveWho1",
+    "type": "select",
+    "label": "请选择领取的专属冰淇淋\n(专属冰淇淋会默认给专属角色吃)",
+    "options": [
+      "奥黛塔",
+      "阿罗夏",
+      "薇斯纳",
+      "沃雅妮莎"
+    ],
+    "default": ""
+  },
+  {
+    "type":"separator"
+  },
+  {
+    "type":"separator"
+  },
+  {
+      "name": "notify",
+      "type": "multi-checkbox",
+      "label": "\n⋙通知开启",
+    "options": [
+        "通知内容请看README"
+      ]
+  },
+  {
+    "type":"separator"
+  },
+  {
+    "type":"separator"
+  },
+  {
+    "name": "accountName",
+    "type": "input-text",
+    "label": "\n账户名称\n用于多用户运行时区分不同账户\n单用户无需修改",
+    "default": "默认账户"
+  }
+]

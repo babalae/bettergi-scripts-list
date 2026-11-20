@@ -1,0 +1,81 @@
+{
+  "info": {
+    "name": "106蒙德风龙废墟北（200_2）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "2丘丘暴徒  路线信息：该路线预计用时91.18秒，包含2只精英与6只小怪，预计收入643摩拉，包含以下怪物：1只打手丘丘人、4只射手丘丘人、1只木盾丘丘暴徒、1只火斧丘丘暴徒、1只草丘丘萨满。",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 265.56,
+      "y": 2914.97,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 275.19,
+      "y": 2929.45,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 286.91,
+      "y": 2938.2,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -83.81,
+      "y": 2781.68,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 5,
+      "x": -72.3,
+      "y": 2847.31,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -75.57,
+      "y": 2851.56,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -55.77,
+      "y": 2888.62,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

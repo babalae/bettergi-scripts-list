@@ -1,0 +1,103 @@
+{
+  "info": {
+    "name": "说到做到-山腰",
+    "type": "collect",
+    "author": "11",
+    "version": "1.0",
+    "description": "说到做到-山腰",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1089.03125,
+      "y": 1769.146484375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 2,
+      "x": -1107.03125,
+      "y": 1790.837890625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1096.9521484375,
+      "y": 1850.37548828125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -1097.02734375,
+      "y": 1884.91064453125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -1102.46875,
+      "y": 1912.74853515625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -1092.62109375,
+      "y": 1952.24169921875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -1087.1455078125,
+      "y": 1978.6376953125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -1091.099609375,
+      "y": 1983.3603515625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -1090.0859375,
+      "y": 1989.25146484375,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "attack,wait(1),moveby(30,0),walk(w,2.9),wait(0.6),moveby(-590,0),wait(0.3),walk(w,6),",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -1067.26171875,
+      "y": 2020.4345703125,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "info": {
+    "name": "20-冰雾花花朵-稻妻-神无冢-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.43.0",
+    "tags": [
+      "胡桃"
+    ],
+    "authors": [
+      {
+        "name": "Tool_tingsu",
+        "links": "https://github.com/Tooltingsu"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -3234.08,
+      "y": -3155.58,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -3236.91,
+      "y": -3107.21,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -3237.83,
+      "y": -3053.66,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -3253.0,
+      "y": -3022.0,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -3265.68,
+      "y": -2982.65,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -3263.12,
+      "y": -2977.86,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pyro_collect",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -3247.55,
+      "y": -2975.11,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "pyro_collect",
+      "action_params": ""
+    }
+  ]
+}

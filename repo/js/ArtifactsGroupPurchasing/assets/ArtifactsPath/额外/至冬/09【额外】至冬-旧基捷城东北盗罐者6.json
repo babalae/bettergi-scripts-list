@@ -1,0 +1,116 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1794139674247,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "09【额外】至冬-旧基捷城东北盗罐者6",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2593.1621,
+      "y": 9385.2441
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "2000",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2589.6523,
+      "y": 9382.6299
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";万叶 attack(0.02),keydown(E),wait(0.47),keyup(E),attack(0.2);迪希雅 attack(0.05),keypress(E),wait(0.1),keypress(E);阿贝多 attack(0.05),keypress(E),wait(0.1),keypress(E);菈乌玛 attack(0.05),keypress(E),wait(0.1),keypress(E);少女 attack(0.05),keypress(E),wait(0.1),keypress(E);伊涅芙 attack(0.05),keypress(E),wait(0.1),keypress(E);茜特菈莉 attack(0.05),keypress(E),wait(0.1),keypress(E);凝光 attack(0.05),keypress(E),wait(0.1),keypress(E);云堇 attack(0.05),keypress(E),wait(0.1),keypress(E);久岐忍 attack(0.05),keypress(E),wait(0.1),keypress(E);五郎 attack(0.05),keypress(E),wait(0.1),keypress(E);北斗 attack(0.05),keypress(E),wait(0.1),keypress(E);砂糖 attack(0.05),keypress(E),wait(0.1),keypress(E);雷泽 attack(0.05),e(hold);琴 wait(0.2),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1),keyup(E),wait(0.3),click(middle);wait(0.5)",
+      "id": 3,
+      "move_mode": "dash",
+      "sync_point_id": "fight_1",
+      "type": "target",
+      "x": 2590.4443,
+      "y": 9392.0039
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 4,
+      "move_mode": "dash",
+      "sync_point_id": "fight_2",
+      "type": "target",
+      "x": 2590.4443,
+      "y": 9392.0039
+    },
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2430.8027,
+      "y": 9241.582
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "jump",
+      "type": "path",
+      "x": 2436.2881,
+      "y": 9253.1797
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2470.2109,
+      "y": 9279.6514
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2475.8506,
+      "y": 9286.7285
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";万叶 attack(0.02),keydown(E),wait(0.47),keyup(E),attack(0.2);迪希雅 attack(0.05),keypress(E),wait(0.1),keypress(E);阿贝多 attack(0.05),keypress(E),wait(0.1),keypress(E);菈乌玛 attack(0.05),keypress(E),wait(0.1),keypress(E);少女 attack(0.05),keypress(E),wait(0.1),keypress(E);伊涅芙 attack(0.05),keypress(E),wait(0.1),keypress(E);茜特菈莉 attack(0.05),keypress(E),wait(0.1),keypress(E);凝光 attack(0.05),keypress(E),wait(0.1),keypress(E);云堇 attack(0.05),keypress(E),wait(0.1),keypress(E);久岐忍 attack(0.05),keypress(E),wait(0.1),keypress(E);五郎 attack(0.05),keypress(E),wait(0.1),keypress(E);北斗 attack(0.05),keypress(E),wait(0.1),keypress(E);砂糖 attack(0.05),keypress(E),wait(0.1),keypress(E);雷泽 attack(0.05),e(hold);琴 wait(0.2),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1),keyup(E),wait(0.3),click(middle);wait(0.5)",
+      "id": 9,
+      "move_mode": "dash",
+      "sync_point_id": "fight_3",
+      "type": "target",
+      "x": 2469.2969,
+      "y": 9291.4473
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 10,
+      "move_mode": "dash",
+      "sync_point_id": "fight_4",
+      "type": "target",
+      "x": 2469.2969,
+      "y": 9291.4473
+    }
+  ]
+}

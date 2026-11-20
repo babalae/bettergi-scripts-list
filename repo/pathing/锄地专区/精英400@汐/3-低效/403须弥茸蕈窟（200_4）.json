@@ -1,0 +1,100 @@
+{
+  "info": {
+    "name": "403须弥茸蕈窟（200_4）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "1遗迹龙兽 1雷莹术士 1藏镜仕女 1遗迹机兵  路线信息：该路线预计用时142.09秒，包含4只精英与3只小怪，预计收入1164.5摩拉，包含以下怪物：1只愚人众·雷莹术士、1只愚人众·藏镜仕女、1只遗迹侦察者、1只遗迹龙兽·空巡、3只雷萤。",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2803.83,
+      "y": 9.32,
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": 2825.94,
+      "y": 33.58,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 2844.05,
+      "y": 54.51,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 2849.03,
+      "y": 90.13,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2803.83,
+      "y": 9.32,
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 2790.19,
+      "y": -69.38,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 2762.98,
+      "y": -86.82,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 2731.98,
+      "y": -58.81,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 2733.41,
+      "y": -36.13,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,163 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时122秒，包含以下怪物：1只丘丘人、1只遗迹守卫、1只遗迹重机、3只伸缩岩蕈兽。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784914889783,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "D015【沙暴】须弥沙漠折胫谷",
+    "tags": [
+      "沙暴"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4957.4043,
+      "y": -695.1816
+    },
+    {
+      "action": "log_output",
+      "action_params": "切换[沙暴]状态",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 3069,
+      "y": -673.0145
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.5),attack(0.2),wait(1),s(1),dash,wait(0.7),keypress(f),wait(0.2),keypress(f),wait(5.5)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 3069,
+      "y": -673.0145
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5686.6738,
+      "y": -706.0337
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "climb",
+      "type": "path",
+      "x": 5692.8413,
+      "y": -703.374
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5734.4531,
+      "y": -754.1734
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5741.9375,
+      "y": -810.4111
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 5770.123,
+      "y": -835.1924
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5810.6689,
+      "y": -849.2017
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 5849.8125,
+      "y": -848.4379
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1500",
+      "id": 11,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 5885.3818,
+      "y": -847.7798
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 5885.3818,
+      "y": -846.7798
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "walk",
+      "point_ext_params": {
+        "auto_fight": {
+          "reward_type": "experience"
+        }
+      },
+      "type": "path",
+      "x": 5884.1878,
+      "y": -847.5003
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "point_ext_params": {
+        "auto_fight": {
+          "mora_values": [
+            600
+          ],
+          "reward_type": "mora"
+        }
+      },
+      "type": "path",
+      "x": 5889.8936,
+      "y": -882.1929
+    }
+  ]
+}
