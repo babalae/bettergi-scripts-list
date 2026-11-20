@@ -300,6 +300,15 @@ declare const genshin: {
    */
   getPositionFromMap(mapName: string, x: number, y: number): Point2f | null;
   /**
+   * 从小地图获取坐标，并显式指定匹配方式（BetterGI 0.66.0）。
+   * @param matchingMethod 地图匹配方式，例如 "SIFT"
+   */
+  getPositionFromMapWithMatchingMethod(matchingMethod: string): Point2f | null;
+  /**
+   * 显式指定地图、匹配方式和缓存时间；cacheTimeMs 为 0 时重新识别。
+   */
+  getPositionFromMapWithMatchingMethod(mapName: string, matchingMethod: string, cacheTimeMs?: number): Point2f | null;
+  /**
    * 获取摄像机朝向
    * @returns 朝向角度
    */
@@ -392,6 +401,7 @@ declare const genshin: {
   TpToStatueOfTheSeven: typeof genshin.tpToStatueOfTheSeven;
   GetPositionFromBigMap: typeof genshin.getPositionFromBigMap;
   GetPositionFromMap: typeof genshin.getPositionFromMap;
+  GetPositionFromMapWithMatchingMethod: typeof genshin.getPositionFromMapWithMatchingMethod;
   GetCameraOrientation: typeof genshin.getCameraOrientation;
   SwitchParty: typeof genshin.switchParty;
   ClearPartyCache: typeof genshin.clearPartyCache;

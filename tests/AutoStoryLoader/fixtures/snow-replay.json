@@ -1,0 +1,77 @@
+[
+  {
+    "sampledAt": 10865,
+    "result": {
+      "ok": false,
+      "partialMatches": [
+        {
+          "ok": true,
+          "X": 5899,
+          "Y": 9194,
+          "score": 0.626,
+          "runnerUp": 0.2688,
+          "exactScore": 0.7867,
+          "method": "local-contrast",
+          "contrastSigma": 2,
+          "part": "left"
+        }
+      ]
+    }
+  },
+  {
+    "sampledAt": 11950,
+    "result": {
+      "ok": true,
+      "X": 5895,
+      "Y": 9191,
+      "score": 0.6159,
+      "runnerUp": 0.4268,
+      "exactScore": 0.7489,
+      "method": "local-contrast-parts",
+      "contrastSigma": 3,
+      "part": "top",
+      "support": [
+        "top",
+        "left"
+      ]
+    }
+  },
+  {
+    "sampledAt": 12369,
+    "result": {
+      "ok": false,
+      "partialMatches": [
+        {
+          "ok": true,
+          "X": 5894,
+          "Y": 9190,
+          "score": 0.6002,
+          "runnerUp": 0.4095,
+          "exactScore": 0.7236,
+          "method": "local-contrast",
+          "contrastSigma": 3,
+          "part": "top"
+        }
+      ]
+    }
+  },
+  {
+    "sampledAt": 12853,
+    "result": {
+      "ok": false,
+      "partialMatches": [
+        {
+          "ok": true,
+          "X": 5894,
+          "Y": 9190,
+          "score": 0.6588,
+          "runnerUp": 0.4156000000000001,
+          "exactScore": 0.7762,
+          "method": "local-contrast",
+          "contrastSigma": 3,
+          "part": "top"
+        }
+      ]
+    }
+  }
+]
