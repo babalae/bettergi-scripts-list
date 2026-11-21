@@ -118,6 +118,27 @@
         "type": "separator"
     },
     {
+        "name": "checkMonthlyCard",
+        "type": "checkbox",
+        "label": "启用月卡剩余天数提醒",
+        "default": false
+    },
+    {
+        "name": "monthlyCardWarnDays",
+        "type": "input-text",
+        "label": "月卡剩余天数提醒阈值（低于等于此天数时通知）",
+        "default": "3"
+    },
+    {
+        "name": "monthlyCardOcrTimeout",
+        "type": "input-text",
+        "label": "月卡 OCR 超时时间（秒）",
+        "default": "15"
+    },
+    {
+        "type": "separator"
+    },
+    {
         "type": "separator"
     },
     {
