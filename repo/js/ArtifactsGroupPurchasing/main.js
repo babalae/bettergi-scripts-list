@@ -1,6 +1,7 @@
 const runExtra = settings.runExtra || false;
 const runExtraSnezhnaya = settings.runExtraSnezhnaya || false;
 const useAllTargetImages = settings.useAllTargetImages === true || settings.useAllTargetImages === "true";
+const energySavingPlaceholder = settings.energySavingPlaceholder === true || settings.energySavingPlaceholder === "true";
 const leaveTeamRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/leaveTeam.png"));
 const scrollRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/拾取滚轮.png"), 1017, 496, 1093 - 581, 581 - 496);
 const kick2pRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/RecognitionObject/kickButton.png"), 1520, 277, 230, 120);
@@ -400,14 +401,30 @@ async function runGroupPurchasing(runExtra) {
         await goToTarget(groupNumBer);
         let start = new Date();
         while (new Date() - start < 90 * 60 * 1000) {
-            // 界面稳定时才判定是否已退出世界
-            if (await isMainUI() && await getPlayerSign() === 0) {
-                break;
-            }
-            if (await waitForMainUI(false, 10 * 60 * 1000)) {
-                await waitForMainUI(true);
-                log.info("未处于单人界面，继续等待")
-                await genshin.returnMainUi();
+            if (energySavingPlaceholder) {
+                // ===== 节能占位模式：低频探测，书被关只提示不重开 =====
+                await sleep(15000);
+                // 书打开时 isMainUI() 恒为 false，变 true 说明书已关闭
+                if (await isMainUI()) {
+                    const sign = await getPlayerSign();
+                    if (sign === 0) {
+                        log.info("已回到单人世界，结束占位");
+                        break;
+                    }
+                    log.info("发现F1《冒险之证》被关闭，请手动打开");
+                    log.info(`当前识别为${sign}P`);
+                }
+            } else {
+                // ===== 原版逻辑 =====
+                // 界面稳定时才判定是否已退出世界
+                if (await isMainUI() && await getPlayerSign() === 0) {
+                    break;
+                }
+                if (await waitForMainUI(false, 10 * 60 * 1000)) {
+                    await waitForMainUI(true);
+                    log.info("未处于单人界面，继续等待")
+                    await genshin.returnMainUi();
+                }
             }
         }
         if (new Date() - start >= 90 * 60 * 1000) {
@@ -825,6 +842,13 @@ async function runGroupPurchasing(runExtra) {
 
         }
         log.info(`${folderName} 的全部路线已完成`);
+
+        // 节能占位模式：按 F1 打开《冒险之证》以降帧
+        if (energySavingPlaceholder) {
+            await keyPress("F1");
+            await sleep(1000);
+            log.info(`已开书，进入节能占位模式`);
+        }
     }
 }
 /**

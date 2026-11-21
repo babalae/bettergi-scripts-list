@@ -38,7 +38,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": ";万叶 attack(0.02),keydown(E),wait(0.47),keyup(E),attack(0.2);迪希雅 attack(0.05),keypress(E),wait(0.1),keypress(E);阿贝多 attack(0.05),keypress(E),wait(0.1),keypress(E);菈乌玛 attack(0.05),keypress(E),wait(0.1),keypress(E);少女 attack(0.05),keypress(E),wait(0.1),keypress(E);伊涅芙 attack(0.05),keypress(E),wait(0.1),keypress(E);茜特菈莉 attack(0.05),keypress(E),wait(0.1),keypress(E);凝光 attack(0.05),keypress(E),wait(0.1),keypress(E);云堇 attack(0.05),keypress(E),wait(0.1),keypress(E);久岐忍 attack(0.05),keypress(E),wait(0.1),keypress(E);五郎 attack(0.05),keypress(E),wait(0.1),keypress(E);北斗 attack(0.05),keypress(E),wait(0.1),keypress(E);砂糖 attack(0.05),keypress(E),wait(0.1),keypress(E);雷泽 attack(0.05),e(hold);琴 wait(0.2),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1),keyup(E),wait(0.3),click(middle);wait(0.5)",
+      "action_params": ";万叶 attack(0.02),keydown(E),keydown(S),wait(0.47),keyup(E),attack(0.2),keyup(S);迪希雅 attack(0.05),keypress(E),wait(0.1),keypress(E);阿贝多 attack(0.05),keypress(E),wait(0.1),keypress(E);菈乌玛 attack(0.05),keypress(E),wait(0.1),keypress(E);少女 attack(0.05),keypress(E),wait(0.1),keypress(E);伊涅芙 attack(0.05),keypress(E),wait(0.1),keypress(E);茜特菈莉 attack(0.05),keypress(E),wait(0.1),keypress(E);凝光 attack(0.05),keypress(E),wait(0.1),keypress(E);云堇 attack(0.05),keypress(E),wait(0.1),keypress(E);久岐忍 attack(0.05),keypress(E),wait(0.1),keypress(E);五郎 attack(0.05),keypress(E),wait(0.1),keypress(E);北斗 attack(0.05),keypress(E),wait(0.1),keypress(E);砂糖 attack(0.05),keypress(E),wait(0.1),keypress(E);雷泽 attack(0.05),e(hold);琴 wait(0.2),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1),keyup(E),wait(0.3),click(middle);wait(0.5)",
       "id": 3,
       "move_mode": "dash",
       "sync_point_id": "fight_1",
@@ -53,8 +53,8 @@
       "move_mode": "dash",
       "sync_point_id": "fight_2",
       "type": "target",
-      "x": 2590.4443,
-      "y": 9392.0039
+      "x": 2591.2598,
+      "y": 9393.5605
     },
     {
       "action": "force_tp",
@@ -94,13 +94,13 @@
     },
     {
       "action": "combat_script",
-      "action_params": ";万叶 attack(0.02),keydown(E),wait(0.47),keyup(E),attack(0.2);迪希雅 attack(0.05),keypress(E),wait(0.1),keypress(E);阿贝多 attack(0.05),keypress(E),wait(0.1),keypress(E);菈乌玛 attack(0.05),keypress(E),wait(0.1),keypress(E);少女 attack(0.05),keypress(E),wait(0.1),keypress(E);伊涅芙 attack(0.05),keypress(E),wait(0.1),keypress(E);茜特菈莉 attack(0.05),keypress(E),wait(0.1),keypress(E);凝光 attack(0.05),keypress(E),wait(0.1),keypress(E);云堇 attack(0.05),keypress(E),wait(0.1),keypress(E);久岐忍 attack(0.05),keypress(E),wait(0.1),keypress(E);五郎 attack(0.05),keypress(E),wait(0.1),keypress(E);北斗 attack(0.05),keypress(E),wait(0.1),keypress(E);砂糖 attack(0.05),keypress(E),wait(0.1),keypress(E);雷泽 attack(0.05),e(hold);琴 wait(0.2),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1),keyup(E),wait(0.3),click(middle);wait(0.5)",
+      "action_params": ";万叶 attack(0.02),keydown(E),keydown(S),wait(0.47),keyup(E),attack(0.2),keyup(S);迪希雅 attack(0.05),keypress(E),wait(0.1),keypress(E);阿贝多 attack(0.05),keypress(E),wait(0.1),keypress(E);菈乌玛 attack(0.05),keypress(E),wait(0.1),keypress(E);少女 attack(0.05),keypress(E),wait(0.1),keypress(E);伊涅芙 attack(0.05),keypress(E),wait(0.1),keypress(E);茜特菈莉 attack(0.05),keypress(E),wait(0.1),keypress(E);凝光 attack(0.05),keypress(E),wait(0.1),keypress(E);云堇 attack(0.05),keypress(E),wait(0.1),keypress(E);久岐忍 attack(0.05),keypress(E),wait(0.1),keypress(E);五郎 attack(0.05),keypress(E),wait(0.1),keypress(E);北斗 attack(0.05),keypress(E),wait(0.1),keypress(E);砂糖 attack(0.05),keypress(E),wait(0.1),keypress(E);雷泽 attack(0.05),e(hold);琴 wait(0.2),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1),keyup(E),wait(0.3),click(middle);wait(0.5)",
       "id": 9,
       "move_mode": "dash",
       "sync_point_id": "fight_3",
       "type": "target",
-      "x": 2469.2969,
-      "y": 9291.4473
+      "x": 2470.6006,
+      "y": 9290.0098
     },
     {
       "action": "combat_script",
@@ -109,8 +109,8 @@
       "move_mode": "dash",
       "sync_point_id": "fight_4",
       "type": "target",
-      "x": 2469.2969,
-      "y": 9291.4473
+      "x": 2467.3223,
+      "y": 9291.9766
     }
   ]
 }
