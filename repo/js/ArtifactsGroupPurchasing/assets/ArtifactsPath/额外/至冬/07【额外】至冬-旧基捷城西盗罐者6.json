@@ -57,7 +57,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": ";万叶 attack(0.02),keydown(E),wait(0.8),keyup(E),attack(0.2);wait(0.5)",
+      "action_params": ";万叶 attack(0.02),keydown(E),keydown(S),wait(0.8),keyup(E),attack(0.2),keyup(S);wait(0.5)",
       "id": 5,
       "move_mode": "dash",
       "sync_point_id": "fight_1",
@@ -72,8 +72,8 @@
       "move_mode": "dash",
       "sync_point_id": "fight_2",
       "type": "target",
-      "x": 2801.7422,
-      "y": 9463.4063
+      "x": 2800.3477,
+      "y": 9464.5176
     },
     {
       "action": "force_tp",
@@ -104,7 +104,7 @@
     },
     {
       "action": "combat_script",
-      "action_params": ";万叶 attack(0.02),keydown(E),wait(0.8),keyup(E),attack(0.2);wait(0.5)",
+      "action_params": ";万叶 attack(0.02),keydown(E),keydown(S),wait(0.8),keyup(E),attack(0.2),keyup(S);wait(0.5)",
       "id": 10,
       "move_mode": "dash",
       "sync_point_id": "fight_3",
@@ -119,8 +119,8 @@
       "move_mode": "dash",
       "sync_point_id": "fight_4",
       "type": "target",
-      "x": 2765.5996,
-      "y": 9403.0137
+      "x": 2764.4668,
+      "y": 9402.2588
     }
   ]
 }
