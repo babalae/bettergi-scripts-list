@@ -1,0 +1,56 @@
+[
+  {
+    "name": "npc",
+    "type": "input-text",
+    "label": "要寻找的 NPC 名称",
+    "default": "淮安"
+  },
+  {
+    "name": "routeFile",
+    "type": "input-text",
+    "label": "巡逻路线文件（放在 assets/Pathing 下）",
+    "default": "暂行之策-安全下楼与巡逻.json"
+  },
+  {
+    "name": "patrolStartIndex",
+    "type": "input-text",
+    "label": "巡逻环起点编号（从 1 开始）",
+    "default": 8
+  },
+  {
+    "name": "approachPointCount",
+    "type": "input-text",
+    "label": "安全下楼回放使用的点位数量",
+    "default": 8
+  },
+  {
+    "name": "maxRounds",
+    "type": "input-text",
+    "label": "最多巡逻圈数",
+    "default": 6
+  },
+  {
+    "name": "timeoutSeconds",
+    "type": "input-text",
+    "label": "巡逻总超时（秒）",
+    "default": 240
+  },
+  {
+    "name": "arrivalDistance",
+    "type": "input-text",
+    "label": "到达点位的判定距离",
+    "default": 1.2
+  },
+  {
+    "name": "noSkip",
+    "type": "checkbox",
+    "label": "运行期间不启用自动剧情",
+    "default": false
+  },
+  {
+    "name": "noEat",
+    "type": "checkbox",
+    "label": "运行期间不启用自动吃药",
+    "default": false
+  }
+]

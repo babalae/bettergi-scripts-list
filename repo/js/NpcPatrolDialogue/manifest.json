@@ -1,0 +1,22 @@
+{
+  "manifest_version": 1,
+  "name": "NPC巡逻对话",
+  "version": "1.0",
+  "bgi_version": "0.47.3",
+  "description": "按录制路线巡逻，识别 F 交互列表并确认目标 NPC 后对话；不依赖修改自动剧情加载器",
+  "tags": [
+    "委托",
+    "工具"
+  ],
+  "authors": [
+    {
+      "name": "烤着吃",
+      "link": "https://github.com/cowxzzz-a11y"
+    }
+  ],
+  "library": [
+    "src"
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js"
+}

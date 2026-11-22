@@ -1,0 +1,142 @@
+{
+  "info": {
+    "name": "暂行之策-安全下楼与巡逻",
+    "type": "collect",
+    "author": "烤着吃",
+    "version": "1.1",
+    "description": "安全下楼新录制路径 + 原大厅巡逻路线；入口飞行与收翼动作保留",
+    "map_name": "Teyvat",
+    "bgi_version": "0.47.2"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 328.9580078125,
+      "y": 873.638671875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 327.3203125,
+      "y": 882.6708984375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target",
+      "optimize": false
+    },
+    {
+      "id": 3,
+      "x": 329.6630859375,
+      "y": 887.1787109375,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target",
+      "optimize": false
+    },
+    {
+      "id": 4,
+      "x": 338.35546875,
+      "y": 888.705078125,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "target",
+      "optimize": false
+    },
+    {
+      "id": 5,
+      "x": 342.927734375,
+      "y": 896.3837890625,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 345.22265625,
+      "y": 901.44140625,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 348.55078125,
+      "y": 906.248046875,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 348.55078125,
+      "y": 906.248046875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": 346.8525390625,
+      "y": 907.533203125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 364.404296875,
+      "y": 926.1767578125,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 367.1689453125,
+      "y": 913.005859375,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 357.1162109375,
+      "y": 913.056640625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": 345.5361328125,
+      "y": 902.875,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": 346.232421875,
+      "y": 908.337890625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}
