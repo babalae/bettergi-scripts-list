@@ -9,10 +9,10 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1792719642150,
+    "last_modified_time": 1792719513806,
     "map_match_method": "",
     "map_name": "Enkanomiya",
-    "name": "12深渊法师-大日御舆西北-1个-火",
+    "name": "10-深渊法师-蛇心之地东-1个-雷",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,17 +24,26 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 283.0918,
-      "y": 419.2775
+      "x": 199.0433,
+      "y": -182.7988
     },
     {
-      "action": "fight",
+      "action": "",
       "action_params": "",
       "id": 2,
       "move_mode": "dash",
       "type": "path",
-      "x": 310.795,
-      "y": 427.3505
+      "x": 155.4148,
+      "y": -140.3003
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 156.8499,
+      "y": -108.0251
     }
   ]
 }

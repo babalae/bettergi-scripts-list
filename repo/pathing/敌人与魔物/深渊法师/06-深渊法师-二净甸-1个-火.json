@@ -9,10 +9,10 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1792719600830,
+    "last_modified_time": 1792718992798,
     "map_match_method": "",
-    "map_name": "Enkanomiya",
-    "name": "11深渊法师-大日御舆西-1个-火",
+    "map_name": "Teyvat",
+    "name": "06-深渊法师-二净甸-1个-火",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,17 +24,17 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 285.4738,
-      "y": 277.4861
+      "x": 3068.1563,
+      "y": -713.6152
     },
     {
-      "action": "",
+      "action": "stop_flying",
       "action_params": "",
       "id": 2,
-      "move_mode": "dash",
+      "move_mode": "fly",
       "type": "path",
-      "x": 279.6351,
-      "y": 313.3436
+      "x": 3154.749,
+      "y": -704.5391
     },
     {
       "action": "fight",
@@ -42,8 +42,8 @@
       "id": 3,
       "move_mode": "dash",
       "type": "path",
-      "x": 261.6007,
-      "y": 323.5968
+      "x": 3154.749,
+      "y": -704.5391
     }
   ]
 }

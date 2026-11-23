@@ -9,10 +9,10 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1792719855038,
+    "last_modified_time": 1792719027839,
     "map_match_method": "",
-    "map_name": "TheChasm",
-    "name": "14深渊法师-巨渊主矿区-1个-火",
+    "map_name": "Teyvat",
+    "name": "07-深渊法师-沉玉谷-4个-冰火雷丘",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,8 +24,8 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 278.5392,
-      "y": 767.4822
+      "x": 2464.7363,
+      "y": 1801.4775
     },
     {
       "action": "stop_flying",
@@ -34,8 +34,8 @@
       "locked": false,
       "move_mode": "fly",
       "type": "path",
-      "x": 232.0505,
-      "y": 808.2795
+      "x": 2514.5117,
+      "y": 1699.2441
     },
     {
       "action": "fight",
@@ -43,8 +43,17 @@
       "id": 3,
       "move_mode": "walk",
       "type": "path",
-      "x": 232.0505,
-      "y": 808.2795
+      "x": 2514.5117,
+      "y": 1699.2441
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2509.6709,
+      "y": 1710.8398
     }
   ]
 }

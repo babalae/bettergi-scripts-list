@@ -9,10 +9,10 @@
     "bgi_version": "0.52.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1792719022494,
+    "last_modified_time": 1792719314903,
     "map_match_method": "",
     "map_name": "Teyvat",
-    "name": "01深渊法师-茶泥黑渊-1个-火",
+    "name": "08-深渊法师-鹤观-4个-火雷",
     "tags": [],
     "type": "collect",
     "version": "1.0"
@@ -24,35 +24,26 @@
       "id": 1,
       "move_mode": "walk",
       "type": "teleport",
-      "x": 6339.7715,
-      "y": 738.6133
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 2,
-      "move_mode": "dash",
-      "type": "path",
-      "x": 6339.7715,
-      "y": 738.6133
-    },
-    {
-      "action": "",
-      "action_params": "",
-      "id": 3,
-      "move_mode": "jump",
-      "type": "path",
-      "x": 6315.4258,
-      "y": 690.7227
+      "x": -2836.5508,
+      "y": -6287.2207
     },
     {
       "action": "fight",
       "action_params": "",
-      "id": 4,
-      "move_mode": "walk",
+      "id": 2,
+      "move_mode": "dash",
       "type": "path",
-      "x": 6322.499,
-      "y": 668.2285
+      "x": -2866.1777,
+      "y": -6276.8066
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2847.4961,
+      "y": -6235.9648
     }
   ]
 }
