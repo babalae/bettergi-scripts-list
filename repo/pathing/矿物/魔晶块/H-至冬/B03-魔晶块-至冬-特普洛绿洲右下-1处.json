@@ -9,7 +9,7 @@
     "bgi_version": "0.66.2",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1794384687210,
+    "last_modified_time": 1795480664390,
     "map_match_method": "SIFT",
     "map_name": "Teyvat",
     "name": "B03-魔晶块-至冬-特普洛绿洲右下-1处",
@@ -22,7 +22,6 @@
       "action": "force_tp",
       "action_params": "",
       "id": 1,
-      "locked": false,
       "move_mode": "walk",
       "type": "teleport",
       "x": 3818.4912,
@@ -32,7 +31,6 @@
       "action": "",
       "action_params": "",
       "id": 2,
-      "locked": false,
       "move_mode": "run",
       "type": "path",
       "x": 3790.209,
@@ -42,7 +40,6 @@
       "action": "",
       "action_params": "",
       "id": 3,
-      "locked": false,
       "move_mode": "run",
       "type": "path",
       "x": 3740.6758,
@@ -52,7 +49,6 @@
       "action": "",
       "action_params": "",
       "id": 4,
-      "locked": false,
       "move_mode": "run",
       "type": "path",
       "x": 3740.5527,
@@ -62,30 +58,38 @@
       "action": "mining",
       "action_params": "",
       "id": 5,
-      "locked": false,
       "move_mode": "walk",
       "type": "path",
       "x": 3735.9902,
       "y": 10090.1064
     },
     {
-      "action": "combat_script",
-      "action_params": "w(0.2),click(middle),wait(0.5);莉奈娅 charge(0.8),wait(2);",
+      "action": "",
+      "action_params": "",
       "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3736.7822,
+      "y": 10095.4053
+    },
+    {
+      "action": "mining",
+      "action_params": "",
+      "id": 7,
       "locked": false,
       "move_mode": "walk",
       "type": "path",
-      "x": 3732.3477,
-      "y": 10092.1953
+      "x": 3731.5586,
+      "y": 10094.2744
     },
     {
       "action": "combat_script",
-      "action_params": "wait(2)",
-      "id": 7,
+      "action_params": "wait(2)\n\n",
+      "id": 8,
       "move_mode": "walk",
       "type": "path",
-      "x": 3732.3477,
-      "y": 10092.1953
+      "x": 3731.5586,
+      "y": 10094.2744
     }
   ]
 }
