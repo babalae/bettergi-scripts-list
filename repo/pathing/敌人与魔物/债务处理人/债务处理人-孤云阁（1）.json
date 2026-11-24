@@ -1,0 +1,86 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "烤鱼"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "hash_res": "58977054",
+    "last_modified_time": 1795159225111,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "债务处理人-孤云阁（1）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -657.56,
+      "y": -90.86
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -602.5469,
+      "y": -122.417
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(x);伊涅芙 e;芙宁娜 e;爱可菲 e;哥伦比娅 e;",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -567.5684,
+      "y": -120.7764
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -559.082,
+      "y": -128.6699
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -559.082,
+      "y": -128.6699
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -507.2148,
+      "y": -147.6191
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -474.2578,
+      "y": -155.0156
+    }
+  ]
+}
