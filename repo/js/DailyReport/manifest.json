@@ -1,0 +1,18 @@
+{
+  "manifest_version": 1,
+  "name": "每日日报",
+  "version": "0.1.0",
+  "bgi_version": "0.60",
+  "description": "识别每日委托、树脂、原石、历练点，支持多账号缓存后打印总览",
+  "authors": [
+    {
+      "name": "lingyu",
+      "links": "https://github.com/aaahai00"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js",
+  "saved_files": [
+    "account_cache.json"
+  ]
+}

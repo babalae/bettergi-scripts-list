@@ -173,21 +173,76 @@
         if (step > 0) await sleep(step);
     }
 
+    // ===== 月卡弹窗检测：轮询到弹窗出现就点掉 =====
+    // 返回 "claimed"（检测到并已点掉）| "stuck"（检测到但未能关闭）|
+    //      "not-found"（等待上限内未出现）| "cancelled"（被手动停止）
+    // 识别图取自「自动月卡」脚本（SkipMonthlyCard）。
+    async function claimWelkinMoon(maxSec) {
+        const tpl = (name) => RecognitionObject.TemplateMatch(
+            file.ReadImageMatSync("assets/" + name + ".png"), 0, 0, 1920, 1080);
+        const ros = [tpl("welkin_moon_logo"), tpl("girl_moon"), tpl("primogem")];
+        const popupVisible = () => {
+            const ra = captureGameRegion();
+            try {
+                return ros.some((ro) => ra.find(ro).isExist());
+            } catch (e) {
+                return false;
+            } finally {
+                ra.dispose();
+            }
+        };
+        const deadline = Date.now() + maxSec * 1000;
+        let seen = false, clearCount = 0;
+        while (Date.now() < deadline) {
+            if (isCancelled()) return "cancelled";
+            if (popupVisible()) {
+                seen = true;
+                clearCount = 0;
+                click(100, 100); // 双击空白处，快速跳过领取动画与原石界面
+                await sleep(100);
+                click(100, 100);
+                await sleep(500);
+            } else if (seen) {
+                // 连续 3 次看不到才算处理完，避免界面淡入淡出时误判
+                if (++clearCount >= 3) return "claimed";
+                await sleep(500);
+            } else {
+                // 识别图失效时的补充：BGI 内置检测（只在服务器时间 03:55–04:05 内生效）
+                try { await genshin.blessingOfTheWelkinMoon(); } catch (e) { }
+                await sleep(1000);
+            }
+        }
+        if (!seen) return "not-found";
+        return clearCount > 0 ? "claimed" : "stuck";
+    }
+
     // ===== 结束处理 =====
     // 可选：领取「空月祝福（月卡）」奖励。
-    // 在每日重置后，购买月卡的账号会弹出领取窗口，若下一个任务不处理会被卡住。
-    // genshin.blessingOfTheWelkinMoon() 为 BGI 官方函数，内部用图像识别完成
-    // “双击领取 + 点击空白离开”，未购买月卡时也能安全跳过。
+    // 每日重置后，购买月卡的账号会弹出领取窗口，若不处理会卡住下一个任务。
+    // 弹窗出现的时刻不固定（重置后数秒到数十秒不等），所以持续轮询检测，最多等待设定秒数。
+    // 不能只调用一次 genshin.blessingOfTheWelkinMoon()：它只截一张图，且仅在服务器时间
+    // 03:55–04:05 内生效，弹窗晚出现或等待终点稍晚都会被静默错过。
     let claimWelkin = (settings.claim_welkin != undefined ? settings.claim_welkin : '否') === '是';
     if (claimWelkin) {
+        let waitSec = toInt(settings.welkin_wait_sec, 120);
+        if (waitSec < 10) waitSec = 10;
         try {
-            log.info("尝试领取空月祝福（月卡）奖励...");
-            await sleep(5000); // 给更新后的领取弹窗一点出现/渲染时间
-            await genshin.blessingOfTheWelkinMoon();
-            await genshin.returnMainUi(); // 领取后回到主界面，确保不卡住下一个任务
-            log.info("空月祝福处理完成");
+            log.info("开始等待空月祝福（月卡）弹窗，最多 {0} 秒...", waitSec);
+            let result = await claimWelkinMoon(waitSec);
+            if (result === "cancelled") {
+                log.warn("等待月卡弹窗时被手动中断");
+                return;
+            }
+            if (result === "claimed") {
+                log.info("已领取空月祝福（月卡）");
+            } else if (result === "stuck") {
+                log.warn("检测到空月祝福弹窗，但 {0} 秒内未能关闭，请检查游戏画面", waitSec);
+            } else {
+                log.warn("{0} 秒内未检测到空月祝福弹窗，已跳过（可能未购买月卡、今天已经领过，或已由 BGI 内置功能处理：上方日志若有「空月祝福处理完毕」即为后者）", waitSec);
+            }
+            await genshin.returnMainUi(); // 回到主界面，确保不卡住下一个任务
         } catch (e) {
-            log.warn("领取空月祝福失败（可能未购买月卡或界面异常），已跳过：{0}", e);
+            log.warn("领取空月祝福时出错，已跳过：{0}", e);
         }
     }
 

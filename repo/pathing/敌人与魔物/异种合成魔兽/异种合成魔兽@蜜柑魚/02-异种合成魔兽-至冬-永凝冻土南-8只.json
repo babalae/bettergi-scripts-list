@@ -1,0 +1,103 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.67.0",
+    "description": "  路线信息：该路线预计用时42秒，包含以下怪物：4只嵌合梭地兽、3只嵌合鍪甲兽、1只嵌合角熊。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1790355834561,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "02-异种合成魔兽-至冬-永凝冻土南-8只",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7328.6201,
+      "y": 8684.1602
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7291.041,
+      "y": 8704.4238
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";茜特菈莉 attack(0.05),keypress(E),wait(0.1),keypress(E);莱依拉 attack(0.05),keypress(E),wait(0.1),keypress(E);伊涅芙 attack(0.05),keypress(E),wait(0.1),keypress(E);尼可 attack(0.05),keypress(E),wait(0.1),keypress(E);",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7268.1602,
+      "y": 8757.4795
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";万叶 attack(0.08),keydown(E),wait(0.8),keyup(E),attack(0.2),wait(0.5),keypress(Q),wait(0.1),keypress(Q); ;",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7271.0752,
+      "y": 8799.2695
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7274.001,
+      "y": 8789.8945
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7234.6826,
+      "y": 8818.5273
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";茜特菈莉 attack(0.05),keypress(E),wait(0.1),keypress(E);莱依拉 attack(0.05),keypress(E),wait(0.1),keypress(E);伊涅芙 attack(0.05),keypress(E),wait(0.1),keypress(E);尼可 attack(0.05),keypress(E),wait(0.1),keypress(E);",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7208.1533,
+      "y": 8839.0479
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";万叶 attack(0.08),keydown(E),wait(0.8),keyup(E),attack(0.2),wait(0.5),keypress(Q),wait(0.1),keypress(Q); ;",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7210.3145,
+      "y": 8814.4971
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7210.3145,
+      "y": 8814.4971
+    }
+  ]
+}

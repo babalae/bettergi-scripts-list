@@ -1,0 +1,103 @@
+{
+  "info": {
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "bgi_version": "0.67.0",
+    "description": "  路线信息：该路线预计用时73.5秒，包含以下怪物：3只冰结镜映体。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1794508340678,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "01-无智的凝冰体-至冬-新基捷城市区神像东-3只",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4245.7422,
+      "y": 9830.0234
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4261.1367,
+      "y": 9855.3076
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";钟离 a(0.1),e(hold);茜特菈莉 attack(0.08),keypress(E),wait(0.1),keypress(E);莱依拉 attack(0.08),keypress(E),wait(0.1),keypress(E);伊涅芙 attack(0.08),keypress(E),wait(0.1),keypress(E);尼可 attack(0.08),keypress(E),wait(0.1),keypress(E); ;",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4307.0996,
+      "y": 9881.6279
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4333.9229,
+      "y": 9896.1328
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4333.7402,
+      "y": 9914.5039
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";钟离 a(0.1),e(hold);茜特菈莉 attack(0.08),keypress(E),wait(0.1),keypress(E);莱依拉 attack(0.08),keypress(E),wait(0.1),keypress(E);伊涅芙 attack(0.08),keypress(E),wait(0.1),keypress(E);尼可 attack(0.08),keypress(E),wait(0.1),keypress(E); ;",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4361.5293,
+      "y": 9827.5537
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4360.3643,
+      "y": 9796.7412
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";钟离 a(0.1),e(hold);茜特菈莉 attack(0.08),keypress(E),wait(0.1),keypress(E);莱依拉 attack(0.08),keypress(E),wait(0.1),keypress(E);伊涅芙 attack(0.08),keypress(E),wait(0.1),keypress(E);尼可 attack(0.08),keypress(E),wait(0.1),keypress(E); ;",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4403.6602,
+      "y": 9795.7549
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4428.5391,
+      "y": 9792.0957
+    }
+  ]
+}

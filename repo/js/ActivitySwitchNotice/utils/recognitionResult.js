@@ -23,7 +23,7 @@ export async function beginRecognitionRun() {
         error: null,
         sections: {}
     };
-    for (const name of ["mapMission", "holyRelics", "dailyCommission", "longTermTrainingPoints", "campaignArea", "activity"]) {
+    for (const name of ["mapMission", "holyRelics", "dailyCommission", "longTermTrainingPoints", "campaignArea", "activity", "monthlyCard"]) {
         snapshot.sections[name] = {status: "pending", data: null, reason: null};
     }
     // 必须先使旧结果失效；失败时中止，不能继续产生无法保存的新结果。
