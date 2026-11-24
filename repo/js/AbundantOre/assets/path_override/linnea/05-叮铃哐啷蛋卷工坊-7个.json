@@ -9,7 +9,7 @@
     "bgi_version": "0.50.0",
     "description": "",
     "enable_monster_loot_split": false,
-    "last_modified_time": 1789836949110,
+    "last_modified_time": 1795163697455,
     "map_match_method": "",
     "map_name": "Teyvat",
     "name": "05-叮铃哐啷蛋卷工坊-7个",
@@ -103,16 +103,16 @@
       "action": "",
       "action_params": "",
       "id": 10,
-      "move_mode": "dash",
+      "move_mode": "jump",
       "type": "path",
       "x": 10037.8633,
       "y": 1664.3232
     },
     {
       "action": "combat_script",
-      "action_params": "莉奈娅 w(0.05),wait(0.05),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "action_params": "莉奈娅 w(0.05),wait(0.3),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
       "id": 11,
-      "move_mode": "jump",
+      "move_mode": "dash",
       "type": "path",
       "x": 10043.164,
       "y": 1663.9344

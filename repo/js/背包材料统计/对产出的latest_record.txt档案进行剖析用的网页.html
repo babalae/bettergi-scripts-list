@@ -1,7 +1,7 @@
 <!--
 由蜜柑魚制作
 使用说明
-    使用电脑端打开网页，将 latest_record.txt 文件拖放至页面，即可显示扫描结果。
+    使用电脑端打开网页，将 latest_record.txt 或 扫描结果历史记录.txt 拖放至页面，即可显示扫描结果。
     注意：请至少扫描 两次记录 以比对物品数量变化。
     
     主要功能
@@ -54,8 +54,22 @@
     1.修復：上次未記錄的物品視為0，以參與差異計算
     2.月之六版本材料列表更新
     3.[ 鍵 - 自由编辑网页
-1.7
+1.8
     1.月之八版本材料列表更新
+2.0
+    1.新版本材料列表更新
+    2.分類標題與表頭浮動置頂
+        向下捲動時，分類標題（怪物掉落素材 ▼ 等）固定在視窗頂部
+        表頭（物品名 / 稀有度排序 / 日期 / 變更數量）緊貼在分類標題下方
+        長表格捲動時始終可見，不必再往回翻
+2.1
+    1.兼容「扫描结果历史记录.txt」格式
+        自动识别两种文件：
+            - latest_record.txt（全材料扫描 - 类别 种类: N 数量: ...）
+            - 扫描结果历史记录.txt（===== 第 N 次 ===== + 【类别】 + 名称 ×数量）
+        两种格式的显示结果一致：物品名 / 上次数量 / 本次数量 / 变更数量
+        内部统一按时间由新到旧排序，取每个类别最新两次扫描进行比对
+    2.新版本材料列表更新
 -->
 <!DOCTYPE html>
 <html lang="zh-TW">
@@ -145,6 +159,7 @@
         body.dark-mode .category-header {
             background: #2a2a2a;
             border-bottom: 1px solid #333;
+            box-shadow: 0 1px 0 #333, 0 4px 8px -6px rgba(0, 0, 0, .6);
         }
 
         body.dark-mode .category-header h3 {
@@ -211,7 +226,8 @@
             border: 1px solid #e0e0e0;
             border-radius: 8px;
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
-            overflow: hidden;
+            /* 同理：hidden 会裁剪 sticky 元素，换成 visible。 */
+            overflow: visible;
             position: relative;
         }
 
@@ -317,7 +333,11 @@
             display: none;
             flex: 1;
             flex-direction: column;
-            overflow: auto;
+            /* 关键：不能是 auto/scroll/hidden。
+               body 是 min-height:100vh，内容会把 body 撑高、由 window 滚动，
+               而 overflow:auto 的 .results 自己永远滚不动 —— 它一旦成为滚动容器，
+               里面的 sticky 就被锁死在这个不滚动的盒子里，表现为「贴不住顶」。 */
+            overflow: visible;
             padding: 0;
         }
 
@@ -325,7 +345,11 @@
             margin-bottom: 25px;
             border: 1px solid #e2e8f0;
             border-radius: 6px;
-            overflow: hidden;
+            /* 必须 overflow:visible。sticky 元素粘住时会超出父容器边界，
+               父级只要是 hidden / clip 就会把它裁掉 —— 表现就是「贴不住顶」。 */
+            overflow: visible;
+            /* 不要被 column flex 压扁，否则表格会被挤 */
+            flex: none;
         }
 
         .category-header {
@@ -336,6 +360,11 @@
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
+            /* 分类标题：浮顶第一层 */
+            position: sticky;
+            top: 0;
+            z-index: 5;
+            box-shadow: 0 1px 0 #e2e8f0, 0 4px 8px -6px rgba(0, 0, 0, .18);
         }
 
         .category-header h3 {
@@ -362,6 +391,12 @@
             font-weight: 500;
             color: #4a5568;
             border-bottom: 1px solid #e2e8f0;
+            /* 列头：浮顶第二层，紧贴在分类标题下方
+               --cat-h 由 JS 量出每个分类标题的实际高度后写入 */
+            position: sticky;
+            top: var(--cat-h, 54px);
+            z-index: 4;
+            box-shadow: 0 1px 0 #e2e8f0;
         }
 
         .material-table td {
@@ -702,7 +737,8 @@
     <div class="container">
         <div id="resultsSection">
             <div id="dropZone">
-                <h2>拖拽 latest_record.txt 文件到此处</h2>
+                <h2>拖拽 latest_record.txt 或 扫描结果历史记录.txt 到此处</h2>
+                <p style="margin-top: 12px; font-size: 0.9rem;">自动识别两种文件格式，显示效果一致</p>
             </div>
 
             <div class="loading" id="loadingIndicator">
@@ -741,7 +777,8 @@
             '地脉的新芽', '雾虚灯芯', '漫游者的盛放之花', '黑晶号角', '混沌锚栓', '混沌炉心',
             '辉光棱晶', '隐兽鬼爪', '初生的浊水幻灵', '异界生命核', '役人的时时刻刻', '渊光鳍翅',
             '未熄的剑柄', '秘源真芯', '意志巡游的符像', '聚燃的游像眼', '迷光的蜷叶之心', '明燃的棱状壳',
-            '大英雄的经验', '幽雾兜盔', '霜夜的煌荣', '繁光躯外骸', '深黯的钩喙', '宝饰的焰剑','无秽的月铁'
+            '大英雄的经验', '幽雾兜盔', '霜夜的煌荣', '繁光躯外骸', '深黯的钩喙', '宝饰的焰剑','无秽的月铁' ,
+            '灵生盘枝心','沉积增生物',"雪结无明心"
         ];
 
         // 藍
@@ -753,7 +790,7 @@
             '混沌模块', '何人所珍藏之花', '隐兽利爪', '浊水的一掬', '外世突触', '役人的制式怀表',
             '月色鳍翅', '裂断的剑柄', '秘源机鞘', '意志明晰的寄偶', '聚燃的命种', '惑光的阔叶', '蕴热的背壳',
             '冒险家的经验', '霜镌的执凭', '精制机轴', '幽雾片甲', '霜夜的柔辉', '稀光遗骼', '深黯的怪核',
-            '残失的焰剑','空竭的月铁'
+            '残失的焰剑','空竭的月铁','灵生分蘖节','沉积结块','源生嵌合体','幻造晶鳞石',"雪结镜心"
         ];
 
         // 綠
@@ -764,14 +801,15 @@
             '混沌装置', '雾虚花粉', '猎兵祭刀', '脆弱的骨片', '隐兽指爪', '残毁的横脊', '来自何处的待放之花',
             '破缺棱晶', '混沌容器', '浊水的一滴', '隙间之核', '老旧的役人怀表', '羽状鳍翅', '残毁的剑柄',
             '秘源轴', '意志破碎的残片', '聚燃的石块', '折光的胚芽', '冷裂壳块', '流浪者的经验', '精致的执凭',
-            '加固机轴', '幽雾化形', '霜夜的残照', '失光块骨', '深黯的裂眼', '失色的焰剑','残损的月铁'
+            '加固机轴', '幽雾化形', '霜夜的残照', '失光块骨', '深黯的裂眼', '失色的焰剑','残损的月铁',
+            '灵生空根','沉积残片','并生嵌合胞',"幻造裂晶","雪结片心"
         ];
 
         // 灰
         const RARITY_2_ITEMS = [
             '牢固的箭簇', '史莱姆凝液', '寻宝鸦印', '新兵的徽记', '破损的面具', '导能绘卷', '骗骗花蜜',
             '破旧的刀镡', '浮游干核', '蕈兽孢子', '褪色红绸', '啮合齿轮', '异海凝珠', '稚嫩的尖齿', '卫从的木哨',
-            '磨损的执凭', '毁损机轴'
+            '磨损的执凭', '毁损机轴','嵌合种','幻造萤屑'
         ];
 
         // 特定矿石列表（需要特殊数量标记）
@@ -929,6 +967,8 @@
                         displayResults(result);
                         loadingIndicator.style.display = 'none';
                         resultsContainer.style.display = 'flex';
+                        // displayResults 时容器还是 display:none，量不到高度，这里补量一次
+                        syncStickyOffsets();
                     } catch (error) {
                         console.error(error);
                         showError('解析文件时出错: ' + error.message);
@@ -943,6 +983,7 @@
                 };
                 reader.readAsText(file);
             }
+
             // 改进的时间格式解析函数
             function parseDateTime(timeStr) {
                 // 尝试匹配各种格式
@@ -991,7 +1032,17 @@
                 return `${year}/${pad(month)}/${pad(day)} ${pad(hour24)}:${pad(minute)}:${pad(second)}`;
             }
 
+            // ============ 解析入口：自动识别两种文件格式 ============
             function parseFileContent(content) {
+                // 「扫描结果历史记录.txt」的标志：含有「背包扫描结果」或「===== 第 N 次 =====」
+                if (content.includes('背包扫描结果') || /^\s*={3,}\s*第\s*\d+\s*次/m.test(content)) {
+                    return parseHistoryRecord(content);
+                }
+                return parseLatestRecord(content);
+            }
+
+            // ============ 格式一：latest_record.txt ============
+            function parseLatestRecord(content) {
                 const lines = content.split('\n');
                 const records = {};
 
@@ -1003,7 +1054,6 @@
                     line = line.trim();
 
                     // 匹配时间戳行
-                    const parsedTime = parseDateTime(line);
                     if (line.match(/\d{4}[\/-]\d{1,2}[\/-]\d{1,2}/)) {
                         const parsedTime = parseDateTime(line);
                         if (parsedTime) {
@@ -1058,6 +1108,92 @@
                         items: { ...currentItems }
                     });
                 }
+
+                // 按时间由新到旧排序，保证 scans[0] 是最新一次
+                for (const cat of Object.keys(records)) {
+                    records[cat].sort((a, b) => b.timestamp.localeCompare(a.timestamp));
+                }
+
+                return records;
+            }
+
+            // ============ 格式二：扫描结果历史记录.txt ============
+            // 结构：
+            //   ===== 第 N 次 · 2026-11-16 15:25:41 · 耗时 38.4s =====
+            //   ...
+            //   【养成道具】390/468 种
+            //     大英雄的经验 ×1168
+            //     ...
+            //   【食物】559/1034 种
+            //     ...
+            function parseHistoryRecord(content) {
+                const lines = content.split('\n');
+                const records = {};
+
+                let currentTimestamp = null;
+                let currentCategory = null;
+                let currentItems = {};
+
+                const flush = () => {
+                    if (currentTimestamp && currentCategory) {
+                        if (!records[currentCategory]) {
+                            records[currentCategory] = [];
+                        }
+                        records[currentCategory].push({
+                            timestamp: currentTimestamp,
+                            items: { ...currentItems }
+                        });
+                    }
+                    currentCategory = null;
+                    currentItems = {};
+                };
+
+                for (let rawLine of lines) {
+                    const line = rawLine.replace(/\r$/, '')
+                    if (!line) continue;
+
+                    // 段标题：===== 第 2 次 · 2026-11-16 15:25:41 · 耗时 38.4s =====
+                    if (/^=+\s*第\s*\d+\s*次/.test(line)) {
+                        const t = parseDateTime(line);
+                        flush();
+                        currentTimestamp = t || null;
+                        continue;
+                    }
+
+                    // 时间行（备用）：时间：2026-11-16 15:25:41   耗时：38.4s
+                    if (!currentTimestamp) {
+                        const timeLine = line.match(/^时间[:：]\s*(.+)$/);
+                        if (timeLine) {
+                            currentTimestamp = parseDateTime(timeLine[1]);
+                            continue;
+                        }
+                    }
+
+                    // 类别行：【养成道具】390/468 种
+                    const catMatch = line.match(/^【([^】]+)】/);
+                    if (catMatch) {
+                        flush();
+                        currentCategory = catMatch[1].trim();
+                        continue;
+                    }
+
+                    // 物品行：大英雄的经验 ×1168 （仅在类别内解析，避免误读警告信息）
+                    if (currentCategory) {
+                        const itemMatch = line.match(/^(.+?)\s*×\s*(\d+)\s*$/);
+                        if (itemMatch) {
+                            const name = itemMatch[1].trim();
+                            const qty = parseInt(itemMatch[2], 10);
+                            currentItems[name] = qty;
+                        }
+                    }
+                }
+                flush();
+
+                // 按时间由新到旧排序，保证 scans[0] 是最新一次
+                for (const cat of Object.keys(records)) {
+                    records[cat].sort((a, b) => b.timestamp.localeCompare(a.timestamp));
+                }
+
                 return records;
             }
 
@@ -1113,8 +1249,15 @@
                     resultsContainer.classList.remove('show-no-change');
                 }
 
+                let renderedCount = 0;      // 成功显示的分类数
+                let singleScanCount = 0;    // 只有一次扫描（无法比对）的分类数
+
                 for (const [category, scans] of Object.entries(records)) {
-                    if (scans.length < 2) continue;
+                    if (scans.length === 0) continue;
+                    if (scans.length < 2) {
+                        singleScanCount++;
+                        continue;
+                    }
                     const latestScan = scans[0];
                     const previousScan = scans[1];
 
@@ -1233,15 +1376,9 @@
                             continue; // 如果有問號，則跳過該物品（無法比較）
                         }
 
-                        // 检查是否无法比较（有问号或不存在）
-                        if (previousQty === undefined || latestQty === '?' || previousQty === '?') {
-                            continue;
-                        }
-
                         const change = latestQty - previousQty;
                         const changeClass = change > 0 ? 'increase' : (change < 0 ? 'decrease' : 'no-change');
                         const changeSign = change > 0 ? '+' : (change < 0 ? '' : '');
-
 
                         // 确定物品的稀有度类
                         let rarityClass = '';
@@ -1296,17 +1433,41 @@
                         // 给较新日期列添加未激活指示
                         const newQtyHeader = section.querySelector('[data-sort-type="newQty"]');
                         newQtyHeader.classList.add('inactive');
+
+                        renderedCount++;
                     }
                 }
 
                 // 如果没有数据显示提示
-                if (resultsContainer.children.length === 0) {
-                    resultsContainer.innerHTML = '<div class="no-data" style="padding: 20px; text-align: center;">没有检测到材料数量变化</div>';
+                if (renderedCount === 0) {
+                    if (singleScanCount > 0) {
+                        resultsContainer.innerHTML =
+                            '<div class="no-data" style="padding: 20px; text-align: center; line-height: 1.9;">' +
+                            '已识别文件格式，但每个分类至少需要 <b>两次</b> 扫描记录才能比对。<br>' +
+                            '当前文件中的分类只有 1 次扫描，请提供包含多次扫描的文件。' +
+                            '</div>';
+                    } else {
+                        resultsContainer.innerHTML =
+                            '<div class="no-data" style="padding: 20px; text-align: center;">没有检测到材料数量变化</div>';
+                    }
                 }
 
                 // 如果显示预期天数功能开启，则更新显示
                 if (showExpectedDays) {
                     updateExpectedDays();
+                }
+
+                // 量出分类标题的实际高度，供表头 sticky 定位使用
+                syncStickyOffsets();
+            }
+
+            // 同步浮顶偏移：列头必须紧贴在分类标题的正下方
+            function syncStickyOffsets() {
+                const firstHeader = resultsContainer.querySelector('.category-header');
+                if (!firstHeader) return;
+                const h = firstHeader.getBoundingClientRect().height;
+                if (h > 0) {
+                    document.documentElement.style.setProperty('--cat-h', h + 'px');
                 }
             }
 
@@ -1367,6 +1528,12 @@
                 errorMessage.textContent = message;
                 errorMessage.style.display = 'block';
             }
+
+            // 窗口尺寸变化时重新量分类标题高度（字体缩放/换行会改变高度）
+            window.addEventListener('resize', syncStickyOffsets);
+
+            // 首屏如果没有数据（例如直接刷新），也量一次，避免表头叠在分类标题上
+            syncStickyOffsets();
         });
 
         // 添加切换显示无变化材料的函数
