@@ -50,46 +50,61 @@ async function ingredientProcessing() {
     }));
     log.info(`本次加工食材：${taskList}`);
     const stove = "蒙德炉子";
-    log.info(`正在前往${stove}进行食材加工`);
 
-    try {
-        let filePath = `assets/${stove}.json`;
-        await pathingScript.runFile(filePath);
-    } catch (error) {
-        log.error(`执行 ${stove} 路径时发生错误`);
-        return;
+    /* 🔍 先检查是不是已经在料理制作界面（省得跑路） */
+    // 食材加工2 = 已经在「食材加工」页；食材加工 = 在灶台界面但停在「料理制作」页
+    let onCookPage = await findPNG("食材加工2", 5);
+    let needSwitchTab = false;
+    if (!onCookPage && await findPNG("食材加工", 3)) {
+        onCookPage = true;
+        needSwitchTab = true;
     }
-
-    const res1 = await findPNG("交互烹饪锅");
-    if (res1) {
-        keyPress("F");
+    if (onCookPage) {
+        log.info(needSwitchTab ? "已在灶台界面，切到食材加工页~" : "已经在食材加工界面，跳过跑路流程~");
+        if (needSwitchTab) await clickPNG("食材加工");
     } else {
-        log.warn("烹饪按钮未找到，正在寻找……");
-        let attempts = 0;
-        const maxAttempts = 3;
-        let foundInRetry = false;
-        while (attempts < maxAttempts) {
-            log.info(`第${attempts + 1}次尝试寻找烹饪按钮`);
-            keyPress("W");
-            const res2 = await findPNG("交互烹饪锅");
-            if (res2) {
-                keyPress("F");
-                foundInRetry = true;
-                break;
-            } else {
-                attempts++;
-                await sleep(500);
-            }
-        }
-        if (!foundInRetry) {
-            log.error("多次未找到烹饪按钮，放弃");
+        log.info(`正在前往${stove}进行食材加工`);
+        try {
+            let filePath = `assets/${stove}.json`;
+            await pathingScript.runFile(filePath);
+        } catch (error) {
+            log.error(`执行 ${stove} 路径时发生错误`);
             return;
         }
+
+        const res1 = await findPNG("交互烹饪锅");
+        if (res1) {
+            keyPress("F");
+        } else {
+            log.warn("烹饪按钮未找到，正在寻找……");
+            let attempts = 0;
+            const maxAttempts = 3;
+            let foundInRetry = false;
+            while (attempts < maxAttempts) {
+                log.info(`第${attempts + 1}次尝试寻找烹饪按钮`);
+                keyPress("W");
+                const res2 = await findPNG("交互烹饪锅");
+                if (res2) {
+                    keyPress("F");
+                    foundInRetry = true;
+                    break;
+                } else {
+                    attempts++;
+                    await sleep(500);
+                }
+            }
+            if (!foundInRetry) {
+                log.error("多次未找到烹饪按钮，放弃");
+                return;
+            }
+        }
+        await clickPNG("食材加工");
     }
-    await clickPNG("食材加工");
 
     /* ===== 1. 公共加工流程 ===== */
     async function doCraft(i) {
+        setGameMetrics(1920, 1080, 1.25);
+
         await clickPNG("制作");
         await sleep(300);
 
@@ -98,7 +113,9 @@ async function ingredientProcessing() {
             log.warn(`检测到${tasks[i].name}队列已满，等待图标消失`);
             while (await findPNG("队列已满", 1)) {
                 log.warn(`检测到${tasks[i].name}队列已满，等待图标消失`);
-                await sleep(300);
+                // await sleep(300);
+                // 点击空白关闭
+                click(1230, 545);
             }
             if (await clickPNG("全部领取", 3)) {
                 await clickPNG("点击空白区域继续");
@@ -113,7 +130,9 @@ async function ingredientProcessing() {
             log.warn(`检测到${tasks[i].name}材料不足，等待图标消失`);
             while (await findPNG("材料不足", 1)) {
                 log.warn(`检测到${tasks[i].name}材料不足，等待图标消失`);
-                await sleep(300);
+                // await sleep(300);
+                // 点击空白关闭
+                click(1230, 545);
             }
             if (await clickPNG("全部领取", 3)) {
                 await clickPNG("点击空白区域继续");
@@ -141,7 +160,9 @@ async function ingredientProcessing() {
             log.warn(`检测到${tasks[i].name}已满，等待图标消失`);
             while (await findPNG("已不能持有更多", 1)) {
                 log.warn(`检测到${tasks[i].name}已满，等待图标消失`);
-                await sleep(300);
+                // await sleep(300);
+                // 点击空白关闭
+                click(1230, 545);
             }
             if (await clickPNG("全部领取", 3)) {
                 await clickPNG("点击空白区域继续");
