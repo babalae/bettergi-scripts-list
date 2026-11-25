@@ -50,7 +50,7 @@ function convertPathSlashesArray(nodes) {
  * @returns {Object} 包含 cascadeData 和 unsupportedBosses 的对象
  */
 function loadBossConfig() {
-    const content = file.readTextSync('assets/config/boss-list.json');
+    const content = file.readTextSync('assets/boss-list.json');
     return JSON.parse(content);
 }
 
