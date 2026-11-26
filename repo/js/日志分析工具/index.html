@@ -1,4 +1,4 @@
-<!--20260913-->
+<!--20261126-->
 <!DOCTYPE html>
 <html lang="zh-CN">
 
@@ -1225,6 +1225,7 @@
                 <button class="control-btn" data-key="72">任務篩選</button>
                 <button class="control-btn" data-key="77">统计拾取物</button>
                 <button class="control-btn" data-key="100">时间筛选模式</button>
+                <button class="control-btn" data-key="69">模拟按键</button>
             </div>
         </div>
     </div>
@@ -1304,7 +1305,17 @@
         let timeFilterEnd = null;     // 筛选结束时间
 
         // 特殊事件关键字（用于 J 键隐藏零统计时保留）
-        const SPECIAL_EVENT_KEYWORDS = ['自动吃药', '使用复活料理', '使用回血料理', '终点坐标异常，不记录',"资源缺失，请重新安装BGI"];
+        const SPECIAL_EVENT_KEYWORDS = [
+            '自动吃药',
+            '使用复活料理',
+            '使用回血料理',
+            '终点坐标异常，不记录',
+            "资源缺失，请重新安装BGI",
+            "进入钓鱼模式失败",
+            '加入黑名单：',
+            '钓鱼任务超时',
+            '有商品未能购买'
+        ];
 
         // 黑名單关键字
         const BLACKLIST_KEYWORDS = [
@@ -1312,6 +1323,64 @@
         ];
         let blacklistDetected;
 
+        // 模拟按键映射表
+        const SIM_KEY_MAP = {};
+        // 左侧数字行：l0=48, l1~l9=49~57
+        for (let i = 0; i <= 9; i++) SIM_KEY_MAP['l' + i] = i === 0 ? 48 : 48 + i;
+        // 右侧数字键盘：r0~r9 = 96~105
+        for (let i = 0; i <= 9; i++) SIM_KEY_MAP['r' + i] = 96 + i;
+        // 字母 a-z = 65~90
+        for (let i = 0; i < 26; i++) SIM_KEY_MAP[String.fromCharCode(97 + i)] = 65 + i;
+        // F1~F12 = 112~123
+        for (let i = 1; i <= 12; i++) SIM_KEY_MAP['f' + i] = 111 + i;
+        // 常用符号
+        SIM_KEY_MAP['esc'] = 27;
+        SIM_KEY_MAP['tab'] = 9;
+        SIM_KEY_MAP['space'] = 32;
+        SIM_KEY_MAP['enter'] = 13;
+        SIM_KEY_MAP['~'] = 192;
+        SIM_KEY_MAP['['] = 219;
+        SIM_KEY_MAP[']'] = 221;
+
+        // 模拟按键函数
+        function simulateKey() {
+            const input = prompt("输入要模拟的按键：\n前缀 l=左数字行, r=右数字键盘\nAlt 组合用 alt+ 前缀，例如 alt+l, alt+i\n例如：l0(打开帮助), r1, t, alt+l");
+            if (input === null) return;
+
+            // 去空白 + 转小写，这样 "alt + L"、"ALT+L" 都能吃
+            let key = input.trim().toLowerCase().replace(/\s+/g, '');
+            let alt = false;
+
+            // 检测 alt+ 前缀
+            if (key.startsWith('alt+')) {
+                alt = true;
+                key = key.substring(4);
+            }
+
+            // 检测 alt+ 前缀
+            if (key.startsWith('alt+')) {
+                alt = true;
+                key = key.substring(4);
+            }
+
+            // 纯数字且无 l/r 前缀 → 默认当右侧数字键盘
+            if (/^\d$/.test(key)) {
+                key = 'r' + key;
+            }
+
+            const code = SIM_KEY_MAP[key];
+            if (code === undefined) {
+                alert('无法识别的按键: ' + input);
+                return;
+            }
+
+            document.dispatchEvent(new KeyboardEvent('keydown', {
+                keyCode: code,
+                which: code,
+                altKey: alt,
+                bubbles: true
+            }));
+        }
 
         // 自定义确认对话框
         function showCustomConfirm(title, message) {
@@ -3157,10 +3226,10 @@
                         // match = line.match(/→ 开始执行(?:地图|路径)追踪任务: "(.+?)"|assets\/(.+?\.json)|当前钓鱼点: (.+)|→ 开始执行JS脚本: "(.+?)"/);
                         // match = line.match(/→ 开始执行(?:地图|路径)追踪任务: "(.+?)"|开始购买NPC: "(.+?)"|当前钓鱼点: (.+)|→ 开始执行JS脚本: "(.+?)"/);
                         // match = line.match(/→ 开始执行(?:地图|路径)追踪任务: "(.+?)"|开始购买NPC: "(.+?)"|assets\/(.+?\.json)|当前钓鱼点: (.+)|→ 开始执行JS脚本: "(.+?)"|→ 开始执行键鼠脚本: "(.+?)"/);
-                        match = line.match(/→ 开始执行(?:地图|路径)追踪任务: "(.+?)"|assets\/(.+?\.json)|→ 开始执行JS脚本: "(.+?)"|→ 开始执行键鼠脚本: "(.+?)"/);
+                        // match = line.match(/→ 开始执行(?:地图|路径)追踪任务: "(.+?)"|assets\/(.+?\.json)|→ 开始执行JS脚本: "(.+?)"|→ 开始执行键鼠脚本: "(.+?)"/);
+                        match = line.match(/→ 开始执行(?:地图|路径)追踪任务: "(.+?)"|assets\/(.+?\.json)|→ 开始执行JS脚本: "(.+?)"|→ 开始执行键鼠脚本: "(.+?)"|→ 开始执行shell: "(.+?)"/);
                         if (match) {
-                            // const taskName = match[1] || match[2] || match[3] || match[4];
-                            const taskName = match[1] || match[2] || match[3] || match[4];
+                            const taskName = match[1] || match[2] || match[3] || match[4] || match[5];
                             const task = {
                                 name: taskName,
                                 startTime: parseTime(prevLine, fileDate),
@@ -3328,14 +3397,17 @@
                             if (line.includes("当前角色血量过低")) currentTask.faults.revive = currentTask.faults.revive - 0.9;
                             if (line.match(/传送失败，重试 (\d+) 次/)) {
                                 currentTask.faults.teleport = parseInt(RegExp.$1);
-                            } else if (line.includes("多次尝试未移动到目标传送点，传送失败") || line.includes("目标传送点未移动到可点击区域，传送失败") || line.includes("等待传送点交互面板超时  重试")) {
+                            } else if (line.includes("多次尝试未移动到目标传送点，传送失败") ||
+                                line.includes("目标传送点未移动到可点击区域，传送失败") ||
+                                line.includes("等待传送点交互面板超时  重试") ||
+                                line.includes("传送异常多次中心点识别失败或异常，惯性推算失效，重新传送")) {
                                 // 没有具体重试次数，每次+1
                                 currentTask.faults.teleport++;
                             }
                             // if (line.includes("重试一次路线")) currentTask.faults.retry++;
                             // if (line.includes("记录恢复点位，地图追踪将到达上次点位之前将跳过走路之外的操作")) currentTask.faults.retry++;
                             if (line.includes("记录恢复点位，地图追踪将到达上次点位之前将跳过走路之外的操作")) {
-                            // if (line.includes("此路线出现3次卡死，重试一次路线或放弃此路线！")) {
+                                // if (line.includes("此路线出现3次卡死，重试一次路线或放弃此路线！")) {
                                 currentTask.faults.retry++;
                                 // 当重试次数超过2时，添加异常消息
                                 if (currentTask && currentTask.faults.retry > 2) {
@@ -3481,7 +3553,7 @@
                             if (line.includes('执行地图追踪时候发生错误: "战斗策略脚本中出现未知的方法：')) {
                                 const match = line.match(/执行地图追踪时候发生错误: "战斗策略脚本中出现未知的方法：(.+?)"/);
                                 if (match) {
-                                    const message = `地图追踪战斗策略错误："${match[1]}"`;
+                                    const message = `地图追踪策略错误："${match[1]}"`;
                                     const type = 'strategy-error';
                                     if (currentTask.specialAlerts.has(message)) {
                                         const existing = currentTask.specialAlerts.get(message);
@@ -3498,6 +3570,21 @@
                                 if (match) {
                                     const message = `地图追踪策略脚本错误："${match[1]}"`;
                                     const type = 'strategy-error';
+                                    if (currentTask.specialAlerts.has(message)) {
+                                        const existing = currentTask.specialAlerts.get(message);
+                                        existing.count++;
+                                    } else {
+                                        currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                    }
+                                }
+                            }
+
+                            // 5.2 战斗策略错误-输入字符串格式不正确(System.FormatException)
+                            if (line.includes('System.FormatException: The input string') && line.includes('was not in a correct format.')) {
+                                const match = line.match(/System\.FormatException: The input string '(.+?)' was not in a correct format\./);
+                                if (match) {
+                                    const message = `策略脚本格式错误："${match[1]}"`;
+                                    const type = 'purple-alert';
                                     if (currentTask.specialAlerts.has(message)) {
                                         const existing = currentTask.specialAlerts.get(message);
                                         existing.count++;
@@ -3771,12 +3858,22 @@
                                 }
                             }
 
-                            // 19. 简易策略脚本要求的角色不存在！队伍中需要存在下面角色中的一个或多个：".*"
+                            // 19. 简易策略脚本要求的角色不存在！队伍中需要存在下面角色中的一个或多个：""
                             if (line.includes('简易策略脚本要求的角色不存在！队伍中需要存在下面角色中的一个或多个："')) {
-                                const match = line.match(/简易策略脚本要求的角色不存在！队伍中需要存在下面角色中的一个或多个："(.+?)"/);
+                                const match = line.match(/简易策略脚本要求的角色不存在！队伍中需要存在下面角色中的一个或多个："(.*?)"/);
                                 if (match) {
-                                    const message = `缺少脚本指定角色："${match[1]}"`;
-                                    const type = 'purple-alert';
+                                    const roleContent = match[1].trim();
+                                    let message, type;
+
+                                    if (roleContent === '') {
+                                        // 中间为空的情况
+                                        message = '简易策略脚本空缺';
+                                        type = 'purple-alert';
+                                    } else {
+                                        message = `缺少脚本指定角色："${roleContent}"`;
+                                        type = 'purple-alert';
+                                    }
+
                                     if (currentTask.specialAlerts.has(message)) {
                                         const existing = currentTask.specialAlerts.get(message);
                                         existing.count++;
@@ -3879,6 +3976,7 @@
                                 line.includes('坐标获取失败，不更新记录') || // CD-Aware-AutoGather2.0前日志
                                 line.includes('出发点与终点过于接近，不记录运行数据') ||
                                 line.includes('位置几乎未变化，不更新刷新时间') ||
+                                line.includes('可能发生了错误，不写记录') ||
                                 line.includes('路线运行失败：') // 采集cd管理3.1.0/鋤地2.12.0 起 莫醬版BGI路線失敗
                             ) {
                                 const message = '终点坐标异常，不记录';
@@ -3988,7 +4086,7 @@
                             }
 
                             // 35.处于限制时间内
-                            if (line.includes('处于限制时间内')) {
+                            if (line.includes('处于限制时间内') || line.includes('不在允许运行的时间内，退出')) {
                                 const message = '处于限制时间内';
                                 const type = 'purple-alert';
                                 if (currentTask.specialAlerts.has(message)) {
@@ -4080,7 +4178,7 @@
                             // 41.执行脚本时发生异常: "Index was outside the bounds of the array."
                             if (line.includes('执行脚本时发生异常: "Index was outside the bounds of the array."') ||
                                 line.includes('执行地图追踪时候发生错误: "Index was outside the bounds of the array."')) {
-                                const message = '资源缺失，请重新安装BGI';
+                                const message = '资源错误，请重新安装BGI';
                                 const type = 'abnormal-alert';
                                 if (currentTask.specialAlerts.has(message)) {
                                     const existing = currentTask.specialAlerts.get(message);
@@ -4102,12 +4200,13 @@
                                 }
                             }
 
-                            // 43.加入黑名单(鋤地一條龍)
-                            if (line.includes('加入黑名单：')) {
-                                const match = line.match(/加入黑名单：(.+)/);
+                            // 43.加入黑名单(鋤地一條龍 / 采集CD管理)
+                            if (line.includes('加入黑名单：') || line.includes('黑名单加入:')) {
+                                // 匹配：加入黑名单：xxx  /  黑名单加入:xxx（可能带（100.0%））
+                                const match = line.match(/(?:加入黑名单：|黑名单加入:)([^（(]+)/);
                                 if (match) {
                                     const itemName = match[1].trim();
-                                    const message = `加入黑名单："${itemName}" `;
+                                    const message = `加入黑名单："${itemName}"`;
                                     const type = 'purple-alert';
                                     if (currentTask.specialAlerts.has(message)) {
                                         const existing = currentTask.specialAlerts.get(message);
@@ -4117,6 +4216,56 @@
                                     }
                                 }
                             }
+
+                            // 44. 等待领取月卡
+                            if (line.includes('等待领取月卡(剩余')) {
+                                const message = '等待领取月卡';
+                                const type = 'purple-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 45. NNN秒超时已到，结束任务
+                            if (line.match(/\d+秒超时已到，结束任务/)) {
+                                const message = '钓鱼任务超时';
+                                const type = 'pause-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 46. 没有更多任务可运行，退出(礦批發)
+                            if (line.includes('没有更多任务可运行，退出')) {
+                                const message = '没有更多任务可运行，退出';
+                                const type = 'purple-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            // 47. 没有购买任何商品(自动购买商品)
+                            if (line.includes('商品本次未能购买')) {
+                                const message = '有商品未能购买';
+                                const type = 'abnormal-alert';
+                                if (currentTask.specialAlerts.has(message)) {
+                                    const existing = currentTask.specialAlerts.get(message);
+                                    existing.count++;
+                                } else {
+                                    currentTask.specialAlerts.set(message, { type: type, count: 1 });
+                                }
+                            }
+
+                            
 
                             // LCB版
                             // 900. 网络恢复中...
@@ -4133,7 +4282,7 @@
 
                             // 995. 执行超时，放弃此次追踪
                             if (line.includes("执行超时，放弃此次追踪")) {
-                                const message = '路径点执行超时，放弃整条路径';
+                                const message = '路径点执行超时';
                                 const type = 'abnormal-alert';
                                 if (currentTask.specialAlerts.has(message)) {
                                     const existing = currentTask.specialAlerts.get(message);
@@ -4733,7 +4882,23 @@
                     const cellClass = hasCoords ? 'coords-cell has-coords' : 'coords-cell';
 
                     // 生成拾取物显示文本
-                    let picksText = formatPicks(task.picks, task.pickSequence, true);
+                    // 如果存在"终点坐标异常，不记录"事件，过滤掉精英和小怪
+                    let displayPicks = task.picks;
+                    let displayPickSequence = task.pickSequence;
+                    if (task.specialAlerts && task.specialAlerts.has('终点坐标异常，不记录')) {
+                        displayPicks = new Map();
+                        for (const [item, count] of task.picks) {
+                            if (!item.includes('精英') && !item.includes('小怪')) {
+                                displayPicks.set(item, count);
+                            }
+                        }
+                        if (task.pickSequence) {
+                            displayPickSequence = task.pickSequence.filter(item =>
+                                !item.includes('精英') && !item.includes('小怪')
+                            );
+                        }
+                    }
+                    let picksText = formatPicks(displayPicks, displayPickSequence, true);
 
                     // 按顺序添加提示文本
                     const alerts = [];
@@ -5043,7 +5208,23 @@
                     const duration = calculateDuration(task.startTime, task.endTime);
 
                     // 生成拾取物显示文本
-                    let picksText = formatPicks(task.picks, task.pickSequence, true);
+                    // 如果存在"终点坐标异常，不记录"事件，过滤掉精英和小怪
+                    let displayPicks = task.picks;
+                    let displayPickSequence = task.pickSequence;
+                    if (task.specialAlerts && task.specialAlerts.has('终点坐标异常，不记录')) {
+                        displayPicks = new Map();
+                        for (const [item, count] of task.picks) {
+                            if (!item.includes('精英') && !item.includes('小怪')) {
+                                displayPicks.set(item, count);
+                            }
+                        }
+                        if (task.pickSequence) {
+                            displayPickSequence = task.pickSequence.filter(item =>
+                                !item.includes('精英') && !item.includes('小怪')
+                            );
+                        }
+                    }
+                    let picksText = formatPicks(displayPicks, displayPickSequence, true);
 
                     // 按顺序添加提示文本
                     const alerts = [];
@@ -5872,6 +6053,17 @@
                 updateButtonState(72); // 筛选模式按钮
 
                 e.preventDefault(); // 阻止默认行为
+            } else if (keyNum.keyCode == 69) { // E 键 - 模拟按键
+                // 输入框、文本域、可编辑区域里不触发
+                const activeElement = document.activeElement;
+                const tagName = activeElement.tagName.toLowerCase();
+                if (tagName === 'input' || tagName === 'textarea' ||
+                    activeElement.isContentEditable ||
+                    document.body.getAttribute('contenteditable') === 'true') {
+                    return;
+                }
+                simulateKey();
+                e.preventDefault();
             } else if (keyNum.keyCode == 72) { // H 鍵 - 任務篩選
                 // 檢查是否有日志數據
                 if (!hasLogData) {
@@ -6333,8 +6525,62 @@
             if (input == "/2") { input = "拉扯结束" }
             if (input == "/3") { input = "小怪" }
             if (input == "/4") { input = "使用回血料理,使用复活料理" }
-            if (input == "/5") { input = "源生嵌合体 并生嵌合胞 嵌合种" }
+            if (input == "/5") {
+                const foodKeywords = ["战狂", "游医", "教官", "流放者"];
+                const eliteKeywords = ["精英"];
 
+                let foodCount = 0;
+                let eliteCount = 0;
+
+                const pickCells = document.querySelectorAll('.column-picks');
+                pickCells.forEach(cell => {
+                    const row = cell.closest('tr');
+                    if (row && row.style.display === 'none') return;
+                    const container = cell.closest('.group-container');
+                    if (container && container.style.display === 'none') return;
+                    if (row.classList.contains('summary-row')) return;
+
+                    const cellClone = cell.cloneNode(true);
+                    cellClone.querySelectorAll('.abnormal-alert, .auto-potion, .warning, .info').forEach(span => span.remove());
+                    const text = cellClone.textContent.trim();
+                    if (text === '无' || text === '') return;
+
+                    if (picksSortByCount) {
+                        const regex = /([^(]+?)\s*\((\d+)\)/g;
+                        let match;
+                        while ((match = regex.exec(text)) !== null) {
+                            const itemName = match[1].trim();
+                            const count = parseInt(match[2]);
+                            foodKeywords.forEach(k => { if (itemName.includes(k)) foodCount += count; });
+                            eliteKeywords.forEach(k => { if (itemName.includes(k)) eliteCount += count; });
+                        }
+                    } else {
+                        const items = text.split(',').map(item => item.trim());
+                        items.forEach(itemName => {
+                            foodKeywords.forEach(k => { if (itemName.includes(k)) foodCount += 1; });
+                            eliteKeywords.forEach(k => { if (itemName.includes(k)) eliteCount += 1; });
+                        });
+                    }
+                });
+
+                let resultText = `战狂,游医,教官,流放者 数量：${foodCount}\n`;
+                resultText += `精英数量：${eliteCount}\n\n`;
+
+                if (eliteCount >= 400) {
+                    // 已达400，预期就是实际值
+                    resultText += `预期数量：${foodCount}`;
+                } else if (eliteCount > 0) {
+                    const prediction = (foodCount / eliteCount * 400).toFixed(2);
+                    resultText += `预期数量：${prediction}`;
+                } else {
+                    resultText += `预期数量：无法计算（精英为0）`;
+                }
+
+                alert(resultText);
+                return;
+            }
+            if (input == "/6") { input = "雪结无明心,雪结镜心,雪结片心" }
+            
             // 支持英文逗号、中文逗号、顿号、空格作为分隔符
             const itemsToCount = input.split(/[，,、\s]+/)
                 .map(item => item.trim())
