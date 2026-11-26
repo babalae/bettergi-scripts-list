@@ -1,10 +1,10 @@
 {
-  "time": "20261126035121",
+  "time": "20261127032836",
   "url": "https://github.com/babalae/bettergi-scripts-list/archive/refs/heads/main.zip",
   "file": "repo.json",
   "build": {
     "version": 1,
-    "sourceCommit": "005c3fd60b36323d5c7c6d24c780a4d66c41b20c"
+    "sourceCommit": "ff492f8e18cbfa489981126f270299f3137367ee"
   },
   "indexes": [
     {
@@ -112321,7 +112321,7 @@
         {
           "name": "AutoFishingTeyvat",
           "type": "directory",
-          "version": "2.5.4",
+          "version": "2.5.5",
           "author": "提瓦特钓鱼玳师",
           "authors": [
             {
@@ -112339,9 +112339,9 @@
           ],
           "description": "提瓦特自动钓鱼（全流程+自选）~|~支持自动追踪并垂钓bgi支持的全提瓦特垂钓点",
           "tags": [
-            "bgi≥0.64.2"
+            "bgi≥0.67.0"
           ],
-          "lastUpdated": "2026-11-24 00:10:57"
+          "lastUpdated": "2026-11-26 14:23:07"
         },
         {
           "name": "AutoFishingTeyvat-Bait",
@@ -112510,7 +112510,7 @@
         {
           "name": "AutoLeyLineOutcrop",
           "type": "directory",
-          "version": "5.0",
+          "version": "5.2",
           "author": "ddaodan",
           "authors": [
             {
@@ -112552,10 +112552,10 @@
           ],
           "description": "全自动地脉花~|~基于OCR图像识别的全自动刷取地脉花。\n💡更多信息请查看README! \n\n----------注意事项----------\n●仅支持BetterGI 0.63.2 及以上版本！\n●部分地脉花因特殊原因不支持全自动，具体的点位请在手册中查看。\n●树脂使用的优先级：2倍原粹树脂 > 浓缩树脂 > 原粹树脂。\n●运行时会传送到七天神像设置中设置的七天神像，需要关闭七天神像设置中的“是否就近七天神像恢复血量”，并指定七天神像。\n●战斗策略注意调度器设置中地图追踪行走配置里的“允许在JsSpript中使用”和“覆盖JS中的自动战斗配置”，只有在都打开的情况下脚本才会使用下面的战斗配置，否则会使用独立任务中的战斗策略。战斗超时时间不能大于脚本自定义配置中的时间。\n\n如果遇到问题，请先参照README中的方法进行解决。",
           "tags": [
-            "bgi≥0.63.2",
+            "bgi≥0.67.0",
             "地脉花"
           ],
-          "lastUpdated": "2026-08-18 17:07:29"
+          "lastUpdated": "2026-11-26 23:11:31"
         },
         {
           "name": "AutoMonday",
@@ -114232,7 +114232,7 @@
         {
           "name": "日志分析工具",
           "type": "directory",
-          "version": "0.20260913",
+          "version": "0.20261126",
           "author": "蜜柑魚",
           "authors": [
             {
@@ -114244,7 +114244,7 @@
           "tags": [
             "bgi≥0.63.0"
           ],
-          "lastUpdated": "2026-09-14 09:53:15"
+          "lastUpdated": "2026-11-26 23:09:54"
         },
         {
           "name": "模板匹配区域坐标输出",
@@ -114560,17 +114560,13 @@
             {
               "name": "mno",
               "link": "https://github.com/Bedrockx"
-            },
-            {
-              "name": "蜜柑魚",
-              "link": "https://github.com/this-Fish"
             }
           ],
           "description": "采集cd管理~|~基于任务编排与路径组配置自动管理采集路线 CD，支持目标采集、效率排序、拾取统计和信息展示",
           "tags": [
             "bgi≥0.62.0"
           ],
-          "lastUpdated": "2026-11-21 19:05:11"
+          "lastUpdated": "2026-11-26 23:09:54"
         },
         {
           "name": "铁匠铺",
