@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>采集进度</title>
+<style>
+    html, body { margin: 0; height: 100%; background: transparent; overflow: hidden; }
+    body {
+        font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+        color: #e9ecf2;
+    }
+    .card {
+        position: fixed;
+        left: 50%;
+        top: 14%;
+        width: 430px;
+        transform: translate(-50%, -50%);
+        transform-origin: center center;
+        padding: 12px 16px 13px;
+        background: linear-gradient(180deg, rgba(26, 30, 40, 0.94), rgba(16, 19, 26, 0.94));
+        border: 1px solid rgba(215, 182, 106, 0.4);
+        border-radius: 14px;
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(2px);
+    }
+    .meta { display: flex; justify-content: space-between; font-size: 11px; color: #9aa4b6; margin-bottom: 7px; letter-spacing: 0.3px; }
+    .meta .val { color: #d7b66a; }
+    .head { display: flex; align-items: center; gap: 8px; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: #6fd39a; box-shadow: 0 0 8px rgba(111, 211, 154, 0.8); }
+    .dot.idle { background: #9aa4b6; box-shadow: none; }
+    .head b { font-size: 13px; letter-spacing: 0.5px; }
+    .head .tag { margin-left: auto; font-size: 11px; color: #d7b66a; border: 1px solid rgba(215, 182, 106, 0.35); padding: 2px 8px; border-radius: 999px; }
+    .route { margin-top: 9px; font-size: 12px; color: #cdd4e0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .target { margin-top: 6px; font-size: 12px; color: #9aa4b6; }
+    .target .num { color: #d7b66a; font-weight: 700; font-size: 13px; }
+    .target .tname { color: #e9ecf2; font-weight: 700; }
+    .card.hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="card" id="card">
+    <div class="meta">
+        <span>已运行 <span class="val" id="elapsedText">00:00:00</span></span>
+        <span>北京时间 <span class="val" id="clockText">—</span></span>
+    </div>
+    <div class="head">
+        <span class="dot idle" id="dot"></span>
+        <b id="stateText">等待开始</b>
+        <span class="tag" id="materialTag"></span>
+    </div>
+    <div class="route" id="routeText">当前路径：—</div>
+    <div class="target" id="targetText">目标：无</div>
+    <div class="note" id="noteText"></div>
+</div>
+<script>
+(function () {
+    var card = document.getElementById('card');
+
+    function el(id) { return document.getElementById(id); }
+
+    function applyLayout(d) {
+        var x = d.x === undefined || d.x === null ? 50 : Number(d.x);
+        var y = d.y === undefined || d.y === null ? 14 : Number(d.y);
+        var scale = d.scale === undefined || d.scale === null ? 1 : Number(d.scale);
+        if (!isFinite(x)) x = 50;
+        if (!isFinite(y)) y = 14;
+        if (!isFinite(scale) || scale < 0) scale = 1;
+        place(x, y, scale);
+    }
+
+    // 百分比换算成像素并夹在窗口内：贴边不会被压扁/裁掉
+    function place(xPct, yPct, scale) {
+        var w = (card.offsetWidth || 430) * scale;
+        var h = (card.offsetHeight || 120) * scale;
+        var left = Math.min(window.innerWidth - w / 2 - 2, Math.max(w / 2 + 2, xPct / 100 * window.innerWidth));
+        var top = Math.min(window.innerHeight - h / 2 - 2, Math.max(h / 2 + 2, yPct / 100 * window.innerHeight));
+        card.style.left = left + 'px';
+        card.style.top = top + 'px';
+        card.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
+    }
+
+    function render(d) {
+        if (!d) return;
+        applyLayout(d);
+        card.classList.remove('hidden');
+        var active = !!d.active;
+        el('dot').className = 'dot' + (active ? '' : ' idle');
+        el('stateText').textContent = active ? '采集进行中' : '已暂停 / 等待';
+        el('materialTag').textContent = d.material || '';
+        el('elapsedText').textContent = d.elapsedText || '00:00:00';
+        el('clockText').textContent = d.clockText || '—';
+
+        var routeName = d.routeName || '—';
+        el('routeText').textContent = '当前路径：' + routeName;
+
+        // 目标：名字 + 剩余数量；没填目标就显示“无”
+        if (d.targetCount === null || d.targetCount === undefined || !d.targetName) {
+            el('targetText').textContent = '目标：无';
+        } else {
+            var remain = d.remain === null || d.remain === undefined ? d.targetCount : d.remain;
+            el('targetText').innerHTML = '目标：<span class="tname">' + d.targetName + '</span> 剩余 <span class="num">' + Math.max(0, remain) + '</span>';
+        }
+        el('noteText').textContent = d.note || '';
+    }
+
+    var bridge = window.htmlMask || (window.htmlMask = {});
+    bridge.onMessage = function (message) {
+        var msg = message;
+        if (typeof msg === 'string') {
+            try { msg = JSON.parse(msg); } catch (e) { return; }
+        }
+        if (!msg || !msg.url) return;
+        var data = msg.data;
+        if (typeof data === 'string') {
+            try { data = JSON.parse(data); } catch (e) { data = {}; }
+        }
+        if (msg.url === '/status/update') render(data || {});
+        if (msg.url === '/status/config') applyLayout(data || {});
+    };
+})();
+</script>
+</body>
+</html>

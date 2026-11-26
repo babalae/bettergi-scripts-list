@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>采集脚本配置</title>
+<style>
+    :root {
+        --bg: #10131a;
+        --card: rgba(24, 28, 37, 0.92);
+        --card-2: rgba(31, 36, 47, 0.9);
+        --line: rgba(255, 255, 255, 0.08);
+        --text: #e9ecf2;
+        --sub: #9aa4b6;
+        --gold: #d7b66a;
+        --green: #6fd39a;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+        background: transparent;
+        font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+        color: var(--text);
+        overflow: hidden;
+    }
+    .overlay {
+        position: fixed; inset: 0;
+        background: rgba(6, 8, 12, 0.55);
+        display: flex; align-items: center; justify-content: center;
+        padding: 24px;
+    }
+    .panel {
+        width: min(940px, 94vw);
+        height: min(86vh, 900px);
+        display: flex; flex-direction: column;
+        background: var(--bg);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(215, 182, 106, 0.12) inset;
+        overflow: hidden;
+    }
+    header {
+        display: flex; align-items: center; gap: 14px;
+        padding: 16px 20px;
+        border-bottom: 1px solid var(--line);
+        background: linear-gradient(180deg, rgba(215, 182, 106, 0.08), transparent);
+    }
+    .title { font-size: 17px; font-weight: 700; letter-spacing: 0.5px; }
+    .subtitle { font-size: 12px; color: var(--sub); margin-top: 3px; }
+    header .spacer { flex: 1; }
+    .icon-btn {
+        width: 34px; height: 34px; border-radius: 10px;
+        border: 1px solid var(--line); background: var(--card-2); color: var(--sub);
+        font-size: 16px; cursor: pointer;
+    }
+    .icon-btn:hover { color: #fff; border-color: rgba(255,255,255,.22); }
+    main {
+        flex: 1; overflow-y: auto; padding: 16px 18px 24px;
+        display: flex; flex-direction: column; gap: 12px;
+    }
+    details.card {
+        flex: 0 0 auto;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        overflow: hidden;
+    }
+    details.card[open] { border-color: rgba(215, 182, 106, 0.28); }
+    summary {
+        list-style: none; cursor: pointer;
+        display: flex; align-items: center; gap: 10px;
+        padding: 13px 16px;
+        font-size: 14px; font-weight: 600;
+        user-select: none;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary .idx {
+        width: 22px; height: 22px; border-radius: 8px;
+        display: inline-flex; align-items: center; justify-content: center;
+        font-size: 12px; font-weight: 700;
+        background: rgba(215, 182, 106, 0.16); color: var(--gold);
+    }
+    summary .hint { margin-left: auto; font-size: 11px; font-weight: 400; color: var(--sub); }
+    summary .arrow { color: var(--sub); font-size: 12px; transition: transform 0.15s; }
+    details[open] summary .arrow { transform: rotate(90deg); }
+    .body { padding: 4px 16px 16px; border-top: 1px solid var(--line); }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 16px; margin-top: 12px; }
+    .grid.one { grid-template-columns: 1fr; }
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field label { font-size: 12px; color: var(--sub); }
+    input[type=text], input[type=number], textarea, select {
+        width: 100%; padding: 9px 11px;
+        background: #161a23; color: var(--text);
+        border: 1px solid var(--line); border-radius: 9px;
+        font-size: 13px; outline: none;
+        font-family: inherit;
+    }
+    input:focus, textarea:focus, select:focus { border-color: rgba(215, 182, 106, 0.55); }
+    textarea { min-height: 74px; resize: vertical; line-height: 1.5; }
+    .tip { font-size: 11px; color: #7d8798; line-height: 1.5; margin-top: 2px; }
+    .check-row { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 13px; }
+    .check-row input[type=checkbox] { width: 16px; height: 16px; accent-color: var(--gold); }
+    .route-tools { display: flex; gap: 10px; align-items: center; margin-top: 12px; }
+    .route-tools input[type=text] { flex: 1; }
+    .route-list { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; max-height: 420px; overflow-y: auto; padding-right: 4px; }
+    details.route-item { background: var(--card-2); border: 1px solid var(--line); border-radius: 10px; }
+    details.route-item summary { padding: 10px 12px; font-size: 13px; font-weight: 500; }
+    .rname { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .badge { font-size: 11px; color: var(--gold); background: rgba(215,182,106,.14); padding: 2px 8px; border-radius: 999px; }
+    .vers { padding: 4px 12px 12px; display: flex; flex-direction: column; gap: 7px; }
+    .ver { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--sub); }
+    .ver input { width: 15px; height: 15px; accent-color: var(--gold); }
+    .ver span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    footer {
+        display: flex; align-items: center; gap: 10px;
+        padding: 14px 18px;
+        border-top: 1px solid var(--line);
+        background: rgba(12, 15, 20, 0.9);
+    }
+    .status { font-size: 12px; color: var(--sub); flex: 1; }
+    button.act {
+        padding: 10px 18px; border-radius: 10px; border: 1px solid var(--line);
+        background: var(--card-2); color: var(--text); font-size: 13px; cursor: pointer;
+    }
+    button.act:hover { border-color: rgba(255,255,255,.24); }
+    button.primary {
+        border: none; color: #1b1a14; font-weight: 700;
+        background: linear-gradient(180deg, #efd68e, #d7b66a);
+    }
+    button.primary:hover { filter: brightness(1.06); }
+    button.danger {
+        color: #ff9d9d;
+        border-color: rgba(226, 100, 100, 0.45);
+        background: rgba(226, 100, 100, 0.12);
+    }
+    button.danger:hover { border-color: rgba(226, 100, 100, 0.8); color: #fff; }
+    .row-actions { display: flex; align-items: center; gap: 10px; margin-top: 8px; flex-wrap: wrap; }
+    button.mini {
+        padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12px;
+        border: 1px dashed rgba(215, 182, 106, 0.55);
+        background: rgba(215, 182, 106, 0.08);
+        color: #e6d6a8;
+    }
+    button.mini:hover { background: rgba(215, 182, 106, 0.18); }
+    .tip.inline { margin-top: 0; }
+    .toast {
+        position: absolute; left: 50%; bottom: 78px; transform: translateX(-50%);
+        background: rgba(111, 211, 154, 0.16); color: var(--green);
+        border: 1px solid rgba(111, 211, 154, 0.4);
+        padding: 8px 16px; border-radius: 10px; font-size: 13px;
+        opacity: 0; transition: opacity 0.2s; pointer-events: none;
+    }
+    .toast.show { opacity: 1; }
+    .panel { position: relative; }
+    .close-btn {
+        width: 30px; height: 30px; border-radius: 9px;
+        border: 1px solid var(--line); background: #1b202b; color: var(--sub);
+        font-size: 16px; line-height: 1; cursor: pointer;
+    }
+    .close-btn:hover { color: #ff9c9c; border-color: rgba(255, 120, 120, 0.45); }
+    main::-webkit-scrollbar, .route-list::-webkit-scrollbar { width: 8px; }
+    main::-webkit-scrollbar-thumb, .route-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,.12); border-radius: 4px; }
+</style>
+</head>
+<body>
+<div class="overlay">
+    <div class="panel">
+        <header>
+            <div>
+                <div class="title">带 CD 管理的材料与怪物自动采集</div>
+                <div class="subtitle">游戏内配置面板 · 改完点「开始执行」按新配置运行，或先「保存配置」（配置长期保留）</div>
+            </div>
+            <div class="spacer"></div>
+            <button class="close-btn" id="closeBtn" type="button" title="关闭配置面板">×</button>
+        </header>
+
+        <main>
+            <details class="card" open>
+                <summary><span class="idx">基</span>基础设置<span class="arrow">›</span></summary>
+                <div class="body">
+                    <div class="grid one">
+                        <div class="field">
+                            <label>采集目标（留空 = 按顺序跑全部已订阅路线）</label>
+                            <textarea id="targetItems" placeholder="格式示例：云岩裂叶*6+污秽的面具*2　（加 #all 可跑该物品的全部版本）"></textarea>
+                            <div class="tip">脚本跑完会把剩余数量写回这里并保存到 panel_settings.json。</div>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="field">
+                            <label>运行前显示本面板</label>
+                            <select id="panelOnStart">
+                                <option value="每次运行前显示">每次运行前显示</option>
+                                <option value="不显示（直接用已保存的配置）">不显示（直接用已保存的配置）</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label>设定的不运行时间段</label>
+                            <input type="text" id="excludeTimeRange" placeholder="如 00:00-07:00，留空 = 不限" />
+                        </div>
+                        <div class="field">
+                            <label>手动指定账号名（已停用：脚本强制读取 UID 后才执行）</label>
+                            <input type="text" id="manualSetAccountName" placeholder="已停用" disabled />
+                        </div>
+                    </div>
+                    <div class="check-row"><input type="checkbox" id="routeNotify" /><label for="routeNotify">开启路线通知</label></div>
+                    <div class="check-row"><input type="checkbox" id="runAllAfterTargets" /><label for="runAllAfterTargets">目标采集完成后继续按顺序跑剩余路线</label></div>
+                </div>
+            </details>
+
+            <details class="card" id="hotkeyCard">
+                <summary><span class="idx">◎</span>打开配置面板快捷键<span class="arrow">›</span></summary>
+                <div class="body">
+                    <div class="grid">
+                        <div class="field">
+                            <label>快捷键（点输入框后直接按键盘）</label>
+                            <input type="text" id="panelHotkey" autocomplete="off" placeholder="点这里，然后按键盘（默认 F7）" />
+                        </div>
+                    </div>
+                    <div class="tip">建议与 BetterGI 的「暂停脚本」快捷键设成同一个（例如 F9）：按这个键时 BGI 暂停脚本，同时脚本会打开这个配置面板。该快捷键是全局键盘钩子，不管当前焦点在游戏、浏览器还是别的窗口都能打开；执行路径中打开会中断当前路线（不记 CD、不扣数量）。支持 F1-F12、字母、主键盘数字、小键盘数字/运算键、Insert/Delete/Home/End/PageUp/PageDown/方向键、Esc/Tab/空格/回车/退格、CapsLock/NumLock、PrintScreen/ScrollLock/Pause、Shift/Ctrl/Alt/Win 及常见符号键（104 键盘大部分按键）。</div>
+                </div>
+            </details>
+
+            <details class="card" id="statusCard">
+                <summary><span class="idx">◎</span>采集进度悬浮窗位置与大小<span class="arrow">›</span></summary>
+                <div class="body">
+                    <div class="grid">
+                        <div class="field">
+                            <label>位置 X（%）</label>
+                            <input type="number" min="0" max="100" step="1" id="statusX" />
+                        </div>
+                        <div class="field">
+                            <label>位置 Y（%）</label>
+                            <input type="number" min="0" max="100" step="1" id="statusY" />
+                        </div>
+                        <div class="field">
+                            <label>大小（%）</label>
+                            <input type="number" min="0" max="100" step="1" id="statusScale" />
+                        </div>
+                    </div>
+                    <div class="tip">改这里悬浮窗会立刻挪动/缩放；面板打开期间它会一直显示示例内容，方便你对位置。</div>
+                </div>
+            </details>
+
+            <details class="card">
+                <summary><span class="idx">1</span>采集队伍一（主队伍）<span class="hint" id="hintMain"></span><span class="arrow">›</span></summary>
+                <div class="body">
+                    <div class="grid">
+                        <div class="field"><label>队伍名称</label><input type="text" id="partyName" placeholder="游戏里队伍名称，如 采集队伍一" /></div>
+                        <div class="field"><label>行走位（跑图站前台的角色）</label>
+                            <select id="walkSlotMain"><option>1</option><option>2</option><option>3</option><option>4</option></select>
+                        </div>
+                        <div class="field"><label>回血位</label>
+                            <select id="healSlotMain"><option>不启用</option><option>1</option><option>2</option><option>3</option><option>4</option></select>
+                        </div>
+                        <div class="field"><label>回血技能</label>
+                            <select id="healSkillMain"><option>E（短按）</option><option>E（长按）</option><option>Q</option></select>
+                        </div>
+                        <div class="field"><label>回血冷却（秒）</label><input type="number" min="1" id="healCdMain" /></div>
+                    </div>
+                </div>
+            </details>
+
+            <details class="card">
+                <summary><span class="idx">2</span>采集队伍二（备用一）<span class="hint" id="hintSecond"></span><span class="arrow">›</span></summary>
+                <div class="body">
+                    <div class="grid">
+                        <div class="field"><label>队伍名称</label><input type="text" id="partyName2nd" /></div>
+                        <div class="field"><label>行走位（跑图站前台的角色）</label>
+                            <select id="walkSlotSecond"><option>1</option><option>2</option><option>3</option><option>4</option></select>
+                        </div>
+                        <div class="field"><label>回血位</label>
+                            <select id="healSlotSecond"><option>不启用</option><option>1</option><option>2</option><option>3</option><option>4</option></select>
+                        </div>
+                        <div class="field"><label>回血技能</label>
+                            <select id="healSkillSecond"><option>E（短按）</option><option>E（长按）</option><option>Q</option></select>
+                        </div>
+                        <div class="field"><label>回血冷却（秒）</label><input type="number" min="1" id="healCdSecond" /></div>
+                    </div>
+                </div>
+            </details>
+
+            <details class="card">
+                <summary><span class="idx">3</span>采集队伍三（备用二）<span class="hint" id="hintThird"></span><span class="arrow">›</span></summary>
+                <div class="body">
+                    <div class="grid">
+                        <div class="field"><label>队伍名称</label><input type="text" id="partyName3rd" /></div>
+                        <div class="field"><label>行走位（跑图站前台的角色）</label>
+                            <select id="walkSlotThird"><option>1</option><option>2</option><option>3</option><option>4</option></select>
+                        </div>
+                        <div class="field"><label>回血位</label>
+                            <select id="healSlotThird"><option>不启用</option><option>1</option><option>2</option><option>3</option><option>4</option></select>
+                        </div>
+                        <div class="field"><label>回血技能</label>
+                            <select id="healSkillThird"><option>E（短按）</option><option>E（长按）</option><option>Q</option></select>
+                        </div>
+                        <div class="field"><label>回血冷却（秒）</label><input type="number" min="1" id="healCdThird" /></div>
+                    </div>
+                </div>
+            </details>
+
+            <details class="card">
+                <summary><span class="idx">4</span>战斗队伍（只在「敌人与魔物」路线使用）<span class="hint" id="hintCombat"></span><span class="arrow">›</span></summary>
+                <div class="body">
+                    <div class="grid">
+                        <div class="field"><label>队伍名称</label><input type="text" id="partyNameCombat" /></div>
+                        <div class="field"><label>回血位</label>
+                            <select id="healSlotCombat"><option>不启用</option><option>1</option><option>2</option><option>3</option><option>4</option></select>
+                        </div>
+                        <div class="field"><label>回血技能</label>
+                            <select id="healSkillCombat"><option>E（短按）</option><option>E（长按）</option><option>Q</option></select>
+                        </div>
+                        <div class="field"><label>回血冷却（秒）</label><input type="number" min="1" id="healCdCombat" /></div>
+                    </div>
+                    <div class="tip">战斗队伍不需要行走位：战斗中谁在前台都一样，脚本只在纯战斗路线切换它。</div>
+                </div>
+            </details>
+
+            <details class="card">
+                <summary><span class="idx">5</span>特殊采集角色<span class="arrow">›</span></summary>
+                <div class="body">
+                    <div class="grid one">
+                        <div class="field">
+                            <label>不惊动小动物的角色（禽肉 / 晶蝶路线自动换到有这些角色的队伍）</label>
+                            <input type="text" id="animalCharNames" placeholder="留空 = 埃洛伊,绮良良,早柚,瑶瑶" />
+                        </div>
+                        <div class="field">
+                            <label>挖矿角色优先级（留空 = 默认大剑 + 岩系挖矿角色）</label>
+                            <input type="text" id="miningCharNames" placeholder="如 莉奈娅,钟离" />
+                            <div class="tip">填了以后，挖矿路线优先匹配含这些角色的队伍，并优先用这些角色挖矿。</div>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <details class="card">
+                <summary><span class="idx">6</span>多版本路线选择<span class="hint" id="routeHint">未勾选 = 每个物品只跑第一组</span><span class="arrow">›</span></summary>
+                <div class="body">
+                    <div class="route-tools">
+                        <input type="text" id="routeSearch" placeholder="搜索材料名…" />
+                        <button class="act" id="clearAllRoutes" type="button">清空全部勾选</button>
+                    </div>
+                    <div class="route-list" id="routeList"></div>
+                    <div class="tip">勾选多个版本时按顺序都跑一遍；路线目录改名后会用包含匹配兜底。</div>
+                </div>
+            </details>
+        </main>
+
+        <footer>
+            <div class="status" id="status">配置读取中…</div>
+            <button class="act" id="saveBtn" type="button">保存配置</button>
+            <button class="act primary" id="runBtn" type="button">开始执行</button>
+            <button class="act danger" id="stopBtn" type="button">结束脚本</button>
+        </footer>
+        <div class="toast" id="toast"></div>
+    </div>
+</div>
+
+<script>
+(function () {
+    var routeGroups = [];
+    var routesLoaded = false;
+    var toastTimer = null;
+
+    function $(id) { return document.getElementById(id); }
+
+    function post(url, data) {
+        try {
+            if (window.chrome && window.chrome.webview && window.chrome.webview.postMessage) {
+                window.chrome.webview.postMessage(JSON.stringify({ url: url, data: data || {} }));
+            }
+        } catch (e) { /* ignore */ }
+    }
+
+    function toast(text) {
+        var el = $('toast');
+        el.textContent = text;
+        el.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () { el.classList.remove('show'); }, 1800);
+    }
+
+    function setValue(id, value) {
+        var el = $(id);
+        if (!el) return;
+        if (el.type === 'checkbox') el.checked = !!value;
+        else el.value = value === null || value === undefined ? '' : String(value);
+    }
+
+    function getValue(id) {
+        var el = $(id);
+        if (!el) return '';
+        if (el.type === 'checkbox') return el.checked;
+        return el.value;
+    }
+
+    var textKeys = ['targetItems', 'excludeTimeRange', 'manualSetAccountName', 'animalCharNames', 'miningCharNames',
+                    'partyName', 'partyName2nd', 'partyName3rd', 'partyNameCombat'];
+    var selectKeys = ['panelOnStart', 'walkSlotMain', 'healSlotMain', 'healSkillMain',
+                      'walkSlotSecond', 'healSlotSecond', 'healSkillSecond',
+                      'walkSlotThird', 'healSlotThird', 'healSkillThird',
+                      'healSlotCombat', 'healSkillCombat'];
+    var numberKeys = ['healCdMain', 'healCdSecond', 'healCdThird', 'healCdCombat'];
+    // 悬浮件位置/大小：X、Y、大小都允许 0-100
+    var overlayNumKeys = {
+        statusX: [0, 100], statusY: [0, 100], statusScale: [0, 100]
+    };
+    var overlayNumDefaults = { statusX: 50, statusY: 14, statusScale: 100 };
+    var boolKeys = ['routeNotify', 'runAllAfterTargets'];
+
+    function renderRoutes(routes) {
+        routeGroups = routes || [];
+        var list = $('routeList');
+        list.innerHTML = '';
+        if (routeGroups.length === 0) {
+            var empty = document.createElement('div');
+            empty.className = 'tip';
+            empty.textContent = '当前没有多版本路线（每条路线都只有一组）。';
+            list.appendChild(empty);
+            return;
+        }
+        routeGroups.forEach(function (group, index) {
+            var details = document.createElement('details');
+            details.className = 'route-item';
+            details.dataset.name = group.name;
+
+            var summary = document.createElement('summary');
+            summary.innerHTML = '<span class="rname"></span><span class="badge"></span><span class="arrow">›</span>';
+            summary.querySelector('.rname').textContent = group.name;
+            summary.querySelector('.badge').textContent = group.versions.length + ' 组';
+            details.appendChild(summary);
+
+            var vers = document.createElement('div');
+            vers.className = 'vers';
+            group.versions.forEach(function (version) {
+                var row = document.createElement('label');
+                row.className = 'ver';
+                var box = document.createElement('input');
+                box.type = 'checkbox';
+                box.value = version;
+                box.checked = (group.selected || []).indexOf(version) >= 0;
+                var text = document.createElement('span');
+                text.textContent = version;
+                row.appendChild(box);
+                row.appendChild(text);
+                vers.appendChild(row);
+            });
+            details.appendChild(vers);
+            list.appendChild(details);
+        });
+    }
+
+    function collect() {
+        var settings = {};
+        textKeys.forEach(function (key) { settings[key] = getValue(key); });
+        selectKeys.forEach(function (key) { settings[key] = getValue(key); });
+        numberKeys.forEach(function (key) {
+            var num = parseInt(getValue(key), 10);
+            settings[key] = String(isNaN(num) || num < 1 ? 1 : num);
+        });
+        Object.keys(overlayNumKeys).forEach(function (key) {
+            var range = overlayNumKeys[key];
+            var num = parseInt(getValue(key), 10);
+            if (isNaN(num)) num = overlayNumDefaults[key];
+            settings[key] = String(Math.min(range[1], Math.max(range[0], num)));
+        });
+        boolKeys.forEach(function (key) { settings[key] = !!getValue(key); });
+        var hotkeyEl = $('panelHotkey');
+        var hotkey = String((hotkeyEl && hotkeyEl.dataset.code) || '').trim();
+        if (hotkey) settings.panelHotkey = hotkey;
+
+        var items = document.querySelectorAll('#routeList details');
+        Array.prototype.forEach.call(items, function (item) {
+            var checks = item.querySelectorAll('input[type=checkbox]');
+            var picked = [];
+            Array.prototype.forEach.call(checks, function (box) {
+                if (box.checked) picked.push(box.value);
+            });
+            if (picked.length > 0) settings['selectRoute_' + item.dataset.name] = picked;
+        });
+        return { settings: settings, routeReady: routesLoaded };
+    }
+
+    function load(data) {
+        var settings = (data && data.settings) || {};
+        textKeys.forEach(function (key) { setValue(key, settings[key]); });
+        selectKeys.forEach(function (key) {
+            var el = $(key);
+            if (!el) return;
+            var wanted = settings[key];
+            if (wanted === undefined || wanted === null) return;
+            var exists = Array.prototype.some.call(el.options, function (opt) { return opt.value === String(wanted) || opt.text === String(wanted); });
+            if (exists) el.value = String(wanted);
+        });
+        numberKeys.forEach(function (key) { setValue(key, settings[key]); });
+        Object.keys(overlayNumKeys).forEach(function (key) {
+            if (settings[key] !== undefined && settings[key] !== null) setValue(key, settings[key]);
+        });
+        boolKeys.forEach(function (key) { setValue(key, settings[key]); });
+        if (settings.panelHotkey) {
+            var hk = String(settings.panelHotkey);
+            $('panelHotkey').dataset.code = hk;
+            $('panelHotkey').value = hotkeyLabel(hk);
+        }
+
+        ['partyName', 'partyName2nd', 'partyName3rd', 'partyNameCombat'].forEach(function (key) {
+            var hintId = { partyName: 'hintMain', partyName2nd: 'hintSecond', partyName3rd: 'hintThird', partyNameCombat: 'hintCombat' }[key];
+            var val = settings[key];
+            $(hintId).textContent = val ? val : '未设置';
+        });
+
+        renderRoutes((data && data.routes) || []);
+        routesLoaded = true;
+        if (data && data.paused) {
+            $('status').textContent = '脚本已暂停 · 改完点「开始执行」按新配置继续，或点「结束脚本」';
+        } else {
+            $('status').textContent = '已读取配置 · 共 ' + routeGroups.length + ' 个多版本物品';
+        }
+    }
+
+    // 页面 → 脚本
+    var hostBridge = window.htmlMask || (window.htmlMask = {});
+    hostBridge.onMessage = function (message) {
+        var msg = message;
+        if (typeof msg === 'string') {
+            try { msg = JSON.parse(msg); } catch (e) { return; }
+        }
+        if (!msg || !msg.url) return;
+        var payload = msg.data;
+        if (typeof payload === 'string') {
+            try { payload = JSON.parse(payload); } catch (e) { payload = {}; }
+        }
+        if (!payload || typeof payload !== 'object') payload = {};
+        if (msg.url === '/panel/init') { load(payload); }
+        if (msg.url === '/panel/toast') { toast(payload.text || '已保存'); }
+        if (msg.url === '/panel/overlayPos') {
+            Object.keys(overlayNumKeys).forEach(function (key) {
+                if (payload[key] !== undefined && payload[key] !== null) setValue(key, payload[key]);
+            });
+        }
+    };
+
+    // 搜索过滤
+    $('routeSearch').addEventListener('input', function () {
+        var keyword = this.value.trim();
+        Array.prototype.forEach.call(document.querySelectorAll('#routeList details'), function (item) {
+            item.style.display = !keyword || item.dataset.name.indexOf(keyword) >= 0 ? '' : 'none';
+        });
+    });
+
+    $('clearAllRoutes').addEventListener('click', function () {
+        Array.prototype.forEach.call(document.querySelectorAll('#routeList input[type=checkbox]'), function (box) {
+            box.checked = false;
+        });
+        toast('已清空勾选（记得保存）');
+    });
+
+    $('saveBtn').addEventListener('click', function () {
+        post('/panel/save', collect());
+        $('status').textContent = '已提交保存…';
+    });
+
+    $('runBtn').addEventListener('click', function () {
+        post('/panel/run', collect());
+        $('status').textContent = '已确认，脚本按新配置执行…';
+    });
+
+    $('stopBtn').addEventListener('click', function () {
+        post('/panel/stop', collect());
+        $('status').textContent = '正在结束脚本…';
+    });
+
+    // 右上角关闭：只关面板，脚本继续待命（只有「结束脚本」/F10 才结束）
+    $('closeBtn').addEventListener('click', function () { post('/panel/close', collect()); });
+
+    // 位置预览：点按钮，或改下拉后自动预览一次
+    // 位置/大小：边改边生效（面板打开期间按钮和悬浮窗会一直在，直接看效果）
+    function pushOverlayConfig() {
+        post('/panel/previewPosition', {
+            statusX: getValue('statusX'), statusY: getValue('statusY'), statusScale: getValue('statusScale')
+        });
+    }
+    Object.keys(overlayNumKeys).forEach(function (id) {
+        $(id).addEventListener('input', pushOverlayConfig);
+    });
+
+    // 快捷键录入：支持 104 键盘绝大多数按键（含小键盘、Insert/Delete/Home/End/方向键等）
+    var hotkeyLabels = {
+        Insert: 'Insert', Delete: 'Delete', Home: 'Home', End: 'End',
+        PageUp: 'PageUp', PageDown: 'PageDown', ArrowUp: '↑', ArrowDown: '↓',
+        ArrowLeft: '←', ArrowRight: '→', Escape: 'Esc', Tab: 'Tab', Space: '空格',
+        Backspace: 'Backspace', Enter: '回车', CapsLock: 'CapsLock', NumLock: 'NumLock',
+        PrintScreen: 'PrintScreen', ScrollLock: 'ScrollLock', Pause: 'Pause',
+        Shift: 'Shift', ShiftLeft: '左Shift', ShiftRight: '右Shift',
+        Control: 'Ctrl', ControlLeft: '左Ctrl', ControlRight: '右Ctrl',
+        Alt: 'Alt', AltLeft: '左Alt', AltRight: '右Alt',
+        Meta: 'Win', MetaLeft: '左Win', MetaRight: '右Win', ContextMenu: '菜单键',
+        Semicolon: ';', Equal: '=', Comma: ',', Minus: '-', Period: '.', Slash: '/',
+        Backquote: '`', BracketLeft: '[', Backslash: '\\', BracketRight: ']', Quote: "'",
+        NumpadMultiply: '小键盘*', NumpadAdd: '小键盘+', NumpadSubtract: '小键盘-',
+        NumpadDecimal: '小键盘.', NumpadDivide: '小键盘/'
+    };
+    function hotkeyLabel(code) {
+        if (/^Key[A-Z]$/.test(code)) return code.slice(3);
+        if (/^Digit[0-9]$/.test(code)) return code.slice(5);
+        if (/^Numpad[0-9]$/.test(code)) return '小键盘' + code.slice(6);
+        if (/^F([1-9]|1[0-2])$/.test(code)) return code;
+        return hotkeyLabels[code] || code;
+    }
+    function hotkeyCodeFromEvent(e) {
+        var code = e.code || '';
+        if (/^(Key[A-Z]|Digit[0-9]|Numpad[0-9]|F([1-9]|1[0-2]))$/.test(code)) return code;
+        if (hotkeyLabels[code] !== undefined) return code;
+        // 兜底：部分环境 e.code 为空，用 e.key 推断
+        var key = e.key || '';
+        if (/^[A-Za-z]$/.test(key)) return 'Key' + key.toUpperCase();
+        if (/^[0-9]$/.test(key)) return 'Digit' + key;
+        if (/^F([1-9]|1[0-2])$/i.test(key)) return key.toUpperCase();
+        return '';
+    }
+    // 用 document 捕获按键：即使输入框本身没有拿到 keydown，也能录入
+    var hotkeyInput = $('panelHotkey');
+    function applyHotkeyEvent(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var code = hotkeyCodeFromEvent(e);
+        if (!code) {
+            toast('这个键暂不支持，请换一个');
+            return;
+        }
+        hotkeyInput.dataset.code = code;
+        hotkeyInput.value = hotkeyLabel(code);
+        post('/panel/previewHotkey', { panelHotkey: code });
+        toast('快捷键已设为 ' + hotkeyLabel(code) + '（立即生效，点保存配置会持久保存）');
+    }
+    document.addEventListener('keydown', function (e) {
+        if (document.activeElement !== hotkeyInput) return;
+        applyHotkeyEvent(e);
+    }, true);
+    // 双保险：输入框自身也监听一次（document 捕获若被宿主拦掉，这里仍能收到）
+    hotkeyInput.addEventListener('keydown', function (e) {
+        if (e.defaultPrevented) return;
+        applyHotkeyEvent(e);
+    });
+    hotkeyInput.addEventListener('focus', function () { this.select(); });
+    hotkeyInput.addEventListener('click', function () { this.focus(); this.select(); });
+
+    // 长按标题栏拖动整个面板（每次打开都居中，不记住上次位置）
+    var panelEl = document.querySelector('.panel');
+    var panelDrag = null;
+    document.querySelector('header').addEventListener('mousedown', function (e) {
+        if (e.target && e.target.closest && e.target.closest('button')) return;
+        var rect = panelEl.getBoundingClientRect();
+        panelEl.style.position = 'fixed';
+        panelEl.style.margin = '0';
+        panelEl.style.left = rect.left + 'px';
+        panelEl.style.top = rect.top + 'px';
+        panelDrag = { ox: e.clientX - rect.left, oy: e.clientY - rect.top };
+        e.preventDefault();
+    });
+    window.addEventListener('mousemove', function (e) {
+        if (!panelDrag) return;
+        var left = Math.min(window.innerWidth - 40, Math.max(0, e.clientX - panelDrag.ox));
+        var top = Math.min(window.innerHeight - 40, Math.max(0, e.clientY - panelDrag.oy));
+        panelEl.style.left = left + 'px';
+        panelEl.style.top = top + 'px';
+    });
+    window.addEventListener('mouseup', function () { panelDrag = null; });
+
+    // 通知脚本：页面已就绪，请把当前配置发过来
+    post('/panel/ready', {});
+})();
+</script>
+</body>
+</html>
