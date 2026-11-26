@@ -256,7 +256,7 @@ async function countOriginalResinBackup() {
  * @returns {number} 浓缩树脂数量
  */
 async function countCondensedResin() {
-    keyPress("ESCAPE"); // 关闭上一步的补充原萃树脂界面
+    // keyPress("ESCAPE"); // 关闭上一步的补充原萃树脂界面
     await sleep(CONFIG.UI_DELAY);
 
     const condensedResin = await recognizeImage(RESIN_ICONS.CONDENSED);
@@ -267,14 +267,14 @@ async function countCondensedResin() {
 
     const ocrRegion = {
         // 调用处的坐标范围不对，正常来说应该改偏移或者去源头看看问题，但是这样改简单粗暴，能用就行
-        // x: condensedResin.x,
-        // y: condensedResin.y,
-        // width: CONFIG.OCR_REGIONS.CONDENSED_RESIN.width,
-        // height: CONFIG.OCR_REGIONS.CONDENSED_RESIN.height
-        x: 1140,
-        y: 26,
-        width: 45,
-        height: 41
+        x: condensedResin.x,
+        y: condensedResin.y,
+        width: CONFIG.OCR_REGIONS.CONDENSED_RESIN.width,
+        height: CONFIG.OCR_REGIONS.CONDENSED_RESIN.height
+        // x: 1140,
+        // y: 26,
+        // width: 45,
+        // height: 41
     };
 
     // 首先尝试OCR识别
