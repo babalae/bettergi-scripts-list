@@ -1,6 +1,6 @@
 import { __name } from "./rolldown-runtime.js";
 
-//#region node_modules/@bettergi/utils/dist/workflow.js
+// node_modules/@bettergi/utils/dist/workflow.js
 /** 默认最大重试次数 */
 const defaultMaxAttempts = 5;
 /** 默认重试间隔（毫秒） */
@@ -60,8 +60,7 @@ const waitForRegionDisappear = async (regionProvider, retryAction, options) => {
   );
 };
 
-//#endregion
-//#region node_modules/@bettergi/utils/dist/asserts.js
+// node_modules/@bettergi/utils/dist/asserts.js
 /**
  * 断言某个区域即将出现，否则抛出异常
  * @param regionProvider 返回区域的函数
@@ -84,8 +83,7 @@ const assertRegionDisappearing = async (regionProvider, message, retryAction, op
     throw new Error(message);
 };
 
-//#endregion
-//#region node_modules/@bettergi/utils/dist/exception.js
+// node_modules/@bettergi/utils/dist/exception.js
 /**
  * 获取错误信息字符串
  * @param err 异常对象
@@ -103,8 +101,7 @@ const isHostException = (err) => {
   return err && "hostException" in err;
 };
 
-//#endregion
-//#region node_modules/@bettergi/utils/dist/mouse.js
+// node_modules/@bettergi/utils/dist/mouse.js
 /** 使用回放脚本模拟滚动 */
 const simulateScroll = async (wheelDelta, times) => {
   const script = {
@@ -143,8 +140,44 @@ const mouseScrollDownLines = (lines, lineHeight = 175) => {
   return mouseScrollDown(lines * lineHeight);
 };
 
-//#endregion
-//#region node_modules/@bettergi/utils/dist/ocr.js
+// node_modules/@bettergi/utils/dist/misc.js
+/**
+ * 计算两个字符串的 Levenshtein 编辑距离
+ */
+const levenshtein = (source, target) => {
+  if (source === target) return 0;
+  let sourceArr = Array.from(source);
+  let targetArr = Array.from(target);
+  if (sourceArr.length > targetArr.length) [sourceArr, targetArr] = [targetArr, sourceArr];
+  const row = Array.from({ length: sourceArr.length + 1 }, (_, i) => i);
+  for (const char of targetArr) {
+    let diagonal = row[0];
+    row[0]++;
+    for (let j = 1; j <= sourceArr.length; j++) {
+      const above = row[j];
+      row[j] = Math.min(above + 1, row[j - 1] + 1, diagonal + (sourceArr[j - 1] === char ? 0 : 1));
+      diagonal = above;
+    }
+  }
+  return row[sourceArr.length];
+};
+/**
+ * 深度合并多个对象
+ * @param objects 多个对象
+ * @returns 合并后的对象副本
+ */
+const deepMerge = (...objects) => {
+  const isPlainObject = (input) => input?.constructor === Object;
+  return objects.reduce((result, obj) => {
+    return Object.entries(obj).reduce((acc, [key, value]) => {
+      acc[key] =
+        isPlainObject(acc[key]) && isPlainObject(value) ? deepMerge(acc[key], value) : value;
+      return acc;
+    }, result);
+  }, {});
+};
+
+// node_modules/@bettergi/utils/dist/ocr.js
 const scaleTo1080P = (n) => {
   return genshin.scaleTo1080PRatio <= 1 ? n : Math.floor(n / genshin.scaleTo1080PRatio);
 };
@@ -191,10 +224,23 @@ const findFirstRegion = (ir, ro, predicate) => {
  * @returns 是否匹配
  */
 const textMatch = (text, searchText, options) => {
-  const { ignoreCase = true, contains = false } = options || {};
+  const { ignoreCase = true, contains = false, maxEditDistance = 0 } = options || {};
   text = ignoreCase ? text.toLowerCase() : text;
   searchText = ignoreCase ? searchText.toLowerCase() : searchText;
-  return contains ? text.includes(searchText) : text === searchText;
+  if (!maxEditDistance || maxEditDistance <= 0)
+    return contains ? text.includes(searchText) : text === searchText;
+  if (!contains) return levenshtein(text, searchText) <= maxEditDistance;
+  else {
+    const chars = Array.from(text);
+    const length = Array.from(searchText).length;
+    const min = Math.max(0, length - maxEditDistance);
+    const max = Math.min(chars.length, length + maxEditDistance);
+    for (let size = min; size <= max; size++)
+      for (let i = 0; i + size <= chars.length; i++)
+        if (levenshtein(chars.slice(i, i + size).join(""), searchText) <= maxEditDistance)
+          return true;
+  }
+  return false;
 };
 /**
  * 在指定区域内搜索文本
@@ -310,26 +356,7 @@ const findTextWithinListView = async (
   );
 };
 
-//#endregion
-//#region node_modules/@bettergi/utils/dist/misc.js
-/**
- * 深度合并多个对象
- * @param objects 多个对象
- * @returns 合并后的对象副本
- */
-const deepMerge = (...objects) => {
-  const isPlainObject = (input) => input?.constructor === Object;
-  return objects.reduce((result, obj) => {
-    return Object.entries(obj).reduce((acc, [key, value]) => {
-      acc[key] =
-        isPlainObject(acc[key]) && isPlainObject(value) ? deepMerge(acc[key], value) : value;
-      return acc;
-    }, result);
-  }, {});
-};
-
-//#endregion
-//#region node_modules/@bettergi/utils/dist/time.js
+// node_modules/@bettergi/utils/dist/time.js
 /**
  * 获取下一个（含当日）凌晨4点的时间
  */
@@ -386,8 +413,7 @@ const formatDurationAsReadable = (duration) => {
     .join(" ");
 };
 
-//#endregion
-//#region node_modules/@bettergi/utils/dist/progress.js
+// node_modules/@bettergi/utils/dist/progress.js
 /** 进度追踪器 */
 var ProgressTracker = class {
   total = 0;
@@ -459,8 +485,7 @@ var ProgressTracker = class {
   }
 };
 
-//#endregion
-//#region node_modules/@bettergi/utils/dist/store.js
+// node_modules/@bettergi/utils/dist/store.js
 /**
  * 创建一个持久化存储对象，用于管理应用状态数据
  * 该函数会创建一个代理对象，对该对象的所有属性的修改都会自动同步到相应的JSON文件（脚本的 `store` 目录下）中。
@@ -518,7 +543,6 @@ const useStoreWithDefaults = (name, defaults) => {
   return newStore;
 };
 
-//#endregion
 export {
   ProgressTracker,
   assertRegionAppearing,

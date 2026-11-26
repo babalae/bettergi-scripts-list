@@ -16,13 +16,13 @@ import {
 } from "../constants/regions.js";
 import { isInLobby } from "./lobby.js";
 
-//#region src/modules/room.ts
-const isInRoom = () => findHeaderTitle("房间", true) !== void 0;
+// src/modules/room.ts
+const isInRoom = () => findHeaderTitle("房间", { contains: true }) !== void 0;
 /** 打开人气奇域 */
 const goToRecommendedWonderlands = async () => {
   log.info("打开人气奇域界面...");
   await assertRegionAppearing(
-    () => findHeaderTitle("人气", true),
+    () => findHeaderTitle("人气", { contains: true }),
     "打开人气奇域界面超时",
     () => {
       keyPress("VK_F6");
@@ -34,7 +34,7 @@ const createRoom = async (room) => {
   await goToRecommendedWonderlands();
   log.info("打开搜索奇域界面...");
   await assertRegionAppearing(
-    () => findHeaderTitle("搜索", true),
+    () => findHeaderTitle("搜索", { contains: true }),
     "打开搜索奇域界面超时",
     () => {
       findAllWonderlandsBtn()?.click();
@@ -99,7 +99,7 @@ const createRoom = async (room) => {
   );
   log.info("创建并进入房间...");
   await assertRegionAppearing(
-    () => findHeaderTitle("房间", true),
+    () => findHeaderTitle("房间", { contains: true }),
     "创建并进入房间超时",
     () => {
       findCreateRoomBtn()?.click();
@@ -113,7 +113,7 @@ const enterRoom = async (room) => {
     if (findEnterRoomShortcut()) {
       log.info("当前已存在房间，进入房间...", room);
       await assertRegionAppearing(
-        () => findHeaderTitle("房间", true),
+        () => findHeaderTitle("房间", { contains: true }),
         "进入房间超时",
         () => {
           keyPress("VK_P");
@@ -132,7 +132,7 @@ const leaveRoom = async () => {
     log.info("当前存在房间，离开房间...");
     /** 先进入房间 */
     await assertRegionAppearing(
-      () => findHeaderTitle("房间", true),
+      () => findHeaderTitle("房间", { contains: true }),
       "进入房间超时",
       () => {
         keyPress("VK_P");
@@ -153,5 +153,4 @@ const leaveRoom = async () => {
   }
 };
 
-//#endregion
 export { enterRoom, goToRecommendedWonderlands, leaveRoom };

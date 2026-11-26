@@ -1,4 +1,4 @@
-//#region \0rolldown/runtime.js
+// \0rolldown/runtime.js
 var __defProp = Object.defineProperty;
 var __name = (target, value) =>
   __defProp(target, "name", {
@@ -6,5 +6,4 @@ var __name = (target, value) =>
     configurable: true,
   });
 
-//#endregion
 export { __name };

@@ -7,6 +7,7 @@ import {
 } from "../@bettergi+utils.js";
 import { userConfig } from "../constants/config.js";
 import {
+  drawingBoard,
   findBeyondFavoritesBtn,
   findConfirmBtn,
   findDeleteExternalSaveChecked,
@@ -19,7 +20,7 @@ import {
 } from "../constants/regions.js";
 import { goToRecommendedWonderlands } from "./room.js";
 
-//#region src/modules/save.ts
+// src/modules/save.ts
 /** 进入管理关卡存档界面 */
 const goToManageStageSave = async () => {
   /** 打开人气奇域 */
@@ -58,7 +59,7 @@ const deleteStageSave = async () => {
       log.warn("未找到要删除的关卡存档，跳过");
       return isDeleted;
     }
-    stagePos?.drawSelf("group_text");
+    drawingBoard.text(stagePos);
     const colPos = findExternalSaveColumnPos();
     if (colPos === void 0) {
       log.warn("无法确定关卡的局外存档列位置，跳过");
@@ -115,5 +116,4 @@ const deleteStageSave = async () => {
   return isDeleted;
 };
 
-//#endregion
 export { deleteStageSave };

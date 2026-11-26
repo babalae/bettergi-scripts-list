@@ -2,19 +2,19 @@ import { __name } from "../rolldown-runtime.js";
 import { assertRegionAppearing, waitForAction } from "../@bettergi+utils.js";
 import { userConfig } from "../constants/config.js";
 import {
+  findBeyondHall,
+  findBeyondPaimon,
   findConfirmBtn,
-  findElementViewBtn,
   findGotTeyvatBtn,
   findHeaderTitle,
-  findMiliastraBtn,
   findPaimon,
 } from "../constants/regions.js";
 
-//#region src/modules/lobby.ts
+// src/modules/lobby.ts
 /** 判断是否处于奇域大厅 */
-const isInLobby = () => findPaimon() !== void 0 && findMiliastraBtn() !== void 0;
+const isInLobby = () => (findBeyondPaimon() || findBeyondHall()) !== void 0;
 /** 判断是否处于提瓦特大陆 */
-const isInTeyvat = () => findPaimon() !== void 0 && findElementViewBtn() !== void 0;
+const isInTeyvat = () => findPaimon() !== void 0;
 /** 退出大厅返回提瓦特大陆 */
 const exitLobbyToTeyvat = async () => {
   if (!userConfig.goToTeyvat) return;
@@ -24,7 +24,7 @@ const exitLobbyToTeyvat = async () => {
   }
   log.info("打开当前大厅...");
   await assertRegionAppearing(
-    () => findHeaderTitle("大厅", true),
+    () => findHeaderTitle("大厅", { contains: true }),
     "打开当前大厅超时",
     () => {
       keyPress("VK_F2");
@@ -48,5 +48,4 @@ const exitLobbyToTeyvat = async () => {
     throw new Error("返回提瓦特大陆超时");
 };
 
-//#endregion
 export { exitLobbyToTeyvat, isInLobby };
