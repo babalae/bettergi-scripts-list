@@ -1,0 +1,24 @@
+name: Asset Validation
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'assets/**'
+      - 'build/assets.js'
+      - '.github/workflows/asset_validation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-assets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node ./build/assets.js
