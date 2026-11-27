@@ -1,0 +1,112 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "思"
+      },
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.67.0",
+    "description": "  路线信息：该路线预计用时139.76秒，预计收入3000摩拉，包含以下怪物：3只精英传奇倍率五。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784816861573,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "003-传奇-枫丹-利亚姆-3只",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "dash",
+      "type": "teleport",
+      "x": 3035.6297,
+      "y": 3727.4091
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3016.5938,
+      "y": 3735.9687
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3002.6621,
+      "y": 3743.353
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";钟离 d(0.3),e(hold),attack(0.8);茜特菈莉 attack(0.05),keypress(E),wait(0.1),keypress(E);万叶 attack(0.08),keydown(E),wait(0.8),keyup(E),attack(0.2),wait(0.5);温迪 attack(0.05),keypress(E),wait(0.1),keypress(E);杜林 attack(0.05),keypress(e), wait(0.3), attack(0.2); ;",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2949.3906,
+      "y": 3761.7503
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2934.1367,
+      "y": 3767.042
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";莉奈娅 attack(0.05),keypress(E),wait(0.1),keypress(E);法尔伽 wait(3.5);wait(2)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2916.7793,
+      "y": 3774.2871
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2907.3672,
+      "y": 3779.335
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";杜林 attack(0.05),keypress(Q),keypress(e), wait(0.3),attack(0.2),wait(1),keypress(Q);万叶 attack(0.08),keydown(E),wait(0.8),keyup(E),attack(0.2),wait(5),keypress(Q); ;",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 2901.6097,
+      "y": 3782.5472
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "point_ext_params": {
+        "auto_fight": {
+          "reward_type": "experience"
+        }
+      },
+      "type": "path",
+      "x": 2901.6097,
+      "y": 3782.5472
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "info": {
+    "name": "B02-璃月-云來海-孤云閣-3只",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1752249609915,
+    "authors": [
+      {
+        "name": "蜜柑魚",
+        "links": "https://github.com/this-Fish"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -657.56,
+      "y": -90.86,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -609.13,
+      "y": -126.61,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -597.5,
+      "y": -125.51,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -550.75,
+      "y": -130.77,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -564.74,
+      "y": -119.75,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -561.94,
+      "y": -126.61,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(2.5)",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -561.94,
+      "y": -126.61,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -561.94,
+      "y": -126.61,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(1)",
+      "type": "orientation"
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "TTTTFT"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758267552435,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "自动钓鱼路线-须弥-降诸魔山",
+    "tags": [
+      "钓鱼",
+      "须弥"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2289.002,
+      "y": -1197.3247
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2290.9727,
+      "y": -1201.71
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2317.0996,
+      "y": -1282.5273
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2317.498,
+      "y": -1283.5298
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2319.3955,
+      "y": -1279.8071
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 2320.6465,
+      "y": -1282.4155
+    },
+    {
+      "action": "fishing",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 2324.5918,
+      "y": -1289.8003
+    }
+  ]
+}

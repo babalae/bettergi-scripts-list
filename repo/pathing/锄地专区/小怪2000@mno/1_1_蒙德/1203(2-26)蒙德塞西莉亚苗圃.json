@@ -1,0 +1,234 @@
+{
+  "info": {
+    "name": "1203(2-26)蒙德塞西莉亚苗圃",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时185.51秒，包含2只精英与25只小怪，预计收入1453摩拉，包含以下怪物：2只火史莱姆、1只大型火史莱姆、1只水史莱姆、4只风史莱姆、5只丘丘人、1只打手丘丘人、2只冲锋丘丘人、3只木盾丘丘人、1只射手丘丘人、2只火箭丘丘人、1只冰箭丘丘人、2只火斧丘丘暴徒、1只水丘丘萨满、1只风丘丘萨满。",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -251.66,
+      "y": 2256.58,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -270.82,
+      "y": 2230.03,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -270.82,
+      "y": 2230.03,
+      "action": "log_output",
+      "move_mode": "walk",
+      "action_params": "本线路预计 精英200*2 小怪*26",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -270.49,
+      "y": 2280.43,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -270.49,
+      "y": 2280.43,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -267.98,
+      "y": 2294.62,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -277.25,
+      "y": 2337.21,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -277.25,
+      "y": 2337.21,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -334.76,
+      "y": 2350.27,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -339.14,
+      "y": 2367.23,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -339.14,
+      "y": 2367.23,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": -352.22,
+      "y": 2376.52,
+      "action": "",
+      "move_mode": "jump",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": -350.15,
+      "y": 2412.91,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": -370.53,
+      "y": 2428.44,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 15,
+      "x": -401.74,
+      "y": 2427.29,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "1000",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": -403,
+      "y": 2436.95,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": -403,
+      "y": 2436.95,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 18,
+      "x": -404.18,
+      "y": 2445.67,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 19,
+      "x": -392.42,
+      "y": 2499.61,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 20,
+      "x": -392.42,
+      "y": 2499.61,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 21,
+      "x": -413.96,
+      "y": 2490.5,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 22,
+      "x": -421.79,
+      "y": 2469.62,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 23,
+      "x": -421.79,
+      "y": 2469.62,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 24,
+      "x": -421.79,
+      "y": 2469.62,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.1)",
+      "type": "orientation"
+    }
+  ]
+}

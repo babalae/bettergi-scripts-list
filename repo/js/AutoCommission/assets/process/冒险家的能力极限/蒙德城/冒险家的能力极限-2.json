@@ -1,0 +1,58 @@
+{
+  "info": {
+    "name": "冒险家的能力极限-2",
+    "type": "collect",
+    "author": "11",
+    "version": "1.0",
+    "description": "冒险家的能力极限-2",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -386.2841796875,
+      "y": 2297.700439453125,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -443.484375,
+      "y": 2294.5087890625,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -457.3330078125,
+      "y": 2279.69921875,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -472.001953125,
+      "y": 2275.300537109375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -467.5673828125,
+      "y": 2279.7392578125,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

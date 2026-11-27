@@ -1,0 +1,112 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Tooltingsu",
+        "name": "Tool_tingsu"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1756876863685,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "01-汐藻-很明亮的地方-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4713.2012,
+      "y": 2391.5525
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4714.7119,
+      "y": 2383.5991
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4717.9023,
+      "y": 2358.9185
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4720.0488,
+      "y": 2325.1489
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4690.7129,
+      "y": 2297.3503
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(5),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4680.9434,
+      "y": 2302.7583
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4676.3027,
+      "y": 2294.9155
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(3),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4680.001,
+      "y": 2291.5659
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4682.5068,
+      "y": 2282.9727
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(3),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4687.2783,
+      "y": 2270.6416
+    }
+  ]
+}

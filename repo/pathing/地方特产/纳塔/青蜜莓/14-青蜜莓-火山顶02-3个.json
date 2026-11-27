@@ -1,0 +1,67 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1756815481075,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "14-青蜜莓-火山顶02-3个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10571.2246,
+      "y": -3133.6191
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 10560.334,
+      "y": -3141.0566
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(6)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 10468.8086,
+      "y": -3178.5254
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "1000",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 10464.4453,
+      "y": -3179.9033
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 10470.0322,
+      "y": -3184.9199
+    }
+  ]
+}

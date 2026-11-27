@@ -1,0 +1,175 @@
+{
+  "info": {
+    "name": "A12-甜甜花-蒙德-摘星崖-8个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "甜甜花"
+    ],
+    "last_modified_time": 1748853111994,
+    "authors": [
+      {
+        "name": "ddaodan",
+        "links": "https://github.com/ddaodan"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1558.51,
+      "y": 2497.75,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -1536.57,
+      "y": 2496.89,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -1518.56,
+      "y": 2501.54,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -1493.7,
+      "y": 2490.77,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -1490.29,
+      "y": 2479.84,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.2)",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -1462.18,
+      "y": 2434.23,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -1462.44,
+      "y": 2425.95,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.2)",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -1448.33,
+      "y": 2361.85,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -1428.55,
+      "y": 2349.4,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.2)",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": -1463.48,
+      "y": 2323.51,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.2)",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": -1429.31,
+      "y": 2321.2,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.2)",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": -1409.63,
+      "y": 2312.07,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 13,
+      "x": -1390.62,
+      "y": 2292.38,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 14,
+      "x": -1382.38,
+      "y": 2278.06,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 15,
+      "x": -1385.78,
+      "y": 2267.77,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 16,
+      "x": -1382.27,
+      "y": 2253.65,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.2)",
+      "type": "path"
+    },
+    {
+      "id": 17,
+      "x": -1360.56,
+      "y": 2188.79,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.2)",
+      "type": "path"
+    }
+  ]
+}

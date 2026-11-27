@@ -1,0 +1,143 @@
+{
+  "info": {
+    "name": "6107--纳塔_镜璧山_神像2_(9-6)",
+    "type": "collect",
+    "author": "Demo&汐&mno",
+    "version": "1.6",
+    "description": "  路线信息：该路线预计用时218.29秒，包含15只小怪，预计收入972摩拉，包含以下怪物：2只灵觉勇士·执意师、1只灵觉勇士·控念师、3只幼暝视龙、9只暝视龙。",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "Demo"
+      },
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      },
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9395.39,
+      "y": -1810.55,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 9436.65,
+      "y": -1813.99,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 9430.33,
+      "y": -1807.52,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 9441.25,
+      "y": -1761.38,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 9442.44,
+      "y": -1741.88,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 9451.81,
+      "y": -1727.13,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 9452.84,
+      "y": -1701.44,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 9456.66,
+      "y": -1679.28,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "1000",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 9458.81,
+      "y": -1671.92,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 10,
+      "x": 9458.81,
+      "y": -1671.92,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 11,
+      "x": 9432.12,
+      "y": -1655.12,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 12,
+      "x": 9389.39,
+      "y": -1660.46,
+      "action": "fight",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 13,
+      "x": 9389.39,
+      "y": -1660.46,
+      "action": "combat_script",
+      "move_mode": "dash",
+      "action_params": "wait(0.1)",
+      "type": "orientation"
+    }
+  ]
+}

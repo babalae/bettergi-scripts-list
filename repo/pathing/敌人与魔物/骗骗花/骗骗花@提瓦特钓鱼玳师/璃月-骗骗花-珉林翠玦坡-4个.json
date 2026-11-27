@@ -1,0 +1,190 @@
+{
+  "info": {
+    "name": "璃月-骗骗花-珉林翠玦坡-4个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "骗骗花-4个\n璃月-珉林翠玦坡\n经由Economy优化交互触发",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 835.4,
+      "y": 240.79,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 865.09,
+      "y": 243.79,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 905.47,
+      "y": 293.18,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 913.02,
+      "y": 286.96,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 905.28,
+      "y": 294.81,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 851.13,
+      "y": 436.99,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 806.42,
+      "y": 445.44,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 807.08,
+      "y": 455.24,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 796.53,
+      "y": 459.76,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 800.06,
+      "y": 469.91,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 794.86,
+      "y": 477.91,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 825.29,
+      "y": 547.21,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 777.81,
+      "y": 586.23,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": 760.52,
+      "y": 595.34,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
+      "locked": false
+    },
+    {
+      "id": 15,
+      "x": 760.52,
+      "y": 595.34,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 16,
+      "x": 689.67,
+      "y": 597.31,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 17,
+      "x": 640.29,
+      "y": 637.58,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 18,
+      "x": 633.48,
+      "y": 654.98,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
+      "locked": false
+    },
+    {
+      "id": 19,
+      "x": 633.48,
+      "y": 654.98,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

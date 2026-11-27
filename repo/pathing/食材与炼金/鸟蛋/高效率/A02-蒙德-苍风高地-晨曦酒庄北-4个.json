@@ -1,0 +1,103 @@
+{
+  "info": {
+    "name": "A02-蒙德-苍风高地-晨曦酒庄北-4个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.54.0",
+    "tags": [],
+    "last_modified_time": 1752161510097,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -576.96,
+      "y": 1856.02,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -516.67,
+      "y": 1869.73,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -430.55,
+      "y": 1890.06,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -415.59,
+      "y": 1888.35,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": -415.59,
+      "y": 1888.35,
+      "type": "target",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -389.19,
+      "y": 1886.68,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": -386.48,
+      "y": 1882.5,
+      "type": "target",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": -384.22,
+      "y": 1879.87,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": -384.22,
+      "y": 1879.87,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)"
+    }
+  ]
+}

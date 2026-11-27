@@ -1,0 +1,85 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时153.5秒，包含以下怪物：1只冰结镜映体。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1794508854756,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "H033至冬晶树溶洞南",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4165.6953,
+      "y": 10593.2275
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4143.0469,
+      "y": 10573.5264
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4126.248,
+      "y": 10543.6914
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4119.2188,
+      "y": 10511.7432
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4116.6709,
+      "y": 10467.6826
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";钟离 a(0.1),e(hold);茜特菈莉 attack(0.08),keypress(E),wait(0.1),keypress(E);莱依拉 attack(0.08),keypress(E),wait(0.1),keypress(E);伊涅芙 attack(0.08),keypress(E),wait(0.1),keypress(E);尼可 attack(0.08),keypress(E),wait(0.1),keypress(E); ;",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4095.4678,
+      "y": 10363.9561
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4118.7539,
+      "y": 10352.4766
+    }
+  ]
+}

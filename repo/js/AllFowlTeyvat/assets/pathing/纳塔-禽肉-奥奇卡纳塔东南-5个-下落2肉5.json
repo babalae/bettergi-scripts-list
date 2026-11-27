@@ -1,0 +1,75 @@
+{
+    "info": {
+        "name": "纳塔-禽肉-奥奇卡纳塔东南-5个-下落2肉5",
+        "type": "collect",
+        "author": "提瓦特钓鱼玳师",
+        "version": "1.0",
+        "description": "地区: 纳塔\n类型: 禽肉\n详细位置: 奥奇卡纳塔东南\n数目: 5\n附加信息: 2禽肉鸟共5只\n注意: 使用前请将游戏时间调到白天，跑图位建议使用绮良良或埃洛伊",
+        "bgi_version": "0.43.1"
+    },
+    "positions": [
+        {
+            "id": 1,
+            "action": "",
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": 9813.49,
+            "y": -372.26,
+            "action_params": ""
+        },
+        {
+            "id": 2,
+            "x": 9773.93,
+            "y": -378.84,
+            "type": "path",
+            "move_mode": "walk",
+            "action": "",
+            "action_params": ""
+        },
+        {
+            "id": 3,
+            "x": 9743.37,
+            "y": -350.49,
+            "type": "target",
+            "move_mode": "fly",
+            "action": "stop_flying",
+            "action_params": ""
+        },
+        {
+            "id": 4,
+            "x": 9745.07,
+            "y": -347.68,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(1)"
+        },
+        {
+            "id": 5,
+            "x": 9742.97,
+            "y": -347.7,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(1)"
+        },
+        {
+            "id": 6,
+            "x": 9740.46,
+            "y": -349.45,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(1)"
+        },
+        {
+            "id": 7,
+            "x": 9741.64,
+            "y": -352.24,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(1)"
+        }
+    ]
+}

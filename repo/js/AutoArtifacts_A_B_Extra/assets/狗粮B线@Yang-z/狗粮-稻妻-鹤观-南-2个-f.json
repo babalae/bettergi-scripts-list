@@ -1,0 +1,42 @@
+{
+    "info": {
+        "name": "狗粮-稻妻-鹤观-南-2个-f",
+        "type": "collect",
+        "author": "Yang-z",
+        "version": "1.1",
+        "bgi_version": "0.42.0"
+    },
+    "positions": [
+        {
+            "x": -2612.30078125,
+            "y": -6508.21875,
+            "type": "teleport"
+        },
+        {
+            "x": -2583.203125,
+            "y": -6523.86328125,
+            "type": "path",
+            "move_mode": "fly",
+            "action": "stop_flying"
+        },
+        {
+            "x": -2581.470703125,
+            "y": -6529.7802734375,
+            "type": "target",
+            "move_mode": "walk"
+        },
+        {
+            "x": -2579.80859375,
+            "y": -6533.02734375,
+            "type": "target",
+            "move_mode": "walk"
+        },
+
+        {
+            "x": -2580.0732421875,
+            "y": -6535.291015625,
+            "type": "path",
+            "move_mode": "walk"
+        }
+    ]
+}

@@ -1,0 +1,149 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Tooltingsu",
+        "name": "Tool_tingsu"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1756877062318,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "02-汐藻-海沫村-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4905.9883,
+      "y": 2429.0962
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4922.0459,
+      "y": 2415.8809
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4925.9424,
+      "y": 2412.6748
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4951.999,
+      "y": 2411.2275
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4967.3906,
+      "y": 2408.5088
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4973.3643,
+      "y": 2411.9612
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4981.6582,
+      "y": 2420.4761
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4984.4463,
+      "y": 2423.9148
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4990.5762,
+      "y": 2429.873
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4997.5674,
+      "y": 2437.0876
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4990.9688,
+      "y": 2447.5093
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 12,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4987.4111,
+      "y": 2471.0811
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(1.5),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)",
+      "id": 13,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4987.4111,
+      "y": 2471.0811
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)",
+      "id": 14,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 4982.502,
+      "y": 2480.293
+    }
+  ]
+}

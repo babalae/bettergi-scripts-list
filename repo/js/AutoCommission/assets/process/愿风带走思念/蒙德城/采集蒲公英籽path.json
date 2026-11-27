@@ -1,0 +1,107 @@
+﻿{
+  "info": {
+    "authors": [],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757649845325,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "采集蒲公英籽",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -868.12109375,
+      "y": 2280.89599609375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": -875.927734375,
+      "y": 2273.329345703125
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -880.04296875,
+      "y": 2264.65283203125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -896.40625,
+      "y": 2251.08740234375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -939.28515625,
+      "y": 2228.3173828125
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -951.216796875,
+      "y": 2217.99169921875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -966.08984375,
+      "y": 2233.62353515625
+    },
+    {
+      "action": "anemo_collect",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -975.501953125,
+      "y": 2250.43359375
+    },
+    {
+      "action": "anemo_collect",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -973.990234375,
+      "y": 2243.23681640625
+    },
+    {
+      "action": "anemo_collect",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -980.72265625,
+      "y": 2237.068359375
+    }
+  ]
+}

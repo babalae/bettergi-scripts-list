@@ -1,0 +1,67 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777397646953,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E05-松茸-枫丹-深潮的余响-2个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4702.1875,
+      "y": 3957.3828
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4684.707,
+      "y": 3952.707
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4672.7422,
+      "y": 3916.9448
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4658.917,
+      "y": 3890.793
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.321)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4665.3965,
+      "y": 3893.2979
+    }
+  ]
+}

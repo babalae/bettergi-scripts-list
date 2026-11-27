@@ -1,0 +1,53 @@
+{
+  "info": {
+    "name": "12-巨人峡谷-1只",
+    "type": "collect",
+    "author": "jay",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "驮兽",
+      "兽肉",
+      "愚人众",
+      "镀金旅团",
+      "沙暴"
+    ],
+    "last_modified_time": 1754396948920,
+    "authors": [
+      {
+        "name": "jay"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 5196.8623,
+      "y": -1336.6216,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 5178.0771,
+      "y": -1323.3418,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 5159.5,
+      "y": -1310.5,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

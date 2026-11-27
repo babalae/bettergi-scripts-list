@@ -1,0 +1,72 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/evildoer12138",
+        "name": "鸿羽er"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1757917753880,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "霜夜灵嗣08-空寂走廊（2）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9208.9939,
+      "y": 2517.0891
+    },
+    {
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9180.2482,
+      "y": 2532.5237
+    },
+    {
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 9203.5002,
+      "y": 2606.2455
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9293.5003,
+      "y": 2704.9993
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9205.0,
+      "y": 2811.9991
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9166.4995,
+      "y": 2801.0046
+    }
+  ]
+}

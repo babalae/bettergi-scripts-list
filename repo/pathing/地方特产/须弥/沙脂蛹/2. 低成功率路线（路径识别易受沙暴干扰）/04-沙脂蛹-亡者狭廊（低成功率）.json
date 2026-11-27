@@ -1,0 +1,72 @@
+{
+  "info": {
+    "name": "04-沙脂蛹-亡者狭廊（低成功率）",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "无狐"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4762.45,
+      "y": -982.89,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4802.01,
+      "y": -974.78,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": 4826.01,
+      "y": -981.78,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": 4826.01,
+      "y": -981.78,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 4824.73,
+      "y": -971.74,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 4820.72,
+      "y": -968.28,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

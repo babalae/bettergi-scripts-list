@@ -1,0 +1,94 @@
+{
+  "info": {
+    "name": "A35-甜甜花-蒙德-风龙废墟-2个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "ddaodan",
+        "links": "https://github.com/ddaodan"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "甜甜花"
+    ],
+    "last_modified_time": 1751906815061
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 177.47,
+      "y": 2647.39,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 179.78,
+      "y": 2638.07,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 165.05,
+      "y": 2614.51,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 156.56,
+      "y": 2608.22,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 140.27,
+      "y": 2598.96,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 111.76,
+      "y": 2605.23,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    },
+    {
+      "id": 7,
+      "x": 100.32,
+      "y": 2613.14,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 87.33,
+      "y": 2623.5,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    }
+  ]
+}

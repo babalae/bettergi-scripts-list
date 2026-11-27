@@ -1,0 +1,54 @@
+{
+  "info": {
+    "name": "611纳塔火山安饶之野东北边缘（200_1）",
+    "type": "collect",
+    "author": "汐",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时59.17秒，包含1只精英与7只小怪，预计收入645.5摩拉，包含以下怪物：1只丘丘水行游侠、70只秘源机兵·构型械、3只幼突角龙、4只突角龙。",
+    "bgi_version": "0.42.3",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 9522.31,
+      "y": -2216.06,
+      "action": "force_tp",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 9528.35,
+      "y": -2218.44,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 9546.65,
+      "y": -2226.94,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "attack(0.5)"
+    },
+    {
+      "id": 4,
+      "x": 9547.64,
+      "y": -2253.9,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

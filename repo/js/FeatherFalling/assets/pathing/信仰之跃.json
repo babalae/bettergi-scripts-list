@@ -1,0 +1,32 @@
+{
+  "info": {
+    "name": "信仰之跃",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 508.03515625,
+      "y": -630.49072265625,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport",
+      "locked": false
+    },
+    {
+      "id": 2,
+      "x": 499.87890625,
+      "y": -686.18310546875,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "10000",
+      "type": "path"
+    }
+  ]
+}

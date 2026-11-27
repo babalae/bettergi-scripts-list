@@ -1,0 +1,95 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "1"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758606849257,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "奔狼领-1",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -510.04,
+      "y": 2193.18
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -510,
+      "y": 2210
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -490.92,
+      "y": 2221.81
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -497.42,
+      "y": 2235.31
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -510.79,
+      "y": 2235.68
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -508.29,
+      "y": 2222.93
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(3),wait(0.3),keypress(1),wait(0.3),keypress(E),wait(0.4),keypress(Q),wait(0.6),attack(1),wait(0.3),keypress(2),wait(0.3),keypress(E),wait(0.3),keypress(Q)",
+      "id": 7,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -500.92,
+      "y": 2228.68
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -500.92,
+      "y": 2228.68
+    }
+  ]
+}

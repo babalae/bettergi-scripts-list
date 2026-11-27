@@ -1,0 +1,99 @@
+{
+  "info": {
+    "name": "3210稻妻公义飞萤",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时59.61秒，包含2只小怪，预计收入243摩拉，包含以下怪物：2只雷萤。",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -3156.62,
+      "y": -3886.01,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -3168.06,
+      "y": -3883.38,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -3204.63,
+      "y": -3876.54,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "2500",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -3210.37,
+      "y": -3876.99,
+      "action": "",
+      "move_mode": "dash",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": -3236.53,
+      "y": -3879.96,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -3237.4,
+      "y": -3879.99,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -3250.04,
+      "y": -3848.97,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -3250.04,
+      "y": -3848.97,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": -3250.04,
+      "y": -3848.97,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "orientation"
+    }
+  ]
+}

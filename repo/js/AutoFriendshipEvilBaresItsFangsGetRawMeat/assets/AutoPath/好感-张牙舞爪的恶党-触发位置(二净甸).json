@@ -1,0 +1,38 @@
+{
+  "info": {
+    "name": "好感-张牙舞爪的恶党-触发位置(二净甸)",
+    "type": "collect",
+    "author": "起个名字好难的喵",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.44.4"
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3705.5322265625,
+      "y": -497.45068359375,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 3615.4814453125,
+      "y": -521.2724609375,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "2500"
+    },
+    {
+      "x": 3615.4814453125,
+      "y": -521.2724609375,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

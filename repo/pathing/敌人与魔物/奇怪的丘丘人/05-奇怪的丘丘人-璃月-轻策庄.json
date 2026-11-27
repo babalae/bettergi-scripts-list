@@ -1,0 +1,41 @@
+{
+  "info": {
+    "name": "05-奇怪的丘丘人-璃月-轻策庄",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "起个名字好难的喵",
+        "links": "https://github.com/MisakaAldrich"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 547.65,
+      "y": 1766.79
+    },
+    {
+      "id": 2,
+      "x": 620.29,
+      "y": 1902.31,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 619.6,
+      "y": 1907.94,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}

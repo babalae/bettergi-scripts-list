@@ -1,0 +1,45 @@
+{
+  "info": {
+    "name": "蕈兽-05天碧池02",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "C-01-11011",
+        "links": "https://github.com/C-01-11011"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "fly",
+      "type": "teleport",
+      "x": 2699.45,
+      "y": -762.46,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "path",
+      "x": 2655.8,
+      "y": -661.75,
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "path",
+      "x": 2655.8,
+      "y": -661.75,
+      "action_params": ""
+    }
+  ]
+}

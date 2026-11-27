@@ -1,0 +1,53 @@
+{
+  "info": {
+    "name": "璃月-骗骗花-碧水原无妄坡西南岸边-1个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "骗骗花-1个\n璃月-碧水原无妄坡西南岸边\n经由Economy优化交互触发",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 483.12,
+      "y": 1444.07,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 556.63,
+      "y": 1331.04,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 556.63,
+      "y": 1331.04,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
+      "type": "target"
+    },
+    {
+      "id": 4,
+      "x": 556.63,
+      "y": 1331.04,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

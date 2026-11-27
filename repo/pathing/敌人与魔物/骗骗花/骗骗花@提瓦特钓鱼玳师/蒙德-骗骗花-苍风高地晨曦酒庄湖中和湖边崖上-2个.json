@@ -1,0 +1,102 @@
+{
+  "info": {
+    "name": "蒙德-骗骗花-苍风高地晨曦酒庄湖中和湖边崖上-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "骗骗花-1个\n蒙德-龙脊雪山\n经由Economy优化交互触发",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -321.73,
+      "y": 1470.27,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -273.56,
+      "y": 1590.62,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 3,
+      "x": -274.12,
+      "y": 1593.81,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 4,
+      "x": -270.25,
+      "y": 1592.0,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
+      "type": "target",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": -273.0,
+      "y": 1592.19,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": -265.5,
+      "y": 1603.25,
+      "action": "",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": -223.65,
+      "y": 1689.35,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -225.74,
+      "y": 1691.27,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),dash"
+    },
+    {
+      "id": 9,
+      "x": -223.65,
+      "y": 1689.35,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

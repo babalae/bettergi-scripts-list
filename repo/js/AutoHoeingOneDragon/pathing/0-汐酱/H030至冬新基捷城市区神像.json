@@ -1,0 +1,59 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时43.5秒，包含以下怪物：3只兽怪敲打者。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1794507248200,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "H030至冬新基捷城市区神像",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4443.9229,
+      "y": 9888.9219
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4430.207,
+      "y": 9878.7412
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "3000",
+      "id": 3,
+      "locked": false,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 4428.5391,
+      "y": 9862.4355
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4428.5391,
+      "y": 9862.4355
+    }
+  ]
+}

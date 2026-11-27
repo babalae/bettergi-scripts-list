@@ -1,0 +1,141 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时139秒，包含9只精英，预计收入3400摩拉，包含以下怪物：3只嗜岩·兽境幼兽、2只遗迹守卫、1只遗迹重机、3只深海龙蜥·原种。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1760122348657,
+    "map_match_method": "",
+    "map_name": "Enkanomiya",
+    "name": "332稻妻渊下宫常夜灵庙东北（600_2，200_7）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -409.1,
+      "y": 575.41
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -405.79,
+      "y": 572.09
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": -402.8,
+      "y": 538.23
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -426.21,
+      "y": 507.67
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -434.03,
+      "y": 517.0
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -399.49,
+      "y": 512.98
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -351.13,
+      "y": 472.73
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -343.44,
+      "y": 466.63
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2),wait(1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -311.75,
+      "y": 511.52
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "run",
+      "type": "path",
+      "x": -310.0093,
+      "y": 494.2224
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -283.4011,
+      "y": 499.0366
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -305.6816,
+      "y": 488.3811
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": -305.6816,
+      "y": 488.3811
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "info": {
+    "name": "黑蛇众04-地下水泽2-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "TheChasm",
+    "bgi_version": "0.47.2",
+    "authors": [
+      {
+        "name": "Tool_tingsu",
+        "links": "https://github.com/Tooltingsu"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 551.11,
+      "y": 950.87,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 562.03,
+      "y": 940.16,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "2700"
+    },
+    {
+      "id": 3,
+      "x": 562.86,
+      "y": 915.83,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 560.16,
+      "y": 891.77,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 568.71,
+      "y": 864.21,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 586.84,
+      "y": 851.53,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 609.1,
+      "y": 827.77,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 628.94,
+      "y": 811.04,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

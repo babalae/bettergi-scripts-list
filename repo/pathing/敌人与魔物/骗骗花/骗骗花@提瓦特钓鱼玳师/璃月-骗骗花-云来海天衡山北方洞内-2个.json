@@ -1,0 +1,62 @@
+{
+  "info": {
+    "name": "璃月-骗骗花-云来海天衡山北方洞内-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "骗骗花-2个\n璃月-云来海天衡山北方洞内",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 611.96,
+      "y": -284.06,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 614.0,
+      "y": -302.75,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 594.51,
+      "y": -350.19,
+      "action": "combat_script",
+      "move_mode": "fly",
+      "action_params": "keypress(space),wait(3),keypress(space)",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 569.49,
+      "y": -353.19,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 569.49,
+      "y": -353.19,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

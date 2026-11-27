@@ -1,0 +1,70 @@
+{
+  "info": {
+    "name": "纳塔龙众-坚岩隘谷5",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "老马RYO"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 8249.0,
+      "y": -1728.5,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 8249.25,
+      "y": -1712.74,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 3,
+      "x": 8261.5,
+      "y": -1729.75,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 8273.81,
+      "y": -1751.16,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 8287.75,
+      "y": -1765.5,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    },
+    {
+      "id": 6,
+      "x": 8320.77,
+      "y": -1781.93,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "target"
+    }
+  ]
+}

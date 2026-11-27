@@ -1,0 +1,165 @@
+{
+  "info": {
+    "author": "Demo&汐&mno",
+    "authors": [
+      {
+        "name": "Demo"
+      },
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      },
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时182.3秒，包含13只小怪，预计收入850.5摩拉，包含以下怪物：2只铸砂勇士·叩问人、1只嵴锋龙武士·碎晶打者、2只幼嵴锋龙、2只嵴锋龙、1只幼匿叶龙、5只匿叶龙。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1760726457587,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "6503--纳塔_坚岩隘谷_隆崛坡_(6-1)",
+    "tags": [],
+    "type": "collect",
+    "version": "1.1"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7857.52,
+      "y": -1751.26
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 7863.16,
+      "y": -1744.08
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7897.38,
+      "y": -1695.05
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2),keydown(s),wait(0.3),dash,wait(0.4),dash,wait(1),keyup(s)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7948.28,
+      "y": -1651.3
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7923.64,
+      "y": -1672.79
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7906.63,
+      "y": -1620.07
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1);芙宁娜 e;玛薇卡 e;爱可菲 e;伊涅芙 e;",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7858.63,
+      "y": -1601.5
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7846.69,
+      "y": -1568.38
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7827.51,
+      "y": -1588.93
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2)",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7802.58,
+      "y": -1583.52
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2)",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7789.47,
+      "y": -1561.34
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7760.41,
+      "y": -1551.05
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2)",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7742.26,
+      "y": -1586
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7723.29,
+      "y": -1587.09
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 7723.29,
+      "y": -1587.09
+    }
+  ]
+}

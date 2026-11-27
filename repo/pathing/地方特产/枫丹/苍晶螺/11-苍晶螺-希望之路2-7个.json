@@ -1,0 +1,174 @@
+{
+  "info": {
+    "name": "11-苍晶螺-希望之路2-7个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "Tool_tingsu",
+        "links": "https://github.com/Tooltingsu"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.47.2",
+    "tags": [],
+    "last_modified_time": 1753539365012,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4770.25,
+      "y": 3159.48,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4857.25,
+      "y": 3222.26,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4901.92,
+      "y": 3235.1,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4908.04,
+      "y": 3226.9,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(7),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)"
+    },
+    {
+      "id": 5,
+      "x": 4906.25,
+      "y": 3229.43,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)"
+    },
+    {
+      "id": 6,
+      "x": 4905.31,
+      "y": 3229.72,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_SPACE),wait(4.5),keyup(VK_SPACE),wait(1),keypress(VK_MBUTTON)"
+    },
+    {
+      "id": 7,
+      "x": 4901.48,
+      "y": 3214.37,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(1.7),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)"
+    },
+    {
+      "id": 8,
+      "x": 4899.03,
+      "y": 3226.67,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 4890.3,
+      "y": 3219.68,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(7),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)"
+    },
+    {
+      "id": 10,
+      "x": 4891.78,
+      "y": 3221.28,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 4892.13,
+      "y": 3221.85,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_SPACE),wait(1),keyup(VK_SPACE),wait(1),keypress(VK_MBUTTON)"
+    },
+    {
+      "id": 12,
+      "x": 4882.23,
+      "y": 3224.9,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 4881.79,
+      "y": 3218.65,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)"
+    },
+    {
+      "id": 14,
+      "x": 4896.64,
+      "y": 3207.81,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 15,
+      "x": 4901.31,
+      "y": 3198.74,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)"
+    },
+    {
+      "id": 16,
+      "x": 4906.39,
+      "y": 3196.51,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_LCONTROL),wait(1),keyup(VK_LCONTROL),wait(1),keypress(VK_MBUTTON)"
+    },
+    {
+      "id": 17,
+      "x": 4902.64,
+      "y": 3193.32,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(VK_SPACE),wait(4),keyup(VK_SPACE),wait(1),keypress(VK_MBUTTON)"
+    }
+  ]
+}

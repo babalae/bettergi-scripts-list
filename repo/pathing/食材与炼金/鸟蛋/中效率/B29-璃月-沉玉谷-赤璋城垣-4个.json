@@ -1,0 +1,120 @@
+{
+  "info": {
+    "name": "B29-璃月-沉玉谷-赤璋城垣-4个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "汐",
+        "links": "https://github.com/jiegedabaobei"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.54.0",
+    "tags": [],
+    "last_modified_time": 1752173177743,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 2319.0,
+      "y": 1598.43,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 2324.73,
+      "y": 1576.1,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 2344.51,
+      "y": 1509.44,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 2350.71,
+      "y": 1488.07,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 2348.08,
+      "y": 1476.33,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(w),wait(0.2),j,keyup(w)"
+    },
+    {
+      "id": 6,
+      "x": 2348.59,
+      "y": 1477.26,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 2341.38,
+      "y": 1463.51,
+      "type": "orientation",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "keydown(w),wait(0.2),j,keyup(w)"
+    },
+    {
+      "id": 8,
+      "x": 2341.07,
+      "y": 1463.15,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 2335.96,
+      "y": 1463.17,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 2270.49,
+      "y": 1494.52,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "500"
+    },
+    {
+      "id": 11,
+      "x": 2270.18,
+      "y": 1492.9,
+      "type": "path",
+      "move_mode": "climb",
+      "action": "",
+      "action_params": ""
+    }
+  ]
+}

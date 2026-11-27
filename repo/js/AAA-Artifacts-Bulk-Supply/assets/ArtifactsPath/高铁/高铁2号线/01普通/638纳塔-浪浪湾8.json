@@ -1,0 +1,212 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1793906937532,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "638纳塔-浪浪湾8",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 14432.498,
+      "y": 793.3433
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 14421.4688,
+      "y": 814.3936
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 14394.1914,
+      "y": 813.0215
+    },
+    {
+      "action": "combat_script",
+      "pickup_target_count": 2,
+      "action_params": ";万叶 attack(0.02),keydown(E),wait(0.7),keyup(E),attack(0.2);琴 attack(0.08),keydown(E),wait(0.4),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,0),wait(0.2),moveby(1000,-3500),wait(1.8),keyup(E),wait(0.3),click(middle);芙宁娜 e;",
+      "id": 4,
+      "move_mode": "swim",
+      "type": "target",
+      "x": 14394.9648,
+      "y": 807.5679
+    },
+    {
+      "action": "force_tp",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 14432.2266,
+      "y": 793.1157
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(w),",
+      "id": 6,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 14475.0635,
+      "y": 823.6826
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 14501.3535,
+      "y": 840.9355
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.3),keypress(t),w(0.2),keypress(t),w(0.2),keypress(t)",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 14507.9463,
+      "y": 849.4805
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 14502.9326,
+      "y": 855.4521
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 14503.3438,
+      "y": 852.1252
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 14500.6152,
+      "y": 852.6641
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 14507.8985,
+      "y": 857.7968
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 14524.7334,
+      "y": 880.9058
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 14524.7334,
+      "y": 880.9058
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(f),wait(0.5),keypress(f),keydown(w),j,wait(0.3),keypress(e),wait(1.7),keypress(e),wait(0.5),keyup(w)",
+      "id": 15,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 14538.2495,
+      "y": 958.1283
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 16,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 14539.3301,
+      "y": 961.4448
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
+      "id": 17,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 14539.3301,
+      "y": 961.4448
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 18,
+      "move_mode": "run",
+      "type": "path",
+      "x": 14529.168,
+      "y": 970.1733
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
+      "id": 19,
+      "move_mode": "dash",
+      "type": "target",
+      "x": 14531.626,
+      "y": 983.8677
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 20,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 14542.7666,
+      "y": 986.0254
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 21,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 14548.5996,
+      "y": 986.6436
+    }
+  ]
+}

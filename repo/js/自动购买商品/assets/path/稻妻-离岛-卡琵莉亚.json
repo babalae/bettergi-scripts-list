@@ -1,0 +1,76 @@
+﻿{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1771244091604,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "稻妻-离岛-卡琵莉亚",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -3812.6640625,
+      "y": -2546.552734375
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3815.06640625,
+      "y": -2547.873046875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": -3809.20703125,
+      "y": -2581.09765625
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -3792.689453125,
+      "y": -2579.279296875
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -3792.6328125,
+      "y": -2582.767578125
+    },
+    {
+      "action": "combat_script",
+      "action_params": "w(0.5),wait(0.25)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": -3792.531381763878,
+      "y": -2585.5625
+    }
+  ]
+}

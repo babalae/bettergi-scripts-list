@@ -1,0 +1,81 @@
+{
+  "info": {
+    "name": "丘丘王06",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "XS",
+        "links": "https://github.com/xwsqy6"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1037.71,
+      "y": -559.52,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1015.31,
+      "y": -500.0,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 1001.81,
+      "y": -509.25,
+      "action": "",
+      "move_mode": "fly",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 994.07,
+      "y": -517.75,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 971.58,
+      "y": -533.5,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 954.09,
+      "y": -520.25,
+      "action": "",
+      "move_mode": "walk",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 942.69,
+      "y": -498.98,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "stop_flying"
+    },
+    {
+      "id": 8,
+      "x": 921.42,
+      "y": -494.64,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight"
+    }
+  ]
+}

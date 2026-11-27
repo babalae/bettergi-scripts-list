@@ -1,0 +1,15 @@
+{
+  "manifest_version": 1,
+  "name": "晶蝶诱捕装置",
+  "version": "2.1",
+  "bgi_version": "0.44.3",
+  "description": "自动放置和收集晶蝶诱捕装置。\n\n----------使用说明----------\n●BetterGI 版本必须大于0.44.3，低于此版本无法使用！\n●请确保背包内有「晶蝶诱捕装置」。\n●晶蝶诱捕装置放在枫丹冒险家协会锚点。\n●请确保背包内所选择的矿石数量大于30个。\n●请勿修改\"status.json\"文件，里面保存的是收集奖励的时间，否则将无法通过脚本领取晶核！\n\n----------更新说明----------\n●2.0版本改用json储存时间，如果你的晶核还没领取，请打开脚本所在的文件夹，复制\"time.txt\"中的所有内容，粘贴到\"status.json\"中\"collectionTime\": 后面（要把原来的0删掉！），并将false改为true。",
+  "authors": [
+    {
+      "name": "ddaodan",
+      "links": "https://github.com/ddaodan"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js"
+}

@@ -1,0 +1,201 @@
+{
+  "info": {
+    "name": "B03-日落果-璃月-无妄坡南",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "白白喵",
+        "links": "https://github.com/taotao568685"
+      }
+    ],
+    "version": "1.0",
+    "description": "带万叶采集",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1754724776517,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 489.5605,
+      "y": 1436.2598,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 453.3506,
+      "y": 1436.8745,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 407.2119,
+      "y": 1391.9346,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 394.0918,
+      "y": 1408.0933,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 362.0166,
+      "y": 1448.0039,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": 355.4307,
+      "y": 1437.6792,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 372.6182,
+      "y": 1456.5439,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 363.2207,
+      "y": 1461.8438,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": 362.332,
+      "y": 1471.1489,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 357.4531,
+      "y": 1471.8213,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 358.4883,
+      "y": 1465.98,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 12,
+      "x": 346.5996,
+      "y": 1457.5479,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.4)"
+    },
+    {
+      "id": 13,
+      "x": 341.5967,
+      "y": 1447.4351,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": 325.6934,
+      "y": 1466.5605,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 15,
+      "x": 324.5518,
+      "y": 1462.7036,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "attack(0.1),wait(0.4)"
+    },
+    {
+      "id": 16,
+      "x": 319.6533,
+      "y": 1476.1719,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 17,
+      "x": 340.8516,
+      "y": 1487.1348,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 18,
+      "x": 339.8496,
+      "y": 1493.6812,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 19,
+      "x": 317.1602,
+      "y": 1508.0518,
+      "type": "path",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "枫原万叶 wait(0.5),e(hold),attack,wait(2)"
+    },
+    {
+      "id": 20,
+      "x": 300.3809,
+      "y": 1478.8633,
+      "type": "path",
+      "move_mode": "run",
+      "action": "combat_script",
+      "action_params": "wait(0.8)"
+    }
+  ]
+}

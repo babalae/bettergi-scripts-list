@@ -1,0 +1,148 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1777955636782,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E21-松茸-枫丹-茉洁站-4个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3635.7363,
+      "y": 3801.623
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3720.9727,
+      "y": 3811.8613
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3728.1602,
+      "y": 3806.5854
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.05)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3736.4248,
+      "y": 3810.2861
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.05)",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3755.9102,
+      "y": 3816.5396
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3751.7695,
+      "y": 3815.1562
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.21)",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3764.0742,
+      "y": 3813.3174
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3635.7363,
+      "y": 3801.623
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3637.4863,
+      "y": 3825.2598
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3651.6484,
+      "y": 3861.6528
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.05)",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3641.6523,
+      "y": 3887.5684
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3644.5811,
+      "y": 3880.2896
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 13,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3602.6338,
+      "y": 3879.8716
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.321)",
+      "id": 14,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3599.4795,
+      "y": 3874.6279
+    }
+  ]
+}

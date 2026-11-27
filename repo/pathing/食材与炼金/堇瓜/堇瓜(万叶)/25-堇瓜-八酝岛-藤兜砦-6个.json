@@ -1,0 +1,76 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1785953739885,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "25-堇瓜-八酝岛-藤兜砦-6个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -1963.832,
+      "y": -3576.1641
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2006.1641,
+      "y": -3580.1348
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2011.1719,
+      "y": -3579.7979
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 e(wait);万叶 e(wait,hold),attack(0.2);迪希雅 w(0.001);wait(2)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2021.9609,
+      "y": -3591.3418
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2038.3223,
+      "y": -3546.0312
+    },
+    {
+      "action": "combat_script",
+      "action_params": "纳西妲 e(wait);万叶 e(wait,hold),attack(0.2);迪希雅 w(0.001);wait(2.5)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -2083.9902,
+      "y": -3540.1055
+    }
+  ]
+}

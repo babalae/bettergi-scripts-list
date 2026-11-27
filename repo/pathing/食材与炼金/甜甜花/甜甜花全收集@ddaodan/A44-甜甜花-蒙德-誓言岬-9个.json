@@ -1,0 +1,196 @@
+{
+  "info": {
+    "name": "A44-甜甜花-蒙德-誓言岬-9个",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "ddaodan",
+        "links": "https://github.com/ddaodan"
+      }
+    ],
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [
+      "甜甜花"
+    ],
+    "last_modified_time": 1753019576501,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1998.81,
+      "y": 1435.18,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -2025.9,
+      "y": 1425.82,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    },
+    {
+      "id": 3,
+      "x": -2029.39,
+      "y": 1367.18,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    },
+    {
+      "id": 4,
+      "x": -2043.12,
+      "y": 1427.41,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    },
+    {
+      "id": 5,
+      "x": -2066.31,
+      "y": 1426.39,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 6,
+      "x": -2076.48,
+      "y": 1438.53,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    },
+    {
+      "id": 7,
+      "x": -2098.17,
+      "y": 1454.56,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    },
+    {
+      "id": 8,
+      "x": -2093.27,
+      "y": 1462.51,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 9,
+      "x": -2085.52,
+      "y": 1471.02,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    },
+    {
+      "id": 10,
+      "x": -2057.48,
+      "y": 1471.84,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": -2012.78,
+      "y": 1476.41,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 12,
+      "x": -2012.78,
+      "y": 1476.41,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    },
+    {
+      "id": 13,
+      "x": -1965.91,
+      "y": 1463.96,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 14,
+      "x": -1925.38,
+      "y": 1461.99,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 15,
+      "x": -1925.38,
+      "y": 1461.99,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    },
+    {
+      "id": 16,
+      "x": -1925.82,
+      "y": 1449.38,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 17,
+      "x": -1926.38,
+      "y": 1412.67,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 18,
+      "x": -1926.17,
+      "y": 1405.3,
+      "type": "path",
+      "move_mode": "jump",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 19,
+      "x": -1923.78,
+      "y": 1383.14,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(0.2)"
+    }
+  ]
+}

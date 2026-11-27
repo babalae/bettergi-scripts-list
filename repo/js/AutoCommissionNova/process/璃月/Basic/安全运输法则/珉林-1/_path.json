@@ -1,0 +1,49 @@
+{
+    "info": {
+        "authors": [
+            {
+                "links": "https://github.com/1004452714",
+                "name": "DarkFlameMaster"
+            }
+        ],
+        "bgi_version": "0.45.0",
+        "description": "",
+        "enable_monster_loot_split": false,
+        "last_modified_time": 1784194844407,
+        "map_match_method": "",
+        "map_name": "Teyvat",
+        "name": "璃月-珉林-1-安全运输法则",
+        "tags": [],
+        "type": "collect",
+        "version": "1.0"
+    },
+    "positions": [
+        {
+            "action": "",
+            "action_params": "",
+            "id": 1,
+            "move_mode": "walk",
+            "type": "teleport",
+            "x": 1121.4502,
+            "y": 1190.6362
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 2,
+            "move_mode": "walk",
+            "type": "path",
+            "x": 1139.958,
+            "y": 1187.7627
+        },
+        {
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(f)",
+            "id": 3,
+            "move_mode": "walk",
+            "type": "target",
+            "x": 1148.8545,
+            "y": 1190.0146
+        }
+    ]
+}

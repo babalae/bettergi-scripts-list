@@ -1,0 +1,192 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1774459574775,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "15-绯樱绣球-镇守之森二-5个",
+    "tags": [
+      "丽莎"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4429.1172,
+      "y": -2801.0537
+    },
+    {
+      "action": "electro_collect",
+      "action_params": "",
+      "id": 2,
+      "locked": false,
+      "move_mode": "run",
+      "type": "target",
+      "x": -4432.6875,
+      "y": -2762.8135
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4412.0195,
+      "y": -2791.3623
+    },
+    {
+      "action": "electro_collect",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4405.9062,
+      "y": -2793.2725
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4390.4453,
+      "y": -2796.9473
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4379.1406,
+      "y": -2794.9727
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4375.6719,
+      "y": -2847.793
+    },
+    {
+      "action": "electro_collect",
+      "action_params": "",
+      "id": 8,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4378.0762,
+      "y": -2849.6162
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.099)",
+      "id": 9,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4378.0762,
+      "y": -2849.6162
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4350.0977,
+      "y": -2824.8916
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4325.5547,
+      "y": -2821.5332
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f)",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4322.6133,
+      "y": -2820.46
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2),j,wait(0.8),j,wait(0.8),j,wait(0.8),j,wait(0.8),j,wait(0.2)",
+      "id": 13,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4314.2324,
+      "y": -2820.1309
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 14,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "path",
+      "x": -4287.9082,
+      "y": -2813.0508
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 15,
+      "locked": false,
+      "move_mode": "run",
+      "type": "path",
+      "x": -4309.791,
+      "y": -2781.1572
+    },
+    {
+      "action": "electro_collect",
+      "action_params": "",
+      "id": 16,
+      "locked": false,
+      "move_mode": "dash",
+      "type": "target",
+      "x": -4304.6875,
+      "y": -2761.6895
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
+      "id": 17,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4304.6875,
+      "y": -2761.6895
+    }
+  ]
+}

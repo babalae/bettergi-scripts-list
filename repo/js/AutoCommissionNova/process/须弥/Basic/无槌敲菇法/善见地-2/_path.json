@@ -1,0 +1,67 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/1004452714",
+        "name": "DarkFlameMaster"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784007552354,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "须弥-善见地2-无槌敲菇法",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3592,
+      "y": -787.333
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3601.8145,
+      "y": -789.1934
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 3731.5303,
+      "y": -883.5488
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 3749.002,
+      "y": -912.3047
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5),keypress(f)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3756.4141,
+      "y": -926.8301
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+    "info": {
+        "authors": [
+            {
+                "links": "https://github.com/1004452714",
+                "name": "DarkFlameMaster"
+            }
+        ],
+        "bgi_version": "0.45.0",
+        "description": "",
+        "enable_monster_loot_split": false,
+        "last_modified_time": 1784196069710,
+        "map_match_method": "",
+        "map_name": "Teyvat",
+        "name": "璃月-琼玑野-1-安全运输法则-3",
+        "tags": [],
+        "type": "collect",
+        "version": "1.0"
+    },
+    "positions": [
+        {
+            "action": "",
+            "action_params": "",
+            "id": 8,
+            "move_mode": "walk",
+            "type": "path",
+            "x": -144.8457,
+            "y": 683.9575
+        },
+        {
+            "action": "mining",
+            "action_params": "",
+            "id": 9,
+            "move_mode": "walk",
+            "type": "path",
+            "x": -144.8457,
+            "y": 683.9575
+        },
+        {
+            "action": "combat_script",
+            "action_params": "wait(0.5),keypress(w)",
+            "id": 10,
+            "move_mode": "walk",
+            "type": "orientation",
+            "x": -148.0937,
+            "y": 692.7676
+        },
+        {
+            "action": "",
+            "action_params": "",
+            "id": 11,
+            "move_mode": "walk",
+            "type": "path",
+            "x": -155.6191,
+            "y": 710.3789
+        }
+    ]
+}

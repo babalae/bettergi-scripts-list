@@ -1,0 +1,79 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/Patrick-Ze",
+        "name": "Ayaka-Main"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1784353239236,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "[蒙德] 松木x24",
+    "tags": [
+      "王树瑞佑",
+      "伐木"
+    ],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -749.41,
+      "y": 2263.12
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -784.9,
+      "y": 2303.74
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -787.043,
+      "y": 2304.1113
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "jump",
+      "type": "target",
+      "x": -808.8047,
+      "y": 2266.2734
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "jump",
+      "type": "path",
+      "x": -804.8906,
+      "y": 2257.5166
+    },
+    {
+      "action": "use_gadget",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "jump",
+      "type": "target",
+      "x": -815.2852,
+      "y": 2238.7666
+    }
+  ]
+}

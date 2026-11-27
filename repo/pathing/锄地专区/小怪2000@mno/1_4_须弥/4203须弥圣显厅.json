@@ -1,0 +1,104 @@
+{
+  "info": {
+    "name": "4203须弥圣显厅",
+    "type": "collect",
+    "authors": [
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ],
+    "version": "1.0",
+    "description": "  路线信息：该路线预计用时65.44秒，包含以下怪物：1只镀金旅团·阵前斧手、1只镀金旅团·刀舞者、1只镀金旅团·沙中净水、1只镀金旅团·白日鸣雷。",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "last_modified_time": 1752332200284,
+    "enable_monster_loot_split": false
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4777.6074,
+      "y": -1434.3242,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 4744.2529,
+      "y": -1435.0293,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 4711.8564,
+      "y": -1446.6709,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "up_down_grab_leaf",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 4687.7754,
+      "y": -1449.7544,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "up_down_grab_leaf",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 5,
+      "x": 4687.7754,
+      "y": -1449.7544,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": "1000"
+    },
+    {
+      "id": 6,
+      "x": 4681.5645,
+      "y": -1450.1602,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 7,
+      "x": 4692.2412,
+      "y": -1479.8691,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 8,
+      "x": 4708.748,
+      "y": -1483.5132,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 9,
+      "x": 4708.748,
+      "y": -1483.5132,
+      "type": "orientation",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}

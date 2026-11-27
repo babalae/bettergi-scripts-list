@@ -1,0 +1,62 @@
+{
+  "info": {
+    "name": "dj06锋刃林泽下（1）",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "下流山汉",
+        "links": "https://github.com/vulgar-rustic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 5942.52,
+      "y": 618.19,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 5948.56,
+      "y": 621.17,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 5982.11,
+      "y": 578.48,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 6002.22,
+      "y": 580.79,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 6004.66,
+      "y": 550.07,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

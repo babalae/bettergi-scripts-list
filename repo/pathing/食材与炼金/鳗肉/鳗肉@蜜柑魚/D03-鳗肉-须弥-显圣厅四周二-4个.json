@@ -1,0 +1,150 @@
+{
+  "config": {
+    "realtime_triggers": {
+      "AutoPick": true
+    }
+  },
+  "farming_info": {
+    "allow_farming_count": false,
+    "duration_seconds": 0,
+    "elite_details": "",
+    "elite_mob_count": 0,
+    "normal_mob_count": 0,
+    "primary_target": "",
+    "total_mora": 0
+  },
+  "info": {
+    "authors": [
+      {
+        "links": "https: //github.com/OhmyPaoPao",
+        "name": "海豹穹穹队"
+      },
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "4个鳗肉；",
+    "enable_monster_loot_split": false,
+    "items": [],
+    "last_modified_time": 1773589502530,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "D03-鳗肉-须弥-显圣厅四周二-4个",
+    "order": 0,
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4777.1523,
+      "y": -1440.1934
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4838.293,
+      "y": -1414.0801
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.5)",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4874.0088,
+      "y": -1413.1875
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4867.2295,
+      "y": -1379.252
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4890.4141,
+      "y": -1378.7295
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4895.7744,
+      "y": -1394.7793
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4898.7695,
+      "y": -1396.8633
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4901.1133,
+      "y": -1395.9785
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4902.459,
+      "y": -1395.584
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 10,
+      "move_mode": "run",
+      "type": "path",
+      "x": 4925.6963,
+      "y": -1416.5703
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 11,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4929.96,
+      "y": -1418.7793
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.456)",
+      "id": 12,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4925.1074,
+      "y": -1416.793
+    }
+  ]
+}

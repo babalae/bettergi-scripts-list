@@ -1,0 +1,74 @@
+{
+  "info": {
+    "name": "璃月-05-荻花洲西-1个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.43.0",
+    "authors": [
+      {
+        "name": "愚溪",
+        "links": "https://github.com/Kupder"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 696.57,
+      "y": 1007.4
+    },
+    {
+      "id": 2,
+      "x": 676.93,
+      "y": 999.78,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 685.72,
+      "y": 990.12,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 683.44,
+      "y": 983.42,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "x": 693.57,
+      "y": 980.66,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": 697.54,
+      "y": 980.8,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 7,
+      "x": 699.19,
+      "y": 982.99,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "钟离 d(0.2),e(hold)"
+    }
+  ]
+}

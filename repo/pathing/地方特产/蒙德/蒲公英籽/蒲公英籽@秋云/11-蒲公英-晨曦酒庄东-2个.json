@@ -1,0 +1,57 @@
+{
+  "info": {
+    "name": "11-蒲公英-晨曦酒庄东-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "秋云",
+        "links": "https://github.com/physligl"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -578.74,
+      "y": 1853.35
+    },
+    {
+      "id": 2,
+      "x": -575.18,
+      "y": 1773.05,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": -549.45,
+      "y": 1718.75,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 4,
+      "x": -535.35,
+      "y": 1697.24,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "anemo_collect"
+    },
+    {
+      "id": 5,
+      "x": -534.59,
+      "y": 1695.42,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "anemo_collect"
+    }
+  ]
+}

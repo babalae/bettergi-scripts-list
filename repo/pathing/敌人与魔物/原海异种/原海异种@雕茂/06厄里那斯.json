@@ -1,0 +1,64 @@
+{
+  "info": {
+    "name": "06厄里那斯",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "雕茂"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4689.3,
+      "y": 2429.52
+    },
+    {
+      "id": 2,
+      "x": 4677.86,
+      "y": 2463.14,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying"
+    },
+    {
+      "id": 3,
+      "x": 4672.87,
+      "y": 2477.86,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    },
+    {
+      "id": 4,
+      "x": 4601.17,
+      "y": 2521.68,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    },
+    {
+      "id": 5,
+      "x": 4608.59,
+      "y": 2566.56,
+      "type": "path",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 6,
+      "x": 4599.41,
+      "y": 2599.27,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight"
+    }
+  ]
+}

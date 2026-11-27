@@ -1,0 +1,103 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/MisDandan23",
+        "name": "MissDan"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "8个冰醋栗；",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1789835656515,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "H20-1-至冬食材-永凝冻土-七天神像",
+    "tags": [],
+    "type": "collect",
+    "version": "3.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7890.3008,
+      "y": 9272.5391
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 7879.5391,
+      "y": 9212.3838
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7882.9932,
+      "y": 9210.4629
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7878.0547,
+      "y": 9171.8105
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7877.3867,
+      "y": 9168.8018
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7870.3262,
+      "y": 9185.7256
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7869.9316,
+      "y": 9186.6514
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7848.0898,
+      "y": 9188.543
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.2)",
+      "id": 9,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 7845.9336,
+      "y": 9188.7773
+    }
+  ]
+}

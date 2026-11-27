@@ -1,0 +1,137 @@
+{
+  "info": {
+    "author": "汐",
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时113秒，包含以下怪物：1只丘丘人、1只打手丘丘人、1只丘丘雷兜王、2只深海龙蜥·原种、1只深海龙蜥·原种_600。",
+    "enable_monster_loot_split": false,
+    "hash_res": "61562744",
+    "last_modified_time": 1784915634479,
+    "map_match_method": "",
+    "map_name": "Enkanomiya",
+    "name": "ZC024稻妻渊下宫狭间之街西北",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 630.7,
+      "y": 624.81
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "point_ext_params": {
+        "auto_fight": {
+          "reward_type": "experience"
+        }
+      },
+      "type": "path",
+      "x": 632.28,
+      "y": 662.75
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 671.375,
+      "y": 658.5631
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 686.9047,
+      "y": 657.1567
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(x);芙宁娜 e;爱可菲 e;伊涅芙 e;",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 711.3579,
+      "y": 656.0753
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 717.0996,
+      "y": 625.1167
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 726.5702,
+      "y": 638.9072
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 741.5597,
+      "y": 632.3042
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(x);茜特菈莉 e;莱依拉 e;伊涅芙 e;哥伦比娅 attack(0.2);爱可菲 e;",
+      "id": 9,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 766.5559,
+      "y": 617.6632
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 10,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 791.1418,
+      "y": 640.3622
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.3)",
+      "id": 11,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 775.9912,
+      "y": 652.8478
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 12,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 778.1483,
+      "y": 635.0221
+    }
+  ]
+}

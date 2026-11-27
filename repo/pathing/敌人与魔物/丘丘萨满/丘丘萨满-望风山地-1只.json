@@ -1,0 +1,53 @@
+{
+  "info": {
+    "name": "丘丘萨满-望风山地-1只",
+    "type": "collect",
+    "version": "1.0",
+    "description": "丘丘萨满-望风山地-1只",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "ddaodan",
+        "links": "https://github.com/ddaodan"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -1273.75,
+      "y": 2721.68,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": -1270.38,
+      "y": 2713.6,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": -1273.97,
+      "y": 2695.63,
+      "type": "target",
+      "move_mode": "fly",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": -1276.77,
+      "y": 2681.72,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

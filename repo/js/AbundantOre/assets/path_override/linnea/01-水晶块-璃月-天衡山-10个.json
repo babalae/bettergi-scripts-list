@@ -1,0 +1,85 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/RRRR623",
+        "name": "火山"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1789392318327,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "01-水晶块-璃月-天衡山-10个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.1"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 508.04,
+      "y": -630.46
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 556.02,
+      "y": -598.65
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.05),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 561.8798,
+      "y": -598.7761
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.25),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 569.6735,
+      "y": -601.3012
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 565.44,
+      "y": -591.01
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.05),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 577.2309,
+      "y": -559.1747
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.05),moveby(0,2500),wait(0.15),charge(0.65),click(middle);",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 579.9344,
+      "y": -550.1113
+    }
+  ]
+}

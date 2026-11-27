@@ -1,0 +1,99 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "mno"
+      },
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时61秒，包含以下怪物：1只镀金旅团·阵前斧手、1只镀金旅团·刀舞者、1只镀金旅团·沙中净水、1只镀金旅团·白日鸣雷。",
+    "enable_monster_loot_split": false,
+    "hash_res": "57351018",
+    "last_modified_time": 1794732749144,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "D033须弥圣显厅",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4777.6074,
+      "y": -1434.3242
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4746.332,
+      "y": -1443.5962
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t),wait(0.1),keypress(t),wait(2.6),keypress(t),wait(0.1),keypress(t),wait(0.1),keypress(t),wait(0.5),attack(3)",
+      "id": 3,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4687.7842,
+      "y": -1449.769
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 4681.5645,
+      "y": -1450.1602
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4681.5645,
+      "y": -1450.1602
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4692.2412,
+      "y": -1479.8691
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 4708.748,
+      "y": -1483.5132
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 8,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 4708.748,
+      "y": -1483.5132
+    }
+  ]
+}

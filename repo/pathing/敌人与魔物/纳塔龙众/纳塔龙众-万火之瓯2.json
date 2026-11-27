@@ -1,0 +1,43 @@
+{
+  "info": {
+    "name": "纳塔龙众-万火之瓯2",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "老马RYO"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 8733.81,
+      "y": -1855.92,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 8763.0,
+      "y": -1834.5,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "stop_flying",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "action": "fight",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 8763.26,
+      "y": -1819.75,
+      "action_params": ""
+    }
+  ]
+}

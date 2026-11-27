@@ -1,0 +1,74 @@
+{
+  "info": {
+    "name": "3613稻妻蛇心之地",
+    "type": "collect",
+    "author": "mno",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Enkanomiya",
+    "bgi_version": "0.45.0",
+    "authors": [
+      {
+        "name": "mno",
+        "links": "https://github.com/Bedrockx"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 198.89,
+      "y": -182.97,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 169.87,
+      "y": -174.94,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 159.89,
+      "y": -155.96,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 151.76,
+      "y": -142.45,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 5,
+      "x": 157.09,
+      "y": -107.9,
+      "type": "path",
+      "move_mode": "dash",
+      "action": "fight",
+      "action_params": "",
+      "locked": false
+    },
+    {
+      "id": 6,
+      "x": 157.09,
+      "y": -107.9,
+      "type": "orientation",
+      "move_mode": "dash",
+      "action": "combat_script",
+      "action_params": "wait(1)"
+    }
+  ]
+}

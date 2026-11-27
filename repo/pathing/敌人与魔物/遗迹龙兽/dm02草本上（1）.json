@@ -1,0 +1,53 @@
+{
+  "info": {
+    "name": "dm02草本上（1）",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "下流山汉",
+        "links": "https://github.com/vulgar-rustic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 2217.18,
+      "y": -564.36,
+      "action_params": ""
+    },
+    {
+      "id": 2,
+      "x": 2211.54,
+      "y": -530.87,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 3,
+      "x": 2199.44,
+      "y": -495.4,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 4,
+      "x": 2176.55,
+      "y": -492.53,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

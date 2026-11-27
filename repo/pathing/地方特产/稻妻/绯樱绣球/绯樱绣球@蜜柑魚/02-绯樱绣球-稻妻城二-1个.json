@@ -1,0 +1,67 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/this-Fish",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.52.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1774436952226,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "02-绯樱绣球-稻妻城二-1个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": -4400.83,
+      "y": -3051.08
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "walk",
+      "type": "path",
+      "x": -4397.2871,
+      "y": -3050.5869
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": -4385.4043,
+      "y": -3046.1924
+    },
+    {
+      "action": "electro_collect",
+      "action_params": "",
+      "id": 4,
+      "locked": false,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4379.502,
+      "y": -3055.1348
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(0.3)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "target",
+      "x": -4379.502,
+      "y": -3055.1348
+    }
+  ]
+}

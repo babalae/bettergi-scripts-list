@@ -1,0 +1,98 @@
+{
+  "info": {
+    "name": "稻妻-骗骗花-八酝岛蛇神之首西南-3个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "骗骗花-3个\n稻妻-八酝岛蛇神之首西南\n经由Economy优化交互触发",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "提瓦特钓鱼玳师",
+        "links": "https://github.com/Hijiwos"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": -2226.34,
+      "y": -3999.57,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": -2199.27,
+      "y": -3965.77,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": -2159.69,
+      "y": -3933.37,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": -2154.05,
+      "y": -3940.19,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
+      "type": "target"
+    },
+    {
+      "id": 5,
+      "x": -2126.52,
+      "y": -3994.27,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": -2083.67,
+      "y": -3961.42,
+      "action": "combat_script",
+      "move_mode": "run",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
+      "type": "target"
+    },
+    {
+      "id": 7,
+      "x": -2083.67,
+      "y": -3961.42,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": -2073.53,
+      "y": -3958.19,
+      "action": "combat_script",
+      "move_mode": "walk",
+      "action_params": "wait(0.1),keypress(f),wait(0.1),keypress(f),dash",
+      "type": "target"
+    },
+    {
+      "id": 9,
+      "x": -2073.53,
+      "y": -3958.19,
+      "action": "fight",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}

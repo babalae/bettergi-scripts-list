@@ -1,0 +1,33 @@
+{
+  "info": {
+    "name": "泡泡桔06-枫丹科学院-枫丹4个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "不瘦五十斤不改名",
+        "links": "https://github.com/PanZic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "action": "",
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 4498.2,
+      "y": 4710.78
+    },
+    {
+      "id": 2,
+      "x": 4509.05,
+      "y": 4663.74,
+      "type": "path",
+      "move_mode": "run",
+      "action": "nahida_collect"
+    }
+  ]
+}

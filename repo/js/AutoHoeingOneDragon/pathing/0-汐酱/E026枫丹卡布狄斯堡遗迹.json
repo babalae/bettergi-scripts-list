@@ -1,0 +1,95 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "  路线信息：该路线预计用时58秒，包含以下怪物：1只嗜雷·兽境猎犬、1只压制特化型机关。",
+    "enable_monster_loot_split": false,
+    "hash_res": "43333156",
+    "last_modified_time": 1795288961710,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "E026枫丹卡布狄斯堡遗迹",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 3352.1387,
+      "y": 2753.0698
+    },
+    {
+      "action": "combat_script",
+      "action_params": "wait(1)",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "orientation",
+      "x": 3334.5361,
+      "y": 2783.575
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3334.5361,
+      "y": 2783.575
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3339.4424,
+      "y": 2802.4243
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 3353.6943,
+      "y": 2844.8359
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "climb",
+      "type": "target",
+      "x": 3357.2148,
+      "y": 2846.3057
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keydown(w),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),wait(0.2),keypress(f),keyup(w),wait(5.3),dash",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 3361.8887,
+      "y": 2846.6404
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 8,
+      "move_mode": "walk",
+      "type": "orientation",
+      "x": 4715.498,
+      "y": 2559.4736
+    }
+  ]
+}

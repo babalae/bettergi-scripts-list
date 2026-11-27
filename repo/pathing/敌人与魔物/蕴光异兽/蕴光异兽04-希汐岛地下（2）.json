@@ -1,0 +1,81 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/evildoer12138",
+        "name": "鸿羽er"
+      }
+    ],
+    "bgi_version": "0.50.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1758004864194,
+    "map_match_method": "",
+    "map_name": "Teyvat",
+    "name": "蕴光异兽04-希汐岛地下（2）",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 10411.75,
+      "y": 1647.6975
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 10446.125,
+      "y": 1671.2516
+    },
+    {
+      "id": 3,
+      "move_mode": "run",
+      "type": "path",
+      "x": 10469.625,
+      "y": 1691.7499
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t)",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10468.5625,
+      "y": 1695.0624
+    },
+    {
+      "action": "combat_script",
+      "action_params": "keypress(t)",
+      "id": 5,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10466.875,
+      "y": 1699.1251
+    },
+    {
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 10458.25,
+      "y": 1721.2502
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "target",
+      "x": 10436.625,
+      "y": 1733.2504
+    }
+  ]
+}

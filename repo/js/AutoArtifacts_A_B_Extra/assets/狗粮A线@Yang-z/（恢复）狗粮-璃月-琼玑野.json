@@ -1,0 +1,38 @@
+{
+    "info": {
+        "name": "（恢复）狗粮-璃月-琼玑野",
+        "type": "collect",
+        "author": "Yang-z",
+        "version": "1.1",
+        "bgi_version": "0.42.0"
+    },
+    "positions": [
+        {
+            "x": 259.4912109375,
+            "y": -14.02978515625,
+            "type": "teleport"
+        },
+        {
+            "x": 253.8203125,
+            "y": -12.01953125,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(1)"
+        },
+        {
+            "x": 253.6845703125,
+            "y": -11.06689453125,
+            "type": "target",
+            "move_mode": "walk",
+            "action": "combat_script",
+            "action_params": "wait(1)"
+        },
+        {
+            "x": 260.884765625,
+            "y": -10.7861328125,
+            "type": "target",
+            "move_mode": "walk"
+        }
+    ]
+}

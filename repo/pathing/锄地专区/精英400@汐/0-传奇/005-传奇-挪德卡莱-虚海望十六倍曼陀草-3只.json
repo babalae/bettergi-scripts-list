@@ -1,0 +1,76 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "https://github.com/jiegedabaobei",
+        "name": "汐"
+      }
+    ],
+    "bgi_version": "0.67.0",
+    "description": "  路线信息：该路线预计用时177.41秒，包含以下怪物：3只精英传奇倍率五。",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1787848986728,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "005-传奇-挪德卡莱-虚海望十六倍曼陀草-3只",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 9565.1055,
+      "y": 5321.7808
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9619.1719,
+      "y": 5334.2336
+    },
+    {
+      "action": "stop_flying",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "fly",
+      "type": "path",
+      "x": 9638.5918,
+      "y": 5339.7021
+    },
+    {
+      "action": "combat_script",
+      "action_params": ";茜特菈莉 attack(0.05),keypress(E),wait(0.1),keypress(E);莱依拉 attack(0.05),keypress(E),wait(0.1),keypress(E);伊涅芙 attack(0.05),keypress(E),wait(0.1),keypress(E);尼可 attack(0.05),keypress(E),wait(0.1),keypress(E); ;",
+      "id": 4,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 9638.5918,
+      "y": 5339.7021
+    },
+    {
+      "action": "combat_script",
+      "action_params": "attack(0.2);茜特菈莉 attack(0.05),keypress(E),wait(0.1),keypress(E);杜林 attack(0.05),keypress(e), wait(0.3),attack(0.2),wait(1),keypress(Q);万叶 attack(0.08),keydown(E),wait(0.8),keyup(E),attack(0.2),wait(5),keypress(Q);法尔伽 attack(0.05),keypress(Q),wait(1);仆人 wait(2);",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9670.0801,
+      "y": 5345.9795
+    },
+    {
+      "action": "fight",
+      "action_params": "",
+      "id": 6,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 9670.0801,
+      "y": 5345.9795
+    }
+  ]
+}

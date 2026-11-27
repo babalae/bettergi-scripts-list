@@ -1,0 +1,134 @@
+{
+  "info": {
+    "name": "dl06圣显厅中（3）",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "下流山汉",
+        "links": "https://github.com/vulgar-rustic"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4777.28,
+      "y": -1434.57,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 4755.38,
+      "y": -1439.91,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 3,
+      "x": 4742.74,
+      "y": -1445.91,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 4733.15,
+      "y": -1442.42,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 4726.97,
+      "y": -1443.93,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "wait(0.5),click(middle),wait(1),keypress(t),wait(2),keypress(t),wait(2.5),keypress(t),wait(2.5),keypress(t),wait(3),keypress(t)",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 4604.04,
+      "y": -1481.4,
+      "action": "fight",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 4600.28,
+      "y": -1471.98,
+      "action": "",
+      "move_mode": "climb",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 4593.7,
+      "y": -1469.69,
+      "action": "combat_script",
+      "move_mode": "climb",
+      "action_params": "wait(0.5),click(middle),wait(1),keypress(t)",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 4549.82,
+      "y": -1452.1,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    },
+    {
+      "id": 10,
+      "x": 4540.53,
+      "y": -1455.39,
+      "type": "path",
+      "move_mode": "walk",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 11,
+      "x": 4510.3,
+      "y": -1461.09,
+      "type": "path",
+      "move_mode": "fly",
+      "action": "combat_script",
+      "action_params": "keypress(VK_SPACE),wait(3),click"
+    },
+    {
+      "id": 12,
+      "x": 4516.81,
+      "y": -1490.53,
+      "type": "path",
+      "move_mode": "run",
+      "action": "",
+      "action_params": ""
+    },
+    {
+      "id": 13,
+      "x": 4506.86,
+      "y": -1520.23,
+      "type": "path",
+      "move_mode": "run",
+      "action": "fight",
+      "action_params": ""
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "info": {
+    "name": "10-劫波莲-翠翎恐蕈西南-2个",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "bgi_version": "0.42.0",
+    "authors": [
+      {
+        "name": "lifrom",
+        "links": "https://github.com/pkjsjq"
+      }
+    ]
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 4046.91,
+      "y": -239.61,
+      "type": "teleport",
+      "move_mode": "walk",
+      "action": ""
+    },
+    {
+      "id": 2,
+      "x": 3972.5,
+      "y": -229.0,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 3,
+      "x": 3894.39,
+      "y": -218.83,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 4,
+      "x": 3823.43,
+      "y": -209.16,
+      "type": "path",
+      "move_mode": "fly",
+      "action": ""
+    },
+    {
+      "id": 5,
+      "action": "stop_flying",
+      "move_mode": "fly",
+      "type": "target",
+      "x": 3751.47,
+      "y": -195.49
+    },
+    {
+      "id": 6,
+      "action": "nahida_collect",
+      "move_mode": "walk",
+      "type": "target",
+      "x": 3750.47,
+      "y": -195.49
+    }
+  ]
+}

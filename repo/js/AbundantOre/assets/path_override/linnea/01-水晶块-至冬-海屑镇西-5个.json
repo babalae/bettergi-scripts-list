@@ -1,0 +1,85 @@
+{
+  "info": {
+    "authors": [
+      {
+        "links": "",
+        "name": "蜜柑魚"
+      }
+    ],
+    "bgi_version": "0.45.0",
+    "description": "",
+    "enable_monster_loot_split": false,
+    "last_modified_time": 1792168811447,
+    "map_match_method": "SIFT",
+    "map_name": "Teyvat",
+    "name": "01-水晶块-至冬-海屑镇西-5个",
+    "tags": [],
+    "type": "collect",
+    "version": "1.0"
+  },
+  "positions": [
+    {
+      "action": "",
+      "action_params": "",
+      "id": 1,
+      "move_mode": "walk",
+      "type": "teleport",
+      "x": 7648.1875,
+      "y": 9477.083
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 2,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7659.1367,
+      "y": 9452.1094
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 3,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7674.416,
+      "y": 9429.9072
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 4,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7761.7246,
+      "y": 9376.9473
+    },
+    {
+      "action": "",
+      "action_params": "",
+      "id": 5,
+      "move_mode": "dash",
+      "type": "path",
+      "x": 7757.9277,
+      "y": 9369.5527
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(0.15),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 6,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7757.0664,
+      "y": 9368.1006
+    },
+    {
+      "action": "combat_script",
+      "action_params": "莉奈娅 w(0.05),wait(1),moveby(0,2500),wait(0.15),charge(0.65),click(middle)",
+      "id": 7,
+      "move_mode": "walk",
+      "type": "path",
+      "x": 7765.5127,
+      "y": 9362.623
+    }
+  ]
+}

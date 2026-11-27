@@ -1,0 +1,101 @@
+{
+  "info": {
+    "name": "06-鱼肉-璃月-沉玉谷翘英庄-5",
+    "type": "collect",
+    "version": "1.0",
+    "description": "",
+    "map_name": "Teyvat",
+    "bgi_version": "0.45.0",
+    "tags": [],
+    "authors": [
+      {
+        "name": "火山",
+        "links": "https://github.com/RRRR623"
+      }
+    ],
+    "last_modified_time": 1751627407858
+  },
+  "positions": [
+    {
+      "id": 1,
+      "x": 1458.36,
+      "y": 1997.25,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "teleport"
+    },
+    {
+      "id": 2,
+      "x": 1468.29,
+      "y": 2000.93,
+      "type": "target",
+      "move_mode": "walk",
+      "action": "combat_script",
+      "action_params": "芙宁娜 wait(0.3),e"
+    },
+    {
+      "id": 3,
+      "x": 1467.37,
+      "y": 2005.75,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 4,
+      "x": 1470.87,
+      "y": 2016.5,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 5,
+      "x": 1476.07,
+      "y": 2018.32,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 6,
+      "x": 1470.08,
+      "y": 2020.56,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 7,
+      "x": 1481.48,
+      "y": 2032.69,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 8,
+      "x": 1482.13,
+      "y": 2033.25,
+      "action": "",
+      "move_mode": "run",
+      "action_params": "",
+      "type": "path"
+    },
+    {
+      "id": 9,
+      "x": 1480.72,
+      "y": 2021.23,
+      "action": "",
+      "move_mode": "walk",
+      "action_params": "",
+      "type": "path"
+    }
+  ]
+}
