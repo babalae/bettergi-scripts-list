@@ -57,7 +57,7 @@ const HTML_ROUTE_FIELDS = [
     "accountName", "tagsForGroup2", "tagsForGroup3", "tagsForGroup4", "tagsForGroup5", "tagsForGroup6",
     "tagsForGroup7", "tagsForGroup8", "tagsForGroup9", "tagsForGroup10", "targetEliteNum", "targetMonsterNum",
     "priorityTags", "excludeTags", "efficiencyIndex", "curiosityFactor", "ignoreRate",
-    "targetMonsters"
+    "targetMonsters", "useIntegerPlanner"
 ];
 const HTML_CONFIG_SELECTS = Object.freeze({
     operationMode: ["运行锄地路线", "调试路线分配", "启用仅指定怪物模式"],
@@ -298,6 +298,7 @@ async function loadConfig() {
             tagsForGroup9: settings.tagsForGroup9 ?? '',
             tagsForGroup10: settings.tagsForGroup10 ?? '',
             efficiencyIndex: settings.efficiencyIndex ?? 0.25,
+            useIntegerPlanner: settings.useIntegerPlanner ?? false,
             curiosityFactor: settings.curiosityFactor ?? '0',
             ignoreRate: settings.ignoreRate ?? -1,
             targetEliteNum: settings.targetEliteNum ?? DEFAULT_ELITE_TARGET_NUM,
@@ -337,6 +338,7 @@ async function loadConfig() {
             for (const key in cfg) {
                 settings[key] = cfg[key];
             }
+            settings.useIntegerPlanner = cfg.useIntegerPlanner ?? false;
         } else {
             log.error(`你没打开过自定义配置，请阅读readme并按要求配置后再运行`);
             await sleep(10000);
@@ -374,7 +376,7 @@ async function loadConfig() {
     efficiencyIndex = parseNumericSetting(settings.efficiencyIndex, 0.25);
 
     let parsedElite = parseNumericSetting(settings.targetEliteNum, DEFAULT_ELITE_TARGET_NUM);
-    if (parsedElite === 0) parsedElite = DEFAULT_ELITE_TARGET_NUM;
+    if (parsedElite === 0 && !integerPlannerEnabled(settings.useIntegerPlanner)) parsedElite = DEFAULT_ELITE_TARGET_NUM;
     targetEliteNum = Math.max(0, parsedElite) + ELITE_TARGET_RESERVE; // 预留漏怪
     targetMonsterNum = Math.max(0, parseNumericSetting(settings.targetMonsterNum, DEFAULT_MONSTER_TARGET_NUM)) + MONSTER_TARGET_RESERVE; // 预留漏怪
     curiosityFactor = parseNumericSetting(settings.curiosityFactor, 0);
@@ -398,7 +400,7 @@ const HTML_SHARED_ROUTE_FIELDS = [
     "tagsForGroup2", "tagsForGroup3", "tagsForGroup4", "tagsForGroup5", "tagsForGroup6",
     "tagsForGroup7", "tagsForGroup8", "tagsForGroup9", "tagsForGroup10", "targetEliteNum",
     "targetMonsterNum", "priorityTags", "excludeTags", "efficiencyIndex",
-    "curiosityFactor", "ignoreRate"
+    "curiosityFactor", "ignoreRate", "useIntegerPlanner"
 ];
 
 function relativeFailureRoutePath(fullPath) {
@@ -631,7 +633,7 @@ async function buildHtmlRoutePreview(payload) {
             await markPathings(routes, priorities, excludes, restoredPaths);
             const elite = Math.max(0, parseNumericSetting(source.targetEliteNum, DEFAULT_ELITE_TARGET_NUM)) + ELITE_TARGET_RESERVE;
             const monster = Math.max(0, parseNumericSetting(source.targetMonsterNum, DEFAULT_MONSTER_TARGET_NUM)) + MONSTER_TARGET_RESERVE;
-            await findBestRouteGroups(routes, parseNumericSetting(source.efficiencyIndex, 0.25), elite, monster);
+            await findBestRouteGroups(routes, parseNumericSetting(source.efficiencyIndex, 0.25), elite, monster, source.useIntegerPlanner);
             await assignGroups(routes, Array.from({ length: 10 }, (_, index) => htmlStringList(source[`tagsForGroup${index + 1}`])));
         } finally {
             settings.sortMode = oldSortMode;
@@ -646,7 +648,7 @@ async function buildHtmlRoutePreview(payload) {
             name: `路径组${["一", "二", "三", "四", "五", "六", "七", "八", "九", "十"][group - 1]}`,
             configuredTags: group === 1 ? "" : String(source[`tagsForGroup${group}`] || ""),
             routeCount: selected.length,
-            elites: selected.reduce((sum, route) => sum + (route.e || 0), 0),
+            elites: selected.reduce((sum, route) => sum + (route.plannedEliteCount ?? route.e ?? 0), 0),
             monsters: selected.reduce((sum, route) => sum + (route.m || 0), 0),
             estimatedTime: selected.reduce((sum, route) => sum + (route.t || 0), 0)
         });
@@ -657,7 +659,7 @@ async function buildHtmlRoutePreview(payload) {
         currentGroup,
         total: {
             routeCount: selectedRoutes.length,
-            elites: selectedRoutes.reduce((sum, route) => sum + (route.e || 0), 0),
+            elites: selectedRoutes.reduce((sum, route) => sum + (route.plannedEliteCount ?? route.e ?? 0), 0),
             monsters: selectedRoutes.reduce((sum, route) => sum + (route.m || 0), 0),
             estimatedTime: selectedRoutes.reduce((sum, route) => sum + (route.t || 0), 0)
         },
@@ -668,7 +670,7 @@ async function buildHtmlRoutePreview(payload) {
             name: route.name,
             tags: route.tags,
             description: route.description,
-            e: route.e,
+            e: route.plannedEliteCount ?? route.e,
             m: route.m,
             t: route.t,
             selected: Boolean(route.selected),
@@ -684,6 +686,7 @@ async function buildHtmlRoutePreview(payload) {
 function htmlSettingSnapshot() {
     const result = {};
     [...HTML_RUNTIME_FIELDS, ...HTML_ROUTE_FIELDS].forEach(name => { result[name] = settings[name] ?? ""; });
+    result.useIntegerPlanner = integerPlannerEnabled(settings.useIntegerPlanner);
     result.routeFailureLimit = parseNonNegativeIntegerSetting(settings.routeFailureLimit);
     if (!result.operationMode || result.operationMode === "强制刷新所有运行记录") result.operationMode = "运行锄地路线";
     if (!result.openHtmlConfig && result.openHtmlConfig !== false) result.openHtmlConfig = true;
@@ -746,6 +749,11 @@ function validateHoeingHtmlConfig(payload, model) {
     if (!/^\d+$/.test(String(data.routeFailureLimit)) || !Number.isSafeInteger(Number(data.routeFailureLimit))) errors.push("连续失败次数必须是非负整数");
     if (Number(data.curiosityFactor) < 0 || Number(data.curiosityFactor) > 1) errors.push("好奇系数必须在 0 到 1 之间");
     if (Number(data.efficiencyIndex) < 0) errors.push("效率权衡因数不能小于 0");
+    if (integerPlannerEnabled(data.useIntegerPlanner)) {
+        ["targetEliteNum", "targetMonsterNum"].forEach(name => {
+            if (data[name] === "" || !Number.isSafeInteger(Number(data[name])) || Number(data[name]) < 0) errors.push(`${name} 在整数规划模式下必须是非负整数`);
+        });
+    }
     if (String(data.pickup_Mode || "").includes("模板匹配") && (Number(data.findFInterval) < 16 || Number(data.findFInterval) > 200)) errors.push("识别间隔必须在 16 到 200 之间");
     if (String(data.operationMode) === "启用仅指定怪物模式" && !htmlStringList(data.targetMonsters).length) errors.push("仅指定怪物模式必须填写目标怪物");
     const original = model?.settings || {};
@@ -1145,8 +1153,60 @@ async function markPathings(pathings, priorityTags, excludeTags, restoredPaths =
     });
 }
 
+function integerPlannerEnabled(value) {
+    return value === true || value === "true";
+}
+
+let integerPlannerSequence = 0;
+
+async function requestIntegerPlan(pathings, eliteLimit, normalTarget) {
+    const candidates = pathings.filter(p => p.available);
+    const requestId = `${Date.now()}-${++integerPlannerSequence}`;
+    const routes = candidates.map((p, id) => ({
+        id, e: p.original_e ?? p.e, m: p.m, mora: p.mora_e + p.mora_m,
+        t: p.t, required: Boolean(p.prioritized)
+    }));
+    const whole = value => Number.isSafeInteger(value) && value >= 0 && value <= 1000000;
+    const finite = value => typeof value === "number" && Number.isFinite(value);
+    if (!whole(eliteLimit) || !whole(normalTarget) || !routes.length || routes.length > 2000 || routes.some(r =>
+        !whole(r.e) || !whole(r.m) || !finite(r.mora) || r.mora < 0 || r.mora > 1e9 ||
+        !finite(r.t) || r.t <= 0 || r.t > 86400)) throw new Error("输入数据不符合整数规划模型");
+    const payload = { version: 1, requestId, eliteLimit, normalTarget, routes };
+    const response = await Promise.race([
+        http.request("POST", "http://127.0.0.1:18766/auto-hoeing/solve", JSON.stringify(payload),
+            JSON.stringify({ "Content-Type": "application/json", "X-BGI-Planner": "1" })),
+        sleep(5000).then(() => { throw new Error("本机求解器等待超过 5 秒"); })
+    ]);
+    if (response.status_code !== 200) throw new Error(`本机求解器 HTTP ${response.status_code}`);
+    const result = JSON.parse(response.body);
+    if (result.version !== 1 || result.requestId !== requestId || result.status !== "optimal") {
+        throw new Error(`本机求解器未完成最优性验证：${String(result.status)}`);
+    }
+    if (!Array.isArray(result.selected) || !result.selected.length) throw new Error("求解结果缺少路线");
+    const selected = new Set();
+    const totals = { e: 0, m: 0, mora: 0, seconds: 0 };
+    for (const id of result.selected) {
+        if (!Number.isInteger(id) || id < 0 || id >= routes.length || selected.has(id)) throw new Error("求解结果路线无效或重复");
+        selected.add(id);
+        const row = routes[id];
+        totals.e += row.e;
+        totals.m += row.m;
+        totals.mora += row.mora;
+        totals.seconds += row.t;
+    }
+    if (totals.e > eliteLimit || totals.m < normalTarget || routes.some(r => r.required && !selected.has(r.id))) {
+        throw new Error("求解结果不满足数量或必选约束");
+    }
+    const near = (a, b) => finite(a) && Math.abs(a - b) <= 1e-8 * Math.max(1, Math.abs(b));
+    const rate = totals.mora / totals.seconds;
+    if (!result.totals || Object.keys(totals).some(key => !near(result.totals[key], totals[key])) ||
+        !near(result.rate, rate) || !finite(result.upperRate) || result.upperRate < rate - 1e-9 ||
+        result.upperRate - rate > 1e-7 + 1e-9) throw new Error("求解结果汇总或最优性界限无效");
+    return { selected: new Set([...selected].map(id => candidates[id])), totals, rate };
+}
+
 /**
- * 最优路线组合生成器
+ * 路线组合生成器（默认使用原有启发式；可选整数规划）
  * 1. 为每条可用路线计算精英收益效率 E1 与小怪收益效率 E2（含好奇系数修正）
  * 2. 先按 E1 降序选够 targetEliteNum，再按 E2 降序补够 targetMonsterNum
  * 3. 迭代微调精英门槛，并贪心剔除非优先路线，使总量恰好落在目标区间
@@ -1154,8 +1214,12 @@ async function markPathings(pathings, priorityTags, excludeTags, restoredPaths =
  * 返回：pathings[] 各元素新增 selected（bool）及排序
  * 依赖：pathings（已含 mora_e/mora_m/t/e/available/prioritized）
  */
-async function findBestRouteGroups(pathings, efficiencyIndex, targetEliteNum, targetMonsterNum) {
+async function findBestRouteGroups(pathings, efficiencyIndex, targetEliteNum, targetMonsterNum, useIntegerPlanner = settings.useIntegerPlanner) {
     log.info("开始根据配置寻找路线组合");
+    const integerMode = integerPlannerEnabled(useIntegerPlanner);
+    const integerEliteLimit = targetEliteNum - ELITE_TARGET_RESERVE;
+    // 整数模式允许 0 精英；回退原算法时仍按旧配置规则把 0 解释为默认目标。
+    if (integerMode && integerEliteLimit === 0) targetEliteNum = DEFAULT_ELITE_TARGET_NUM + ELITE_TARGET_RESERVE;
     /* ========== 0. 原初始化不动 ========== */
     let nextTargetEliteNum = targetEliteNum;
     let iterationCount = 0;
@@ -1170,6 +1234,7 @@ async function findBestRouteGroups(pathings, efficiencyIndex, targetEliteNum, ta
 
     pathings.forEach(p => {
         p.selected = false;
+        delete p.plannedEliteCount;
 
         if (p.e !== 0) {
             p.E1 = (efficiencyIndex * p.mora_e - p.t) / p.e;
@@ -1279,7 +1344,28 @@ async function findBestRouteGroups(pathings, efficiencyIndex, targetEliteNum, ta
         }
     }
 
-    /* ========== 4. 小怪标签 & 排序 & 日志，保持原样 ========== */
+    // 可选模式只替换选中集合；失败时保留上面已经算好的原算法结果。
+    let integerPlan = null;
+    if (integerMode) {
+        try {
+            integerPlan = await requestIntegerPlan(pathings,
+                integerEliteLimit, targetMonsterNum - MONSTER_TARGET_RESERVE);
+            pathings.forEach(p => {
+                p.selected = integerPlan.selected.has(p);
+                // 忽略比例仍影响收益和分组，但不能隐藏精英上限实际消耗。
+                p.plannedEliteCount = p.original_e ?? p.e;
+            });
+            totalSelectedElites = integerPlan.totals.e;
+            totalSelectedMonsters = integerPlan.totals.m;
+            totalGainCombined = integerPlan.totals.mora;
+            totalTimeCombined = integerPlan.totals.seconds;
+            log.info(`整数规划：给定估时与约束下已验证最优（误差 ≤ 1e-7 摩拉/秒），预计 ${integerPlan.rate.toFixed(4)} 摩拉/秒`);
+        } catch (error) {
+            log.warn(`整数规划未采用：${error.message}；回退原算法（使用原数量规则，不保证整数规划的精英上限）`);
+        }
+    }
+
+    /* ========== 4. 小怪标签 & 排序 & 日志 ========== */
     pathings.forEach(p => {
         // 1. 统一先删掉旧的小怪标签（不管之前有没有）
         p.tags = p.tags.filter(t => t !== '小怪');
@@ -1313,12 +1399,12 @@ async function findBestRouteGroups(pathings, efficiencyIndex, targetEliteNum, ta
     log.info("路线组合结果如下：");
     log.info(`总精英怪数量: ${totalSelectedElites.toFixed(0)}`);
     log.info(`总普通怪数量: ${totalSelectedMonsters.toFixed(0)}`);
-    log.info(`总收益: ${(totalGainCombined - 5 * 200 - 25 * 40.5).toFixed(0)} 摩拉`);
+    log.info(`总收益: ${(integerPlan ? totalGainCombined : totalGainCombined - 5 * 200 - 25 * 40.5).toFixed(0)} 摩拉`);
     const h = Math.floor(totalTimeCombined / 3600);
     const m = Math.floor((totalTimeCombined % 3600) / 60);
     const s = totalTimeCombined % 60;
     log.info(`预计总用时: ${h} 时 ${m} 分 ${s.toFixed(0)} 秒`);
-    if (totalSelectedElites < targetEliteNum - ELITE_TARGET_RESERVE || totalSelectedMonsters < targetMonsterNum - MONSTER_TARGET_RESERVE || totalSelectedElites > targetEliteNum * 1.1) {
+    if (!integerPlan && (totalSelectedElites < targetEliteNum - ELITE_TARGET_RESERVE || totalSelectedMonsters < targetMonsterNum - MONSTER_TARGET_RESERVE || totalSelectedElites > targetEliteNum * 1.1)) {
         log.warn("警告，可能条件填写不合理，分配结果与目标存在较大差异");
         if (!htmlPreviewMode) await sleep(WARNING_DISPLAY_DELAY_MS);
     }
@@ -1414,6 +1500,7 @@ async function printGroupSummary() {
 
     // 统计所有选中的路线
     const selectedPathings = pathings.filter(p => p.selected);
+    const integerPlanUsed = selectedPathings.some(p => p.plannedEliteCount !== undefined);
     resultText += `总选中路线数: ${selectedPathings.length} 条\n\n`;
 
     let totalElites = 0, totalMonsters = 0, totalGain = 0, totalTime = 0, totalIgnoredElites = 0;
@@ -1425,7 +1512,7 @@ async function printGroupSummary() {
         let elites = 0, monsters = 0, gain = 0, time = 0, ignoredElites = 0;
 
         for (const p of groupPath) {
-            elites += p.e || 0;
+            elites += p.plannedEliteCount ?? p.e ?? 0;
             monsters += p.m || 0;
             gain += p.mora_e + p.mora_m || 0;
             time += p.t || 0;
@@ -1480,7 +1567,7 @@ async function printGroupSummary() {
     resultText += `  总精英怪: ${totalElites.toFixed(0)}\n`;
     resultText += `  被忽视精英怪数: ${totalIgnoredElites.toFixed(0)}\n`;
     resultText += `  总小怪数: ${totalMonsters.toFixed(0)}\n`;
-    resultText += `  总收益  : ${(totalGain - 5 * 200 - 25 * 40.5).toFixed(0)} 摩拉\n`;
+    resultText += `  总收益  : ${(integerPlanUsed ? totalGain : totalGain - 5 * 200 - 25 * 40.5).toFixed(0)} 摩拉\n`;
     resultText += `  总用时  : ${totalH} 时 ${totalM} 分 ${totalS.toFixed(0)} 秒\n`;
     resultText += "=".repeat(50) + "\n\n";
 
