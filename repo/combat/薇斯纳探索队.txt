@@ -1,0 +1,7 @@
+// 作者：Falcon
+// 描述：薇斯纳探索队，薇斯纳/奥黛塔/沃雅妮莎/四号位，使用时请打开 独立任务->自动战斗->战斗中视觉配置->持续索敌
+// 队伍：薇斯纳，奥黛塔，沃雅妮莎，任意
+
+奥黛塔 e,wait(0.5),q,ready,wait(0.5),e
+沃雅妮莎 e,wait(0.5)
+薇斯纳 e,wait(0.3),e,wait(0.5),e,wait(0.5),q,ready,e,wait(0.3),charge(1.5),charge(1.5),e,wait(0.3),charge(1.5),charge(1.5),e,wait(0.3),check
