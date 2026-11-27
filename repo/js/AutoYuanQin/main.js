@@ -10,8 +10,13 @@
     const lowest_latency = 30;
     let DEBUG;
     let settings_msg = get_settings();
+    // 面板里改过的设置优先于 BetterGI 配置里的旧值（否则每次启动/定时启动都被重置回默认）
+    try {
+        settings_msg = mergePersistedPanelSettings(settings_msg);
+    } catch (error) { }
     let playbackTask = null;
     let playbackPaused = false;
+    let playbackCanceled = false;
     let activePlaybackWindowId = null;
     let lastPauseHotkeyAt = 0;
     const activeMusicKeys = new Set();
@@ -78,8 +83,10 @@
      */
     async function waitWhilePaused() {
         while (playbackPaused) {
+            if (playbackCanceled) throw new Error("__PLAYBACK_ABORT__");
             await sleep(50);
         }
+        if (playbackCanceled) throw new Error("__PLAYBACK_ABORT__");
     }
 
     /**
@@ -138,7 +145,14 @@
             suspendedMusicKeys = Array.from(activeMusicKeys);
             releaseAllMusicKeys();
             playbackPaused = true;
-            htmlMask.setClickThrough(winId, false);
+            maskUi.pauseDismissed = false;
+            maskSetInteractive(true, "演奏暂停", true);
+            // 暂停时把「正在生效的配置」推回面板，避免面板显示与后端/存档不一致
+            try {
+                if (settings_msg && activePlaybackWindowId !== null && htmlMask.exists(activePlaybackWindowId)) {
+                    htmlMask.send(activePlaybackWindowId, "/config/settings", JSON.stringify(settings_msg));
+                }
+            } catch (error) { }
             log.info("演奏已暂停");
         } else {
             playbackPaused = false;
@@ -146,7 +160,7 @@
                 musicKeyDown(key);
             }
             suspendedMusicKeys = [];
-            htmlMask.setClickThrough(winId, true);
+            maskSetInteractive(false, "演奏继续", true);
             htmlMask.send(winId, "/frame/minimize", "minimize");
             log.info("演奏已继续");
         }
@@ -158,6 +172,22 @@
         playbackPaused = false;
     }
 
+    /** 让正在演奏的曲目尽快退出（暂停中换曲、关闭面板、脚本结束时用）。 */
+    function abortPlayback() {
+        playbackCanceled = true;
+        playbackPaused = false;
+        suspendedMusicKeys = [];
+    }
+
+    /** 等待演奏任务真正结束，最多等 timeoutMs 毫秒。 */
+    async function waitPlaybackStop(timeoutMs) {
+        const deadline = Date.now() + (timeoutMs || 2000);
+        while (playbackTask !== null && Date.now() < deadline) {
+            await sleep(30);
+        }
+        return playbackTask === null;
+    }
+
     function sendPlaybackState(message) {
         if (activePlaybackWindowId !== null && htmlMask.exists(activePlaybackWindowId)) {
             htmlMask.send(activePlaybackWindowId, "/playback/state", JSON.stringify({
@@ -166,6 +196,287 @@
                 hotkey: getPauseHotkey(),
                 message: message
             }));
+        }
+    }
+
+    /**
+     * -------- 遮罩交互控制 --------
+     * 遮罩窗口的点击穿透是窗口级开关（没有按区域 hit-test），这里用「页面上报的可交互
+     * 矩形 + 全局鼠标位置」自己判断：
+     *   · 默认穿透：启动后立刻可以操作游戏，不再卡住游戏鼠标；
+     *   · 未演奏时按热键把面板切为可交互（窗口获得焦点，鼠标被释放）；
+     *   · 点击面板才聚焦（鼠标只是移到面板上不会抢焦点）；
+     *   · 点击游戏区域立即交还游戏控制；
+     *   · 演奏中强制穿透，演奏暂停时切为可交互，继续/结束后回到穿透。
+     */
+    const maskUi = {
+        winId: null,
+        rects: [],
+        rectsAt: 0,
+        dpr: 1,
+        hookCursor: null,
+        hookDistinctAt: 0,
+        hookDown: null,
+        pageX: null,
+        pageY: null,
+        pageAt: 0,
+        pageDown: null,
+        scaleX: 0,
+        scaleY: 0,
+        downLogs: 0,
+        interactive: false,
+        lastToggleAt: 0,
+        lastExitAt: 0,
+        outsideSince: 0,
+        graceUntil: 0,
+        interactiveSince: 0,
+        everInside: false,
+        pauseDismissed: false,
+        firstEnterWindow: 8000,
+        lastReason: "",
+        toggles: 0,
+        pollMs: 80,
+        enterMargin: 6,
+        exitMargin: 24,
+        leaveDelay: 260,
+        freeWindow: 900,
+        reenterCooldown: 500
+    };
+
+    function maskParseObject(data) {
+        if (data === null || data === undefined) return null;
+        if (typeof data === "string") {
+            try {
+                return JSON.parse(data);
+            } catch (error) {
+                return null;
+            }
+        }
+        return data;
+    }
+
+    function maskParseRects(data) {
+        const obj = maskParseObject(data);
+        if (!obj) return null;
+        const list = Array.isArray(obj) ? obj : (Array.isArray(obj.rects) ? obj.rects : null);
+        if (!list) return null;
+        const rects = [];
+        for (let i = 0; i < list.length && rects.length < 16; i++) {
+            const raw = list[i];
+            if (!raw) continue;
+            const l = Number(raw.l !== undefined ? raw.l : raw.left);
+            const t = Number(raw.t !== undefined ? raw.t : raw.top);
+            const r = Number(raw.r !== undefined ? raw.r : raw.right);
+            const b = Number(raw.b !== undefined ? raw.b : raw.bottom);
+            if (!isFinite(l) || !isFinite(t) || !isFinite(r) || !isFinite(b)) continue;
+            const rect = {
+                l: Math.min(l, r),
+                t: Math.min(t, b),
+                r: Math.max(l, r),
+                b: Math.max(t, b)
+            };
+            if (rect.r - rect.l < 4 || rect.b - rect.t < 4) continue;
+            rects.push(rect);
+        }
+        return rects;
+    }
+
+    function maskHitTest(x, y, margin) {
+        const m = margin || 0;
+        for (let i = 0; i < maskUi.rects.length; i++) {
+            const rect = maskUi.rects[i];
+            if (x >= rect.l - m && x <= rect.r + m && y >= rect.t - m && y <= rect.b + m) return true;
+        }
+        return false;
+    }
+
+    function maskDpr() {
+        return maskUi.dpr > 0 ? maskUi.dpr : 1;
+    }
+
+    /** 物理像素 → 页面 CSS 像素的缩放（优先用点击校准值，没有再用 dpr） */
+    function maskScale() {
+        const dpr = maskDpr();
+        return {
+            x: maskUi.scaleX > 0 ? maskUi.scaleX : dpr,
+            y: maskUi.scaleY > 0 ? maskUi.scaleY : dpr
+        };
+    }
+
+    /** 用「页面报告的 CSS 坐标」+「同一时刻全局钩子的物理坐标」反推缩放，自动适配 DPI/窗口缩放误差 */
+    function maskCalibrate(cssX, cssY) {
+        const hookDown = maskUi.hookDown;
+        if (!hookDown) return;
+        if (Date.now() - hookDown.t > 500) return;
+        if (cssX > 120 && hookDown.x > 120) {
+            const sx = hookDown.x / cssX;
+            if (isFinite(sx) && sx > 0.4 && sx < 5) maskUi.scaleX = maskUi.scaleX > 0 ? maskUi.scaleX * 0.6 + sx * 0.4 : sx;
+        }
+        if (cssY > 120 && hookDown.y > 120) {
+            const sy = hookDown.y / cssY;
+            if (isFinite(sy) && sy > 0.4 && sy < 5) maskUi.scaleY = maskUi.scaleY > 0 ? maskUi.scaleY * 0.6 + sy * 0.4 : sy;
+        }
+    }
+
+    /** 指针是否落在面板可交互区域上：优先用页面上报的窗口内 CSS 坐标 */
+    function maskPointerOnUi(margin) {
+        const now = Date.now();
+        if (maskUi.pageX !== null && maskUi.pageY !== null && now - maskUi.pageAt <= 400) {
+            return maskHitTest(maskUi.pageX, maskUi.pageY, margin);
+        }
+        const cursor = maskUi.hookCursor;
+        if (!cursor) return false;
+        const scale = maskScale();
+        return maskHitTest(cursor.x / scale.x, cursor.y / scale.y, margin);
+    }
+
+    /** 最近一次按下鼠标的位置（窗口内 CSS 坐标） */
+    function maskLastDownCss(now) {
+        if (maskUi.pageDown && now - maskUi.pageDown.t <= 300) {
+            return { x: maskUi.pageDown.x, y: maskUi.pageDown.y, t: maskUi.pageDown.t, onUi: maskUi.pageDown.onUi, source: "page" };
+        }
+        if (maskUi.hookDown && now - maskUi.hookDown.t <= 300) {
+            const scale = maskScale();
+            return { x: maskUi.hookDown.x / scale.x, y: maskUi.hookDown.y / scale.y, t: maskUi.hookDown.t, source: "hook" };
+        }
+        return null;
+    }
+
+    function maskSetInteractive(interactive, reason, immediate) {
+        const next = Boolean(interactive);
+        if (next === maskUi.interactive) return false;
+        if (!maskUi.winId) return false;
+        try {
+            if (!htmlMask.exists(maskUi.winId)) return false;
+        } catch (error) {
+            return false;
+        }
+        const now = Date.now();
+        if (!immediate && now - maskUi.lastToggleAt < 80) return false;
+        maskUi.lastToggleAt = now;
+        try {
+            htmlMask.setClickThrough(maskUi.winId, !next);
+        } catch (error) {
+            log.warn("[遮罩交互] 切换点击穿透失败：" + error);
+            return false;
+        }
+        maskUi.interactive = next;
+        maskUi.outsideSince = 0;
+        maskUi.everInside = false;
+        maskUi.pageDown = null;
+        maskUi.hookDown = null;
+        if (next) {
+            maskUi.interactiveSince = now;
+        } else {
+            maskUi.lastExitAt = now;
+            maskUi.graceUntil = 0;
+            if (playbackPaused) maskUi.pauseDismissed = true;
+        }
+        maskUi.toggles++;
+        if (maskUi.toggles <= 20 || maskUi.lastReason !== reason) {
+            maskUi.lastReason = reason;
+            log.info("[遮罩交互] " + (next ? "面板可操作" : "交还游戏") + "（" + reason + "）");
+        }
+        return true;
+    }
+
+    /** 每帧判断：此刻面板该不该接收鼠标 */
+    function maskEvaluate(now) {
+        if (playbackTask !== null && !playbackPaused) return { want: false, reason: "演奏中" };
+        if (!maskUi.rects.length) return null;
+
+        const down = maskLastDownCss(now);
+        // 交还游戏只认页面自己的判断（点到空白/游戏区域）；全局钩子坐标换算有误差，不用它来决定退出
+        if (maskUi.interactive && down && down.source === "page" && down.onUi === false) {
+            return { want: false, reason: "点击游戏区域" };
+        }
+
+        const margin = maskUi.interactive ? maskUi.exitMargin : maskUi.enterMargin;
+        const onUi = maskPointerOnUi(margin);
+
+        if (maskUi.interactive) {
+            // 已聚焦：只有「点击面板外」才交还游戏；鼠标只是移开不再自动收回
+            return { want: true, reason: playbackPaused ? "演奏暂停" : "已聚焦窗口" };
+        }
+
+        maskUi.outsideSince = 0;
+        // 只有「点击面板」才聚焦：鼠标只是移到 UI 上不抢焦点；刚交还游戏的这一下不再复用
+        if (down && now - maskUi.lastExitAt >= 400) {
+            const inside = down.source === "page"
+                ? down.onUi === true
+                : maskHitTest(down.x, down.y, maskUi.enterMargin);
+            if (inside) return { want: true, reason: "点击面板聚焦" };
+        }
+        return { want: false, reason: "穿透" };
+    }
+
+    function maskTick() {
+        if (!maskUi.winId) return;
+        try {
+            if (!htmlMask.exists(maskUi.winId)) return;
+            const decision = maskEvaluate(Date.now());
+            if (!decision) return;
+            if (decision.want !== maskUi.interactive) maskSetInteractive(decision.want, decision.reason, false);
+        } catch (error) {
+            // 每帧都会调用，异常时保持静默，避免刷日志
+        }
+    }
+
+    function maskStart(winId) {
+        maskUi.winId = winId;
+        maskUi.interactive = false;
+        maskUi.lastExitAt = Date.now();
+        try {
+            htmlMask.setClickThrough(winId, true);
+            log.info("[遮罩交互] 已启用：默认点击穿透，游戏可正常操作；未演奏时按 " + getPauseHotkey() + " 唤出/收起面板。");
+        } catch (error) {
+            log.warn("[遮罩交互] 初始化点击穿透失败：" + error);
+        }
+    }
+
+    function maskStop() {
+        maskUi.winId = null;
+        maskUi.rects = [];
+        maskUi.pageX = null;
+        maskUi.pageY = null;
+        maskUi.pageAt = 0;
+    }
+
+    function handleMaskRects(data) {
+        const rects = maskParseRects(data);
+        if (!rects) return;
+        maskUi.rects = rects;
+        maskUi.rectsAt = Date.now();
+    }
+
+    function handleMaskGeometry(data) {
+        const obj = maskParseObject(data);
+        if (!obj) return;
+        const dpr = Number(obj.dpr);
+        if (isFinite(dpr) && dpr > 0 && dpr < 8) maskUi.dpr = dpr;
+    }
+
+    function handleMaskPointer(data) {
+        const obj = maskParseObject(data);
+        if (!obj) return;
+        if (obj.out) {
+            maskUi.pageX = null;
+            maskUi.pageY = null;
+            maskUi.pageAt = 0;
+            return;
+        }
+        const x = Number(obj.x);
+        const y = Number(obj.y);
+        if (!isFinite(x) || !isFinite(y)) return;
+        maskUi.pageX = x;
+        maskUi.pageY = y;
+        maskUi.pageAt = Date.now();
+        if (obj.down) {
+            const onUi = typeof obj.onUi === "boolean" ? obj.onUi : undefined;
+            maskUi.pageDown = { x: x, y: y, t: maskUi.pageAt, onUi: onUi };
+            maskCalibrate(x, y);
+            maskUi.downLogs++;
+            if (maskUi.downLogs <= 40) log.info("[遮罩交互] 页面点击 x=" + x + " y=" + y + " onUi=" + onUi);
         }
     }
 
@@ -191,7 +502,20 @@
             const mainHotkey = hotkeyParts[hotkeyParts.length - 1];
             const isPauseHotkey = keyName === mainHotkey && hotkeyParts.every(part => pressedHotkeyKeys.has(part));
             const now = Date.now();
-            if (!isPauseHotkey || pauseHotkeyLatched || playbackTask === null || now - lastPauseHotkeyAt < 300) return;
+            if (!isPauseHotkey || pauseHotkeyLatched || now - lastPauseHotkeyAt < 300) return;
+
+            // 不在演奏时：热键用于唤出/收起面板（切换点击穿透状态）
+            if (playbackTask === null) {
+                pauseHotkeyLatched = true;
+                lastPauseHotkeyAt = now;
+                if (maskUi.interactive) {
+                    maskSetInteractive(false, "热键收起面板", true);
+                } else {
+                    maskUi.pauseDismissed = false;
+                    maskSetInteractive(true, "热键唤出面板", true);
+                }
+                return;
+            }
 
             pauseHotkeyLatched = true;
             lastPauseHotkeyAt = now;
@@ -212,6 +536,35 @@
             const hotkeyParts = getPauseHotkey().split("+");
             if (!hotkeyParts.every(part => pressedHotkeyKeys.has(part))) pauseHotkeyLatched = false;
         }, true);
+        // 全局鼠标回调：只记录状态，窗口切换交给主消息循环（避免在钩子线程操作窗口）
+        try {
+            if (typeof hook.onMouseMove === "function") {
+                const onMaskMove = function (x, y) {
+                    try {
+                        const now = Date.now();
+                        const prev = maskUi.hookCursor;
+                        const px = Number(x) || 0;
+                        const py = Number(y) || 0;
+                        if (!prev || Math.abs(prev.x - px) > 2 || Math.abs(prev.y - py) > 2) maskUi.hookDistinctAt = now;
+                        maskUi.hookCursor = { x: px, y: py, t: now };
+                    } catch (error) { }
+                };
+                try {
+                    hook.onMouseMove(onMaskMove, 40);
+                } catch (error) {
+                    hook.onMouseMove(onMaskMove);
+                }
+            }
+            if (typeof hook.onMouseDown === "function") {
+                hook.onMouseDown(function (button, x, y) {
+                    try {
+                        maskUi.hookDown = { x: Number(x) || 0, y: Number(y) || 0, t: Date.now() };
+                    } catch (error) { }
+                });
+            }
+        } catch (error) {
+            log.warn("[遮罩交互] 注册全局鼠标回调失败，指针判定不可用，只能用热键唤出面板：" + error);
+        }
         return hook;
     }
     /**
@@ -896,6 +1249,54 @@
      * @property {Boolean} debug - 是否启用调试模式
      *
      */
+    /*
+     * 面板设置持久化：把用户在面板里改的开关/模式写进脚本目录的 panel_settings.json，
+     * 启动或定时启动时优先采用这份记录，避免面板被 BetterGI 配置里的旧值重置。
+     */
+    function loadPanelSettingsFile() {
+        try {
+            const text = file.readTextSync("panel_settings.json");
+            if (!text) return null;
+            const obj = JSON.parse(text);
+            return obj && typeof obj === "object" ? obj : null;
+        } catch (error) {
+            return null; // 文件不存在或解析失败按无记录处理
+        }
+    }
+
+    function savePanelSettings(value) {
+        try {
+            if (!value || typeof value !== "object") return;
+            file.writeTextSync("panel_settings.json", JSON.stringify(value, null, 2));
+        } catch (error) {
+            log.warn(`[遮罩交互] 保存面板设置失败：${error}`);
+        }
+    }
+
+    function mergePersistedPanelSettings(base) {
+        const persisted = loadPanelSettingsFile();
+        if (!persisted) return base;
+        const merged = Object.assign({}, base, persisted);
+        // 以时间字符串为准重新计算 startTime（startTime 是「当天」时间戳，跨天就失效）
+        let timeText = "";
+        if (typeof persisted.musicStart === "string" && persisted.musicStart.trim() !== "") {
+            timeText = persisted.musicStart.trim();
+        } else if (typeof merged.musicStart === "string" && merged.musicStart.trim() !== "") {
+            timeText = merged.musicStart.trim();
+        } else {
+            timeText = "00:00:00";
+        }
+        const parts = timeText.replace(/[^0-9:]/g, "").split(":");
+        const hours = Number(parts[0]) || 0;
+        const minutes = Number(parts[1]) || 0;
+        const seconds = Number(parts[2]) || 0;
+        const now = new Date();
+        merged.startTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes, seconds).getTime();
+        if (typeof merged.startTime !== "number" || isNaN(merged.startTime)) merged.startTime = 0;
+        merged.musicStart = timeText;
+        return merged;
+    }
+
     function get_settings() {
         const Settings = {
             startTime: 0,
@@ -931,7 +1332,11 @@
         try {
             // 读取开始时间
             let music_start = typeof (settings.music_start) === 'undefined' ? "00:00:00" : settings.music_start;
+            if (typeof music_start !== "string" || music_start.trim() === "") music_start = "00:00:00";
             Settings.startTime = calTargetTimeStamp(music_start);
+            if (typeof Settings.startTime !== "number" || isNaN(Settings.startTime)) Settings.startTime = 0;
+            // 时间字符串本身也带上，面板回显与持久化都以它为准
+            Settings.musicStart = music_start;
             // 读取播放模式
             let type_select = typeof (settings.type_select) === 'undefined' ? "单曲单次执行" : settings.type_select;
             switch (type_select) {
@@ -2097,6 +2502,7 @@
     }
 
     async function play(winId) {
+        playbackCanceled = false;
         if (settings.cover) {
             if (!(await checkSheetFile(winId))) return;
         } else {
@@ -2119,6 +2525,7 @@
         await waitTargetTime(settings_msg.startTime);
         do {
             for (let i = 0; i < music_infos.length; i++) {
+                if (playbackCanceled) throw new Error("__PLAYBACK_ABORT__");
                 let music_info = music_infos[i];
 
                 if (settings_msg.autoSwitch) {
@@ -2220,40 +2627,55 @@
         const winId = htmlMask.show("assets/index.html");
         const pauseHotkey = registerPauseHotkey(winId);
         try {
+        maskStart(winId);
         if (settings.cover) {
             activePlaybackWindowId = winId;
-            htmlMask.setClickThrough(winId, false);
+            // 不再启动即锁住鼠标：默认穿透，按热键才唤出面板
+            maskSetInteractive(false, "启动默认穿透", true);
 
             // 持续接收 HTML 消息
             while (htmlMask.exists(winId)) {
-                const msg = await htmlMask.receive(winId);
+                const msg = await htmlMask.receive(winId, maskUi.pollMs);
+                maskTick();
                 if (msg) {
                     const parsed = JSON.parse(msg);
 
                     switch (parsed.url) {
                         case "/event/click":
                             if (playbackTask !== null) {
-                                htmlMask.send(winId, "/playback/state", JSON.stringify({ playing: true, paused: playbackPaused, hotkey: getPauseHotkey(), message: "已有乐曲正在演奏" }));
-                                break;
+                                if (!playbackPaused) {
+                                    htmlMask.send(winId, "/playback/state", JSON.stringify({ playing: true, paused: playbackPaused, hotkey: getPauseHotkey(), message: "已有乐曲正在演奏" }));
+                                    break;
+                                }
+                                // 暂停中点「演奏」：结束当前曲目，按新选中的曲目重新开始
+                                log.info("[遮罩交互] 暂停中重新开始演奏");
+                                abortPlayback();
+                                await waitPlaybackStop(3000);
+                                if (playbackTask !== null) {
+                                    htmlMask.send(winId, "/playback/state", JSON.stringify({ playing: true, paused: false, hotkey: getPauseHotkey(), message: "上一首还没停下，请稍后再试" }));
+                                    break;
+                                }
+                                maskSetInteractive(true, "重新准备演奏", true);
                             }
                             htmlMask.send(winId, "/frame/minimize", "minimize");
                             // 演奏时保持鼠标穿透，使用全局自定义热键暂停，不影响游戏操作。
-                            htmlMask.setClickThrough(winId, true);
+                            maskSetInteractive(false, "开始演奏", true);
                             settings_msg = parsed.data;
+                            savePanelSettings(settings_msg);
                             resetPlaybackState();
                             htmlMask.send(winId, "/playback/state", JSON.stringify({ playing: true, paused: false, hotkey: getPauseHotkey() }));
                             playbackTask = (async () => {
                                 try {
                                     await play(winId);
                                 } catch (error) {
-                                    log.error(`演奏过程中出错：${error}`);
+                                    if (String(error).indexOf("__PLAYBACK_ABORT__") < 0) log.error(`演奏过程中出错：${error}`);
                                 } finally {
                                     resetPlaybackState();
                                     playbackTask = null;
                                     if (htmlMask.exists(winId)) {
                                         htmlMask.send(winId, "/playback/state", JSON.stringify({ playing: false, paused: false, hotkey: getPauseHotkey() }));
                                         htmlMask.send(winId, "/frame/restore", "restore");
-                                        htmlMask.setClickThrough(winId, false);
+                                        maskSetInteractive(false, "演奏结束", true);
                                     }
                                 }
                             })();
@@ -2270,13 +2692,29 @@
                             await checkSheetFile(winId);
                             break;
                         case "/window/close":
+                            abortPlayback();
+                            await waitPlaybackStop(1500);
                             return null;
                         case "/config/settings":
                             await checkSheetFile(winId);
                             htmlMask.send(winId, "/config/settings", JSON.stringify(settings_msg));
                             break;
+                        case "/config/save":
+                            // 面板改动即时落盘，重启/定时启动时按这份记录恢复
+                            settings_msg = Object.assign({}, settings_msg, parsed.data || {});
+                            savePanelSettings(settings_msg);
+                            break;
                         case "/debug":
                             log.info(`${parsed.data}`);
+                            break;
+                        case "/mask/rects":
+                            handleMaskRects(parsed.data);
+                            break;
+                        case "/mask/geometry":
+                            handleMaskGeometry(parsed.data);
+                            break;
+                        case "/mask/pointer":
+                            handleMaskPointer(parsed.data);
                             break;
 
                     }
@@ -2296,6 +2734,9 @@
             }
         }
         } finally {
+            abortPlayback();
+            await waitPlaybackStop(1500);
+            maskStop();
             pauseHotkey.removeAllListeners();
             pauseHotkey.dispose();
         }
