@@ -1,0 +1,30 @@
+{
+  "manifest_version": 1,
+  "name": "视频悬浮窗",
+  "version": "1.6.29",
+  "bgi_version": "0.50.0",
+  "description": "在游戏上浮一个可拖动、可鼠标穿透的攻略视频播放器：启动先黑屏提示、从系列栏选地图才开播；B 站视频直链自播（能拖进度条、能改倍速、不用下载），侧栏按「地图 → 分类 → 版本 → 分P」四级一层层点进去（重开侧栏直接回到正在看的那一集），设置齿轮里管自动暂停/打怪点/透明度/倍速，点收起只留下边栏、不退出，支持本地 mp4 与分P切换，位置与进度自动记忆。",
+  "authors": [
+    {
+      "name": "轩果子",
+      "link": "https://github.com/xuan251"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js",
+  "saved_files": [
+    "assets/videos/*",
+    "assets/*.txt"
+  ],
+  "http_allowed_urls": [
+    "https://*.bilibili.com/*",
+    "https://bilibili.com/*",
+    "https://*.biliapi.net/*",
+    "https://*.hdslb.com/*",
+    "https://*.bilivideo.com/*",
+    "https://*.akamaized.net/*"
+  ],
+  "library": [
+    "."
+  ]
+}
