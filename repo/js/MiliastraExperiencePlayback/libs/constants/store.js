@@ -2,7 +2,7 @@ import { __name } from "../rolldown-runtime.js";
 import { getNextDay4AM, getNextMonday4AM, useStoreWithDefaults } from "../@bettergi+utils.js";
 import { findUidText } from "./regions.js";
 
-//#region src/constants/store.ts
+// src/constants/store.ts
 const DEFAULT_STORE_NAME = "default";
 /** 脚本数据存储 */
 const store = await (async () => {
@@ -15,11 +15,10 @@ const store = await (async () => {
       expGained: 0,
       attempts: 0,
     },
-    daily: { attempts: 0 },
+    daily: { rooms: {} },
     nextWeek: getNextMonday4AM().getTime(),
     nextDay: getNextDay4AM().getTime(),
   });
 })();
 
-//#endregion
 export { store };

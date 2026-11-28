@@ -108,6 +108,12 @@
     "type": "separator"
   },
   {
+    "type": "input-text",
+    "name": "loadingTimeout",
+    "label": "加载图标出现后，超过多久视作已进入关卡（单位：秒）",
+    "default": "30"
+  },
+  {
     "type": "checkbox",
     "name": "closeStageDialog",
     "label": "执行通关回放前关闭游戏说明对话框",

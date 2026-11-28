@@ -6,20 +6,24 @@
  */
 import { __name } from "./libs/rolldown-runtime.js";
 import { exitLobbyToTeyvat } from "./libs/modules/lobby.js";
+import { onnxManager } from "./libs/constants/regions.js";
 import { execDailyTask } from "./libs/workflows/daily.js";
 import { execWeeklyTask } from "./libs/workflows/weekly.js";
 
-//#region main.ts
+// main.ts
 (async function () {
-  /** 初始化游戏环境 */
-  setGameMetrics(1920, 1080, 1.5);
-  await genshin.returnMainUi();
-  /** 执行每周任务 */
-  await execWeeklyTask();
-  /** 执行每日任务 */
-  await execDailyTask();
-  /** 返回提瓦特大陆 */
-  await exitLobbyToTeyvat();
+  try {
+    /** 初始化游戏环境 */
+    setGameMetrics(1920, 1080, 1.5);
+    await genshin.returnMainUi();
+    /** 执行每周任务 */
+    await execWeeklyTask();
+    /** 执行每日任务 */
+    await execDailyTask();
+    /** 返回提瓦特大陆 */
+    await exitLobbyToTeyvat();
+  } finally {
+    /** 释放 ONNX 资源 */
+    onnxManager.dispose();
+  }
 })();
-
-//#endregion

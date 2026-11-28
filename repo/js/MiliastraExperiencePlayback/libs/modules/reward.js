@@ -3,6 +3,7 @@ import {
   assertRegionAppearing,
   assertRegionDisappearing,
   getErrorMessage,
+  isHostException,
 } from "../@bettergi+utils.js";
 import { userConfig } from "../constants/config.js";
 import {
@@ -18,10 +19,10 @@ import {
 } from "../constants/regions.js";
 import { isInLobby } from "./lobby.js";
 
-//#region src/modules/reawrd.ts
+// src/modules/reward.ts
 /** 领取诸界纪游经验 */
 const fetchBattlepassExp = async () => {
-  log.info(`尝试领取诸界纪游经验...`);
+  log.info("尝试领取 {name} 经验...", "诸界纪游");
   if (!userConfig.dailyRewards.includes("诸界纪游")) {
     log.warn("未配置领取诸界纪游奖励，跳过领取诸界纪游经验");
     return;
@@ -35,54 +36,60 @@ const fetchBattlepassExp = async () => {
     log.warn("诸界纪游已结束，跳过领取诸界纪游经验");
     return;
   }
-  /** 打开诸界纪游界面 */
-  await assertRegionAppearing(
-    () => findHeaderTitle("纪游", true),
-    "打开诸界纪游界面超时",
-    () => {
-      keyPress("VK_F4");
-      /** 关闭纪游开屏动画（如果弹出） */
-      if (findBeyondBattlepassPopup()) keyPress("VK_ESCAPE");
-    },
-    {
-      maxAttempts: 5,
-      retryInterval: 2e3,
-    },
-  );
-  /** 跳转到任务界面 */
-  await assertRegionAppearing(
-    () => findHeaderTitle("任务", true),
-    "打开诸界纪游任务界面超时",
-    () => {
-      keyPress("VK_E");
-    },
-    {
-      maxAttempts: 5,
-      retryInterval: 2e3,
-    },
-  );
-  /** 点击一键领取 */
-  await assertRegionDisappearing(
-    () => findBottomBtnText("领取", true),
-    "领取诸界纪游经验超时",
-    async () => {
-      /** 重复确认，防止误领纪游奖励（部件礼箱会卡流程）而不是经验 */
-      if (findHeaderTitle("任务", true)) {
-        const reward = findBottomBtnText("领取", true);
-        if (reward) {
-          reward.click();
-          await sleep(50);
-          reward.click();
-          await closeRewardPopups();
+  try {
+    /** 打开诸界纪游界面 */
+    await assertRegionAppearing(
+      () => findHeaderTitle("纪游", { contains: true }),
+      "打开诸界纪游界面超时",
+      () => {
+        keyPress("VK_F4");
+        /** 关闭纪游开屏动画（如果弹出） */
+        if (findBeyondBattlepassPopup()) keyPress("VK_ESCAPE");
+      },
+      {
+        maxAttempts: 5,
+        retryInterval: 2e3,
+      },
+    );
+    /** 跳转到任务界面 */
+    await assertRegionAppearing(
+      () => findHeaderTitle("任务", { contains: true }),
+      "打开诸界纪游任务界面超时",
+      () => {
+        keyPress("VK_E");
+      },
+      {
+        maxAttempts: 5,
+        retryInterval: 2e3,
+      },
+    );
+    /** 点击一键领取 */
+    await assertRegionDisappearing(
+      () => findBottomBtnText("领取", { contains: true }),
+      "领取诸界纪游经验超时",
+      async () => {
+        /** 重复确认，防止误领纪游奖励（部件礼箱会卡流程）而不是经验 */
+        if (findHeaderTitle("任务", { contains: true })) {
+          const reward = findBottomBtnText("领取", { contains: true });
+          if (reward) {
+            reward.click();
+            await sleep(50);
+            reward.click();
+            await closeRewardPopups();
+          }
         }
-      }
-    },
-    {
-      maxAttempts: 5,
-      retryInterval: 3e3,
-    },
-  );
-  await genshin.returnMainUi();
+      },
+      {
+        maxAttempts: 5,
+        retryInterval: 3e3,
+      },
+    );
+  } catch (err) {
+    if (isHostException(err)) throw err;
+    log.warn("领取诸界纪游经验失败: {error}", getErrorMessage(err));
+  } finally {
+    await genshin.returnMainUi();
+  }
 };
 /** 关闭奖励弹窗 */
 const closeRewardPopups = async (offsetX = 0, offsetY = 0) => {
@@ -107,12 +114,22 @@ const clickClaimRewardBtn = async (offsetX = 0, offsetY = 0) => {
 const fetchRaimentCollection = async () => {
   /** 打开绮衣珍赏 */
   await assertRegionAppearing(
-    () => findHeaderTitle("绮衣", true) || findHeaderTitle("珍赏", true),
+    () =>
+      findHeaderTitle("绮衣珍赏", {
+        contains: true,
+        maxEditDistance: 2,
+      }),
     "打开绮衣珍赏超时，活动未轮换/已结束",
     async () => {
       keyPress("VK_F6");
       await sleep(2e3);
-      if (!findHeaderTitle("绮衣", true) && !findHeaderTitle("珍赏", true)) keyPress("VK_Q");
+      if (
+        !findHeaderTitle("绮衣珍赏", {
+          contains: true,
+          maxEditDistance: 2,
+        })
+      )
+        keyPress("VK_Q");
     },
     {
       maxAttempts: 5,
@@ -137,12 +154,12 @@ const fetchRaimentCollection = async () => {
 const fetchInvitationToWonderland = async () => {
   /** 打开奇趣盛邀 */
   await assertRegionAppearing(
-    () => findHeaderTitle("盛邀", true),
+    () => findHeaderTitle("盛邀", { contains: true }),
     "打开奇趣盛邀超时，活动未轮换/已结束",
     async () => {
       keyPress("VK_F1");
       await sleep(2e3);
-      if (findHeaderTitle("盛邀", true) === void 0) keyPress("VK_Q");
+      if (findHeaderTitle("盛邀", { contains: true }) === void 0) keyPress("VK_Q");
     },
     {
       maxAttempts: 5,
@@ -167,12 +184,22 @@ const fetchInvitationToWonderland = async () => {
 const fetchMiliastralGifts = async () => {
   /** 打开星境彩馈 */
   await assertRegionAppearing(
-    () => findHeaderTitle("星境", true) || findHeaderTitle("彩馈", true),
+    () =>
+      findHeaderTitle("星境彩馈", {
+        contains: true,
+        maxEditDistance: 2,
+      }),
     "打开星境彩馈超时，活动未轮换/已结束",
     async () => {
       keyPress("VK_F6");
       await sleep(2e3);
-      if (!findHeaderTitle("星境", true) && !findHeaderTitle("彩馈", true)) keyPress("VK_Q");
+      if (
+        !findHeaderTitle("星境彩馈", {
+          contains: true,
+          maxEditDistance: 2,
+        })
+      )
+        keyPress("VK_Q");
     },
     {
       maxAttempts: 5,
@@ -197,12 +224,22 @@ const fetchMiliastralGifts = async () => {
 const fetchStarlitGala = async () => {
   /** 打开绮星盛会 */
   await assertRegionAppearing(
-    () => findHeaderTitle("绮星", true) || findHeaderTitle("盛会", true),
+    () =>
+      findHeaderTitle("绮星盛会", {
+        contains: true,
+        maxEditDistance: 2,
+      }),
     "打开绮星盛会超时，活动未轮换/已结束",
     async () => {
       keyPress("VK_F6");
       await sleep(2e3);
-      if (!findHeaderTitle("绮星", true) && !findHeaderTitle("盛会", true)) keyPress("VK_Q");
+      if (
+        !findHeaderTitle("绮星盛会", {
+          contains: true,
+          maxEditDistance: 2,
+        })
+      )
+        keyPress("VK_Q");
     },
     {
       maxAttempts: 5,
@@ -257,14 +294,14 @@ const fetchCultivateReward = async () => {
   }
   for (const [reward, fetchRewardFunc] of rewards)
     try {
-      log.info(`尝试领取${reward}奖励...`);
+      log.info("尝试领取 {name} 奖励...", reward);
       await fetchRewardFunc();
     } catch (err) {
-      log.warn(`尝试领取${reward}奖励失败: ${getErrorMessage(err)}`);
+      if (isHostException(err)) throw err;
+      log.warn(`尝试领取 {name} 奖励失败: ${getErrorMessage(err)}`, reward);
     } finally {
       await genshin.returnMainUi();
     }
 };
 
-//#endregion
 export { fetchBattlepassExp, fetchCultivateReward };
