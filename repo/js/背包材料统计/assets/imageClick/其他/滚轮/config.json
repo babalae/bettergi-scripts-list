@@ -1,10 +1,14 @@
 {
-  "isSpecial": true,
-  "operationType": "key_mouse_script",
-  "scriptPath": "assets/滚轮下翻.json",
-  "xOffset": 0,
-  "yOffset": 0,
-  "detectRegion": { "x": 1206, "y": 175, "width": 44, "height": 735 },
-  "nextLevelOnSuccess": "assets\\imageClick\\其他\\F",
-  "nextLevelOnFailure": ""
+  "弹窗名称": "滚轮下翻",
+  "识别": {
+    "方式": "固定区域",
+    "区域": { "x": 1206, "y": 175, "宽": 44, "高": 735 },
+    "阈值": 0.85
+  },
+  "识别成功后": [
+    { "动作": "执行键鼠脚本", "脚本路径": "assets/滚轮下翻.json", "次数": 1, "间隔毫秒": 0 },
+    { "动作": "等待", "毫秒": 800 },
+    { "动作": "调用子弹窗", "弹窗": "assets/imageClick/其他/F", "重试次数": 1, "重试间隔毫秒": 300 }
+  ],
+  "识别失败时": { "重试次数": 1, "重试间隔毫秒": 500 }
 }

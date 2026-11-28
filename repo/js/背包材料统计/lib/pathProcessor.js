@@ -10,18 +10,13 @@
  * @returns {Promise} 执行结果
  */
 async function runPathAndNotify(pathingFilePath, currentMaterialName, estimatedTime = null) {
-  const pathName = basename(pathingFilePath);
-  if (notify) {
-    let notifyMsg = `当前执行路径：${pathName}\n目标：${currentMaterialName || '未知'}`;
-    if (estimatedTime !== null) {
-      notifyMsg += `\n预计耗时：${formatTime(estimatedTime)}`;
-    }
-    notification.Send(notifyMsg);
-  }
   return await pathingScript.runFile(pathingFilePath);
 }
 
+const executedPathRecords = []; // 记录本轮已执行路径（名称+实际耗时），供进度/通知使用
 const MIN_RECORD_TIME = 15;
+const MIN_PER_TIME_MULTIPLIER = 0.1;
+const MAX_PER_TIME_MULTIPLIER = 10;
 
 function findRefreshCD(resourceKey, CDCategories) {
   for (const [categoryName, cdInfo] of Object.entries(CDCategories)) {
@@ -37,11 +32,12 @@ function findRefreshCD(resourceKey, CDCategories) {
 
 async function executePathWithTiming(pathingFilePath, pathName, currentMaterialName, estimatedTime, logModule) {
   const startTime = new Date().toLocaleString();
-  log.info(`→ 开始执行地图追踪任务: "${pathName}"`);
+  if (debugLog) log.info(`→ 开始执行地图追踪任务: "${pathName}"`);
   await runPathAndNotify(pathingFilePath, currentMaterialName, estimatedTime);
   const endTime = new Date().toLocaleString();
   const runTime = (new Date(endTime) - new Date(startTime)) / 1000;
-  log.info(`→ 脚本执行结束: "${pathName}", 耗时: ${formatTime(runTime)}`);
+  executedPathRecords.push({ name: pathName, runTime });
+  if (debugLog) log.info(`→ 脚本执行结束: "${pathName}", 耗时: ${formatTime(runTime)}`);
   return { startTime, endTime, runTime };
 }
 
@@ -68,134 +64,20 @@ async function handlePathError(error, pathingFilePath, pathName, resourceKey, st
       error.message
     );
     writeContentToFile(`${CONSTANTS.NO_RECORD_DIR}/${resourceKey}.txt`, content);
-    log.info(`${CONSTANTS.LOG_MODULES.RECORD}异常路径已记录：${pathName}（运行时间${runTime.toFixed(1)}秒）`);
+    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.RECORD}异常路径已记录：${pathName}（运行时间${runTime.toFixed(1)}秒）`);
   }
 }
 
-function checkPathSkipConditions(canRunCD, pathCheckResult, isTimeCostOk, perTime, estimatedTime, pathName, logModule) {
+function checkPathSkipConditions(canRunCD, pathCheckResult, perTime, estimatedTime, pathName, logModule, ignoreFrequency = false) {
   if (!canRunCD) {
     log.info(`${logModule}${pathName} 跳过 | CD未刷新 | 时间成本：${perTime ?? '忽略'} | 预计耗时：${estimatedTime}秒`);
     return true;
   }
-  if (!(pathCheckResult === true || pathCheckResult.valid)) {
-    log.info(`${logModule}${pathName} 跳过 | ${pathCheckResult.reason || '0记录频率超限'} | 时间成本：${perTime ?? '忽略'} | 预计耗时：${estimatedTime}秒`);
-    return true;
-  }
-  if (!isTimeCostOk) {
-    log.info(`${logModule}${pathName} 跳过 | 时间成本不合格 | 时间成本：${perTime ?? '忽略'} | 预计耗时：${estimatedTime}秒`);
+  if (!ignoreFrequency && !(pathCheckResult === true || pathCheckResult.valid)) {
+    log.info(`${logModule}${pathName} 跳过 | ${pathCheckResult.reason || '达到上限'} | 时间成本：${perTime ?? '忽略'} | 预计耗时：${estimatedTime}秒`);
     return true;
   }
   return false;
-}
-
-/**
- * 处理狗粮路径条目（完整校验：CD+时间成本+频率+运行时间+距离）
- * @param {Object} entry - 路径条目 { path, resourceName }
- * @param {Object} accumulators - 累加器 { foodExpAccumulator, currentMaterialName }
- * @param {string} recordDir - 记录目录
- * @param {string} noRecordDir - 无记录目录
- * @param {Object} CDCategories - CD分类配置
- * @param {number} timeCost - 时间成本阈值
- * @param {Object} pathRecordCache - 记录缓存
- * @returns {Object} 更新后的累加器
- */
-async function processFoodPathEntry(entry, accumulators, recordDir, noRecordDir, CDCategories, timeCost, pathRecordCache, timeCostStats) {
-  const { path: pathingFilePath, resourceName } = entry;
-  const pathName = basename(pathingFilePath);
-  const { foodExpAccumulator, currentMaterialName: prevMaterialName } = accumulators;
-
-  let startTime = null;
-  let runTime = 0;
-
-  try {
-    const refreshCD = findRefreshCD(resourceName, CDCategories);
-    if (!refreshCD) {
-      log.debug(`${CONSTANTS.LOG_MODULES.CD}狗粮材料【${resourceName}】未找到CD配置，跳过路径：${pathName}`);
-      await sleep(1);
-      return accumulators;
-    }
-
-    const pathCheckResult = checkPathNameFrequency(resourceName, pathName, recordDir, true, pathingFilePath);
-    if (pathCheckResult !== true && !pathCheckResult.valid) {
-      log.info(`${CONSTANTS.LOG_MODULES.PATH}狗粮路径${pathName} 跳过 | ${pathCheckResult.reason}`);
-      await sleep(1);
-      return accumulators;
-    }
-
-    const currentTime = getCurrentTimeInHours();
-    const lastEndTime = getLastRunEndTime(resourceName, pathName, recordDir, noRecordDir, pathingFilePath);
-    const perTime = noRecord ? null : calculatePerTime(
-      resourceName, 
-      pathName, 
-      recordDir, 
-      noRecordDir, 
-      true,
-      pathRecordCache,
-      pathingFilePath
-    );
-
-    const estimatedTime = estimatePathTotalTime({ path: pathingFilePath, resourceName }, recordDir, noRecordDir);
-    const canRunCD = canRunPathingFile(currentTime, lastEndTime, refreshCD, pathName);
-    const isTimeCostOk = noRecord || perTime === null || isTimeCostQualified(perTime, resourceName, timeCost, timeCostStats);
-
-    if (checkPathSkipConditions(canRunCD, pathCheckResult, isTimeCostOk, perTime, estimatedTime, pathName, `${CONSTANTS.LOG_MODULES.PATH}狗粮路径`)) {
-      await sleep(1);
-      return accumulators;
-    }
-
-    log.info(`${CONSTANTS.LOG_MODULES.PATH}狗粮路径${pathName} 执行 | 时间成本：${perTime ?? '忽略'}秒/EXP | 预计耗时：${estimatedTime}秒`);
-
-    let currentMaterialName = prevMaterialName;
-    if (currentMaterialName !== resourceName) {
-      if (prevMaterialName && foodExpAccumulator[prevMaterialName]) {
-        const prevMsg = `材料[${prevMaterialName}]收集完成，累计EXP：${foodExpAccumulator[prevMaterialName]}`;
-        await sendNotificationInChunks(prevMsg, notification.Send);
-      }
-      currentMaterialName = resourceName;
-      foodExpAccumulator[resourceName] = 0;
-      log.info(`${CONSTANTS.LOG_MODULES.PATH}切换至狗粮材料【${resourceName}】`);
-    }
-
-    const timing = await executePathWithTiming(pathingFilePath, pathName, currentMaterialName, estimatedTime);
-    startTime = timing.startTime;
-    runTime = timing.runTime;
-
-    const { success, totalExp } = await executeSalvageWithOCR();
-    foodExpAccumulator[resourceName] += totalExp;
-
-    const foodRecordContent = generateRecordContent(pathingFilePath, pathName, startTime, timing.endTime, runTime, { "EXP": totalExp });
-    const recordDirFinal = noRecord ? noRecordDir : recordDir;
-
-    const canRecord = runTime > MIN_RECORD_TIME;
-    if (canRecord && !state.cancelRequested) {
-      if (totalExp === 0) {
-        const zeroExpFilePath = `${recordDirFinal}/${resourceName}${CONSTANTS.FOOD_ZERO_EXP_SUFFIX}`;
-        writeContentToFile(zeroExpFilePath, foodRecordContent);
-        log.warn(`${CONSTANTS.LOG_MODULES.RECORD}狗粮路径${pathName} EXP=0，写入0记录文件：${zeroExpFilePath}`);
-      } else {
-        const normalExpFilePath = `${recordDirFinal}/${resourceName}${CONSTANTS.FOOD_EXP_RECORD_SUFFIX}`;
-        writeContentToFile(normalExpFilePath, foodRecordContent);
-        const foodMsg = `狗粮路径【${pathName}】执行完成\n耗时：${runTime.toFixed(1)}秒\n本次EXP：${totalExp}\n累计EXP：${foodExpAccumulator[resourceName]}`;
-        await sendNotificationInChunks(foodMsg, notification.Send);
-      }
-    } else {
-      if (state.cancelRequested) {
-        log.warn(`${CONSTANTS.LOG_MODULES.RECORD}狗粮路径${pathName}手动终止，跳过记录`);
-      } else {
-        log.warn(`${CONSTANTS.LOG_MODULES.RECORD}狗粮路径${pathName} 不满足记录条件：运行时间${runTime.toFixed(1)}秒（需>${MIN_RECORD_TIME}秒）`);
-      }
-    }
-
-    await sleep(1);
-    return { ...accumulators, foodExpAccumulator, currentMaterialName };
-  } catch (error) {
-    if (startTime) {
-      const endTime = new Date().toLocaleString();
-      runTime = (new Date(endTime) - new Date(startTime)) / 1000;
-      await handlePathError(error, pathingFilePath, pathName, resourceName, startTime, endTime, runTime, noRecord, state.cancelRequested);
-    }
-    throw error;
-  }
 }
 
 /**
@@ -205,14 +87,14 @@ async function processFoodPathEntry(entry, accumulators, recordDir, noRecordDir,
  * @returns {Object} 更新后的上下文
  */
 async function processMonsterPathEntry(entry, context) {
-  const { path: pathingFilePath, monsterName } = entry;
+  const { path: pathingFilePath, monsterName, isRollback = false, isRespawn = false } = entry;
   const pathName = basename(pathingFilePath);
   const { 
     CDCategories, timeCost, recordDir, noRecordDir, imagesDir,
     materialCategoryMap, flattenedLowCountMaterials, 
     currentMaterialName: prevMaterialName,
     materialAccumulatedDifferences, globalAccumulatedDifferences,
-    pathRecordCache, timeCostStats
+    pathRecordCache, timeCostStats, mode
   } = context;
 
   let startTime = null;
@@ -236,9 +118,9 @@ async function processMonsterPathEntry(entry, context) {
     }
 
     const currentTime = getCurrentTimeInHours();
-    const lastEndTime = getLastRunEndTime(monsterName, pathName, recordDir, noRecordDir, pathingFilePath);
-    const pathCheckResult = checkPathNameFrequency(monsterName, pathName, recordDir, false, pathingFilePath);
-    const perTime = noRecord ? null : calculatePerTime(
+    const lastEndTime = getLastRunEndTime(monsterName, pathName, recordDir, noRecordDir, pathingFilePath, pathRecordCache);
+    const pathCheckResult = checkPathNameFrequency(monsterName, pathName, recordDir, false, pathingFilePath, pathRecordCache);
+    const perTime = calculatePerTime(
       monsterName, 
       pathName, 
       recordDir, 
@@ -250,9 +132,7 @@ async function processMonsterPathEntry(entry, context) {
 
     const estimatedTime = estimatePathTotalTime({ path: pathingFilePath, monsterName }, recordDir, noRecordDir);
     const canRunCD = canRunPathingFile(currentTime, lastEndTime, refreshCD, pathName);
-    const isTimeCostOk = noRecord || perTime === null || isTimeCostQualified(perTime, monsterName, timeCost, timeCostStats);
-
-    if (checkPathSkipConditions(canRunCD, pathCheckResult, isTimeCostOk, perTime, estimatedTime, pathName, `${CONSTANTS.LOG_MODULES.PATH}怪物路径`)) {
+    if (checkPathSkipConditions(canRunCD, pathCheckResult, perTime, estimatedTime, pathName, `${CONSTANTS.LOG_MODULES.PATH}怪物路径`, isRespawn)) {
       await sleep(1);
       return context;
     }
@@ -306,7 +186,7 @@ async function processMonsterPathEntry(entry, context) {
           await sendNotificationInChunks(prevMsg, notification.Send);
         }
         currentMaterialName = monsterName;
-        const updatedLowCountMaterials = await MaterialPath(resourceCategoryMap);
+        const updatedLowCountMaterials = await MaterialPath(resourceCategoryMap, null, mode);
         updatedFlattened = updatedLowCountMaterials
           .flat()
           .sort((a, b) => parseInt(a.count, 10) - parseInt(b.count, 10));
@@ -317,7 +197,7 @@ async function processMonsterPathEntry(entry, context) {
       startTime = timing.startTime;
       runTime = timing.runTime;
 
-      const updatedLowCountMaterials = await MaterialPath(resourceCategoryMap);
+      const updatedLowCountMaterials = await MaterialPath(resourceCategoryMap, null, mode);
       const flattenedUpdated = updatedLowCountMaterials.flat().sort((a, b) => a.count - b.count);
 
       const materialCountDifferences = {};
@@ -349,9 +229,53 @@ async function processMonsterPathEntry(entry, context) {
         return updated ? { ...m, count: updated.count } : m;
       });
 
-      log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}怪物路径${pathName}数量变化: ${JSON.stringify(materialCountDifferences)}`);
+      const monsterMaterials = monsterToMaterials[monsterName] || [];
+      const gradeRatios = MONSTER_GRADE_RATIOS;
+      let totalMiddleCount = 0;
+      monsterMaterials.forEach((mat, index) => {
+        const diff = materialCountDifferences[mat] || 0;
+        totalMiddleCount += diff * (gradeRatios[index] || 1);
+      });
+      totalMiddleCount = parseFloat(totalMiddleCount.toFixed(2));
       
-      recordRunTime(monsterName, pathName, timing.startTime, timing.endTime, runTime, recordDir, materialCountDifferences, pathingFilePath);
+      const actualPerTime = totalMiddleCount > 0 ? runTime / totalMiddleCount : null;
+      
+      if (perTime !== null && actualPerTime !== null && (actualPerTime < perTime * MIN_PER_TIME_MULTIPLIER || actualPerTime > perTime * MAX_PER_TIME_MULTIPLIER)) {
+        const reason = actualPerTime < perTime * MIN_PER_TIME_MULTIPLIER ? `低于${MIN_PER_TIME_MULTIPLIER}倍` : `超过${MAX_PER_TIME_MULTIPLIER}倍`;
+        log.warn(`${CONSTANTS.LOG_MODULES.PATH}[怪物路径] 实际时间成本异常: ${actualPerTime.toFixed(4)}秒/中级，平均: ${perTime.toFixed(4)}秒/中级，${reason}，将记录到norecord`);
+        log.warn(`${CONSTANTS.LOG_MODULES.PATH}[怪物路径] 本次获得: ${JSON.stringify(materialCountDifferences)}, 折合中级: ${totalMiddleCount}`);
+        
+        const noRecordContent = generateRecordContent(
+          pathingFilePath,
+          pathName,
+          startTime,
+          timing.endTime,
+          runTime,
+          `时间成本异常: ${actualPerTime.toFixed(4)}秒/中级 (平均: ${perTime.toFixed(4)}秒/中级, 折合中级: ${totalMiddleCount})`
+        );
+        writeContentToFile(`${noRecordDir}/${monsterName}.txt`, noRecordContent);
+        
+        Object.entries(materialCountDifferences).forEach(([name, diff]) => {
+          if (!isNaN(diff) && diff !== null) {
+            globalAccumulatedDifferences[name] = (globalAccumulatedDifferences[name] || 0) + diff;
+            materialAccumulatedDifferences[monsterName][name] = (materialAccumulatedDifferences[monsterName][name] || 0) + diff;
+          }
+        });
+        
+        await sleep(1);
+        return {
+          ...context,
+          currentMaterialName,
+          flattenedLowCountMaterials: updatedFlattened,
+          materialAccumulatedDifferences,
+          globalAccumulatedDifferences
+        };
+      }
+
+      if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}怪物路径${pathName}数量变化: ${JSON.stringify(materialCountDifferences)}`);
+      
+      const monsterRecOutcome = recordRunTime(monsterName, pathName, timing.startTime, timing.endTime, runTime, recordDir, materialCountDifferences, pathingFilePath, noRecordDir);
+      applyZeroRecordDecay(monsterName, pathingFilePath, recordDir, monsterRecOutcome, isRespawn, pathRecordCache);
     }
 
     await sleep(1);
@@ -379,14 +303,14 @@ async function processMonsterPathEntry(entry, context) {
  * @returns {Object} 更新后的上下文
  */
 async function processNormalPathEntry(entry, context) {
-  const { path: pathingFilePath, resourceName } = entry;
+  const { path: pathingFilePath, resourceName, isRollback = false, isRespawn = false } = entry;
   const pathName = basename(pathingFilePath);
   const { 
     CDCategories, timeCost, recordDir, noRecordDir,
     materialCategoryMap, flattenedLowCountMaterials, 
     currentMaterialName: prevMaterialName,
     materialAccumulatedDifferences, globalAccumulatedDifferences,
-    pathRecordCache, timeCostStats
+    pathRecordCache, timeCostStats, mode
   } = context;
 
   let startTime = null;
@@ -401,15 +325,13 @@ async function processNormalPathEntry(entry, context) {
     }
 
     const currentTime = getCurrentTimeInHours();
-    const lastEndTime = getLastRunEndTime(resourceName, pathName, recordDir, noRecordDir, pathingFilePath);
-    const pathCheckResult = checkPathNameFrequency(resourceName, pathName, recordDir, false, pathingFilePath);
-    const perTime = noRecord ? null : calculatePerTime(resourceName, pathName, recordDir, noRecordDir, false, pathRecordCache, pathingFilePath);
+    const lastEndTime = getLastRunEndTime(resourceName, pathName, recordDir, noRecordDir, pathingFilePath, pathRecordCache);
+    const pathCheckResult = checkPathNameFrequency(resourceName, pathName, recordDir, false, pathingFilePath, pathRecordCache);
+    const perTime = calculatePerTime(resourceName, pathName, recordDir, noRecordDir, false, pathRecordCache, pathingFilePath);
 
     const estimatedTime = estimatePathTotalTime({ path: pathingFilePath, resourceName }, recordDir, noRecordDir);
     const canRunCD = canRunPathingFile(currentTime, lastEndTime, refreshCD, pathName);
-    const isTimeCostOk = noRecord || perTime === null || isTimeCostQualified(perTime, resourceName, timeCost, timeCostStats);
-
-    if (checkPathSkipConditions(canRunCD, pathCheckResult, isTimeCostOk, perTime, estimatedTime, pathName, `${CONSTANTS.LOG_MODULES.PATH}材料路径`)) {
+    if (checkPathSkipConditions(canRunCD, pathCheckResult, perTime, estimatedTime, pathName, `${CONSTANTS.LOG_MODULES.PATH}材料路径`, isRespawn)) {
       await sleep(1);
       return context;
     }
@@ -451,7 +373,7 @@ async function processNormalPathEntry(entry, context) {
           await sendNotificationInChunks(prevMsg, notification.Send);
         }
         currentMaterialName = resourceName;
-        const updatedLowCountMaterials = await MaterialPath(resourceCategoryMap);
+        const updatedLowCountMaterials = await MaterialPath(resourceCategoryMap, null, mode);
         updatedFlattened = updatedLowCountMaterials
           .flat()
           .sort((a, b) => parseInt(a.count, 10) - parseInt(b.count, 10));
@@ -462,7 +384,7 @@ async function processNormalPathEntry(entry, context) {
       startTime = timing.startTime;
       runTime = timing.runTime;
 
-      const updatedLowCountMaterials = await MaterialPath(resourceCategoryMap);
+      const updatedLowCountMaterials = await MaterialPath(resourceCategoryMap, null, mode);
       const flattenedUpdated = updatedLowCountMaterials.flat().sort((a, b) => a.count - b.count);
 
       const materialCountDifferences = {};
@@ -494,9 +416,45 @@ async function processNormalPathEntry(entry, context) {
         return updated ? { ...m, count: updated.count } : m;
       });
 
-      log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}材料路径${pathName}数量变化: ${JSON.stringify(materialCountDifferences)}`);
+      const diff = materialCountDifferences[resourceName] || 0;
+      const actualPerTime = diff > 0 ? runTime / diff : null;
       
-      recordRunTime(resourceName, pathName, timing.startTime, timing.endTime, runTime, recordDir, materialCountDifferences, pathingFilePath);
+      if (perTime !== null && actualPerTime !== null && (actualPerTime < perTime * MIN_PER_TIME_MULTIPLIER || actualPerTime > perTime * MAX_PER_TIME_MULTIPLIER)) {
+        const reason = actualPerTime < perTime * MIN_PER_TIME_MULTIPLIER ? `低于${MIN_PER_TIME_MULTIPLIER}倍` : `超过${MAX_PER_TIME_MULTIPLIER}倍`;
+        log.warn(`${CONSTANTS.LOG_MODULES.PATH}[材料路径] 实际时间成本异常: ${actualPerTime.toFixed(4)}秒/个，平均: ${perTime.toFixed(4)}秒/个，${reason}，将记录到norecord`);
+        log.warn(`${CONSTANTS.LOG_MODULES.PATH}[材料路径] 本次获得: ${JSON.stringify(materialCountDifferences)}`);
+        
+        const noRecordContent = generateRecordContent(
+          pathingFilePath,
+          pathName,
+          startTime,
+          timing.endTime,
+          runTime,
+          `时间成本异常: ${actualPerTime.toFixed(4)}秒/个 (平均: ${perTime.toFixed(4)}秒/个, 获得数量: ${diff})`
+        );
+        writeContentToFile(`${noRecordDir}/${resourceName}.txt`, noRecordContent);
+        
+        Object.entries(materialCountDifferences).forEach(([name, diff]) => {
+          if (!isNaN(diff) && diff !== null) {
+            globalAccumulatedDifferences[name] = (globalAccumulatedDifferences[name] || 0) + diff;
+            materialAccumulatedDifferences[resourceName][name] = (materialAccumulatedDifferences[resourceName][name] || 0) + diff;
+          }
+        });
+        
+        await sleep(1);
+        return {
+          ...context,
+          currentMaterialName,
+          flattenedLowCountMaterials: updatedFlattened,
+          materialAccumulatedDifferences,
+          globalAccumulatedDifferences
+        };
+      }
+
+      if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}材料路径${pathName}数量变化: ${JSON.stringify(materialCountDifferences)}`);
+      
+      const normalRecOutcome = recordRunTime(resourceName, pathName, timing.startTime, timing.endTime, runTime, recordDir, materialCountDifferences, pathingFilePath, noRecordDir);
+      applyZeroRecordDecay(resourceName, pathingFilePath, recordDir, normalRecOutcome, isRespawn, pathRecordCache);
     }
 
     await sleep(1);
@@ -522,7 +480,7 @@ async function processNormalPathEntry(entry, context) {
  * @param {Object[]} allPaths - 所有路径条目
  * @param {Object} CDCategories - CD分类配置
  * @param {Object} materialCategoryMap - 材料分类映射
- * @param {number} timeCost - 时间成本阈值
+ * @param {Object} timeCost - 时间成本范围对象 {min, max}
  * @param {Object[]} flattenedLowCountMaterials - 低数量材料列表
  * @param {string|null} currentMaterialName - 当前处理的材料名
  * @param {string} recordDir - 记录目录
@@ -531,14 +489,22 @@ async function processNormalPathEntry(entry, context) {
  * @param {string} endTimeStr - 指定终止时间
  * @returns {Object} 处理结果
  */
-async function processAllPaths(allPaths, CDCategories, materialCategoryMap, timeCost, flattenedLowCountMaterials, currentMaterialName, recordDir, noRecordDir, imagesDir, endTimeStr) {
+async function processAllPaths(allPaths, CDCategories, materialCategoryMap, timeCost, flattenedLowCountMaterials, currentMaterialName, recordDir, noRecordDir, imagesDir, endTimeStr, pathingMode = null, maxRunTimeSec = null, externalCache = null) {
   try {
-    let foodExpAccumulator = {};
+    // 如果没有传入pathingMode，使用全局变量（向后兼容）
+    const mode = pathingMode || globalThis.pathingMode;
+    
+    if (debugLog) {
+      log.info(`${CONSTANTS.LOG_MODULES.PATH}[processAllPaths] 开始处理，allPaths长度: ${allPaths.length}`);
+      log.info(`${CONSTANTS.LOG_MODULES.PATH}[processAllPaths] state.cancelRequested: ${state.cancelRequested}`);
+      log.info(`${CONSTANTS.LOG_MODULES.PATH}[processAllPaths] mode.estimateMode: ${mode?.estimateMode}`);
+    }
+    
     const globalAccumulatedDifferences = {};
     const materialAccumulatedDifferences = {};
-    const pathRecordCache = {};
-
-    if (pathingMode.estimateMode) {
+    const pathRecordCache = externalCache || {}; 
+    
+    if (mode.estimateMode) {
       log.info(`${CONSTANTS.LOG_MODULES.PATH}[测算模式] 开始路径分析...`);
       
       const allTimeCostData = collectAllTimeCostData(allPaths, recordDir, noRecordDir, pathRecordCache);
@@ -576,18 +542,17 @@ async function processAllPaths(allPaths, CDCategories, materialCategoryMap, time
         }
         
         const currentTime = getCurrentTimeInHours();
-        const lastEndTime = getLastRunEndTime(resourceKey, pathName, recordDir, noRecordDir, pathingFilePath);
+        const lastEndTime = getLastRunEndTime(resourceKey, pathName, recordDir, noRecordDir, pathingFilePath, pathRecordCache);
         const canRunCD = canRunPathingFile(currentTime, lastEndTime, refreshCD, pathName);
         
-        const isFood = resourceName && isFoodResource(resourceName);
-        const pathCheckResult = checkPathNameFrequency(resourceKey, pathName, recordDir, isFood, pathingFilePath);
+        const pathCheckResult = checkPathNameFrequency(resourceKey, pathName, recordDir, false, pathingFilePath, pathRecordCache);
         
         const perTime = calculatePerTime(
           resourceKey,
           pathName,
           recordDir,
           noRecordDir,
-          isFood,
+          false,
           pathRecordCache,
           pathingFilePath,
           true
@@ -610,7 +575,9 @@ async function processAllPaths(allPaths, CDCategories, materialCategoryMap, time
             estimatedTimeSum: 0,
             thresholdPerTimeSum: 0,
             thresholdPerTimeCount: 0,
-            thresholdPerTimeList: []
+            thresholdPerTimeList: [],
+            thresholdEstimatedTimeSum: 0,
+            thresholdPerTimeWithTimeList: []
           };
         }
         
@@ -631,10 +598,16 @@ async function processAllPaths(allPaths, CDCategories, materialCategoryMap, time
         
         const isNotZeroExceeded = pathCheckResult === true || pathCheckResult.valid;
         
-        if (isNotZeroExceeded && perTime !== null) {
-          resourceAnalysis[resourceKey].thresholdPerTimeSum += perTime;
-          resourceAnalysis[resourceKey].thresholdPerTimeCount++;
-          resourceAnalysis[resourceKey].thresholdPerTimeList.push(perTime);
+        if (isNotZeroExceeded) {
+          const estimatedTime = estimatePathTotalTime(entry, recordDir, noRecordDir, pathRecordCache);
+          
+          if (perTime !== null && perTime > 0) {
+            resourceAnalysis[resourceKey].thresholdPerTimeSum += perTime;
+            resourceAnalysis[resourceKey].thresholdPerTimeCount++;
+            resourceAnalysis[resourceKey].thresholdPerTimeList.push(perTime);
+            resourceAnalysis[resourceKey].thresholdEstimatedTimeSum += estimatedTime;
+            resourceAnalysis[resourceKey].thresholdPerTimeWithTimeList.push({ perTime, estimatedTime });
+          }
         }
         
         if (canRunCD && (pathCheckResult === true || pathCheckResult.valid) && isTimeCostOk) {
@@ -656,55 +629,136 @@ async function processAllPaths(allPaths, CDCategories, materialCategoryMap, time
         }
       }
       
-      log.info(`${CONSTANTS.LOG_MODULES.PATH}\n各材料平均时间成本及达标情况：`);
+      // log.info(`${CONSTANTS.LOG_MODULES.PATH}\n各材料平均时间成本及达标情况：`);
       for (const [resourceKey, data] of Object.entries(resourceAnalysis)) {
         const avgThresholdPerTime = data.thresholdPerTimeCount > 0 ? (data.thresholdPerTimeSum / data.thresholdPerTimeCount).toFixed(4) : '无记录';
-        const sortedThresholdTimes = [...data.thresholdPerTimeList].sort((a, b) => a - b);
-        const thresholdIndex = Math.ceil((timeCost / 100) * sortedThresholdTimes.length);
-        const thresholdPercentileTimes = sortedThresholdTimes.slice(0, thresholdIndex);
-        const avgThresholdPercentile = thresholdPercentileTimes.length > 0 
-          ? (thresholdPercentileTimes.reduce((sum, t) => sum + t, 0) / thresholdPercentileTimes.length).toFixed(4) 
+        
+        const minValue = timeCostStats[resourceKey]?.percentiles?.[timeCost.min];
+        const maxValue = timeCostStats[resourceKey]?.percentiles?.[timeCost.max];
+        const percentileItems = (minValue !== undefined && maxValue !== undefined)
+          ? data.thresholdPerTimeWithTimeList.filter(item => item.perTime >= minValue && item.perTime < maxValue)
+          : [];
+        const avgThresholdPercentile = percentileItems.length > 0 
+          ? (percentileItems.reduce((sum, item) => sum + item.perTime, 0) / percentileItems.length).toFixed(4) 
           : '无达标';
+        const percentileEstimatedTimeSum = percentileItems.reduce((sum, item) => sum + item.estimatedTime, 0);
+        
+        const thresholdEstimatedTimeSum = data.thresholdPerTimeWithTimeList.reduce((sum, item) => sum + item.estimatedTime, 0);
         const totalEstimatedTime = formatTime(data.estimatedTimeSum);
+        const thresholdEstimatedTime = formatTime(thresholdEstimatedTimeSum);
+        const percentileEstimatedTime = formatTime(percentileEstimatedTimeSum);
         const avgQualifiedPerTime = data.qualified > 0 ? (data.qualifiedPerTimeSum / data.qualified).toFixed(4) : '无达标';
         
-        const isFood = resourceKey && isFoodResource(resourceKey);
-        const isMonster = monsterToMaterials.hasOwnProperty(resourceKey);
-        let unit = '秒/个';
-        if (isFood) {
-          unit = '秒/EXP';
-        } else if (isMonster) {
-          unit = '秒/中位材料';
-        }
-        const totalPassedPaths = data.qualified;
-        const totalPathsForMaterial = data.total;
-        const directPassPaths = totalPassedPaths;
-        const displayRatio = `${totalPassedPaths}/${totalPathsForMaterial}`;
+        const isMora = resourceKey === '摩拉';
         
-        log.info(`${CONSTANTS.LOG_MODULES.PATH}  --------------------------------------`);
-        log.info(`${CONSTANTS.LOG_MODULES.PATH}  ${resourceKey}:`);
-        log.info(`${CONSTANTS.LOG_MODULES.PATH}    达标平均：${avgQualifiedPerTime}${unit}`);
-        log.info(`${CONSTANTS.LOG_MODULES.PATH}    所有记录平均（排除0记录超限）：${avgThresholdPerTime}${unit}`);
-        log.info(`${CONSTANTS.LOG_MODULES.PATH}    设置的${timeCost}%分位阈值：${avgThresholdPercentile}${unit}`);
-        log.info(`${CONSTANTS.LOG_MODULES.PATH}    达标：${displayRatio}，总耗时：${totalEstimatedTime}`);
+        // log.info(`${CONSTANTS.LOG_MODULES.PATH}  --------------------------------------`);
+        // log.info(`${CONSTANTS.LOG_MODULES.PATH}  ${resourceKey}:`);
+        // log.info(`${CONSTANTS.LOG_MODULES.PATH}    达标平均：${avgQualifiedPerTime}`);
+        
+        if (isMora && data.thresholdPerTimeWithTimeList.length > 0) {
+          const estimatedMora = data.thresholdPerTimeWithTimeList.reduce((sum, item) => {
+            return sum + Math.round(item.estimatedTime / item.perTime);
+          }, 0);
+          // log.info(`${CONSTANTS.LOG_MODULES.PATH}    所有记录平均（排除0记录超限）：${avgThresholdPerTime}，预计：${estimatedMora.toLocaleString()}摩拉，耗时：${thresholdEstimatedTime}`);
+        } else {
+          // log.info(`${CONSTANTS.LOG_MODULES.PATH}    所有记录平均（排除0记录超限）：${avgThresholdPerTime}`);
+        }
+        
+        if (isMora && percentileItems.length > 0) {
+          const estimatedMoraByThreshold = Math.round(percentileEstimatedTimeSum / parseFloat(avgThresholdPercentile));
+          const timeCostDisplay = timeCost.min === 0 && timeCost.max === 101 ? '100' : 
+                                  timeCost.min === 0 ? `${timeCost.max}` :
+                                  timeCost.max === 101 ? `${timeCost.min}~` :
+                                  `${timeCost.min}~${timeCost.max}`;
+          // log.info(`${CONSTANTS.LOG_MODULES.PATH}    ${timeCostDisplay}%分位阈值：${minValue?.toFixed(4)}~${maxValue?.toFixed(4)}，达标路径平均：${avgThresholdPercentile}，预计：${estimatedMoraByThreshold.toLocaleString()}摩拉，耗时：${percentileEstimatedTime}`);
+        } else {
+          const timeCostDisplay = timeCost.min === 0 && timeCost.max === 101 ? '100' : 
+                                  timeCost.min === 0 ? `${timeCost.max}` :
+                                  timeCost.max === 101 ? `${timeCost.min}~` :
+                                  `${timeCost.min}~${timeCost.max}`;
+          // log.info(`${CONSTANTS.LOG_MODULES.PATH}    ${timeCostDisplay}%分位阈值：${minValue?.toFixed(4)}~${maxValue?.toFixed(4)}`);
+        }
       }
       
+      // if (debugLog) {
+        const timeCostDisplay = timeCost.min === 0 && timeCost.max === 101 ? '100' : 
+                                timeCost.min === 0 ? `${timeCost.max}` :
+                                timeCost.max === 101 ? `${timeCost.min}~` :
+                                `${timeCost.min}~${timeCost.max}`;
+        log.info(`${CONSTANTS.LOG_MODULES.PATH}\n===== 时间成本系数测算数据 =====`);
+        log.info(`${CONSTANTS.LOG_MODULES.PATH}生成${timeCost.min}%到${timeCost.max}%的时间成本系数数据，间隔1%：`);
+        
+        const moraData = [];
+        
+        for (let p = timeCost.min; p <= timeCost.max; p++) {
+          let totalEstimatedMora = 0;
+          let totalEstimatedTime = 0;
+          
+          for (const [resourceKey, data] of Object.entries(resourceAnalysis)) {
+            const isMora = resourceKey === '摩拉';
+            
+            if (isMora && data.thresholdPerTimeWithTimeList.length > 0) {
+              const thresholdValue = timeCostStats[resourceKey]?.percentiles?.[p];
+              const percentileItems = thresholdValue !== undefined
+                ? data.thresholdPerTimeWithTimeList.filter(item => item.perTime < thresholdValue)
+                : [];
+              
+              if (percentileItems.length > 0) {
+                const percentileEstimatedTimeSum = percentileItems.reduce((sum, item) => sum + item.estimatedTime, 0);
+                const estimatedMoraByThreshold = percentileItems.reduce((sum, item) => {
+                  return sum + Math.round(item.estimatedTime / item.perTime);
+                }, 0);
+                
+                totalEstimatedMora += estimatedMoraByThreshold;
+                totalEstimatedTime += percentileEstimatedTimeSum;
+              }
+            }
+          }
+          
+          moraData.push({ percent: p, mora: totalEstimatedMora, time: totalEstimatedTime });
+        }
+        
+        const uniqueMoraData = [];
+        const seenMora = new Set();
+        
+        for (const data of moraData) {
+          const key = `${data.mora}_${data.time}`;
+          if (!seenMora.has(key)) {
+            seenMora.add(key);
+            uniqueMoraData.push(data);
+          }
+        }
+        
+        for (const data of uniqueMoraData) {
+          log.info(`${CONSTANTS.LOG_MODULES.PATH}${data.percent}%: ${data.mora.toLocaleString()}摩拉，耗时：${formatTime(data.time)}`);
+        }
+        
+        log.info(`${CONSTANTS.LOG_MODULES.PATH}===== 时间成本系数测算数据结束（共${uniqueMoraData.length}组不同数据）=====\n`);
+      // }
+      
       const qualifiedRatio = totalPaths > 0 ? ((totalQualifiedPaths / totalPaths) * 100).toFixed(1) : 0;
-      log.info(`${CONSTANTS.LOG_MODULES.PATH}===== 测算模式分析结果 =====\n时间成本:${timeCost}%，总路径:${totalPaths}\nCD冷却中:${failedCD}，0记录超限:${failedFrequency}，cost不达标:${failedTimeCost}\n达标:${totalQualifiedPaths}(${qualifiedRatio}%)，预计耗时:${formatTime(totalEstimatedTime)}\n`);
+      const timeCostStr = timeCost.min === 0 && timeCost.max === 101 ? '100' : 
+                          timeCost.min === 0 ? `${timeCost.max}` :
+                          timeCost.max === 101 ? `${timeCost.min}~` :
+                          `${timeCost.min}~${timeCost.max}`;
+      log.info(`${CONSTANTS.LOG_MODULES.PATH}===== 测算模式分析结果 =====\n时间成本:${timeCostStr}%，总路径:${totalPaths}\nCD冷却中:${failedCD}，CD满足但记录不足:${insufficientRecords}，cost不达标:${failedTimeCost}\n达标:${totalQualifiedPaths}(${qualifiedRatio}%)，预计耗时:${formatTime(totalEstimatedTime)}\n`);
       
       if (notify) {
         const estimateMsg = `【测算模式】分析完成\n总路径数：${totalPaths}\n达标路径数：${totalQualifiedPaths}\n达标占比：${totalPaths > 0 ? ((totalQualifiedPaths / totalPaths) * 100).toFixed(1) : 0}%\n预计耗时：${formatTime(totalEstimatedTime)}`;
         await sendNotificationInChunks(estimateMsg, notification.Send);
       }
       
-      state.completed = true;
-      state.cancelRequested = true;
-      return { 
-        currentMaterialName: null, 
-        flattenedLowCountMaterials: [],
-        globalAccumulatedDifferences: {},
-        foodExpAccumulator
-      };
+      // 测算模式：只进行测算分析，不执行路径
+      if (mode.estimateMode) {
+        log.info(`${CONSTANTS.LOG_MODULES.PATH}[测算模式] 测算分析完成，不执行路径`);
+        state.completed = true;
+        state.cancelRequested = true;
+        return { 
+          currentMaterialName: null, 
+          flattenedLowCountMaterials: [],
+          globalAccumulatedDifferences: {}
+        };
+      }
     }
 
     if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.RECORD}[百分位数系统] 开始收集时间成本数据...`);
@@ -719,10 +773,17 @@ async function processAllPaths(allPaths, CDCategories, materialCategoryMap, time
         log.info(`  百分位数：${JSON.stringify(timeCostStats[resourceKey].percentiles)}`);
       }
     }
-    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.RECORD}[百分位数系统] 时间成本阈值：${timeCost}%`);
+    if (debugLog) {
+      const timeCostDisplay = timeCost.min === 0 && timeCost.max === 101 ? '100' : 
+                              timeCost.min === 0 ? `${timeCost.max}` :
+                              timeCost.max === 101 ? `${timeCost.min}~` :
+                              `${timeCost.min}~${timeCost.max}`;
+      log.info(`${CONSTANTS.LOG_MODULES.RECORD}[百分位数系统] 时间成本阈值：${timeCostDisplay}%`);
+    }
     if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.RECORD}[百分位数系统] 时间成本数据收集完成，共${Object.keys(timeCostStats).length}个资源`);
     
     let context = {
+      mode,
       CDCategories, timeCost, recordDir, noRecordDir, imagesDir,
       materialCategoryMap, flattenedLowCountMaterials,
       currentMaterialName, materialAccumulatedDifferences,
@@ -731,7 +792,29 @@ async function processAllPaths(allPaths, CDCategories, materialCategoryMap, time
       timeCostStats
     };
 
-    for (const entry of allPaths) {
+    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.PATH}[processAllPaths] 准备进入循环，allPaths长度: ${allPaths.length}`);
+    if (debugLog && allPaths.length > 0) {
+      log.info(`${CONSTANTS.LOG_MODULES.PATH}[processAllPaths] 前3条路径: ${allPaths.slice(0, 3).map(p => basename(p.path)).join(', ')}`);
+    }
+
+    const loopStartTime = Date.now(); // 路径执行起始时间（用于执行时间上限判断）
+
+    executedPathRecords.length = 0; // 重置本轮已执行路径记录
+    let lastNotifyIndex = 0; // 已通知到的已执行记录索引
+
+    if (notify) log.info(`${CONSTANTS.LOG_MODULES.PATH}[通知] 进度通知已启用，间隔 ${notify} 分钟，纳入路径 ${allPaths.length} 条`);
+
+    // 预计算每条路径预估耗时，用于进度与预估剩余时间
+    const pathEstimates = allPaths.map(entry => estimatePathTotalTime(entry, recordDir, noRecordDir, pathRecordCache));
+    const estimatePrefix = [];
+    let estimateAcc = 0;
+    pathEstimates.forEach(e => { estimatePrefix.push(estimateAcc); estimateAcc += e; });
+    estimatePrefix.push(estimateAcc);
+    let totalEstimateSec = estimateAcc;
+    let lastProgressNotify = Date.now();
+
+    for (let i = 0; i < allPaths.length; i++) {
+      const entry = allPaths[i];
       if (state.cancelRequested) {
         log.warn(`${CONSTANTS.LOG_MODULES.PATH}检测到手动终止指令，停止路径处理`);
         break;
@@ -770,28 +853,62 @@ async function processAllPaths(allPaths, CDCategories, materialCategoryMap, time
         }
       }
 
+      // 执行时间上限（多条件终止之一）：达到累计运行时长即停止，不开启新路径
+      if (maxRunTimeSec !== null) {
+        const elapsedSec = (Date.now() - loopStartTime) / 1000;
+        if (elapsedSec >= maxRunTimeSec) {
+          log.warn(`${CONSTANTS.LOG_MODULES.MAIN}已达执行时间上限（${(maxRunTimeSec / 3600).toFixed(4)}h，实际${(elapsedSec / 3600).toFixed(4)}h），停止路径处理`);
+          state.cancelRequested = true;
+          break;
+        }
+      }
+
       if (skipPath) break;
 
       const { path: pathingFilePath, resourceName, monsterName } = entry;
+      const pathName = basename(pathingFilePath);
+
+      // 进度与预估剩余时间：若存在执行时间上限，取「跑完剩余路径」与「达到上限」更先触发者
+      const remainPathSec = Math.max(0, totalEstimateSec - estimatePrefix[i + 1]);
+      const elapsedSecNow = (Date.now() - loopStartTime) / 1000;
+      let remainSec = remainPathSec;
+      let maxRunRemain = null;
+      if (maxRunTimeSec !== null) {
+        maxRunRemain = maxRunTimeSec - elapsedSecNow;
+        if (maxRunRemain < remainSec) remainSec = maxRunRemain;
+      }
+      const remainMin = Math.ceil(Math.max(0, remainSec) / 60);
+      const runLimitNote = (maxRunTimeSec !== null && maxRunRemain !== null && maxRunRemain <= remainPathSec) ? '（受执行时间上限约束）' : '';
+      log.info(`${CONSTANTS.LOG_MODULES.PATH}[进度] 第 ${i + 1}/${allPaths.length} 条 | 已完成 ${i}/${allPaths.length} | 预估剩余约 ${remainMin} 分钟${runLimitNote}`);
+
+      if (debugLog) {
+        log.info(`${CONSTANTS.LOG_MODULES.PATH}[循环处理] 路径: ${pathName}, resourceName: ${resourceName}, monsterName: ${monsterName}`);
+      }
+
+      // 周期通知：按间隔推送已执行路径
+      if (notify && (Date.now() - lastProgressNotify) >= notify * 60000) {
+        const elapsedNow = (Date.now() - loopStartTime) / 1000;
+        const rpSec = Math.max(0, totalEstimateSec - estimatePrefix[i + 1]);
+        let rs = rpSec;
+        let mr = null;
+        if (maxRunTimeSec !== null) {
+          mr = maxRunTimeSec - elapsedNow;
+          if (mr < rs) rs = mr;
+        }
+        const rm = Math.ceil(Math.max(0, rs) / 60);
+        const note = (maxRunTimeSec !== null && mr !== null && mr <= rpSec) ? '（受执行时间上限约束）' : '';
+        const newExecuted = executedPathRecords.slice(lastNotifyIndex);
+        let progressMsg = `【进度】已完成 ${i}/${allPaths.length}，预估剩余约 ${rm} 分钟${note}`;
+        if (newExecuted.length > 0) {
+          progressMsg += '\n已执行：\n' + newExecuted.map(r => `  ${r.name}（${formatTime(r.runTime)}）`).join('\n');
+        }
+        await sendNotificationInChunks(progressMsg, notification.Send);
+        lastNotifyIndex = executedPathRecords.length;
+        lastProgressNotify = Date.now();
+      }
 
       try {
-        if (resourceName && isFoodResource(resourceName)) {
-          const result = await processFoodPathEntry(
-            entry, 
-            {
-              foodExpAccumulator,
-              currentMaterialName: context.currentMaterialName
-            }, 
-            recordDir, 
-            noRecordDir, 
-            CDCategories, 
-            timeCost, 
-            context.pathRecordCache,
-            context.timeCostStats
-          );
-          foodExpAccumulator = result.foodExpAccumulator;
-          context.currentMaterialName = result.currentMaterialName;
-        } else if (monsterName) {
+        if (monsterName) {
           context = await processMonsterPathEntry(entry, context);
         } else if (resourceName) {
           context = await processNormalPathEntry(entry, context);
@@ -807,13 +924,19 @@ async function processAllPaths(allPaths, CDCategories, materialCategoryMap, time
           break;
         }
       }
+
+    }
+
+    // 全部跑完但未到下次通知间隔：补发一次进度通知（覆盖最后执行的路径）
+    if (notify && lastNotifyIndex < executedPathRecords.length) {
+      const finalExecuted = executedPathRecords.slice(lastNotifyIndex);
+      let progressMsg = `【进度】全部完成，共 ${allPaths.length} 条\n已执行：\n` + finalExecuted.map(r => `  ${r.name}（${formatTime(r.runTime)}）`).join('\n');
+      await sendNotificationInChunks(progressMsg, notification.Send);
+      lastNotifyIndex = executedPathRecords.length;
     }
 
     if (context.currentMaterialName) {
-      if (isFoodResource(context.currentMaterialName) && foodExpAccumulator[context.currentMaterialName]) {
-        const finalMsg = `狗粮材料[${context.currentMaterialName}]收集完成，累计EXP：${foodExpAccumulator[context.currentMaterialName]}`;
-        await sendNotificationInChunks(finalMsg, notification.Send);
-      } else if (materialAccumulatedDifferences[context.currentMaterialName]) {
+      if (materialAccumulatedDifferences[context.currentMaterialName]) {
         const finalMsg = `目标[${context.currentMaterialName}]收集完成，累计获取：${JSON.stringify(materialAccumulatedDifferences[context.currentMaterialName])}`;
         await sendNotificationInChunks(finalMsg, notification.Send);
       }
@@ -822,8 +945,7 @@ async function processAllPaths(allPaths, CDCategories, materialCategoryMap, time
     return { 
       currentMaterialName: context.currentMaterialName, 
       flattenedLowCountMaterials: context.flattenedLowCountMaterials,
-      globalAccumulatedDifferences: context.globalAccumulatedDifferences,
-      foodExpAccumulator
+      globalAccumulatedDifferences: context.globalAccumulatedDifferences
     };
 
   } catch (error) {

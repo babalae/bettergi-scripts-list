@@ -85,33 +85,6 @@ function formatTime(seconds) {
   }
 }
 
-const MaterialType = {
-  NORMAL: 'normal',
-  MONSTER: 'monster',
-  FOOD: 'food'
-};
-
-const timeCostStatistics = {
-  [MaterialType.NORMAL]: [],
-  [MaterialType.MONSTER]: [],
-  [MaterialType.FOOD]: []
-};
-
-/**
- * 获取材料类型
- * @param {string} resourceName - 资源名
- * @returns {string} 材料类型
- */
-function getMaterialType(resourceName) {
-  if (isFoodResource(resourceName)) {
-    return MaterialType.FOOD;
-  }
-  if (monsterToMaterials.hasOwnProperty(resourceName)) {
-    return MaterialType.MONSTER;
-  }
-  return MaterialType.NORMAL;
-}
-
 /**
  * 收集所有路径的时间成本数据（按具体材料/怪物分组）
  * @param {Object[]} allPaths - 所有路径条目
@@ -135,7 +108,7 @@ function collectAllTimeCostData(allPaths, recordDir, noRecordDir, cache = {}) {
       pathName,
       recordDir,
       noRecordDir,
-      isFoodResource(resourceName || monsterName),
+      false,
       cache,
       pathingFilePath
     );
@@ -154,7 +127,7 @@ function collectAllTimeCostData(allPaths, recordDir, noRecordDir, cache = {}) {
 /**
  * 计算百分位数
  * @param {number[]} data - 数据数组
- * @param {number} percentile - 百分位数（0-100）
+ * @param {number} percentile - 百分位数（0-101）
  * @returns {number} 百分位数值
  */
 function calculatePercentile(data, percentile) {
@@ -194,8 +167,9 @@ function calculateTimeCostStats(data) {
   const stdDev = Math.sqrt(variance);
 
   const percentiles = {};
-  for (let p = 1; p <= 100; p++) {
-    percentiles[p] = calculatePercentile(sorted, p);
+  for (let p = 0; p <= 101; p++) {
+    const value = calculatePercentile(sorted, p);
+    percentiles[p] = parseFloat(value.toFixed(4));
   }
 
   return {
@@ -203,36 +177,80 @@ function calculateTimeCostStats(data) {
     mean: parseFloat(mean.toFixed(4)),
     median: parseFloat(calculatePercentile(sorted, 50).toFixed(4)),
     stdDev: parseFloat(stdDev.toFixed(4)),
-    percentiles
+    percentiles,
+    sortedValues: sorted.map(v => parseFloat(v.toFixed(4)))
   };
 }
 
 /**
- * 判断路径时间成本是否合格（基于百分位数）
+ * 判断路径时间成本是否合格（基于百分位数范围）
  * @param {number} perTime - 路径的时间成本
  * @param {string} resourceKey - 资源键（材料名/怪物名）
- * @param {number} thresholdPercentile - 百分位数阈值（1-100）
+ * @param {Object} timeCostRange - 时间成本范围对象 {min, max}
  * @param {Object} statistics - 时间成本统计数据（按资源键分组）
  * @returns {boolean} 是否合格
  */
-function isTimeCostQualified(perTime, resourceKey, thresholdPercentile, statistics) {
+function isTimeCostQualified(perTime, resourceKey, timeCostRange, statistics) {
   if (perTime === null || perTime === undefined) return true;
 
   const stats = statistics[resourceKey];
-  if (!stats || stats.count === 0) {
+  if (!stats || stats.count === 0 || !Array.isArray(stats.sortedValues) || stats.sortedValues.length === 0) {
     log.debug(`${CONSTANTS.LOG_MODULES.RECORD}资源${resourceKey}无统计数据，默认合格`);
     return true;
   }
 
-  const thresholdValue = stats.percentiles[thresholdPercentile] || stats.median;
-  const isQualified = perTime <= thresholdValue;
+  // 按每路径效率排名分布：perTime 越小越高效
+  // 排名百分位 = 严格小于该值的路径数 / 总数（越高效越靠前，越接近 0）
+  const sortedValues = stats.sortedValues;
+  let rank = 0;
+  for (const v of sortedValues) {
+    if (v < perTime) rank++;
+  }
+  const rankPercentile = rank / sortedValues.length; // 0~1
+
+  const minPercentile = timeCostRange.min;
+  const maxPercentile = timeCostRange.max;
+
+  const minRatio = minPercentile / 100;
+  const maxRatio = (maxPercentile === 101 ? 101 : maxPercentile) / 100;
+
+  const isQualified = rankPercentile >= minRatio && rankPercentile < maxRatio;
 
   if (debugLog) {
-    log.info(`${CONSTANTS.LOG_MODULES.RECORD}时间成本校验：${resourceKey} | 路径成本：${perTime.toFixed(4)} | 阈值（${thresholdPercentile}%）：${thresholdValue.toFixed(4)} | 结果：${isQualified ? '合格' : '不合格'}`);
+    log.info(`${CONSTANTS.LOG_MODULES.RECORD}时间成本校验（效率排名）：${resourceKey} | 路径成本：${perTime.toFixed(4)} | 排名：${rank + 1}/${sortedValues.length}（百分位${(rankPercentile * 100).toFixed(2)}%） | 区间：${minPercentile}%~${maxPercentile}% | 结果：${isQualified ? '合格' : '不合格'}`);
   }
 
   return isQualified;
 }
+
+/**
+ * 按 perTime 量化值天然分档（时间成本档次）并组织执行顺序
+ * 与"效率排名"不同：同量化值=效率实质相同=一个天然档，档数由数据决定，不强制等距档数
+ * 档间按 perTime 升序，档内按路径名称（地域）排序
+ * @param {Array} pathPerTimes - [{ entry, perTime }]，perTime 均为有效数值
+ * @param {number} digits - 量化小数位（默认3）
+ * @returns {Array} 按天然档顺序、档内名称排序展平后的路径条目
+ */
+function arrangePathsByNaturalTiers(pathPerTimes, digits = 3) {
+  if (!Array.isArray(pathPerTimes) || pathPerTimes.length === 0) return [];
+
+  const groups = new Map();
+  pathPerTimes.forEach(p => {
+    const key = p.perTime.toFixed(digits);
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(p);
+  });
+
+  const keys = [...groups.keys()].sort((a, b) => parseFloat(a) - parseFloat(b));
+
+  const result = [];
+  keys.forEach(k => {
+    groups.get(k).sort((a, b) => basename(a.entry.path).localeCompare(basename(b.entry.path), 'zh'));
+    groups.get(k).forEach(p => result.push(p.entry));
+  });
+  return result;
+}
+
 
 /**
  * 计算单次时间成本（秒/单位材料）（复用缓存）
@@ -240,11 +258,11 @@ function isTimeCostQualified(perTime, resourceKey, thresholdPercentile, statisti
  * @param {string} pathName - 路径名
  * @param {string} recordDir - 记录目录
  * @param {string} noRecordDir - 备用目录
- * @param {boolean} isFood - 是否为狗粮路径
+ * @param {boolean} isFood - 保留参数位（兼容调用）
  * @param {Object} cache - 缓存对象
  * @returns {number|null} 时间成本
  */
-function calculatePerTime(resourceName, pathName, recordDir, noRecordDir, isFood = false, cache = {}, pathingFilePath) {
+function calculatePerTime(resourceName, pathName, recordDir, noRecordDir, isFood = false, cache = {}, pathingFilePath, filterExcessMaterials = false) {
   const isMonster = monsterToMaterials.hasOwnProperty(resourceName);
   
   const historicalRecords = getHistoricalPathRecords(
@@ -254,7 +272,8 @@ function calculatePerTime(resourceName, pathName, recordDir, noRecordDir, isFood
     noRecordDir, 
     isFood, 
     cache,
-    pathingFilePath
+    pathingFilePath,
+    filterExcessMaterials
   );
 
   if (historicalRecords.length < 3) {
@@ -265,7 +284,7 @@ function calculatePerTime(resourceName, pathName, recordDir, noRecordDir, isFood
   const completeRecords = [];
   if (isMonster) {
     const monsterMaterials = monsterToMaterials[resourceName];
-    const gradeRatios = [3, 1, 1/3];
+    const gradeRatios = MONSTER_GRADE_RATIOS;
 
     historicalRecords.forEach(record => {
       const { runTime, quantityChange } = record;
@@ -278,22 +297,14 @@ function calculatePerTime(resourceName, pathName, recordDir, noRecordDir, isFood
 
       totalMiddleCount = parseFloat(totalMiddleCount.toFixed(2));
       if (totalMiddleCount > 0) {
-        completeRecords.push(parseFloat((runTime / totalMiddleCount).toFixed(2)));
-      }
-    });
-  } else if (isFood) {
-    historicalRecords.forEach(record => {
-      const { runTime, quantityChange } = record;
-      const expValue = quantityChange.exp || 0;
-      if (expValue > 0) {
-        completeRecords.push(parseFloat((runTime / expValue).toFixed(2)));
+        completeRecords.push(parseFloat((runTime / totalMiddleCount).toFixed(3)));
       }
     });
   } else {
     historicalRecords.forEach(record => {
       const { runTime, quantityChange } = record;
       if (quantityChange[resourceName] !== undefined && quantityChange[resourceName] !== 0) {
-        completeRecords.push(parseFloat((runTime / quantityChange[resourceName]).toFixed(2)));
+        completeRecords.push(parseFloat((runTime / quantityChange[resourceName]).toFixed(3)));
       }
     });
   }
@@ -313,5 +324,5 @@ function calculatePerTime(resourceName, pathName, recordDir, noRecordDir, isFood
     return null;
   }
 
-  return parseFloat((filteredRecords.reduce((acc, val) => acc + val, 0) / filteredRecords.length).toFixed(2));
+  return parseFloat((filteredRecords.reduce((acc, val) => acc + val, 0) / filteredRecords.length).toFixed(3));
 }

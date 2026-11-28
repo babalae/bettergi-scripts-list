@@ -219,7 +219,7 @@ async function saveAllOcrRegionImages(ra, ocrRegions, materialImages, saveDir = 
       
       // 保留你原有函数的保存逻辑
       file.WriteImageSync(`${saveDir}/${fileName}.png`, croppedRegion.SrcMat);
-      log.info(`【保存OCR区域图像】成功：${saveDir}/${fileName}.png`);
+      if (debugLog) log.info(`【保存OCR区域图像】成功：${saveDir}/${fileName}.png`);
     } catch (error) {
       // 保留你原有函数的错误处理逻辑
       log.error(`【保存OCR区域图像】失败（${fileName || '未知区域'}）：${error.message}`);

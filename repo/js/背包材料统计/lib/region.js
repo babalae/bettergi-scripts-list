@@ -99,7 +99,7 @@ async function drawAndClearRedBox(searchRegion, ra, delay = 500) {
         // 清除红框 - 使用更可靠的方式
         if (drawRegion && typeof drawRegion.DrawSelf === 'function') {
             // 可能需要使用透明绘制来清除，或者绘制一个0大小的区域
-            ra.DeriveCrop(0, 0, 0, 0).DrawSelf("icon");
+            ra.DeriveCrop(0, 0, 1, 1).DrawSelf("icon");
         }
     } catch (e) {
         log.error("红框绘制异常：" + e.message);
@@ -109,4 +109,51 @@ async function drawAndClearRedBox(searchRegion, ra, delay = 500) {
             drawRegion.dispose();
         }
     }
+}
+/*
+// 截图保存函数
+function imageSaver(mat, saveFile) {
+    // 获取当前时间并格式化为 "YYYY-MM-DD_HH-MM-SS"
+    const now = new Date();
+    const timestamp = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}_${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}-${String(now.getSeconds()).padStart(2, '0')}`;
+
+    // 获取当前脚本所在的目录
+    const scriptDir = getScriptDirPath();
+    if (!scriptDir) {
+        log.error("无法获取脚本目录");
+        return;
+    }
+
+    // 构建完整的目标目录路径和文件名
+    const savePath = `${scriptDir}/${saveFile}/screenshot_${timestamp}.png`;
+    const tempFilePath = `${scriptDir}/${saveFile}`;
+
+    // 检查临时文件是否存在，如果不存在则创建目录
+    try {
+        // 尝试读取临时文件
+        file.readPathSync(tempFilePath);
+        if (debugLog) log.info("目录存在，继续执行保存图像操作");
+    } catch (error) {
+        log.error(`确保目录存在时出错: ${error}`);
+        return;
+    }
+
+    // 保存图像
+    try {
+        mat.saveImage(savePath);
+        // log.info(`图像已成功保存到: ${savePath}`);
+    } catch (error) {
+        log.error(`保存图像失败: ${error}`);
+    }
+}
+*/
+// 获取脚本目录
+function getScriptDirPath() {
+    try {
+        safeReadTextSync(`temp-${Math.random()}.txt`);
+    } catch (e) {
+        const match = e.toString().match(/'([^']+)'/);
+        return match ? match[1].replace(/\\[^\\]+$/, "") : null;
+    }
+    return null;
 }

@@ -1,3 +1,17 @@
+// 数字替换映射表（处理OCR识别误差）
+var numberReplaceMap = {
+    "O": "0", "o": "0", "Q": "0", "０": "0",
+    "I": "1", "l": "1", "i": "1", "１": "1", "一": "1",
+    "Z": "2", "z": "2", "２": "2", "二": "2",
+    "E": "3", "e": "3", "３": "3", "三": "3",
+    "A": "4", "a": "4", "４": "4",
+    "S": "5", "s": "5", "５": "5",
+    "G": "6", "b": "6", "６": "6",
+    "T": "7", "t": "7", "７": "7",
+    "B": "8", "θ": "8", "８": "8",
+    "g": "9", "q": "9", "９": "9",
+};
+
 // 定义替换映射表
 const replacementMap = {
     "监": "盐",
@@ -5,11 +19,11 @@ const replacementMap = {
     "盞": "盏",
     "攜": "携",
     "於": "于",
+    "脈": "脉",
     "卵": "卯",
     "亥": "刻",
-    "脈": "脉",
-    "黄": "夤",
-    "黃": "夤",
+    "黄夜": "夤夜",
+    "黃夜": "夤夜",
     "问": "间",
     "谭": "镡"
 };
@@ -53,7 +67,7 @@ function calculateSimilarity(str1, str2) {
  * @param {string} saveDir - 保存目录，默认 'user/regions'
  */
 async function saveFailedOcrRegion(screenshot, xRangeOrRegion, yRange = null, saveDir = 'user/regions') {
-    log.info(`[saveFailedOcrRegion] 开始保存, screenshot: ${!!screenshot}`);
+    if (debugLog) log.info(`[saveFailedOcrRegion] 开始保存, screenshot: ${!!screenshot}`);
     if (!screenshot) {
         log.warn("[保存失败OCR] 截图为空，跳过保存");
         return;
@@ -71,7 +85,7 @@ async function saveFailedOcrRegion(screenshot, xRangeOrRegion, yRange = null, sa
         };
     }
     
-    log.info(`[saveFailedOcrRegion] region: ${JSON.stringify(region)}`);
+    if (debugLog) log.info(`[saveFailedOcrRegion] region: ${JSON.stringify(region)}`);
     await saveAllOcrRegionImages(screenshot, [region], {}, saveDir);
 }
 
@@ -126,11 +140,11 @@ async function performOcr(targetTexts, region, ra = null, timeout = 200, interva
 
             // 3. 处理识别结果（文本修正 + 目标匹配）
             const results = [];
+            const rawTexts = []; // 原始OCR全量文本（修正后、未经目标名单筛）
             for (let i = 0; i < resList.count; i++) {
                 const res = resList[i];
                 let correctedText = res.text; // 修正后的文本
                 const originalText = res.text; // 保留原始识别文本（便于调试）
-                log.debug(`OCR原始文本: ${res.text}`);
 
                 // 3.1 修正OCR常见错误（基于替换映射表）
                 for (const [wrongChar, correctChar] of Object.entries(replacementMap)) {
@@ -138,16 +152,27 @@ async function performOcr(targetTexts, region, ra = null, timeout = 200, interva
                     correctedText = correctedText.replace(new RegExp(escapedWrong, 'g'), correctChar);
                 }
 
+                rawTexts.push(correctedText); // 无论是否命中目标名单，先收录原始文本
+
                 // 3.2 匹配目标文本（双向匹配 + 相似度特殊通道）
+                // 注：空名单=全部命中这一语义仍被保留，不在此处收口；会按F的拾取循环在 autoPick 侧单独拦截空名单。
                 const isTargetMatched = targetTexts.length === 0 || targetTexts.some(target => {
-                    // 通道1：双向匹配（要求至少2个字符）
-                    if (correctedText.length >= 2 && (correctedText.includes(target) || target.includes(correctedText))) {
+                    // 通道1a：OCR文本包含目标词（目标词是被识别成一截的短词，安全方向）
+                    if (correctedText.length >= 2 && correctedText.includes(target)) {
+                        return true;
+                    }
+
+                    // 通道1b：目标词包含OCR文本（OCR丢了字）。需同时满足长度门限+前后缀对齐，
+                    // 防止交互提示词（如“笔记”）撞上材料名子串（如“学徒笔记”）被误判命中
+                    if (correctedText.length >= 2 && target.includes(correctedText)
+                        && (target.startsWith(correctedText) || target.endsWith(correctedText))
+                        && correctedText.length >= Math.ceil(target.length * 0.6)) {
                         return true;
                     }
                     
                     // 通道2：相似度大于85%（特殊通道）
                     const similarity = calculateSimilarity(correctedText, target);
-                    if (similarity >= 0.85) {
+                    if (similarity > 0.85) {
                         log.debug(`相似度匹配: "${correctedText}" vs "${target}" = ${(similarity * 100).toFixed(1)}%`);
                         return true;
                     }
@@ -155,6 +180,7 @@ async function performOcr(targetTexts, region, ra = null, timeout = 200, interva
                     return false;
                 });
                 if (isTargetMatched) {
+                    log.debug(`OCR原始文本: ${res.text}`); // 只在命中目标时打，未命中不再刷日志
                     results.push({
                         text: correctedText,    // 最终修正后的文本
                         originalText: originalText, // 原始识别文本（调试用）
@@ -170,6 +196,7 @@ async function performOcr(targetTexts, region, ra = null, timeout = 200, interva
             // log.info(`OCR识别完成，匹配到${results.length}个目标文本`);
             return {
                 results: results,
+                rawTexts: rawTexts,
                 screenshot: currentScreenshot, // 成功截图（与结果对应的有效画面）
                 shouldDispose: !isExternalRa    // 标记是否需要释放（true=需要释放，false=外部传入的截图）
             };
@@ -206,11 +233,12 @@ async function performOcr(targetTexts, region, ra = null, timeout = 200, interva
 
     // 6. 超时未成功：返回「空结果 + 超时前最后一次截图」
     log.warn(`OCR识别超时（超过${timeout}ms）`);
-    log.info(`[OCR] 准备保存失败区域截图, screenshot: ${!!currentScreenshot}, region: ${JSON.stringify(region)}`);
+    if (debugLog) log.info(`[OCR] 准备保存失败区域截图, screenshot: ${!!currentScreenshot}, region: ${JSON.stringify(region)}`);
     await saveFailedOcrRegion(currentScreenshot, region);
-    log.info(`[OCR] 保存失败区域截图完成`);
+    if (debugLog) log.info(`[OCR] 保存失败区域截图完成`);
     return {
         results: [],
+        rawTexts: [],
         screenshot: currentScreenshot, // 超时前最后一次有效截图（可用于排查原因）
         shouldDispose: !isExternalRa    // 标记是否需要释放
     };

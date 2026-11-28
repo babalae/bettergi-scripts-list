@@ -1,7 +1,42 @@
 const holdX = Math.min(1920, Math.max(0, Math.floor(Number(settings.HoldX) || 1050)));
 const holdY = Math.min(1080, Math.max(0, Math.floor(Number(settings.HoldY) || 750)));
-const totalPageDistance = Math.max(10, Math.floor(Number(settings.PageScrollDistance) || 711));
-const imageDelay = Math.min(1000, Math.max(0, Math.floor(Number(settings.ImageDelay) || 0))); // 识图基准时长    await sleep(imageDelay);
+const _flipCalib = (() => {
+    try {
+        const raw = (typeof safeReadTextSync === 'function')
+            ? safeReadTextSync('user/pageFlip.json', '')
+            : (typeof file !== 'undefined' && file.readTextSync ? file.readTextSync('user/pageFlip.json') : '');
+        return raw ? JSON.parse(raw) : null;
+    } catch (e) { return null; }
+})();
+// 翻页距离：设置项 PageScrollDistance 已填→用它；未填→用 user/pageFlip.json 实测；都没有→取默认 711
+// 标定后可由 refreshTotalPageDistance() 重算，所以用 let
+let totalPageDistance = Math.max(10, Math.floor(Number(settings.PageScrollDistance) || (_flipCalib && Number(_flipCalib.pageFlipDistance)) || 711));
+
+// 读取 user/pageFlip.json 的标定结果（失败返回 null）
+function readFlipCalib() {
+    try {
+        const raw = (typeof safeReadTextSync === 'function')
+            ? safeReadTextSync('user/pageFlip.json', '')
+            : (typeof file !== 'undefined' && file.readTextSync ? file.readTextSync('user/pageFlip.json') : '');
+        return raw ? JSON.parse(raw) : null;
+    } catch (e) { return null; }
+}
+
+// 是否需要自动标定：拖动距离未设置，且 pageFlip.json 里没有有效翻页距离
+function needFlipCalib() {
+    if (Number(settings.PageScrollDistance)) return false;
+    const calib = readFlipCalib();
+    return !(calib && Number(calib.pageFlipDistance));
+}
+
+// 标定完成后重算翻页距离（settings 优先 → pageFlip.json → 默认 711）
+function refreshTotalPageDistance() {
+    const calib = readFlipCalib();
+    totalPageDistance = Math.max(10, Math.floor(Number(settings.PageScrollDistance) || (calib && Number(calib.pageFlipDistance)) || 711));
+    log.info(`【翻页标定】翻页距离已更新为 ${totalPageDistance}px`);
+    return totalPageDistance;
+}
+const imageDelay = Math.min(1000, Math.max(0, Math.floor(Number(settings.ImageDelay) || 0))); // 识图基准时长
 
 // 全局图片缓存（避免重复加载）
 const globalMaterialImageCache = {};
@@ -45,19 +80,165 @@ const materialPriority = {
     "武器突破素材": 6
 };
 
-// 2. 数字替换映射表（处理OCR识别误差）
-var numberReplaceMap = {
-    "O": "0", "o": "0", "Q": "0", "０": "0",
-    "I": "1", "l": "1", "i": "1", "１": "1", "一": "1",
-    "Z": "2", "z": "2", "２": "2", "二": "2",
-    "E": "3", "e": "3", "３": "3", "三": "3",
-    "A": "4", "a": "4", "４": "4",
-    "S": "5", "s": "5", "５": "5",
-    "G": "6", "b": "6", "６": "6",
-    "T": "7", "t": "7", "７": "7",
-    "B": "8", "θ": "8", "８": "8",
-    "g": "9", "q": "9", "９": "9",
+// ===== 页签总序：小分类拼接顺序 + 小分类内部顺序，均以 txt 为准 =====
+// 仅涵盖两个材料页签（Materials=材料.txt / CultivationItems=养成道具.txt）
+// 祝圣精华(XP页签)、采集食物/料理(食物页签) 不在这两份总序内，getSegment 返回 null → 整页全列扫描兜底
+const materialOrderBlockMap = {
+    "锻造素材": "材料",
+    "一般素材": "材料",
+    "烹饪食材": "材料",
+    "木材": "材料",
+    "鱼饵鱼类": "材料",
+    "怪物掉落素材": "养成道具",
+    "周本素材": "养成道具",
+    "角色突破素材": "养成道具",
+    "宝石": "养成道具",
+    "角色天赋素材": "养成道具",
+    "武器突破素材": "养成道具"
 };
+
+// 块名 → materialTypeMap 类型（用于将归类限制在同一页签内）
+const materialOrderBlockType = { "材料": "5", "养成道具": "3" };
+
+const materialOrder = { txtIdx: {}, category: {}, segments: {}, orderList: {} };
+
+function loadMaterialOrder() {
+    if (Object.keys(materialOrder.txtIdx).length > 0) return; // 已加载
+
+    // 归类复用 file.js 现成的 matchImageAndGetCategory：图片所在文件夹即材料分类，
+    // 只列目录文件名、不逐文件读图，不会产生 ReadImageMatSync 异常日志
+    for (const block of ["材料", "养成道具"]) {
+        const blockType = materialOrderBlockType[block];
+        const content = safeReadTextSync(`assets/${block}.txt`);
+        if (!content) {
+            log.warn(`总序表缺失：assets/${block}.txt，行扫描定位不可用（将退回整页全列扫描）`);
+            continue;
+        }
+
+        const lines = content.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+        const orderList = [];
+
+        for (let i = 0; i < lines.length; i++) {
+            const name = lines[i];
+            const cat = matchImageAndGetCategory(name, "assets/images");
+
+            if (!cat || materialTypeMap[cat] !== blockType) {
+                orderList.push({ name, cat: null }); // 图库无图 / 不属于本页签：占位不归类
+                continue;
+            }
+
+            orderList.push({ name, cat });
+            if (materialOrder.txtIdx[name] === undefined) materialOrder.txtIdx[name] = i;
+            if (materialOrder.category[name] === undefined) materialOrder.category[name] = cat;
+
+            const seg = materialOrder.segments[cat];
+            if (!seg) {
+                materialOrder.segments[cat] = { startRow: i, endRow: i };
+            } else if (seg.endRow !== i - 1) {
+                if (i > seg.endRow) seg.endRow = i; // 同名材料二次出现：只放宽区间
+            } else {
+                seg.endRow = i;
+            }
+        }
+
+        materialOrder.orderList[block] = orderList;
+        log.info(`总序载入 ${block}：有效材料 ${orderList.filter(o => o.cat).length} / 共 ${lines.length} 行，小分类 ${Object.keys(materialTypeMap).filter(c => materialOrderBlockMap[c] === block).length} 个`);
+    }
+}
+
+// 材料所在总序行（-1 = 总序表里没有，不可用于定位）
+function lookupMaterialRow(name) {
+    return materialOrder.txtIdx[name] !== undefined ? materialOrder.txtIdx[name] : -1;
+}
+
+// 目标小分类的总序区间
+function getSegment(category) {
+    const seg = materialOrder.segments[category];
+    if (!seg) return null;
+    const block = materialOrderBlockMap[category];
+    return block ? { ...seg, block } : null;
+}
+
+// 相邻格子 y 间距：实测 user/pageFlip.json（m1.y=152 → m5.y=853，4 格差 701 → 单格 175）
+const CELL_PITCH = 175;
+const CELL_PITCH_MAX = 180; // 相邻命中 y 差超过它 → 中间有空档（有格子没命中）
+
+// 第八列命中格 y → 行号：用固定格距换算（76 = 图标半高）
+function rowFromY(y, startY) {
+    return Math.max(0, Math.round((y - startY - 76) / CELL_PITCH));
+}
+
+/*
+ * 由第八列命中格的实测 y 推出本次全列扫描要覆盖的 y 区间
+ * hits: [{ name, y }]，seg: { startRow, endRow, block }
+ * 行号由实测 y + 固定格距 175 换算；相邻命中 y 差 > CELL_PITCH_MAX 即判定中间空档
+ * 有空档时从空档上沿开始扫，扫描区间一律落到实测 y，宁可多扫也不漏
+ * 返回 null = 不可定，整页扫
+ */
+function computeScanRows(hits, seg, scroll, pageTop = 121, columnHeight = 710) {
+    const orderList = materialOrder.orderList[seg.block];
+    if (!orderList || hits.length === 0) return null;
+
+    const pageBottom = pageTop + columnHeight;
+    const cellH = 152; // 模板图高
+    const halfCell = cellH / 2;
+    const clampY = y => Math.max(pageTop, Math.min(pageBottom, y));
+
+    const inSeg = [];
+    const before = [];
+    const after = [];
+    for (const h of hits) {
+        const r = lookupMaterialRow(h.name);
+        if (r < 0) continue;
+        if (r < seg.startRow) before.push(h);
+        else if (r > seg.endRow) after.push(h);
+        else inSeg.push(h);
+    }
+
+    // 命中按 y 排序：相邻 y 差超上限 → 中间有空档，记下空档上沿
+    const sorted = [...hits].sort((a, b) => a.y - b.y);
+    let gapTopY = null;
+    let gapRows = 0;
+    for (let i = 1; i < sorted.length; i++) {
+        const d = sorted[i].y - sorted[i - 1].y;
+        if (d > CELL_PITCH_MAX) {
+            gapTopY = sorted[i - 1].y;
+            gapRows = Math.max(1, Math.round(d / CELL_PITCH) - 1);
+            break;
+        }
+    }
+    const gapDesc = gapTopY === null ? "无空档" : `空档${gapRows}行(自y${gapTopY})`;
+    // 有空档：空档及其以下都要扫；无空档：用传入的起算 y
+    const pickStart = y => (gapTopY !== null ? Math.min(gapTopY + halfCell, clampY(y)) : clampY(y));
+
+    if (inSeg.length > 0) {
+        // 列8已落在目标段内：从最高命中格（或空档上沿）扫到页底
+        const topY = Math.min(...inSeg.map(h => h.y));
+        return { yStart: pickStart(topY), yEnd: pageBottom, reason: `列8命中目标段，${gapDesc}` };
+    }
+
+    if (before.length > 0 && after.length > 0) {
+        const lastBeforeY = Math.max(...before.map(h => h.y));
+        const firstAfterY = Math.min(...after.map(h => h.y));
+        if (lastBeforeY + halfCell < firstAfterY) {
+            return { yStart: pickStart(lastBeforeY + halfCell), yEnd: clampY(firstAfterY + cellH), reason: `列8夹住目标段，${gapDesc}` };
+        }
+        return { yStart: pageTop, yEnd: pageBottom, reason: "同页段前段后冲突" };
+    }
+
+    if (before.length > 0) {
+        // 只探到段前材料：从下一格（或空档上沿）一直扫到页底
+        const lastBeforeY = Math.max(...before.map(h => h.y));
+        return { yStart: pickStart(lastBeforeY + halfCell), yEnd: pageBottom, reason: `仅列8段前命中，扫到页底，${gapDesc}` };
+    }
+
+    if (after.length > 0) {
+        // 列8命中全在目标段之后：目标段已整段翻过，本页整页扫一次后结束
+        return { yStart: pageTop, yEnd: pageBottom, past: true, reason: "列8已翻过目标段" };
+    }
+
+    return { yStart: pageTop, yEnd: pageBottom, reason: "列8命中不可归类" };
+}
 
 // 提前计算所有动态坐标
 // 物品区左顶处物品左上角坐标(117,121)
@@ -72,34 +253,24 @@ var numberReplaceMap = {
 async function recognizeText(ocrRegion, timeout = 100, retryInterval = 20, maxAttempts = 10, maxFailures = 3, ra = null) {
     let startTime = Date.now();
     let retryCount = 0;
-    let failureCount = 0;
-    const frequencyMap = {};
-
-    if (debugLog) {
-        log.debug(`OCR开始识别: 区域=(${ocrRegion.x}, ${ocrRegion.y}, ${ocrRegion.width}x${ocrRegion.height}), 超时=${timeout}ms`);
-    }
+    let failureCount = 0; // 用于记录连续失败的次数
+    // const results = [];
+    const frequencyMap = {}; // 用于记录每个结果的出现次数
 
     while (Date.now() - startTime < timeout && retryCount < maxAttempts) {
         let ocrObject = RecognitionObject.Ocr(ocrRegion.x, ocrRegion.y, ocrRegion.width, ocrRegion.height);
-        ocrObject.threshold = 0.85;
+        ocrObject.threshold = 0.85; // 适当降低阈值以提高速度
         let resList = ra.findMulti(ocrObject);
 
         if (resList.count === 0) {
             failureCount++;
-            if (debugLog) {
-                log.debug(`OCR第${retryCount + 1}次尝试: 未识别到文本, 连续失败${failureCount}次`);
-            }
             if (failureCount >= maxFailures) {
-                ocrRegion.x += 3;
-                ocrRegion.width -= 6;
+                ocrRegion.x += 3; // 每次缩小6像素
+                ocrRegion.width -= 6; // 每次缩小6像素
                 retryInterval += 10;
 
-                if (debugLog) {
-                    log.debug(`OCR缩小区域: 新区域=(${ocrRegion.x}, ${ocrRegion.y}, ${ocrRegion.width}x${ocrRegion.height})`);
-                }
-
                 if (ocrRegion.width <= 12) {
-                    if (debugLog) log.debug(`OCR区域过小，放弃识别`);
+                    if (debugLog) log.debug(`OCR区域过小，放弃识别: 宽度=${ocrRegion.width}`);
                     return false;
                 }
             }
@@ -111,10 +282,7 @@ async function recognizeText(ocrRegion, timeout = 100, retryInterval = 20, maxAt
         for (let res of resList) {
             let text = res.text;
             text = text.split('').map(char => numberReplaceMap[char] || char).join('');
-            
-            if (debugLog) {
-                log.debug(`OCR识别到文本: "${res.text}" -> 转换后: "${text}"`);
-            }
+            // results.push(text);
 
             if (!frequencyMap[text]) {
                 frequencyMap[text] = 0;
@@ -122,7 +290,6 @@ async function recognizeText(ocrRegion, timeout = 100, retryInterval = 20, maxAt
             frequencyMap[text]++;
 
             if (frequencyMap[text] >= 2) {
-                if (debugLog) log.debug(`OCR识别成功: "${text}" (出现${frequencyMap[text]}次)`);
                 return text;
             }
         }
@@ -132,34 +299,37 @@ async function recognizeText(ocrRegion, timeout = 100, retryInterval = 20, maxAt
 
     const sortedResults = Object.keys(frequencyMap).sort((a, b) => frequencyMap[b] - frequencyMap[a]);
     if (sortedResults.length === 0) {
-        if (debugLog) log.debug(`OCR无结果，尝试模板匹配`);
         const templateMatchResult = await recognizeNumberByTemplate(ra, ocrRegion);
         if (templateMatchResult) {
-            if (debugLog) log.debug(`模板匹配成功: "${templateMatchResult}"`);
             return templateMatchResult;
         }
+        if (debugLog) log.warn(`OCR识别失败 - 区域: x=${ocrRegion.x}, y=${ocrRegion.y}, 宽=${ocrRegion.width}, 高=${ocrRegion.height}`);
         saveFailedOcrRegion(ra, ocrRegion);
+    } else {
+        if (debugLog) log.debug(`OCR识别结果: ${sortedResults[0]} (出现${frequencyMap[sortedResults[0]]}次)`);
     }
-    
-    const finalResult = sortedResults.length > 0 ? sortedResults[0] : false;
-    if (debugLog) {
-        log.debug(`OCR最终结果: "${finalResult}", 所有候选: ${JSON.stringify(sortedResults)}`);
-    }
-    return finalResult;
+    return sortedResults.length > 0 ? sortedResults[0] : false;
 }
 
 // 模板匹配识别数字
 async function recognizeNumberByTemplate(ra, ocrRegion) {
     const regionDir = "assets/regions";
     const numberFiles = readAllFilePaths(regionDir, 0, 1, ['.png']);
-    
+
+    // 先把模板全部读入并按宽度降序：长数字模板优先，避免 4 位被 5 位、1~2 位被长数字抢先命中
+    const templates = [];
     for (const filePath of numberFiles) {
         const num = parseInt(basename(filePath).replace('.png', ''), 10);
         if (isNaN(num)) continue;
-        
+
         const templateMat = file.readImageMatSync(filePath);
         if (templateMat.empty()) continue;
-        
+
+        templates.push({ num, templateMat, width: templateMat.cols });
+    }
+    templates.sort((a, b) => b.width - a.width);
+
+    for (const { num, templateMat } of templates) {
         const expandPx = 5;
         const matchX = ocrRegion.x;
         const matchY = ocrRegion.y - expandPx;
@@ -177,7 +347,7 @@ async function recognizeNumberByTemplate(ra, ocrRegion) {
         
         const result = ra.find(matchRo);
         if (result.isExist()) {
-            log.info(`[模板匹配] ${num}.png 识别成功`);
+            if (debugLog) log.info(`[模板匹配] ${num}.png 识别成功`);
             return String(num);
         }
     }
@@ -197,6 +367,139 @@ async function scrollPage(totalDistance, stepDistance = 10, delayMs = 5) {
         waitAfter: 500, // 原逻辑中松开后等待700ms
         repeat: 1
     });
+}
+
+// 重置材料滑条到顶端（复用扫描里长按滑条顶部的动作）
+async function resetMaterialSlider() {
+    await moveMouseTo(1288, 124);
+    await sleep(200);
+    leftButtonDown();
+    await sleep(300);
+    leftButtonUp();
+    await sleep(300);
+}
+
+// 载入“养成道具”页（materialTypeMap 值="3" 的 6 类）全部材料模板到 globalMaterialImageCache，返回 [{name, mat}]
+function loadCultivationTemplates() {
+    const cats = Object.keys(materialTypeMap).filter(c => materialTypeMap[c] === '3');
+    const list = [];
+    const seen = new Set();
+    for (const cat of cats) {
+        let paths = [];
+        try { paths = file.ReadPathSync(`assets/images/${cat}`); } catch (e) { continue; }
+        for (const fp of paths) {
+            const name = basename(fp).replace('.png', '');
+            if (seen.has(name)) continue;
+            if (!globalMaterialImageCache[name]) {
+                const mat = getCachedImageMat(fp);
+                if (!mat || mat.empty()) continue;
+                globalMaterialImageCache[name] = mat;
+            }
+            seen.add(name);
+            list.push({ name, mat: globalMaterialImageCache[name] });
+        }
+    }
+    return list;
+}
+
+// 扫列 1 并按 y 升序返回 [{name, x, y}]（region: x=startX, y=startY, w=columnWidth, 底到 y=950）
+async function scanColumn1(ra, templates, x, y, w, bottom) {
+    const res = await parallelTemplateMatch(ra, templates, x, y, w, bottom - y, 0.8);
+    return res.filter(r => r.result).map(r => ({ name: r.name, x: r.result.x, y: r.result.y })).sort((a, b) => a.y - b.y);
+}
+
+// 背包翻页标定：开背包→养成页→扫列1取第1/第5材料→迭代拖动标定“1页”距离
+//   （第五个材料落到原第一个位置、绝不过冲）→写 user/pageFlip.json
+async function runBagFlipCalib() {
+    const COL_X = 117, COL_Y = 121, COL_W = 123, COL_BOTTOM = 950; // 列1几何(同 scanMaterials)
+    const TOL = 6;        // 命中容差(px)
+    const MAX_TRIES = 10; // 最多迭代次数
+
+    log.info('【翻页标定】开始：进入背包→养成道具页…');
+    await genshin.returnMainUi();
+    await sleep(600);
+    keyPress('B');
+    await sleep(900);
+    let ra = captureGameRegion();
+    const bag = await recognizeImage(BagpackRo, ra, 2000, 500, true, '背包');
+    ra?.dispose();
+    if (!bag.isDetected) { log.error('【翻页标定】未识别到背包图标，终止'); return; }
+
+    click(Math.round(575 + (3 - 1) * 96.25), 75);  // 养成道具页(offset=3)
+    await sleep(600);
+    await resetMaterialSlider();                    // 重置滑条
+
+    ra = captureGameRegion();
+    const templates = loadCultivationTemplates();
+    if (!templates.length) { ra?.dispose(); log.error('【翻页标定】养成类材料模板为空，终止'); return; }
+    const base = await scanColumn1(ra, templates, COL_X, COL_Y, COL_W, COL_BOTTOM);
+    ra?.dispose();
+    log.info(`【翻页标定】列1命中 ${base.length} 个材料`);
+    if (base.length < 5) { log.error('【翻页标定】列1不足 5 个材料，无法标定（请确认已在有≥5个材料的养成页）'); return; }
+
+    const m1 = base[0], m5 = base[base.length - 1]; // m5=列1命中里 y 最大(最底)那个，非写死下标
+    const baseY = m1.y;          // 原第一个材料位置（目标落点）
+    const gap = m5.y - m1.y;     // 理论 1 页滚动量
+    const m5mat = templates.find(t => t.name === m5.name);
+    log.info(`【翻页标定】m1=${m1.name}@y${m1.y}  m5=${m5.name}@y${m5.y}  gap=${gap}`);
+
+    // 初始拖动距离：设置项已填→用它；否则用 gap
+    let D = Math.max(10, Math.floor(Number(settings.PageScrollDistance) || gap));
+    const attempts = [];
+    let best = null;             // 未过冲里最接近 0 的 {D, delta}
+    let overFloor = Infinity;    // 最小“过冲”D 作为硬上界：最终 D 必须 < 它
+
+    for (let i = 0; i < MAX_TRIES; i++) {
+        await resetMaterialSlider();
+        await scrollPage(-D, 10, 5);   // 上滑 D
+        await sleep(400);
+        let r = captureGameRegion();
+        const res = m5mat ? await parallelTemplateMatch(r, [m5mat], COL_X, COL_Y - 60, COL_W, COL_BOTTOM - (COL_Y - 60), 0.8) : [];
+        r?.dispose();
+        const hit = res.find(x => x.result);
+        let outcome, delta;
+        if (!hit) { outcome = 'notfound'; delta = null; }   // 顶出可视区＝已过冲
+        else {
+            delta = hit.result.y - baseY;
+            outcome = (Math.abs(delta) <= TOL) ? 'hit' : (delta > TOL ? 'under' : 'over');
+        }
+        attempts.push({ try: i + 1, D, outcome, delta });
+        log.info(`【翻页标定】第${i + 1}次 D=${D} → ${outcome}${delta === null ? '' : ` (Δ=${delta})`}`);
+
+        if (outcome === 'over' || outcome === 'notfound') {
+            if (D < overFloor) overFloor = D;   // 记录过冲下界
+            const reduce = delta === null ? 20 : Math.abs(delta);
+            D = Math.max(10, Math.min(D - reduce, overFloor - 1));
+            continue;
+        }
+        if (outcome === 'hit') {
+            if (!best || Math.abs(delta) < Math.abs(best.delta)) best = { D, delta };
+            break;
+        }
+        // under：不足→按比例增 D（滚动≈拖动，delta 即还差多少）；绝不越过上界
+        let nd = D + delta;
+        if (overFloor !== Infinity && nd >= overFloor) nd = overFloor - 1;
+        D = Math.max(10, Math.floor(nd));
+    }
+
+    let result = best;
+    if (!result) {
+        const unders = attempts.filter(a => a.outcome === 'under');
+        if (unders.length) { const last = unders[unders.length - 1]; result = { D: last.D, delta: last.delta }; }
+    }
+    if (!result) { log.error('【翻页标定】未能得到有效距离（全部过冲？），不写文件'); return; }
+
+    const payload = {
+        pageFlipDistance: result.D, gap, holdX, holdY, baseY, tol: TOL,
+        m1: { name: m1.name, y: m1.y }, m5: { name: m5.name, y: m5.y },
+        attempts, time: new Date().toString()
+    };
+    try {
+        writeFile('user/pageFlip.json', JSON.stringify(payload, null, 2), false);
+        log.info(`【翻页标定】完成：1页距离=${result.D}px（gap=${gap}）已写 user/pageFlip.json`);
+    } catch (e) { log.error('【翻页标定】写文件失败: ' + e.message); }
+
+    await resetMaterialSlider(); // 收尾复位
 }
 
 // 回退翻页函数（用于后续优先级材料扫描）
@@ -221,37 +524,28 @@ async function parallelTemplateMatch(ra, materials, x, y, width, height, thresho
             try {
                 const recognitionObject = RecognitionObject.TemplateMatch(mat, x, y, width, height);
                 recognitionObject.threshold = threshold;
+                // recognitionObject.Use3Channels = true;
                 
                 const result = ra.find(recognitionObject);
                 if (result.isExist() && result.x !== 0 && result.y !== 0) {
-                    if (debugLog) {
-                        log.debug(`模板匹配成功 [${name}]: 坐标=(${result.x}, ${result.y}), 阈值=${threshold}`);
-                    }
-                    
                     if (enableColorCheck && typeof compareColor === 'function') {
                         const colorCheck = compareColor(mat, ra, result);
-                        if (debugLog) {
-                            log.debug(`颜色验证 [${name}]: isMatch=${colorCheck.isMatch}, avgDiff=${JSON.stringify(colorCheck.avgDiff)}, stdDiff=${JSON.stringify(colorCheck.stdDiff)}`);
-                        }
                         if (!colorCheck.isMatch) {
                             if (debugLog) log.debug(`颜色验证失败 [${name}]: avgDiff=${JSON.stringify(colorCheck.avgDiff)}, stdDiff=${JSON.stringify(colorCheck.stdDiff)}`);
-                            resolve({ name, result: null });
+                            resolve({ name, result: null, failureReason: '颜色验证失败' });
                             return;
                         }
                     }
                     if (enableMouseMove) {
                         moveMouseTo(result.x, result.y);
                     }
-                    resolve({ name, result });
+                    resolve({ name, result, failureReason: null });
                 } else {
-                    if (debugLog) {
-                        log.debug(`模板匹配失败 [${name}]: 未找到匹配, 阈值=${threshold}, 搜索区域=(${x}, ${y}, ${width}x${height})`);
-                    }
-                    resolve({ name, result: null });
+                    resolve({ name, result: null, failureReason: '模板匹配未找到' });
                 }
             } catch (error) {
                 log.error(`并行模板匹配错误: ${name} - ${error.message}`);
-                resolve({ name, result: null });
+                resolve({ name, result: null, failureReason: `异常: ${error.message}` });
             }
         });
     });
@@ -263,10 +557,10 @@ async function parallelTemplateMatch(ra, materials, x, y, width, height, thresho
 async function smartRecognizeText(ocrRegion, ra, quickMode = true) {
     if (quickMode) {
         // 快速模式：超时50ms，只尝试1次
-        return await recognizeText(ocrRegion, 50, 5, 1, 1, ra);
+        return await recognizeText(ocrRegion, 50, 10, 1, 1, ra);
     } else {
         // 正常模式：超时100ms，尝试3次
-        return await recognizeText(ocrRegion, 100, 10, 3, 2, ra);
+        return await recognizeText(ocrRegion, 100, 20, 3, 2, ra);
     }
 }
 
@@ -275,7 +569,12 @@ async function batchRecognizeText(ocrRegions, ra, timeout = 200, retryInterval =
     const ocrPromises = ocrRegions.map(({ region, name }) => {
         return new Promise((resolve) => {
             smartRecognizeText(region, ra, quickMode)
-                .then(result => resolve({ name, result }))
+                .then(result => {
+                    if (result === false && debugLog) {
+                        log.debug(`批量OCR失败: ${name} - 区域: x=${region.x}, y=${region.y}`);
+                    }
+                    resolve({ name, result });
+                })
                 .catch(error => {
                     log.error(`批量OCR错误: ${name} - ${error.message}`);
                     resolve({ name, result: false });
@@ -398,8 +697,13 @@ function filterMaterialsByPriority(materialsCategory) {
 }
 
     // 扫描材料
-async function performFullColumnScan(ra, materialCategories, materialImages, recognizedMaterials, startX, startY, columnWidth, columnHeight, maxColumns, OffsetWidth, tolerance) {
+async function performFullColumnScan(ra, materialCategories, materialImages, recognizedMaterials, startX, startY, columnWidth, columnHeight, maxColumns, OffsetWidth, tolerance, unmatchedReasons, yStart = null, yEnd = null) {
     const ocrRegions = [];
+    const cellHeight = 152;
+    const pageBottom = startY + columnHeight;
+    // 扫描区间一律用第八列实测 y（yStart/yEnd），不按行号乘行距
+    const scanYStart = Math.max(startY, Math.min(pageBottom, yStart === null ? startY : yStart));
+    const scanYEnd = Math.max(scanYStart, Math.min(pageBottom, yEnd === null ? pageBottom : yEnd));
     
     for (let column = 0; column < maxColumns; column++) {
         const scanX0 = startX + column * OffsetWidth;
@@ -414,16 +718,19 @@ async function performFullColumnScan(ra, materialCategories, materialImages, rec
             .filter(Boolean);
         
         if (materialsToMatch.length > 0) {
-            const matchResults = await parallelTemplateMatch(ra, materialsToMatch, scanX, startY, columnWidth, columnHeight, 0.8);
+            // 按实测 y 裁剪：只在已定位的区间内匹配
+            const yTop = scanYStart;
+            const matchHeight = Math.max(cellHeight, scanYEnd - scanYStart);
+            const matchResults = await parallelTemplateMatch(ra, materialsToMatch, scanX, yTop, columnWidth, matchHeight, 0.8);
             
             const positionGroups = new Map();
-            for (const { name, result } of matchResults) {
+            for (const { name, result, failureReason } of matchResults) {
                 if (result) {
                     const positionKey = `${Math.floor(result.x / 10)},${Math.floor(result.y / 10)}`;
                     if (!positionGroups.has(positionKey)) {
                         positionGroups.set(positionKey, []);
                     }
-                    positionGroups.get(positionKey).push({ name, result });
+                    positionGroups.get(positionKey).push({ name, result, failureReason });
                 }
             }
             
@@ -431,7 +738,7 @@ async function performFullColumnScan(ra, materialCategories, materialImages, rec
                 if (group.length > 1) {
                     if (debugLog) log.debug(`位置冲突: ${group.map(g => g.name).join(', ')}, 只保留 ${group[0].name}`);
                 }
-                const { name, result } = group[0];
+                const { name, result, failureReason } = group[0];
                 recognizedMaterials.add(name);
                 const ocrRegion = {
                     x: result.x - tolerance,
@@ -441,15 +748,24 @@ async function performFullColumnScan(ra, materialCategories, materialImages, rec
                 };
                 ocrRegions.push({ region: ocrRegion, name });
             }
+            
+            for (const { name, result, failureReason } of matchResults) {
+                if (!result && failureReason && !unmatchedReasons.has(name)) {
+                    unmatchedReasons.set(name, failureReason);
+                }
+            }
         }
     }
     
     return ocrRegions;
 }
 
-async function scanMaterials(materialsCategory, materialCategoryMap, isPostPriority = false) {
+async function scanMaterials(materialsCategory, materialCategoryMap, isPostPriority = false, pathingMode = null) {
     // 使用全局图片缓存
     const materialImages = globalMaterialImageCache;
+
+    // 如果没有传入pathingMode，使用全局变量（向后兼容）
+    const mode = pathingMode || globalThis.pathingMode;
 
     const currentType = materialTypeMap[materialsCategory];
     const currentPriority = materialPriority[materialsCategory];
@@ -494,7 +810,7 @@ async function scanMaterials(materialsCategory, materialCategoryMap, isPostPrior
 
         // 如果 materialCategoryMap 中当前分类的数组不为空
         // 且当前材料名称不在指定的材料列表中，则跳过加载
-        if (pathingMode.onlyPathing && !shouldScanAllMaterials && !categoryMaterials.includes(name)) {
+        if (mode.onlyPathing && !shouldScanAllMaterials && !categoryMaterials.includes(name)) {
             continue;
         }
 
@@ -513,6 +829,7 @@ async function scanMaterials(materialsCategory, materialCategoryMap, isPostPrior
     const recognizedMaterials = new Set();
     const unmatchedMaterialNames = new Set(); // 未匹配的材料名称
     const materialInfo = []; // 存储材料名称和数量
+    const unmatchedReasons = new Map(); // 记录未匹配材料的原因
 
     // 扫描参数
     const tolerance = 1;
@@ -522,6 +839,13 @@ async function scanMaterials(materialsCategory, materialCategoryMap, isPostPrior
     const columnWidth = 123;
     const columnHeight = 710;
     const maxColumns = 8;
+
+    // 载入页签总序，并取目标小分类在总序中的连续区间
+    loadMaterialOrder();
+    const targetSegment = getSegment(materialsCategory);
+    if (!targetSegment) {
+        log.warn(`总序中未能定位分类 ${materialsCategory} 的区间，全列扫描将保持整页范围`);
+    }
     // 跟踪已截图的区域（避免重复）
     const capturedRegions = new Set(); 
 
@@ -601,11 +925,11 @@ async function scanMaterials(materialsCategory, materialCategoryMap, isPostPrior
             } else {
                 backPageCount++;
                 if (backPageCount < pageScrollCount) {
-                    log.info(`未发现前位材料，回退一页 (${backPageCount}/${pageScrollCount})`);
+                    if (debugLog) log.info(`未发现前位材料，回退一页 (${backPageCount}/${pageScrollCount})`);
                     await scrollBackPage(totalPageDistance, 10, 5);
                     await sleep(500);
                 } else {
-                    log.info(`已回退${pageScrollCount}页，仍未发现前位材料，继续扫描`);
+                    if (debugLog) log.info(`已回退${pageScrollCount}页，仍未发现前位材料，继续扫描`);
                 }
             }
         }
@@ -623,6 +947,7 @@ async function scanMaterials(materialsCategory, materialCategoryMap, isPostPrior
         
         if (debugLog) log.info(`第八列扫描 - 当前分类: ${materialsCategory}, 优先级: ${currentPriority}`);
         isEighthColumnScan = true; // 标记当前为第八列扫描
+        const eighthHits = []; // 第八列命中格（带 y），用于推出目标段所在行
         
         if (currentPriority <= 2) {
             const lowerPriorityMaterials = currentTypeMaterials.filter(category => materialPriority[category] < currentPriority);
@@ -644,10 +969,31 @@ async function scanMaterials(materialsCategory, materialCategoryMap, isPostPrior
                     if (foundMaterials.length > 0 && debugLog) {
                         if (debugLog) log.info(`第八列识别到前位材料 [${category}]: ${foundMaterials.join(', ')}`);
                     }
-                    lowerPriorityMatches.push(...matchResults.filter(r => r.result));
+                    const hits = matchResults.filter(r => r.result);
+                    lowerPriorityMatches.push(...hits);
+                    eighthHits.push(...hits.map(r => ({ name: r.name, y: r.result.y, row: rowFromY(r.result.y, startY), result: r.result })));
                 }
             }
-            
+
+            // 已进入全列扫描后，追加同页签后位材料命中，用于判断是否已翻过目标段（提前结束）
+            if (hasStartedFullColumnScan) {
+                const higherPriorityMaterials = currentTypeMaterials.filter(c => materialPriority[c] > currentPriority);
+                for (const category of higherPriorityMaterials) {
+                    const categoryMaterials = priorityMaterialNames
+                        .filter(({ name, category: cat }) => cat === category && !recognizedMaterials.has(name))
+                        .map(({ name }) => {
+                            const mat = materialImages[name];
+                            return mat ? { name, mat } : null;
+                        })
+                        .filter(Boolean);
+                    if (categoryMaterials.length > 0) {
+                        const matchResults = await parallelTemplateMatch(ra, categoryMaterials, 1142, startY, columnWidth, columnHeight, 0.8);
+                        const hits = matchResults.filter(r => r.result);
+                        eighthHits.push(...hits.map(r => ({ name: r.name, y: r.result.y, row: rowFromY(r.result.y, startY), result: r.result })));
+                    }
+                }
+            }
+
             if (debugLog) log.info(`第八列前位材料总数: ${lowerPriorityMatches.length}`);
             if (lowerPriorityMatches.length < 4) {
                 if (debugLog) log.info(`前位材料少于4张，触发全列扫描`);
@@ -675,7 +1021,9 @@ async function scanMaterials(materialsCategory, materialCategoryMap, isPostPrior
                     if (foundMaterials.length > 0 && debugLog) {
                         if (debugLog) log.info(`第八列识别到同位/后位材料 [${category}]: ${foundMaterials.join(', ')}`);
                     }
-                    currentOrHigherMatches.push(...matchResults.filter(r => r.result));
+                    const hits = matchResults.filter(r => r.result);
+                    currentOrHigherMatches.push(...hits);
+                    eighthHits.push(...hits.map(r => ({ name: r.name, y: r.result.y, row: rowFromY(r.result.y, startY), result: r.result })));
                 }
             }
             
@@ -689,29 +1037,50 @@ async function scanMaterials(materialsCategory, materialCategoryMap, isPostPrior
         }
     
     // 只有发现目标材料时，才执行全列扫描
+    let scanRows = null;
     if (foundPriorityMaterial) {
-        if (debugLog) log.info(`开始全列扫描`);
-        hasStartedFullColumnScan = true; // 标记已经开始全列扫描（后续所有翻页都执行终止检测）
-        const ocrRegions = await performFullColumnScan(ra, materialCategories, materialImages, recognizedMaterials, startX, startY, columnWidth, columnHeight, maxColumns, OffsetWidth, tolerance);
-        
-        // 批量处理OCR
-        if (ocrRegions.length > 0) {
-            const ocrResults = await batchRecognizeText(ocrRegions, ra);
-            
-            // 处理OCR结果
-            for (const { name, result } of ocrResults) {
-                if (debugLog) {
-                    log.debug(`材料[${name}] OCR识别结果: ${result}`);
-                }
-                materialInfo.push({ name, count: result || "?" });
+        // 用第八列命中格的实测 y + 总序，推出本次要扫的 y 区间
+        if (targetSegment && eighthHits.length > 0) {
+            scanRows = computeScanRows(eighthHits, targetSegment, scroll, startY, columnHeight);
+        }
+
+        if (scanRows && scanRows.yEnd <= scanRows.yStart) {
+            // 区间为空，本页无需扫描
+            if (debugLog) log.info(`扫描区间为空（y ${scanRows.yStart}~${scanRows.yEnd}），本页跳过`);
+        } else {
+            const scanYStart = scanRows ? scanRows.yStart : null;
+            const scanYEnd = scanRows ? scanRows.yEnd : null;
+            if (debugLog) {
+                const hitDesc = eighthHits.map(h => `${h.name}@y${h.y}(第${rowFromY(h.y, startY) + 1}行)`).join(', ');
+                log.info(`列8命中 ${eighthHits.length} 格 [${hitDesc}] -> ${scanRows ? `扫描 y ${scanYStart}-${scanYEnd} (${scanRows.reason})` : `扫描整页 (总序不可定)`}`);
             }
-            
-            // 更新最后发现材料的时间
-            hasFoundFirstMaterial = true;
-            lastFoundTime = Date.now();
+            if (debugLog) log.info(`开始全列扫描`);
+            hasStartedFullColumnScan = true; // 标记已经开始全列扫描（后续所有翻页都执行终止检测）
+            const ocrRegions = await performFullColumnScan(ra, materialCategories, materialImages, recognizedMaterials, startX, startY, columnWidth, columnHeight, maxColumns, OffsetWidth, tolerance, unmatchedReasons, scanYStart, scanYEnd);
+
+            // 批量处理OCR
+            if (ocrRegions.length > 0) {
+                const ocrResults = await batchRecognizeText(ocrRegions, ra);
+
+                // 处理OCR结果
+                for (const { name, result } of ocrResults) {
+                    materialInfo.push({ name, count: result || "?" });
+                }
+
+                // 更新最后发现材料的时间
+                hasFoundFirstMaterial = true;
+                lastFoundTime = Date.now();
+            }
         }
     } else {
-        log.info(`未发现目标材料，跳过`);
+        if (debugLog) log.info(`未发现目标材料，跳过`);
+    }
+
+    // 列8已出现后位材料（目标段整段翻过）→ 本页扫完立即结束，省去后续翻页与5秒超时等待
+    if (scanRows && scanRows.past) {
+        log.info(`列8已翻过目标段，提前结束扫描`);
+        shouldEndScan = true;
+        break;
     }
 
         // 每5秒输出一句俏皮话
@@ -789,7 +1158,7 @@ async function scanMaterials(materialsCategory, materialCategoryMap, isPostPrior
                 if (matchResult.isExist()) {
                     log.info("连续翻页画面无明显变化，执行最后一次全列扫描");
                     
-                    const ocrRegions = await performFullColumnScan(ra, materialCategories, materialImages, recognizedMaterials, startX, startY, columnWidth, columnHeight, maxColumns, OffsetWidth, tolerance);
+                    const ocrRegions = await performFullColumnScan(ra, materialCategories, materialImages, recognizedMaterials, startX, startY, columnWidth, columnHeight, maxColumns, OffsetWidth, tolerance, unmatchedReasons);
                     
                     if (ocrRegions.length > 0) {
                         const ocrResults = await batchRecognizeText(ocrRegions, ra);
@@ -825,6 +1194,9 @@ async function scanMaterials(materialsCategory, materialCategoryMap, isPostPrior
     for (const name of allMaterials) {
         if (!recognizedMaterials.has(name)) {
             unmatchedMaterialNames.add(name);
+            if (!unmatchedReasons.has(name)) {
+                unmatchedReasons.set(name, '未在扫描区域发现');
+            }
         }
     }
 
@@ -833,16 +1205,37 @@ async function scanMaterials(materialsCategory, materialCategoryMap, isPostPrior
         materialInfo.push({ name, count: 0 });
     }
 
+    // 统计未匹配原因（只统计最终未匹配的材料）
+    const failureReasonStats = {};
+    for (const name of unmatchedMaterialNames) {
+        const reason = unmatchedReasons.get(name) || '未在扫描区域发现';
+        if (!failureReasonStats[reason]) {
+            failureReasonStats[reason] = [];
+        }
+        failureReasonStats[reason].push(name);
+    }
+
     // 日志记录
     const now = new Date();
     const formattedTime = now.toLocaleString();
     const scanMode = shouldScanAllMaterials ? "全材料扫描" : "指定材料扫描";
+    
+    // 构建未匹配原因详细日志
+    let failureReasonLog = "";
+    if (unmatchedMaterialNames.size > 0) {
+        failureReasonLog = "\n未匹配原因分析:\n";
+        for (const [reason, materials] of Object.entries(failureReasonStats)) {
+            failureReasonLog += `  ${reason}: ${materials.length}个 (${materials.slice(0, 5).join(', ')}${materials.length > 5 ? '...' : ''})\n`;
+        }
+    }
+    
     const logContent = `
 ${formattedTime}
 ${scanMode} - ${materialsCategory} 种类: ${recognizedMaterials.size} 数量: 
 ${materialInfo.map(item => `${item.name}: ${item.count}`).join(",")}
 未匹配的材料 种类: ${unmatchedMaterialNames.size} 数量: 
 ${Array.from(unmatchedMaterialNames).join(",")}
+${failureReasonLog}
 `;
 
     const categoryFilePath = `history_record/${materialsCategory}.txt`; // 勾选【材料分类】的历史记录
@@ -853,6 +1246,17 @@ ${Array.from(unmatchedMaterialNames).join(",")}
     }
     writeFile(overwriteFilePath, logContent);
     writeFile(latestFilePath, logContent); // 覆盖模式？
+
+    // 控制台输出未匹配原因摘要
+    if (unmatchedMaterialNames.size > 0) {
+        log.info(`未匹配材料统计 - 总计: ${unmatchedMaterialNames.size}个`);
+        for (const [reason, materials] of Object.entries(failureReasonStats)) {
+            log.warn(`  ${reason}: ${materials.length}个材料`);
+            const displayMaterials = materials.slice(0, 10);
+            const materialList = displayMaterials.join(', ') + (materials.length > 10 ? `... 等${materials.length}个` : '');
+            log.warn(`    材料: ${materialList}`);
+        }
+    }
 
     // 返回结果
     return materialInfo;
@@ -923,8 +1327,11 @@ function dynamicMaterialGrouping(materialCategoryMap) {
 }
 
 // 主逻辑函数
-async function MaterialPath(materialCategoryMap, cachedFrame = null) {
+async function MaterialPath(materialCategoryMap, cachedFrame = null, pathingMode = null) {
     try {
+    // 如果没有传入pathingMode，使用全局变量（向后兼容）
+    const mode = pathingMode || globalThis.pathingMode;
+    
     // 1. 先记录原始名称与别名的映射关系（用于最后反向转换）
     const nameMap = new Map();
     Object.values(materialCategoryMap).flat().forEach(originalName => {
@@ -1069,7 +1476,7 @@ async function MaterialPath(materialCategoryMap, cachedFrame = null) {
                 }
 
                 // 扫描材料并获取低于目标数量的材料
-                const lowCountMaterials = await scanMaterials(materialsCategory, materialCategoryMap, isPostPriority);
+                const lowCountMaterials = await scanMaterials(materialsCategory, materialCategoryMap, isPostPriority, mode);
                 allLowCountMaterials.push(lowCountMaterials);
 
                 // 保存当前分类信息，用于下一个分类的判断

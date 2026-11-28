@@ -1,15 +1,13 @@
 {
-  "isSpecial": true,
-  "operationType": "key_press",
-  "keyCode": "VK_SPACE",
-  "xOffset": 950,
-  "yOffset": 1050,
-  "detectRegion": {
-    "x": 264,      
-    "y": 36,      
-    "width": 66,  
-    "height": 24  
+  "弹窗名称": "对话",
+  "识别": {
+    "方式": "固定区域",
+    "区域": { "x": 264, "y": 36, "宽": 66, "高": 24 },
+    "阈值": 0.85
   },
-  "nextLevelOnSuccess": "assets\\imageClick\\其他\\滚轮",
-  "nextLevelOnFailure": ""
+  "识别成功后": [
+    { "动作": "调用子弹窗", "弹窗": "assets/imageClick/其他/空格", "重试次数": 1, "重试间隔毫秒": 300, "循环": true, "循环间隔毫秒": 400, "最大循环次数": 30, "直到识别到": "assets/imageClick/其他/F" },
+    { "动作": "调用子弹窗", "弹窗": "assets/imageClick/其他/滚轮", "重试次数": 1, "重试间隔毫秒": 300, "循环": true, "循环间隔毫秒": 300, "最大循环次数": 20 }
+  ],
+  "识别失败时": { "重试次数": 1, "重试间隔毫秒": 500 }
 }
