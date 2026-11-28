@@ -1,0 +1,147 @@
+[
+  {
+    "type": "separator"
+  },
+  {
+    "name": "enableWeekdayLimit",
+    "type": "checkbox",
+    "label": "只在勾选的星期执行（不勾则每天都执行）",
+    "default": true
+  },
+  {
+    "name": "runWeekdays",
+    "type": "multi-checkbox",
+    "label": "允许执行的星期（必须勾上上面的开关才生效）",
+    "options": [
+      "周一",
+      "周二",
+      "周三",
+      "周四",
+      "周五",
+      "周六",
+      "周日"
+    ],
+    "default": [
+      "周一",
+      "周四"
+    ]
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "useManualProgress",
+    "type": "checkbox",
+    "label": "使用手动指定的进度（不打勾=自动图像识别 几/8）",
+    "default": false
+  },
+  {
+    "name": "manualProgress",
+    "type": "input-text",
+    "label": "手动进度（填 0~8 的数字，仅上面打勾时使用）",
+    "default": "4"
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "openMenuAutomatically",
+    "type": "checkbox",
+    "label": "自动打开活动一览（关闭则需手动停在砺行修远页）",
+    "default": true
+  },
+  {
+    "name": "entryMode",
+    "type": "select",
+    "label": "活动一览打开方式",
+    "options": [
+      "F5快捷键",
+      "ESC菜单"
+    ],
+    "default": "F5快捷键"
+  },
+  {
+    "name": "clickDelayMs",
+    "type": "input-text",
+    "label": "每次点击后等待(毫秒)",
+    "default": "900"
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "tierNames",
+    "type": "input-text",
+    "label": "1/8→8/8 每档奖励名（分号隔开，用于点完自检）",
+    "default": "精锻用魔矿;智识之冕;大英雄的经验;祝圣之霜;摩拉;启圣之尘;祝圣精华;命之座"
+  },
+  {
+    "name": "nodeCoords",
+    "type": "input-text",
+    "label": "7个节点坐标 1/8→7/8（x,y 分号隔开，从外到内）",
+    "default": "1068,525;1155,665;1275,702;1422,695;1550,595;1605,470;1525,350"
+  },
+  {
+    "name": "chestX",
+    "type": "input-text",
+    "label": "8/8 中央宝箱 X 坐标（第一次点击）",
+    "default": "1330"
+  },
+  {
+    "name": "chestY",
+    "type": "input-text",
+    "label": "8/8 中央宝箱 Y 坐标（第一次点击）",
+    "default": "430"
+  },
+  {
+    "name": "giftChestX",
+    "type": "input-text",
+    "label": "砺行复礼宝箱 X（8/8 按 ESC 后第二次点击）",
+    "default": "575"
+  },
+  {
+    "name": "giftChestY",
+    "type": "input-text",
+    "label": "砺行复礼宝箱 Y（8/8 按 ESC 后第二次点击）",
+    "default": "790"
+  },
+  {
+    "type": "separator"
+  },
+  {
+    "name": "uidClickX",
+    "type": "input-text",
+    "label": "关弹窗用的 UID 区域 X（右下角）",
+    "default": "1775"
+  },
+  {
+    "name": "uidClickY",
+    "type": "input-text",
+    "label": "关弹窗用的 UID 区域 Y（右下角）",
+    "default": "1052"
+  },
+  {
+    "name": "uidClickMax",
+    "type": "input-text",
+    "label": "UID 最多连点次数（识别到活动页就停）",
+    "default": "6"
+  },
+  {
+    "name": "blankX",
+    "type": "input-text",
+    "label": "点空白关闭弹窗 X",
+    "default": "1770"
+  },
+  {
+    "name": "blankY",
+    "type": "input-text",
+    "label": "点空白关闭弹窗 Y",
+    "default": "940"
+  },
+  {
+    "name": "debugMode",
+    "type": "checkbox",
+    "label": "调试模式（输出 OCR 识别结果）",
+    "default": false
+  }
+]

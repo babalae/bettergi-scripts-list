@@ -1,0 +1,19 @@
+{
+  "manifest_version": 1,
+  "name": "砺行修远-自动领取",
+  "version": "2.0",
+  "bgi_version": "0.67.0",
+  "description": "原神「砺行修远」进度奖励自动领取：按「完成进度 N/8」只点当前档位那一个奖励节点，点完用物品名自检；8/8 领中央宝箱与砺行复礼。支持只在指定星期执行、可手动指定进度。",
+  "authors": [
+    {
+      "name": "鬼鬼",
+      "link": "https://github.com/sguigu"
+    }
+  ],
+  "settings_ui": "settings.json",
+  "main": "main.js",
+  "saved_files": [],
+  "library": [
+    "."
+  ]
+}
