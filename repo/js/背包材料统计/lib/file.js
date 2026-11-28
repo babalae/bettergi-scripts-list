@@ -124,7 +124,7 @@ function safeReadTextSync(filePath, defaultValue = "") {
     // log.debug(`${CONSTANTS.LOG_MODULES.RECORD}成功读取文件: ${filePath}`);
     return content;
   } catch (error) {
-    log.debug(`${CONSTANTS.LOG_MODULES.RECORD}读取文件失败: ${filePath} → 原因：${error.message}`);
+    // log.debug(`${CONSTANTS.LOG_MODULES.RECORD}读取文件失败: ${filePath} → 原因：${error.message}`);
     return defaultValue;
   }
 }
@@ -281,7 +281,11 @@ function writeFile(filePath, content, isAppend = true, maxRecords = 36500) {
     } catch (error) {
         // 出错时尝试创建/写入文件
         const result = file.writeTextSync(filePath, content, false);
-        log.info(result ? `[新建/恢复] 成功处理: ${filePath}` : `[新建/恢复] 处理失败: ${filePath}`);
+        if (result) {
+            if (debugLog) log.info(`[新建/恢复] 成功处理: ${filePath}`);
+        } else {
+            log.warn(`[新建/恢复] 处理失败: ${filePath}`);
+        }
         return result;
     }
 }

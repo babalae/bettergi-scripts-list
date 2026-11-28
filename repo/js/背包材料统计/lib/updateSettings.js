@@ -168,7 +168,7 @@ function updateSettingsOptions() {
             file.writeTextSync(SETTINGS_FILE, updatedContent, false);
             log.info("settings.json已自动更新");
         } else {
-            log.info("settings.json无需更新");
+            if (debugLog) log.info("settings.json无需更新");
         }
     } catch (error) {
         log.error("自动更新settings.json失败: " + error.message);

@@ -15,8 +15,6 @@ const CONSTANTS = {
   // 解析与处理配置
   MAX_PATH_DEPTH: 6, // 路径解析最大深度
   NOTIFICATION_CHUNK_SIZE: 500, // 通知拆分长度
-  FOOD_EXP_RECORD_SUFFIX: ".txt", // 狗粮记录后缀（统一格式）
-  FOOD_ZERO_EXP_SUFFIX: "-0.txt", // 狗粮0记录后缀
   SUMMARY_FILE_NAME: "材料收集汇总.txt",
   ZERO_COUNT_SUFFIX: "-0.txt",
   
@@ -46,23 +44,28 @@ eval(safeReadTextSync("lib/updateSettings.js"));
 eval(safeReadTextSync("lib/ocr.js"));
 eval(safeReadTextSync("lib/writeImage.js"));
 eval(safeReadTextSync("lib/autoPick.js"));
-eval(safeReadTextSync("lib/exp.js"));
 eval(safeReadTextSync("lib/backStats.js"));
 eval(safeReadTextSync("lib/colorDetection.js"));
 eval(safeReadTextSync("lib/imageClick.js"));
 eval(safeReadTextSync("lib/region.js"));
+
+const MONSTER_GRADE_RATIOS = [3, 1, 1/3];
 
 // ==============================================
 // 引入拆分后的模块
 // ==============================================
 eval(safeReadTextSync("lib/recordManager.js"));
 eval(safeReadTextSync("lib/timeCostSystem.js"));
+eval(safeReadTextSync("lib/cacheManager.js"));
 eval(safeReadTextSync("lib/pathProcessor.js"));
+eval(safeReadTextSync("lib/alchemyBalance.js"));
 
 // ==============================================
 // 全局状态（保持不变）
 // ==============================================
-var state = { completed: false, cancelRequested: false, ocrPaused: false };
+var state = {
+  completed: false, cancelRequested: false, ocrPaused: false
+};
 
 // ==============================================
 // 全局图片缓存（避免重复加载）
@@ -72,15 +75,66 @@ const ocrContext = { currentPathType: null, currentTargetMaterials: [], pathingM
 // ==============================================
 // 初始化配置参数
 // ==============================================
-const timeCost = Math.min(100, Math.max(1, Math.floor(Number(settings.TimeCost) || 50)));
-const notify = settings.notify || false;
+let timeCostMin, timeCostMax;
+const timeCostStr = String(settings.TimeCost || "50").trim();
+
+if (timeCostStr.includes('~')) {
+  const parts = timeCostStr.split('~').map(s => s.trim());
+  
+  if (parts.length === 2) {
+    const leftValue = parts[0] === '' ? 0 : parseFloat(parts[0]);
+    const rightValue = parts[1] === '' ? 101 : parseFloat(parts[1]);
+    
+    if (!isNaN(leftValue) && !isNaN(rightValue)) {
+      timeCostMin = Math.min(101, Math.max(0, Math.floor(leftValue)));
+      timeCostMax = Math.min(101, Math.max(0, Math.floor(rightValue)));
+      
+      if (timeCostMin > timeCostMax) {
+        [timeCostMin, timeCostMax] = [timeCostMax, timeCostMin];
+      }
+    }
+  }
+}
+
+if (timeCostMin === undefined || timeCostMax === undefined) {
+  const singleValue = parseFloat(timeCostStr);
+  if (!isNaN(singleValue)) {
+    timeCostMin = 0;
+    timeCostMax = Math.min(101, Math.max(0, Math.floor(singleValue)));
+  } else {
+    timeCostMin = 0;
+    timeCostMax = 50;
+  }
+}
+
+const timeCost = { min: timeCostMin, max: timeCostMax };
+// 通知间隔（分钟）：空/无效为 null=不通知；填有效正数则按该间隔推送进度通知
+const notifyStr = String(settings.notify ?? "").trim();
+const notifyVal = parseFloat(notifyStr);
+const notify = (notifyStr !== "" && isFinite(notifyVal) && notifyVal > 0) ? notifyVal : null;
+const rollbackPathCount = Math.min(999, Math.max(0, Math.floor(Number(settings.RollbackPathCount) || 0)));
 const noRecord = settings.noRecord || false;
+// 独立标定模式（settings.FlipCalibTestMode 下拉框，单选，重启生效）：
+// 【背包翻页拖动距离】= 开背包→养成页→迭代拖动标定“1页”距离→写 user/pageFlip.json，跑完即退
+const testBagFlip = settings.FlipCalibTestMode === '背包翻页拖动距离';
 const noMonsterFilter = !settings.noMonsterFilter;
 const targetCount = Math.min(9999, Math.max(0, Math.floor(Number(settings.TargetCount) || 1000))); // 设定的目标数量
-const exceedCount = Math.min(9999, Math.max(0, Math.floor(Number(settings.ExceedCount) || 9000))); // 设定的超量目标数量
-const endTimeStr = settings.CurrentTime ? settings.CurrentTime : null; 
+const exceedCount = Math.min(9999, Math.max(0, Math.floor(Number(settings.ExceedCount) || 3000))); // 设定的超量目标数量
+const endTimeStr = settings.CurrentTime ? settings.CurrentTime : null;
 
-// 解析需要处理的CD分类
+// 执行时间上限（小时）：默认不启用；仅接受有效数字，最多4位小数（如 0.5=半小时）
+const maxRunTimeStr = String(settings.MaxRunTime ?? "").trim();
+let maxRunTimeSec = null; // 秒
+if (maxRunTimeStr !== "" && /^\d+(\.\d{1,4})?$/.test(maxRunTimeStr)) {
+  const runTimeValue = parseFloat(maxRunTimeStr);
+  if (isFinite(runTimeValue) && runTimeValue > 0) {
+    maxRunTimeSec = runTimeValue * 3600;
+  }
+} 
+
+// ==============================================
+// CD分类
+// ==============================================
 let allowedCDCategories = [];
 try {
     allowedCDCategories = Array.from(settings.CDCategories || []);
@@ -90,7 +144,7 @@ try {
 
 let availableCDCategories = [];
 try {
-    const cdFilePaths = readAllFilePaths(CONSTANTS.MATERIAL_CD_DIR, 0, 1, ['.txt']);
+    const cdFilePaths = GlobalCacheManager.getPathFiles(CONSTANTS.MATERIAL_CD_DIR, 0, 1, ['.txt']);
     availableCDCategories = cdFilePaths.map(filePath => basename(filePath).replace('.txt', ''));
     if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.INIT}可用CD分类：${availableCDCategories.join(', ')}`);
 } catch (e) {
@@ -103,7 +157,7 @@ if (allowedCDCategories.length > 0) {
         log.warn(`${CONSTANTS.LOG_MODULES.INIT}以下CD分类不存在，将被忽略：${invalidCategories.join('、')}`);
         allowedCDCategories = allowedCDCategories.filter(cat => availableCDCategories.includes(cat));
     }
-    log.info(`${CONSTANTS.LOG_MODULES.INIT}已配置只处理以下CD分类：${allowedCDCategories.join('、')}`);
+    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.INIT}已配置只处理以下CD分类：${allowedCDCategories.join('、')}`);
 } else {
     if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.INIT}未配置CD分类过滤，将处理所有分类`);
 }
@@ -129,7 +183,9 @@ const material_mapping = {
   "祝圣精华": "祝圣精华"
 };
 
+// ==============================================
 // 怪物-材料映射（双向，优化为Set提高查找效率）
+// ==============================================
 let monsterToMaterials = {}; // 怪物名 -> [掉落材料列表]
 let materialToMonsters = {}; // 材料名 -> Set(关联怪物列表)
 
@@ -168,40 +224,141 @@ function parseMonsterMaterials() {
 }
 parseMonsterMaterials(); // 初始化怪物材料映射
 
+// ==============================================
+// 优先级材料语法（+ / -）
+//   X / +X      → 优先（默认 +1），跳过目标数直接运行
+//   ++X / +++X  → 权重 2 / 3，+号越多越优先
+//   -X          → 排除（不运行其路径）
+//   怪物名      → 自动展开为该怪物的三个材料，规则对三个材料同步生效
+//   其他符号    → 当分隔符直接忽略（如 ! * # @ ~ % & ? ; : = | / ）
+// ==============================================
+const targetMaterialRules = new Map(); // 材料名 → { weight, order }；weight>0 优先，weight===0 排除
+const targetMonsterRules = new Map();  // 怪物名 → { weight, order }
+
 /**
- * 将怪物名转换为最高级材料
- * @param {string} name - 输入的名称（可能是怪物名或材料名）
- * @returns {string} 返回材料名（如果是怪物名则返回最高级材料，否则返回原名称）
+ * 解析优先级材料字符串为“符号 + 名称”条目
+ * 支持 ++薄荷 / ++ 薄荷 / -丘丘王 / 名刀镡（无符号默认 +1）
+ * @param {string} targetStr - settings.TargetresourceName 原始内容
+ * @returns {Array<{name:string, weight:number, order:number, sign:string}>}
  */
-function convertMonsterToHighLevelMaterial(name) {
-  if (monsterToMaterials[name]) {
-    const materials = monsterToMaterials[name];
-    return materials[materials.length - 1];
+function parseTargetResourceEntries(targetStr) {
+  const entries = [];
+  // 预处理：除 + − ＋ － 以外的常见运算符/引号/括号一律当分隔符，避免符号粘连导致条目失效或权重丢失
+  // 例：++!薄荷 → ++ 薄荷；-@兽肉 → - 兽肉；骗骗花/野伏众 → 骗骗花 野伏众
+  const input = String(targetStr || "")
+    .replace(/[,，、。;；:：\/／|｜=＝!！*＊#＃@＠~～%＆&?？"'“”‘’()（）\[\]［］【】{}｛｝]+/g, " ");
+  // 分隔后只剩“符号 + 名称”，+ − ＋ － 仅作为符号，不属于名称
+  const tokenRe = /([+\-＋－]*)\s*([^,，、\s+\-＋－]+)/g;
+  let order = 0;
+  let match;
+  while ((match = tokenRe.exec(input)) !== null) {
+    const signStr = match[1] || "";
+    const name = (match[2] || "").trim();
+    if (!name) continue;
+    const isExclude = /[-－]/.test(signStr);
+    const plusCount = (signStr.match(/[+＋]/g) || []).length;
+    entries.push({ name, weight: isExclude ? 0 : Math.max(plusCount, 1), order: order++, sign: signStr });
   }
-  return name;
+  return entries;
 }
 
 /**
- * 处理目标资源名，将怪物名转换为最高级材料
- * @param {string[]} targetResourceNames - 原始目标资源名列表
- * @returns {string[]} 处理后的目标资源名列表（怪物名已转换为最高级材料）
+ * 写入单条规则：排除优先于优先；同为优先时取更大权重，权重相同取更早的配置顺序
  */
-function processTargetResourceNames(targetResourceNames) {
-  const processedNames = targetResourceNames.map(name => convertMonsterToHighLevelMaterial(name));
-  const uniqueNames = [...new Set(processedNames)];
-  
-  if (debugLog) {
-    const convertedNames = targetResourceNames.filter(name => monsterToMaterials[name]);
-    if (convertedNames.length > 0) {
-      log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}[怪物名转换] 以下怪物名已转换为最高级材料：`);
-      convertedNames.forEach(monsterName => {
-        const highLevelMat = convertMonsterToHighLevelMaterial(monsterName);
-        log.info(`  ${monsterName} → ${highLevelMat}`);
-      });
+function applyTargetRule(map, key, weight, order) {
+  const prev = map.get(key);
+  if (!prev) {
+    map.set(key, { weight, order });
+    return;
+  }
+  if (prev.weight === 0 || weight === 0) {
+    map.set(key, { weight: 0, order: Math.min(prev.order, order) });
+    return;
+  }
+  if (weight > prev.weight) {
+    map.set(key, { weight, order });
+  }
+}
+
+/**
+ * 构建优先级/排除规则（怪物名展开为对应的三个材料）
+ * @param {string} targetStr - settings.TargetresourceName 原始内容
+ * @returns {{prioritized:string[], excludedMaterials:string[], excludedMonsters:string[]}}
+ */
+function buildTargetRules(targetStr) {
+  targetMaterialRules.clear();
+  targetMonsterRules.clear();
+
+  const entries = parseTargetResourceEntries(targetStr);
+  entries.forEach(({ name, weight, order, sign }) => {
+    // 同时写了 + 和 -：按“- 优先”当作排除处理，并提示避免歧义
+    if (/[+＋]/.test(sign) && /[-－]/.test(sign)) {
+      log.warn(`${CONSTANTS.LOG_MODULES.MATERIAL}[优先级材料] "${sign}${name}" 同时含 + 和 -，已按排除处理（- 优先）；如需优先请去掉 -`);
+    }
+    const monsterMaterials = monsterToMaterials[name];
+    if (monsterMaterials && monsterMaterials.length > 0) {
+      // 怪物名：怪物自身与其三个材料同步同一条规则
+      applyTargetRule(targetMonsterRules, name, weight, order);
+      monsterMaterials.forEach(mat => applyTargetRule(targetMaterialRules, mat, weight, order));
+    } else {
+      applyTargetRule(targetMaterialRules, name, weight, order);
+    }
+  });
+
+  // 优先材料名列表：权重降序 → 配置顺序升序
+  const prioritized = Array.from(targetMaterialRules.entries())
+    .filter(([, rule]) => rule.weight > 0)
+    .sort((a, b) => (b[1].weight - a[1].weight) || (a[1].order - b[1].order))
+    .map(([name]) => name);
+
+  const excludedMaterials = Array.from(targetMaterialRules.entries())
+    .filter(([, rule]) => rule.weight === 0)
+    .map(([name]) => name);
+  const excludedMonsters = Array.from(targetMonsterRules.entries())
+    .filter(([, rule]) => rule.weight === 0)
+    .map(([name]) => name);
+
+  if (entries.length > 0) {
+    log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}[优先级材料] 解析${entries.length}项：${entries.map(e => `${e.weight === 0 ? '-' : '+'.repeat(e.weight)}${e.name}`).join('，')}`);
+    if (prioritized.length > 0) {
+      log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}[优先级材料] 优先顺序：${prioritized.map(n => `${'+'.repeat(targetMaterialRules.get(n).weight)}${n}`).join('、')}`);
+    }
+    if (excludedMaterials.length > 0) {
+      log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}[优先级材料] 排除材料：${excludedMaterials.join('、')}`);
+    }
+    if (excludedMonsters.length > 0) {
+      log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}[优先级材料] 排除怪物：${excludedMonsters.join('、')}`);
     }
   }
-  
-  return uniqueNames;
+
+  return { prioritized, excludedMaterials, excludedMonsters };
+}
+
+/** 材料是否被 - 排除 */
+function isTargetMaterialExcluded(name) {
+  const rule = targetMaterialRules.get(name);
+  return !!rule && rule.weight === 0;
+}
+
+/** 怪物是否被 - 排除 */
+function isTargetMonsterExcluded(name) {
+  const rule = targetMonsterRules.get(name);
+  return !!rule && rule.weight === 0;
+}
+
+/**
+ * 判断路径条目是否被优先级材料的 - 规则排除
+ * 怪物路径：怪物被排除，或该怪物三个材料全部被排除时排除
+ * 普通路径：材料被排除时排除
+ */
+function isPathEntryExcluded(entry) {
+  if (!entry) return false;
+  if (entry.monsterName) {
+    if (isTargetMonsterExcluded(entry.monsterName)) return true;
+    const materials = monsterToMaterials[entry.monsterName] || [];
+    return materials.length > 0 && materials.every(mat => isTargetMaterialExcluded(mat));
+  }
+  return !!entry.resourceName && isTargetMaterialExcluded(entry.resourceName);
 }
 
 // ==============================================
@@ -209,24 +366,38 @@ function processTargetResourceNames(targetResourceNames) {
 // ==============================================
 const pathingValue = Array.from(settings.Pathing || []);
 const estimateMode = pathingValue.includes('【测算模式】');
-const pathingValueWithoutEstimate = pathingValue.filter(item => item !== '【测算模式】');
+const alchemyBalanceMode = pathingValue.includes('【合成台平衡】');
+// 这里过滤掉不产生路径的开关项（测算/合成台平衡都是附带动作）
+const pathingValueFiltered = pathingValue.filter(item => item !== '【测算模式】' && item !== '【合成台平衡】');
+const hasCategory = pathingValueFiltered.includes('【扫描额外的分类】');
+const hasPathing = pathingValueFiltered.includes('📁pathing材料');
 
 const pathingMode = {
-  includeBoth: pathingValueWithoutEstimate.length === 2,
-  onlyPathing: pathingValueWithoutEstimate.length === 1 && pathingValueWithoutEstimate.includes('📁pathing材料'),
-  onlyCategory: pathingValueWithoutEstimate.length === 1 && pathingValueWithoutEstimate.includes('【扫描额外的分类】'),
-  estimateMode: estimateMode
+  hasCategory: hasCategory,
+  hasPathing: hasPathing,
+  onlyPathing: pathingValueFiltered.length === 1 && hasPathing,
+  onlyCategory: pathingValueFiltered.length === 1 && hasCategory,
+  estimateMode: estimateMode,
+  alchemyBalance: alchemyBalanceMode
 };
 
-if (pathingValueWithoutEstimate.length === 0 && !estimateMode) {
+// 暴露给全局，供 processAllPaths 函数使用
+globalThis.pathingMode = pathingMode;
+
+if (pathingValueFiltered.length === 0 && !estimateMode) {
   log.warn(`${CONSTANTS.LOG_MODULES.PATH}未配置Pathing，默认为仅📁pathing材料`);
   pathingMode.onlyPathing = true;
+  pathingMode.hasPathing = true;
 }
 
-if (pathingMode.includeBoth) log.warn(`${CONSTANTS.LOG_MODULES.PATH}默认模式，📁pathing材料 将覆盖 勾选的【扫描额外的分类】`);
-if (pathingMode.onlyCategory) log.warn(`${CONSTANTS.LOG_MODULES.PATH}已开启【背包统计】专注模式，将忽略📁pathing材料`);
-if (pathingMode.onlyPathing) log.warn(`${CONSTANTS.LOG_MODULES.PATH}已开启【路径材料】专注模式，将忽略勾选的分类`);
+if (pathingMode.onlyCategory) log.warn(`${CONSTANTS.LOG_MODULES.PATH}已开启【扫描额外的分类】，将自动更新超量名单并记录材料数量`);
+if (pathingMode.onlyPathing) log.warn(`${CONSTANTS.LOG_MODULES.PATH}已开启【路径材料】模式，将执行材料路径并记录材料收益`);
 if (pathingMode.estimateMode) log.warn(`${CONSTANTS.LOG_MODULES.PATH}已开启【测算模式】，将只测算不执行路径`);
+if (pathingMode.alchemyBalance) log.warn(`${CONSTANTS.LOG_MODULES.PATH}已开启【合成台平衡】，扫描完背包将在璃月合成台把怪物三级材料自顶向上合成(3:1)`);
+if (alchemyBalanceMode && !hasPathing && !hasCategory) {
+  // 合成台平衡挂在首次背包扫描之后，只勾测算时根本不会扫背包，不提醒就会静默空转
+  log.warn(`${CONSTANTS.LOG_MODULES.PATH}【合成台平衡】需要配合背包扫描才生效（请另勾📁pathing材料或【扫描额外的分类】），本次不会去合成台`);
+}
 
 // ==============================================
 // 材料分类处理
@@ -260,8 +431,30 @@ if (pathingMode.estimateMode) log.warn(`${CONSTANTS.LOG_MODULES.PATH}已开启�
 const selected_materials_array = getSelectedMaterialCategories();
 
 // ==============================================
-// CD内容解析
+// 图像匹配与分类
 // ==============================================
+// 材料别名映射
+const MATERIAL_ALIAS = {
+  '晶蝶': '晶核',
+  '白铁矿': '白铁块',
+  '铁矿': '铁块',
+};
+
+// ==============================================
+// 图像映射缓存
+// ==============================================
+const imageMapCache = new Map(); // 保持固定，不动态刷新
+
+// ==============================================
+// 特殊材料与超量判断
+// ==============================================
+const specialMaterials = [
+  "水晶块", "魔晶块", "星银矿石", "紫晶块", "萃凝晶", "虹滴晶", "铁块", "白铁块",
+  "精锻用魔矿", "精锻用良矿", "精锻用杂矿"
+];
+
+let excessMaterialNames = []; // 超量材料名单
+
 // ==============================================
 // 路径资源提取（复用并优化）
 // ==============================================
@@ -289,14 +482,14 @@ function extractResourceNameFromPath(filePath, cdMaterialNames) {
     }
   }
 
-  // 确定材料名（取最深层匹配）
+  // 确定材料名（取最浅层匹配）
   let materialName = null;
   if (validMaterials.length > 0) {
     validMaterials.sort((a, b) => a.depth - b.depth);
     materialName = validMaterials[0].name;
   }
 
-  // 确定怪物名（取最深层匹配）
+  // 确定怪物名（取最浅层匹配）
   let monsterName = null;
   if (validMonsters.length > 0) {
     validMonsters.sort((a, b) => a.depth - b.depth);
@@ -314,7 +507,7 @@ function extractResourceNameFromPath(filePath, cdMaterialNames) {
  * @returns {Object} 分类名到CD信息的映射
  */
 function readMaterialCD() {
-  const materialFilePaths = readAllFilePaths(CONSTANTS.MATERIAL_CD_DIR, 0, 1, ['.txt']);
+  const materialFilePaths = GlobalCacheManager.getPathFiles(CONSTANTS.MATERIAL_CD_DIR, 0, 1, ['.txt']);
   const materialCDCategories = {};
 
   for (const filePath of materialFilePaths) {
@@ -327,10 +520,17 @@ function readMaterialCD() {
 
     const sourceCategory = basename(filePath).replace('.txt', '');
     if (allowedCDCategories.length > 0 && !allowedCDCategories.includes(sourceCategory)) {
-      log.debug(`${CONSTANTS.LOG_MODULES.CD}跳过未选中的CD分类文件：${filePath}`);
+      // log.debug(`${CONSTANTS.LOG_MODULES.CD}跳过未选中的CD分类文件：${filePath}`);
       continue;
     }
-    materialCDCategories[sourceCategory] = parseMaterialContent(content);
+    
+    // 使用缓存获取CD配置
+    const cdConfig = GlobalCacheManager.getCDConfig(sourceCategory);
+    if (cdConfig) {
+      materialCDCategories[sourceCategory] = cdConfig;
+    } else {
+      log.error(`${CONSTANTS.LOG_MODULES.CD}加载CD配置失败：${filePath}`);
+    }
   }
   return materialCDCategories;
 }
@@ -401,26 +601,14 @@ function canRunPathingFile(currentTime, lastEndTime, refreshCD, pathName) {
       return canRun;
     } else if (refreshCD.type === 'specific') {
         const specificHour = refreshCD.hour;
-        const currentDate = new Date();
-        const lastDate = new Date(lastEndTimeDate);
-        
-        const getRefreshTime = (date) => {
-          const refreshTime = new Date(date);
-          if (date.getHours() < specificHour) {
-            refreshTime.setHours(specificHour, 0, 0, 0);
-          } else {
-            refreshTime.setDate(date.getDate() + 1);
-            refreshTime.setHours(specificHour, 0, 0, 0);
-          }
-          return refreshTime;
-        };
-        
-        const lastRefreshTime = getRefreshTime(lastDate);
-        const currentRefreshTime = getRefreshTime(currentDate);
-        const canRun = currentRefreshTime > lastRefreshTime;
-        
-        // log.info(`${CONSTANTS.LOG_MODULES.CD}路径${pathName}上次运行：${lastEndTimeDate.toLocaleString()}，上次刷新点：${lastRefreshTime.toLocaleString()}，当前刷新点：${currentRefreshTime.toLocaleString()}，可运行：${canRun}`);
-        return canRun;
+        const nextRunTime = new Date(lastEndTimeDate);
+        nextRunTime.setHours(specificHour, 0, 0, 0);
+        if (nextRunTime <= lastEndTimeDate) {
+          nextRunTime.setDate(nextRunTime.getDate() + 1);
+        }
+
+        // log.info(`${CONSTANTS.LOG_MODULES.CD}路径${pathName}上次运行：${lastEndTimeDate.toLocaleString()}，下次运行：${nextRunTime.toLocaleString()}`);
+        return currentDate >= nextRunTime;
     } else if (refreshCD.type === 'instant') {
       return true;
     }
@@ -433,32 +621,11 @@ function canRunPathingFile(currentTime, lastEndTime, refreshCD, pathName) {
   return false;
 }
 
-// ==============================================
-// 图像匹配与分类
-// ==============================================
-// 材料别名映射
-const MATERIAL_ALIAS = {
-  '晶蝶': '晶核',
-  '白铁矿': '白铁块',
-  '铁矿': '铁块',
-};
-const imageMapCache = new Map(); // 保持固定，不动态刷新
-
-// ==============================================
-// 特殊材料与超量判断（核心新增逻辑）
-// ==============================================
-const specialMaterials = [
-  "水晶块", "魔晶块", "星银矿石", "紫晶块", "萃凝晶", "虹滴晶", "铁块", "白铁块",
-  "精锻用魔矿", "精锻用良矿", "精锻用杂矿"
-];
-
-let excessMaterialNames = []; // 超量材料名单
-
 // 筛选低数量材料 + 平行标记超量材料（同源allMaterials）
 function filterLowCountMaterials(pathingMaterialCounts, materialCategoryMap, onlyCategoryMode = false) {
   // 超量阈值（普通材料/矿石处理后统一对比）
   const EXCESS_THRESHOLD = exceedCount;
-  log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}[超量判断] 超量阈值：${EXCESS_THRESHOLD}`);
+  if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.MATERIAL}[超量判断] 超量阈值：${EXCESS_THRESHOLD}`);
   
   // 临时存储超量材料（从原始数据提取，平行于低数量筛选）
   const tempExcess = [];
@@ -528,6 +695,95 @@ function filterLowCountMaterials(pathingMaterialCounts, materialCategoryMap, onl
   return filteredLowCountMaterials;
 }
 
+/**
+ * 筛选回滚路径组（按上次运行时间排序，优先选择最久没跑的路径）
+ * @param {Object[]} allPaths - 所有路径条目
+ * @param {string} recordDir - 记录目录
+ * @param {string} noRecordDir - 备用目录
+ * @param {number} count - 需要筛选的回滚路径数量
+ * @returns {Object[]} 回滚路径数组
+ */
+function selectRollbackPaths(allPaths, recordDir, noRecordDir, count = 5, cache = {}) {
+  const rollbackCandidates = [];
+  
+  allPaths.forEach(entry => {
+    const pathName = basename(entry.path);
+    const resourceName = entry.resourceName || entry.monsterName;
+    
+    const pathCheckResult = checkPathNameFrequency(resourceName, pathName, recordDir, false, entry.path, cache);
+    
+    if (pathCheckResult === true || pathCheckResult.valid) {
+      const lastRunTime = getPathLastRunTime(entry, recordDir, noRecordDir, cache);
+      
+      if (lastRunTime) {
+        const daysSinceLastRun = (new Date() - lastRunTime) / (1000 * 60 * 60 * 24);
+        rollbackCandidates.push({
+          entry,
+          lastRunTime,
+          daysSinceLastRun
+        });
+      }
+    }
+  });
+  
+  if (rollbackCandidates.length === 0) {
+    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.PATH}[滞后路径] 无符合条件的路径（所有路径均无历史记录或0记录超限）`);
+    return [];
+  }
+  
+  rollbackCandidates.sort((a, b) => a.lastRunTime - b.lastRunTime);
+  
+  const selectedRollbackPaths = rollbackCandidates.slice(0, count).map(item => ({
+    ...item.entry,
+    isRollback: true
+  }));
+  
+  log.info(`${CONSTANTS.LOG_MODULES.PATH}[滞后路径] 已选择${selectedRollbackPaths.length}条最久未运行的路径：`);
+  selectedRollbackPaths.forEach((entry, idx) => {
+    const daysAgo = rollbackCandidates[idx].daysSinceLastRun.toFixed(1);
+    const lastRunDate = rollbackCandidates[idx].lastRunTime.toLocaleString();
+    log.info(`  ${idx + 1}. ${basename(entry.path)} - 上次运行：${lastRunDate}（${daysAgo}天前）`);
+  });
+  
+  return selectedRollbackPaths;
+}
+
+/**
+ * 重生组：从“0记录超限(≥3条0)被排除”的路径里，挑 CD 就绪且最久未运行的 1 条，给它一次翻身机会
+ * 触发条件（rollbackPathCount>2）由调用方控制；每轮最多选 1 条。
+ * CD 未到者自动顺延下一条（不选它）。
+ * @param {Object[]} pool - 候选池（须含被排除者）：通用模式传 sortedPaths
+ * @param {Object} CDCategories - CD分类（缺失则不重生）
+ * @returns {Object[]} 长度0或1的数组，元素为候选池中的原对象引用（由调用方就地打 isRespawn 或克隆后注入）
+ */
+function selectRespawnPath(pool, recordDir, noRecordDir, CDCategories, cache = {}) {
+  if (!Array.isArray(pool) || !CDCategories) return [];
+  const currentTime = getCurrentTimeInHours();
+  const candidates = [];
+  pool.forEach(entry => {
+    const pathName = basename(entry.path);
+    const resourceName = entry.resourceName || entry.monsterName;
+    if (!resourceName) return;
+    const pathCheckResult = checkPathNameFrequency(resourceName, pathName, recordDir, false, entry.path, cache);
+    if (pathCheckResult === true || pathCheckResult.valid) return; // 未超限者不是重生候选
+    const refreshCD = findRefreshCD(resourceName, CDCategories);
+    if (!refreshCD) return;
+    const lastEndTime = getLastRunEndTime(resourceName, pathName, recordDir, noRecordDir, entry.path, cache);
+    if (!canRunPathingFile(currentTime, lastEndTime, refreshCD, pathName)) return; // CD未到→顺延下一条
+    const lastRunTime = getPathLastRunTime(entry, recordDir, noRecordDir, cache);
+    candidates.push({ entry, lastRunTime: lastRunTime || new Date(0) });
+  });
+  if (candidates.length === 0) {
+    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.PATH}[重生组] 无“已超限且CD就绪”的路径，本轮不重生`);
+    return [];
+  }
+  candidates.sort((a, b) => a.lastRunTime - b.lastRunTime);
+  const chosen = candidates[0].entry;
+  const lastRunStr = (candidates[0].lastRunTime instanceof Date && candidates[0].lastRunTime.getTime()) ? candidates[0].lastRunTime.toLocaleString() : '无记录';
+  log.info(`${CONSTANTS.LOG_MODULES.PATH}[重生组] 已选最久未运行的超限路径1条：${basename(chosen.path)}（上次运行：${lastRunStr}）`);
+  return [chosen];
+}
+
 // ==============================================
 // 路径分类与优先级（简化逻辑，补全所有缺失代码）
 // ==============================================
@@ -540,11 +796,13 @@ function filterLowCountMaterials(pathingMaterialCounts, materialCategoryMap, onl
  * @returns {Object[]} 分类后的路径条目
  */
 function classifyNormalPathFiles(pathingDir, targetResourceNames, lowCountMaterialNames, cdMaterialNames) {
-  const pathingFilePaths = readAllFilePaths(pathingDir, 0, CONSTANTS.MAX_PATH_DEPTH, ['.json']);
+  const pathingFilePaths = GlobalCacheManager.getPathFiles(pathingDir, 0, CONSTANTS.MAX_PATH_DEPTH, ['.json']);
   const pathEntries = pathingFilePaths.map(path => {
     const { materialName, monsterName } = extractResourceNameFromPath(path, cdMaterialNames);
     return { path, resourceName: materialName, monsterName };
   }).filter(entry => {
+    // 优先级材料 -X：命中排除规则的路径直接剔除
+    if (isPathEntryExcluded(entry)) return false;
     // 过滤超量材料对应的路径
     if (entry.monsterName) {
       const monsterMaterials = monsterToMaterials[entry.monsterName] || [];
@@ -566,7 +824,7 @@ function classifyNormalPathFiles(pathingDir, targetResourceNames, lowCountMateri
       log.info(`=================================\n`);
     }
   } else {
-    log.info(`${CONSTANTS.LOG_MODULES.PATH}未匹配到任何有效的材料路径`);
+    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.PATH}未匹配到任何有效的材料路径`);
   }
 
   // 按优先级分类
@@ -610,33 +868,95 @@ function classifyNormalPathFiles(pathingDir, targetResourceNames, lowCountMateri
  * @param {string} imagesDir - 图像目录
  * @returns {Object} { allPaths, pathingMaterialCounts }
  */
-async function generateAllPaths(pathingDir, targetResourceNames, cdMaterialNames, materialCategoryMap, pathingMode, imagesDir) {
+async function generateAllPaths(pathingDir, targetResourceNames, cdMaterialNames, materialCategoryMap, pathingMode, imagesDir, CDCategories = null) {
+  // 统一的记录解析缓存：整个名单构建 + 路径执行期间，每个记录文件只读盘、解析一次
+  const pathRecordCache = {};
+  // 创建materialCategoryMap的深拷贝，避免修改原始数据
+  const localMaterialCategoryMap = JSON.parse(JSON.stringify(materialCategoryMap));
+  
+  if (debugLog) {
+    const allMaterials = Object.values(localMaterialCategoryMap).flat();
+    log.info(`${CONSTANTS.LOG_MODULES.PATH}[generateAllPaths] 开始`);
+    log.info(`${CONSTANTS.LOG_MODULES.PATH}[generateAllPaths] pathingMode: ${JSON.stringify({estimateMode: pathingMode.estimateMode, hasPathing: pathingMode.hasPathing, hasCategory: pathingMode.hasCategory, onlyCategory: pathingMode.onlyCategory})}`);
+    log.info(`${CONSTANTS.LOG_MODULES.PATH}[generateAllPaths] localMaterialCategoryMap包含${Object.keys(localMaterialCategoryMap).length}个分类，共${allMaterials.length}种材料`);
+    if (allMaterials.length > 0 && allMaterials.length <= 20) {
+      log.info(`${CONSTANTS.LOG_MODULES.PATH}[generateAllPaths] 材料列表: ${allMaterials.join('、')}`);
+    }
+  }
+  
+  // 创建本地的pathingMonsterMaterials集合，避免修改全局ocrContext
+  const localPathingMonsterMaterials = new Set();
+  
   // 缓存路径文件列表（减少IO）
-  const pathingFilePaths = readAllFilePaths(pathingDir, 0, CONSTANTS.MAX_PATH_DEPTH, ['.json']);
+  const pathingFilePaths = GlobalCacheManager.getPathFiles(pathingDir, 0, CONSTANTS.MAX_PATH_DEPTH, ['.json']);
+
+  // 被 - 规则排除的路径名（仅用于日志）
+  const excludedPathNames = [];
   
   const pathEntries = pathingFilePaths.map(path => {
     const { materialName, monsterName } = extractResourceNameFromPath(path, cdMaterialNames);
     return { path, resourceName: materialName, monsterName };
-  }).filter(entry => (entry.resourceName || entry.monsterName) && entry.path.trim() !== "");
+  }).filter(entry => (entry.resourceName || entry.monsterName) && entry.path.trim() !== "")
+    .filter(entry => {
+      // 优先级材料 -X：命中排除规则的路径直接剔除
+      if (isPathEntryExcluded(entry)) {
+        excludedPathNames.push(basename(entry.path));
+        return false;
+      }
+      return true;
+    });
 
   if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.PATH}[路径初始化] 共读取有效路径 ${pathEntries.length} 条`);
 
-  // 测算模式：不执行背包扫描，直接返回所有路径
-  if (pathingMode.estimateMode) {
-    log.info(`${CONSTANTS.LOG_MODULES.PATH}[测算模式] 将执行背包扫描以筛选低数量材料`);
+  if (excludedPathNames.length > 0) {
+    log.info(`${CONSTANTS.LOG_MODULES.PATH}[优先级材料] 排除路径${excludedPathNames.length}条：${excludedPathNames.join('、')}`);
   }
 
-  // 分类路径（狗粮 > 怪物 > 普通材料）
-  const foodPaths = pathEntries.filter(entry => entry.resourceName && isFoodResource(entry.resourceName));
-  const monsterPaths = pathEntries.filter(entry => entry.monsterName && entry.monsterName !== '地脉花');
-  const normalPaths = pathEntries.filter(entry => entry.resourceName && !entry.monsterName && entry.resourceName !== '锄地');
+  // onlyCategory模式：只扫描背包，不处理路径
+  if (pathingMode.onlyCategory) {
+    log.info(`${CONSTANTS.LOG_MODULES.PATH}[onlyCategory模式] 只扫描背包，不处理路径`);
+    
+    // 执行背包扫描
+    const allMaterialCounts = await MaterialPath(localMaterialCategoryMap, null, pathingMode);
+    const pathingMaterialCounts = allMaterialCounts;
+    const flatCounts = allMaterialCounts.flat();
 
-  if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.PATH}[路径分类] 狗粮:${foodPaths.length} 怪物:${monsterPaths.length} 普通:${normalPaths.length}`);
+    // 合成台平衡（Pathing【合成台平衡】）：扫描完背包后，把怪物三级材料自底向上"流通"，并就地把预测数量写回 flatCounts
+    if (pathingMode.alchemyBalance) {
+      await balanceMonsterMaterialsByAlchemy(flatCounts);
+    }
+
+    // 筛选低数量材料（同时生成超量名单）——使用投影后的 flatCounts，达标三级不再计为低数量
+    const filteredMaterials = filterLowCountMaterials(flatCounts, localMaterialCategoryMap, true);
+    
+    // 将本地pathingMonsterMaterials复制到全局ocrContext
+    ocrContext.pathingMonsterMaterials.clear();
+    localPathingMonsterMaterials.forEach(mat => ocrContext.pathingMonsterMaterials.add(mat));
+    
+    // log.info(`${CONSTANTS.LOG_MODULES.PATH}[onlyCategory模式] 扫描完成，不返回路径`);
+    return { allPaths: [], pathingMaterialCounts };
+  }
+
+  // 分类路径（怪物 > 普通材料）
+  const monsterPaths = pathEntries.filter(entry => entry.monsterName && entry.monsterName !== '地脉花');
+  const normalPaths = pathEntries.filter(entry => entry.resourceName && !entry.monsterName);
+
+  // 测算模式：不扫描背包，直接返回所有路径
+  if (pathingMode.estimateMode) {
+    log.info(`${CONSTANTS.LOG_MODULES.PATH}[测算模式] 测算模式，不扫描背包`);
+    
+    const allPaths = [...monsterPaths, ...normalPaths];
+    log.info(`${CONSTANTS.LOG_MODULES.PATH}[测算模式] pathing材料模式，共${allPaths.length}条路径`);
+    
+    return { allPaths, pathingMaterialCounts: [], pathRecordCache };
+  }
+
+  if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.PATH}[路径分类] 怪物:${monsterPaths.length} 普通:${normalPaths.length}`);
 
   // 测算模式不再直接返回所有路径，而是继续执行背包扫描以筛选低数量材料
 
-  // 怪物路径关联材料到分类（扫描用）- 仅includeBoth和onlyPathing模式
-  if (pathingMode.includeBoth || pathingMode.onlyPathing) {
+  // 怪物路径关联材料到分类（扫描用）- onlyPathing模式或混合模式（hasPathing）
+    if (pathingMode.hasPathing) {
     log.info(`${CONSTANTS.LOG_MODULES.MONSTER}开始处理${monsterPaths.length}条怪物路径的材料分类关联...`);
     monsterPaths.forEach((entry, index) => {
       const materials = monsterToMaterials[entry.monsterName] || [];
@@ -645,53 +965,58 @@ async function generateAllPaths(pathingDir, targetResourceNames, cdMaterialNames
         return;
       }
       materials.forEach(mat => {
-        // 添加到pathing怪物材料集合（用于OCR过滤）
-        ocrContext.pathingMonsterMaterials.add(mat);
+        // 添加到本地pathing怪物材料集合
+        localPathingMonsterMaterials.add(mat);
         
         const category = matchImageAndGetCategory(mat, imagesDir);
         if (!category) return;
-        if (!materialCategoryMap[category]) materialCategoryMap[category] = [];
-        if (!materialCategoryMap[category].includes(mat)) {
-          materialCategoryMap[category].push(mat);
+        if (!localMaterialCategoryMap[category]) localMaterialCategoryMap[category] = [];
+        if (!localMaterialCategoryMap[category].includes(mat)) {
+          localMaterialCategoryMap[category].push(mat);
           // log.debug(`${CONSTANTS.LOG_MODULES.MONSTER}怪物【${entry.monsterName}】的材料【${mat}】加入分类【${category}】`);
         }
       });
     });
-    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.MONSTER}pathing文件夹中的怪物材料共${ocrContext.pathingMonsterMaterials.size}种：${Array.from(ocrContext.pathingMonsterMaterials).join('、')}`);
+    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.MONSTER}pathing文件夹中的怪物材料共${localPathingMonsterMaterials.size}种：${Array.from(localPathingMonsterMaterials).join('、')}`);
   }
 
-  let processedFoodPaths = foodPaths;
   let processedNormalPaths = [];
-  let processedMonsterPaths = monsterPaths;
+  const processedMonsterPaths = monsterPaths;
   let pathingMaterialCounts = [];
 
-  if (normalPaths.length > 0 || monsterPaths.length > 0 || pathingMode.onlyCategory) {
+  if (normalPaths.length > 0 || monsterPaths.length > 0 || pathingMode.hasCategory) {
     // 优化：一次扫描获取全量材料数量，同时服务于怪物和普通材料
     log.info(`${CONSTANTS.LOG_MODULES.PATH}[材料扫描] 执行一次全量背包扫描（服务于怪物+普通路径）`);
-    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.PATH}[材料扫描] materialCategoryMap内容：${JSON.stringify(materialCategoryMap)}`);
-    const allMaterialCounts = await MaterialPath(materialCategoryMap);
+    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.PATH}[材料扫描] materialCategoryMap内容：${JSON.stringify(localMaterialCategoryMap)}`);
+    const allMaterialCounts = await MaterialPath(localMaterialCategoryMap, null, pathingMode);
     pathingMaterialCounts = allMaterialCounts;
-    // log.info(`${CONSTANTS.LOG_MODULES.PATH}[材料扫描] 扫描返回数据：${JSON.stringify(allMaterialCounts)}`);
-    // log.info(`${CONSTANTS.LOG_MODULES.PATH}[材料扫描] flat后数据：${JSON.stringify(allMaterialCounts.flat())}`);
+    const flatCounts = allMaterialCounts.flat();
 
-    // 筛选低数量材料（同时生成超量名单）
+    // 合成台平衡（Pathing【合成台平衡】）：扫描完背包后，把怪物三级材料自底向上"流通"，并就地把预测数量写回 flatCounts
+    if (pathingMode.alchemyBalance) {
+      await balanceMonsterMaterialsByAlchemy(flatCounts);
+    }
+    // log.info(`${CONSTANTS.LOG_MODULES.PATH}[材料扫描] 扫描返回数据：${JSON.stringify(allMaterialCounts)}`);
+    // log.info(`${CONSTANTS.LOG_MODULES.PATH}[材料扫描] flat后数据：${JSON.stringify(flatCounts)}`);
+
+    // 筛选低数量材料（同时生成超量名单）——使用投影后的 flatCounts，达标三级不再计为低数量
     if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.MONSTER}[怪物材料] 基于全量扫描结果筛选有效材料`);
-    const filteredMaterials = filterLowCountMaterials(allMaterialCounts.flat(), materialCategoryMap, pathingMode.onlyCategory);
+    const filteredMaterials = filterLowCountMaterials(flatCounts, localMaterialCategoryMap, pathingMode.onlyCategory);
     const validMonsterMaterialNames = filteredMaterials.map(m => m.name);
     if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.MONSTER}[怪物材料] 筛选后有效材料：${validMonsterMaterialNames.join('、')}`);
 
-    // includeBoth模式：更新超量名单并保存到文件
-    if (pathingMode.includeBoth) {
+    // 超量名单更新：onlyPathing模式或混合模式（hasPathing）
+    if (pathingMode.hasPathing) {
       const finalExcessList = excessMaterialNames.filter(name => name !== "OCR启动");
       if (finalExcessList.length > 0) {
-        log.info(`${CONSTANTS.LOG_MODULES.PATH}[includeBoth模式] 更新超量名单，共${finalExcessList.length}种：${finalExcessList.join('、')}`);
+        if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.PATH}[Pathing材料模式] 更新超量名单，共${finalExcessList.length}种：${finalExcessList.join('、')}`);
+        const fullContent = `超量名单:${finalExcessList.join(',')}\n`;
+        file.writeTextSync(CONSTANTS.EXCESS_MATERIALS_PATH, fullContent, false);
       }
-      const fullContent = finalExcessList.length > 0 ? `超量名单:${finalExcessList.join(',')}\n` : "";
-      file.writeTextSync(CONSTANTS.EXCESS_MATERIALS_PATH, fullContent, false);
     }
-
+    
     // onlyCategory模式：只扫描，不处理路径
-    if (pathingMode.onlyCategory) {
+    if (pathingMode.hasCategory && !pathingMode.estimateMode) {
       // 先读取txt超量名单
       const txtExcessMaterials = loadExcessMaterialsList();
       
@@ -733,25 +1058,25 @@ async function generateAllPaths(pathingDir, targetResourceNames, cdMaterialNames
       
       // 输出汇总日志
       if (keptMaterials.length > 0) {
-        log.info(`${CONSTANTS.LOG_MODULES.PATH}[onlyCategory模式] 保留在超量名单：${keptMaterials.join('、')}`);
+        if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.PATH}[onlyCategory模式] 保留在超量名单：${keptMaterials.join('、')}`);
       }
       if (removedMaterials.length > 0) {
-        log.info(`${CONSTANTS.LOG_MODULES.PATH}[onlyCategory模式] 从超量名单剔除：${removedMaterials.join('、')}`);
+        if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.PATH}[onlyCategory模式] 从超量名单剔除：${removedMaterials.join('、')}`);
       }
-      log.info(`${CONSTANTS.LOG_MODULES.PATH}[onlyCategory模式] 更新后超量名单，共${finalExcessList.length}种`);
+      if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.PATH}[onlyCategory模式] 更新后超量名单，共${finalExcessList.length}种`);
       
       // 保存更新后的超量名单（直接覆盖，不合并）
-      const fullContent = finalExcessList.length > 0 ? `超量名单:${finalExcessList.join(',')}\n` : "";
-      file.writeTextSync(CONSTANTS.EXCESS_MATERIALS_PATH, fullContent, false);
-      // log.info(`${CONSTANTS.LOG_MODULES.RECORD}超量名单已保存至 ${CONSTANTS.EXCESS_MATERIALS_PATH}，共${finalExcessList.length}种`);
+      if (finalExcessList.length > 0) {
+        const fullContent = `超量名单:${finalExcessList.join(',')}\n`;
+        file.writeTextSync(CONSTANTS.EXCESS_MATERIALS_PATH, fullContent, false);
+        if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.RECORD}超量名单已保存至 ${CONSTANTS.EXCESS_MATERIALS_PATH}，共${finalExcessList.length}种`);
+      }
       
       // 过滤只保留超量名单中的材料
       const filteredByExcess = scannedMaterials.filter(item => finalExcessList.includes(item.name));
       pathingMaterialCounts = [filteredByExcess];
-      if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.PATH}[onlyCategory模式] 过滤后保留超量材料：${filteredByExcess.map(m => m.name).join('、') || '无'}`);
-      
-      return { allPaths: [], pathingMaterialCounts };
-    }
+      // if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.PATH}[onlyCategory模式] 过滤后保留超量材料：${filteredByExcess.map(m => m.name).join('、') || '无'}`);
+    } else {
 
     // log.info(`${CONSTANTS.LOG_MODULES.PATH}[普通材料] 基于全量扫描结果筛选低数量材料`);
     const lowCountMaterialsFiltered = filteredMaterials;
@@ -761,53 +1086,37 @@ async function generateAllPaths(pathingDir, targetResourceNames, cdMaterialNames
     processedNormalPaths = classifyNormalPathFiles(pathingDir, targetResourceNames, lowCountMaterialNames, cdMaterialNames)
       .filter(entry => normalPaths.some(n => n.path.replace(/\\/g, '/') === entry.path.replace(/\\/g, '/')));
     if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.PATH}[普通材料] 筛选后保留路径 ${processedNormalPaths.length} 条`);
-  } else if (foodPaths.length > 0) {
-    // 只有狗粮路径时，也需要初始化超量名单（OCR启动需要）
-    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.PATH}[狗粮模式] 初始化超量名单`);
-    excessMaterialNames = ["OCR启动"];
-    if (debugLog) log.info(`【超量材料更新】共${excessMaterialNames.length}种：${excessMaterialNames.join("、")}`);
+    }
   }
 
   // 按TargetresourceName顺序处理路径（优先级1-3按目标顺序，同类型内也按目标顺序）
   const allPaths = [];
-  
-  // 先处理TargetresourceName中的每个目标，按设置顺序
+
+  const pushedPathKeys = new Set(allPaths.map(entry => entry.path.replace(/\\/g, '/')));
+  const pushUniquePaths = (matchedPaths) => {
+    if (!matchedPaths || matchedPaths.length === 0) return;
+    matchedPaths.forEach(entry => {
+      const key = entry.path.replace(/\\/g, '/');
+      if (pushedPathKeys.has(key)) return;
+      pushedPathKeys.add(key);
+      allPaths.push(entry);
+    });
+  };
+
   targetResourceNames.forEach((targetName, targetIndex) => {
-    // 确定目标属于哪种类型
-    const isFood = isFoodResource(targetName);
-    const targetMonsterMaterials = monsterToMaterials[targetName] ? [targetName] : [];
-    
-    // 1. 目标狗粮（按TargetresourceName顺序）
-    if (isFood) {
-      const matchedFoodPaths = processedFoodPaths.filter(e => e.resourceName === targetName);
-      allPaths.push(...matchedFoodPaths);
-      if (matchedFoodPaths.length > 0) {
-        log.info(`${CONSTANTS.LOG_MODULES.PATH}[目标${targetIndex + 1}] ${targetName}（狗粮）路径 ${matchedFoodPaths.length} 条`);
-      }
-    }
-    // 2. 目标怪物（按TargetresourceName顺序）
-    else if (monsterToMaterials[targetName] || materialToMonsters[targetName]) {
-      const matchedMonsterPaths = processedMonsterPaths.filter(e => {
+    // 1. 目标怪物材料（怪物名已展开为三个材料，任一材料命中即优先；同一路径只入队一次）
+    if (monsterToMaterials[targetName] || materialToMonsters[targetName]) {
+      pushUniquePaths(processedMonsterPaths.filter(e => {
         const materials = monsterToMaterials[e.monsterName] || [];
         return materials.includes(targetName);
-      });
-      allPaths.push(...matchedMonsterPaths);
-      if (matchedMonsterPaths.length > 0) {
-        log.info(`${CONSTANTS.LOG_MODULES.PATH}[目标${targetIndex + 1}] ${targetName}（怪物掉落）路径 ${matchedMonsterPaths.length} 条`);
-      }
+      }));
     }
-    // 3. 目标普通材料（按TargetresourceName顺序）
+    // 3. 目标普通材料（按优先级顺序）
     else {
-      const matchedNormalPaths = processedNormalPaths.filter(e => e.resourceName === targetName);
-      allPaths.push(...matchedNormalPaths);
-      if (matchedNormalPaths.length > 0) {
-        log.info(`${CONSTANTS.LOG_MODULES.PATH}[目标${targetIndex + 1}] ${targetName}（普通材料）路径 ${matchedNormalPaths.length} 条`);
-      }
+      pushUniquePaths(processedNormalPaths.filter(e => e.resourceName === targetName));
     }
   });
   
-  // 剩余非目标路径（优先级4-6，按原有逻辑）
-  const remainingFoodPaths = processedFoodPaths.filter(e => !targetResourceNames.includes(e.resourceName));
   const remainingMonsterPaths = processedMonsterPaths.filter(e => {
     const materials = monsterToMaterials[e.monsterName] || [];
     return !materials.some(mat => targetResourceNames.includes(mat)) && 
@@ -815,24 +1124,26 @@ async function generateAllPaths(pathingDir, targetResourceNames, cdMaterialNames
   });
   const remainingNormalPaths = processedNormalPaths.filter(e => !targetResourceNames.includes(e.resourceName));
   
-  // 4. 剩余狗粮
-  allPaths.push(...remainingFoodPaths);
-  log.info(`${CONSTANTS.LOG_MODULES.PATH}[优先级4] 剩余狗粮 路径 ${remainingFoodPaths.length} 条`);
-  
   // 5. 剩余怪物
   allPaths.push(...remainingMonsterPaths);
-  log.info(`${CONSTANTS.LOG_MODULES.PATH}[优先级5] 剩余怪物 路径 ${remainingMonsterPaths.length} 条`);
+  // log.info(`${CONSTANTS.LOG_MODULES.PATH}[优先级5] 剩余怪物 路径 ${remainingMonsterPaths.length} 条`);
   
   // 6. 剩余普通材料
   allPaths.push(...remainingNormalPaths);
-  log.info(`${CONSTANTS.LOG_MODULES.PATH}[优先级6] 剩余普通材料 路径 ${remainingNormalPaths.length} 条`);
+  // log.info(`${CONSTANTS.LOG_MODULES.PATH}[优先级6] 剩余普通材料 路径 ${remainingNormalPaths.length} 条`);
 
   // 按时间成本排序同一材料的路径（1%到100%）
   log.info(`${CONSTANTS.LOG_MODULES.PATH}[时间成本排序] 开始按时间成本排序同一材料的路径...`);
   
   // 收集时间成本数据
-  const pathRecordCache = {};
   const allTimeCostData = collectAllTimeCostData(allPaths, CONSTANTS.RECORD_DIR, CONSTANTS.NO_RECORD_DIR, pathRecordCache);
+  
+  // 计算时间成本统计数据
+  const timeCostStats = {};
+  for (const [resourceKey, data] of Object.entries(allTimeCostData)) {
+    timeCostStats[resourceKey] = calculateTimeCostStats(data);
+  }
+  if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.PATH}[时间成本排序] 时间成本统计数据计算完成，共${Object.keys(timeCostStats).length}个资源`);
   
   // 按材料分组
   const pathsByResource = {};
@@ -845,10 +1156,12 @@ async function generateAllPaths(pathingDir, targetResourceNames, cdMaterialNames
     }
     pathsByResource[resourceKey].push(entry);
   });
+  if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.PATH}[时间成本排序] 按材料分组完成，共${Object.keys(pathsByResource).length}个分组`);
   
   // 对每个材料的路径按时间成本排序
   const sortedPaths = [];
   for (const [resourceKey, paths] of Object.entries(pathsByResource)) {
+    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.PATH}[时间成本排序] 处理材料: ${resourceKey}, 路径数: ${paths.length}`);
     // 为每个路径附加时间成本
     const pathsWithCost = paths.map(entry => {
       const pathName = basename(entry.path);
@@ -857,7 +1170,7 @@ async function generateAllPaths(pathingDir, targetResourceNames, cdMaterialNames
         pathName,
         CONSTANTS.RECORD_DIR,
         CONSTANTS.NO_RECORD_DIR,
-        isFoodResource(entry.resourceName || entry.monsterName),
+        false,
         pathRecordCache,
         entry.path
       );
@@ -868,7 +1181,6 @@ async function generateAllPaths(pathingDir, targetResourceNames, cdMaterialNames
     const entryHasHistory = (entry) => {
       const pathName = basename(entry.path);
       const resourceName = entry.resourceName || entry.monsterName;
-      const isFood = isFoodResource(resourceName);
       
       // 利用已有的pathRecordCache，避免重复读取文件
       const cacheKey = `${resourceName}_${pathName}`;
@@ -903,13 +1215,14 @@ async function generateAllPaths(pathingDir, targetResourceNames, cdMaterialNames
         return priorityA - priorityB;
       }
       
-      // 优先级相同，按时间成本排序
+      // 优先级相同：先按时间成本（天然档间），perTime 相同（同档）按路径名称（地域）
       if (a.perTime !== null && b.perTime !== null) {
-        return a.perTime - b.perTime;
+        if (a.perTime !== b.perTime) return a.perTime - b.perTime;
+        return basename(a.path).localeCompare(basename(b.path), 'zh');
       }
-      
-      // 都是null，保持原顺序
-      return 0;
+
+      // 都是 null（记录不足/无历史），按路径名称（地域）排序
+      return basename(a.path).localeCompare(basename(b.path), 'zh');
     });
     
     // 输出排序结果
@@ -921,7 +1234,7 @@ async function generateAllPaths(pathingDir, targetResourceNames, cdMaterialNames
         let priorityStr;
         
         if (p.perTime !== null) {
-          costStr = `${p.perTime.toFixed(2)}秒/单位`;
+          costStr = `${p.perTime.toFixed(3)}秒/单位`;
           priorityStr = '优先级1（有具体时间）';
         } else if (hasHistory) {
           costStr = '记录不足';
@@ -935,13 +1248,59 @@ async function generateAllPaths(pathingDir, targetResourceNames, cdMaterialNames
       });
     }
     
-    sortedPaths.push(...pathsWithCost);
+    // 按时间成本范围过滤路径
+    const stats = timeCostStats[resourceKey];
+    let pathsToAdd = pathsWithCost;
+    
+    if (stats && stats.count > 0 && timeCost.min !== 0 && timeCost.max !== 101) {
+      const minValue = stats.percentiles[timeCost.min] || stats.median;
+      const maxValue = stats.percentiles[timeCost.max] || stats.median;
+      
+      const beforeFilterCount = pathsWithCost.length;
+      pathsToAdd = pathsWithCost.filter(p => {
+        if (p.perTime === null) return true;
+        return p.perTime >= minValue && p.perTime <= maxValue;
+      });
+      
+      const filteredCount = beforeFilterCount - pathsToAdd.length;
+      if (filteredCount > 0) {
+        if (debugLog) {
+          log.info(`${CONSTANTS.LOG_MODULES.PATH}[时间成本排序] ${resourceKey} 已过滤${filteredCount}条不在${timeCost.min}%~${timeCost.max}%范围内的路径（${minValue.toFixed(4)}~${maxValue.toFixed(4)}秒/单位）`);
+        }
+      }
+    }
+    
+    sortedPaths.push(...pathsToAdd);
+    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.PATH}[时间成本排序] 材料 ${resourceKey} 排序完成，添加 ${pathsToAdd.length} 条路径`);
   }
   
   log.info(`${CONSTANTS.LOG_MODULES.PATH}[时间成本排序] 完成，共${sortedPaths.length}条路径`);
 
+  if (rollbackPathCount > 0) {
+    log.info(`${CONSTANTS.LOG_MODULES.PATH}[滞后路径] 功能已启用，开始筛选最久未运行的路径...`);
+    const rollbackPaths = selectRollbackPaths(sortedPaths, CONSTANTS.RECORD_DIR, CONSTANTS.NO_RECORD_DIR, rollbackPathCount, pathRecordCache);
+    
+    if (rollbackPaths.length > 0) {
+      const rollbackPathNames = rollbackPaths.map(p => basename(p.path));
+      log.info(`${CONSTANTS.LOG_MODULES.PATH}[滞后路径] 已添加${rollbackPaths.length}条滞后路径：${rollbackPathNames.join('、')}`);
+      
+      sortedPaths.push(...rollbackPaths);
+    }
+  }
+
+  // 重生组：RollbackPathCount>2 时，给1条被0记录超限排除的（怪物/材料）路径就地放行
+  // 通用模式下这些超限路径本就在 sortedPaths 中（执行期才被 checkPathSkipConditions 跳过），故直接对原对象打 isRespawn 标记绕过上限
+  if (rollbackPathCount > 2) {
+    const respawnPaths = selectRespawnPath(sortedPaths, CONSTANTS.RECORD_DIR, CONSTANTS.NO_RECORD_DIR, CDCategories, pathRecordCache);
+    respawnPaths.forEach(e => { e.isRespawn = true; });
+  }
+
+  // 将本地pathingMonsterMaterials复制到全局ocrContext，供OCR使用
+  ocrContext.pathingMonsterMaterials.clear();
+  localPathingMonsterMaterials.forEach(mat => ocrContext.pathingMonsterMaterials.add(mat));
+
   // log.info(`${CONSTANTS.LOG_MODULES.PATH}[最终路径] 共${allPaths.length}条：${allPaths.map(p => basename(p.path))}`);
-  return { allPaths: sortedPaths, pathingMaterialCounts };
+  return { allPaths: sortedPaths, pathingMaterialCounts, pathRecordCache };
 }
 
 // ==============================================
@@ -961,7 +1320,7 @@ async function sendNotificationInChunks(msg, sendFn) {
     try {
       sendFn(msg);
     } catch (e) {
-      log.debug(`发送通知失败（可能已退出）: ${e.message}`);
+      // log.debug(`发送通知失败（可能已退出）: ${e.message}`);
     }
     return;
   }
@@ -977,7 +1336,7 @@ async function sendNotificationInChunks(msg, sendFn) {
       sendFn(chunkMsg);
       log.info(`${CONSTANTS.LOG_MODULES.MAIN}已发送第${i+1}段通知（${chunkMsg.length}字符）`);
     } catch (e) {
-      log.debug(`发送第${i+1}段通知失败（可能已退出）: ${e.message}`);
+      // log.debug(`发送第${i+1}段通知失败（可能已退出）: ${e.message}`);
     }
     start = end;
     await sleep(100); // 每段之间增加短暂延迟，确保发送完成
@@ -1003,7 +1362,7 @@ function saveExcessMaterialsList(excessList) {
         existingMaterials = match[1].split(',').map(name => name.trim()).filter(name => name);
       }
     } catch (readError) {
-      log.debug(`${CONSTANTS.LOG_MODULES.RECORD}超量名单文件不存在或读取失败: ${CONSTANTS.EXCESS_MATERIALS_PATH}`);
+      // log.debug(`${CONSTANTS.LOG_MODULES.RECORD}超量名单文件不存在或读取失败: ${CONSTANTS.EXCESS_MATERIALS_PATH}`);
     }
     
     const allMaterials = [...new Set([...existingMaterials, ...newMaterials])];
@@ -1079,22 +1438,51 @@ ${Object.entries(totalDifferences).map(([name, diff]) => `  ${name}: +${diff}个
   setGameMetrics(1920, 1080, 1);
   await genshin.returnMainUi();
 
-  // 初始化固定资源
+  // 初始化固定资源（F+OCR 拾取循环所需）
   const fDialogueRo = RecognitionObject.TemplateMatch(file.ReadImageMatSync("assets/F_Dialogue.png"), 1102, 335, 34, 400);
   const textxRange = { min: 1210, max: 1412 };
   const texttolerance = 3;
 
-  // 目标资源处理
-  const targetResourceNamesStr = settings.TargetresourceName || "";
-  const rawTargetResourceNames = targetResourceNamesStr
-    .split(/[,，、 \s]+/)
-    .map(name => name.trim())
-    .filter(name => name !== "");
-  
-  // 将怪物名转换为最高级材料
-  const targetResourceNames = processTargetResourceNames(rawTargetResourceNames);
+  // ★独立标定模式单独入口：背包翻页标定（settings.FlipCalibTestMode=【背包翻页拖动距离】，优先执行）
+  //   开背包→养成道具页→重置滑条→扫列1(需≥5个)→迭代拖动标定"1页"距离(第五个材料落到第一个原位、绝不过冲)→存 user/pageFlip.json，跑完即退。
+  if (testBagFlip) {
+    setGameMetrics(1920, 1080, 1);
+    log.info(`${CONSTANTS.LOG_MODULES.MAIN}[翻页标定] 独立测试模式启动（已跳过正常流程）：标定完成后正常翻页可直接留空【拖动距离】`);
+    try { await runBagFlipCalib(); }
+    catch (e) { log.error('【翻页标定】异常终止: ' + e.message); }
+    state.completed = true;
+    state.cancelRequested = true;
+    return;
+  }
+
+  // 拖动距离未设置且 user/pageFlip.json 无标定记录 → 自动先跑一次翻页标定，再继续正常流程
+  if (needFlipCalib()) {
+    setGameMetrics(1920, 1080, 1);
+    log.info(`${CONSTANTS.LOG_MODULES.MAIN}[翻页标定] 未设置拖动距离且无标定记录，自动执行一次`);
+    try { await runBagFlipCalib(); refreshTotalPageDistance(); }
+    catch (e) { log.error('【翻页标定】自动标定失败: ' + e.message); }
+  }
+
+  // await initPathEngine();
+
+  // 目标资源处理（支持 + / - 语法：+号越多越优先，- 为排除，怪物名展开为对应三个材料）
+  const targetRules = buildTargetRules(settings.TargetresourceName || "");
+  // 优先材料列表（已按 + 权重降序、同权重按配置顺序排序）
+  const targetResourceNames = targetRules.prioritized;
 
   const targetTextCategories = readtargetTextCategories(CONSTANTS.TARGET_TEXT_DIR);
+
+  // Pathing材料模式：读取或初始化超量名单（哨兵"OCR启动"，使 ocrTask 不空等、正常启动拾取循环）
+  if (pathingMode.hasPathing) {
+    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.MAIN}[Pathing材料模式] 读取超量名单文件`);
+    const loadedExcessMaterials = loadExcessMaterialsList();
+    if (loadedExcessMaterials.length > 0) {
+      excessMaterialNames = [...loadedExcessMaterials, "OCR启动"];
+    } else {
+      excessMaterialNames = ["OCR启动"];
+    }
+    if (debugLog) log.info(`【超量材料更新】共${excessMaterialNames.length}种：${excessMaterialNames.join("、")}`);
+  }
 
   // 并行任务：OCR交互（修正版）
   const ocrTask = pathingMode.estimateMode ? null : (async () => {
@@ -1116,9 +1504,9 @@ ${Object.entries(totalDifferences).map(([name, diff]) => `  ${name}: +${diff}个
     }
     
     const getFilteredTargetTexts = () => {
-      // 首先过滤超量材料
+      // 首先过滤超量材料（源头剔除，保证拾取逻辑不变）
       let filtered = allTargetTexts.filter(name => !excessMaterialNames.includes(name));
-      
+
       // 如果不是怪物路径，直接返回过滤结果
       if (ocrContext.currentPathType !== 'monster') {
         return filtered;
@@ -1154,16 +1542,16 @@ ${Object.entries(totalDifferences).map(([name, diff]) => `  ${name}: +${diff}个
           !currentMonsterMaterials.includes(mat) && !excessMaterialNames.includes(mat)
         );
         
-        log.info(`OCR拾取列表（怪物路径）：`);
-        log.info(`  - 当前怪物材料：${currentMonsterMaterials.join('、') || '无'}`);
-        log.info(`  - pathing其他怪物材料（未超量）：${additionalMonsterMaterials.join('、') || '无'}`);
-        log.info(`  - 非怪物材料：${filtered.filter(name => !materialToMonsters[name]).join('、') || '无'}`);
+        // log.info(`OCR拾取列表（怪物路径）：`);
+        // log.info(`  - 当前怪物材料：${currentMonsterMaterials.join('、') || '无'}`);
+        // log.info(`  - pathing其他怪物材料（未超量）：${additionalMonsterMaterials.join('、') || '无'}`);
+        // log.info(`  - 非怪物材料：${filtered.filter(name => !materialToMonsters[name]).join('、') || '无'}`);
       }
       
       return filtered;
     };
 
-    log.info(`超量名单：${excessMaterialNames.join('、')}`);
+    // log.info(`超量名单：${excessMaterialNames.join('、')}`);
     if (debugLog) log.info(`OCR最终目标文本（已过滤超量）：${getFilteredTargetTexts().join('、')}`);
 
     await alignAndInteractTarget(getFilteredTargetTexts, fDialogueRo, textxRange, texttolerance);
@@ -1188,22 +1576,34 @@ ${Object.entries(totalDifferences).map(([name, diff]) => `  ${name}: +${diff}个
   let materialCategoryMap = {};
   
   // 处理选中的材料分类
-  if (selected_materials_array.length > 0 && !pathingMode.onlyPathing) {
-    // 1. 初始化选中的分类（onlyPathing模式除外）
+  if (selected_materials_array.length > 0 && !pathingMode.hasPathing) {
+    // 1. 初始化选中的分类（hasPathing模式除外）
+    selected_materials_array.forEach(selectedCategory => {
+      materialCategoryMap[selectedCategory] = [];
+    });
+  } else if (selected_materials_array.length > 0 && pathingMode.hasPathing) {
+    // 混合模式（hasCategory + hasPathing）：初始化选中的分类，然后添加pathing材料
+    if (debugLog) log.warn(`${CONSTANTS.LOG_MODULES.MATERIAL}混合模式：先初始化选中的分类，再添加pathing材料`);
     selected_materials_array.forEach(selectedCategory => {
       materialCategoryMap[selectedCategory] = [];
     });
   } else {
-    if (pathingMode.onlyPathing) {
-      if (debugLog) log.warn(`${CONSTANTS.LOG_MODULES.MATERIAL}onlyPathing模式：将自动扫描pathing材料的实际分类`);
+    if (pathingMode.hasPathing) {
+      if (debugLog) log.warn(`${CONSTANTS.LOG_MODULES.MATERIAL}Pathing材料模式：将自动扫描pathing材料的实际分类`);
     } else {
       log.warn(`${CONSTANTS.LOG_MODULES.MATERIAL}未选择【材料分类】，采用【路径材料】专注模式`);
     }
   }
   
-  // 2. 处理路径相关材料（仅includeBoth和onlyPathing模式）
-  if ((pathingMode.includeBoth || pathingMode.onlyPathing) && (Object.keys(materialCategoryMap).length > 0 || pathingMode.onlyPathing)) {
-    const pathingFilePaths = readAllFilePaths(CONSTANTS.PATHING_DIR, 0, CONSTANTS.MAX_PATH_DEPTH, ['.json']);
+  // 2. 处理路径相关材料（hasPathing模式）
+  if (pathingMode.hasPathing) {
+    // 清除空分类（在扫描前清理）
+    Object.keys(materialCategoryMap).forEach(category => {
+      if (materialCategoryMap[category] && materialCategoryMap[category].length === 0) {
+        delete materialCategoryMap[category];
+      }
+    });
+    const pathingFilePaths = GlobalCacheManager.getPathFiles(CONSTANTS.PATHING_DIR, 0, CONSTANTS.MAX_PATH_DEPTH, ['.json']);
     const pathEntries = pathingFilePaths.map(path => {
       const { materialName, monsterName } = extractResourceNameFromPath(path, cdMaterialNames);
       return { materialName, monsterName };
@@ -1218,10 +1618,14 @@ ${Object.entries(totalDifferences).map(([name, diff]) => `  ${name}: +${diff}个
       }
     });
 
-    // 构建分类映射
+    // 构建分类映射（混合模式下只添加到已初始化的分类）
     Array.from(allMaterials).forEach(resourceName => {
       const category = matchImageAndGetCategory(resourceName, CONSTANTS.IMAGES_DIR);
       if (category) {
+        // 混合模式（hasCategory）：只添加到选中的分类
+        if (pathingMode.hasCategory && !selected_materials_array.includes(category)) {
+          return;
+        }
         if (!materialCategoryMap[category]) {
           materialCategoryMap[category] = [];
         }
@@ -1232,11 +1636,12 @@ ${Object.entries(totalDifferences).map(([name, diff]) => `  ${name}: +${diff}个
     });
   }
   
-  // 3. 在onlyPathing或onlyCategory模式下，保留所有选中的分类
-  if (pathingMode.onlyPathing || pathingMode.onlyCategory) {
-    // 对于onlyCategory模式，保留所有选中的分类，即使是空数组
-    // 对于onlyPathing模式，删除空数组
-    if (pathingMode.onlyPathing) {
+  // 3. 在hasPathing或hasCategory模式下，保留所有选中的分类
+  if (pathingMode.hasPathing || pathingMode.hasCategory) {
+    // 对于hasCategory模式，保留所有选中的分类，即使是空数组
+    // 对于hasPathing模式（纯模式），删除空数组
+    // 对于混合模式（hasPathing + hasCategory），也删除空数组
+    if (pathingMode.hasPathing) {
       Object.keys(materialCategoryMap).forEach(category => {
         if (materialCategoryMap[category].length === 0) {
           delete materialCategoryMap[category];
@@ -1245,8 +1650,8 @@ ${Object.entries(totalDifferences).map(([name, diff]) => `  ${name}: +${diff}个
     }
   }
   
-  // 4. 在onlyCategory模式下，确保materialCategoryMap只包含选中的分类
-  if (pathingMode.onlyCategory) {
+  // 4. 在hasCategory模式下，确保materialCategoryMap只包含选中的分类
+  if (pathingMode.hasCategory) {
     const selectedCategoriesSet = new Set(selected_materials_array);
     const filteredMap = {};
     
@@ -1258,37 +1663,228 @@ ${Object.entries(totalDifferences).map(([name, diff]) => `  ${name}: +${diff}个
     materialCategoryMap = filteredMap;
   }
 
-    // 生成路径数组
-    const { allPaths, pathingMaterialCounts } = await generateAllPaths(
+  // 优先级1：测算模式（先执行测算分析，不扫描背包）
+  if (pathingMode.estimateMode) {
+    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.MAIN}[优先级1] 测算模式：执行测算分析（不扫描背包）`);
+    
+    const estimatePathingMode = { 
+      estimateMode: true, 
+      hasCategory: false, 
+      hasPathing: pathingMode.hasPathing, 
+      onlyCategory: false
+    };
+    
+    const { allPaths: estimatePaths } = await generateAllPaths(
       CONSTANTS.PATHING_DIR,
       targetResourceNames,
       cdMaterialNames,
       materialCategoryMap,
-      pathingMode,
+      estimatePathingMode,
       CONSTANTS.IMAGES_DIR
     );
+    
+    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.MAIN}[优先级1] 测算完成，共${estimatePaths.length}条路径`);
+    
+    // 测算模式一律只测算：无论是否同时勾选了其它模式，都不执行任何路径，测算完直接结束
+    await processAllPaths(
+      estimatePaths,
+      CDCategories,
+      materialCategoryMap,
+      timeCost,
+      [],
+      null,
+      CONSTANTS.RECORD_DIR,
+      CONSTANTS.NO_RECORD_DIR,
+      CONSTANTS.IMAGES_DIR,
+      endTimeStr,
+      estimatePathingMode,
+      maxRunTimeSec
+    );
+    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.MAIN}[优先级1] 测算模式完成，只测算不执行路径，直接结束`);
+    return;
+  }
 
-    // onlyCategory模式：只扫描，不处理路径和末次扫描，直接结束
-    // 但如果同时勾选了测算模式，则跳过此逻辑
-    if (pathingMode.onlyCategory && !pathingMode.estimateMode) {
-      // log.info(`${CONSTANTS.LOG_MODULES.MAIN}[onlyCategory模式] 扫描完成，直接结束`);
-      // log.info(`${CONSTANTS.LOG_MODULES.MAIN}[onlyCategory模式] 超量名单数据：${JSON.stringify(excessMaterialNames)}`);
-      saveExcessMaterialsList(excessMaterialNames);
-      state.completed = true;
-      state.cancelRequested = true;
-      return;
+  // 优先级2：纯扫描分类模式（只扫描不执行）
+  if (pathingMode.onlyCategory) {
+    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.MAIN}[优先级2] 纯扫描分类模式：只扫描不执行路径`);
+    
+    // 清空全局ocrContext.pathingMonsterMaterials，避免模式间干扰
+    ocrContext.pathingMonsterMaterials.clear();
+    
+    // 创建独立的materialCategoryMap副本
+    const categoryMaterialCategoryMap = JSON.parse(JSON.stringify(materialCategoryMap));
+    
+    // 创建独立的pathingMode副本，关闭测算模式
+    const categoryPathingMode = { 
+      estimateMode: false, 
+      hasCategory: true, 
+      hasPathing: false, 
+      onlyCategory: true,
+      alchemyBalance: pathingMode.alchemyBalance
+    };
+    
+    await generateAllPaths(
+      CONSTANTS.PATHING_DIR,
+      targetResourceNames,
+      cdMaterialNames,
+      categoryMaterialCategoryMap,
+      categoryPathingMode,
+      CONSTANTS.IMAGES_DIR
+    );
+    
+    saveExcessMaterialsList(excessMaterialNames);
+    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.MAIN}[优先级2] 扫描完成，超量名单已保存`);
+    state.completed = true;
+    state.cancelRequested = true;
+    return;
+  }
+
+  // 优先级3：混合模式 - 按顺序独立执行多个单次任务
+  // 任务1：扫描额外的分类（独立扫描背包并更新超量名单）
+  if (pathingMode.hasCategory) {
+    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.MAIN}[优先级3-任务1] 执行【扫描额外的分类】（独立扫描背包）`);
+    
+    // 清空全局ocrContext.pathingMonsterMaterials，避免模式间干扰
+    ocrContext.pathingMonsterMaterials.clear();
+    
+    // 创建独立的materialCategoryMap副本
+    const categoryMaterialCategoryMap = JSON.parse(JSON.stringify(materialCategoryMap));
+    
+    const categoryPathingMode = { 
+      estimateMode: false, 
+      hasCategory: true, 
+      hasPathing: false, 
+      onlyCategory: true,
+      alchemyBalance: pathingMode.alchemyBalance
+    };
+    
+    await generateAllPaths(
+      CONSTANTS.PATHING_DIR,
+      targetResourceNames,
+      cdMaterialNames,
+      categoryMaterialCategoryMap,
+      categoryPathingMode,
+      CONSTANTS.IMAGES_DIR
+    );
+    
+    saveExcessMaterialsList(excessMaterialNames);
+    
+    const reloadedExcessMaterials = loadExcessMaterialsList();
+    if (reloadedExcessMaterials.length > 0) {
+      excessMaterialNames = [...reloadedExcessMaterials, "OCR启动"];
+    } else {
+      excessMaterialNames = ["OCR启动"];
     }
+    if (debugLog) log.info(`【超量材料更新】任务1完成，重新读取超量名单，共${excessMaterialNames.length}种：${excessMaterialNames.join("、")}`);
+    await sleep(10);
+    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.MAIN}[优先级3-任务1] 扫描分类完成，继续执行任务2`);
+  }
+
+  // 优先级4：任务2 - 执行pathing模式（独立扫描背包并执行路径）
+  if (pathingMode.hasPathing) {
+    if (debugLog) log.info(CONSTANTS.LOG_MODULES.MAIN + '[优先级4-任务2] 执行pathing材料（独立扫描背包并执行路径）');
+    
+    // 清空全局ocrContext.pathingMonsterMaterials，避免模式间干扰
+    ocrContext.pathingMonsterMaterials.clear();
+    
+    // 创建独立的materialCategoryMap副本
+    let pathingMaterialCategoryMap = JSON.parse(JSON.stringify(materialCategoryMap));
+    
+    // 如果是pathing模式，重新构建materialCategoryMap，只包含pathing文件夹中的材料
+    if (pathingMode.hasPathing) {
+      log.info(`${CONSTANTS.LOG_MODULES.MAIN}[优先级4-任务2] 重新构建materialCategoryMap，只包含pathing文件夹中的材料`);
+      
+      // 清空现有分类
+      pathingMaterialCategoryMap = {};
+      
+      // 读取pathing文件夹中的所有路径
+      const pathingFilePaths = readAllFilePaths(CONSTANTS.PATHING_DIR, 0, CONSTANTS.MAX_PATH_DEPTH, ['.json']);
+      const pathEntries = pathingFilePaths.map(path => {
+        const { materialName, monsterName } = extractResourceNameFromPath(path, cdMaterialNames);
+        return { materialName, monsterName };
+      });
+
+      // 收集所有材料（含怪物掉落）
+      const allMaterials = new Set();
+      pathEntries.forEach(({ materialName, monsterName }) => {
+        if (materialName) allMaterials.add(materialName);
+        if (monsterName) {
+          (monsterToMaterials[monsterName] || []).forEach(mat => allMaterials.add(mat));
+        }
+      });
+
+      // 构建分类映射
+      Array.from(allMaterials).forEach(resourceName => {
+        const category = matchImageAndGetCategory(resourceName, CONSTANTS.IMAGES_DIR);
+        if (category) {
+          if (!pathingMaterialCategoryMap[category]) {
+            pathingMaterialCategoryMap[category] = [];
+          }
+          if (!pathingMaterialCategoryMap[category].includes(resourceName)) {
+            pathingMaterialCategoryMap[category].push(resourceName);
+          }
+        }
+      });
+      
+      if (debugLog) {
+        const allPathingMaterials = Object.values(pathingMaterialCategoryMap).flat();
+        log.info(`${CONSTANTS.LOG_MODULES.MAIN}[优先级4-任务2] pathing材料共${allPathingMaterials.length}种：${allPathingMaterials.join('、')}`);
+      }
+    }
+    
+    // 清理materialCategoryMap中的空数组（任务1可能添加的）
+    Object.keys(pathingMaterialCategoryMap).forEach(category => {
+      if (pathingMaterialCategoryMap[category] && pathingMaterialCategoryMap[category].length === 0) {
+        delete pathingMaterialCategoryMap[category];
+        if (debugLog) log.info(CONSTANTS.LOG_MODULES.MAIN + '[优先级4-任务2] 清理空分类: ' + category);
+      }
+    });
+    
+    // 创建独立的pathingMode副本
+    const pathingPathingMode = { 
+      estimateMode: false, 
+      hasCategory: false,
+      hasPathing: pathingMode.hasPathing, 
+      onlyPathing: pathingMode.hasPathing,
+      onlyCategory: false
+    };
+    
+    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.MAIN}[优先级4-任务2] pathingPathingMode: ${JSON.stringify(pathingPathingMode)}`);
+    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.MAIN}[优先级4-任务2] pathingMaterialCategoryMap包含${Object.keys(pathingMaterialCategoryMap).length}个分类`);
+    if (debugLog) {
+      Object.entries(pathingMaterialCategoryMap).forEach(([category, materials]) => {
+        log.info(`${CONSTANTS.LOG_MODULES.MAIN}[优先级4-任务2] 分类[${category}]: ${materials.length}种材料 - ${materials.join('、')}`);
+      });
+    }
+    
+    const { allPaths, pathingMaterialCounts, pathRecordCache } = await generateAllPaths(
+      CONSTANTS.PATHING_DIR,
+      targetResourceNames,
+      cdMaterialNames,
+      pathingMaterialCategoryMap,
+      pathingPathingMode,
+      CONSTANTS.IMAGES_DIR,
+      CDCategories
+    );
 
     // 处理所有路径
     let currentMaterialName = null;
     let flattenedLowCountMaterials = [];
 
+    // 重置状态，让路径能够执行
+    state.cancelRequested = false;
+    
+    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.PATH}[main] generateAllPaths返回完成，准备调用processAllPaths`);
+    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.PATH}[main] allPaths长度: ${allPaths.length}`);
+    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.PATH}[main] state.cancelRequested已重置为: ${state.cancelRequested}`);
+    
     const firstScanTime = new Date().toLocaleString();
     const initialMaterialCounts = pathingMaterialCounts.flat().reduce((acc, mat) => {
       acc[mat.name] = parseInt(mat.count, 10) || 0;
       return acc;
     }, {});
 
+    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.PATH}[main] 开始调用processAllPaths...`);
     const processResult = await processAllPaths(
       allPaths,
       CDCategories,
@@ -1299,24 +1895,19 @@ ${Object.entries(totalDifferences).map(([name, diff]) => `  ${name}: +${diff}个
       CONSTANTS.RECORD_DIR,
       CONSTANTS.NO_RECORD_DIR,
       CONSTANTS.IMAGES_DIR,
-      endTimeStr
+      endTimeStr,
+      pathingPathingMode,
+      maxRunTimeSec,
+      pathRecordCache
     );
-
-    // 测算模式下不执行末次扫描和汇总
-    if (pathingMode.estimateMode) {
-      log.info(`${CONSTANTS.LOG_MODULES.MAIN}[测算模式] 分析完成，直接结束`);
-      state.completed = true;
-      state.cancelRequested = true;
-      return;
-    }
+    if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.PATH}[main] processAllPaths返回完成`);
 
     // 汇总结果
     const globalAccumulatedDifferences = processResult.globalAccumulatedDifferences;
-    const foodExpAccumulator = processResult.foodExpAccumulator || {};
 
     // 末次扫描
     log.info(`${CONSTANTS.LOG_MODULES.MAIN}开始末次背包扫描，计算总差值`);
-    const finalMaterialCounts = await MaterialPath(materialCategoryMap);
+    const finalMaterialCounts = await MaterialPath(materialCategoryMap, null, pathingPathingMode);
     const flattenedFinal = finalMaterialCounts.flat();
     const finalCounts = flattenedFinal.reduce((acc, mat) => {
       acc[mat.name] = parseInt(mat.count, 10) || 0;
@@ -1332,10 +1923,6 @@ ${Object.entries(totalDifferences).map(([name, diff]) => `  ${name}: +${diff}个
         totalDifferences[name] = diff;
       }
     });
-    // 狗粮EXP差异
-    Object.keys(foodExpAccumulator).forEach(name => {
-      totalDifferences[`${name}_EXP`] = foodExpAccumulator[name];
-    });
 
     // 输出汇总信息
     const endTime = new Date().toLocaleString();
@@ -1350,19 +1937,16 @@ ${Object.entries(totalDifferences).map(([name, diff]) => `  ${name}: +${diff}个
 
     let finalMsg = `收集完成\n总耗时：${formatTime(totalRunTime)}\n累计获取：\n`;
     Object.entries(totalDifferences).forEach(([n, d]) => {
-      if (n.includes('_EXP')) {
-        finalMsg += `  ${n.replace('_EXP', '')}（EXP）: ${d}\n`;
-      } else {
-        finalMsg += `  ${n}: ${d}个\n`;
-      }
+      finalMsg += `  ${n}: ${d}个\n`;
     });
     await sendNotificationInChunks(finalMsg, notification.Send);
+  }
   })();
 
   // 执行所有任务
   // 测算模式下，只执行路径任务，不执行 OCR 和图像点击任务
   const imageTask = pathingMode.estimateMode ? null : imageClickBackgroundTask();
-  
+
   const tasks = pathingMode.estimateMode ? [pathTask] : [ocrTask, pathTask, imageTask].filter(t => t !== null);
   if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.MAIN}任务列表已创建，共${tasks.length}个任务`);
   
@@ -1374,5 +1958,12 @@ ${Object.entries(totalDifferences).map(([name, diff]) => `  ${name}: +${diff}个
   } finally {
     log.info(`${CONSTANTS.LOG_MODULES.MAIN}执行结束或取消后的清理操作...`);
     state.cancelRequested = true;
+    
+    // 清理缓存
+    if (debugLog) {
+      GlobalCacheManager.printStats();
+    }
+    GlobalCacheManager.clearCache('all');
+    log.info(`${CONSTANTS.LOG_MODULES.MAIN}缓存已清理`);
   }
 })();

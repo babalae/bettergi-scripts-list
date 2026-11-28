@@ -2,6 +2,15 @@
 // 自动拾取逻辑（基于最新版performOcr改造）
 */
 
+// 拾取列表滚轮状态（var：跨文件/全局可读）
+// 原来主循环 50ms 一轮、每轮都滚一档（每秒最多 20 档），会把列表顶部几栏一带而过；
+// 改为固定间隔下翻，每下翻 pickScrollDownStep 档只回补 pickScrollUpStep 档（一小段），净位移向前、不整段倒退
+var pickScrollInterval = 400;   // 每次滚动间隔(ms)
+var pickScrollDownStep = 6;     // 连续下翻几档后回补一小段
+var pickScrollUpStep = 1;       // 回补档数（只上翻一小段，不做整段倒退）
+var pickScrollStep = 0;         // 本段已下翻档数
+var lastPickScrollTime = 0;     // 上次滚动时刻
+
 // 解析文件内容，提取分类信息（无修改，与OCR无关）
 function parseCategoryContent(content) {
     if (!content) {
@@ -133,7 +142,7 @@ async function alignAndInteractTarget(targetTextsOrFunc, fDialogueRo, textxRange
             const currentTime = Date.now();
             
             if (currentTime - lastLogTime >= 15000) {
-                log.info("独立OCR识别中...");
+                if (debugLog) log.info("独立OCR识别中...");
                 lastLogTime = currentTime;
             }
             await sleep(50);
@@ -147,12 +156,28 @@ async function alignAndInteractTarget(targetTextsOrFunc, fDialogueRo, textxRange
             let fRes = await findFIcon(fDialogueRo, 10, cachedFrame);
             if (!fRes) {
                 const scrollRes = await findFIcon(ScrollRo, 10, cachedFrame);
-                if (scrollRes) {
-                    log.debug("未识别到F图标，但识别到Scroll.png，执行翻滚操作");
-                    await keyMouseScript.runFile(`assets/滚轮下翻.json`);
+                if (scrollRes && Date.now() - lastPickScrollTime >= pickScrollInterval) {
+                    // 节流：每 pickScrollInterval 只滚一档
+                    lastPickScrollTime = Date.now();
+                    if (pickScrollStep >= pickScrollDownStep) {
+                        // 下翻够一段 → 只回补一小段（上翻 pickScrollUpStep 档）再继续下翻，避免整段倒退把净位移抵消
+                        pickScrollStep = 0;
+                        log.debug(`未识别到F图标，但识别到Scroll.png，下翻${pickScrollDownStep}档后回补上翻${pickScrollUpStep}档`);
+                        for (let i = 0; i < pickScrollUpStep; i++) {
+                            await keyMouseScript.runFile(`assets/滚轮上翻.json`);
+                        }
+                    } else {
+                        pickScrollStep++;
+                        log.debug(`未识别到F图标，但识别到Scroll.png，执行下翻第${pickScrollStep}/${pickScrollDownStep}档`);
+                        await keyMouseScript.runFile(`assets/滚轮下翻.json`);
+                    }
                 }
                 continue;
             }
+
+            // 已找到F图标 → 重置滚动状态，下次进列表从头（下翻）开始
+            pickScrollStep = 0;
+            lastPickScrollTime = 0;
 
             const targetTexts = typeof targetTextsOrFunc === 'function' ? targetTextsOrFunc() : targetTextsOrFunc;
 
@@ -162,7 +187,7 @@ async function alignAndInteractTarget(targetTextsOrFunc, fDialogueRo, textxRange
                 width: textxRange.max - textxRange.min,
                 height: 40
             };
-            const { results: ocrResults, screenshot: ocrScreenshot, shouldDispose } = await performOcr(
+            const { results: ocrResults, rawTexts: ocrRawTexts, screenshot: ocrScreenshot, shouldDispose } = await performOcr(
                 targetTexts,
                 region,
                 cachedFrame,

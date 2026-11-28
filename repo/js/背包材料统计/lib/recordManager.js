@@ -81,7 +81,7 @@ function generatePathContentCode(pathingFilePath) {
 // ==============================================
 
 /**
- * 写入内容到文件（追加模式）
+ * 路径记录写入到文件（追加模式）
  * @param {string} filePath - 目标文件路径
  * @param {string} content - 要写入的内容
  */
@@ -91,13 +91,13 @@ function writeContentToFile(filePath, content) {
     try {
       existingContent = safeReadTextSync(filePath);
     } catch (readError) {
-      log.debug(`${CONSTANTS.LOG_MODULES.RECORD}文件不存在或读取失败: ${filePath}`);
+      // log.debug(`${CONSTANTS.LOG_MODULES.RECORD}文件不存在或读取失败: ${filePath}`);
     }
 
     const updatedContent = content + existingContent;
     const result = file.writeTextSync(filePath, updatedContent, false);
     if (result) {
-      log.info(`${CONSTANTS.LOG_MODULES.RECORD}记录成功: ${filePath}`);
+      if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.RECORD}记录成功: ${filePath}`);
     } else {
       log.error(`${CONSTANTS.LOG_MODULES.RECORD}记录失败: ${filePath}`);
     }
@@ -107,64 +107,39 @@ function writeContentToFile(filePath, content) {
 }
 
 /**
- * 检查路径名出现频率（避免重复无效路径）
+ * 上限检测：统计路径在 资源名-0.txt 中累计的命中次数，达到上限（3次）即排除
+ * 注：达到刷怪/掉落上限后通常是收益减少、不一定降为0
  * @param {string} resourceName - 资源名
  * @param {string} pathName - 路径名
  * @param {string} recordDir - 记录目录
- * @param {boolean} isFood - 是否为狗粮路径
  * @returns {boolean|Object} 是否允许运行（true=允许），false时返回详细信息对象
  */
-function checkPathNameFrequency(resourceName, pathName, recordDir, isFood = false, pathingFilePath = null) {
-  let suffix = CONSTANTS.ZERO_COUNT_SUFFIX;
-  if (isFood) {
-    suffix = CONSTANTS.FOOD_ZERO_EXP_SUFFIX;
-  }
+function checkPathNameFrequency(resourceName, pathName, recordDir, isFood = false, pathingFilePath = null, cache = {}) {
+  const suffix = CONSTANTS.ZERO_COUNT_SUFFIX;
   const recordPath = `${recordDir}/${resourceName}${suffix}`;
-  let totalCount = 0;
 
   const currentContentCode = pathingFilePath ? generatePathContentCode(pathingFilePath) : null;
   const hasValidContentCode = currentContentCode && currentContentCode !== "00000000";
+  const cleanPathName = pathName.replace(/_[0-9a-fA-F]{8}\.json$/, '.json');
 
-  try {
-    const content = safeReadTextSync(recordPath);
-    const lines = content.split('\n');
-
-    let currentPathName = null;
-    let recordContentCode = null;
-    
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i].trim();
-      
-      if (line.startsWith('路径名: ')) {
-        currentPathName = line.split('路径名: ')[1];
-      } else if (line.startsWith('内容检测码: ')) {
-        recordContentCode = line.split('内容检测码: ')[1].trim();
-      } else if (line === '' && currentPathName && recordContentCode) {
-        if (hasValidContentCode) {
-          if (recordContentCode === currentContentCode) {
-            totalCount++;
-          }
-        } else {
-          if (currentPathName === pathName) {
-            totalCount++;
-          }
-        }
-        currentPathName = null;
-        recordContentCode = null;
-      }
-    }
-  } catch (error) {
-    log.debug(`${CONSTANTS.LOG_MODULES.RECORD}目录${recordDir}中无${resourceName}${suffix}记录，跳过检查`);
+  let totalCount = 0;
+  const parsedBlocks = parseRecordFileOnce(recordPath, cache);
+  if (parsedBlocks) {
+    parsedBlocks.forEach(p => {
+      const matched = hasValidContentCode
+        ? p.recordContentCode === currentContentCode
+        : p.cleanRecordPathName === cleanPathName;
+      if (matched) totalCount++;
+    });
   }
 
   if (totalCount >= 3) {
-    const typeDesc = isFood ? "狗粮" : "普通材料";
     return {
       valid: false,
-      reason: `0记录频率超限（累计${totalCount}次）`
+      reason: `达到上限（累计${totalCount}次）`
     };
   }
-  
+
   return true;
 }
 
@@ -179,75 +154,72 @@ function checkPathNameFrequency(resourceName, pathName, recordDir, isFood = fals
  * @param {Object} materialCountDifferences - 材料数量变化
  * @param {string} pathingFilePath - 路径文件路径
  */
-function recordRunTime(resourceName, pathName, startTime, endTime, runTime, recordDir, materialCountDifferences = {}, pathingFilePath) {
+function recordRunTime(resourceName, pathName, startTime, endTime, runTime, recordDir, materialCountDifferences = {}, pathingFilePath, noRecordDir) {
   const recordPath = `${recordDir}/${resourceName}.txt`;
   const contentCode = pathingFilePath ? generatePathContentCode(pathingFilePath) : "00000000";
   const normalContent = `路径名: ${pathName}\n内容检测码: ${contentCode}\n开始时间: ${startTime}\n结束时间: ${endTime}\n运行时间: ${runTime}秒\n数量变化: ${JSON.stringify(materialCountDifferences)}\n\n`;
 
+  let outcome = 'none'; // 本次写入结果：'normal'普通记录 / 'zero'零记录 / 'none'未记录(错误或时长不足)，供0记录衰减判定
+
   try {
-    if (runTime > 5) {
+    if (runTime > 13) {
       const isError = typeof materialCountDifferences === 'string' || (typeof materialCountDifferences === 'object' && Object.values(materialCountDifferences).some(v => typeof v === 'string'));
       
       if (isError) {
         log.warn(`${CONSTANTS.LOG_MODULES.RECORD}检测到错误状态，跳过0记录`);
-        return;
+        return 'none';
       }
       
       const isMonsterPath = monsterToMaterials.hasOwnProperty(resourceName);
+      let shouldRecordNormal = true;
+      
       if (isMonsterPath) {
         const monsterTargetMaterials = monsterToMaterials[resourceName] || [];
-        const gradeRatios = [3, 1, 1/3];
         let monsterMaterialsTotal = 0;
-        let monsterMaterialsConvertedTotal = 0;
-        monsterTargetMaterials.forEach((targetMat, index) => {
-          const count = materialCountDifferences[targetMat] || 0;
-          monsterMaterialsTotal += count;
-          monsterMaterialsConvertedTotal += count * (gradeRatios[index] || 1);
+        monsterTargetMaterials.forEach(targetMat => {
+          monsterMaterialsTotal += (materialCountDifferences[targetMat] || 0);
         });
-        if (monsterMaterialsConvertedTotal === 0) {
+        
+        const gradeRatios = MONSTER_GRADE_RATIOS;
+        let totalMiddleCount = 0;
+        monsterTargetMaterials.forEach((mat, index) => {
+          const diff = materialCountDifferences[mat] || 0;
+          totalMiddleCount += diff * (gradeRatios[index] || 1);
+        });
+        totalMiddleCount = parseFloat(totalMiddleCount.toFixed(2));
+        
+        if (totalMiddleCount === 0) {
           const zeroMonsterPath = `${recordDir}/${resourceName}${CONSTANTS.ZERO_COUNT_SUFFIX}`;
           const zeroMonsterContent = `路径名: ${pathName}\n内容检测码: ${contentCode}\n开始时间: ${startTime}\n结束时间: ${endTime}\n运行时间: ${runTime}秒\n数量变化: ${JSON.stringify(materialCountDifferences)}\n\n`;
           writeContentToFile(zeroMonsterPath, zeroMonsterContent);
           log.warn(`${CONSTANTS.LOG_MODULES.RECORD}怪物【${resourceName}】对应材料折算总数量为0，已写入单独文件: ${zeroMonsterPath}`);
+          
+          const noRecordPath = `${noRecordDir}/${resourceName}.txt`;
+          writeContentToFile(noRecordPath, zeroMonsterContent);
+          if (debugLog) log.info(`${CONSTANTS.LOG_MODULES.RECORD}异常路径已记录：${pathName}（运行时间${runTime.toFixed(1)}秒）`);
+          shouldRecordNormal = false;
         }
       }
 
-      if (!isMonsterPath) {
-        for (const [material, count] of Object.entries(materialCountDifferences)) {
-          if (material === resourceName && count === 0) {
-            const zeroMaterialPath = `${recordDir}/${material}${CONSTANTS.ZERO_COUNT_SUFFIX}`;
-            const zeroMaterialContent = `路径名: ${pathName}\n内容检测码: ${contentCode}\n开始时间: ${startTime}\n结束时间: ${endTime}\n运行时间: ${runTime}秒\n数量变化: ${JSON.stringify(materialCountDifferences)}\n\n`;
-            writeContentToFile(zeroMaterialPath, zeroMaterialContent);
-            log.warn(`${CONSTANTS.LOG_MODULES.RECORD}材料数目为0，已写入单独文件: ${zeroMaterialPath}`);
-          }
+      for (const [material, count] of Object.entries(materialCountDifferences)) {
+        if (material === resourceName && count === 0) {
+          const zeroMaterialPath = `${recordDir}/${material}${CONSTANTS.ZERO_COUNT_SUFFIX}`;
+          const zeroMaterialContent = `路径名: ${pathName}\n内容检测码: ${contentCode}\n开始时间: ${startTime}\n结束时间: ${endTime}\n运行时间: ${runTime}秒\n数量变化: ${JSON.stringify(materialCountDifferences)}\n\n`;
+          writeContentToFile(zeroMaterialPath, zeroMaterialContent);
+          log.warn(`${CONSTANTS.LOG_MODULES.RECORD}材料数目为0，已写入单独文件: ${zeroMaterialPath}`);
+          
+          const noRecordPath = `${noRecordDir}/${resourceName}.txt`;
+          writeContentToFile(noRecordPath, zeroMaterialContent);
+          // log.info(`${CONSTANTS.LOG_MODULES.RECORD}异常路径已记录：${pathName}（运行时间${runTime.toFixed(1)}秒）`);
+          shouldRecordNormal = false;
         }
       }
 
-      let shouldWriteNormalRecord = false;
-      if (isMonsterPath) {
-        const monsterTargetMaterials = monsterToMaterials[resourceName] || [];
-        const gradeRatios = [3, 1, 1/3];
-        let monsterMaterialsConvertedTotal = 0;
-        monsterTargetMaterials.forEach((targetMat, index) => {
-          const count = materialCountDifferences[targetMat] || 0;
-          monsterMaterialsConvertedTotal += count * (gradeRatios[index] || 1);
-        });
-        shouldWriteNormalRecord = monsterMaterialsConvertedTotal > 0;
-      } else {
-        const targetCount = materialCountDifferences[resourceName] || 0;
-        shouldWriteNormalRecord = targetCount > 0;
-      }
-
-      if (shouldWriteNormalRecord) {
+      if (shouldRecordNormal) {
         writeContentToFile(recordPath, normalContent);
+        outcome = 'normal';
       } else {
-        if (isMonsterPath) {
-          log.warn(`${CONSTANTS.LOG_MODULES.RECORD}怪物路径折算总数为0，未写入正常记录: ${recordPath}`);
-        } else {
-          const hasZeroMaterial = Object.values(materialCountDifferences).includes(0);
-          if (hasZeroMaterial) log.warn(`${CONSTANTS.LOG_MODULES.RECORD}存在材料数目为0的情况: ${JSON.stringify(materialCountDifferences)}`);
-          log.warn(`${CONSTANTS.LOG_MODULES.RECORD}未写入正常记录: ${recordPath}`);
-        }
+        outcome = 'zero';
       }
     } else {
       log.warn(`${CONSTANTS.LOG_MODULES.RECORD}运行时间小于5秒，未满足记录条件: ${recordPath}`);
@@ -255,6 +227,88 @@ function recordRunTime(resourceName, pathName, startTime, endTime, runTime, reco
   } catch (error) {
     log.error(`${CONSTANTS.LOG_MODULES.RECORD}记录运行时间失败: ${error}`);
   }
+  return outcome;
+}
+
+/**
+ * 0记录衰减：给良好表现的路径逐步抵消旧0记录（“重生/翻身”）
+ * - 重生路径(isRespawn，跑前≥3条0被排除)本次写了正常记录 → 立即清除该路径最旧1条0记录
+ * - 普通路径本次正常 → 合并时间线(正常文件+0文件按结束时间倒序)最近连续2条均为正常时，清除最旧1条0记录
+ * 中性记录(时间成本异常/识别失败)只写noRecord、不落这两文件，天然不参与也不打断连续判定。
+ * @param {string} resourceKey - 资源键(怪物名/材料名)
+ * @param {string} pathingFilePath - 路径文件路径
+ * @param {string} recordDir - 记录目录
+ * @param {string} outcome - recordRunTime 返回：'normal'/'zero'/'none'
+ * @param {boolean} isRespawn - 本条是否为重生组注入
+ * @param {Object} runCache - 本轮记录解析缓存(用于失效被改文件的缓存)
+ * @returns {boolean} 是否实际清除了一条
+ */
+function applyZeroRecordDecay(resourceKey, pathingFilePath, recordDir, outcome, isRespawn, runCache) {
+  if (outcome !== 'normal' || !resourceKey || !pathingFilePath) return false;
+  const zeroPath = `${recordDir}/${resourceKey}${CONSTANTS.ZERO_COUNT_SUFFIX}`;
+
+  if (!isRespawn) {
+    const freshCache = {};
+    const contentCode = generatePathContentCode(pathingFilePath);
+    const pathName = basename(pathingFilePath);
+    const cleanPathName = pathName.replace(/_[0-9a-fA-F]{8}\.json$/, '.json');
+    const hasValid = contentCode && contentCode !== '00000000';
+    const isMine = b => hasValid ? b.recordContentCode === contentCode : b.cleanRecordPathName === cleanPathName;
+    const normalBlocks = (parseRecordFileOnce(`${recordDir}/${resourceKey}.txt`, freshCache) || []).filter(isMine).map(b => ({ endTime: b.endTime, type: 'normal' }));
+    const zeroBlocks = (parseRecordFileOnce(zeroPath, freshCache) || []).filter(isMine).map(b => ({ endTime: b.endTime, type: 'zero' }));
+    const merged = [...normalBlocks, ...zeroBlocks].filter(x => x.endTime).sort((a, b) => new Date(b.endTime) - new Date(a.endTime));
+    if (!(merged.length >= 2 && merged[0].type === 'normal' && merged[1].type === 'normal')) return false;
+  }
+
+  const cleared = removeOldestZeroRecordForPath(resourceKey, pathingFilePath, recordDir, isRespawn);
+  if (cleared && runCache) {
+    delete runCache[`__fileparse__|${recordDir}/${resourceKey}.txt`];
+    delete runCache[`__fileparse__|${zeroPath}`];
+  }
+  return cleared;
+}
+
+/**
+ * 从 ${resourceKey}-0.txt 中删除该路径最旧的1个记录块（文件头插，最新在前，故最旧=末尾匹配块）
+ * @returns {boolean} 是否删除成功
+ */
+function removeOldestZeroRecordForPath(resourceKey, pathingFilePath, recordDir, isRespawn) {
+  const zeroPath = `${recordDir}/${resourceKey}${CONSTANTS.ZERO_COUNT_SUFFIX}`;
+  let raw;
+  try {
+    raw = safeReadTextSync(zeroPath);
+  } catch (e) {
+    return false;
+  }
+  if (!raw || !raw.includes('路径名: ')) return false;
+
+  const contentCode = generatePathContentCode(pathingFilePath);
+  const pathName = basename(pathingFilePath);
+  const cleanPathName = pathName.replace(/_[0-9a-fA-F]{8}\.json$/, '.json');
+  const hasValid = contentCode && contentCode !== '00000000';
+
+  const blocks = raw.split('\n\n');
+  let targetIdx = -1;
+  for (let i = blocks.length - 1; i >= 0; i--) {
+    const block = blocks[i];
+    if (!block || !block.includes('路径名: ')) continue;
+    let bCode = '00000000', bName = '';
+    block.split('\n').map(l => l.trim()).filter(l => l).forEach(line => {
+      if (line.startsWith('内容检测码: ')) bCode = line.split('内容检测码: ')[1].trim() || '00000000';
+      else if (line.startsWith('路径名: ')) bName = line.split('路径名: ')[1].trim();
+    });
+    const matched = hasValid
+      ? (bCode === contentCode)
+      : (bName.replace(/_[0-9a-fA-F]{8}\.json$/, '.json') === cleanPathName);
+    if (matched) { targetIdx = i; break; }
+  }
+  if (targetIdx === -1) return false;
+
+  blocks.splice(targetIdx, 1);
+  const remaining = blocks.filter(b => b && b.includes('路径名: '));
+  file.writeTextSync(zeroPath, remaining.join('\n\n') + '\n\n', false);
+  log.warn(`${CONSTANTS.LOG_MODULES.RECORD}[0记录衰减] ${isRespawn ? '重生成功' : '连续2条正常'}，清除 ${pathName} 最旧1条0记录，${resourceKey}-0.txt 剩余${remaining.length}条`);
+  return true;
 }
 
 /**
@@ -265,58 +319,29 @@ function recordRunTime(resourceName, pathName, startTime, endTime, runTime, reco
  * @param {string} noRecordDir - 无记录目录
  * @returns {string|null} 上次结束时间字符串（null=无记录）
  */
-function getLastRunEndTime(resourceName, pathName, recordDir, noRecordDir, pathingFilePath) {
-  const checkDirs = [recordDir, noRecordDir];
-  let latestEndTime = null;
-  
+function getLastRunEndTime(resourceName, pathName, recordDir, noRecordDir, pathingFilePath, cache = {}) {
   const contentCode = pathingFilePath ? generatePathContentCode(pathingFilePath) : null;
   const hasValidContentCode = contentCode && contentCode !== "00000000";
-  
   const cleanPathName = pathName.replace(/_[0-9a-fA-F]{8}\.json$/, '.json');
 
-  checkDirs.forEach(dir => {
-    const recordPath = `${dir}/${resourceName}.txt`;
-    try {
-      const content = safeReadTextSync(recordPath);
-      const lines = content.split('\n');
+  let latestEndTime = null;
 
-      const recordBlocks = content.split('\n\n').filter(block => block.includes('路径名: '));
-      
-      recordBlocks.forEach(block => {
-        const blockLines = block.split('\n');
-        let blockPathName = '';
-        let blockContentCode = '00000000';
-        let blockEndTime = null;
-        
-        blockLines.forEach(line => {
-          if (line.startsWith('路径名: ')) {
-            blockPathName = line.split('路径名: ')[1].trim();
-          } else if (line.startsWith('内容检测码: ')) {
-            blockContentCode = line.split('内容检测码: ')[1].trim() || '00000000';
-          } else if (line.startsWith('结束时间: ')) {
-            blockEndTime = line.split('结束时间: ')[1].trim();
-          }
-        });
-        
-        const cleanBlockPathName = blockPathName.replace(/_[0-9a-fA-F]{8}\.json$/, '.json');
-        
-        let isMatch = false;
-        if (hasValidContentCode) {
-          isMatch = blockContentCode === contentCode;
-        } else {
-          isMatch = cleanBlockPathName === cleanPathName;
+  [recordDir, noRecordDir].forEach(dir => {
+    const recordPath = `${dir}/${resourceName}.txt`;
+    const parsedBlocks = parseRecordFileOnce(recordPath, cache);
+    if (!parsedBlocks) return;
+
+    parsedBlocks.forEach(p => {
+      const isMatch = hasValidContentCode
+        ? p.recordContentCode === contentCode
+        : p.cleanRecordPathName === cleanPathName;
+      // 精简版无狗粮专区：不再按“出货证据”过滤，所有记录（含noRecord的“noRecord模式忽略”）均顺延CD
+      if (isMatch && p.endTime) {
+        if (!latestEndTime || new Date(p.endTime) > new Date(latestEndTime)) {
+          latestEndTime = p.endTime;
         }
-        
-        if (isMatch && blockEndTime) {
-          const endTime = new Date(blockEndTime);
-          if (!latestEndTime || endTime > new Date(latestEndTime)) {
-            latestEndTime = blockEndTime;
-          }
-        }
-      });
-    } catch (error) {
-      log.debug(`${CONSTANTS.LOG_MODULES.RECORD}目录${dir}中无${resourceName}记录，跳过检查`);
-    }
+      }
+    });
   });
 
   return latestEndTime;
@@ -328,101 +353,115 @@ function getLastRunEndTime(resourceName, pathName, recordDir, noRecordDir, pathi
  * @param {string} pathName - 路径名
  * @param {string} recordDir - 主记录目录
  * @param {string} noRecordDir - 备用记录目录
- * @param {boolean} isFood - 是否为狗粮路径
+ * @param {boolean} isFood - 保留参数位（兼容调用）
  * @param {Object} cache - 缓存对象（单次路径处理周期内有效）
+ * @param {string} pathingFilePath - 路径文件路径（用于内容检测码）
+ * @param {boolean} filterExcessMaterials - 是否过滤超量材料（默认false）
  * @returns {Array<Object>} 结构化记录列表（含runTime、quantityChange）
  */
+/**
+ * 文件级解析缓存：同一记录文件在单次处理周期内只读盘、解析一次
+ * 解析全部记录块，供各路径按需筛选；文件不存在/读失败返回 null（同样缓存，避免重复尝试）
+ * @param {string} filePath - 记录文件绝对路径
+ * @param {Object} cache - 缓存对象
+ * @returns {Array<Object>|null} 解析后的记录块数组（文件为空返回 []，读失败返回 null）
+ */
+function parseRecordFileOnce(filePath, cache) {
+  const fileCacheKey = `__fileparse__|${filePath}`;
+  if (Object.prototype.hasOwnProperty.call(cache, fileCacheKey)) {
+    return cache[fileCacheKey];
+  }
+
+  let content;
+  try {
+    content = safeReadTextSync(filePath);
+  } catch (e) {
+    cache[fileCacheKey] = null;
+    return null;
+  }
+
+  const parsedBlocks = [];
+  content.split('\n\n').filter(block => block.includes('路径名: ')).forEach(block => {
+    let recordPathName = '';
+    let recordContentCode = '00000000';
+    let runTime = 0;
+    let endTime = null;
+    let quantityChange = {};
+    let quantityRaw = ''; // 数量变化原文（noRecord里的文本型记录靠它判是否有出货）
+
+    block.split('\n').map(l => l.trim()).filter(l => l).forEach(line => {
+      if (line.startsWith('路径名: ')) {
+        recordPathName = line.split('路径名: ')[1].trim();
+      } else if (line.startsWith('内容检测码: ')) {
+        recordContentCode = line.split('内容检测码: ')[1].trim() || '00000000';
+      } else if (line.startsWith('运行时间: ')) {
+        runTime = parseInt(line.split('运行时间: ')[1].split('秒')[0], 10) || 0;
+      } else if (line.startsWith('结束时间: ')) {
+        endTime = line.split('结束时间: ')[1].trim();
+      } else if (line.startsWith('数量变化: ')) {
+        const rawQuantity = line.split('数量变化: ')[1];
+        quantityRaw = rawQuantity;
+        try {
+          quantityChange = JSON.parse(rawQuantity) || {};
+        } catch (e) {
+          // 非 JSON 即异常记录（noRecord模式忽略 / 时间成本异常 / 摩拉识别失败 / task canceled 等）：
+          // 无数量、不参与时间成本，仅供 CD 取结束时间；异常在写入时已记录，此处不重复报警
+          quantityChange = {};
+        }
+      }
+    });
+
+    parsedBlocks.push({
+      cleanRecordPathName: recordPathName.replace(/_[0-9a-fA-F]{8}\.json$/, '.json'),
+      recordContentCode,
+      runTime,
+      endTime,
+      quantityRaw,
+      quantityChange
+    });
+  });
+
+  cache[fileCacheKey] = parsedBlocks;
+  return parsedBlocks;
+}
+
 function getHistoricalPathRecords(resourceKey, pathName, recordDir, noRecordDir, isFood = false, cache = {}, pathingFilePath, filterExcessMaterials = false) {
   const contentCode = pathingFilePath ? generatePathContentCode(pathingFilePath) : null;
   const hasValidContentCode = contentCode && contentCode !== "00000000";
   
   const cleanPathName = pathName.replace(/_[0-9a-fA-F]{8}\.json$/, '.json');
   
-  const isFoodSuffix = isFood ? CONSTANTS.FOOD_EXP_RECORD_SUFFIX : ".txt";
-  const recordFile = `${recordDir}/${resourceKey}${isFoodSuffix}`;
+  const recordFile = `${recordDir}/${resourceKey}.txt`;
   const cacheKey = `${recordFile}|${cleanPathName}|${contentCode || "00000000"}|${hasValidContentCode ? "code" : "name"}`;
 
   if (cache[cacheKey]) {
-    if (debugLog) log.debug(`${CONSTANTS.LOG_MODULES.RECORD}从缓存复用记录：${cacheKey}`);
+    // if (debugLog) log.debug(`${CONSTANTS.LOG_MODULES.RECORD}从缓存复用记录：${cacheKey}`);
     return cache[cacheKey];
   }
 
-  const records = [];
-  let targetFile = recordFile;
-  let content = "";
-
-  try {
-    content = safeReadTextSync(targetFile);
-  } catch (mainErr) {
-    targetFile = `${noRecordDir}/${resourceKey}${isFoodSuffix}`;
-    try {
-      content = safeReadTextSync(targetFile);
-      log.debug(`${CONSTANTS.LOG_MODULES.RECORD}从备用目录读取记录：${targetFile}`);
-    } catch (backupErr) {
-      log.debug(`${CONSTANTS.LOG_MODULES.RECORD}无${resourceKey}的历史记录：${targetFile}`);
-      cache[cacheKey] = records;
-      return records;
-    }
+  // 时间成本只用主目录正常记录：主目录读不到即无时间成本，绝不回退 noRecord（noRecord 仅供 CD 取结束时间）
+  const parsedBlocks = parseRecordFileOnce(recordFile, cache);
+  if (!parsedBlocks) {
+    cache[cacheKey] = [];
+    return [];
   }
 
-  const lines = content.split('\n');
-  const recordBlocks = content.split('\n\n').filter(block => block.includes('路径名: '));
-  
-  recordBlocks.forEach(block => {
-    const blockLines = block.split('\n').map(line => line.trim()).filter(line => line);
-    let runTime = 0;
-    let quantityChange = {};
-    let isTargetPath = false;
-    let recordContentCode = "00000000";
-
-    blockLines.forEach(line => {
-      if (line.startsWith('路径名: ')) {
-        const recordPathName = line.split('路径名: ')[1].trim();
-        const cleanRecordPathName = recordPathName.replace(/_[0-9a-fA-F]{8}\.json$/, '.json');
-        if (cleanRecordPathName === cleanPathName) {
-          isTargetPath = true;
-        }
-      }
-      if (line.startsWith('内容检测码: ')) {
-        recordContentCode = line.split('内容检测码: ')[1].trim() || "00000000";
-      }
-      if (line.startsWith('运行时间: ')) {
-        runTime = parseInt(line.split('运行时间: ')[1].split('秒')[0], 10) || 0;
-      }
-      if (line.startsWith('本次EXP获取: ')) {
-        const exp = parseInt(line.split('本次EXP获取: ')[1], 10) || 0;
-        quantityChange = { exp: exp };
-      } else if (line.startsWith('数量变化: ')) {
-        try {
-          quantityChange = JSON.parse(line.split('数量变化: ')[1]) || {};
-        } catch (e) {
-          log.warn(`${CONSTANTS.LOG_MODULES.RECORD}解析数量变化失败：${line}`);
-        }
-      }
-    });
-
-    let shouldInclude = false;
-    if (hasValidContentCode) {
-      shouldInclude = recordContentCode === contentCode && runTime > 0;
-    } else {
-      shouldInclude = isTargetPath && runTime > 0;
-    }
-    
-    if (shouldInclude) {
-      records.push({ runTime, quantityChange, contentCode: recordContentCode });
+  const records = [];
+  parsedBlocks.forEach(p => {
+    const matched = hasValidContentCode
+      ? (p.recordContentCode === contentCode && p.runTime > 0)
+      : (p.cleanRecordPathName === cleanPathName && p.runTime > 0);
+    if (matched) {
+      records.push({ runTime: p.runTime, quantityChange: p.quantityChange, contentCode: p.recordContentCode });
     }
   });
 
   cache[cacheKey] = records;
-  if (debugLog) log.debug(`${CONSTANTS.LOG_MODULES.RECORD}读取记录并缓存：${cacheKey}（${records.length}条）`);
+  // if (debugLog) log.debug(`${CONSTANTS.LOG_MODULES.RECORD}读取记录并缓存：${cacheKey}（${records.length}条）`);
   
   if (filterExcessMaterials && excessMaterialNames.length > 0) {
     const filteredRecords = records.filter(record => {
       const { quantityChange } = record;
-      
-      if (isFood) {
-        return true;
-      }
       
       if (monsterToMaterials[resourceKey]) {
         const monsterMaterials = monsterToMaterials[resourceKey];
@@ -437,9 +476,9 @@ function getHistoricalPathRecords(resourceKey, pathName, recordDir, noRecordDir,
       return true;
     });
     
-    if (debugLog && filteredRecords.length !== records.length) {
-      log.debug(`${CONSTANTS.LOG_MODULES.RECORD}过滤超量材料记录：${records.length}条 -> ${filteredRecords.length}条`);
-    }
+    // if (debugLog && filteredRecords.length !== records.length) {
+    //   log.debug(`${CONSTANTS.LOG_MODULES.RECORD}过滤超量材料记录：${records.length}条 -> ${filteredRecords.length}条`);
+    // }
     
     return filteredRecords;
   }
@@ -458,11 +497,10 @@ function getHistoricalPathRecords(resourceKey, pathName, recordDir, noRecordDir,
 function estimatePathTotalTime(entry, recordDir, noRecordDir, cache = {}) {
   const { resourceName, monsterName, path: pathingFilePath } = entry;
   const pathName = basename(pathingFilePath);
-  const isFood = resourceName && isFoodResource(resourceName);
-  let resourceKey = isFood ? resourceName : (monsterName || resourceName);
+  let resourceKey = monsterName || resourceName;
 
   if (!resourceKey) {
-    log.warn(`${CONSTANTS.LOG_MODULES.RECORD}路径${pathName}无资源关联，默认按120秒（2分钟）预估`);
+    // log.warn(`${CONSTANTS.LOG_MODULES.RECORD}路径${pathName}无资源关联，默认按120秒（2分钟）预估`);
     return 120;
   }
 
@@ -471,21 +509,42 @@ function estimatePathTotalTime(entry, recordDir, noRecordDir, cache = {}) {
     pathName, 
     recordDir, 
     noRecordDir, 
-    isFood, 
+    false, 
     cache,
     pathingFilePath
   );
 
   if (historicalRecords.length === 0) {
-    log.warn(`${CONSTANTS.LOG_MODULES.RECORD}路径${pathName} 无正常运行记录，默认耗时120秒`);
+    // if (debugLog) log.warn(`${CONSTANTS.LOG_MODULES.RECORD}路径${pathName} 无正常运行记录，默认耗时120秒`);
     return 120;
   }
 
-  const recentRecords = [...historicalRecords].reverse().slice(0, 5);
+  // 记录文件新→旧排列，直接取前5条=最近5条（与 calculatePerTime 同口径）；不可再 reverse，否则会取到最旧5条
+  const recentRecords = historicalRecords.slice(0, 5);
   const avgRunTime = Math.round(
     recentRecords.reduce((sum, record) => sum + record.runTime, 0) / recentRecords.length
   );
 
-  log.debug(`${CONSTANTS.LOG_MODULES.RECORD}路径${pathName}历史runTime（最近5条）：${recentRecords.map(r => r.runTime)}秒，预估耗时：${avgRunTime}秒`);
+  // if (debugLog) log.debug(`${CONSTANTS.LOG_MODULES.RECORD}路径${pathName}历史runTime（最近5条）：${recentRecords.map(r => r.runTime)}秒，预估耗时：${avgRunTime}秒`);
   return avgRunTime;
+}
+
+/**
+ * 获取路径的上次运行时间（用于回滚路径筛选）
+ * @param {Object} entry - 路径条目
+ * @param {string} recordDir - 记录目录
+ * @param {string} noRecordDir - 备用目录
+ * @returns {Date|null} 上次运行时间（无记录返回null）
+ */
+function getPathLastRunTime(entry, recordDir, noRecordDir, cache = {}) {
+  const { resourceName, monsterName, path: pathingFilePath } = entry;
+  const pathName = basename(pathingFilePath);
+  let resourceKey = monsterName || resourceName;
+
+  if (!resourceKey) {
+    return null;
+  }
+
+  const lastEndTime = getLastRunEndTime(resourceKey, pathName, recordDir, noRecordDir, pathingFilePath, cache);
+  return lastEndTime ? new Date(lastEndTime) : null;
 }

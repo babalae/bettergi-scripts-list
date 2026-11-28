@@ -1,22 +1,139 @@
-// ======================== 1. 预加载函数（精简日志版）========================
-async function preloadImageResources(specificNames) {
-    // log.info("开始预加载所有图片资源");
+// ======================== imageClick 弹窗识别与操作 ========================
+// config.json 中文结构说明：
+// {
+//   "弹窗名称": "任意名称",
+//   "识别": {
+//     "方式": "固定区域" | "大小图标定",
+//     "图标文件夹": "icon",                 // 可省略，默认 icon
+//     "标定大图文件夹": "Picture",           // 仅"大小图标定"需要，可省略默认 Picture
+//     "区域": { "x":0,"y":0,"宽":0,"高":0 }, // 仅"固定区域"需要
+//     "阈值": 0.85,                          // 可省略，默认 0.85
+//     "已标定区域": []                       // 大小图标定首次运行后自动回写，无需手填
+//   },
+//   "识别成功后": [                          // 严格按数组顺序执行
+//     { "动作":"点击",     "次数":1, "间隔毫秒":0, "x偏移":0, "y偏移":0 },
+//     { "动作":"按键",     "按键":"VK_J", "次数":1, "间隔毫秒":0 },
+//     { "动作":"OCR点击",  "目标文本":["文字"], "区域":{"x":0,"y":0,"宽":0,"高":0}, "超时毫秒":2000, "次数":1, "间隔毫秒":0, "x偏移":0, "y偏移":0 },
+//     { "动作":"执行键鼠脚本", "脚本路径":"assets/xxx.json", "次数":1, "间隔毫秒":0 },
+//     { "动作":"等待",     "毫秒":1000 },
+//     { "动作":"调用子弹窗", "弹窗":"assets/imageClick/其他/F", "重试次数":3, "重试间隔毫秒":500,
+//       "循环":true, "循环间隔毫秒":300, "最大循环次数":20,
+//       "直到识别到":"assets/imageClick/其他/F" }  // 可省略；填写后每轮先检测该弹窗，出现即提前结束循环
+//   ],
+//   "识别失败时": { "重试次数":3, "重试间隔毫秒":500 },
+//   "循环间隔秒": 15                        // 可省略，省略时用设置里的默认间隔
+// }
+// 流程：先截图识别 → 识别成功后按"识别成功后"顺序执行步骤 → 全部失败才判定失败。
+//
+// ======================== imageClick 专用执行逻辑 ========================
+// 【目录约定】
+//   assets/imageClick/<弹窗名>/icon/    ：必需，存放识别模板图标（png）
+//   assets/imageClick/<弹窗名>/Picture/ ：仅"大小图标定"需要，存放含图标的整页截图（标定用）
+//   assets/imageClick/<弹窗名>/config.json：弹窗配置；没有 config 时按"大小图标定 + 识别后点击1次"处理
+//   一级弹窗 = imageClick 下的直接子目录；二级弹窗 = 再深一层（如 其他/F），只供"调用子弹窗"触发，不参与外循环
+//
+// 【外循环（一级弹窗，慢节奏，省资源）】
+//   1. 依次对每个一级弹窗执行 runPopup：截图识别 → 识别成功才执行步骤，识别不到什么都不做
+//   2. 每个一级弹窗处理完，按它自己的"循环间隔秒"等待；未配置则用设置 PopupClickDelay（默认15秒）
+//   3. 二级弹窗不参与外循环，不会被定时扫描
+//
+// 【单次弹窗流程 runPopup】
+//   识别（detectWithRetry，按"识别失败时"重试）→ 识别成功 → 严格按"识别成功后"数组顺序执行步骤 → 结束
+//   注意：识别与操作分离，识别函数只返回坐标，不会点击；一次触发只执行一次，不会重复操作
+//
+// 【两种识别方式】
+//   固定区域 ：直接在 config 的"区域"内对实时画面做模板匹配，坐标写死，绑定1920x1080
+//   大小图标定：首次用 Picture 大图反查 icon 得到坐标，自动回写 config 的"已标定区域"（含标定分辨率）；
+//              以后直接读缓存坐标，不再加载 Picture。运行分辨率与标定分辨率不符时缓存作废、重新标定；
+//              标定失败不覆盖旧缓存。标定坐标只用于缩小实时识别区域，运行时仍做一次实时模板匹配
+//
+// 【步骤动作】（"识别成功后"数组的每一项）
+//   点击        ：点击识别到的图标中心 + x偏移/y偏移
+//   按键        ：按"按键"（VK_xxx）；次数默认1
+//   OCR点击     ：在"区域"内 OCR 找"目标文本"，点击识别到的文字位置（可加偏移）
+//   执行键鼠脚本：运行"脚本路径"指向的 BetterGI 键鼠脚本
+//   等待        ：sleep "毫秒"
+//   调用子弹窗  ：运行"弹窗"路径对应的二级弹窗，默认只调一次
+//
+// 【调用子弹窗的快速循环】（一级弹窗触发后的快节奏，只在本次触发内有效）
+//   配置 "循环":true 后，反复执行子弹窗的"识别→操作"：
+//     - 每轮先检测"直到识别到"弹窗（若配置）：出现则提前结束循环
+//     - 执行子弹窗；子弹窗识别不到 → 立即结束循环（失败即停，不无限重试）
+//     - 一轮完成后等待"循环间隔毫秒"，再开始下一轮
+//     - 总轮数不超过"最大循环次数"（防死循环）
+//   循环结束后继续执行后续步骤；全部步骤走完才回到一级弹窗的慢循环
+//
+// 【对话链条示例】
+//   对话页识别到 → 循环按空格（每轮先看F，没F才按空格）→ 看到F结束空格循环
+//                → 滚轮快速循环（滚轮脚本→F→滚轮→F…，滚轮识别不到即停）→ 回到慢循环
 
-    function hasIconFolder(dirPath) {
+// ======================== 1. 配置读取与规范化 ========================
+function normalizeRegion(r) {
+    if (!r || r.x == null || r.y == null || r.宽 == null || r.高 == null) return null;
+    return { x: r.x, y: r.y, width: r.宽, height: r.高 };
+}
+
+function loadPopupConfig(subDir) {
+    const rawConfig = {};
+    const configPath = normalizePath(`${subDir}/config.json`);
+    if (fileExists(configPath)) {
         try {
-            const entries = readAllFilePaths(dirPath, 0, 0, [], true); 
-            return entries.some(entry => normalizePath(entry).endsWith('/icon'));
+            Object.assign(rawConfig, JSON.parse(safeReadTextSync(configPath)));
         } catch (e) {
-            log.error(`检查目录【${dirPath}】是否有icon文件夹失败：${e.message}`);
-            return false;
+            log.error(`【${basename(subDir)}】解析config失败，使用默认配置：${e.message}`);
         }
     }
 
+    const detect = rawConfig.识别 || {};
+    const failCfg = rawConfig.识别失败时 || {};
+    const mode = detect.方式 === "固定区域" ? "固定区域" : "大小图标定";
+
+    return {
+        configPath,
+        rawConfig,
+        cfg: {
+            弹窗名称: rawConfig.弹窗名称 || basename(subDir),
+            mode,
+            iconDirName: detect.图标文件夹 || "icon",
+            pictureDirName: detect.标定大图文件夹 || "Picture",
+            threshold: typeof detect.阈值 === "number" ? detect.阈值 : 0.85,
+            fixedRegion: mode === "固定区域" ? normalizeRegion(detect.区域) : null,
+            cached: Array.isArray(detect.已标定区域) ? detect.已标定区域.map(c => ({
+                picture: c.大图, icon: c.图标,
+                x: c.x, y: c.y, width: c.宽, height: c.高,
+                calibWidth: c.标定宽, calibHeight: c.标定高
+            })) : [],
+            steps: Array.isArray(rawConfig.识别成功后) ? rawConfig.识别成功后 : [{ 动作: "点击", 次数: 1, 间隔毫秒: 0 }],
+            retryCount: failCfg.重试次数 != null ? failCfg.重试次数 : 3,
+            retryDelay: failCfg.重试间隔毫秒 != null ? failCfg.重试间隔毫秒 : 500,
+            loopDelaySec: rawConfig.循环间隔秒 != null ? Number(rawConfig.循环间隔秒) : null
+        }
+    };
+}
+
+// 将标定结果回写到 config.json（读-合并-写，保留其他字段）
+function saveCalibration(configPath, rawConfig, cachedEntries) {
+    try {
+        rawConfig.识别 = rawConfig.识别 || {};
+        rawConfig.识别.方式 = rawConfig.识别.方式 || "大小图标定";
+        rawConfig.识别.已标定区域 = cachedEntries.map(c => ({
+            "大图": c.picture,
+            "图标": c.icon,
+            "x": c.x, "y": c.y, "宽": c.width, "高": c.height,
+            "标定宽": c.calibWidth, "标定高": c.calibHeight
+        }));
+        writeFile(configPath, JSON.stringify(rawConfig, null, 2), false);
+        log.info(`标定结果已写入config：${configPath}（共${cachedEntries.length}组）`);
+    } catch (e) {
+        log.error(`回写标定config失败：${configPath}：${e.message}`);
+    }
+}
+
+// ======================== 2. 预加载（含一次性大小图标定）========================
+async function preloadImageResources(specificNames, runtimeSize) {
     let preSpecificNames = specificNames;
-    if (typeof specificNames === 'string') preSpecificNames = [specificNames];
+    if (typeof preSpecificNames === 'string') preSpecificNames = [preSpecificNames];
     const isAll = !preSpecificNames || preSpecificNames.length === 0;
-    // if (isAll) log.info("未指定具体弹窗名称，将执行所有含icon文件夹的弹窗目录处理");
-    // else log.info(`指定处理弹窗名称：${preSpecificNames.join(', ')}（仅含icon文件夹的目录）`);
 
     const rootDir = "assets/imageClick";
     const rootDirNormalized = normalizePath(rootDir);
@@ -24,199 +141,303 @@ async function preloadImageResources(specificNames) {
 
     const targetDirs = subDirs.filter(subDir => {
         const dirName = basename(subDir);
-        const hasIcon = hasIconFolder(subDir); 
+        let hasIcon = false;
+        try {
+            const entries = readAllFilePaths(subDir, 0, 1, [], true);
+            hasIcon = entries.some(entry => normalizePath(entry).endsWith('/icon'));
+        } catch (e) {
+            log.error(`检查目录【${subDir}】icon文件夹失败：${e.message}`);
+        }
         const matchName = isAll ? true : preSpecificNames.includes(dirName);
         return hasIcon && matchName;
     });
 
-    if (targetDirs.length === 0) {
-        // log.info("未找到符合条件的弹窗目录");
-        return [];
-    }
-
     const preloadedResources = [];
+
     for (const subDir of targetDirs) {
         const dirName = basename(subDir);
         const fullPath = normalizePath(subDir);
-        const pathSegments = fullPath.slice(rootDirNormalized.length + 1).split('/');
-        const level = pathSegments.length;
+        const level = fullPath.slice(rootDirNormalized.length + 1).split('/').length;
         const isFirstLevel = level === 1;
 
-        let popupConfig = {
-            isSpecial: false,
-            operationType: "click",
-            ocrConfig: null,
-            xOffset: 0,
-            yOffset: 0,
-            detectRegion: null,
-            nextLevelOnSuccess: "",
-            nextLevelOnFailure: "",
-            loopCount: 1,
-            loopDelay: 0
-        };
-        const configPath = normalizePath(`${subDir}/config.json`);
-        let isSpecialModule = false;
-        let specialDetectRegion = null;
+        const { configPath, rawConfig, cfg } = loadPopupConfig(subDir);
 
-        if (fileExists(configPath)) {
-            try {
-                const configContent = safeReadTextSync(configPath);
-                popupConfig = { ...popupConfig, ...JSON.parse(configContent) };
-                isSpecialModule = popupConfig.isSpecial === true 
-                    && typeof popupConfig.detectRegion === 'object' 
-                    && popupConfig.detectRegion !== null 
-                    && popupConfig.detectRegion.x != null 
-                    && popupConfig.detectRegion.y != null 
-                    && popupConfig.detectRegion.width != null 
-                    && popupConfig.detectRegion.height != null 
-                    && popupConfig.detectRegion.width > 0 
-                    && popupConfig.detectRegion.height > 0;
-                specialDetectRegion = isSpecialModule ? popupConfig.detectRegion : null;
-                // log.info(`【${dirName}】加载配置成功：${isFirstLevel ? '第一级' : '第二级'} | 模块类型：${isSpecialModule ? '特殊模块' : '普通模块'}`);
-            } catch (e) {
-                log.error(`【${dirName}】解析配置失败，使用默认配置：${e.message}`);
-                isSpecialModule = false;
-            }
+        const entries = readAllFilePaths(subDir, 0, 1, [], true);
+        const iconDir = entries.find(entry => normalizePath(entry).endsWith(`/${cfg.iconDirName}`));
+        if (!iconDir) {
+            log.warn(`【${dirName}】无${cfg.iconDirName}文件夹，跳过`);
+            continue;
+        }
+        const iconFilePaths = readAllFilePaths(iconDir, 0, 0, ['.png', '.jpg', '.jpeg']);
+        if (iconFilePaths.length === 0) {
+            log.warn(`【${dirName}】无有效图标文件，跳过`);
+            continue;
         }
 
-        if (isSpecialModule) {
-            const entries = readAllFilePaths(subDir, 0, 1, [], true);
-            const iconDir = entries.find(entry => normalizePath(entry).endsWith('/icon'));
-            const iconFilePaths = readAllFilePaths(iconDir, 0, 0, ['.png', '.jpg', '.jpeg']);
-            
-            if (iconFilePaths.length === 0) {
-                log.warn(`【${dirName}】特殊模块无有效icon文件，跳过`);
+        // 加载图标模板
+        const iconObjects = [];
+        for (const filePath of iconFilePaths) {
+            const mat = file.readImageMatSync(filePath);
+            if (mat.empty()) {
+                log.error(`【${dirName}】加载图标失败：${filePath}`);
                 continue;
             }
+            iconObjects.push({ name: basename(filePath), mat });
+        }
+        if (iconObjects.length === 0) continue;
 
-            const iconRecognitionObjects = [];
-            for (const filePath of iconFilePaths) {
-                const mat = file.readImageMatSync(filePath);
-                if (mat.empty()) {
-                    log.error(`【${dirName}】特殊模块加载图标失败：${filePath}`);
-                    continue;
-                }
-                iconRecognitionObjects.push({ 
-                    name: basename(filePath),
-                    ro: RecognitionObject.TemplateMatch(mat, 0, 0, 1920, 1080),
-                    iconDir,
-                    mat: mat
-                });
+        let foundRegions = [];
+
+        if (cfg.mode === "固定区域") {
+            if (!cfg.fixedRegion) {
+                log.warn(`【${dirName}】固定区域模式缺少"区域"配置，跳过`);
+                continue;
             }
-
-            const foundRegions = []; // 存储所有图标的识别配置
-            for (const targetIcon of iconRecognitionObjects) { // 遍历每个图标
-                const manualRegion = new ImageRegion(targetIcon.mat, specialDetectRegion.x, specialDetectRegion.y);
-                manualRegion.width = specialDetectRegion.width;
-                manualRegion.height = specialDetectRegion.height;
+            for (const icon of iconObjects) {
                 foundRegions.push({
-                    pictureName: "特殊模块",
-                    iconName: targetIcon.name, // 当前图标的名称
-                    region: manualRegion, // 复用同一个detectRegion区域
-                    iconDir: iconDir
+                    iconName: icon.name, iconDir: normalizePath(iconDir),
+                    x: cfg.fixedRegion.x, y: cfg.fixedRegion.y,
+                    width: cfg.fixedRegion.width, height: cfg.fixedRegion.height
                 });
             }
-            // log.info(`【${dirName}】特殊模块生成识别区域：x=${manualRegion.x}, y=${manualRegion.y}, 宽=${manualRegion.width}, 高=${manualRegion.height}`);
-
-            preloadedResources.push({
-                dirName,
-                fullPath,
-                foundRegions,
-                popupConfig,
-                isFirstLevel: isFirstLevel,
-                level: level
-            });
-
         } else {
-            const entries = readAllFilePaths(subDir, 0, 1, [], true);
-            const iconDir = entries.find(entry => normalizePath(entry).endsWith('/icon'));
-            const pictureDir = entries.find(entry => normalizePath(entry).endsWith('/Picture'));
-            
-            if (!pictureDir) {
-                log.warn(`【${dirName}】普通模块无Picture文件夹，跳过`);
-                continue;
-            }
+            // 大小图标定：缓存有效（非空且分辨率一致）时直接使用，不再读 Picture
+            const cacheValid = cfg.cached.length > 0 && cfg.cached.every(c =>
+                runtimeSize && c.calibWidth === runtimeSize.width && c.calibHeight === runtimeSize.height);
 
-            const iconFilePaths = readAllFilePaths(iconDir, 0, 0, ['.png', '.jpg', '.jpeg']);
-            const pictureFilePaths = readAllFilePaths(pictureDir, 0, 0, ['.png', '.jpg', '.jpeg']);
-            
-            // 仅在资源为空时警告
-            if (iconFilePaths.length === 0) {
-                log.warn(`【${dirName}】普通模块无有效icon文件，跳过`);
-                continue;
-            }
-            if (pictureFilePaths.length === 0) {
-                log.warn(`【${dirName}】普通模块无有效Picture文件，跳过`);
-                continue;
-            }
-
-            const iconRecognitionObjects = [];
-            for (const filePath of iconFilePaths) {
-                const mat = file.readImageMatSync(filePath);
-                if (mat.empty()) {
-                    log.error(`【${dirName}】加载图标失败：${filePath}`);
+            if (cacheValid) {
+                foundRegions = cfg.cached.map(c => ({
+                    iconName: c.icon, iconDir: normalizePath(iconDir),
+                    x: c.x, y: c.y, width: c.width, height: c.height
+                }));
+            } else {
+                const pictureDir = entries.find(entry => normalizePath(entry).endsWith(`/${cfg.pictureDirName}`));
+                if (!pictureDir) {
+                    log.warn(`【${dirName}】大小图标定模式无${cfg.pictureDirName}文件夹，跳过`);
                     continue;
                 }
-                iconRecognitionObjects.push({ 
-                    name: basename(filePath),
-                    ro: RecognitionObject.TemplateMatch(mat, 0, 0, 1920, 1080),
-                    iconDir 
-                });
-            }
-
-            const pictureRegions = [];
-            for (const filePath of pictureFilePaths) {
-                const mat = file.readImageMatSync(filePath);
-                if (mat.empty()) {
-                    log.error(`【${dirName}】加载图库图片失败：${filePath}`);
+                const pictureFilePaths = readAllFilePaths(pictureDir, 0, 0, ['.png', '.jpg', '.jpeg']);
+                if (pictureFilePaths.length === 0) {
+                    log.warn(`【${dirName}】无有效标定大图，跳过`);
                     continue;
                 }
-                pictureRegions.push({ 
-                    name: basename(filePath),
-                    region: new ImageRegion(mat, 0, 0) 
-                });
-            }
 
-            const foundRegions = [];
-            for (const picture of pictureRegions) {
-                for (const icon of iconRecognitionObjects) {
-                    const foundRegion = picture.region.find(icon.ro);
-                    if (foundRegion.isExist()) {
-                        foundRegions.push({
-                            pictureName: picture.name,
-                            iconName: icon.name,
-                            region: foundRegion,
-                            iconDir: icon.iconDir
-                        });
+                const newCached = [];
+                for (const picturePath of pictureFilePaths) {
+                    const pictureMat = file.readImageMatSync(picturePath);
+                    if (pictureMat.empty()) {
+                        log.error(`【${dirName}】加载标定大图失败：${picturePath}`);
+                        continue;
+                    }
+                    const pictureRegion = new ImageRegion(pictureMat, 0, 0);
+                    for (const icon of iconObjects) {
+                        const ro = RecognitionObject.TemplateMatch(icon.mat, 0, 0, pictureMat.cols, pictureMat.rows);
+                        ro.threshold = cfg.threshold;
+                        const found = pictureRegion.find(ro);
+                        if (found.isExist()) {
+                            const entry = {
+                                picture: basename(picturePath), icon: icon.name,
+                                x: found.x, y: found.y, width: found.width, height: found.height,
+                                calibWidth: pictureMat.cols, calibHeight: pictureMat.rows
+                            };
+                            newCached.push(entry);
+                            foundRegions.push({
+                                iconName: icon.name, iconDir: normalizePath(iconDir),
+                                x: found.x, y: found.y, width: found.width, height: found.height
+                            });
+                        }
                     }
                 }
-            }
-            if (foundRegions.length === 0) {
-                log.warn(`【${dirName}】普通模块无匹配图标，跳过`);
-                continue;
-            }
 
-            preloadedResources.push({
-                dirName,
-                fullPath,
-                foundRegions,
-                popupConfig,
-                isFirstLevel: isFirstLevel,
-                level: level
-            });
+                if (foundRegions.length === 0) {
+                    log.warn(`【${dirName}】大小图标定未匹配到任何图标，跳过（不覆盖旧缓存）`);
+                    continue;
+                }
+                // 首次标定完成，回写 config，下次直接读坐标
+                saveCalibration(configPath, rawConfig, newCached);
+            }
         }
+
+        preloadedResources.push({
+            dirName, fullPath, cfg,
+            foundRegions,
+            isFirstLevel, level
+        });
     }
 
-    // log.info(`预加载完成，共${preloadedResources.length}个有效弹窗目录（第一级：${preloadedResources.filter(r => r.isFirstLevel).length}个，第二级：${preloadedResources.filter(r => !r.isFirstLevel).length}个）`);
     return preloadedResources;
 }
 
-// ======================== 2. 后台任务函数（精简日志版）========================
+// ======================== 3. 识别（只识别，不操作）========================
+async function detectOnce(resource) {
+    const { dirName, foundRegions, cfg } = resource;
+    const tolerance = 1;
+
+    for (const foundRegion of foundRegions) {
+        const iconMat = file.readImageMatSync(`${foundRegion.iconDir}/${foundRegion.iconName}`);
+        if (iconMat.empty()) continue;
+
+        const recognitionObject = RecognitionObject.TemplateMatch(
+            iconMat,
+            foundRegion.x - tolerance,
+            foundRegion.y - tolerance,
+            foundRegion.width + 2 * tolerance,
+            foundRegion.height + 2 * tolerance
+        );
+        recognitionObject.threshold = cfg.threshold;
+
+        const result = await recognizeImage(recognitionObject, null, 1000, 400, true, dirName);
+        if (result.isDetected) {
+            return {
+                x: result.x, y: result.y, width: result.width, height: result.height,
+                ra: result.ra
+            };
+        }
+    }
+    return null;
+}
+
+// 带重试的识别
+async function detectWithRetry(resource, retryCount, retryDelay) {
+    for (let attempt = 0; attempt < retryCount; attempt++) {
+        const match = await detectOnce(resource);
+        if (match) return match;
+        if (attempt < retryCount - 1) await sleep(retryDelay);
+    }
+    return null;
+}
+
+// ======================== 4. 步骤执行 ========================
+async function executeSteps(resource, match, preloadedMap) {
+    const steps = resource.cfg.steps;
+    const centerX = Math.round(match.x + match.width / 2);
+    const centerY = Math.round(match.y + match.height / 2);
+
+    for (const step of steps) {
+        const count = step.次数 != null ? step.次数 : 1;
+        const delay = step.间隔毫秒 != null ? step.间隔毫秒 : 0;
+
+        switch (step.动作) {
+            case "点击": {
+                const x = centerX + (step.x偏移 || 0);
+                const y = centerY + (step.y偏移 || 0);
+                for (let i = 0; i < count; i++) {
+                    await click(x, y);
+                    if (debugLog) log.info(`【${resource.dirName}】点击(${x}, ${y}) 第${i + 1}次`);
+                    if (i < count - 1) await sleep(delay);
+                }
+                break;
+            }
+            case "按键": {
+                const key = step.按键 || "VK_SPACE";
+                for (let i = 0; i < count; i++) {
+                    keyPress(key);
+                    if (debugLog) log.info(`【${resource.dirName}】按键【${key}】第${i + 1}次`);
+                    if (i < count - 1) await sleep(delay);
+                }
+                break;
+            }
+            case "OCR点击": {
+                const r = step.区域;
+                if (!step.目标文本 || !r) {
+                    log.error(`【${resource.dirName}】OCR点击配置不全，跳过`);
+                    break;
+                }
+                const region = { x: r.x, y: r.y, width: r.宽, height: r.高 };
+                const { results: ocrResults } = await performOcr(step.目标文本, region, match.ra, step.超时毫秒 || 2000);
+                if (ocrResults.length > 0) {
+                    const x = Math.round(ocrResults[0].x + ocrResults[0].width / 2) + (step.x偏移 || 0);
+                    const y = Math.round(ocrResults[0].y + ocrResults[0].height / 2) + (step.y偏移 || 0);
+                    for (let i = 0; i < count; i++) {
+                        await click(x, y);
+                        if (debugLog) log.info(`【${resource.dirName}】OCR点击“${ocrResults[0].text}”(${x}, ${y}) 第${i + 1}次`);
+                        if (i < count - 1) await sleep(delay);
+                    }
+                } else {
+                    log.warn(`【${resource.dirName}】OCR未识别到目标文本`);
+                }
+                break;
+            }
+            case "执行键鼠脚本": {
+                const scriptPath = normalizePath(step.脚本路径 || "");
+                if (!scriptPath || !fileExists(scriptPath)) {
+                    log.error(`【${resource.dirName}】键鼠脚本不存在：${scriptPath}，跳过`);
+                    break;
+                }
+                for (let i = 0; i < count; i++) {
+                    await keyMouseScript.runFile(scriptPath);
+                    if (debugLog) log.info(`【${resource.dirName}】执行键鼠脚本【${scriptPath}】第${i + 1}次`);
+                    if (i < count - 1) await sleep(delay);
+                }
+                break;
+            }
+            case "等待": {
+                await sleep(step.毫秒 || 0);
+                break;
+            }
+            case "调用子弹窗": {
+                const subResource = preloadedMap.get(normalizePath(step.弹窗));
+                if (!subResource) {
+                    log.error(`【${resource.dirName}】子弹窗不存在：${step.弹窗}，跳过`);
+                    break;
+                }
+                const subRetry = step.重试次数 != null ? step.重试次数 : subResource.cfg.retryCount;
+                const subDelay = step.重试间隔毫秒 != null ? step.重试间隔毫秒 : subResource.cfg.retryDelay;
+                if (step.循环 === true) {
+                    // 快速识别循环：反复"识别→执行"子弹窗，直到识别不到、达到最大循环次数、或识别到"直到识别到"弹窗
+                    const loopInterval = step.循环间隔毫秒 != null ? step.循环间隔毫秒 : 300;
+                    const maxLoops = step.最大循环次数 != null ? step.最大循环次数 : 20;
+                    const untilResource = step.直到识别到
+                        ? preloadedMap.get(normalizePath(step.直到识别到)) : null;
+                    for (let round = 0; round < maxLoops; round++) {
+                        if (untilResource) {
+                            const untilMatch = await detectOnce(untilResource);
+                            if (untilMatch) {
+                                try { untilMatch.ra?.dispose(); } catch (e) { }
+                                log.info(`【${resource.dirName}】循环中识别到【${untilResource.dirName}】，提前结束循环`);
+                                break;
+                            }
+                        }
+                        const subOk = await runPopup(subResource, preloadedMap, subRetry, subDelay);
+                        if (!subOk) break;
+                        if (debugLog) log.info(`【${resource.dirName}】子弹窗【${subResource.dirName}】快速循环第${round + 1}轮完成`);
+                        if (round < maxLoops - 1) await sleep(loopInterval);
+                    }
+                } else {
+                    await runPopup(subResource, preloadedMap, subRetry, subDelay);
+                }
+                break;
+            }
+            default:
+                log.error(`【${resource.dirName}】未知动作：${step.动作}，跳过`);
+        }
+    }
+}
+
+// ======================== 5. 弹窗完整流程（识别 → 步骤）========================
+async function runPopup(resource, preloadedMap, retryCount = null, retryDelay = null) {
+    const useRetry = retryCount != null ? retryCount : resource.cfg.retryCount;
+    const useDelay = retryDelay != null ? retryDelay : resource.cfg.retryDelay;
+
+    const match = await detectWithRetry(resource, useRetry, useDelay);
+    if (!match) {
+        return false;
+    }
+
+    log.info(`识别到【${resource.dirName}】弹窗，开始执行步骤`);
+    try {
+        await executeSteps(resource, match, preloadedMap);
+    } finally {
+        try { match.ra?.dispose(); } catch (e) { }
+    }
+    return true;
+}
+
+// ======================== 6. 后台任务 ========================
 async function imageClickBackgroundTask() {
     log.info("imageClick后台任务已启动");
 
-    // 配置参数
-    const taskDelay = Math.min(999, Math.max(1, Math.floor(Number(settings.PopupClickDelay) || 15)))*1000;
+    const taskDelay = Math.min(999, Math.max(1, Math.floor(Number(settings.PopupClickDelay) || 15))) * 1000;
     let specificNames = [];
     try {
         specificNames = Array.from(settings.PopupNames || []);
@@ -224,269 +445,73 @@ async function imageClickBackgroundTask() {
         log.error(`获取PopupNames设置失败: ${e.message}`);
     }
 
+    // 先截图获取游戏分辨率，用于校验标定缓存
+    let runtimeSize = null;
+    try {
+        const probeRa = captureGameRegion();
+        runtimeSize = { width: probeRa.width, height: probeRa.height };
+        probeRa.dispose();
+    } catch (e) {
+        log.warn(`获取游戏分辨率失败，标定缓存校验可能失效：${e.message}`);
+    }
+
+    // 可用弹窗目录扫描
     let availablePopupDirs = [];
     try {
-        const imageClickDir = "assets/imageClick";
-        const subDirs = readAllFilePaths(imageClickDir, 0, 2, [], true);
+        const subDirs = readAllFilePaths("assets/imageClick", 0, 2, [], true);
         availablePopupDirs = subDirs.filter(subDir => {
-            const dirName = basename(subDir);
-            const entries = readAllFilePaths(subDir, 0, 0, [], true);
+            const entries = readAllFilePaths(subDir, 0, 1, [], true);
             return entries.some(entry => normalizePath(entry).endsWith('/icon'));
         }).map(dir => basename(dir));
-        log.info(`可用弹窗目录：${availablePopupDirs.join(', ')}`);
+        if (debugLog) log.info(`可用弹窗目录：${availablePopupDirs.join(', ')}`);
     } catch (e) {
         log.error(`扫描弹窗目录失败: ${e.message}`);
     }
 
-    if (specificNames.length === 0) {
-        log.info("未指定弹窗名称，将处理所有可用弹窗");
-    } else {
+    if (specificNames.length > 0) {
         const invalidNames = specificNames.filter(name => !availablePopupDirs.includes(name));
         if (invalidNames.length > 0) {
             log.warn(`以下弹窗名称不存在，将被忽略：${invalidNames.join(', ')}`);
             specificNames = specificNames.filter(name => availablePopupDirs.includes(name));
         }
+    } else {
+        if (debugLog) log.info("未指定弹窗名称，将处理所有可用弹窗");
     }
 
-    // 预加载资源
-    const preloadedResources = await preloadImageResources(specificNames);
+    const preloadedResources = await preloadImageResources(specificNames, runtimeSize);
     if (preloadedResources.length === 0) {
         log.info("无可用弹窗资源，任务结束");
         return { success: false };
     }
 
-    // 筛选一级弹窗
+    // 路径 → 资源 映射，供子弹窗调用查找
+    const preloadedMap = new Map();
+    for (const res of preloadedResources) preloadedMap.set(res.fullPath, res);
+
     const firstLevelDirs = preloadedResources.filter(res => res.isFirstLevel);
     if (firstLevelDirs.length === 0) {
         log.warn("无第一级弹窗目录，任务终止");
         return { success: false };
     }
 
-    // 打印资源检测结果
-    log.info("\n==================== 现有弹窗加载结果 ====================");
-    const firstLevelNames = firstLevelDirs.map(res => res.dirName).join('、');
-    log.info("1. 一级弹窗（共" + firstLevelDirs.length + "个）：" + firstLevelNames);
-    const secondLevelResources = preloadedResources.filter(res => !res.isFirstLevel);
-    const secondLevelNames = secondLevelResources.map(res => res.dirName).join('、');
-    log.info("2. 二级弹窗（共" + secondLevelResources.length + "个）：" + secondLevelNames);
-    log.info("=============================================================\n");
+    const secondLevel = preloadedResources.filter(r => !r.isFirstLevel);
+    log.info(`弹窗加载完成：一级${firstLevelDirs.length}个（${firstLevelDirs.map(r => r.dirName).join('、')}），二级${secondLevel.length}个（${secondLevel.map(r => r.dirName).join('、')}）`);
 
-    // 核心逻辑：外循环遍历所有一级弹窗
     while (!state.completed && !state.cancelRequested) {
-        // log.info(`\n===== 外循环开始：遍历所有一级弹窗（共${firstLevelDirs.length}个） =====`);
-
-        // 遍历所有一级弹窗
         for (const currentFirstLevel of firstLevelDirs) {
-            // 检查当前一级弹窗是否被触发
-            const levelResult = await imageClick([currentFirstLevel], null, [currentFirstLevel.dirName], true);
-
-            if (levelResult.success) {
-                log.info(`【${currentFirstLevel.dirName}】触发成功，进入内部流程...`);
-                const levelStack = [currentFirstLevel];
-
-                // 内循环处理内部流程
-                while (levelStack.length > 0 && !state.completed && !state.cancelRequested) {
-                    const currentResource = levelStack[levelStack.length - 1];
-                    const innerResult = await imageClick([currentResource], null, [currentResource.dirName], true);
-
-                    if (innerResult.success) {
-                        const nextPath = normalizePath(currentResource.popupConfig.nextLevelOnSuccess);
-                        if (nextPath && nextPath.trim()) {
-                            const nextResource = preloadedResources.find(res => res.fullPath === nextPath);
-                            if (nextResource) {
-                                levelStack.push(nextResource);
-                            } else {
-                                // log.warn(`内循环：下一级(${nextPath})不存在，回退`);
-                                levelStack.pop();
-                            }
-                        } else {
-                            levelStack.pop();
-                        }
-                    } else {
-                        const nextPath = normalizePath(currentResource.popupConfig.nextLevelOnFailure);
-                        if (nextPath && nextPath.trim()) {
-                            const nextResource = preloadedResources.find(res => res.fullPath === nextPath);
-                            if (nextResource) {
-                                levelStack.push(nextResource);
-                            } else {
-                                // log.warn(`内循环：下一级(${nextPath})不存在，回退`);
-                                levelStack.pop();
-                            }
-                        } else {
-                            levelStack.pop();
-                        }
-                    }
-
-                    await sleep(100);
-                }
-
-                log.info(`【${currentFirstLevel.dirName}】内部流程处理完毕`);
+            if (state.completed || state.cancelRequested) break;
+            const triggered = await runPopup(currentFirstLevel, preloadedMap);
+            if (triggered) {
+                log.info(`【${currentFirstLevel.dirName}】流程处理完毕`);
             }
+            // 每个一级弹窗按自己的循环间隔等待，未配置则用设置里的默认间隔
+            const ownDelaySec = currentFirstLevel.cfg.loopDelaySec != null
+                ? Math.min(999, Math.max(1, Math.floor(currentFirstLevel.cfg.loopDelaySec)))
+                : taskDelay / 1000;
+            await sleep(ownDelaySec * 1000);
         }
-
-        // log.info(`===== 外循环结束：等待${taskDelay/1000}秒后开始下一次循环 =====`);
-        await sleep(taskDelay);
     }
-    
+
     log.info("imageClick后台任务结束");
     return { success: true };
-}
-
-// ======================== 3. 识别与操作函数（精简日志版）========================
-async function imageClick(preloadedResources, ra = null, specificNames = null, useNewScreenshot = false) {
-    if (typeof specificNames === 'string') {
-        specificNames = [specificNames];
-    }
-    const isAll = !specificNames || specificNames.length === 0;
-    let isAnySuccess = false;
-
-    for (const resource of preloadedResources) {
-        const { dirName, foundRegions, popupConfig } = resource;
-        const { xOffset, yOffset } = popupConfig;
-        let hasAnyIconDetected = false; // 标记是否有图标被识别
-
-        for (const foundRegion of foundRegions) {
-            const tolerance = 1;
-            const iconMat = file.readImageMatSync(`${normalizePath(foundRegion.iconDir)}/${foundRegion.iconName}`);
-            
-            const { detectRegion } = popupConfig;
-            const defaultX = foundRegion.region.x - tolerance;
-            const defaultY = foundRegion.region.y - tolerance;
-            const defaultWidth = foundRegion.region.width + 2 * tolerance;
-            const defaultHeight = foundRegion.region.height + 2 * tolerance;
-            const recognitionObject = RecognitionObject.TemplateMatch(
-                iconMat, 
-                detectRegion?.x ?? defaultX,
-                detectRegion?.y ?? defaultY,
-                detectRegion?.width ?? defaultWidth,
-                detectRegion?.height ?? defaultHeight
-            );
-            // log.info(JSON.stringify(detectRegion, null, 2));
-            recognitionObject.threshold = 0.85;
-
-            const result = await recognizeImage(
-                recognitionObject,
-                ra,
-                1000,
-                500,
-                useNewScreenshot,
-                dirName
-            );
-            
-            if (result.isDetected && result.x !== 0 && result.y !== 0) {
-                hasAnyIconDetected = true;
-                isAnySuccess = true;
-                const centerX = Math.round(result.x + result.width / 2);
-                const centerY = Math.round(result.y + result.height / 2);
-                const actualX = centerX + xOffset;
-                const actualY = centerY + yOffset;
-                log.info(`识别到【${dirName}】弹窗，偏移后位置(${actualX}, ${actualY})`);
-
-                if (!popupConfig.isSpecial) {
-                    // log.info(`点击【${dirName}】弹窗：(${actualX}, ${actualY})`);
-                    // 新增：普通点击加循环（默认1次，0间隔，与原逻辑一致）
-                    const clickCount = popupConfig.loopCount;
-                    const clickDelay = popupConfig.loopDelay;
-                    for (let i = 0; i < clickCount; i++) {
-                        await click(actualX, actualY); // 保留原始点击逻辑
-                        if (i < clickCount - 1) await sleep(clickDelay); // 非最后一次加间隔
-                    }
-                } else {
-                    switch (popupConfig.operationType) {
-                        case "key_press": {
-                            const targetKey = popupConfig.keyCode || "VK_SPACE";
-                            // 新增：key_press用循环（默认3次，1000ms间隔，与原硬编码逻辑一致）
-                            const pressCount = popupConfig.loopCount || 3;
-                            const pressDelay = popupConfig.loopDelay || 1000;
-                            for (let i = 0; i < pressCount; i++) {
-                                keyPress(targetKey); // 保留原始按键逻辑
-                                log.info(`【${dirName}】弹窗触发按键【${targetKey}】${i+1}次`);
-                                if (i < pressCount - 1) await sleep(pressDelay); // 非最后一次加间隔
-                            }
-                            log.info(`【${dirName}】弹窗触发按键【${targetKey}】，共${pressCount}次，间隔${pressDelay}ms`);
-                            break;
-                        }
-                        case "ocr_click": {
-                            isAnySuccess = false;
-                            const { targetTexts, xRange, yRange, timeout = 2000 } = popupConfig.ocrConfig || {};
-                            if (!targetTexts || !xRange || !yRange) {
-                                log.error(`【${dirName}】弹窗OCR配置不全，跳过`);
-                                break;
-                            }
-                            const region = {
-                                x: xRange.min,
-                                y: yRange.min,
-                                width: xRange.max - xRange.min,
-                                height: yRange.max - yRange.min
-                            };
-                            const { results: ocrResults } = await performOcr(targetTexts, region, ra, timeout);
-                            if (ocrResults.length > 0) {
-                                const ocrActualX = Math.round(ocrResults[0].x + ocrResults[0].width/2) + xOffset;
-                                const ocrActualY = Math.round(ocrResults[0].y + ocrResults[0].height/2) + yOffset;
-                                // 新增：OCR点击加循环（默认1次，0间隔，与原逻辑一致）
-                                const ocrCount = popupConfig.loopCount;
-                                const ocrDelay = popupConfig.loopDelay;
-                                for (let i = 0; i < ocrCount; i++) {
-                                    await click(ocrActualX, ocrActualY); // 保留原始OCR点击逻辑
-                                    if (i < ocrCount - 1) await sleep(ocrDelay); // 非最后一次加间隔
-                                }
-                                log.info(`【${dirName}】弹窗OCR点击“${ocrResults[0].text}”：(${ocrActualX}, ${ocrActualY})，共${ocrCount}次，间隔${ocrDelay}ms`);
-                                isAnySuccess = true;
-                            } else {
-                                log.warn(`【${dirName}】弹窗OCR未识别到文本`);
-                            }
-                            break;
-                        }
-                        case "key_mouse_script": {
-                            try {
-                                const scriptPath = normalizePath(popupConfig.scriptPath || "");
-                                if (!scriptPath) {
-                                    log.error(`【${dirName}】弹窗未配置键鼠脚本路径，跳过执行`);
-                                    isAnySuccess = false;
-                                    break;
-                                }
-                                if (!fileExists(scriptPath)) {
-                                    log.error(`【${dirName}】弹窗键鼠脚本不存在：${scriptPath}`);
-                                    isAnySuccess = false;
-                                    break;
-                                }
-                                // 新增：键鼠脚本加循环（默认1次，0间隔，与原逻辑一致）
-                                const scriptCount = popupConfig.loopCount;
-                                const scriptDelay = popupConfig.loopDelay;
-                                for (let i = 0; i < scriptCount; i++) {
-                                    await keyMouseScript.runFile(scriptPath); // 保留原始脚本执行逻辑
-                                    if (i < scriptCount - 1) await sleep(scriptDelay); // 非最后一次加间隔
-                                }
-                                log.info(`【${dirName}】弹窗键鼠脚本执行完成，共${scriptCount}次，间隔${scriptDelay}ms`);
-                                isAnySuccess = true;
-                            } catch (error) {
-                                log.error(`【${dirName}】弹窗键鼠脚本执行失败：${error.message}`);
-                                isAnySuccess = false;
-                            }
-                            break;
-                        }
-                        default:
-                            log.error(`【${dirName}】弹窗未知操作类型：${popupConfig.operationType}，默认执行点击`);
-                            // 新增：默认操作加循环（默认1次，0间隔，与原逻辑一致）
-                            const defaultCount = popupConfig.loopCount;
-                            const defaultDelay = popupConfig.loopDelay;
-                            for (let i = 0; i < defaultCount; i++) {
-                                await click(actualX, actualY); // 保留原始默认点击逻辑
-                                log.info(`点击【${dirName}】弹窗：(${actualX}, ${actualY})${i+1}次`);
-                                if (i < defaultCount - 1) await sleep(defaultDelay); // 非最后一次加间隔
-                            }
-                            isAnySuccess = true;
-                    }
-                }
-            }
-        }
-
-        // 仅在该弹窗无任何图标识别时输出警告
-        if (!hasAnyIconDetected && !isAnySuccess) {
-            // log.warn(`【${dirName}】弹窗未发现任何有效图标`);
-        }
-        await sleep(10);
-    }
-
-    return { success: isAnySuccess, message: isAnySuccess ? "弹窗识别操作成功" : "未识别到弹窗" };
 }
